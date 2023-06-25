@@ -1,0 +1,6 @@
+wheel
+twine
+setuptools
+numpy
+opencv-python
+pybind11

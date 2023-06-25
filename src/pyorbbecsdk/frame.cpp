@@ -1,0 +1,337 @@
+#include "frame.hpp"
+
+#include <pybind11/numpy.h>
+
+#include "error.hpp"
+
+namespace pyorbbecsdk {
+void define_frame(const py::object& m) {
+  py::class_<ob::Frame, std::shared_ptr<ob::Frame>>(m, "Frame")
+      .def("get_type",
+           [](const std::shared_ptr<ob::Frame>& self) { return self->type(); })
+      .def(
+          "get_format",
+          [](const std::shared_ptr<ob::Frame>& self) { return self->format(); })
+      .def("get_index",
+           [](const std::shared_ptr<ob::Frame>& self) { return self->index(); })
+      .def("get_data",
+           [](const std::shared_ptr<ob::Frame>& self) -> py::array_t<uint8_t> {
+             auto data_size = self->dataSize();
+             auto data = self->data();
+             py::array_t<uint8_t> result(data_size);
+             std::memcpy(result.mutable_data(), data, data_size);
+             return result;
+           })
+      .def("get_data_size",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->dataSize();
+           })
+      .def("get_timestamp",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->timeStamp();
+           })
+      .def("get_timestamp_us",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->timeStampUs();
+           })
+      .def("get_system_timestamp",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->systemTimeStamp();
+           })
+      .def("as_video_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::VideoFrame>(); });
+           })
+      .def("as_color_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::ColorFrame>(); });
+           })
+      .def("as_depth_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::DepthFrame>(); });
+           })
+      .def("as_ir_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::IRFrame>(); });
+           })
+      .def("as_frame_set",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::FrameSet>(); });
+           })
+      .def("as_accel_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::AccelFrame>(); });
+           })
+      .def("as_gyro_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::GyroFrame>(); });
+           })
+      .def("as_points_frame",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::PointsFrame>(); });
+           })
+      .def("__repr__", [](const std::shared_ptr<ob::Frame>& self) {
+        std::ostringstream oss;
+        oss << "<Frame type=" << self->type() << " format=" << self->format()
+            << " index=" << self->index() << " data_size=" << self->dataSize()
+            << " timestamp=" << self->timeStamp()
+            << " timestamp_us=" << self->timeStampUs()
+            << " system_timestamp=" << self->systemTimeStamp() << ">";
+      });
+}
+
+void define_video_frame(const py::object& m) {
+  py::class_<ob::VideoFrame, ob::Frame, std::shared_ptr<ob::VideoFrame>>(
+      m, "VideoFrame")
+      .def(py::init<ob::Frame&>())
+      .def("get_width",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             return self->width();
+           })
+      .def("get_height",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             return self->height();
+           })
+      .def("get_metadata",
+           [](const std::shared_ptr<ob::VideoFrame>& self)
+               -> py::array_t<uint8_t> {
+             auto meta_data_size = self->metadataSize();
+             auto meta_data = self->metadata();
+             py::array_t<uint8_t> result(meta_data_size);
+             std::memcpy(result.mutable_data(), meta_data, meta_data_size);
+             return result;
+           })
+      .def("get_metadata_size",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             return self->metadataSize();
+           })
+      .def("get_pixel_available_bit_size",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             return self->pixelAvailableBitSize();
+           })
+      .def("as_color_frame",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::ColorFrame>(); });
+           })
+      .def("as_depth_frame",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::DepthFrame>(); });
+           })
+      .def("as_ir_frame",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::IRFrame>(); });
+           })
+      .def("as_points_frame",
+           [](const std::shared_ptr<ob::VideoFrame>& self) {
+             OB_TRY_CATCH({ return self->as<ob::PointsFrame>(); });
+           })
+      .def("__repr__", [](const std::shared_ptr<ob::VideoFrame>& self) {
+        std::ostringstream oss;
+        oss << "<VideoFrame type=" << self->type()
+            << " format=" << self->format() << " index=" << self->index()
+            << " data_size=" << self->dataSize()
+            << " timestamp=" << self->timeStamp()
+            << " timestamp_us=" << self->timeStampUs()
+            << " system_timestamp=" << self->systemTimeStamp()
+            << " width=" << self->width() << " height=" << self->height()
+            << ">";
+      });
+}
+
+void define_color_frame(const py::object& m) {
+  py::class_<ob::ColorFrame, ob::VideoFrame, std::shared_ptr<ob::ColorFrame>>(
+      m, "ColorFrame")
+      .def(py::init<ob::Frame&>());
+}
+
+void define_depth_frame(const py::object& m) {
+  py::class_<ob::DepthFrame, ob::VideoFrame, std::shared_ptr<ob::DepthFrame>>(
+      m, "DepthFrame")
+      .def(py::init<ob::Frame&>())
+      .def("get_value_scale", [](const std::shared_ptr<ob::DepthFrame>& self) {
+        return self->getValueScale();
+      });
+}
+
+void define_ir_frame(const py::object& m) {
+  py::class_<ob::IRFrame, ob::VideoFrame, std::shared_ptr<ob::IRFrame>>(
+      m, "IRFrame")
+      .def(py::init<ob::Frame&>())
+      .def("get_data_source", [](const std::shared_ptr<ob::IRFrame>& self) {
+        return self->getDataSource();
+      });
+}
+
+void define_points_frame(const py::object& m) {
+  py::class_<ob::PointsFrame, ob::Frame, std::shared_ptr<ob::PointsFrame>>(
+      m, "PointsFrame")
+      .def("get_position_value_scale",
+           [](const std::shared_ptr<ob::PointsFrame>& self) {
+             return self->getPositionValueScale();
+           });
+}
+
+void define_frame_set(const py::object& m) {
+  py::class_<ob::FrameSet, ob::Frame, std::shared_ptr<ob::FrameSet>>(m,
+                                                                     "FrameSet")
+      .def("get_frame_count",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->frameCount();
+           })
+      .def("get_depth_frame",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->depthFrame();
+           })
+      .def("get_color_frame",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->colorFrame();
+           })
+      .def("get_ir_frame",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->irFrame();
+           })
+      .def("get_points_frame",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->pointsFrame();
+           })
+      .def("get_frame_by_type",
+           [](const std::shared_ptr<ob::FrameSet>& self, OBFrameType type) {
+             return self->getFrame(type);
+           })
+      .def("convert_to_points",
+           [](const std::shared_ptr<ob::FrameSet>& self,
+              const OBCameraParam& param) -> std::vector<OBPoint> {
+             try {
+               ob::PointCloudFilter filter;
+               filter.setCameraParam(param);
+               filter.setCreatePointFormat(OB_FORMAT_POINT);
+
+               auto depth_frame = self->depthFrame();
+               if (!depth_frame) {
+                 std::cerr << "depth frame not exists" << std::endl;
+                 return {};
+               }
+               auto frame = filter.process(self);
+               if (!frame) {
+                 std::cerr << "point cloud filter process failed" << std::endl;
+                 return {};
+               }
+               auto points_size =
+                   static_cast<ssize_t>(frame->dataSize() / sizeof(OBPoint));
+               auto scale = depth_frame->getValueScale();
+               auto points = reinterpret_cast<OBPoint*>(frame->data());
+               if (!points) {
+                 std::cerr << "cast points failed" << std::endl;
+                 return {};
+               }
+               std::vector<OBPoint> result(points_size);
+               for (ssize_t i = 0; i < points_size; ++i) {
+                 auto point = points[i];
+                 point.x *= scale;
+                 point.y *= scale;
+                 point.z *= scale;
+                 result.emplace_back(point);
+               }
+               return result;
+             } catch (const ob::Error& e) {
+               throw OBError(e);
+             }
+           })
+      .def("convert_to_color_points",
+           [](const std::shared_ptr<ob::FrameSet>& self,
+              const OBCameraParam& param) -> std::vector<OBColorPoint> {
+             try {
+               ob::PointCloudFilter filter;
+               filter.setCameraParam(param);
+               filter.setCreatePointFormat(OB_FORMAT_RGB_POINT);
+
+               auto depth_frame = self->depthFrame();
+               auto color_frame = self->colorFrame();
+               if (!depth_frame || !color_frame) {
+                 std::cerr << "depth or color frame not exists" << std::endl;
+                 return {};
+               }
+               auto frame = filter.process(self);
+               if (!frame) {
+                 return {};
+               }
+               auto points_size = static_cast<ssize_t>(frame->dataSize() /
+                                                       sizeof(OBColorPoint));
+               auto scale = depth_frame->getValueScale();
+               auto points = reinterpret_cast<OBColorPoint*>(frame->data());
+               if (!points) {
+                 std::cerr << "cast points failed" << std::endl;
+                 return {};
+               }
+               std::vector<OBColorPoint> result(points_size);
+               for (ssize_t i = 0; i < points_size; ++i) {
+                 auto point = points[i];
+                 point.x *= scale;
+                 point.y *= scale;
+                 point.z *= scale;
+                 result.emplace_back(point);
+               }
+               return result;
+             } catch (const ob::Error& e) {
+               throw OBError(e);
+             }
+           });
+}
+
+void define_accel_frame(const py::object& m) {
+  py::class_<ob::AccelFrame, ob::Frame, std::shared_ptr<ob::AccelFrame>>(
+      m, "AccelFrame")
+      .def(py::init<ob::Frame&>())
+      .def("get_x",
+           [](const std::shared_ptr<ob::AccelFrame>& self) {
+             return self->value().x;
+           })
+      .def("get_y",
+           [](const std::shared_ptr<ob::AccelFrame>& self) {
+             return self->value().y;
+           })
+      .def("get_z",
+           [](const std::shared_ptr<ob::AccelFrame>& self) {
+             return self->value().z;
+           })
+      .def("get_temperature",
+           [](const std::shared_ptr<ob::AccelFrame>& self) {
+             return self->temperature();
+           })
+      .def("__repr__", [](const std::shared_ptr<ob::AccelFrame>& self) {
+        std::ostringstream oss;
+        oss << "<AccelFrame x=" << self->value().x << " y=" << self->value().y
+            << " z=" << self->value().z
+            << " temperature=" << self->temperature() << ">";
+      });
+}
+
+void define_gyro_frame(const py::object& m) {
+  py::class_<ob::GyroFrame, ob::Frame, std::shared_ptr<ob::GyroFrame>>(
+      m, "GyroFrame")
+      .def(py::init<ob::Frame&>())
+      .def("get_x",
+           [](const std::shared_ptr<ob::GyroFrame>& self) {
+             return self->value().x;
+           })
+      .def("get_y",
+           [](const std::shared_ptr<ob::GyroFrame>& self) {
+             return self->value().y;
+           })
+      .def("get_z",
+           [](const std::shared_ptr<ob::GyroFrame>& self) {
+             return self->value().z;
+           })
+      .def("get_temperature",
+           [](const std::shared_ptr<ob::GyroFrame>& self) {
+             return self->temperature();
+           })
+      .def("__repr__", [](const std::shared_ptr<ob::GyroFrame>& self) {
+        std::ostringstream oss;
+        oss << "<GyroFrame x=" << self->value().x << " y=" << self->value().y
+            << " z=" << self->value().z
+            << " temperature=" << self->temperature() << ">";
+      });
+}
+
+}  // namespace pyorbbecsdk

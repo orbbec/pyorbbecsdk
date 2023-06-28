@@ -13,9 +13,7 @@ git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
 ### Install dependencies
 
 ```bash
-sudo apt install python3-dev pybind11-dev
-cd pyorbbecsdk
-pip install -r requirements.txt
+sudo apt-get install python3-dev pybind11-dev python3-venv python3-pip
 ```
 
 ### Build
@@ -32,11 +30,18 @@ make install
 
 ```bash
 cd pyorbbecsdk
+# set PYTHONPATH environment variable to include the lib directory in the install directory
 export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
+# Skip this if you don't want virtual environment
+python3 -m venv  ./venv
+source ./venv/bin/activate
+# install dependencies
+pip install -r requirements.txt
+# run examples
 python examples/depth_viewer.py
 ```
 
-Other examples can be found in `examples` directory.
+Other examples can be found in `examples` directory, Please refer to [examples/README.md](examples/README.MD) for more.
 
 ### For Windows
 

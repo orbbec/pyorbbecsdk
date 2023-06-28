@@ -75,7 +75,7 @@ set(ENV{PYTHONPATH} "${CMAKE_CURRENT_BINARY_DIR}:$ENV{PYTHONPATH}")
 foreach (PY_TEST_SRC ${PY_TEST_SRCS})
   get_filename_component(PY_TEST_NAME ${PY_TEST_SRC} NAME_WE)
   add_test(NAME ${PY_TEST_NAME}
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${PY_TEST_SRC}
+    COMMAND ${Python3_EXECUTABLE} -v ${CMAKE_CURRENT_SOURCE_DIR}/${PY_TEST_SRC}
     )
 endforeach ()
 
@@ -89,3 +89,4 @@ install(DIRECTORY ${ORBBEC_LIBS}/
   FILES_MATCHING PATTERN "*.so"
   PATTERN "*.so.*"
   )
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UninstallTarget.cmake)

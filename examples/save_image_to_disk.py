@@ -1,26 +1,49 @@
 from pyorbbecsdk import *
 import cv2
 import numpy as np
-from utils import frame_to_rgb_frame
+from utils import frame_to_bgr_image
+import os
 
 
 def save_depth_frame(frame: DepthFrame, index):
+    if frame is None:
+        return
     width = frame.get_width()
     height = frame.get_height()
     timestamp = frame.get_timestamp()
-    data = frame.get_data()
-    filename = "depth_{}x{}_{}_{}.png".format(width, height, index, timestamp)
-    image = np.asanyarray(data)
-    cv2.imwrite(filename, image)
+    scale = frame.get_value_scale()
+    data = np.asanyarray(frame.get_data())
+    data = data * scale
+    save_image_dir = os.path.join(os.getcwd(), "depth_images")
+    if not os.path.exists(save_image_dir):
+        os.mkdir(save_image_dir)
+    png_filename = save_image_dir + "/depth_{}x{}_{}_{}.png".format(width, height, index, timestamp)
+    raw_filename = save_image_dir + "/depth_{}x{}_{}_{}.raw".format(width, height, index, timestamp)
+    if frame.get_format() == OBFormat.Y8:
+        data = data * 16
+    data = np.resize(data, (height, width, 2))
+    depth_image = np.zeros((height, width, 3), dtype=np.uint8)
+    depth_image[:, :, 0] = data[:, :, 0]
+    depth_image[:, :, 1] = data[:, :, 1]
+    depth_image.astype(np.uint16)
+    cv2.imwrite(png_filename, depth_image)
+    depth_image.tofile(raw_filename)
 
 
 def save_color_frame(frame: ColorFrame, index):
+    if frame is None:
+        return
     width = frame.get_width()
     height = frame.get_height()
     timestamp = frame.get_timestamp()
-    data = frame.get_data()
-    filename = "color_{}x{}_{}_{}.png".format(width, height, index, timestamp)
-    image = np.asanyarray(data)
+    save_image_dir = os.path.join(os.getcwd(), "color_images")
+    if not os.path.exists(save_image_dir):
+        os.mkdir(save_image_dir)
+    filename = save_image_dir + "/color_{}x{}_{}_{}.png".format(width, height, index, timestamp)
+    image = frame_to_bgr_image(frame)
+    if image is None:
+        print("failed to convert frame to image")
+        return
     cv2.imwrite(filename, image)
 
 
@@ -52,7 +75,6 @@ def main():
             frame_cnt += 1
             color_frame = frames.get_color_frame()
             if color_frame is not None:
-                color_frame = frame_to_rgb_frame(color_frame)
                 save_color_frame(color_frame, saved_color_cnt)
                 saved_color_cnt += 1
             depth_frame = frames.get_depth_frame()

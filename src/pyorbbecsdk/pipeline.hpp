@@ -24,7 +24,7 @@ class Pipeline {
 
   std::shared_ptr<ob::FrameSet> wait_for_frames(uint32_t timeout);
 
-  std::shared_ptr<ob::Playback> get_bag_player();
+  std::shared_ptr<ob::Playback> get_playback();
 
   std::shared_ptr<ob::Device> get_device();
 

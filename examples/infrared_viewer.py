@@ -24,13 +24,25 @@ def main():
     while True:
         try:
             frames = pipeline.wait_for_frames(100)
+            if frames is None:
+                continue
             ir_frame = frames.get_ir_frame()
             if ir_frame is None:
                 continue
-            ir_image = np.asanyarray(ir_frame.get_data())
+            ir_data = np.asanyarray(ir_frame.get_data())
+            width = ir_frame.get_width()
+            height = ir_frame.get_height()
+            ir_format = ir_frame.get_format()
+            if ir_format == OBFormat.Y8:
+                ir_data = np.resize(ir_data, (height, width, 1))
+            else:
+                ir_data = np.resize(ir_data, (height, width, 2))
+            ir_image = np.zeros((height, width, 3), dtype=np.uint8)
+            ir_image[:, :, 0] = ir_data[:, :, 0]
+            ir_image[:, :, 1] = ir_data[:, :, 0] if ir_format == OBFormat.Y8 else ir_data[:, :, 1]
             cv2.normalize(ir_image, ir_image, 0, 255, cv2.NORM_MINMAX)
             ir_image = ir_image.astype(np.uint8)
-            ir_image = cv2.applyColorMap(ir_image, cv2.COLORMAP_JET)
+            ir_image = cv2.cvtColor(ir_image, cv2.COLORMAP_HOT)
             cv2.imshow("Infrared Viewer", ir_image)
             key = cv2.waitKey(1)
             if key == ord('q'):

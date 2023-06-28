@@ -65,8 +65,8 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_properties(m);
 
   // record_playback
-  pyorbbecsdk::define_bag_recorder(m);
-  pyorbbecsdk::define_bag_player(m);
+  pyorbbecsdk::define_recorder(m);
+  pyorbbecsdk::define_playback(m);
 
   // sensor
   pyorbbecsdk::define_sensor(m);

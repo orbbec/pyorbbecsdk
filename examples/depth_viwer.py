@@ -1,4 +1,4 @@
-from pyorbbecsdk import Pipeline, FrameSet
+from pyorbbecsdk import Pipeline
 from pyorbbecsdk import Config
 from pyorbbecsdk import OBSensorType, OBFormat
 from pyorbbecsdk import OBError
@@ -11,11 +11,14 @@ def main():
     pipeline = Pipeline()
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+        assert profile_list is not None
         try:
             depth_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
         except OBError as e:
             print("Error: ", e)
             depth_profile = profile_list.get_default_video_stream_profile()
+        assert depth_profile is not None
+        print("depth profile: ", type(depth_profile))
         config.enable_stream(depth_profile)
     except Exception as e:
         print(e)
@@ -29,9 +32,19 @@ def main():
             depth_frame = frames.get_depth_frame()
             if depth_frame is None:
                 continue
-            depth_image = np.asanyarray(depth_frame.get_data())
-            cv2.normalize(depth_image, depth_image, 0, 255, cv2.NORM_MINMAX)
-            depth_image = depth_image.astype(np.uint8)
+            width = depth_frame.get_width()
+            height = depth_frame.get_height()
+            scale = depth_frame.get_depth_scale()
+            depth_data = np.asanyarray(depth_frame.get_data())
+            depth_data = np.resize(depth_data, (height, width, 2))
+            depth_data = depth_data * scale
+            channel0 = depth_data[:, :, 0]
+            channel1 = depth_data[:, :, 1]
+            channel0_norm = cv2.normalize(channel0, None, 0, 255, cv2.NORM_MINMAX)
+            channel1_norm = cv2.normalize(channel1, None, 0, 255, cv2.NORM_MINMAX)
+            depth_image = np.zeros((height, width, 3), dtype=np.uint8)
+            depth_image[:, :, 0] = channel0_norm
+            depth_image[:, :, 1] = channel1_norm
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
             cv2.imshow("Depth Viewer", depth_image)
             key = cv2.waitKey(1)

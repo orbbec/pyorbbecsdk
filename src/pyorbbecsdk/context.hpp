@@ -14,7 +14,7 @@ class Context {
 
   std::shared_ptr<ob::DeviceList> query_devices();
 
-  std::shared_ptr<ob::Device> open_net_device(const std::string &ip,
+  std::shared_ptr<ob::Device> create_net_device(const std::string &ip,
                                               uint16_t port);
 
   void set_device_changed_callback(const py::function &callback);

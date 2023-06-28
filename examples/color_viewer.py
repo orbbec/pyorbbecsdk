@@ -5,7 +5,7 @@ from pyorbbecsdk import OBError
 from pyorbbecsdk import VideoStreamProfile
 import cv2
 import numpy as np
-from utils import frame_to_rgb_frame
+from utils import frame_to_bgr_image
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         try:
-            color_profile: VideoStreamProfile = profile_list.get_video_stream_profile(1280, 0, OBFormat.RGB, 30)
+            color_profile: VideoStreamProfile = profile_list.get_video_stream_profile(640, 0, OBFormat.RGB, 30)
         except OBError as e:
             print(e)
             color_profile = profile_list.get_default_video_stream_profile()
@@ -28,15 +28,14 @@ def main():
             frames: FrameSet = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
-            print(frames)
             color_frame = frames.get_color_frame()
             if color_frame is None:
                 continue
             # covert to RGB format
-            color_frame = frame_to_rgb_frame(color_frame)
-            if color_frame is None:
+            color_image = frame_to_bgr_image(color_frame)
+            if color_image is None:
+                print("failed to convert frame to image")
                 continue
-            color_image = np.asanyarray(color_frame.get_data())
             cv2.imshow("Color Viewer", color_image)
             key = cv2.waitKey(1)
             if key == ord('q'):

@@ -2,6 +2,8 @@ from typing import Union, Any, Optional
 
 from pyorbbecsdk import FormatConvertFilter, VideoFrame
 from pyorbbecsdk import OBFormat, OBConvertFormat
+import cv2
+import numpy as np
 
 
 def determine_convert_format(frame: VideoFrame):
@@ -28,7 +30,38 @@ def frame_to_rgb_frame(frame: VideoFrame) -> Union[Optional[VideoFrame], Any]:
     if convert_format is None:
         print("Unsupported format")
         return None
+    print("covert format: {}".format(convert_format))
     convert_filter = FormatConvertFilter()
     convert_filter.set_format_convert_format(convert_format)
     rgb_frame = convert_filter.process(frame)
+    if rgb_frame is None:
+        print("Convert {} to RGB failed".format(frame.get_format()))
     return rgb_frame
+
+
+def frame_to_bgr_image(frame: VideoFrame) -> Union[Optional[np.array], Any]:
+    width = frame.get_width()
+    height = frame.get_height()
+    color_format = frame.get_format()
+    data = np.asanyarray(frame.get_data())
+    image = np.resize(data, (height, width, 3))
+    if color_format == OBFormat.RGB:
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    elif color_format == OBFormat.BGR:
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    elif color_format == OBFormat.YUYV:
+        image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_YUYV)
+    elif color_format == OBFormat.MJPG:
+        image = cv2.imdecode(data, cv2.IMREAD_COLOR)
+    elif color_format == OBFormat.I420:
+        image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_I420)
+    elif color_format == OBFormat.NV12:
+        image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_NV12)
+    elif color_format == OBFormat.NV21:
+        image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_NV21)
+    elif color_format == OBFormat.UYVY:
+        image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_UYVY)
+    else:
+        print("Unsupported color format: {}".format(color_format))
+        return None
+    return image

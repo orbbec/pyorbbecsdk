@@ -75,7 +75,7 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_LDP_MEASURE_DISTANCE_INT)
       .value("OB_PROP_TIMER_RESET_SIGNAL_BOOL",
              OBPropertyID::OB_PROP_TIMER_RESET_SIGNAL_BOOL)
-      .value("OB_PROP_TIMER_RESET_TRIGGLE_OUT_ENABLE_BOOL",
+      .value("OB_PROP_TIMER_RESET_TRIGGER_OUT_ENABLE_BOOL",
              OBPropertyID::OB_PROP_TIMER_RESET_TRIGGLE_OUT_ENABLE_BOOL)
       .value("OB_PROP_TIMER_RESET_DELAY_US_INT",
              OBPropertyID::OB_PROP_TIMER_RESET_DELAY_US_INT)

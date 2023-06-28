@@ -1,0 +1,57 @@
+from pyorbbecsdk import *
+import cv2
+import numpy as np
+
+ESC_KEY = 27
+
+
+def main():
+    pipeline = Pipeline()
+    config = Config()
+    try:
+        profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+        if profile_list is None:
+            print("No depth sensor found")
+            return
+        profile = profile_list.get_default_video_stream_profile()
+        config.enable_stream(profile)
+    except Exception as e:
+        print(e)
+        return
+    pipeline.start(config)
+    pipeline.start_recording("./test.bag")
+    while True:
+        try:
+            frames = pipeline.wait_for_frames(100)
+            if frames is None:
+                continue
+            depth_frame = frames.get_depth_frame()
+            if depth_frame is None:
+                continue
+            width = depth_frame.get_width()
+            height = depth_frame.get_height()
+            scale = depth_frame.get_depth_scale()
+            depth_data = np.asanyarray(depth_frame.get_data())
+            depth_data = np.resize(depth_data, (height, width, 2))
+            depth_data = depth_data * scale
+            channel0 = depth_data[:, :, 0]
+            channel1 = depth_data[:, :, 1]
+            channel0_norm = cv2.normalize(channel0, None, 0, 255, cv2.NORM_MINMAX)
+            channel1_norm = cv2.normalize(channel1, None, 0, 255, cv2.NORM_MINMAX)
+            depth_image = np.zeros((height, width, 3), dtype=np.uint8)
+            depth_image[:, :, 0] = channel0_norm
+            depth_image[:, :, 1] = channel1_norm
+            depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+            cv2.imshow("Depth Viewer", depth_image)
+            key = cv2.waitKey(1)
+            if key == ord('q') or key == ESC_KEY:
+                pipeline.stop_recording()
+                break
+        except KeyboardInterrupt:
+            pipeline.stop_recording()
+            break
+    pipeline.stop()
+
+
+if __name__ == "__main__":
+    main()

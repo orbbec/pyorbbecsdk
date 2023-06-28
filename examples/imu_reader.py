@@ -6,15 +6,23 @@ console_lock = Lock()
 
 
 def on_gyro_frame_callback(frame: Frame):
+    if frame is None:
+        return
     with console_lock:
         gyro_frame: GyroFrame = frame.as_gyro_frame()
-        print(gyro_frame)
+        if gyro_frame is not None:
+            print("GyroFrame: ts={}".format(gyro_frame.get_timestamp()))
+            print("GyroFrame: x={}, y={}, z={}".format(gyro_frame.get_x(), gyro_frame.get_y(), gyro_frame.get_z()))
 
 
 def on_accel_frame_callback(frame: Frame):
+    if frame is None:
+        return
     with console_lock:
         accel_frame: AccelFrame = frame.as_accel_frame()
-        print(accel_frame)
+        if accel_frame is not None:
+            print("AccelFrame: ts={}".format(accel_frame.get_timestamp()))
+            print("AccelFrame: x={}, y={}, z={}".format(accel_frame.get_x(), accel_frame.get_y(), accel_frame.get_z()))
 
 
 def main():
@@ -53,6 +61,11 @@ def main():
         try:
             time.sleep(1)
         except KeyboardInterrupt:
+            # Don't forget to stop the sensor
+            if gyro_senor is not None:
+                gyro_senor.stop()
+            if accel_sensor is not None:
+                accel_sensor.stop()
             break
 
 

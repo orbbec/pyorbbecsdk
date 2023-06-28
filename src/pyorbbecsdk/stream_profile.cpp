@@ -28,16 +28,31 @@ void define_stream_profile(const py::object &m) {
              return self->is<ob::GyroStreamProfile>();
            })
       .def("as_video_stream_profile",
-           [](const std::shared_ptr<ob::StreamProfile> &self) {
-             OB_TRY_CATCH({ return self->as<ob::VideoStreamProfile>(); });
+           [](std::shared_ptr<ob::StreamProfile> &self) {
+             OB_TRY_CATCH({
+               if (!self->is<ob::VideoStreamProfile>()) {
+                 throw std::invalid_argument("Not a video stream profile");
+               }
+               return std::make_shared<ob::VideoStreamProfile>(*self);
+             });
            })
       .def("as_accel_stream_profile",
-           [](const std::shared_ptr<ob::StreamProfile> &self) {
-             OB_TRY_CATCH({ return self->as<ob::AccelStreamProfile>(); });
+           [](std::shared_ptr<ob::StreamProfile> &self) {
+             OB_TRY_CATCH({
+               if (!self->is<ob::AccelStreamProfile>()) {
+                 throw std::invalid_argument("Not an accel stream profile");
+               }
+               return std::make_shared<ob::AccelStreamProfile>(*self);
+             });
            })
       .def("as_gyro_stream_profile",
-           [](const std::shared_ptr<ob::StreamProfile> &self) {
-             OB_TRY_CATCH({ return self->as<ob::GyroStreamProfile>(); });
+           [](std::shared_ptr<ob::StreamProfile> &self) {
+             OB_TRY_CATCH({
+                 if (!self->is<ob::GyroStreamProfile>()) {
+                   throw std::invalid_argument("Not a gyro stream profile");
+                 }
+                 return std::make_shared<ob::GyroStreamProfile>(*self);
+             });
            });
 }
 
@@ -107,7 +122,7 @@ void define_stream_profile_list(const py::object &m) {
            [](const std::shared_ptr<ob::StreamProfileList> &self) {
              return self->count();
            })
-      .def("get_stream_profile",
+      .def("get_stream_profile_by_index",
            [](const std::shared_ptr<ob::StreamProfileList> &self, int index) {
              OB_TRY_CATCH({ return self->getProfile(index); });
            })
@@ -119,10 +134,12 @@ void define_stream_profile_list(const py::object &m) {
              });
            })
       .def("get_default_video_stream_profile",
-           [](const std::shared_ptr<ob::StreamProfileList> &self) {
-             CHECK_GE(self->count(), 1u);
+           [](const std::shared_ptr<ob::StreamProfileList> &self)
+               -> std::shared_ptr<ob::VideoStreamProfile> {
+             auto default_profile = self->getProfile(0);
+             CHECK_NULLPTR(default_profile);
              OB_TRY_CATCH(
-                 { return self->getProfile(0)->as<ob::VideoStreamProfile>(); });
+                 { return std::make_shared<ob::VideoStreamProfile>(*default_profile); });
            })
       .def("__len__", [](const std::shared_ptr<ob::StreamProfileList> &self) {
         return self->count();

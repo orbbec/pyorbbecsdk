@@ -3,8 +3,8 @@
 #include "error.hpp"
 
 namespace pyorbbecsdk {
-void define_bag_recorder(const py::object& m) {
-  py::class_<ob::Recorder, std::shared_ptr<ob::Recorder>>(m, "BagRecorder")
+void define_recorder(const py::object& m) {
+  py::class_<ob::Recorder, std::shared_ptr<ob::Recorder>>(m, "Recorder")
       .def("start",
            [](const std::shared_ptr<ob::Recorder>& self,
               const std::string& path) {
@@ -20,8 +20,8 @@ void define_bag_recorder(const py::object& m) {
       });
 }
 
-void define_bag_player(const py::object& m) {
-  py::class_<ob::Playback, std::shared_ptr<ob::Playback>>(m, "BagPlayer")
+void define_playback(const py::object& m) {
+  py::class_<ob::Playback, std::shared_ptr<ob::Playback>>(m, "Playback")
       .def("start",
            [](const std::shared_ptr<ob::Playback>& self,
               const py::function& callback, OBMediaType media_type) {

@@ -298,7 +298,7 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("cpu_temperature", &OBDeviceTemperature::cpuTemp)
       .def_readwrite("ir_temperature", &OBDeviceTemperature::irTemp)
       .def_readwrite("laser_temperature", &OBDeviceTemperature::ldmTemp)
-      .def_readwrite("mainboard_temperature",
+      .def_readwrite("main_board_temperature",
                      &OBDeviceTemperature::mainBoardTemp)
       .def_readwrite("tec_temperature", &OBDeviceTemperature::tecTemp)
       .def_readwrite("imu_temperature", &OBDeviceTemperature::imuTemp)
@@ -367,9 +367,15 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("x", &OBColorPoint::x)
       .def_readwrite("y", &OBColorPoint::y)
       .def_readwrite("z", &OBColorPoint::z)
-      .def_readwrite("r", &OBColorPoint::r)
-      .def_readwrite("g", &OBColorPoint::g)
-      .def_readwrite("b", &OBColorPoint::b)
+      .def_property(
+          "r", [](const OBColorPoint &p) { return static_cast<int>(p.r); },
+          [](OBColorPoint &p, int r) { p.r = static_cast<float>(r); })
+      .def_property(
+          "g", [](const OBColorPoint &p) { return static_cast<int>(p.g); },
+          [](OBColorPoint &p, int g) { p.g = static_cast<float>(g); })
+      .def_property(
+          "b", [](const OBColorPoint &p) { return static_cast<int>(p.b); },
+          [](OBColorPoint &p, int b) { p.b = static_cast<float>(b); })
       .def("__repr__", [](const OBColorPoint &p) {
         return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ", " +
                std::to_string(p.z) + ", " + std::to_string(p.r) + ", " +

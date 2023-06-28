@@ -1,56 +1,87 @@
 from pyorbbecsdk import *
-import time
 import cv2
 import numpy as np
-from threading import Lock
-from typing import List, Optional
+from typing import List
 from queue import Queue
-
-frame_lock = Lock()
-stop_rendering = False
+from utils import frame_to_bgr_image
 
 MAX_DEVICES = 2
-WINDOW_SIZE = (640, 480)
+curr_device_cnt = 0
+
+MAX_QUEUE_SIZE = 5
 
 color_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
 depth_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
+has_color_sensor: List[bool] = [False for _ in range(MAX_DEVICES)]
 
 
-def on_new_frame_callback(frame: FrameSet, index: int):
+def on_new_frame_callback(frames: FrameSet, index: int):
+    global color_frames_queue, depth_frames_queue
+    global MAX_QUEUE_SIZE
     assert index < MAX_DEVICES
-    color_frame = frame.get_color_frame()
-    depth_frame = frame.get_depth_frame()
+    color_frame = frames.get_color_frame()
+    depth_frame = frames.get_depth_frame()
     if color_frame is not None:
+        if color_frames_queue[index].qsize() >= MAX_QUEUE_SIZE:
+            color_frames_queue[index].get()
         color_frames_queue[index].put(color_frame)
     if depth_frame is not None:
+        if depth_frames_queue[index].qsize() >= MAX_QUEUE_SIZE:
+            depth_frames_queue[index].get()
         depth_frames_queue[index].put(depth_frame)
 
 
-def rendering_thread():
-    global stop_rendering
-    while stop_rendering is False:
-        for i in range(MAX_DEVICES):
-            color_frame = color_frames_queue[i].get_nowait()
-            depth_frame = depth_frames_queue[i].get_nowait()
-            if color_frame is None or depth_frame is None:
+def rendering_frames():
+    global color_frames_queue, depth_frames_queue
+    global curr_device_cnt
+    while True:
+        for i in range(curr_device_cnt):
+            color_frame = None
+            depth_frame = None
+            if not color_frames_queue[i].empty():
+                color_frame = color_frames_queue[i].get()
+            if not depth_frames_queue[i].empty():
+                depth_frame = depth_frames_queue[i].get()
+            if color_frame is None and depth_frame is None:
                 continue
-            color_image = np.asanyarray(color_frame.get_data())
-            depth_image = np.asanyarray(depth_frame.get_data())
-            cv2.normalize(depth_image, depth_image, 0, 255, cv2.NORM_MINMAX)
-            depth_image = depth_image.astype(np.uint8)
-            depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
-            # resize to fit the window
-            color_image = cv2.resize(color_image, WINDOW_SIZE)
-            depth_image = cv2.resize(depth_image, WINDOW_SIZE)
-            image_stack = np.hstack((color_image, depth_image))
-            window_name = "Device " + str(i)
-            cv2.imshow(window_name, image_stack)
+            color_image = None
+            depth_image = None
+            color_width, color_height = 0, 0
+            if color_frame is not None:
+                color_width, color_height = color_frame.get_width(), color_frame.get_height()
+                color_image = frame_to_bgr_image(color_frame)
+            if depth_frame is not None:
+                depth_data = np.asanyarray(depth_frame.get_data())
+                depth_width, depth_height = depth_frame.get_width(), depth_frame.get_height()
+                scale = depth_frame.get_depth_scale()
+                depth_data = np.resize(depth_data, (depth_height, depth_width, 2))
+                depth_data = depth_data * scale
+                channel0 = depth_data[:, :, 0]
+                channel1 = depth_data[:, :, 1]
+                channel0_norm = cv2.normalize(channel0, None, 0, 255, cv2.NORM_MINMAX)
+                channel1_norm = cv2.normalize(channel1, None, 0, 255, cv2.NORM_MINMAX)
+                depth_image = np.zeros((depth_height, depth_width, 3), dtype=np.uint8)
+                depth_image[:, :, 0] = channel0_norm
+                depth_image[:, :, 1] = channel1_norm
+                depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+
+            if color_image is not None and depth_image is not None:
+                window_size = (color_width // 2, color_height // 2)
+                color_image = cv2.resize(color_image, window_size)
+                depth_image = cv2.resize(depth_image, window_size)
+                image = np.hstack((color_image, depth_image))
+            elif depth_image is not None and not has_color_sensor[i]:
+                image = depth_image
+            else:
+                continue
+            cv2.imshow("Device {}".format(i), image)
+            cv2.waitKey(1)
 
 
 def start_streams(pipelines: List[Pipeline], configs: List[Config]):
     index = 0
     for pipeline, config in zip(pipelines, configs):
-        pipeline.start(config, lambda frame_set: on_new_frame_callback(frame_set, index))
+        pipeline.start(config, lambda frame_set, curr_index=index: on_new_frame_callback(frame_set, curr_index))
         index += 1
 
 
@@ -62,40 +93,41 @@ def stop_streams(pipelines: List[Pipeline]):
 def main():
     ctx = Context()
     device_list = ctx.query_devices()
-    if device_list.get_count() == 0:
+    global curr_device_cnt
+    curr_device_cnt = device_list.get_count()
+    if curr_device_cnt == 0:
         print("No device connected")
         return
-    if device_list.get_count() > MAX_DEVICES:
+    if curr_device_cnt > MAX_DEVICES:
         print("Too many devices connected")
         return
     pipelines: List[Pipeline] = []
     configs: List[Config] = []
+    global has_color_sensor
     for i in range(device_list.get_count()):
         device = device_list.get_device_by_index(i)
         pipeline = Pipeline(device)
         config = Config()
-        profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         try:
-            color_profile: VideoStreamProfile = profile_list.get_video_stream_profile(1280, 0, OBFormat.RGB, 30)
+            profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+            color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
+            has_color_sensor[i] = True
         except OBError as e:
             print(e)
-            color_profile = profile_list.get_default_video_stream_profile()
-            config.enable_stream(color_profile)
+            has_color_sensor[i] = False
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-        try:
-            depth_profile: VideoStreamProfile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
-            config.enable_stream(depth_profile)
-        except OBError as e:
-            print(e)
-            depth_profile = profile_list.get_default_video_stream_profile()
-            config.enable_stream(depth_profile)
+        depth_profile = profile_list.get_default_video_stream_profile()
+        config.enable_stream(depth_profile)
+        config.enable_stream(depth_profile)
         pipelines.append(pipeline)
         configs.append(config)
 
     start_streams(pipelines, configs)
-    rendering_thread()
-    stop_streams(pipelines)
+    try:
+        rendering_frames()
+    except KeyboardInterrupt:
+        stop_streams(pipelines)
 
 
 if __name__ == "__main__":

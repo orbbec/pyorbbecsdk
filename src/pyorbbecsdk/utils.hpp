@@ -13,13 +13,15 @@
     }                                                                       \
   } while (false)
 
-#define CHECK_LE(a, b)                                                        \
-  if ((a) > (b)) {                                                            \
-    std::ostringstream oss;                                                   \
-    oss << "Invalid argument exception in file " << __FILE__ << ", function " \
-        << __FUNCTION__ << ", line " << __LINE__;                             \
-    throw std::invalid_argument(oss.str());                                   \
-  }
+#define CHECK_LE(a, b)                                               \
+  do {                                                               \
+    if ((a) > (b)) {                                                 \
+      std::ostringstream oss;                                        \
+      oss << "Invalid argument exception in file " << __FILE__       \
+          << ", function " << __FUNCTION__ << ", line " << __LINE__; \
+      throw std::invalid_argument(oss.str());                        \
+    }                                                                \
+  } while (false)
 
 #define CHECK_GE(a, b)                                               \
   do {                                                               \
@@ -30,14 +32,6 @@
       throw std::invalid_argument(oss.str());                        \
     }                                                                \
   } while (false)
-
-#define CHECK_NOT_EMPTY(str)                                                  \
-  if ((str).empty()) {                                                        \
-    std::ostringstream oss;                                                   \
-    oss << "Invalid argument exception in file " << __FILE__ << ", function " \
-        << __FUNCTION__ << ", line " << __LINE__;                             \
-    throw std::invalid_argument(oss.str());                                   \
-  }
 
 namespace pyorbbecsdk {
 std::vector<std::string> split(const std::string& s, const std::string& delim);

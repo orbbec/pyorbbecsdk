@@ -13,12 +13,15 @@ exclude_list=(
   venv
   .idea
   Log
-  .vscode
-   .DS_Store
+  .DS_Store
   *.pyc
   __pycache__
   *.gz
+  *.bag
+  *.raw
+  *.png
+  *.ply
 )
 exclude_flags=$(printf -- "--exclude=%s " "${exclude_list[@]}")
-tar -czvf "${filename}" ${exclude_flags} .
+tar -czvf "${filename}" "${exclude_flags}" .
 echo "Created tarball: ${filename}"

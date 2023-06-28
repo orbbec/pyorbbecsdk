@@ -8,7 +8,7 @@ namespace pyorbbecsdk {
 Pipeline::Pipeline() : impl_(std::make_shared<ob::Pipeline>()) {}
 
 Pipeline::Pipeline(std::shared_ptr<ob::Device> device)
-    : impl_(std::make_shared<ob::Pipeline>(device)) {}
+    : impl_(std::make_shared<ob::Pipeline>(std::move(device))) {}
 
 Pipeline::Pipeline(const std::string &bag_path)
     : impl_(std::make_shared<ob::Pipeline>(bag_path.c_str())) {}
@@ -53,7 +53,7 @@ std::shared_ptr<ob::FrameSet> Pipeline::wait_for_frames(uint32_t timeout) {
   OB_TRY_CATCH({ return impl_->waitForFrames(timeout); });
 }
 
-std::shared_ptr<ob::Playback> Pipeline::get_bag_player() {
+std::shared_ptr<ob::Playback> Pipeline::get_playback() {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({ return impl_->getPlayback(); });
 }
@@ -124,8 +124,8 @@ void define_pipeline(py::object &m) {
            [](Pipeline &self, uint32_t timeout) {
              return self.wait_for_frames(timeout);
            })
-      .def("get_bag_player",
-           [](Pipeline &self) { return self.get_bag_player(); })
+      .def("get_playback",
+           [](Pipeline &self) { return self.get_playback(); })
       .def("get_device", [](Pipeline &self) { return self.get_device(); })
       .def("get_stream_profile_list",
            [&](Pipeline &self, OBSensorType sensor_type) {

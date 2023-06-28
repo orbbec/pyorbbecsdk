@@ -13,7 +13,6 @@ def on_device_disconnected_callback(_: DeviceList):
 class ContextTest(unittest.TestCase):
 
     def setUp(self) -> None:
-        print("Start test Context interface, Please make sure you have connected a device to your computer.")
         self.context = Context()
 
     def tearDown(self) -> None:
@@ -46,4 +45,5 @@ class ContextTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    print("Start test Context interface, Please make sure you have connected a device to your computer.")
     unittest.main()

@@ -4,7 +4,6 @@ from pyorbbecsdk import *
 
 class DeviceTest(unittest.TestCase):
     def setUp(self) -> None:
-        print("Start test Device interface, Please make sure you have connected a device to your computer.")
         self.context = Context()
         device_list = self.context.query_devices()
         self.assertIsNotNone(device_list)
@@ -67,4 +66,5 @@ class DeviceTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    print("Start test Device interface, Please make sure you have connected a device to your computer.")
     unittest.main()

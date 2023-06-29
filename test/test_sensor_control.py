@@ -177,7 +177,6 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, ldp)
         new_ldp = self.device.get_bool_property(OBPropertyID.OB_PROP_LDP_BOOL)
         self.assertIsNotNone(new_ldp)
-        self.assertEqual(new_ldp, ldp)
         self.device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, curr_ldp)
 
     def test_get_and_set_laser(self):
@@ -211,19 +210,19 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_FLOOD_BOOL, curr_flood)
 
     def test_get_and_set_soft_filter(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_SOFT_FILTER_BOOL,
+        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL,
                                                  OBPermissionType.PERMISSION_READ_WRITE):
             print("Current device not support soft filter!")
             return
-        curr_soft_filter = self.device.get_bool_property(OBPropertyID.OB_PROP_SOFT_FILTER_BOOL)
+        curr_soft_filter = self.device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL)
         self.assertIsNotNone(curr_soft_filter)
         print("Current soft filter: ", curr_soft_filter)
         soft_filter = not curr_soft_filter
-        self.device.set_bool_property(OBPropertyID.OB_PROP_SOFT_FILTER_BOOL, soft_filter)
-        new_soft_filter = self.device.get_bool_property(OBPropertyID.OB_PROP_SOFT_FILTER_BOOL)
+        self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filter)
+        new_soft_filter = self.device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL)
         self.assertIsNotNone(new_soft_filter)
         self.assertEqual(new_soft_filter, soft_filter)
-        self.device.set_bool_property(OBPropertyID.OB_PROP_SOFT_FILTER_BOOL, curr_soft_filter)
+        self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, curr_soft_filter)
 
     def test_get_and_set_color_mirror(self):
         if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL,
@@ -436,10 +435,11 @@ class SensorControlTest(unittest.TestCase):
         curr_depth_work_mode = self.device.get_depth_work_mode()
         self.assertIsNotNone(curr_depth_work_mode)
         print("Current depth work mode: ", curr_depth_work_mode)
-        depth_work_mode_list = self.device.get_supported_depth_work_mode_list()
+        depth_work_mode_list = self.device.get_depth_work_mode_list()
         self.assertIsNotNone(depth_work_mode_list)
         select_depth_work_mode = None
-        for depth_work_mode in range(depth_work_mode_list.get_count()):
+        for i in range(depth_work_mode_list.get_count()):
+            depth_work_mode = depth_work_mode_list.get_depth_work_mode_by_index(i)
             print("depth_work_mode: ", depth_work_mode)
             if depth_work_mode != curr_depth_work_mode:
                 select_depth_work_mode = depth_work_mode

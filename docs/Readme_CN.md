@@ -105,14 +105,78 @@ source ./venv/bin/activate
 pip install -r requirements.txt
 # run examples
 python examples/depth_viewer.py
-
+```
 
 
 # 3. 常用调用流程
 ## 3.1 视频数据获取
+首先我们需要创建一个Pipeline，通过Pipeline可以很容易的打开和关闭多种类型的流并获取一组帧数据。<br />
+```
+config = Config()
+pipeline = Pipeline()
+```
+获取Depth相机的所有流配置，找到对应分辨率、格式、帧率的profile
+```
+profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+depth_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
+```
 
+通过创建Config 开启视频流，这里将启用Depth流
+```
+config.enable_stream(depth_profile)
+pipeline.start(config)
+```
+
+以阻塞的方式等待一帧数据，该帧是一个复合帧，里面包含配置里启用的所有流的帧数据，并设置帧的等待超时时间为100ms
+```
+frames = pipeline.wait_for_frames(100)
+depth_frame = frames.get_depth_frame()
+```
+
+停止Pipeline，将不再产生帧数据
+```
+pipeline.stop()
+```
 
 ## 3.2 常用接口API介绍
+### 3.2.1 获取序列号
+
+### 3.2.2 获取设备名称
+
+
+### 3.2.3 获取相机参数
+
+
+### 3.2.4 获取和设置红外相机的曝光值
+
+### 3.2.5 彩色相机自动曝光
+
+
+### 3.2.6 获取和设置彩色相机曝光值
+
+
+### 3.2.7 获取和设置彩色相机增益
+
+
+### 3.2.8 彩色相机数据流镜像
+
+
+### 3.2.9 深度相机数据流镜像
+
+
+### 3.2.10 红外相机数据流镜像
+
+
+### 3.2.11 开关激光
+
+
+### 3.2.12 开关LDP
+
+
+### 3.2.13 开关软件滤波
+
+
+
 
 
 ## 4.10 FAQ

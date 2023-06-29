@@ -9,6 +9,7 @@ depth_frames_queue = Queue()
 MAX_QUEUE_SIZE = 5
 ESC_KEY = 27
 
+
 def on_new_frame_callback(frame: FrameSet):
     if frame is None:
         return

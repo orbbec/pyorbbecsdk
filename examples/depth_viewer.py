@@ -5,6 +5,8 @@ from pyorbbecsdk import OBError
 import cv2
 import numpy as np
 
+ESC_KEY = 27
+
 
 def main():
     config = Config()
@@ -48,7 +50,7 @@ def main():
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
             cv2.imshow("Depth Viewer", depth_image)
             key = cv2.waitKey(1)
-            if key == ord('q'):
+            if key == ord('q') or key == ESC_KEY:
                 break
         except KeyboardInterrupt:
             break

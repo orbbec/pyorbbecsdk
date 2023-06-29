@@ -452,9 +452,7 @@ void define_orbbec_types(const py::object &m) {
             mode.name[31] = '\0';  // ensure null-termination
           })
       .def("__repr__",
-           [](const OBDepthWorkMode &mode) {
-             return "OBDepthWorkMode(" + std::string(mode.name) + ")";
-           })
+           [](const OBDepthWorkMode &mode) { return std::string(mode.name); })
       .def("__eq__",
            [](const OBDepthWorkMode &mode1, const OBDepthWorkMode &mode2) {
              return std::memcmp(mode1.name, mode2.name, 32) == 0;

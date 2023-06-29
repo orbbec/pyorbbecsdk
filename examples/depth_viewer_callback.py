@@ -7,7 +7,7 @@ from queue import Queue
 
 depth_frames_queue = Queue()
 MAX_QUEUE_SIZE = 5
-
+ESC_KEY = 27
 
 def on_new_frame_callback(frame: FrameSet):
     if frame is None:
@@ -43,7 +43,7 @@ def rendering_frames():
         depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
         cv2.imshow("Depth Viewer", depth_image)
         key = cv2.waitKey(1)
-        if key == ord('q'):
+        if key == ord('q') or key == ESC_KEY:
             break
 
 

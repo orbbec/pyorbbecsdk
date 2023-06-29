@@ -9,6 +9,7 @@ MAX_DEVICES = 2
 curr_device_cnt = 0
 
 MAX_QUEUE_SIZE = 5
+ESC_KEY = 27
 
 color_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
 depth_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
@@ -75,7 +76,9 @@ def rendering_frames():
             else:
                 continue
             cv2.imshow("Device {}".format(i), image)
-            cv2.waitKey(1)
+            key = cv2.waitKey(1)
+            if key == ord('q') or key == ESC_KEY:
+                return
 
 
 def start_streams(pipelines: List[Pipeline], configs: List[Config]):
@@ -126,6 +129,7 @@ def main():
     start_streams(pipelines, configs)
     try:
         rendering_frames()
+        stop_streams(pipelines)
     except KeyboardInterrupt:
         stop_streams(pipelines)
 

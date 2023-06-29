@@ -86,7 +86,7 @@ void define_depth_work_mode_list(const py::object &m) {
            [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
              return self->count();
            })
-      .def("get_depth_work_mode",
+      .def("get_depth_work_mode_by_index",
            [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
              return self->getOBDepthWorkMode(index);
            })
@@ -194,7 +194,7 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getCalibrationCameraParamList(); });
            })
-      .def("get_current_work_mode",
+      .def("get_depth_work_mode",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getCurrentDepthWorkMode(); });
            })

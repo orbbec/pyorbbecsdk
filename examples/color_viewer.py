@@ -7,6 +7,8 @@ import cv2
 import numpy as np
 from utils import frame_to_bgr_image
 
+ESC_KEY = 27
+
 
 def main():
     config = Config()
@@ -38,7 +40,7 @@ def main():
                 continue
             cv2.imshow("Color Viewer", color_image)
             key = cv2.waitKey(1)
-            if key == ord('q'):
+            if key == ord('q') or key == ESC_KEY:
                 break
         except KeyboardInterrupt:
             break

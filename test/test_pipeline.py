@@ -20,7 +20,7 @@ class PipelineTest(unittest.TestCase):
         self.context = None
 
     def test_get_device_info(self):
-        device_info = self.pipeline.get_device_info()
+        device_info = self.device.get_device_info()
         self.assertIsNotNone(device_info)
         self.assertIsNotNone(device_info.get_name())
         self.assertIsNotNone(device_info.get_pid())

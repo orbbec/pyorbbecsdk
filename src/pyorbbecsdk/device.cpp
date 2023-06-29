@@ -7,46 +7,67 @@
 namespace pyorbbecsdk {
 void define_device_info(const py::object &m) {
   py::class_<ob::DeviceInfo, std::shared_ptr<ob::DeviceInfo>>(m, "DeviceInfo")
-      .def("get_name",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->name());
-           })
-      .def("get_pid",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return self->pid();
-           })
-      .def("get_vid",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return self->vid();
-           })
-      .def("get_uid",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->uid());
-           })
-      .def("get_serial_number",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->serialNumber());
-           })
-      .def("get_firmware_version",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->firmwareVersion());
-           })
-      .def("get_connection_type",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->connectionType());
-           })
-      .def("get_hardware_version",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->hardwareVersion());
-           })
-      .def("get_supported_min_sdk_version",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return std::string(self->supportedMinSdkVersion());
-           })
-      .def("get_device_type",
-           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-             return self->deviceType();
-           })
+      .def(
+          "get_name",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->name());
+          },
+          "Get device name")
+      .def(
+          "get_pid",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return self->pid();
+          },
+          "Get device pid")
+      .def(
+          "get_vid",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return self->vid();
+          },
+          "Get device vid")
+      .def(
+          "get_uid",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->uid());
+          },
+          "Get system assigned uid for distinguishing between different "
+          "devices")
+      .def(
+          "get_serial_number",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->serialNumber());
+          },
+          "Get the serial number of the device")
+      .def(
+          "get_firmware_version",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->firmwareVersion());
+          },
+          "Get the version number of the firmware")
+      .def(
+          "get_connection_type",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->connectionType());
+          },
+          "Get the connection type of the device")
+      .def(
+          "get_hardware_version",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->hardwareVersion());
+          },
+          "Get the version number of the hardware")
+      .def(
+          "get_supported_min_sdk_version",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return std::string(self->supportedMinSdkVersion());
+          },
+          "Get the minimum version number of the SDK supported by the device")
+      .def(
+          "get_device_type",
+          [](const std::shared_ptr<ob::DeviceInfo> &self) {
+            return self->deviceType();
+          },
+          "Get the device type")
       .def("__repr__", [](const std::shared_ptr<ob::DeviceInfo> &self) {
         std::ostringstream oss;
         oss << "DeviceInfo(name=" << self->name() << std::endl
@@ -66,14 +87,18 @@ void define_device_info(const py::object &m) {
 void define_camera_list(const py::object &m) {
   py::class_<ob::CameraParamList, std::shared_ptr<ob::CameraParamList>>(
       m, "CameraParamList")
-      .def("get_count",
-           [](const std::shared_ptr<ob::CameraParamList> &self) {
-             return self->count();
-           })
-      .def("get_camera_param",
-           [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
-             return self->getCameraParam(index);
-           })
+      .def(
+          "get_count",
+          [](const std::shared_ptr<ob::CameraParamList> &self) {
+            return self->count();
+          },
+          "Get the number of devices in the list")
+      .def(
+          "get_camera_param",
+          [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
+            return self->getCameraParam(index);
+          },
+          "Get the camera parameters for the specified index")
       .def("__len__", [](const std::shared_ptr<ob::CameraParamList> &self) {
         return self->count();
       });
@@ -82,16 +107,24 @@ void define_camera_list(const py::object &m) {
 void define_depth_work_mode_list(const py::object &m) {
   py::class_<ob::OBDepthWorkModeList, std::shared_ptr<ob::OBDepthWorkModeList>>(
       m, "OBDepthWorkModeList")
-      .def("get_count",
-           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
-             return self->count();
-           })
-      .def("get_depth_work_mode_by_index",
-           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-             return self->getOBDepthWorkMode(index);
-           })
-      .def("get_name", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self,
-                          int index) { return self->getName(index); })
+      .def(
+          "get_count",
+          [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
+            return self->count();
+          },
+          "Get the number of OBDepthWorkMode objects in the list")
+      .def(
+          "get_depth_work_mode_by_index",
+          [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
+            return self->getOBDepthWorkMode(index);
+          },
+          "Get the OBDepthWorkMode object at the specified index")
+      .def(
+          "get_name_by_index",
+          [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
+            return self->getName(index);
+          },
+          "Get the name of the depth work mode at the specified index")
       .def("__len__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
         return self->count();
       });

@@ -68,18 +68,28 @@ void define_context(py::object &m) {
           },
           "Set device changed callback, callback will be called when device "
           "changed")
-      .def("enable_multi_device_sync",
-           [](Context &self, uint64_t repeat_interval) {
-             self.enable_multi_device_sync(repeat_interval);
-           })
+      .def(
+          "enable_multi_device_sync",
+          [](Context &self, uint64_t repeat_interval) {
+            self.enable_multi_device_sync(repeat_interval);
+          },
+          "Activates the multi-device synchronization function to synchronize "
+          "the clock of the created device (the device needs to support this "
+          "function)."
+          "repeat_interval: The synchronization time interval (unit: ms; if "
+          "repeatInterval=0, it means that it will only be synchronized once "
+          "and will not be executed regularly).")
       .def_static("set_logger_level",
                   [](OBLogSeverity level) { Context::set_logger_level(level); })
       .def_static(
           "set_logger_to_console",
-          [](OBLogSeverity level) { Context::set_logger_to_console(level); })
-      .def_static("set_logger_to_file",
-                  [](OBLogSeverity level, const std::string &file_path) {
-                    Context::set_logger_to_file(level, file_path);
-                  });
+          [](OBLogSeverity level) { Context::set_logger_to_console(level); },
+          "Set logger to console")
+      .def_static(
+          "set_logger_to_file",
+          [](OBLogSeverity level, const std::string &file_path) {
+            Context::set_logger_to_file(level, file_path);
+          },
+          "Set logger to file");
 }
 }  // namespace pyorbbecsdk

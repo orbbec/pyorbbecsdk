@@ -27,7 +27,7 @@ void Context::set_device_changed_callback(const py::function &callback) {
         [callback](std::shared_ptr<ob::DeviceList> removed_list,
                    std::shared_ptr<ob::DeviceList> added_list) {
           py::gil_scoped_acquire acquire;
-          callback(std::move(removed_list), added_list);
+          callback(removed_list, added_list);
         });
   });
 }

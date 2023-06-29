@@ -24,10 +24,10 @@ void Context::set_device_changed_callback(const py::function &callback) {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({
     impl_->setDeviceChangedCallback(
-        [callback](std::shared_ptr<ob::DeviceList> removedList,
-                   std::shared_ptr<ob::DeviceList> addedList) {
+        [callback](std::shared_ptr<ob::DeviceList> removed_list,
+                   std::shared_ptr<ob::DeviceList> added_list) {
           py::gil_scoped_acquire acquire;
-          callback(removedList, addedList);
+          callback(std::move(removed_list), added_list);
         });
   });
 }

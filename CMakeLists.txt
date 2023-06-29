@@ -11,6 +11,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/install)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(BUILD_TESTING OFF CACHE BOOL "Build tests" FORCE)
 
 if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -57,10 +58,16 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   src/pyorbbecsdk/
   )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-  -lOrbbecSDK
-  -L${ORBBEC_LIBS}
-  )
+if (UNIX)
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    -lOrbbecSDK
+    -L${ORBBEC_LIBS}
+    )
+elseif (WIN32)
+  target_link_libraries(${PROJECT_NAME} PRIVATE
+    OrbbecSDK
+    )
+endif ()
 
 set(PY_TEST_SRCS
   test/test_context.py
@@ -69,24 +76,33 @@ set(PY_TEST_SRCS
   test/test_sensor_control.py
   )
 
-enable_testing()
-set(Python3_EXECUTABLE Python3::Interpreter)
-set(ENV{PYTHONPATH} "${CMAKE_CURRENT_BINARY_DIR}:$ENV{PYTHONPATH}")
-foreach (PY_TEST_SRC ${PY_TEST_SRCS})
-  get_filename_component(PY_TEST_NAME ${PY_TEST_SRC} NAME_WE)
-  add_test(NAME ${PY_TEST_NAME}
-    COMMAND ${Python3_EXECUTABLE} -v ${CMAKE_CURRENT_SOURCE_DIR}/${PY_TEST_SRC}
-    )
-endforeach ()
+if (BUILD_TESTING)
+  enable_testing()
+  set(Python3_EXECUTABLE Python3::Interpreter)
+  set(ENV{PYTHONPATH} "${CMAKE_CURRENT_BINARY_DIR}:$ENV{PYTHONPATH}")
+  foreach (PY_TEST_SRC ${PY_TEST_SRCS})
+    get_filename_component(PY_TEST_NAME ${PY_TEST_SRC} NAME_WE)
+    add_test(NAME ${PY_TEST_NAME}
+      COMMAND ${Python3_EXECUTABLE} -v ${CMAKE_CURRENT_SOURCE_DIR}/${PY_TEST_SRC}
+      )
+  endforeach ()
+endif ()
 
 install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
   RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
-
-install(DIRECTORY ${ORBBEC_LIBS}/
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-  FILES_MATCHING PATTERN "*.so"
-  PATTERN "*.so.*"
-  )
+if (UNIX)
+  install(DIRECTORY ${ORBBEC_LIBS}/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    FILES_MATCHING PATTERN "*.so"
+    PATTERN "*.so.*"
+    )
+elseif (WIN32)
+  install(DIRECTORY ${ORBBEC_LIBS}/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    FILES_MATCHING PATTERN "*.lib"
+    PATTERN "*.dll"
+    )
+endif ()
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UninstallTarget.cmake)

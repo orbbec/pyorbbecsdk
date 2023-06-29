@@ -19,7 +19,7 @@ cd pyorbbecsdk
 pip install -r requirements.txt
 ```
 
-To install `python3-dev` and `pybind11-dev`, you can follow the instructions provided on their respective websites.
+To install `python3-dev`  you can follow the instructions provided on their respective websites.
 
 ### Build
 

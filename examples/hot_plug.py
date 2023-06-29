@@ -99,7 +99,6 @@ def main():
 
     while True:
         try:
-            frames: Optional[FrameSet] = None
             with device_lock:
                 if pipeline is not None and device is not None:
                     frames: FrameSet = pipeline.wait_for_frames(100)

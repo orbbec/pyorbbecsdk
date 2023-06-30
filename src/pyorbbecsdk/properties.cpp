@@ -147,7 +147,7 @@ void define_properties(const py::object& m) {
           "OB_PROP_LASER_HW_ENERGY_LEVEL_INT",
           OBPropertyID::OB_PROP_LASER_HW_ENERGY_LEVEL_INT,
           "Get hardware laser energy level which real state of laser element. "
-          "OB_PROP_LASER_ENERGY_LEVEL_INT（99）will effect this command"
+          "OB_PROP_LASER_ENERGY_LEVEL_INT(99)will effect this command"
           " which it setting and changed the hardware laser energy level.")
       .value("OB_PROP_USB_POWER_STATE_INT",
              OBPropertyID::OB_PROP_USB_POWER_STATE_INT)

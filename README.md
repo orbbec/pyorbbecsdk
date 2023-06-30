@@ -37,20 +37,22 @@ python3 -m venv  ./venv
 source ./venv/bin/activate
 # install dependencies
 pip install -r requirements.txt
+# install udev rules
+sudo bash ./scripts/install_udev_rules.sh
 # run examples
 python examples/depth_viewer.py
 ```
 
-Other examples can be found in `examples` directory, Please refer to [examples/README.md](examples/README.MD) for more.
+Other examples can be found in `examples` directory, Please refer to [examples/README.md](examples/README.md) for more.
 
 ### For Windows
 
-Please refer to [docs/windows_readme.MD](docs/windows_readme.MD) for instructions on how to build and run the examples
+Please refer to [docs/README.md](docs/README_EN.md) for instructions on how to build and run the examples
 on Windows.
 
 ## Documentation
 
-TODO
+Please refer to [docs/README.md](docs/README_EN.md) for more.
 
 ## License
 

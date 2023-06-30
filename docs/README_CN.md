@@ -3,9 +3,6 @@
 本文档主要介绍Orbbec SDK Python Wrapper的功能，Orbbec SDK Python Wrapper基于Orbbec
 SDK进行设计封装，主要实现数据流接收，设备指令控制。
 
-为了使用户正确的、高效的在自己的项目中快速接入Orbbec SDK Python
-Wrapper SDK，防止在使用相关API的过程中由于不规范的调用而引起其他问题，故拟定本文档来规范API调用。
-
 ## 1.1  系统要求
 
 * Windows：Windows 10 (x64)
@@ -102,7 +99,9 @@ pip3 install -r requirements.txt
 * 将install/lib 目录下的文件 拷贝到 examples目录下，如下图所示：
 
 ![image11.png](images/image11.png)
-在examples 目录执行`python ColorViewer.py`等测试例子，如下图所示：
+
+在examples 目录执行`python color_viewer.py`等测试例子，如下图所示：
+
 ![image12.png](images/image12.png)
 
 ## 2.2 Linux python SDK 编译
@@ -140,6 +139,8 @@ python3 -m venv  ./venv
 source ./venv/bin/activate
 # install dependencies
 pip install -r requirements.txt
+# install udev rules
+sudo bash ./scripts/install_udev_rules.sh
 # run examples
 python examples/depth_viewer.py
 ```
@@ -202,14 +203,14 @@ pipeline.stop()
 
 ### 3.2.8 彩色相机数据流镜像
 
-### 3.2.9 深度相机数据流镜像
+### 3.2.9 开关激光
 
-### 3.2.10 红外相机数据流镜像
+### 3.2.10 开关LDP
 
-### 3.2.11 开关激光
+### 3.2.11 开关软件滤波
 
-### 3.2.12 开关LDP
+### 其他接口
 
-### 3.2.13 开关软件滤波
+请参考源码包`examples`目录下的例子和`tests`目录下的测试用例
 
 ## 4 FAQ

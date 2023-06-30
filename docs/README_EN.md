@@ -1,26 +1,68 @@
-# 1. Overview
+# Orbbec SDK Python Wrapper Documentation
+
+## Contents
+<!-- TOC -->
+* [Orbbec SDK Python Wrapper Documentation](#orbbec-sdk-python-wrapper-documentation)
+  * [Contents](#contents)
+  * [Overview](#overview)
+  * [System Requirements](#system-requirements)
+    * [OS Requirements](#os-requirements)
+    * [Compilation Platform Requirements](#compilation-platform-requirements)
+    * [Python Version](#python-version)
+    * [Hardware Products Supported by Python SDK](#hardware-products-supported-by-python-sdk)
+  * [Orbbec SDK Python Wrapper Sample Compilation Instructions](#orbbec-sdk-python-wrapper-sample-compilation-instructions)
+    * [Windows Python SDK Compilation](#windows-python-sdk-compilation)
+      * [Download the Python SDK source code.](#download-the-python-sdk-source-code)
+      * [Install dependencies.](#install-dependencies)
+      * [Configure Visual Studio project.](#configure-visual-studio-project)
+      * [Compile the Python SDK.](#compile-the-python-sdk)
+      * [Test examples.](#test-examples)
+  * [Linux Python SDK Compilation](#linux-python-sdk-compilation)
+    * [Download Python SDK source code](#download-python-sdk-source-code)
+    * [Install dependencies](#install-dependencies-1)
+    * [Compile Python SDK](#compile-python-sdk)
+    * [Test examples](#test-examples-1)
+  * [Orbbec SDK Python Wrapper Function Introduction](#orbbec-sdk-python-wrapper-function-introduction)
+    * [Video stream acquisition](#video-stream-acquisition)
+    * [Introduction to common interface APIs](#introduction-to-common-interface-apis)
+      * [Getting a list of devices](#getting-a-list-of-devices)
+      * [Getting a list of sensors](#getting-a-list-of-sensors)
+      * [Getting device information](#getting-device-information)
+      * [Set color  auto-exposure](#set-color--auto-exposure)
+      * [Getting and setting colour camera exposure values](#getting-and-setting-colour-camera-exposure-values)
+      * [Getting and setting the colour camera gain](#getting-and-setting-the-colour-camera-gain)
+      * [Mirroring the colour camera data stream](#mirroring-the-colour-camera-data-stream)
+      * [Switching laser](#switching-laser)
+      * [Switching LDP](#switching-ldp)
+      * [Switch software filtering](#switch-software-filtering)
+      * [Other interfaces](#other-interfaces)
+  * [FAQ](#faq)
+<!-- TOC -->
+## Overview
 
 This document mainly introduces the functions of Orbbec SDK Python Wrapper, which is designed and encapsulated based on
 Orbbec SDK, mainly achieving data stream reception and device command control.
 
-## 1.1 System Requirements
+## System Requirements
+
+### OS Requirements
 
 * Windows: Windows 10 (x64)
 * Linux: Ubuntu 16.04/18.04/20.04/22.04 (x64)
 * Arm32: Ubuntu16.04/18.04/20.04/22.04
 * Arm64: Ubuntu18.04/20.04/22.04
 
-## 1.2 Compilation Platform Requirements
+### Compilation Platform Requirements
 
 * Windows: Visual Studio 2017 and above
 * Linux: gcc 5.4.0 and above
 * cmake: 3.15.0 and above
 
-## 1.3 Python Version
+### Python Version
 
 * Python 3.6/3.7/3.8/3.9
 
-## 1.4 Hardware Products Supported by Python SDK
+### Hardware Products Supported by Python SDK
 
 | **Product List** | **Firmware Version**                                  |
 |------------------|-------------------------------------------------------|
@@ -43,17 +85,17 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 | Gemini           | 3.0.18                                                |
 | Deeyea           | 3012/3015                                             |
 
-# 2. Orbbec SDK Python Wrapper Sample Compilation Instructions
+## Orbbec SDK Python Wrapper Sample Compilation Instructions
 
-## 2.1 Windows Python SDK Compilation
+### Windows Python SDK Compilation
 
-* Download the Python SDK source code.
+#### Download the Python SDK source code.
 
 ```bash
 git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
 ```
 
-* Install dependencies.
+#### Install dependencies.
 
 ```bash
 pip3 install -r requirements.txt
@@ -61,6 +103,8 @@ pip3 install -r requirements.txt
 
 Here, it is assumed that you have installed Python 3 correctly. If you have not installed Python 3, you can refer to
 the [Python official website](https://www.python.org/downloads/) and choose your Python 3 version for installation.
+
+#### Configure Visual Studio project.
 
 * Open Cmake, set the source code path, and set the "build" folder as the path for generating binary files, as shown in
   the following figure.
@@ -78,6 +122,8 @@ the [Cmake official website](https://cmake.org/download/) for installation.
 * Click "Generate", as shown below:
 
 ![image4.png](images/image4.png)
+
+#### Compile the Python SDK.
 
 * You can open the Python SDK project in two ways:
 
@@ -105,11 +151,13 @@ following figure:
 
 ![image11.png](images/image11.png)
 
+#### Test examples.
+
 In the examples directory, execute test examples such as `python ColorViewer.py`, as shown below:
 
 ![image12.png](images/image12.png)
 
-## 2.2 Linux Python SDK Compilation
+## Linux Python SDK Compilation
 
 ### Download Python SDK source code
 
@@ -152,11 +200,9 @@ sudo bash ./scripts/install_udev_rules.sh
 python examples/depth_viewer.py
 ```
 
-# 3. Orbbec SDK Python Wrapper Function Introduction
+## Orbbec SDK Python Wrapper Function Introduction
 
-## 3. Common call flow
-
-# # 3.1 Video stream acquisition
+### Video stream acquisition
 
 First we need to create a Pipeline, which makes it easy to open and close multiple types of streams and fetch a set of
 frames.
@@ -197,9 +243,9 @@ Stopping Pipeline will no longer produce frame data
 pipeline.stop()
 ```
 
-## 3.2 Introduction to common interface APIs
+### Introduction to common interface APIs
 
-### 3.2.1 Getting a list of devices
+#### Getting a list of devices
 
 ```python
 from pyorbbecsdk import *
@@ -209,7 +255,7 @@ device_list = self.context.query_devices()
 
 ```
 
-### 3.2.2 Getting a list of sensors
+#### Getting a list of sensors
 
 ```python
 from pyorbbecsdk import *
@@ -219,7 +265,7 @@ device = device_list[0]
 sensor_list = device.get_sensor_list()
 ```
 
-### 3.2.3 Getting device information
+#### Getting device information
 
 ```python
 from pyorbbecsdk import *
@@ -232,7 +278,7 @@ serial_number = device_info.get_serial_number()
 # ...
 ```
 
-### 3.2.4 Color  auto-exposure
+#### Set color  auto-exposure
 
 ```python
 from pyorbbecsdk import *
@@ -242,7 +288,7 @@ auto_exposure = True
 device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, auto_exposure)
 ```
 
-### 3.2.5 Getting and setting colour camera exposure values
+#### Getting and setting colour camera exposure values
 
 ```python
 from pyorbbecsdk import *
@@ -255,7 +301,7 @@ device.set_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT, color_exposure)
 # ...
 ```
 
-### 3.2.6 Getting and setting the colour camera gain
+#### Getting and setting the colour camera gain
 
 ```python
 from pyorbbecsdk import *
@@ -268,7 +314,7 @@ device.set_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT, color_gain)
 # ...
 ```
 
-### 3.2.7 Mirroring the colour camera data stream
+#### Mirroring the colour camera data stream
 
 ```python
 from pyorbbecsdk import *
@@ -279,7 +325,7 @@ device.set_bool_property(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL, mirror)
 # ...
 ```
 
-### 3.2.8 Switching lasers
+#### Switching laser
 
 ```python
 from pyorbbecsdk import *
@@ -290,7 +336,7 @@ device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, laser)
 # ...
 ```
 
-### 3.2.9 Switching LDP
+#### Switching LDP
 
 ```python
 from pyorbbecsdk import *
@@ -301,7 +347,7 @@ device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, ldp)
 # ...
 ```
 
-### 3.2.10 Switch software filtering
+#### Switch software filtering
 
 ```python
 from pyorbbecsdk import *
@@ -312,9 +358,9 @@ device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filte
 # ...
 ```
 
-### Other interfaces
+#### Other interfaces
 
 Please refer to the examples in the `examples` directory of the source package and the test cases in the `tests`
 directory
 
-## 4 FAQ
+## FAQ

@@ -22,6 +22,14 @@ exclude_list=(
   *.png
   *.ply
 )
-exclude_flags=$(printf -- "--exclude=%s " "${exclude_list[@]}")
-tar -czvf "${filename}" "${exclude_flags}" .
+
+# 初始化一个空数组
+exclude_flags=()
+
+# 循环遍历 exclude_list，将每个元素添加到 exclude_flags 数组中
+for item in "${exclude_list[@]}"; do
+  exclude_flags+=(--exclude="$item")
+done
+
+tar -czvf "${filename}" "${exclude_flags[@]}" .
 echo "Created tarball: ${filename}"

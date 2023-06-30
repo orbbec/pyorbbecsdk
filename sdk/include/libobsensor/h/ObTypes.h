@@ -15,12 +15,22 @@
 #define OB_EXTENSION_API __declspec(dllexport)
 #define OB_EXTENSION_INTERNAL_API
 #else
+#ifndef OB_STATIC
 #define OB_EXTENSION_API __declspec(dllimport)
 #define OB_EXTENSION_INTERNAL_API __declspec(dllimport)
+#else
+#define OB_EXTENSION_API
+#define OB_EXTENSION_INTERNAL_API
+#endif
 #endif
 #else
+#ifndef OB_STATIC
 #define OB_EXTENSION_API __attribute__((visibility("default")))
 #define OB_EXTENSION_INTERNAL_API __attribute__((visibility("default")))
+#else
+#define OB_EXTENSION_API
+#define OB_EXTENSION_INTERNAL_API
+#endif
 #endif
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -62,10 +72,11 @@ typedef struct OBDepthWorkModeListImpl ob_depth_work_mode_list;
  * @brief the permission type of api or property
  */
 typedef enum {
-    OB_PERMISSION_DENY       = 0, /**< no permission */
-    OB_PERMISSION_READ       = 1, /**< can read */
-    OB_PERMISSION_WRITE      = 2, /**< can write */
-    OB_PERMISSION_READ_WRITE = 3, /**< can read and write */
+    OB_PERMISSION_DENY       = 0,   /**< no permission */
+    OB_PERMISSION_READ       = 1,   /**< can read */
+    OB_PERMISSION_WRITE      = 2,   /**< can write */
+    OB_PERMISSION_READ_WRITE = 3,   /**< can read and write */
+    OB_PERMISSION_ANY        = 255, /**< any situation above */
 } OBPermissionType,
     ob_permission_type;
 
@@ -210,19 +221,20 @@ typedef enum {
  * @brief Enumeration value describing the firmware upgrade status
  */
 typedef enum {
-    STAT_FILE_TRANSFER = 4,  /**< File transfer */
-    STAT_DONE          = 3,  /**< Update completed */
-    STAT_IN_PROGRESS   = 2,  /**< Upgrade in progress */
-    STAT_START         = 1,  /**< Start the upgrade */
-    STAT_VERIFY_IMAGE  = 0,  /**< Image file verification */
-    ERR_VERIFY         = -1, /**< Verification failed */
-    ERR_PROGRAM        = -2, /**< Program execution failed */
-    ERR_ERASE          = -3, /**< Flash parameter failed */
-    ERR_FLASH_TYPE     = -4, /**< Flash type error */
-    ERR_IMAGE_SIZE     = -5, /**< Image file size error */
-    ERR_OTHER          = -6, /**< Other errors */
-    ERR_DDR            = -7, /**< DDR access error */
-    ERR_TIMEOUT        = -8  /**< Timeout error */
+    STAT_VERIFY_SUCCESS = 5,  /**< Image file verifify success */
+    STAT_FILE_TRANSFER  = 4,  /**< file transfer */
+    STAT_DONE           = 3,  /**< update completed */
+    STAT_IN_PROGRESS    = 2,  /**< upgrade in process */
+    STAT_START          = 1,  /**< start the upgrade */
+    STAT_VERIFY_IMAGE   = 0,  /**< Image file verification */
+    ERR_VERIFY          = -1, /**< Verification failed */
+    ERR_PROGRAM         = -2, /**< Program execution failed */
+    ERR_ERASE           = -3, /**< Flash parameter failed */
+    ERR_FLASH_TYPE      = -4, /**< Flash type error */
+    ERR_IMAGE_SIZE      = -5, /**< Image file size error */
+    ERR_OTHER           = -6, /**< other errors */
+    ERR_DDR             = -7, /**< DDR access error */
+    ERR_TIMEOUT         = -8  /**< timeout error */
 } OBUpgradeState,
     ob_upgrade_state;
 
@@ -246,10 +258,11 @@ typedef enum {
  * @brief Enumeration value describing the data transfer status
  */
 typedef enum {
-    DATA_TRAN_STAT_STOPPED      = 3,  /**< Data transfer stopped */
-    DATA_TRAN_STAT_DONE         = 2,  /**< Data transfer completed */
-    DATA_TRAN_STAT_VERIFYING    = 1,  /**< Data verifying */
-    DATA_TRAN_STAT_TRANSFERRING = 0,  /**< Data transferring */
+    DATA_TRAN_STAT_VERIFY_DONE  = 4,  /**< data verify done */
+    DATA_TRAN_STAT_STOPPED      = 3,  /**< data transfer stoped */
+    DATA_TRAN_STAT_DONE         = 2,  /**< data transfer completed */
+    DATA_TRAN_STAT_VERIFYING    = 1,  /**< data verifying */
+    DATA_TRAN_STAT_TRANSFERRING = 0,  /**< data transferring */
     DATA_TRAN_ERR_BUSY          = -1, /**< Transmission is busy */
     DATA_TRAN_ERR_UNSUPPORTED   = -2, /**< Not supported */
     DATA_TRAN_ERR_TRAN_FAILED   = -3, /**< Transfer failed */
@@ -553,11 +566,14 @@ typedef enum {
  * be considered. The specific unit can be obtained through getValueScale() of DepthFrame
  */
 typedef enum {
-    OB_PRECISION_1MM,  /**< 1mm */
-    OB_PRECISION_0MM8, /**< 0.8mm */
-    OB_PRECISION_0MM4, /**< 0.4mm */
-    OB_PRECISION_0MM1, /**< 0.1mm */
-    OB_PRECISION_0MM2, /**< 0.2mm */
+    OB_PRECISION_1MM,   /**< 1mm */
+    OB_PRECISION_0MM8,  /**< 0.8mm */
+    OB_PRECISION_0MM4,  /**< 0.4mm */
+    OB_PRECISION_0MM1,  /**< 0.1mm */
+    OB_PRECISION_0MM2,  /**< 0.2mm */
+    OB_PRECISION_0MM5,  /**< 0.5mm */
+    OB_PRECISION_0MM05, /**< 0.05mm */
+    OB_PRECISION_UNKNOWN,
     OB_PRECISION_COUNT,
 } OBDepthPrecisionLevel,
     ob_depth_precision_level, OB_DEPTH_PRECISION_LEVEL;

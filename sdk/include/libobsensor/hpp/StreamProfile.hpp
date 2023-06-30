@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <memory>
-#include <cassert>
 
 struct StreamProfileImpl;
 struct StreamProfileListImpl;

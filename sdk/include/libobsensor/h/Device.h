@@ -444,6 +444,26 @@ void ob_device_write_flash(ob_device *device, uint32_t offset, const void *data,
 void ob_device_read_flash(ob_device *device, uint32_t offset, uint32_t data_size, ob_get_data_callback cb, bool async, void *user_data, ob_error **error);
 
 /**
+ * @brief Set customer data.
+ *
+ * @param[in] device The device object.
+ * @param[in] data The property data to be set.
+ * @param[in] data_size The size of the property to be set,the maximum length cannot exceed 65532 bytes.
+ * @param[out] error Log error messages.
+ */
+void ob_device_write_customer_data(ob_device *device, const void *data, uint32_t data_size, ob_error **error);
+
+/**
+ * @brief Get customer data of a device property.
+ *
+ * @param[in] device The device object.
+ * @param[out] data The obtained property data.
+ * @param[out] data_size The size of the obtained property data.
+ * @param[out] error Log error messages.
+ */
+void ob_device_read_customer_data(ob_device *device, void *data, uint32_t *data_size, ob_error **error);
+
+/**
  * @brief Synchronize the device time (sets the device time to the local system time).
  *
  * @param[in] device The device object.
@@ -584,6 +604,18 @@ ob_depth_work_mode_list *ob_device_get_depth_work_mode_list(ob_device *device, o
  * @param[out] error Log error messages
  */
 void ob_device_reboot(ob_device *device, ob_error **error);
+
+/**
+ * @brief Device reboot delay mode
+ * @attention The device will be disconnected and reconnected. After the device is disconnected, the interface access to the device handle may be abnormal.
+ * Please use the ob_delete_device interface to delete the handle directly. After the device is reconnected, it can be obtained again.
+ * Support devices: Gemini2 L
+ *
+ * @param[in] device Device object
+ * @param[in] delay_ms Time unit：ms。delay_ms == 0：No delay；delay_ms > 0, Delay millisecond connect to host device after reboot
+ * @param[out] error Log error messages
+ */
+void ob_device_reboot_delay_mode(ob_device *device, uint32_t delay_ms, ob_error **error);
 
 /**
  * @brief Get the current device synchronization configuration

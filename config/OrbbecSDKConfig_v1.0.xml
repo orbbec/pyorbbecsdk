@@ -1,84 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Config>
-    <!-- 配置文件标准版本号，非SDK开发人员请勿修改，否则可能会导致配置功能失效-->
+    <!--Configuration file standard version. If you are not an SDK developer, please do not modify it, otherwise the configuration function may fail.-->
     <ConfigStandardVersion>1.1</ConfigStandardVersion>
 
     <Log>
-        <!--日志输出等级，int类型，可选值:0-DEBUG，1-INFO，2-WARN，3-ERROR，4-FATAL，5-OFF-->
-        <!-- 日志等级配置执行优先级：0.应用代码配置 > 1.配置文件细化配置（文件&终端配置） > 2.配置文件全局配置 > 3.SDK代码默认配置（文件：0, 终端：1） -->
-        <!-- 全局日志输出等级 -->
+        <!--Log output level, int type, optional values: 0-DEBUG, 1-INFO, 2-WARN, 3-ERROR, 4-FATAL, 5-OFF-->
+        <!--Log level configuration execution priority: 0. Application code configuration > 1. Detailed configuration of configuration file (file & console configuration) > 2. Global configuration of configuration file > 3. SDK code default configuration (file: 0, terminal: 1)-->
+        <!--Global log output level-->
         <LogLevel>0</LogLevel>
-        <!-- 文件日志输出等级 -->
+        <!--File log output level-->
         <FileLogLevel>0</FileLogLevel>
-        <!-- 终端日志输出等级 -->
+        <!--Console log output level-->
         <ConsoleLogLevel>1</ConsoleLogLevel>
-        <!--默认日志输出文件路径，string类型。不配置该项将使用默认路径：Win/Linux: "./Log"; Android: "/sdcard/Orbbec/Log"-->
-        <!-- <OutPutDir>./Log</OutPutDir> -->
-        <!--默认日志输出文件大小，int类型，单位MB-->
+        <!--Default log output file path, string type. If this item is not configured, the default path will be used: Win/Linux: "./Log"; Android: "/sdcard/Orbbec/Log"-->
+        <!--<output dir>./log</output dir>-->
+        <!--Default log output file size, int type, unit: MB-->
         <MaxFileSize>100</MaxFileSize>
-        <!--默认日志输出文件个数(循环覆盖)，int类型-->
+        <!--Default log output file number (circular overwrite), int type-->
         <MaxFileNum>3</MaxFileNum>
-        <!-- 日志异步输出，改为异步输出可以减少打印日志阻塞时间，但是当程序异常退出时可能会丢失部分日志； true-使能，false禁用（默认）-->
+        <!--Log asynchronous output, changing to asynchronous output can reduce the blocking time of printing logs, but some logs may be lost when the program exits abnormally; true-enable, false-disable (default)-->
         <Async>false</Async>
     </Log>
 
-	<Memory>
-        <!--内存池使能，可实现帧内存的重复利用，避免频繁进行内存申请和释放；true-使能，false禁用)-->
-		<EnableMemoryPool> true </EnableMemoryPool>
-		<!--数据帧最大缓存空间大小，int类型，单位MB，最小100MB, 所有帧共用-->
-		<MaxFrameBufferSize> 2048 </MaxFrameBufferSize>
-		<!--高级模式下帧缓存队列的大小-->
+    <Memory>
+        <!--Enable memory pool to reuse frame memory, avoid frequent memory allocation and release. true-enable, false-disable)-->
+        <EnableMemoryPool> true </EnableMemoryPool>
+        <!--Maximum memory size of all data frames, int type, unit: MB, minimum 100MB-->
+        <MaxFrameBufferSize> 2048 </MaxFrameBufferSize>
+        <!--Frame buffer queue size in pipeline-->
         <PipelineFrameQueueSize>10</PipelineFrameQueueSize>
-        <!--内部处理单元帧缓存队列的大小-->
+        <!--Frame buffer queue size in internal processing unit-->
         <FrameProcessingBlockQueueSize>10</FrameProcessingBlockQueueSize>
-	</Memory>
+    </Memory>
 
-    <!--高级模式Pipeline默认工作配置-->
+    <!--Default working configuration of pipeline-->
     <Pipeline>
         <Stream>
             <Depth>
-                <!--使用默认流配置，bool类型，true-使用默认流配置，false-使用默认流配置(需要在配置文件指定)-->
+                <!--Use default stream profile, bool type, true： use default stream profile, false：use specified stream profile in the configuration file-->
                 <UseDefaultStreamProfile>true</UseDefaultStreamProfile>
             </Depth>
             <Color>
-                <!--不使用默认流配置, 按照指定配置开流，如果指定配置不支持，则使用支持的流配置列表第一项-->
                 <UseDefaultStreamProfile>true</UseDefaultStreamProfile>
                 <![CDATA[
-                <!--分辨率的宽，int类型-->
-                <Width>1920</Width>
-                <!--分辨率的高，int类型-->
-                <Height>1080</Height>
-                <!--帧率，int类型-->
-                <FPS>30</FPS>
-                <!--帧格式-->
-                <Format>MJPG</Format>
+                    <!--Do not use the default stream profile. Instead, open the stream according to the specified profile. If the specified profile is not supported, the default profile will be used.-->
+                    <UseDefaultStreamProfile>false</UseDefaultStreamProfile>
+                    <!--Width of the resolution, int type-->
+                    <Width>1920</Width>
+                    <!--Height of the resolution, int type-->
+                    <Height>1080</Height>
+                    <!--Frame rate, int type-->
+                    <FPS>30</FPS>
+                    <!--frame format-->
+                    <Format>MJPG</Format>
                 ]]>
             </Color>
-            <!--如果还需要开启其他流，可参考上面格式添加配置-->
+            <!--If you need to open other streams, you can refer to the above format to add configuration-->
         </Stream>
-        <!--图像对齐，int类型，可选值:0-禁用，1-硬件D2C对齐，2-软件D2C对齐-->
+        <!--Image alignment, int type, optional values: 0 disable, 1 hardware d2c alignment, 2 software d2c alignment-->
         <AlignMode>0</AlignMode>
-        <!--不同数据流间帧同步输出，bool类型，true-开启帧同步, false-关闭帧同步-->
+        <!--Frame synchronization output between different data streams, bool type, true-enable frame synchronization, false-disable frame synchronization-->
         <FrameSync>false</FrameSync>
     </Pipeline>
 
-    <!--不同类型设备各数据流默认配置-->
+    <!--Default configuration of data streams for different types of devices-->
     <Device>
         <EnumerateNetDevice>true</EnumerateNetDevice>
-		<!--AstraAdv对应的设备为Astra+-->
+		<!--The device corresponding to Astra adv is astra+-->
         <AstraAdv>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-                <!--Profile过滤器,可配置不需要的分辨率,格式,帧率相关的profile,使用 '|' 进行增加多个选项,默认不打开过滤器-->
+                <!--Profile filter, you can configure unwanted resolution, format, frame rate related profile, use '|' to add multiple options, the filter is not turned on by default-->
                 <![CDATA[
                 <ProfileFilter>
 					<profile>
@@ -95,1030 +96,1041 @@
                 ]]>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraAdv>
 
         <Femto>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Femto>
 
 		<FemtoW>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </FemtoW>
 
          <FemtoLive>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </FemtoLive>
 
         <FemtoMega>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>576</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-                <!--最大开流延时延时，单位：ms；如果开流后超过该时间未接收到第一帧数据则认为开流失败-->
+                <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!--流中断重启，0-不重启，>=1-连续尝试重启次数-->
+                <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
 				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!--最大帧间隔时间，单位：ms；如果超最大间隔时间未接受到新的数据帧，则认为流中断了-->
+                <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Depth>
 
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>1920</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>1080</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-                <!--最大开流延时延时，单位：ms；如果开流后超过该时间未接收到第一帧数据则认为开流失败-->
+                <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!--流中断重启，0-不重启，>=1-连续尝试重启次数-->
+                <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
 				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!--最大帧间隔时间，单位：ms；如果超最大间隔时间未接受到新的数据帧，则认为流中断了-->
+                <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Color>
 
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>576</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y16</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-                <!--最大开流延时延时，单位：ms；如果开流后超过该时间未接收到第一帧数据则认为开流失败-->
+                <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!--流中断重启，0-不重启，>=1-连续尝试重启次数-->
+                <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
 				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!--最大帧间隔时间，单位：ms；如果超最大间隔时间未接受到新的数据帧，则认为流中断了-->
+                <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR>
         </FemtoMega>
 
          <DaBai>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBai>
 
         <DaBaiPro>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiPro>
 
         <DaBaiDCW>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>360</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>360</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDCW>
 
 		<DaBaiDCW2>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDCW2>
 
 		<DaBaiDW>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDW>
 
 		<DaBaiDW2>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDW2>
 
         <DaBaiDC1>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDC1>
 
         <DaBaiD1>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiD1>
 
         <AstraMini>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>UYVY</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMini>
 
 		<AstraMiniS>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>UYVY</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniS>
 
 		<AstraMiniPro>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>UYVY</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniPro>
 
         <AstraStereoSU3>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraStereoSU3>
 
         <Gemini>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Gemini>
 
         <Astra>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>UYVY</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Astra>
 
         <AstraProPlus>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraProPlus>
 
 		<AstraEmbeddedS>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraEmbeddedS>
 
         <Deeyea>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>400</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Deeyea>
         <SL1502P_U2>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>480</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>640</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>480</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>640</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </SL1502P_U2>
         <GeminiE>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>360</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>360</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>MJPG</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiE>
         <GeminiELite>
             <Depth>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y11</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
-                <!--默认分辨率的宽，int类型-->
+                <!--The width of the default resolution, int type-->
                 <Width>640</Width>
-                <!--默认分辨率的高，int类型-->
+                <!--The height of the default resolution, int type-->
                 <Height>480</Height>
-                <!--默认帧率，int类型-->
+                <!--Default frame rate, int type-->
                 <FPS>30</FPS>
-                <!--默认帧格式-->
+                <!--Default frame format-->
                 <Format>Y10</Format>
-                <!--开流失败后是否需要进行重试，0-不重试，>=1-重试并重试多少次-->
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiELite>
-        <!-- Gemini2 config -->
+        <!--Gemini2 config-->
         <OrbbecGemini2>
-	        <!-- 默认是否开启心跳 -->
+	        <!--Whether to enable heartbeat by default-->
 	        <DefaultHeartBeat>0</DefaultHeartBeat>
+			<!--Whether to enable firmware upgrade foolproof by default, only internal version supports-->
+			<FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
 
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的推荐配置，当然显得繁琐 -->
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的没有对应分辨率 -->
+            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
+            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
 			<Depth>
-			    <!-- 开流失败重试次数,0表示不重试 -->
+			    <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-				<!-- 开流等待第一帧数据的超时时间，超过后则本次开流失败 -->
+				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
 				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
 				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
 				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>RLE</Format>
             </Depth>
             <Color>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>720</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>MJPG</Format>
             </Color>
             <IR>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR>
 			<IR_LEFT>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR_LEFT>
 			<IR_RIGHT>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR_RIGHT>
-
-			<!-- 不同相机深度模式下的配置 -->
-			<BinnedSparseDefault>
-			    <Depth>
-                    <!--默认开启分辨率的宽，int类型-->
+            <!--Configurations in different camera depth modes -->
+            <!--Deep working mode: Unbinned Dense Default -->
+            <UnbinnedDenseDefault>
+                <!--You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor -->
+            </UnbinnedDenseDefault>
+            <!--Deep working mode: Unbinned Sparse Default -->
+            <UnbinnedSparseDefault>
+                <!--You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor -->
+            </UnbinnedSparseDefault>
+                <!--Deep working mode: Binned Sparse Default -->
+            <BinnedSparseDefault>
+                <!--You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor -->
+                <Depth>
+                    <!--The resolution width is enabled by default, int type-->
                     <Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>RLE</Format>
 				</Depth>
 				<IR>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR>
 			</BinnedSparseDefault>
 			<FactoryCalibration>
 			    <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1920</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>1080</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
 				</Color>
 				<IR_LEFT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y10</Format>
 				</IR_LEFT>
 				<IR_RIGHT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y10</Format>
 				</IR_RIGHT>
@@ -1126,141 +1138,143 @@
 			</FactoryCalibration>
 			<In-sceneCalibration>
 			    <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1920</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>1080</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
 				</Color>
 				<IR_LEFT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR_LEFT>
 				<IR_RIGHT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR_RIGHT>
 			</In-sceneCalibration>
         </OrbbecGemini2>
-        <!-- DaBaiDCL config -->
+        <!--DaBaiDCL config-->
         <DaBaiDCL>
-	        <!-- 默认是否开启心跳 -->
+	        <!--Whether to enable heartbeat by default-->
 	        <DefaultHeartBeat>0</DefaultHeartBeat>
+			<!--Whether to enable firmware upgrade foolproof by default, only internal version supports-->
+			<FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
 
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的推荐配置，当然显得繁琐 -->
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的没有对应分辨率 -->
+            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
+            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
 			<Depth>
-			    <!-- 开流失败重试次数,0表示不重试 -->
+			    <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-				<!-- 开流等待第一帧数据的超时时间，超过后则本次开流失败 -->
+				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
 				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
 				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
 				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>RLE</Format>
             </Depth>
             <Color>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>720</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>MJPG</Format>
             </Color>
             <IR>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR>
 			<IR_LEFT>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR_LEFT>
 			<IR_RIGHT>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR_RIGHT>
 
-			<!-- 不同相机深度模式下的配置 -->
-			<BinnedSparseDefault>
+			<!--Configurations in different camera depth modes-->
+			<High-accuracymode>
 			    <Depth>
-                    <!--默认开启分辨率的宽，int类型-->
+                    <!--The resolution width is enabled by default, int type-->
                     <Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
-					<Format>RLE</Format>
+					<Format>Y16</Format>
 				</Depth>
 				<IR>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR>
-			</BinnedSparseDefault>
+			</High-accuracymode>
 			<FactoryCalibration>
 			    <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1920</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>1080</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
 				</Color>
 				<IR_LEFT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y10</Format>
 				</IR_LEFT>
 				<IR_RIGHT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y10</Format>
 				</IR_RIGHT>
@@ -1268,301 +1282,303 @@
 			</FactoryCalibration>
 			<In-sceneCalibration>
 			    <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1920</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>1080</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
 				</Color>
 				<IR_LEFT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR_LEFT>
 				<IR_RIGHT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR_RIGHT>
 			</In-sceneCalibration>
         </DaBaiDCL>
-        <!-- OrbbecGemini2L config -->
+        <!--OrbbecGemini2L config-->
         <OrbbecGemini2L>
-	        <!-- 默认是否开启心跳 -->
+	        <!--Whether to enable heartbeat by default-->
 	        <DefaulHeartBeat>0</DefaulHeartBeat>
 
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的推荐配置，当然显得繁琐 -->
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的没有对应分辨率 -->
+            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
+            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
 			<Depth>
-			    <!-- 开流失败重试次数,0表示不重试 -->
+			    <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
-				<!-- 开流等待第一帧数据的超时时间，超过后则本次开流失败 -->
+				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
 				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
 				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
 				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>RLE</Format>
             </Depth>
             <Color>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>720</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <Format>MJPG</Format>
-                <!-- 开流失败重试次数,0表示不重试 -->
+                <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <Format>Y8</Format>
-                <!-- 开流失败重试次数,0表示不重试 -->
+                <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR>
 			<IR_LEFT>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
-                <!-- 开流失败重试次数,0表示不重试 -->
+                <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR_LEFT>
 			<IR_RIGHT>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
-                <!-- 开流失败重试次数,0表示不重试 -->
+                <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </IR_RIGHT>
 
-			<!-- 不同相机深度模式下的配置 -->
+			<!--Configurations in different camera depth modes-->
 			<BinnedSparseDefault>
 			    <Depth>
-                    <!--默认开启分辨率的宽，int类型-->
+                    <!--The resolution width is enabled by default, int type-->
                     <Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>RLE</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</Depth>
 				<IR>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</IR>
 			</BinnedSparseDefault>
 			<FactoryCalibration>
 			    <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1920</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>1080</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</Color>
 				<IR_LEFT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y10</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</IR_LEFT>
 				<IR_RIGHT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y10</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</IR_RIGHT>
 
 			</FactoryCalibration>
 			<In-sceneCalibration>
 			    <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1920</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>1080</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</Color>
 				<IR_LEFT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</IR_LEFT>
 				<IR_RIGHT>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>800</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
-                    <!-- 开流失败重试次数,0表示不重试 -->
+                    <!--Number of retries for open stream failures, 0 means no retries-->
 				    <StreamFailedRetry>0</StreamFailedRetry>
 				</IR_RIGHT>
 			</In-sceneCalibration>
         </OrbbecGemini2L>
-        <!-- Astra2 config -->
+        <!--Astra2 config-->
         <OrbbecAstra2>
-	        <!-- 默认是否开启心跳 -->
+	        <!--Whether to enable heartbeat by default-->
 	        <DefaulHeartBeat>0</DefaulHeartBeat>
 
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的推荐配置，当然显得繁琐 -->
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的没有对应分辨率 -->
+            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
+            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
 			<Depth>
-			    <!-- 开流失败重试次数,0表示不重试 -->
+			    <!--Number of retries for open stream failures, 0 means no retries-->
 				<StreamFailedRetry>2</StreamFailedRetry>
-				<!-- 开流等待第一帧数据的超时时间，超过后则本次开流失败 -->
+				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
 				<MaxStartStreamDelayMs>10000</MaxStartStreamDelayMs>
-				<!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
 				<StreamInterruptedRestart>2</StreamInterruptedRestart>
-				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
 				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>800</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>600</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>RLE</Format>
             </Depth>
             <Color>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>720</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>MJPG</Format>
             </Color>
             <IR>
-                <!--默认开启分辨率的宽，int类型-->
+                <!--The resolution width is enabled by default, int type-->
                 <Width>800</Width>
-                <!--默认开启分辨率的高，int类型-->
+                <!--High resolution is enabled by default, int type-->
                 <Height>600</Height>
-                <!--默认开启分辨率的帧率，int类型-->
+                <!--The frame rate of the resolution enabled by default, int type-->
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR>
-			<!-- 不同相机深度模式下的配置 -->
-			<HighAccuracyModeDefault>
+			<!--Configurations in different camera depth modes-->
+			<HighResolution>
 			    <Depth>
-                    <!--默认开启分辨率的宽，int类型-->
-                    <Width>800</Width>
-					<!--默认开启分辨率的高，int类型-->
-					<Height>600</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1600</Width>
+					<!--High resolution is enabled by default, int type-->
+					<Height>1200</Height>
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>RLE</Format>
 				</Depth>
                 <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>720</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
 				</Color>
 				<IR>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>800</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>600</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR>
-			</HighAccuracyModeDefault>
-			<NormalModeDefault>
+			</HighResolution>
+			<ClassicResolution>
                 <Depth>
-                    <!--默认开启分辨率的宽，int类型-->
+                    <!--The resolution width is enabled by default, int type-->
                     <Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>480</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>RLE</Format>
 				</Depth>
                 <Color>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>1280</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>720</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>MJPG</Format>
 				</Color>
 				<IR>
-					<!--默认开启分辨率的宽，int类型-->
+					<!--The resolution width is enabled by default, int type-->
 					<Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
+					<!--High resolution is enabled by default, int type-->
 					<Height>480</Height>
-					<!--默认开启分辨率的帧率，int类型-->
+					<!--The frame rate of the resolution enabled by default, int type-->
 					<FPS>30</FPS>
 					<Format>Y8</Format>
 				</IR>
-			</NormalModeDefault>
+			</ClassicResolution>
         </OrbbecAstra2>
     </Device>
 </Config>

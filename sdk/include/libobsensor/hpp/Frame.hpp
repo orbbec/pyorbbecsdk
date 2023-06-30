@@ -127,7 +127,7 @@ public:
             throw std::runtime_error("unsupported operation, object's type is not require type");
         }
 
-        return std::static_pointer_cast<T>(std::const_pointer_cast<Frame>(shared_from_this()));
+        return std::dynamic_pointer_cast<T>(shared_from_this());
     }
 
 private:
@@ -365,10 +365,6 @@ public:
  */
 class OB_EXTENSION_API FrameHelper {
 public:
-    // Constructor and destructor
-    FrameHelper();
-    ~FrameHelper();
-
     /**
      * @brief Create a Frame object.
      *
@@ -389,6 +385,7 @@ public:
      * @param[in] format The format of the frame. See @ref OBFormat.
      * @param[in] width The width of the frame.
      * @param[in] height The height of the frame.
+     * @param[in] buffer The frame object buffer
      * @param[in] bufferSize The frame object buffer size
      * @param[in] destroyCallback The frame object buffer destroy callback
      * @param[in] destroyCallbackContext The frame object buffer destroy callback context

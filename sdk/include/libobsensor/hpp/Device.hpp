@@ -124,7 +124,6 @@ public:
 
     /**
      * @brief Get bool type device property range (including current value and default value)
-     * @brief Get the range of a boolean property
      *
      * @param propertyId The ID of the property
      * @return OBBoolPropertyRange The range of the property
@@ -189,6 +188,22 @@ public:
      * @param async Whether to execute asynchronously
      */
     void readFlash(uint32_t offset, uint32_t dataSize, GetDataCallback callback, bool async = false);
+
+    /**
+     * @brief Set the customer data type of a device property
+     *
+     * @param data The data to set
+     * @param dataSize The size of the data to set,the maximum length cannot exceed 65532 bytes.
+     */
+    void writeCustomerData(const void *data, uint32_t dataSize);
+
+    /**
+     * @brief Get the customer data type of a device property
+     *
+     * @param data The property data obtained
+     * @param dataSize The size of the data obtained
+     */
+    void readCustomerData(void *data, uint32_t *dataSize);
 
     /**
      * @brief Set the raw data type of a device property (with asynchronous callback)
@@ -382,6 +397,16 @@ public:
     void reboot();
 
     /**
+     * @brief Device restart delay mode
+     * @attention The device will be disconnected and reconnected. After the device is disconnected, the access to the Device object interface may be abnormal.
+     *   Please delete the object directly and obtain it again after the device is reconnected.
+     * Support devices: Gemini2 L
+     *
+     * @param[in] delayMs Time unit：ms。delayMs == 0：No delay；delayMs > 0, Delay millisecond connect to host device after reboot
+     */
+    void reboot(uint32_t delayMs);
+
+    /**
      * @brief get the current device synchronization configuration
      * @brief Device synchronization: including exposure synchronization function and multi-camera synchronization function of different sensors within a single
      * machine
@@ -407,7 +432,6 @@ public:
 
 /**
  * @brief A class describing device information, representing the name, id, serial number and other basic information of an RGBD camera.
- *
  */
 class OB_EXTENSION_API DeviceInfo {
 private:

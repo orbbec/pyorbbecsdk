@@ -600,7 +600,7 @@ typedef enum OBPropertyType {
  */
 typedef struct OBPropertyItem {
     OBPropertyID     id;         /**< Property ID */
-    const char *     name;       /**< Property name */
+    const char      *name;       /**< Property name */
     OBPropertyType   type;       /**< Property type */
     OBPermissionType permission; /**< Property read and write permission */
 } OBPropertyItem, ob_property_item;

@@ -677,12 +677,6 @@ int ob_device_info_vid(ob_device_info *info, ob_error **error);
  */
 const char *ob_device_info_uid(ob_device_info *info, ob_error **error);
 
-// const char *ob_device_info_ip(ob_device_info *info, ob_error **error);
-
-// int ob_device_info_port(ob_device_info *info, ob_error **error);
-
-// const char *ob_device_info_net_name(ob_device_info *info, ob_error **error);
-
 /**
  * @brief Get device serial number
  *

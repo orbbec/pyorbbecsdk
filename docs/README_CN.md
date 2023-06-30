@@ -187,27 +187,118 @@ pipeline.stop()
 
 ## 3.2 常用接口API介绍
 
-### 3.2.1 获取序列号
+### 3.2.1 获取设备列表
 
-### 3.2.2 获取设备名称
+```python
+from pyorbbecsdk import *
 
-### 3.2.3 获取相机参数
+self.context = Context()
+device_list = self.context.query_devices()
 
-### 3.2.4 获取和设置红外相机的曝光值
+```
 
-### 3.2.5 彩色相机自动曝光
+### 3.2.2 获取传感器列表
 
-### 3.2.6 获取和设置彩色相机曝光值
+```python
+from pyorbbecsdk import *
 
-### 3.2.7 获取和设置彩色相机增益
+# ...
+device = device_list[0]
+sensor_list = device.get_sensor_list()
+```
 
-### 3.2.8 彩色相机数据流镜像
+### 3.2.3 获取设备信息
 
-### 3.2.9 开关激光
+```python
+from pyorbbecsdk import *
 
-### 3.2.10 开关LDP
+# ...
+device_info = self.device.get_device_info()
+device_name = device_info.get_name()
+device_pid = device_info.get_pid()
+serial_number = device_info.get_serial_number()
+# ...
+```
 
-### 3.2.11 开关软件滤波
+### 3.2.4 彩色相机自动曝光
+
+```python
+from pyorbbecsdk import *
+
+# ...
+auto_exposure = True
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, auto_exposure)
+```
+
+### 3.2.5 获取和设置彩色相机曝光值
+
+```python
+from pyorbbecsdk import *
+
+# ...
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
+curr_color_exposure = device.get_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT)
+color_exposure = curr_color_exposure + 1
+device.set_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT, color_exposure)
+# ...
+```
+
+### 3.2.6 获取和设置彩色相机增益
+
+```python
+from pyorbbecsdk import *
+
+# ...
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
+curr_color_gain = device.get_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT)
+color_gain = curr_color_gain + 1
+device.set_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT, color_gain)
+# ...
+```
+
+### 3.2.7 彩色相机数据流镜像
+
+```python
+from pyorbbecsdk import *
+
+# ...
+mirror = True
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL, mirror)
+# ...
+```
+
+### 3.2.8 开关激光
+
+```python
+from pyorbbecsdk import *
+
+# ...
+laser = True
+device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, laser)
+# ...
+```
+
+### 3.2.9 开关LDP
+
+```python
+from pyorbbecsdk import *
+
+# ...
+ldp = True
+device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, ldp)
+# ...
+```
+
+### 3.2.10 开关软件滤波
+
+```python
+from pyorbbecsdk import *
+
+# ...
+soft_filter = True
+device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filter)
+# ...
+```
 
 ### 其他接口
 

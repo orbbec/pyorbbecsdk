@@ -1,26 +1,67 @@
-# 1. 概述
+# Orbbec SDK Python Wrapper文档
+
+## 目录
+<!-- TOC -->
+* [Orbbec SDK Python Wrapper文档](#orbbec-sdk-python-wrapper文档)
+  * [目录](#目录)
+  * [概述](#概述)
+  * [系统要求](#系统要求)
+    * [操作系統](#操作系統)
+    * [编译平台要求](#编译平台要求)
+    * [Python 版本](#python-版本)
+  * [Python SDK支持的硬件产品](#python-sdk支持的硬件产品)
+  * [Orbbec SDK Python Wrapper Sample编译说明](#orbbec-sdk-python-wrapper-sample编译说明)
+    * [Windows python sdk 编译](#windows-python-sdk-编译)
+      * [下载 python sdk 源码](#下载-python-sdk-源码)
+      * [安装依赖](#安装依赖)
+      * [配置Visual Studio](#配置visual-studio)
+      * [编译python SDK](#编译python-sdk)
+      * [测试python SDK Sample](#测试python-sdk-sample)
+    * [Linux python SDK 编译](#linux-python-sdk-编译)
+      * [下载 python sdk 源码](#下载-python-sdk-源码-1)
+      * [安装依赖](#安装依赖-1)
+      * [Python SDK 编译](#python-sdk-编译)
+      * [测试 Sample](#测试-sample)
+  * [常用调用流程](#常用调用流程)
+    * [视频数据获取](#视频数据获取)
+    * [获取设备列表](#获取设备列表)
+    * [获取传感器列表](#获取传感器列表)
+    * [获取设备信息](#获取设备信息)
+    * [彩色相机自动曝光](#彩色相机自动曝光)
+    * [获取和设置彩色相机曝光值](#获取和设置彩色相机曝光值)
+    * [获取和设置彩色相机增益](#获取和设置彩色相机增益)
+    * [彩色相机数据流镜像](#彩色相机数据流镜像)
+    * [开关激光](#开关激光)
+    * [开关LDP](#开关ldp)
+    * [开关软件滤波](#开关软件滤波)
+    * [其他接口](#其他接口)
+  * [FAQ](#faq)
+<!-- TOC -->
+## 概述
 
 本文档主要介绍Orbbec SDK Python Wrapper的功能，Orbbec SDK Python Wrapper基于Orbbec
 SDK进行设计封装，主要实现数据流接收，设备指令控制。
 
-## 1.1  系统要求
+## 系统要求
+
+### 操作系統
 
 * Windows：Windows 10 (x64)
 * Linux: Ubuntu 16.04/18.04/20.04/22.04 (x64)
 * Arm32: Ubuntu16.04/18.04/20.04/22.04
 * Arm64: Ubuntu18.04/20.04/22.04
 
-## 1.2 编译平台要求
+### 编译平台要求
 
 * Windows：Visual Studio 2017 及以上
 * Linux: gcc 5.4.0 及以上
 * cmake: 3.15.0 及以上
 
-## 1.3 Python 版本
+### Python 版本
 
 * Python 3.6/3.7/3.8/3.9
 
-## 1.4  Python SDK支持的硬件产品
+## Python SDK支持的硬件产品
 
 | **产品列表**       | **固件版本**                             |
 |----------------|--------------------------------------|
@@ -43,17 +84,17 @@ SDK进行设计封装，主要实现数据流接收，设备指令控制。
 | Gemini         | 3.0.18                               |
 | Deeyea         | 3012/3015                            |
 
-# 2. Orbbec SDK Python Wrapper Sample编译说明
+## Orbbec SDK Python Wrapper Sample编译说明
 
-## 2.1 Windows python sdk 编译
+### Windows python sdk 编译
 
-* 下载 python sdk 源码
+#### 下载 python sdk 源码
 
 ```bash
 git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
 ```
 
-* 安装依赖
+#### 安装依赖
 
 ```bash
 pip3 install -r requirements.txt
@@ -61,6 +102,8 @@ pip3 install -r requirements.txt
 
 这里假定你已经正确的安装了python3，如果没有安装python3，可以参考[python官网](https://www.python.org/downloads/)
 选择你的python3版本进行安装。
+
+#### 配置Visual Studio
 
 * 打开Cmake，首先设置源码路径，“build”文件夹设置为生成二进制文件的路径，如下图所示。
 
@@ -88,6 +131,8 @@ pip3 install -r requirements.txt
 * 打开python SDK工程，如下图所示：
   ![image7.png](images/image7.png)
 
+#### 编译python SDK
+
 * 右键点击pyorbbecsdk 编译，如下图所示：
   ![image8.png](images/image8.png)
 
@@ -95,6 +140,8 @@ pip3 install -r requirements.txt
   ![image9.png](images/image9.png)
   编译好的文件会拷贝到 install/lib 目录下，如下图所示：
   ![image10.png](images/image10.png)
+
+#### 测试python SDK Sample
 
 * 将install/lib 目录下的文件 拷贝到 examples目录下，如下图所示：
 
@@ -104,21 +151,21 @@ pip3 install -r requirements.txt
 
 ![image12.png](images/image12.png)
 
-## 2.2 Linux python SDK 编译
+### Linux python SDK 编译
 
-### 下载 python sdk 源码
+#### 下载 python sdk 源码
 
 ```bash
 git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
 ```
 
-### 安装依赖
+#### 安装依赖
 
 ```bash
 sudo apt-get install python3-dev pybind11-dev python3-venv python3-pip
 ```
 
-### Python SDK 编译
+#### Python SDK 编译
 
 ```bash
 mkdir build
@@ -128,7 +175,7 @@ make -j4
 make install
 ```
 
-### 测试 Sample
+#### 测试 Sample
 
 ```bash
 cd pyorbbecsdk
@@ -145,9 +192,9 @@ sudo bash ./scripts/install_udev_rules.sh
 python examples/depth_viewer.py
 ```
 
-# 3. 常用调用流程
+## 常用调用流程
 
-## 3.1 视频数据获取
+### 视频数据获取
 
 首先我们需要创建一个Pipeline，通过Pipeline可以很容易的打开和关闭多种类型的流并获取一组帧数据。
 
@@ -185,9 +232,7 @@ depth_frame = frames.get_depth_frame()
 pipeline.stop()
 ```
 
-## 3.2 常用接口API介绍
-
-### 3.2.1 获取设备列表
+### 获取设备列表
 
 ```python
 from pyorbbecsdk import *
@@ -197,7 +242,7 @@ device_list = self.context.query_devices()
 
 ```
 
-### 3.2.2 获取传感器列表
+### 获取传感器列表
 
 ```python
 from pyorbbecsdk import *
@@ -207,7 +252,7 @@ device = device_list[0]
 sensor_list = device.get_sensor_list()
 ```
 
-### 3.2.3 获取设备信息
+### 获取设备信息
 
 ```python
 from pyorbbecsdk import *
@@ -220,7 +265,7 @@ serial_number = device_info.get_serial_number()
 # ...
 ```
 
-### 3.2.4 彩色相机自动曝光
+### 彩色相机自动曝光
 
 ```python
 from pyorbbecsdk import *
@@ -230,7 +275,7 @@ auto_exposure = True
 device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, auto_exposure)
 ```
 
-### 3.2.5 获取和设置彩色相机曝光值
+### 获取和设置彩色相机曝光值
 
 ```python
 from pyorbbecsdk import *
@@ -243,7 +288,7 @@ device.set_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT, color_exposure)
 # ...
 ```
 
-### 3.2.6 获取和设置彩色相机增益
+### 获取和设置彩色相机增益
 
 ```python
 from pyorbbecsdk import *
@@ -256,7 +301,7 @@ device.set_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT, color_gain)
 # ...
 ```
 
-### 3.2.7 彩色相机数据流镜像
+### 彩色相机数据流镜像
 
 ```python
 from pyorbbecsdk import *
@@ -267,7 +312,7 @@ device.set_bool_property(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL, mirror)
 # ...
 ```
 
-### 3.2.8 开关激光
+### 开关激光
 
 ```python
 from pyorbbecsdk import *
@@ -278,7 +323,7 @@ device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, laser)
 # ...
 ```
 
-### 3.2.9 开关LDP
+### 开关LDP
 
 ```python
 from pyorbbecsdk import *
@@ -289,7 +334,7 @@ device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, ldp)
 # ...
 ```
 
-### 3.2.10 开关软件滤波
+### 开关软件滤波
 
 ```python
 from pyorbbecsdk import *
@@ -304,4 +349,4 @@ device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filte
 
 请参考源码包`examples`目录下的例子和`tests`目录下的测试用例
 
-## 4 FAQ
+## FAQ

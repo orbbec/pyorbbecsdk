@@ -127,9 +127,10 @@ pip3 install -r requirements.txt
 ### Compile Python SDK
 
 ```bash
-mkdir build && cd build
-cmake ../
-make
+mkdir build
+cd build
+cmake ..
+make -j4
 make install
 
 ```
@@ -137,166 +138,183 @@ make install
 ### Test examples
 
 ```bash
-cd ../examples/
-python3 ColorViewer.py
+cd pyorbbecsdk
+# set PYTHONPATH environment variable to include the lib directory in the install directory
+export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
+# Skip this if you don't want virtual environment
+python3 -m venv  ./venv
+source ./venv/bin/activate
+# install dependencies
+pip install -r requirements.txt
+# install udev rules
+sudo bash ./scripts/install_udev_rules.sh
+# run examples
+python examples/depth_viewer.py
 ```
 
 # 3. Orbbec SDK Python Wrapper Function Introduction
 
-## 3.1 Device Enumeration
+## 3. Common call flow
 
-Get the device list:
+# # 3.1 Video stream acquisition
 
-```python
-from pyorbbec import PyOrbbec
-
-pyorbbec = PyOrbbec()
-device_list = pyorbbec.get_device_list()
-```
-
-## 3.2 Device Control
-
-Open the device:
+First we need to create a Pipeline, which makes it easy to open and close multiple types of streams and fetch a set of
+frames.
 
 ```python
-from pyorbbec import PyOrbbec
+from pyorbbecsdk import *
 
-pyorbbec = PyOrbbec()
-device_list = pyorbbec.get_device_list()
-if device_list:
-    device = pyorbbec.open_device(device_list[0])
+config = Config()
+pipeline = Pipeline()
 ```
 
-Close the device:
+Get all the stream configurations for the Depth camera, find the profile corresponding to the resolution, format and
+frame rate
 
 ```python
-pyorbbec.close_device(device)
+profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+depth_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
 ```
 
-## 3.3 Device Properties
-
-Get device property value:
+Turn on video streaming by creating a Config, here the Depth stream will be enabled
 
 ```python
-value = pyorbbec.get_device_property(device, property_id)
+config.enable_stream(depth_profile)
+pipeline.start(config)
 ```
 
-Set device property value:
+Wait for a frame of data in a blocking fashion, which is a composite frame containing the frame data of all the streams
+enabled in the configuration, and set the frame wait timeout to 100ms
 
 ```python
-pyorbbec.set_device_property(device, property_id, value)
+frames = pipeline.wait_for_frames(100)
+depth_frame = frames.get_depth_frame()
 ```
 
-## 3.4 Data Stream Reception
-
-Get color stream:
+Stopping Pipeline will no longer produce frame data
 
 ```python
-color_stream = pyorbbec.get_color_stream(device)
-if color_stream is not None:
-    while True:
-        color_frame = color_stream.get_frame()
-        if color_frame is not None:
-            color_data = color_frame.data
-            # do something
-        else:
-            break
+pipeline.stop()
 ```
 
-Get depth stream:
+## 3.2 Introduction to common interface APIs
+
+### 3.2.1 Getting a list of devices
 
 ```python
-depth_stream = pyorbbec.get_depth_stream(device)
-if depth_stream is not None:
-    while True:
-        depth_frame = depth_stream.get_frame()
-        if depth_frame is not None:
-            depth_data = depth_frame.data
-            # do something
-        else:
-            break
+from pyorbbecsdk import *
+
+self.context = Context()
+device_list = self.context.query_devices()
+
 ```
 
-Get infrared stream:
+### 3.2.2 Getting a list of sensors
 
 ```python
-infrared_stream = pyorbbec.get_infrared_stream(device)
-if infrared_stream is not None:
-    while True:
-        infrared_frame = infrared_stream.get_frame()
-        if infrared_frame is not None:
-            infrared_data = infrared_frame.data
-            # do something
-        else:
-            break
+from pyorbbecsdk import *
+
+# ...
+device = device_list[0]
+sensor_list = device.get_sensor_list()
 ```
 
-Get point cloud stream:
+### 3.2.3 Getting device information
 
 ```python
-point_cloud_stream = pyorbbec.get_point_cloud_stream(device)
-if point_cloud_stream is not None:
-    while True:
-        point_cloud_frame = point_cloud_stream.get_frame()
-        if point_cloud_frame is not None:
-            point_cloud_data = point_cloud_frame.data
-            # do something
-        else:
-            break
+from pyorbbecsdk import *
+
+# ...
+device_info = device.get_device_info()
+device_name = device_info.get_name()
+device_pid = device_info.get_pid()
+serial_number = device_info.get_serial_number()
+# ...
 ```
 
-Get user mask stream:
+### 3.2.4 Color  auto-exposure
 
 ```python
-user_mask_stream = pyorbbec.get_user_mask_stream(device)
-if user_mask_stream is not None:
-    while True:
-        user_mask_frame = user_mask_stream.get_frame()
-        if user_mask_frame is not None:
-            user_mask_data = user_mask_frame.data
-            # do something
-        else:
-            break
+from pyorbbecsdk import *
+
+# ...
+auto_exposure = True
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, auto_exposure)
 ```
 
-## 3.5 Device Command Control
-
-Send a command to the device:
+### 3.2.5 Getting and setting colour camera exposure values
 
 ```python
-pyorbbec.send_command(device, command_id, data)
+from pyorbbecsdk import *
+
+# ...
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
+curr_color_exposure = device.get_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT)
+color_exposure = curr_color_exposure + 1
+device.set_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT, color_exposure)
+# ...
 ```
 
-## 3.6 Depth Data Processing
-
-Convert depth data to 3D point cloud:
+### 3.2.6 Getting and setting the colour camera gain
 
 ```python
-point_cloud = pyorbbec.convert_depth_to_point_cloud(depth_data, intrinsic)
+from pyorbbecsdk import *
+
+# ...
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
+curr_color_gain = device.get_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT)
+color_gain = curr_color_gain + 1
+device.set_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT, color_gain)
+# ...
 ```
 
-Convert depth data to color data:
+### 3.2.7 Mirroring the colour camera data stream
 
 ```python
-color_data = pyorbbec.convert_depth_to_color(depth_data, color_stream, intrinsic)
+from pyorbbecsdk import *
+
+# ...
+mirror = True
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL, mirror)
+# ...
 ```
 
-Get depth data intrinsic parameters:
+### 3.2.8 Switching lasers
 
 ```python
-intrinsic = pyorbbec.get_depth_intrinsic(device)
+from pyorbbecsdk import *
+
+# ...
+laser = True
+device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, laser)
+# ...
 ```
 
-## 3.7 Color Data Processing
-
-Convert color data to gray data:
+### 3.2.9 Switching LDP
 
 ```python
-gray_data = pyorbbec.convert_color_to_gray(color_data)
+from pyorbbecsdk import *
+
+# ...
+ldp = True
+device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, ldp)
+# ...
 ```
 
-Get color data intrinsic parameters:
+### 3.2.10 Switch software filtering
 
 ```python
-intrinsic = pyorbbec.get_color_intrinsic(device)
+from pyorbbecsdk import *
+
+# ...
+soft_filter = True
+device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filter)
+# ...
 ```
+
+### Other interfaces
+
+Please refer to the examples in the `examples` directory of the source package and the test cases in the `tests`
+directory
+
+## 4 FAQ

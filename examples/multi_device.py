@@ -52,18 +52,16 @@ def rendering_frames():
                 color_width, color_height = color_frame.get_width(), color_frame.get_height()
                 color_image = frame_to_bgr_image(color_frame)
             if depth_frame is not None:
-                depth_data = np.asanyarray(depth_frame.get_data())
-                depth_width, depth_height = depth_frame.get_width(), depth_frame.get_height()
+                width = depth_frame.get_width()
+                height = depth_frame.get_height()
                 scale = depth_frame.get_depth_scale()
-                depth_data = np.resize(depth_data, (depth_height, depth_width, 2))
-                depth_data = depth_data * scale
-                channel0 = depth_data[:, :, 0]
-                channel1 = depth_data[:, :, 1]
-                channel0_norm = cv2.normalize(channel0, None, 0, 255, cv2.NORM_MINMAX)
-                channel1_norm = cv2.normalize(channel1, None, 0, 255, cv2.NORM_MINMAX)
-                depth_image = np.zeros((depth_height, depth_width, 3), dtype=np.uint8)
-                depth_image[:, :, 0] = channel0_norm
-                depth_image[:, :, 1] = channel1_norm
+
+                depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+                depth_data = depth_data.reshape((height, width))
+
+                depth_data = depth_data.astype(np.float32) * scale
+
+                depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
                 depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
 
             if color_image is not None and depth_image is not None:

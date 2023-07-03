@@ -11,11 +11,7 @@ def main():
     config = Config()
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
-        try:
-            color_profile: VideoStreamProfile = profile_list.get_video_stream_profile(1280, 0, OBFormat.RGB, 30)
-        except OBError as e:
-            print(e)
-            color_profile = profile_list.get_default_video_stream_profile()
+        color_profile = profile_list.get_default_video_stream_profile()
         config.enable_stream(color_profile)
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         assert profile_list is not None
@@ -51,19 +47,15 @@ def main():
             depth_frame = frames.get_depth_frame()
             if depth_frame is None:
                 continue
-            height = depth_frame.get_height()
+
             width = depth_frame.get_width()
+            height = depth_frame.get_height()
             scale = depth_frame.get_depth_scale()
-            depth_data = np.asanyarray(depth_frame.get_data())
-            depth_data = np.resize(depth_data, (height, width, 2))
-            depth_data = depth_data * scale
-            channel0 = depth_data[:, :, 0]
-            channel1 = depth_data[:, :, 1]
-            channel0_norm = cv2.normalize(channel0, None, 0, 255, cv2.NORM_MINMAX)
-            channel1_norm = cv2.normalize(channel1, None, 0, 255, cv2.NORM_MINMAX)
-            depth_image = np.zeros((height, width, 3), dtype=np.uint8)
-            depth_image[:, :, 0] = channel0_norm
-            depth_image[:, :, 1] = channel1_norm
+
+            depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+            depth_data = depth_data.reshape((height, width))
+            depth_data = depth_data.astype(np.float32) * scale
+            depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
             # overlay color image on depth image
             depth_image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)

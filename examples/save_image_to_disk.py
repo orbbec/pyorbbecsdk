@@ -11,7 +11,7 @@ def save_depth_frame(frame: DepthFrame, index):
     width = frame.get_width()
     height = frame.get_height()
     timestamp = frame.get_timestamp()
-    scale = frame.get_value_scale()
+    scale = frame.get_depth_scale()
     data = np.asanyarray(frame.get_data())
     data = data * scale
     save_image_dir = os.path.join(os.getcwd(), "depth_images")

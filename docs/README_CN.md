@@ -385,3 +385,50 @@ export OPENBLAS_CORETYPE=ARMV8
 ```
 
 关于如何解决这个问题，请参考[这里](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)的更多信息。
+Q: 运行`python3 examples/depth_viewer.py`时，会出现如下错误？
+
+```text
+- msg:failed to open usb device!  error: OB_USB_STATUS_ACCESS
+  - type:St13runtime_error
+[2023-07-04 17:09:19.891859][warning][117523][EnumeratorLibusb.cpp:342] failed to create usb device at index: 1, url:2-1.4.1-6
+[2023-07-04 17:09:20.391989][error][117523][DeviceLibusb.cpp:109] failed to open usb device!  error: OB_USB_STATUS_ACCESS
+[2023-07-04 17:09:20.392032][warning][117523][EnumeratorLibusb.cpp:342] Execute failure! A std::exception has occurred!
+  - where:342#createUsbDevice
+  - msg:failed to open usb device!  error: OB_USB_STATUS_ACCESS
+  - type:St13runtime_error
+[2023-07-04 17:09:20.392057][warning][117523][EnumeratorLibusb.cpp:342] failed to create usb device at index: 1, url:2-1.4.1-6
+[2023-07-04 17:09:20.392072][warning][117523][ObException.hpp:40] usbEnumerator createUsbDevice failed!
+Traceback (most recent call last):
+  File "depth_viewer.py", line 73, in <module>
+    main()
+  File "depth_viewer.py", line 34, in main
+    device: Device = device_list.get_device_by_index(0)
+pyorbbecsdk.OBError: usbEnumerator createUsbDevice failed!
+[2023-07-04 17:09:20.403747][info][117523][Context.cpp:81] Context destroyed
+```
+
+A: 当前pid没有权限访问设备，查看当前设备的pid
+
+```bash
+lsusb | grep 2bc5
+```
+
+你的设备pid应该是`your_pid_here`
+
+```text
+Bus 002 Device 007: ID 2bc5:your_pid_here
+```
+
+编辑`/etc/udev/rules.d/99-obsensor-libusb.rules`文件，添加如下内容
+
+```bash
+SUBSYSTEM=="usb", ATTR{idProduct}=="your_pid_here", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root"  GROUP:="video", SYMLINK+="you_device_name_here"
+```
+
+`you_device_name_here`是你的设备名称，比如`Astra`,`dabai`等。
+
+重启udev服务
+
+```bash
+sudo udevadm control --reload-rules && sudo service udev restart && sudo udevadm trigger
+```

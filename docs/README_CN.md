@@ -172,7 +172,6 @@ cd pyorbbecsdk
 # Strongly recommended create virtual environment.
 python3 -m venv  ./venv
 source venv/bin/activate # activate virtual environment
-pip3 install --upgrade pip # upgrade pip first
 pip3 install -r requirements.txt
 mkdir build
 cd build

@@ -376,4 +376,22 @@ A: Check your OpenCV installation. If you encounter the same error when running
 import cv2
 ```
 
-you need to recompile OpenCV. Refer to [this post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano) for more information on how to resolve the issue.
+export OPENBLAS_CORETYPE=ARMV8 (or whatever the actual hardware is) before launching python should hopefully get around this. For example:
+
+```bash
+OPENBLAS_CORETYPE=ARMV8 python
+```
+
+If you would like to make this export permanent, you should open your .bashrc file by typing on the terminal:
+
+```bash
+nano ~/.bashrc
+```
+
+and add the following line at the end of the file:
+
+```bash
+export OPENBLAS_CORETYPE=ARMV8
+```
+
+Refer to [this post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano) for more information on how to resolve the issue.

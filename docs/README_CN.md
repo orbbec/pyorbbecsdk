@@ -364,4 +364,24 @@ A: 检查你的opencv,如果直接运行
 import cv2
 ```
 
-也会出现同样的错误，那么你需要重新编译opencv，参考[这里](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)
+在启动Python之前，导出OPENBLAS_CORETYPE=ARMV8（或任何实际的硬件）应该有希望解决这个问题。比如说：
+
+```bash
+OPENBLAS_CORETYPE=ARMV8 python
+
+```
+
+如果你想让这个输出永久化，你应该在终端上输入.bashrc文件，打开它：
+
+```bash
+nano ~/.bashrc
+```
+
+并在文件的末尾添加以下一行：
+
+```bash
+export OPENBLAS_CORETYPE=ARMV8
+
+```
+
+关于如何解决这个问题，请参考[这里](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)的更多信息。

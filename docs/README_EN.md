@@ -48,8 +48,8 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 ### OS Requirements
 
 * Windows: Windows 10 (x64)
-* Linux: Ubuntu 16.04/18.04/20.04/22.04 (x64)
-* Arm32: Ubuntu16.04/18.04/20.04/22.04
+* Linux: 18.04/20.04/22.04 (x64)
+* Arm32: 18.04/20.04/22.04
 * Arm64: Ubuntu18.04/20.04/22.04
 
 ### Compilation Platform Requirements
@@ -89,13 +89,13 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 
 ### Windows Python SDK Compilation
 
-#### Download the Python SDK source code.
+#### Download the Python SDK source code
 
 ```bash
 git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
 ```
 
-#### Install dependencies.
+#### Install dependencies
 
 ```bash
 pip3 install -r requirements.txt
@@ -104,7 +104,7 @@ pip3 install -r requirements.txt
 Here, it is assumed that you have installed Python 3 correctly. If you have not installed Python 3, you can refer to
 the [Python official website](https://www.python.org/downloads/) and choose your Python 3 version for installation.
 
-#### Configure Visual Studio project.
+#### Configure Visual Studio project
 
 * Open Cmake, set the source code path, and set the "build" folder as the path for generating binary files, as shown in
   the following figure.
@@ -123,7 +123,7 @@ the [Cmake official website](https://cmake.org/download/) for installation.
 
 ![image4.png](images/image4.png)
 
-#### Compile the Python SDK.
+#### Compile the Python SDK
 
 * You can open the Python SDK project in two ways:
 
@@ -151,7 +151,7 @@ following figure:
 
 ![image11.png](images/image11.png)
 
-#### Test examples.
+#### Test examples
 
 In the examples directory, execute test examples such as `python ColorViewer.py`, as shown below:
 
@@ -364,3 +364,17 @@ Please refer to the examples in the `examples` directory of the source package a
 directory
 
 ## FAQ
+
+Q: Why do I get the following error when running `python3 examples/depth_viewer.py` on Jetson Nano?
+
+```bash
+illegal instruction (core dumped)
+```
+
+A: Check your OpenCV installation. If you encounter the same error when running
+
+```python
+import cv2
+```
+
+you need to recompile OpenCV. Refer to [this post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano) for more information on how to resolve the issue.

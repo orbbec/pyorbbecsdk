@@ -7,7 +7,6 @@ if not os.path.exists(save_points_dir):
 
 
 def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
-    # FIXME:
     points = frames.convert_to_points(camera_param)
     if points is None:
         print("no depth points")
@@ -27,7 +26,6 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
 
 
 def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
-    # FIXME
     points = frames.convert_to_color_points(camera_param)
     if points is None:
         print("no color points")

@@ -47,8 +47,8 @@ SDK进行设计封装，主要实现数据流接收，设备指令控制。
 ### 操作系統
 
 * Windows：Windows 10 (x64)
-* Linux: Ubuntu 16.04/18.04/20.04/22.04 (x64)
-* Arm32: Ubuntu16.04/18.04/20.04/22.04
+* Linux: 18.04/20.04/22.04 (x64)
+* Arm32: 18.04/20.04/22.04
 * Arm64: Ubuntu18.04/20.04/22.04
 
 ### 编译平台要求
@@ -193,7 +193,6 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 # run examples
 python3 examples/depth_viewer.py
 ```
-
 
 ## 常用调用流程
 
@@ -353,3 +352,17 @@ device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filte
 请参考源码包`examples`目录下的例子和`tests`目录下的测试用例
 
 ## FAQ
+
+Q: 为什么我在Jetson nano 运行`python3 examples/depth_viewer.py`时，会出现如下错误？
+
+```bash
+ illegal instruction (core dumped)
+```
+
+A: 检查你的opencv,如果直接运行
+
+```python
+import cv2
+```
+
+也会出现同样的错误，那么你需要重新编译opencv，参考[这里](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)

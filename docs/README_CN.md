@@ -407,7 +407,7 @@ pyorbbecsdk.OBError: usbEnumerator createUsbDevice failed!
 [2023-07-04 17:09:20.403747][info][117523][Context.cpp:81] Context destroyed
 ```
 
-A: 当前pid没有权限访问设备，查看当前设备的pid
+A: 当前设备没有权限访问，需要添加udev规则，以便让当前用户有权限访问。
 
 ```bash
 lsusb | grep 2bc5

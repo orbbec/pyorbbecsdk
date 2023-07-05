@@ -1,0 +1,6 @@
+lower_purple: [ 130, 50, 90 ]
+upper_purple: [ 170, 255, 255 ]
+magnitude_spectrum_upper: 2000
+max_duration: 10
+save_all_images: False
+max_purple_ratio: 0.5

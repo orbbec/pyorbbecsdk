@@ -26,10 +26,12 @@ void define_frame(const py::object& m) {
            [](const std::shared_ptr<ob::Frame>& self) {
              return self->dataSize();
            })
-      .def("get_timestamp",
-           [](const std::shared_ptr<ob::Frame>& self) {
-             return self->timeStamp();
-           })
+      .def(
+          "get_timestamp",
+          [](const std::shared_ptr<ob::Frame>& self) {
+            return self->timeStamp();
+          },
+          "Get the hardware timestamp of the frame in milliseconds")
       .def("get_timestamp_us",
            [](const std::shared_ptr<ob::Frame>& self) {
              return self->timeStampUs();

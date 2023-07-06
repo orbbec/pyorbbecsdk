@@ -99,7 +99,7 @@ def check_ir_frame(frame: VideoFrame):
     f = np.fft.fft2(gray)
     fshift = np.fft.fftshift(f)
     magnitude_spectrum = 20 * np.log(np.abs(fshift))
-    timestamp = frame.get_timestamp()
+    timestamp = frame.get_system_timestamp()
     image_format = frame.get_format()
     bad_ir_image_dir = os.path.join(bad_images_dir, "ir")
     os.path.exists(bad_ir_image_dir) or os.makedirs(bad_ir_image_dir)
@@ -140,7 +140,7 @@ def check_color_frame(frame: VideoFrame):
     width = frame.get_width()
     height = frame.get_height()
     image_format = frame.get_format()
-    timestamp = frame.get_timestamp()
+    timestamp = frame.get_system_timestamp()
     bad_color_image_dir = os.path.join(bad_images_dir, "color")
     os.path.exists(bad_color_image_dir) or os.makedirs(bad_color_image_dir)
 
@@ -164,6 +164,8 @@ def check_color_frame(frame: VideoFrame):
                                                                                         timestamp,
                                                                                         purple_ratio))
         cv2.imwrite(bad_image_file_name, image)
+    print("max_magnitude_spectrum: {}".format(max_magnitude_spectrum))
+    print("purple_ratio: {}".format(purple_ratio))
 
     if save_all_images:
         color_image_dir = os.path.join(all_images_dir, "color")
@@ -188,7 +190,7 @@ def check_depth_frame(frame: VideoFrame):
     fshift = np.fft.fftshift(f)
     magnitude_spectrum = 20 * np.log(np.abs(fshift))
     image_format = frame.get_format()
-    timestamp = frame.get_timestamp()
+    timestamp = frame.get_system_timestamp()
     bad_depth_image_dir = os.path.join(bad_images_dir, "depth")
     os.path.exists(bad_depth_image_dir) or os.makedirs(bad_depth_image_dir)
 
@@ -196,7 +198,6 @@ def check_depth_frame(frame: VideoFrame):
                                        "{}_{}_{}_{}_bad.jpg".format(width, height, image_format,
                                                                     timestamp))
     max_magnitude_spectrum = np.max(magnitude_spectrum)
-    print("max_magnitude_spectrum: {}".format(max_magnitude_spectrum))
     if max_magnitude_spectrum > magnitude_spectrum_upper:
         logging.error(
             "Bad depth frame, {}x{}, format: {}, timestamp: {}, magnitude spectrum:{}".format(width,
@@ -230,7 +231,6 @@ def main():
         logging.warning("Config file not found, use default values")
     context = Context()
     context.set_logger_level(OBLogLevel.NONE)
-    context.enable_multi_device_sync(0)
     device_list = context.query_devices()
     if device_list.get_count() == 0:
         logging.error("No device connected")
@@ -241,11 +241,13 @@ def main():
     check_bad_frame = {OBFrameType.COLOR_FRAME: check_color_frame,
                        OBFrameType.DEPTH_FRAME: check_depth_frame,
                        OBFrameType.IR_FRAME: check_ir_frame}
+    stream_types = {OBFrameType.COLOR_FRAME: "color",
+                    OBFrameType.DEPTH_FRAME: "depth",
+                    OBFrameType.IR_FRAME: "ir"}
     for sensor_type in sensor_types:
         profile_list = pipeline.get_stream_profile_list(sensor_type)
         for i in range(profile_list.get_count()):
             profile = profile_list.get_stream_profile_by_index(i).as_video_stream_profile()
-            logging.info("Sensor type: {}, profile: {}".format(sensor_type, profile))
             config = Config()
             config.enable_stream(profile)
             start_time = time.time()
@@ -255,9 +257,13 @@ def main():
             height = profile.get_height()
             image_format = profile.get_format()
             expected_fps = profile.get_fps()
-            last_print_time = 0
             pipeline.start(config)
             frame_count = 0
+            print("stream type: {}, width: {}, height: {}, format: {}, fps: {}".format(
+                stream_types[sensor_type],
+                width, height,
+                image_format,
+                expected_fps))
             while duration < max_duration:
                 frames = pipeline.wait_for_frames(100)
                 if frames is None:
@@ -271,16 +277,19 @@ def main():
                 if frame is None:
                     continue
                 # compute fps
-                frame_time = frame.get_timestamp()  # in ms
+                frame_time = frame.get_system_timestamp()  # in ms
                 frame_count += 1
                 if frame_count % expected_fps == 0:
                     fps = 1000.0 / (frame_time - last_frame_time) * expected_fps
-                    logging.info("Sensor type: {}, fps: {}".format(sensor_type, fps))
                     last_frame_time = frame_time
                     # check bad frame fps
                     if fps < expected_fps * 0.9:
-                        logging.error(
-                            "Bad frame fps, sensor type: {}, fps: {}".format(sensor_type, fps))
+                        print(
+                            " Low fps, {} : {} {}x{}@{}fps, fps: {}".format(
+                                stream_types[sensor_type], image_format, width,
+                                height,
+                                expected_fps,
+                                fps))
 
                 elif last_frame_time == 0:
                     last_frame_time = frame_time

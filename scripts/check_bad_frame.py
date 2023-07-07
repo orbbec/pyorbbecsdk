@@ -295,8 +295,7 @@ def main():
                     last_frame_time = frame_time
                 # check bad frame
                 frame_type = frame.get_type()
-                if frame_type == OBFrameType.COLOR_FRAME:
-                    check_bad_frame[frame_type](frame)
+                check_bad_frame[frame_type](frame)
                 duration = time.time() - start_time
             pipeline.stop()
 

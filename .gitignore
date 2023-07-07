@@ -7,6 +7,12 @@ install/
 depth_images/
 color_images/
 point_clouds/
+log/
+Log/
+all_images/
+bad_images/
+test.log/
+scripts/images/
 *.bag
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,c++,python,jetbrains+all,ros,ros2
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,c++,python,jetbrains+all,ros,ros2

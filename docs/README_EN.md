@@ -60,7 +60,7 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 
 ### Python Version
 
-* Python 3.6/3.7/3.8/3.9
+* Python 3.6.9 and above
 
 ### Hardware Products Supported by Python SDK
 

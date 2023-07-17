@@ -12,20 +12,15 @@ def save_depth_frame(frame: DepthFrame, index):
     height = frame.get_height()
     timestamp = frame.get_timestamp()
     scale = frame.get_depth_scale()
-    data = np.asanyarray(frame.get_data())
-    data = data * scale
+    data = np.frombuffer(frame.get_data(), dtype=np.uint16)
+    data = data.reshape((height, width))
+    data = data.astype(np.float32) * scale
     save_image_dir = os.path.join(os.getcwd(), "depth_images")
     if not os.path.exists(save_image_dir):
         os.mkdir(save_image_dir)
     png_filename = save_image_dir + "/depth_{}x{}_{}_{}.png".format(width, height, index, timestamp)
     raw_filename = save_image_dir + "/depth_{}x{}_{}_{}.raw".format(width, height, index, timestamp)
-    if frame.get_format() == OBFormat.Y8:
-        data = data * 16
-    data = np.resize(data, (height, width, 2))
-    depth_image = np.zeros((height, width, 3), dtype=np.uint8)
-    depth_image[:, :, 0] = data[:, :, 0]
-    depth_image[:, :, 1] = data[:, :, 1]
-    depth_image.astype(np.uint16)
+    depth_image = cv2.normalize(data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
     cv2.imwrite(png_filename, depth_image)
     depth_image.tofile(raw_filename)
 

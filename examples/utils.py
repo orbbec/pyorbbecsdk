@@ -57,19 +57,19 @@ def frame_to_bgr_image(frame: VideoFrame) -> Union[Optional[np.array], Any]:
     elif color_format == OBFormat.MJPG:
         image = cv2.imdecode(data, cv2.IMREAD_COLOR)
     elif color_format == OBFormat.I420:
-        image = np.resize(data, (height, width * 3 // 2))
+        image = np.resize(data, (height * 3 // 2, width))
         image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_I420)
         image = image[:, :width, :]
     elif color_format == OBFormat.NV12:
-        image = np.resize(data, (height, width * 3 // 2))
+        image = np.resize(data, (height, width * 3))
         image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_NV12)
         image = image[:, :width, :]
     elif color_format == OBFormat.NV21:
-        image = np.resize(data, (height, width * 3 // 2))
+        image = np.resize(data, (height, width * 3))
         image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_NV21)
         image = image[:, :width, :]
     elif color_format == OBFormat.UYVY:
-        image = np.resize(data, (height, width * 2))
+        image = np.resize(data, (height, width, 2))
         image = cv2.cvtColor(image, cv2.COLOR_YUV2BGR_UYVY)
     else:
         print("Unsupported color format: {}".format(color_format))

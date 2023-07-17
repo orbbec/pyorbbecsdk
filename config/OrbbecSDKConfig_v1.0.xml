@@ -24,9 +24,9 @@
 
     <Memory>
         <!--Enable memory pool to reuse frame memory, avoid frequent memory allocation and release. true-enable, false-disable)-->
-        <EnableMemoryPool> true </EnableMemoryPool>
+        <EnableMemoryPool>true</EnableMemoryPool>
         <!--Maximum memory size of all data frames, int type, unit: MB, minimum 100MB-->
-        <MaxFrameBufferSize> 2048 </MaxFrameBufferSize>
+        <MaxFrameBufferSize>2048</MaxFrameBufferSize>
         <!--Frame buffer queue size in pipeline-->
         <PipelineFrameQueueSize>10</PipelineFrameQueueSize>
         <!--Frame buffer queue size in internal processing unit-->
@@ -66,7 +66,7 @@
     <!--Default configuration of data streams for different types of devices-->
     <Device>
         <EnumerateNetDevice>true</EnumerateNetDevice>
-		<!--The device corresponding to Astra adv is astra+-->
+        <!--The device corresponding to Astra adv is astra+-->
         <AstraAdv>
             <Depth>
                 <!--The width of the default resolution, int type-->
@@ -78,7 +78,7 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
                 <!--Profile filter, you can configure unwanted resolution, format, frame rate related profile, use '|' to add multiple options, the filter is not turned on by default-->
                 <![CDATA[
                 <ProfileFilter>
@@ -105,7 +105,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -117,7 +117,7 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraAdv>
 
@@ -132,7 +132,7 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -144,7 +144,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -156,11 +156,11 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Femto>
 
-		<FemtoW>
+        <FemtoW>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -171,7 +171,7 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -183,7 +183,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -195,11 +195,11 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </FemtoW>
 
-         <FemtoLive>
+        <FemtoLive>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -210,7 +210,7 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -222,7 +222,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -234,7 +234,7 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </FemtoLive>
 
@@ -249,11 +249,11 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
                 <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
                 <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <StreamInterruptedRestart>0</StreamInterruptedRestart>
                 <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Depth>
@@ -268,11 +268,11 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
                 <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
                 <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <StreamInterruptedRestart>0</StreamInterruptedRestart>
                 <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Color>
@@ -287,17 +287,17 @@
                 <!--Default frame format-->
                 <Format>Y16</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
                 <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
                 <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <StreamInterruptedRestart>0</StreamInterruptedRestart>
                 <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR>
         </FemtoMega>
 
-         <DaBai>
+        <DaBai>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -308,7 +308,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -320,7 +320,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -332,7 +332,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBai>
 
@@ -347,7 +347,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -359,7 +359,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiPro>
 
@@ -374,7 +374,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -386,7 +386,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -398,11 +398,11 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDCW>
 
-		<DaBaiDCW2>
+        <DaBaiDCW2>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -413,7 +413,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -425,7 +425,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -437,11 +437,11 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDCW2>
 
-		<DaBaiDW>
+        <DaBaiDW>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -452,7 +452,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -464,11 +464,11 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDW>
 
-		<DaBaiDW2>
+        <DaBaiDW2>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -479,7 +479,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -491,7 +491,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDW2>
 
@@ -506,7 +506,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -518,7 +518,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -530,7 +530,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDC1>
 
@@ -545,7 +545,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -557,7 +557,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiD1>
 
@@ -572,7 +572,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -584,7 +584,7 @@
                 <!--Default frame format-->
                 <Format>UYVY</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -596,11 +596,11 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMini>
 
-		<AstraMiniS>
+        <AstraMiniS>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -611,7 +611,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -623,7 +623,7 @@
                 <!--Default frame format-->
                 <Format>UYVY</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -635,11 +635,11 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniS>
 
-		<AstraMiniPro>
+        <AstraMiniPro>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -650,7 +650,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -662,7 +662,7 @@
                 <!--Default frame format-->
                 <Format>UYVY</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -674,7 +674,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniPro>
 
@@ -689,7 +689,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -701,7 +701,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -713,7 +713,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraStereoSU3>
 
@@ -728,7 +728,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -740,7 +740,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -752,9 +752,47 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Gemini>
+        <SV1301S_U3>
+            <Depth>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>400</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>Y11</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </Depth>
+            <Color>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>480</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>MJPG</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </Color>
+            <IR>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>400</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>Y10</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </IR>
+        </SV1301S_U3,>
 
         <Astra>
             <Depth>
@@ -767,7 +805,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -779,7 +817,7 @@
                 <!--Default frame format-->
                 <Format>UYVY</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -791,7 +829,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Astra>
 
@@ -806,7 +844,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -818,7 +856,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -830,11 +868,11 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraProPlus>
 
-		<AstraEmbeddedS>
+        <AstraEmbeddedS>
             <Depth>
                 <!--The width of the default resolution, int type-->
                 <Width>640</Width>
@@ -845,7 +883,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -857,7 +895,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -869,7 +907,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraEmbeddedS>
 
@@ -884,7 +922,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -896,7 +934,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -908,7 +946,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Deeyea>
         <SL1502P_U2>
@@ -922,7 +960,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -934,7 +972,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -946,7 +984,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </SL1502P_U2>
         <GeminiE>
@@ -960,7 +998,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
                 <!--The width of the default resolution, int type-->
@@ -972,7 +1010,7 @@
                 <!--Default frame format-->
                 <Format>MJPG</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -984,7 +1022,7 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiE>
         <GeminiELite>
@@ -998,7 +1036,7 @@
                 <!--Default frame format-->
                 <Format>Y11</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
                 <!--The width of the default resolution, int type-->
@@ -1010,27 +1048,27 @@
                 <!--Default frame format-->
                 <Format>Y10</Format>
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
-				<StreamFailedRetry>0</StreamFailedRetry>
+                <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiELite>
         <!--Gemini2 config-->
         <OrbbecGemini2>
-	        <!--Whether to enable heartbeat by default-->
-	        <DefaultHeartBeat>0</DefaultHeartBeat>
-			<!--Whether to enable firmware upgrade foolproof by default, only internal version supports-->
-			<FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+            <!--Whether to enable heartbeat by default-->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!--Whether to enable firmware upgrade foolproof by default, only internal version supports-->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
 
             <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
             <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
-			<Depth>
-			    <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
-				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
-				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+            <Depth>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
+                <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
+                <!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
+                <StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
                 <!--High resolution is enabled by default, int type-->
@@ -1057,7 +1095,7 @@
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR>
-			<IR_LEFT>
+            <IR_LEFT>
                 <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
                 <!--High resolution is enabled by default, int type-->
@@ -1066,7 +1104,7 @@
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR_LEFT>
-			<IR_RIGHT>
+            <IR_RIGHT>
                 <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
                 <!--High resolution is enabled by default, int type-->
@@ -1084,106 +1122,106 @@
             <UnbinnedSparseDefault>
                 <!--You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor -->
             </UnbinnedSparseDefault>
-                <!--Deep working mode: Binned Sparse Default -->
+            <!--Deep working mode: Binned Sparse Default -->
             <BinnedSparseDefault>
                 <!--You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor -->
                 <Depth>
                     <!--The resolution width is enabled by default, int type-->
                     <Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>400</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>RLE</Format>
-				</Depth>
-				<IR>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>400</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR>
-			</BinnedSparseDefault>
-			<FactoryCalibration>
-			    <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1920</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1080</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-				</Color>
-				<IR_LEFT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y10</Format>
-				</IR_LEFT>
-				<IR_RIGHT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y10</Format>
-				</IR_RIGHT>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>400</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>RLE</Format>
+                </Depth>
+                <IR>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>640</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>400</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR>
+            </BinnedSparseDefault>
+            <FactoryCalibration>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1920</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1080</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                </Color>
+                <IR_LEFT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y10</Format>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y10</Format>
+                </IR_RIGHT>
 
-			</FactoryCalibration>
-			<In-sceneCalibration>
-			    <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1920</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1080</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-				</Color>
-				<IR_LEFT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR_LEFT>
-				<IR_RIGHT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR_RIGHT>
-			</In-sceneCalibration>
+            </FactoryCalibration>
+            <In-sceneCalibration>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1920</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1080</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                </Color>
+                <IR_LEFT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR_RIGHT>
+            </In-sceneCalibration>
         </OrbbecGemini2>
         <!--DaBaiDCL config-->
         <DaBaiDCL>
-	        <!--Whether to enable heartbeat by default-->
-	        <DefaultHeartBeat>0</DefaultHeartBeat>
-			<!--Whether to enable firmware upgrade foolproof by default, only internal version supports-->
-			<FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+            <!--Whether to enable heartbeat by default-->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!--Whether to enable firmware upgrade foolproof by default, only internal version supports-->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
 
             <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
             <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
-			<Depth>
-			    <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
-				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
-				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+            <Depth>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
+                <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
+                <!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
+                <StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
                 <!--High resolution is enabled by default, int type-->
@@ -1210,7 +1248,7 @@
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR>
-			<IR_LEFT>
+            <IR_LEFT>
                 <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
                 <!--High resolution is enabled by default, int type-->
@@ -1219,7 +1257,7 @@
                 <FPS>30</FPS>
                 <Format>Y8</Format>
             </IR_LEFT>
-			<IR_RIGHT>
+            <IR_RIGHT>
                 <!--The resolution width is enabled by default, int type-->
                 <Width>1280</Width>
                 <!--High resolution is enabled by default, int type-->
@@ -1229,356 +1267,356 @@
                 <Format>Y8</Format>
             </IR_RIGHT>
 
-			<!--Configurations in different camera depth modes-->
-			<High-accuracymode>
-			    <Depth>
-                    <!--The resolution width is enabled by default, int type-->
-                    <Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>400</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y16</Format>
-				</Depth>
-				<IR>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>400</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR>
-			</High-accuracymode>
-			<FactoryCalibration>
-			    <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1920</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1080</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-				</Color>
-				<IR_LEFT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y10</Format>
-				</IR_LEFT>
-				<IR_RIGHT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y10</Format>
-				</IR_RIGHT>
-
-			</FactoryCalibration>
-			<In-sceneCalibration>
-			    <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1920</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1080</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-				</Color>
-				<IR_LEFT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR_LEFT>
-				<IR_RIGHT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR_RIGHT>
-			</In-sceneCalibration>
-        </DaBaiDCL>
-        <!--OrbbecGemini2L config-->
-        <OrbbecGemini2L>
-	        <!--Whether to enable heartbeat by default-->
-	        <DefaulHeartBeat>0</DefaulHeartBeat>
-
-            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
-            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
-			<Depth>
-			    <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
-				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
-				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>1280</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>800</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <Format>RLE</Format>
-            </Depth>
-            <Color>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>1280</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>720</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <Format>MJPG</Format>
-                <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-            </Color>
-            <IR>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>1280</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>800</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <Format>Y8</Format>
-                <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-            </IR>
-			<IR_LEFT>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>1280</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>800</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <Format>Y8</Format>
-                <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-            </IR_LEFT>
-			<IR_RIGHT>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>1280</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>800</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <Format>Y8</Format>
-                <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>0</StreamFailedRetry>
-            </IR_RIGHT>
-
-			<!--Configurations in different camera depth modes-->
-			<BinnedSparseDefault>
-			    <Depth>
-                    <!--The resolution width is enabled by default, int type-->
-                    <Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>400</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>RLE</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</Depth>
-				<IR>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>400</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</IR>
-			</BinnedSparseDefault>
-			<FactoryCalibration>
-			    <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1920</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1080</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</Color>
-				<IR_LEFT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y10</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</IR_LEFT>
-				<IR_RIGHT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y10</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</IR_RIGHT>
-
-			</FactoryCalibration>
-			<In-sceneCalibration>
-			    <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1920</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1080</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</Color>
-				<IR_LEFT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</IR_LEFT>
-				<IR_RIGHT>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>800</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-                    <!--Number of retries for open stream failures, 0 means no retries-->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</IR_RIGHT>
-			</In-sceneCalibration>
-        </OrbbecGemini2L>
-        <!--Astra2 config-->
-        <OrbbecAstra2>
-	        <!--Whether to enable heartbeat by default-->
-	        <DefaulHeartBeat>0</DefaulHeartBeat>
-
-            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
-            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
-			<Depth>
-			    <!--Number of retries for open stream failures, 0 means no retries-->
-				<StreamFailedRetry>2</StreamFailedRetry>
-				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
-				<MaxStartStreamDelayMs>10000</MaxStartStreamDelayMs>
-				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
-				<StreamInterruptedRestart>2</StreamInterruptedRestart>
-				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
-				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>800</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>600</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <Format>RLE</Format>
-            </Depth>
-            <Color>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>1280</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>720</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <Format>MJPG</Format>
-            </Color>
-            <IR>
-                <!--The resolution width is enabled by default, int type-->
-                <Width>800</Width>
-                <!--High resolution is enabled by default, int type-->
-                <Height>600</Height>
-                <!--The frame rate of the resolution enabled by default, int type-->
-                <FPS>30</FPS>
-                <Format>Y8</Format>
-            </IR>
-			<!--Configurations in different camera depth modes-->
-			<HighResolution>
-			    <Depth>
-                    <!--The resolution width is enabled by default, int type-->
-                    <Width>1600</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>1200</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>RLE</Format>
-				</Depth>
-                <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>720</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-				</Color>
-				<IR>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>800</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>600</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR>
-			</HighResolution>
-			<ClassicResolution>
+            <!--Configurations in different camera depth modes-->
+            <High-accuracymode>
                 <Depth>
                     <!--The resolution width is enabled by default, int type-->
                     <Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>480</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>RLE</Format>
-				</Depth>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>400</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y16</Format>
+                </Depth>
+                <IR>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>640</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>400</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR>
+            </High-accuracymode>
+            <FactoryCalibration>
                 <Color>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>1280</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>720</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>MJPG</Format>
-				</Color>
-				<IR>
-					<!--The resolution width is enabled by default, int type-->
-					<Width>640</Width>
-					<!--High resolution is enabled by default, int type-->
-					<Height>480</Height>
-					<!--The frame rate of the resolution enabled by default, int type-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
-				</IR>
-			</ClassicResolution>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1920</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1080</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                </Color>
+                <IR_LEFT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y10</Format>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y10</Format>
+                </IR_RIGHT>
+
+            </FactoryCalibration>
+            <In-sceneCalibration>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1920</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1080</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                </Color>
+                <IR_LEFT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR_RIGHT>
+            </In-sceneCalibration>
+        </DaBaiDCL>
+        <!--OrbbecGemini2L config-->
+        <OrbbecGemini2L>
+            <!--Whether to enable heartbeat by default-->
+            <DefaulHeartBeat>0</DefaulHeartBeat>
+
+            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
+            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
+            <Depth>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
+                <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
+                <!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
+                <StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>1280</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>800</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <Format>RLE</Format>
+            </Depth>
+            <Color>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>1280</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>720</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <Format>MJPG</Format>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </Color>
+            <IR>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>1280</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>800</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <Format>Y8</Format>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </IR>
+            <IR_LEFT>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>1280</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>800</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </IR_LEFT>
+            <IR_RIGHT>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>1280</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>800</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </IR_RIGHT>
+
+            <!--Configurations in different camera depth modes-->
+            <BinnedSparseDefault>
+                <Depth>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>640</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>400</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>RLE</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </Depth>
+                <IR>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>640</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>400</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR>
+            </BinnedSparseDefault>
+            <FactoryCalibration>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1920</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1080</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </Color>
+                <IR_LEFT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y10</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y10</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR_RIGHT>
+
+            </FactoryCalibration>
+            <In-sceneCalibration>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1920</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1080</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </Color>
+                <IR_LEFT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>800</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                    <!--Number of retries for open stream failures, 0 means no retries-->
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR_RIGHT>
+            </In-sceneCalibration>
+        </OrbbecGemini2L>
+        <!--Astra2 config-->
+        <OrbbecAstra2>
+            <!--Whether to enable heartbeat by default-->
+            <DefaulHeartBeat>0</DefaulHeartBeat>
+
+            <!--TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes-->
+            <!--TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes-->
+            <Depth>
+                <!--Number of retries for open stream failures, 0 means no retries-->
+                <StreamFailedRetry>2</StreamFailedRetry>
+                <!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
+                <MaxStartStreamDelayMs>10000</MaxStartStreamDelayMs>
+                <!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
+                <StreamInterruptedRestart>2</StreamInterruptedRestart>
+                <!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>800</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>600</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <Format>RLE</Format>
+            </Depth>
+            <Color>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>1280</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>720</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <Format>MJPG</Format>
+            </Color>
+            <IR>
+                <!--The resolution width is enabled by default, int type-->
+                <Width>800</Width>
+                <!--High resolution is enabled by default, int type-->
+                <Height>600</Height>
+                <!--The frame rate of the resolution enabled by default, int type-->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </IR>
+            <!--Configurations in different camera depth modes-->
+            <HighResolution>
+                <Depth>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1600</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>1200</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>RLE</Format>
+                </Depth>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>720</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                </Color>
+                <IR>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>800</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>600</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR>
+            </HighResolution>
+            <ClassicResolution>
+                <Depth>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>640</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>480</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>RLE</Format>
+                </Depth>
+                <Color>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>1280</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>720</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>MJPG</Format>
+                </Color>
+                <IR>
+                    <!--The resolution width is enabled by default, int type-->
+                    <Width>640</Width>
+                    <!--High resolution is enabled by default, int type-->
+                    <Height>480</Height>
+                    <!--The frame rate of the resolution enabled by default, int type-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
+                </IR>
+            </ClassicResolution>
         </OrbbecAstra2>
     </Device>
 </Config>

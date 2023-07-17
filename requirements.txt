@@ -1,1 +1,1 @@
-pybind11
+pybind11[global]

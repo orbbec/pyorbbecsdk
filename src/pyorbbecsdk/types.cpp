@@ -92,7 +92,8 @@ void define_orbbec_types(const py::object &m) {
       .value("BGR", OB_FORMAT_BGR)
       .value("Y14", OB_FORMAT_Y14)
       .value("BGRA", OB_FORMAT_BGRA)
-      .value("COMPRESSED", OB_FORMAT_COMPRESSED);
+      .value("COMPRESSED", OB_FORMAT_COMPRESSED)
+      .value("RVL", OB_FORMAT_RVL);
 
   py::enum_<OBUpgradeState>(m, "OBUpgradeState")
       .value("FILE_TRANSFER", STAT_FILE_TRANSFER)

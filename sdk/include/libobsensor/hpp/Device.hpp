@@ -39,14 +39,14 @@ public:
     /**
      * @brief Get device information
      *
-     * @return std::shared_ptr<DeviceInfo> return device information
+     * @return std::shared_ptr<DeviceInfo> returns device information
      */
     std::shared_ptr<DeviceInfo> getDeviceInfo();
 
     /**
      * @brief Get device sensor list
      *
-     * @return std::shared_ptr<SensorList> return the sensor list
+     * @return std::shared_ptr<SensorList> returns the sensor list
      */
     std::shared_ptr<SensorList> getSensorList();
 
@@ -54,7 +54,7 @@ public:
      * @brief Get specific type of sensor
      * if device not open, SDK will automatically open the connected device and return to the instance
      *
-     * @return std::shared_ptr<Sensor> return the sensor example, if the device does not have the device,return nullptr
+     * @return std::shared_ptr<Sensor> eturns the sensor example, if the device does not have the device,returns nullptr
      */
     std::shared_ptr<Sensor> getSensor(OBSensorType type);
 
@@ -107,7 +107,7 @@ public:
     bool getBoolProperty(OBPropertyID propertyId);
 
     /**
-     * @brief Get int type device property range (including current value and default value)
+     * @brief Get int type device property range (ncluding current valueand default value)
      *
      * @param propertyId Property id
      * @return OBIntPropertyRange Property range
@@ -115,7 +115,7 @@ public:
     OBIntPropertyRange getIntPropertyRange(OBPropertyID propertyId);
 
     /**
-     * @brief Get float type device property range((including current value and default value)
+     * @brief Get float type device property range((including current valueand default value)
      *
      * @param propertyId Property id
      * @return OBFloatPropertyRange Property range
@@ -123,186 +123,169 @@ public:
     OBFloatPropertyRange getFloatPropertyRange(OBPropertyID propertyId);
 
     /**
-     * @brief Get bool type device property range (including current value and default value)
+     * @brief Get bool type device property range (including current value anddefault value)
      *
-     * @param propertyId The ID of the property
-     * @return OBBoolPropertyRange The range of the property
+     * @param propertyId Property id
+     * @return OBBoolPropertyRange Property range
      */
     OBBoolPropertyRange getBoolPropertyRange(OBPropertyID propertyId);
 
     /**
-     * @brief Write to an AHB register
+     * @brief AHB register write
      *
-     * @param reg The register to write to
-     * @param mask The mask to apply
-     * @param value The value to write
+     * @param reg Register to be written
+     * @param mask  The mask to be writen
+     * @param value The value to be written
      */
     void writeAHB(uint32_t reg, uint32_t mask, uint32_t value);
 
     /**
-     * @brief Read from an AHB register
+     * @brief AHB AHB register read
      *
-     * @param reg The register to read from
-     * @param mask The mask to apply
-     * @param value The value to return
+     * @param reg Register to be read
+     * @param mask The mask to be read
+     * @param value The value to be returned
      */
     void readAHB(uint32_t reg, uint32_t mask, uint32_t *value);
 
     /**
-     * @brief Write to an I2C register
+     * @brief I2C register write
      *
-     * @param moduleId The ID of the I2C module to write to
-     * @param reg The register to write to
-     * @param mask The mask to apply
-     * @param value The value to write
+     * @param moduleId I2C module ID to be written
+     * @param reg Register to be written
+     * @param mask The mask to be written
+     * @param value he value to be written
      */
     void writeI2C(uint32_t moduleId, uint32_t reg, uint32_t mask, uint32_t value);
 
     /**
-     * @brief Read from an I2C register
+     * @brief I2C registers read
      *
-     * @param moduleId The ID of the I2C module to read from
-     * @param reg The register to read from
-     * @param mask The mask to apply
-     * @param value The value to return
+     * @param moduleId I2C module ID to be read
+     * @param reg Register to be read
+     * @param mask The mask to be read
+     * @param value The value to be returned
      */
     void readI2C(uint32_t moduleId, uint32_t reg, uint32_t mask, uint32_t *value);
 
     /**
-     * @brief Set the properties for writing to Flash
+     * @brief Set the properties of writing to Flash
      *
-     * @param offset The offset address in Flash
-     * @param data The data to write
-     * @param dataSize The size of the data to write
-     * @param callback The callback for write progress
+     * @param offset flash offset address
+     * @param data Property data to be written
+     * @param dataSize The size of the property to be written
+     * @param callback Write flash progress callback
      * @param async Whether to execute asynchronously
      */
     void writeFlash(uint32_t offset, const void *data, uint32_t dataSize, SetDataCallback callback, bool async = false);
 
     /**
-     * @brief Read a property from Flash
+     * @brief Read Flash property
      *
-     * @param offset The offset address in Flash
-     * @param dataSize The size of the property to read
-     * @param callback The callback for read progress and data
+     * @param offset flash offset address
+     * @param dataSize The size of the property to get
+     * @param callback Read data returned by flash and progress callback
      * @param async Whether to execute asynchronously
      */
     void readFlash(uint32_t offset, uint32_t dataSize, GetDataCallback callback, bool async = false);
 
     /**
-     * @brief Set the customer data type of a device property
+     * @brief Set raw data type of device property [Asynchronous callback]
      *
-     * @param data The data to set
-     * @param dataSize The size of the data to set,the maximum length cannot exceed 65532 bytes.
-     */
-    void writeCustomerData(const void *data, uint32_t dataSize);
-
-    /**
-     * @brief Get the customer data type of a device property
-     *
-     * @param data The property data obtained
-     * @param dataSize The size of the data obtained
-     */
-    void readCustomerData(void *data, uint32_t *dataSize);
-
-    /**
-     * @brief Set the raw data type of a device property (with asynchronous callback)
-     *
-     * @param propertyId The ID of the property
-     * @param data The data to set
-     * @param dataSize The size of the data to set
-     * @param callback The callback for set progress
+     * @param propertyId Property id
+     * @param data Property data to be set
+     * @param dataSize The size of the property data to be set
+     * @param callback rawdata set progress callback
      * @param async Whether to execute asynchronously
      */
     void setRawData(OBPropertyID propertyId, const void *data, uint32_t dataSize, SetDataCallback callback, bool async = false);
 
     /**
-     * @brief Get the raw data type of a device property (with asynchronous callback)
+     * @brief Get raw data type of device property [Asynchronous callback]
      *
-     * @param propertyId The ID of the property
-     * @param callback The callback for getting the data and progress
+     * @param propertyId Property id
+     * @param callback Get the returned data and progress callback
      * @param async Whether to execute asynchronously
      */
     void getRawData(OBPropertyID propertyId, GetDataCallback callback, bool async = false);
 
     /**
-     * @brief Set the structured data type of a device property
+     * @brief Set structured data type of device property
      *
-     * @param propertyId The ID of the property
-     * @param data The data to set
-     * @param dataSize The size of the data to set
+     * @param[in] propertyId Property id
+     * @param[in] data Property data to be set
+     * @param[in] dataSize The size of the attribute to be set
      */
     void setStructuredData(OBPropertyID propertyId, const void *data, uint32_t dataSize);
 
     /**
-     * @brief Get the structured data type of a device property
+     * @brief Get structured data type of device property
      *
-     * @param propertyId The ID of the property
-     * @param data The property data obtained
-     * @param dataSize The size of the data obtained
+     * @param[in] propertyId Property id
+     * @param[out] data Property data obtained
+     * @param[out] dataSize Get the size of the attribute
      */
     void getStructuredData(OBPropertyID propertyId, void *data, uint32_t *dataSize);
 
     /**
-     * @brief Set the structured data type of a device property (with extended data bundle)
+     * @brief Get structured data type of device property
      *
-     * @param propertyId The ID of the property
-     * @param dataBundle The target data bundle
-     * @param callback The callback for setting
+     * @param[in] propertyId Property id
+     * @param[in] dataBundle Target data
+     * @param[in] callback Callback of setting
      */
     void setStructuredDataExt(OBPropertyID propertyId, std::shared_ptr<OBDataBundle> dataBundle, SetDataCallback callback);
 
     /**
-     * @brief Get the structured data type of a device property (with extended data bundle)
+     * @brief Get structured data type of device property
      *
-     * @param propertyId The ID of the property
-     * @return The data bundle
+     * @param[in] propertyId Property id
+     * @return Data bundle
      */
     std::shared_ptr<OBDataBundle> getStructuredDataExt(OBPropertyID propertyId);
 
     /**
      * @brief Get the property protocol version
      *
-     * @return The protocol version
+     * @return OBProtocolVersion
      */
     OBProtocolVersion getProtocolVersion();
 
     /**
-     * @brief Get the cmdVersion of a property
+     * @brief Get cmdVersion of property
      *
-     * @param propertyId The ID of the property
-     * @return The cmdVersion
+     * @param[in] propertyId Property id
+     * @return OBCmdVersion
      */
     OBCmdVersion getCmdVersion(OBPropertyID propertyId);
 
     /**
-     * @brief Get the number of properties supported by the device
+     * @brief Get number of devices supported property
      *
-     * @return The number of supported properties
+     * @return uint32_t returns the number of supported attributes
      */
     uint32_t getSupportedPropertyCount();
 
     /**
-     * @brief Get the supported properties of the device
+     * @brief Get device supported properties
      *
-     * @param index The index of the property
-     * @return The type of supported property
+     * @param index Property index
+     * @return OBPropertyItem returns the type of supported properties
      */
     OBPropertyItem getSupportedProperty(uint32_t index);
 
     /**
-     * @brief Check if a property permission is supported
+     * @brief Judge property permission support
      *
-     * @param propertyId The ID of the property
-     * @param permission The read and write permissions to check
-     * @return Whether the property permission is supported
+     * @param propertyId Property id
+     * @param permission Types of read and write permissions that need to be interpreted
+     * @return bool returns whether it is supported
      */
     bool isPropertySupported(OBPropertyID propertyId, OBPermissionType permission);
 
     /**
-     * @brief Synchronize the device time (synchronize local system time to device)
-     *
-     * @return The command (round trip time, rtt)
+     * @brief Synchronize device time (synchronize local systemtime to device)
+     * @return uint64_t command (round trip time， rtt）
      */
     uint64_t syncDeviceTime();
 
@@ -316,6 +299,37 @@ public:
     void deviceUpgrade(const char *filePath, DeviceUpgradeCallback callback, bool async = true);
 
     /**
+     * \if English
+     * @brief Sending packets
+     *
+     * @param pBuffer The data buffer to be sent
+     * @param nSize Size of data to be sent
+     * \else
+     * @brief 发送数据包
+     *
+     * @param pBuffer 要发送的数据buffer
+     * @param nSize 要发送的数据大小
+     * \endif
+     */
+    OBHPStatusCode sendData(uint8_t *pBuffer, uint32_t nSize);
+
+    /**
+     * \if English
+     * @brief Receiving packets
+     *
+     * @param pBuffer The data buffer to be sent
+     * @param nReceived Size of data to be received
+     * \else
+     * @brief 接收数据包
+     *
+     * @param pBuffer 要接收的数据buffer
+     * @param nReceived 要接收的数据大小
+     * \endif
+     */
+    OBHPStatusCode recvData(uint8_t *pBuffer, uint32_t &nReceived);
+
+    /**
+     * \if English
      * @brief Send files to the specified path on the device side [Asynchronouscallback]
      *
      * @param filePath Original file path
@@ -397,21 +411,11 @@ public:
     void reboot();
 
     /**
-     * @brief Device restart delay mode
-     * @attention The device will be disconnected and reconnected. After the device is disconnected, the access to the Device object interface may be abnormal.
-     *   Please delete the object directly and obtain it again after the device is reconnected.
-     * Support devices: Gemini2 L
-     *
-     * @param[in] delayMs Time unit：ms。delayMs == 0：No delay；delayMs > 0, Delay millisecond connect to host device after reboot
-     */
-    void reboot(uint32_t delayMs);
-
-    /**
-     * @brief get the current device synchronization configuration
+     * @brief Gets the current device synchronization configuration
      * @brief Device synchronization: including exposure synchronization function and multi-camera synchronization function of different sensors within a single
      * machine
      *
-     * @return OBDeviceSyncConfig return the device synchronization configuration
+     * @return OBDeviceSyncConfig returns the device synchronization configuration
      */
     OBDeviceSyncConfig getSyncConfig();
 
@@ -432,6 +436,7 @@ public:
 
 /**
  * @brief A class describing device information, representing the name, id, serial number and other basic information of an RGBD camera.
+ *
  */
 class OB_EXTENSION_API DeviceInfo {
 private:
@@ -444,84 +449,91 @@ public:
     /**
      * @brief Get device name
      *
-     * @return const char * return the device name
+     * @return const char * returns the device name
      */
     const char *name();
 
     /**
      * @brief Get the pid of the device
      *
-     * @return int return the pid of the device
+     * @return int returns the pid of the device
      */
     int pid();
 
     /**
      * @brief Get the vid of the device
      *
-     * @return int return the vid of the device
+     * @return int returns the vid of the device
      */
     int vid();
 
     /**
      * @brief Get system assigned uid for distinguishing between different devices
      *
-     * @return const char * return the uid of the device
+     * @return const char * returns the uid of the device
      */
     const char *uid();
 
     /**
      * @brief Get the serial number of the device
      *
-     * @return const char * return the serial number of the device
+     * @return const char * returns the serial number of the device
      */
     const char *serialNumber();
 
     /**
      * @brief Get the version number of the firmware
      *
-     * @return const char* return the version number of the firmware
+     * @return const char* returns the version number of the firmware
      */
     const char *firmwareVersion();
 
     /**
-     * @brief Get the USB connection type of the device (DEPRECATED)
+     * @brief Get usb connection type (DEPRECATED)
      *
-     * @return const char* the USB connection type of the device
+     * @return const char* returns usb connection type
      */
     DEPRECATED const char *usbType();
 
     /**
-     * @brief Get the connection type of the device
+     * @brief Get device connection type
      *
-     * @return const char* the connection type of the device
+     * @return const char* returns connection type
      */
     const char *connectionType();
 
     /**
      * @brief Get the version number of the hardware
      *
-     * @return const char* the version number of the hardware
+     * @return const char* returns the version number of the hardware
      */
     const char *hardwareVersion();
 
     /**
      * @brief Get the minimum version number of the SDK supported by the device
      *
-     * @return const char* the minimum SDK version number supported by the device
+     * @return const char* returns the minimum SDK version number supported by the device
      */
     const char *supportedMinSdkVersion();
 
     /**
-     * @brief Get the chip type name
+     * @brief Get the minimum version number of the SDK supported by the device
      *
-     * @return const char* the chip type name
+     * @return const char* returns the minimum SDK version number supported by the device
+     */
+    const char *extensionInfo();
+
+    /**
+     * @brief Get chip type name
+     *
+     * @return const char* returns the chip type name
      */
     const char *asicName();
 
     /**
-     * @brief Get the device type
+     * @brief Get device type
      *
-     * @return OBDeviceType the device type
+     * @return OBDeviceType returns the device type
      */
     OBDeviceType deviceType();
 
@@ -530,9 +542,6 @@ public:
     friend class Pipeline;
 };
 
-/**
- * @brief Class representing a list of devices
- */
 class OB_EXTENSION_API DeviceList {
 private:
     std::unique_ptr<DeviceListImpl> impl_;
@@ -542,89 +551,77 @@ public:
     ~DeviceList() noexcept;
 
     /**
-     * @brief Get the number of devices in the list
+     * @brief Get device count
      *
-     * @return uint32_t the number of devices in the list
+     * @return uint32_t returns the number of devices
      */
     uint32_t deviceCount();
 
     /**
-     * @brief Get the name of the device at the specified index (DEPRECATED)
+     * @brief Get the name of the specified device (DEPRECATED)
      *
-     * @param index the index of the device
-     * @return int the name of the device
+     * @param index Device index
+     * @return int returns the name of the device
      */
     DEPRECATED const char *name(uint32_t index);
 
     /**
-     * @brief Get the PID of the device at the specified index
+     * @brief Get the pid of the specified device
      *
-     * @param index the index of the device
-     * @return int the PID of the device
+     * @param index Device index
+     * @return int returns the pid of the device
      */
     int pid(uint32_t index);
 
     /**
-     * @brief Get the VID of the device at the specified index
+     * @brief Get the vid of the specified device
      *
-     * @param index the index of the device
-     * @return int the VID of the device
+     * @param index Device index
+     * @return int returns the vid of the device
      */
     int vid(uint32_t index);
 
     /**
-     * @brief Get the UID of the device at the specified index
+     * @brief Get the uid of the specified device
      *
-     * @param index the index of the device
-     * @return const char* the UID of the device
+     * @param index Device index
+     * @return const char * returns the uid of the device
      */
     const char *uid(uint32_t index);
 
     /**
-     * @brief Get the serial number of the device at the specified index
+     * @brief Get the serial number of the specified device
      *
-     * @param index the index of the device
-     * @return const char* the serial number of the device
+     * @param index device index
+     * @return const char * returns the serial number of the device
      */
     const char *serialNumber(uint32_t index);
 
     /**
-     * @brief Get the device object at the specified index
-     *
-     * @attention If the device has already been acquired and created elsewhere, repeated acquisition will throw an exception
-     *
-     * @param index the index of the device to create
-     * @return std::shared_ptr<Device> the device object
+     * @brief Get the specified device object from the device list
+     * @attention If the device has been acquired and created elsewhere, repeated acquisition will throw an exception
+     * @param index index of the device to create
+     * @return std::shared_ptr<Device> returns the device object
      */
     std::shared_ptr<Device> getDevice(uint32_t index);
 
     /**
-     * @brief Get the device object with the specified serial number
-     *
-     * @attention If the device has already been acquired and created elsewhere, repeated acquisition will throw an exception
-     *
-     * @param serialNumber the serial number of the device to create
-     * @return std::shared_ptr<Device> the device object
+     * @brief Get the specified device object from the device list
+     * @attention If the device has been acquired and created elsewhere, repeated acquisition will throw an exception
+     * @param serialNumber The serial number of the device to be created
+     * @return std::shared_ptr<Device> returns the device object
      */
     std::shared_ptr<Device> getDeviceBySN(const char *serialNumber);
 
     /**
-     * @brief Get the specified device object from the device list by uid
-     * @brief On Linux platform, the uid of the device is composed of bus-port-dev, for example 1-1.2-1. But the SDK will remove the dev number and only keep
-     * the bus-port as the uid to create the device, for example 1-1.2, so that we can create a device connected to the specified USB port. Similarly, users can
-     * also directly pass in bus-port as uid to create device.
-     *
+     * @brief Get the specified device object from the device list
      * @attention If the device has been acquired and created elsewhere, repeated acquisition will throw an exception
-     *
-     * @param uid The uid of the device to be created
-     * @return std::shared_ptr<Device> returns the device object
+     * @param uid If the device has been acquired and created elsewhere, repeated acquisition will throw an exception
+     * @return std::shared_ptr<Device> If the device has been acquired and created elsewhere, repeated acquisition will throw an exception
      */
     std::shared_ptr<Device> getDeviceByUid(const char *uid);
 };
 
-/**
- * @brief Class representing a list of camera parameters
- */
 class OB_EXTENSION_API CameraParamList {
 private:
     std::unique_ptr<CameraParamListImpl> impl_;
@@ -634,23 +631,24 @@ public:
     ~CameraParamList() noexcept;
 
     /**
-     * @brief Get the number of camera parameter groups
+     * @brief Number of camera parameter groups
      *
-     * @return uint32_t the number of camera parameter groups
+     * @return uint32_t  returns the number of camera parameter groups
      */
     uint32_t count();
 
     /**
-     * @brief Get the camera parameters for the specified index
+     * @brief Get camera parameters
      *
-     * @param index the index of the parameter group
-     * @return OBCameraParam the corresponding group parameters
+     * @param index parameter index
+     * @return OBCameraParam returns the corresponding group parameters
      */
     OBCameraParam getCameraParam(uint32_t index);
 };
 
 /**
- * @brief Class representing a list of OBDepthWorkMode
+ * @brief Type contain list of OBDepthWorkMode
+ *
  */
 class OB_EXTENSION_API OBDepthWorkModeList {
 private:
@@ -661,33 +659,34 @@ public:
     ~OBDepthWorkModeList();
 
     /**
-     * @brief Get the number of OBDepthWorkMode objects in the list
+     * @brief Get the count of OBDepthWorkMode
      *
-     * @return uint32_t the number of OBDepthWorkMode objects in the list
+     * @return Count of OBDepthWorkMode
      */
     uint32_t count();
 
     /**
-     * @brief Get the OBDepthWorkMode object at the specified index
+     * @brief Get OBDepthWorkMode at index in OBDepthWorkModeList
      *
-     * @param index the index of the target OBDepthWorkMode object
-     * @return OBDepthWorkMode the OBDepthWorkMode object at the specified index
+     * @param[in] index Target OBDepthWorkMode's index
+     *
+     * @return OBDepthWorkMode at index
      */
     OBDepthWorkMode getOBDepthWorkMode(uint32_t index);
 
     /**
-     * @brief Get the name of the depth work mode at the specified index
+     * @brief Get depth work mode name at index
      *
-     * @param index the index of the depth work mode
-     * @return std::string the name of the depth work mode
+     * @return Depth work mode name
      */
     std::string getName(uint32_t index);
 
     /**
-     * @brief Get the OBDepthWorkMode object at the specified index
+     * @brief Get OBDepthWorkMode at index in OBDepthWorkModeList
      *
-     * @param index the index of the target OBDepthWorkMode object
-     * @return OBDepthWorkMode the OBDepthWorkMode object at the specified index
+     * @param[in] index Target OBDepthWorkMode's index
+     *
+     * @return OBDepthWorkMode at index
      */
     OBDepthWorkMode operator[](uint32_t index);
 };

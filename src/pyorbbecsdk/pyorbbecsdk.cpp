@@ -26,7 +26,7 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
     return std::to_string(major) + "." + std::to_string(minor) + "." +
            std::to_string(patch);
   });
-  m.def("get_stage_version", []() { return ob::Version::getStageVersion(); });
+  // m.def("get_stage_version", []() { return ob::Version::getStageVersion(); });
   // context
   pyorbbecsdk::define_orbbec_types(m);
   pyorbbecsdk::define_context(m);

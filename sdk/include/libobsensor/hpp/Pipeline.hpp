@@ -45,72 +45,69 @@ public:
     Pipeline(std::shared_ptr<Device> device);
 
     /**
-     * @brief Construct a pipeline for playback of recorded stream files
+     * @brief Create a pipeline for playback of recorded stream files
      *
-     * @param filename The file path of the recorded stream file to be played back
+     * @param filename Playback file path
      */
     Pipeline(const char *filename);
-
-    /**
-     * @brief Destroy the pipeline object
-     */
     ~Pipeline() noexcept;
 
     /**
      * @brief Start the pipeline with configuration parameters
      *
-     * @param config The parameter configuration of the pipeline
+     * @param config Parameter configuration of pipeline
      */
     void start(std::shared_ptr<Config> config);
 
     /**
      * @brief Start the pipeline and set the frameset data callback
      *
-     * @param config The parameter configuration of the pipeline
-     * @param callback The callback to be triggered when all frame data in the frameset arrives
+     * @param config parameter configuration of pipeline
+     * @param callback  Set the callback to be triggered when all frame data in the frameset arrives
      */
     void start(std::shared_ptr<Config> config, FrameSetCallback callback);
 
     /**
-     * @brief Stop the pipeline
+     * @brief Stop pipeline
      */
     void stop();
 
     /**
-     * @brief Get the pipeline configuration parameters
+     * @brief Get pipeline configuration parameters
      *
-     * @return std::shared_ptr<Config> The configured parameters
+     * @return std::shared_ptr<Config> returns the configured parameters
      */
     std::shared_ptr<Config> getConfig();
 
     /**
-     * @brief Wait for frameset data
+     * @brief Waiting for frameset data
      *
-     * @param timeout_ms The waiting timeout in milliseconds
-     * @return std::shared_ptr<FrameSet> The waiting frameset data
+     * @param timeout_ms  Waiting timeout (ms)
+     * @return std::shared_ptr<FrameSet> returns the waiting frameset data
      */
     std::shared_ptr<FrameSet> waitForFrames(uint32_t timeout_ms);
 
     /**
-     * @brief Get the device object
+     * @brief Get device object
      *
-     * @return std::shared_ptr<Device> The device object
+     * @return std::shared_ptr<Device> returns the device object
      */
     std::shared_ptr<Device> getDevice();
 
     /**
-     * @brief Get the playback object
+     * @brief Get playback object
      *
-     * @return std::shared_ptr<Playback> The playback object
+     * @return std::shared_ptr<Playback> returns the playback object
      */
     std::shared_ptr<Playback> getPlayback();
 
     /**
-     * @brief Get the stream profile of the specified sensor
+     * @brief Get the stream profile of specified sensor
      *
-     * @param sensorType The type of sensor
-     * @return std::shared_ptr<StreamProfileList> The stream profile list
-     */
+     * @param sensorType Type of sensor
+
+     * @return std::shared_ptr<StreamProfileList> returns the stream profile list
+      */
     std::shared_ptr<StreamProfileList> getStreamProfileList(OBSensorType sensorType);
 
     /**
@@ -124,43 +121,42 @@ public:
     void disableFrameSync();
 
     /**
-     * @brief Get the camera parameters
+     * @brief Get camera parameters
+     * @attention If D2C is enabled, it will return the camera parameters after D2C, if not, it will return to the default parameters
      *
-     * @note If D2C is enabled, it will return the camera parameters after D2C. If not, it will return the default parameters.
-     *
-     * @return OBCameraParam The camera parameters
+     * @return  OBCameraParam returns camera parameters
      */
     OBCameraParam getCameraParam();
 
     /**
      * @brief Return a list of D2C-enabled depth sensor resolutions corresponding to the input color sensor resolution
+     * @param colorProfile Input color sensor resolution
+     * @param alignMode Input align mode
      *
-     * @param colorProfile The input color sensor resolution
-     * @param alignMode The input align mode
-     * @return std::shared_ptr<StreamProfileList> A list of depth sensor resolutions
+     * @return std::shared_ptr<StreamProfileList> returns a list of depth sensor resolutions
      */
     std::shared_ptr<StreamProfileList> getD2CDepthProfileList(std::shared_ptr<StreamProfile> colorProfile, OBAlignMode alignMode);
 
     /**
-     * @brief Get the valid area between the minimum distance and maximum distance after D2C
+     * @brief Get valid area between minimum distance and maximum distance after D2C
      *
-     * @param minimumDistance The minimum working distance
-     * @param maximumDistance The maximum working distance (optional)
-     * @return OBRect The area information valid after D2C at the working distance
+     * @param minimumDistance minimum working distance
+     * @param maximumDistance maximum working distance
+     * @return OBRect returns the area information valid after D2C at the working distance
      */
     OBRect getD2CValidArea(uint32_t minimumDistance, uint32_t maximumDistance = 0);
 
     /**
      * @brief Dynamically switch the corresponding config configuration
      *
-     * @param config The updated config configuration
+     * @param config Updated config configuration
      */
     void switchConfig(std::shared_ptr<Config> config);
 
     /**
-     * @brief Start recording
+     * @brief start recording
      *
-     * @param filename The name of the record file
+     * @param filename Record file name
      */
     void startRecord(const char *filename);
 
@@ -170,73 +166,58 @@ public:
     void stopRecord();
 };
 
-/**
- * @brief Config class for configuring pipeline parameters
- *
- * The Config class provides an interface for configuring pipeline parameters.
- */
 class OB_EXTENSION_API Config {
 private:
     std::unique_ptr<ConfigImpl> impl_;
 
 public:
-    /**
-     * @brief Construct a new Config object
-     */
     Config();
-
-    /**
-     * @brief Destroy the Config object
-     */
     ~Config() noexcept;
 
     /**
-     * @brief Enable a stream to be used in the pipeline
+     * @brief Configure the stream to be enabled
      *
-     * @param streamProfile The stream configuration to be enabled
+     * @param streamProfile Stream  configuration
      */
     void enableStream(std::shared_ptr<StreamProfile> streamProfile);
 
     /**
-     * @brief Enable all streams to be used in the pipeline
+     * @brief Configure all streams to be enabled
      */
     void enableAllStream();
 
     /**
-     * @brief Disable a stream to be used in the pipeline
+     * @brief Configure the stream to be disabled
      *
-     * @param streamType The stream configuration to be disabled
+     * @param streamType Stream configuration
      */
     void disableStream(OBStreamType streamType);
 
     /**
-     * @brief Disable all streams to be used in the pipeline
+     * @brief Configure all streams to be disabled
      */
     void disableAllStream();
 
     /**
      * @brief Set the alignment mode
      *
-     * @param mode The alignment mode
+     * @param mode Align State Mode
      */
     void setAlignMode(OBAlignMode mode);
 
     /**
-     * @brief Set whether the depth needs to be scaled after setting D2C
+     * @brief Whether the depth needs to be scaled after setting D2C
      *
      * @param enable Whether scaling is required
      */
     void setDepthScaleRequire(bool enable);
 
     /**
-     * @brief Set the D2C target resolution
-     * @brief The D2C target resolution is applicable to cases where the color stream is not enabled using the OrbbecSDK and the depth needs to be D2C.
-     *
-     * @note When you use OrbbecSDK to enable the color stream, you also use this interface to set the D2C target resolution. The configuration of the
+     * @brief Set the D2C target resolution, which is applicable to cases where the color stream is not enabled using the OrbbecSDK and the depth needs to be
+     * D2C Note: When you use OrbbecSDK to enable the color stream, you also use this interface to set the D2C target resolution. The configuration of the
      * enabled Color stream is preferred for D2C.
-     *
-     * @param d2cTargetWidth The D2C target width resolution
-     * @param d2cTargetHeight The D2C target height resolution
+     * @param d2cTargetWidth  The D2C target has a wide resolution
+     * @param d2cTargetHeight The D2C target has a high resolutio
      */
     void setD2CTargetResolution(uint32_t d2cTargetWidth, uint32_t d2cTargetHeight);
 

@@ -1,6 +1,6 @@
 /**
  * @file Sensor.hpp
- * @brief Defines types related to sensors, which are used to obtain stream configurations, open and close streams, and set and get sensor properties.
+ * @brief Sensor related types, used to obtain stream configuration, open and close streams, set and get sensor properties.
  */
 #pragma once
 
@@ -20,9 +20,9 @@ class Frame;
 class ImuFrame;
 
 /**
- * @brief Callback function for frame data.
+ * @brief frame data callback
  *
- * @param frame The frame data.
+ * @param frame  frame data
  */
 using FrameCallback = std::function<void(std::shared_ptr<Frame> frame)>;
 
@@ -35,36 +35,36 @@ public:
     virtual ~Sensor() noexcept;
 
     /**
-     * @brief Get the sensor type.
+     * @brief sensor type
      *
-     * @return OBSensorType The sensor type.
+     * @return OBSensorType returns the sensor type
      */
     OBSensorType type();
 
     /**
-     * @brief Get the list of stream profiles.
+     * @brief Get the list of stream profiles
      *
-     * @return std::shared_ptr<StreamProfileList> The stream profile list.
+     * @return std::shared_ptr<StreamProfileList> returns the stream profile list
      */
     const std::shared_ptr<StreamProfileList> getStreamProfileList();
 
     /**
-     * @brief Open a frame data stream and set up a callback.
+     * @brief Open frame data stream and set up a callback
      *
-     * @param streamProfile The stream configuration.
-     * @param callback The callback to set when frame data arrives.
+     * @param streamProfile Stream configuration
+     * @param callback Set the callback when frame data arrives
      */
     void start(std::shared_ptr<StreamProfile> streamProfile, FrameCallback callback);
 
     /**
-     * @brief Stop the stream.
+     * @brief Stop stream
      */
     void stop();
 
     /**
-     * @brief Dynamically switch resolutions.
+     * @brief Dynamically switch resolutions
      *
-     * @param streamProfile The resolution to switch to.
+     * @param streamProfile Resolution to switch
      */
     void switchProfile(std::shared_ptr<StreamProfile> streamProfile);
 };
@@ -79,33 +79,34 @@ public:
     virtual ~SensorList() noexcept;
 
     /**
-     * @brief Get the number of sensors.
+     * @brief Get sensor count
      *
-     * @return uint32_t The number of sensors.
+     * @return uint32_t returns the number of Sensors
      */
     uint32_t count();
 
     /**
-     * @brief Get the type of the specified sensor.
+     * @brief Get the type of the specified Sensor
      *
-     * @param index The sensor index.
-     * @return OBSensorType The sensor type.
+     * @param index  Sensor index
+     * @return OBSensorType returns the Sensor type
      */
     OBSensorType type(uint32_t index);
 
     /**
-     * @brief Get a sensor by index number.
+     * @brief Get Sensor by index number
      *
-     * @param index The sensor index. The range is [0, count-1]. If the index exceeds the range, an exception will be thrown.
-     * @return std::shared_ptr<Sensor> The sensor object.
-     */
+     * @param index  To create a device cable, the range is [0, count-1], if the index exceeds the range, an exception will be thrown
+
+     * @return std::shared_ptr<Sensor> returns the Sensor object
+      */
     std::shared_ptr<Sensor> getSensor(uint32_t index);
 
     /**
-     * @brief Get a sensor by sensor type.
+     * @brief Obtain the Sensor through the Sensor type
      *
-     * @param sensorType The sensor type to obtain.
-     * @return std::shared_ptr<Sensor> A sensor object. If the specified sensor type does not exist, it will return empty.
+     * @param sensorType Sensor type to be obtained
+     * @return std::shared_ptr<Sensor>  returns a Sensor object, if the specified type of Sensor does not exist, it will return empty
      */
     std::shared_ptr<Sensor> getSensor(OBSensorType sensorType);
 };

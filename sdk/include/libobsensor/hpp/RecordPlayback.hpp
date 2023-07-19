@@ -1,8 +1,9 @@
 /**
+ *
+ *
  * @file RecordPlayback.hpp
- * @brief Header file for recording and playback functions.
+ * @brief For recording and playback functions
  */
-
 #pragma once
 
 #include "Types.hpp"
@@ -12,7 +13,6 @@ struct RecorderImpl;
 struct PlaybackImpl;
 
 namespace ob {
-
 class Device;
 class Frame;
 class DeviceInfo;
@@ -26,36 +26,36 @@ private:
 
 public:
     /**
-     * @brief Create a recorder for data recording.
+     * @brief Create a recorder for data recording
      */
     Recorder();
     Recorder(std::unique_ptr<RecorderImpl> impl);
 
     /**
-     * @brief Create a recorder for data recording.
-     * @param device The device for which to record device information.
+     * @brief Create a recorder for data recording
+     * @param device Devices that need to record device information
      */
     Recorder(std::shared_ptr<Device> device);
 
     virtual ~Recorder() noexcept;
 
     /**
-     * @brief Enable the recorder. Throws an exception on failure.
+     * @brief Enable the recorder, throw an exception after failure
      *
-     * @param filename The name of the recorded file.
-     * @param async    Whether to execute asynchronously.
+     * @param filename Recorded file name
+     * @param async    Whether to execute asynchronously
      */
     void start(const char *filename, bool async = false);
 
     /**
-     * @brief Stop the recorder. Throws an exception on failure.
+     * @brief Stop the recorder, throw an exception on failure
      */
     void stop();
 
     /**
-     * @brief Write frame data to the recorder.
+     * @brief Write frame data to the recorder
      *
-     * @param frame The frame data to write.
+     * @param frame Write frame data
      */
     void write(std::shared_ptr<Frame> frame);
 };
@@ -66,42 +66,42 @@ private:
 
 public:
     /**
-     * @brief Create a playback object.
-     * @param filename The name of the playback file.
+     * @brief Create playback object
+     * @param filename Playback filename
      */
     Playback(const char *filename);
     Playback(std::unique_ptr<PlaybackImpl> impl);
     virtual ~Playback() noexcept;
 
     /**
-     * @brief Start playback. The playback data is returned from the callback. Throws an exception on failure.
-     * @param callback The callback for playback data.
-     * @param type     	The type of playback data.
+     * @brief Start playback, the playback data is returned from the callback, and an exception is thrown after failure
+     * @param callback Callback for playback data
+     * @param type     	Type of playback data
      */
     void start(PlaybackCallback callback, OBMediaType type = OB_MEDIA_ALL);
 
     /**
-     * @brief Stop playback. Throws an exception on failure.
+     * @brief Stop playback and throw an exception if it fails
      */
     void stop();
 
     /**
-     * @brief Set the playback state.
-     * @param state The playback status callback.
+     * @brief Set playback state
+     * @param state playback status callback
      */
     void setPlaybackStateCallback(MediaStateCallback state);
 
     /**
-     * @brief Get the device information in the recording file.
+     * @brief Get the device information in the recording file
      *
-     * @return DeviceInfo The device information.
+     * @return DeviceInfo returns device information
      */
     std::shared_ptr<DeviceInfo> getDeviceInfo();
 
     /**
-     * @brief Get the intrinsic and extrinsic parameter in the recording file.
+     * @brief Get the intrinsic and extrinsic parameter information in the recording file
      *
-     * @return OBCameraParam The internal and external parameter.
+     * @return OBCameraParam returns internal and external parameter information
      */
     OBCameraParam getCameraParam();
 };

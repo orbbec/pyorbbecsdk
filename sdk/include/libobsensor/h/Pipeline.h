@@ -16,7 +16,7 @@ extern "C" {
  * @brief Create a pipeline object
  *
  * @param[out] error Log error messages
- * @return ob_pipeline* return the pipeline object
+ * @return ob_pipeline* returns the pipeline object
  */
 ob_pipeline *ob_create_pipeline(ob_error **error);
 
@@ -25,7 +25,7 @@ ob_pipeline *ob_create_pipeline(ob_error **error);
  *
  * @param[in] dev Device object used to create pipeline
  * @param[out] error  Log error messages
- * @return ob_pipeline* return the pipeline object
+ * @return ob_pipeline* returns the pipeline object
  */
 ob_pipeline *ob_create_pipeline_with_device(ob_device *dev, ob_error **error);
 
@@ -34,7 +34,7 @@ ob_pipeline *ob_create_pipeline_with_device(ob_device *dev, ob_error **error);
  *
  * @param[in] file_name The playback file path used to create the pipeline
  * @param[out] error Log error messages
- * @return ob_pipeline* return the pipeline object
+ * @return ob_pipeline* returns the pipeline object
  */
 ob_pipeline *ob_create_pipeline_with_playback_file(const char *file_name, ob_error **error);
 
@@ -83,56 +83,57 @@ void ob_pipeline_start_with_callback(ob_pipeline *pipeline, ob_config *config, o
 void ob_pipeline_stop(ob_pipeline *pipeline, ob_error **error);
 
 /**
- * @brief Get the configuration object associated with the pipeline
+ * @brief Get current pipeline parameters
  *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline object
  * @param[out] error Log error messages
- * @return ob_config* The configuration object
+ * @return ob_config*  returns pipeline parameters
  */
 ob_config *ob_pipeline_get_config(ob_pipeline *pipeline, ob_error **error);
 
 /**
- * @brief Wait for a set of frames to be returned synchronously
+ * @brief Waiting for the return of a set of frames in the form of synchronous blocking
  *
- * @param[in] pipeline The pipeline object
- * @param[in] timeout_ms The timeout for waiting (in milliseconds)
+ * @param[in] pipeline pipeline object
+ * @param[in] timeout_ms Waiting timeout (ms)
  * @param[out] error Log error messages
- * @return ob_frame* The frameset that was waited for. A frameset is a special frame that can be used to obtain independent frames from the set.
+ * @return ob_frame*  returns the waiting frameset, frameset is a special frame, you can use the frameset related interface to obtain the independent frame in
+ * the set
  */
 ob_frame *ob_pipeline_wait_for_frameset(ob_pipeline *pipeline, uint32_t timeout_ms, ob_error **error);
 
 /**
- * @brief Get the device object associated with the pipeline
+ * @brief Get device from the pipeline
  *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline object
  * @param[out] error Log error messages
- * @return ob_device* The device object
+ * @return ob_device* returns the device object
  */
 ob_device *ob_pipeline_get_device(ob_pipeline *pipeline, ob_error **error);
 
 /**
- * @brief Get the playback object associated with the pipeline
+ * @brief Get playback object from pipeline
  *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline objet
  * @param[out] error Log error messages
- * @return ob_playback* The playback object
+ * @return ob_playback* returns the playback object
  */
 ob_playback *ob_pipeline_get_playback(ob_pipeline *pipeline, ob_error **error);
 
 /**
- * @brief Get the stream profile list associated with the pipeline
+ * @brief Get stream profile from the pipeline
  *
- * @param[in] pipeline The pipeline object
- * @param[in] sensorType The sensor type. The supported sensor types can be obtained through the ob_device_get_sensor_list() interface.
+ * @param[in] pipeline pipeline object
+ * @param[in] sensorType sensor type, the sensor_type type supported by the camera can be obtained through the ob_device_get_sensor_list() interface
  * @param[out] error Log error messages
- * @return ob_stream_profile_list* The stream profile list
+ * @return ob_stream_profile_list* returns to the stream profile list
  */
 ob_stream_profile_list *ob_pipeline_get_stream_profile_list(ob_pipeline *pipeline, ob_sensor_type sensorType, ob_error **error);
 
 /**
  * @brief Enable frame synchronization
  *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline object
  * @param[out] error Log error messages
  */
 void ob_pipeline_enable_frame_sync(ob_pipeline *pipeline, ob_error **error);
@@ -140,168 +141,196 @@ void ob_pipeline_enable_frame_sync(ob_pipeline *pipeline, ob_error **error);
 /**
  * @brief Disable frame synchronization
  *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline object
  * @param[out] error Log error messages
  */
 void ob_pipeline_disable_frame_sync(ob_pipeline *pipeline, ob_error **error);
 
 /**
- * @brief Dynamically switch the corresponding configuration
+ * @brief Dynamically switch the corresponding config configuration
  *
- * @param[in] pipeline The pipeline object
- * @param[in] config The pipeline configuration
+ * @param[in] pipeline pipeline object
+ * @param[in] config pipeline configuration
  * @param[out] error Log error messages
  */
 void ob_pipeline_switch_config(ob_pipeline *pipeline, ob_config *config, ob_error **error);
 
 /**
- * @brief Get the current camera parameters
+ * @brief Get current camera parameters
+ * @attention If D2C is enabled, it will return the camera parameters after D2C, if not, it will return to the default parameters
  *
- * @attention If D2C is enabled, it will return the camera parameters after D2C. Otherwise, it will return the default parameters.
- *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline object
+ * @param[in] colorWidth color width
+ * @param[in] colorHeight color height
+ * @param[in] depthWidth depth width
+ * @param[in] depthHeight depth height
  * @param[out] error Log error messages
- * @return ob_camera_param The camera internal parameters
+ * @return ob_camera_param returns camera internal parameters
+ * \else
+ * @brief 获取当前相机参数
+ * @attention 如果开启了D2C将返回D2C后的相机参数，如果没有将返回默认参数
+ *
+ * @param[in] pipeline pipeline对象
+ * @param[in] colorWidth 彩色分辨率宽
+ * @param[in] colorHeight 彩色分辨率高
+ * @param[in] depthWidth 深度分辨率宽
+ * @param[in] depthHeight 深度分辨率高
+ * @param[out] error 记录错误信息
+ * @return ob_camera_param 返回相机内参
+ * \endif
+ */
+ob_camera_param ob_pipeline_get_camera_param_with_profile(ob_pipeline *pipeline, uint32_t colorWidth, uint32_t colorHeight, uint32_t depthWidth,
+                                                          uint32_t depthHeight, ob_error **error);
+
+/**
+ * \if English
+ * @brief Get current camera parameters
+ * @attention If D2C is enabled, it will return the camera parameters after D2C, if not, it will return to the default parameters
+ *
+ * @param[in] pipeline pipeline object
+ * @param[out] error Log error messages
+ * @return ob_camera_param returns camera internal parameters
  */
 ob_camera_param ob_pipeline_get_camera_param(ob_pipeline *pipeline, ob_error **error);
 
 /**
- * @brief Return a list of D2C-enabled depth sensor resolutions corresponding to the input color sensor resolution
+ * @brief Returns a list of D2C-enabled depth sensor resolutions corresponding to the input color sensor resolution
  *
- * @param[in] pipeline The pipeline object
- * @param[in] color_profile The input profile of the color sensor
- * @param[in] align_mode The input align mode
+ * @param[in] pipeline pipeline object
+ * @param[in] color_profile Input resolution of Color Sensor
+ * @param[in] align_mode Input align mode
  * @param[out] error Log error messages
- * @return ob_stream_profile_list* The list of D2C-enabled depth sensor resolutions
+ * @return ob_stream_profile_list*
  */
 ob_stream_profile_list *ob_get_d2c_depth_profile_list(ob_pipeline *pipeline, ob_stream_profile *color_profile, ob_align_mode align_mode, ob_error **error);
 
 /**
- * @brief Get the valid area after D2C (DEPRECATED)
+ * @brief Get valid area after D2C (DEPRECATED)
  *
- * @param[in] pipeline The pipeline object
- * @param[in] distance The working distance
+ * @param[in] pipeline pipeline object
+ * @param[in] distance working distance
  * @param[out] error Log error messages
- * @return ob_rect The area information that is valid after D2C at the working distance
+ * @return ob_rect returns the area information valid after D2C at working distance
  */
 ob_rect ob_get_d2c_valid_area(ob_pipeline *pipeline, uint32_t distance, ob_error **error);
 
 /**
- * @brief Get the valid area between the minimum distance and maximum distance after D2C
+ * @brief Get valid area between minimum distance and maximum distance after D2C
  *
- * @param[in] pipeline The pipeline object
- * @param[in] minimum_distance The minimum working distance
- * @param[in] maximum_distance The maximum working distance
+ * @param[in] pipeline pipeline object
+ * @param[in] minimum_distance minimum working distance
+ * @param[in] maximum_distance maximum working distance
  * @param[out] error Log error messages
- * @return ob_rect The area information that is valid after D2C at the working distance
+ * @return ob_rect returns the area information valid after D2C at working distance
  */
 ob_rect ob_get_d2c_range_valid_area(ob_pipeline *pipeline, uint32_t minimum_distance, uint32_t maximum_distance, ob_error **error);
 
 /**
  * @brief Start recording
  *
- * @param[in] pipeline The pipeline object
- * @param[in] file_name The recorded file path
+ * @param[in] pipeline pipeline object
+ * @param[in] file_name Recorded file path
  * @param[out] error Log error messages
  */
 void ob_pipeline_start_record(ob_pipeline *pipeline, const char *file_name, ob_error **error);
 
 /**
- * @brief Stop recording
+ * @brief Turn off recording
  *
- * @param[in] pipeline The pipeline object
+ * @param[in] pipeline pipeline object
  * @param[out] error Log error messages
  */
+
 void ob_pipeline_stop_record(ob_pipeline *pipeline, ob_error **error);
 
 /**
  * @brief Create the pipeline configuration
  *
- * @param[out] error Log error messages
- * @return ob_config* The configuration object
+ * @param[out] error  Log error messages
+ * @return ob_config* returns the configuration object
  */
 ob_config *ob_create_config(ob_error **error);
 
 /**
  * @brief Delete the pipeline configuration
  *
- * @param[in] config The configuration to be deleted
- * @param[out] error Log error messages
+ * @param[in] config Configuration to be deleted
+ * @param[out] error  Log error messages
  */
 void ob_delete_config(ob_config *config, ob_error **error);
 
 /**
- * @brief Enable the specified stream in the pipeline configuration
+ * @brief Configure the stream to be enabled
  *
- * @param[in] config The pipeline configuration
- * @param[in] profile The stream configuration to be enabled
+ * @param[in] config  Configuration of pipeline
+ * @param[in] profile The configuration of the stream to be opened
  * @param[out] error Log error messages
  */
 void ob_config_enable_stream(ob_config *config, ob_stream_profile *profile, ob_error **error);
 
 /**
- * @brief Enable all streams in the pipeline configuration
+ * @brief Configure all streams to be enabled
  *
- * @param[in] config The pipeline configuration
- * @param[out] error Log error messages
+ * @param[in] config Configuration of pipeline
+ * @param[out] error  Log error messages
  */
 void ob_config_enable_all_stream(ob_config *config, ob_error **error);
 
 /**
- * @brief Disable a specific stream in the pipeline configuration
+ * @brief Configure the stream to be disabled
  *
- * @param[in] config The pipeline configuration
- * @param[in] type The type of stream to be disabled
+ * @param[in] config Configuration of pipeline
+ * @param[in] type Stream type to be disabled
  * @param[out] error Log error messages
  */
 void ob_config_disable_stream(ob_config *config, ob_stream_type type, ob_error **error);
 
 /**
- * @brief Disable all streams in the pipeline configuration
+ * @brief Configure all streams to be disabled
  *
- * @param[in] config The pipeline configuration
+ * @param[in] config Configuration of pipeline
  * @param[out] error Log error messages
  */
 void ob_config_disable_all_stream(ob_config *config, ob_error **error);
 
 /**
- * @brief Set the alignment mode for the pipeline configuration
+ * @brief Set the alignment mode
  *
- * @param[in] config The pipeline configuration
- * @param[in] mode The alignment mode to be set
+ * @param[in] config config object
+ * @param[in] mode alignment mode
  * @param[out] error Log error messages
  */
 void ob_config_set_align_mode(ob_config *config, ob_align_mode mode, ob_error **error);
 
 /**
- * @brief Set whether depth scaling is required after setting D2C
+ * @brief Whether the depth needs to be scaled after setting D2C
  *
- * @param[in] config The pipeline configuration
+ * @param[in] config config object
  * @param[in] enable Whether scaling is required
  * @param[out] error Log error messages
  */
 void ob_config_set_depth_scale_require(ob_config *config, bool enable, ob_error **error);
 
 /**
- * @brief Set the target resolution for D2C, which is applicable when the color stream is not enabled using the OrbbecSDK and the depth needs to be D2C
- * Note: When using the OrbbecSDK to enable the color stream, this interface should also be used to set the D2C target resolution. The configuration of the
- * enabled color stream is preferred for D2C.
+ * @brief  Set the D2C target resolution, which is applicable to cases where the color stream is not enabled using the OrbbecSDK and the depth needs to be D2C
+ * Note: When you use OrbbecSDK to enable the color stream, you also use this interface to set the D2C target resolution. The configuration of the enabled Color
+ * stream is preferred for D2C
  *
- * @param[in] config The pipeline configuration
- * @param[in] d2c_target_width The target width for D2C
- * @param[in] d2c_target_height The target height for D2C
+ * @param[in] config config object
+ * @param[in] d2c_target_width The D2C target has a wide resolution
+ * @param[in] d2c_target_height The D2C targets has a high resolution
  * @param[out] error Log error messages
  */
 void ob_config_set_d2c_target_resolution(ob_config *config, uint32_t d2c_target_width, uint32_t d2c_target_height, ob_error **error);
 
 /**
- * @brief Set the frame aggregation output mode for the pipeline configuration
+ * @brief Frame aggregation output mode
  * @brief The processing strategy when the FrameSet generated by the frame aggregation function does not contain the frames of all opened streams (which
- * can be caused by different frame rates of each stream, or by the loss of frames of one stream): drop directly or output to the user.
+ * can be caused by different frame rates of each stream, or by the loss of frames of one stream): drop directly or output to the user
  *
- * @param[in] config The pipeline configuration
- * @param[in] mode The frame aggregation output mode to be set (default mode is @ref OB_FRAME_AGGREGATE_OUTPUT_ANY_SITUATION)
- * @param[out] error Log error messages
+ * @param config config object
+ * @param mode frame aggregation output mode ( default mode is @ref OB_FRAME_AGGREGATE_OUTPUT_ANY_SITUATION ）
+ * @param error  Log error messages
  */
 void ob_config_set_frame_aggregate_output_mode(ob_config *config, ob_frame_aggregate_output_mode mode, ob_error **error);
 

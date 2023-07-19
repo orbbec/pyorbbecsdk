@@ -1,6 +1,6 @@
 /**
  * @file Version.h
- * @brief Functions for retrieving the SDK version number information.
+ * @brief Get the SDK version number information function
  *
  */
 #pragma once
@@ -10,38 +10,36 @@ extern "C" {
 #endif
 
 /**
- * @brief Get the SDK version number.
+ * @brief Get the SDK version
  *
- * @return int The SDK version number.
+ * @return int  returns the SDK version
  */
 int ob_get_version();
 
 /**
- * @brief Get the SDK major version number.
+ * @brief Get the SDK major version
  *
- * @return int The SDK major version number.
+ * @return int returns the SDK major version
  */
 int ob_get_major_version();
 
 /**
- * @brief Get the SDK minor version number.
+ * @brief Get the SDK minor version
  *
- * @return int The SDK minor version number.
+ * @return int returns the SDK minor version
  */
 int ob_get_minor_version();
 
 /**
- * @brief Get the SDK patch version number.
+ * @brief Get the SDK patch version
  *
- * @return int The SDK patch version number.
+ * @return int returns the SDK patch version
  */
 int ob_get_patch_version();
 
 /**
- * @brief Get the SDK stage version.
- * @attention The returned char* does not need to be freed.
- *
- * @return const char* The SDK stage version.
+ * @brief Get sdk stage version.
+ * @attention Not need to free point char*
  */
 const char *ob_get_stage_version();
 

@@ -1,5 +1,6 @@
 #include <pybind11/numpy.h>
 
+#include <libobsensor/ObSensor.hpp>
 #include <string>
 #include <vector>
 
@@ -35,4 +36,5 @@
 
 namespace pyorbbecsdk {
 std::vector<std::string> split(const std::string& s, const std::string& delim);
-}
+std::string ob_format_to_string(OBFormat format);
+}  // namespace pyorbbecsdk

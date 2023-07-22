@@ -48,10 +48,10 @@ void define_stream_profile(const py::object &m) {
       .def("as_gyro_stream_profile",
            [](std::shared_ptr<ob::StreamProfile> &self) {
              OB_TRY_CATCH({
-                 if (!self->is<ob::GyroStreamProfile>()) {
-                   throw std::invalid_argument("Not a gyro stream profile");
-                 }
-                 return std::make_shared<ob::GyroStreamProfile>(*self);
+               if (!self->is<ob::GyroStreamProfile>()) {
+                 throw std::invalid_argument("Not a gyro stream profile");
+               }
+               return std::make_shared<ob::GyroStreamProfile>(*self);
              });
            });
 }
@@ -72,10 +72,18 @@ void define_video_stream_profile(const py::object &m) {
            [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
              return self->fps();
            })
-      .def("__repr__", [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
-        return "<VideoStreamProfile: " + std::to_string(self->width()) + "x" +
-               std::to_string(self->height()) + "@" +
-               std::to_string(self->fps()) + ">";
+      .def("__repr__",
+           [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
+             return "<" + std::to_string(self->width()) + "x" +
+                    std::to_string(self->height()) + "@" +
+                    std::to_string(self->fps()) + "@" +
+                    ob_format_to_string(self->format()) + ">";
+           })
+      .def("__eq__", [](const std::shared_ptr<ob::VideoStreamProfile> &self,
+                        const std::shared_ptr<ob::VideoStreamProfile> &other) {
+        return self->width() == other->width() &&
+               self->height() == other->height() &&
+               self->fps() == other->fps() && self->format() == other->format();
       });
 }
 
@@ -133,14 +141,16 @@ void define_stream_profile_list(const py::object &m) {
                return self->getVideoStreamProfile(width, height, format, fps);
              });
            })
-      .def("get_default_video_stream_profile",
-           [](const std::shared_ptr<ob::StreamProfileList> &self)
-               -> std::shared_ptr<ob::VideoStreamProfile> {
-             auto default_profile = self->getProfile(0);
-             CHECK_NULLPTR(default_profile);
-             OB_TRY_CATCH(
-                 { return std::make_shared<ob::VideoStreamProfile>(*default_profile); });
-           })
+      .def(
+          "get_default_video_stream_profile",
+          [](const std::shared_ptr<ob::StreamProfileList> &self)
+              -> std::shared_ptr<ob::VideoStreamProfile> {
+            auto default_profile = self->getProfile(0);
+            CHECK_NULLPTR(default_profile);
+            OB_TRY_CATCH({
+              return std::make_shared<ob::VideoStreamProfile>(*default_profile);
+            });
+          })
       .def("__len__", [](const std::shared_ptr<ob::StreamProfileList> &self) {
         return self->count();
       });

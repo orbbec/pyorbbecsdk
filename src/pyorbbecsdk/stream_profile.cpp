@@ -74,10 +74,10 @@ void define_video_stream_profile(const py::object &m) {
            })
       .def("__repr__",
            [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
-             return "<" + std::to_string(self->width()) + "x" +
+             return std::to_string(self->width()) + "x" +
                     std::to_string(self->height()) + "@" +
                     std::to_string(self->fps()) + "@" +
-                    ob_format_to_string(self->format()) + ">";
+                    ob_format_to_string(self->format());
            })
       .def("__eq__", [](const std::shared_ptr<ob::VideoStreamProfile> &self,
                         const std::shared_ptr<ob::VideoStreamProfile> &other) {

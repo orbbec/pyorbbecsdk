@@ -39,14 +39,11 @@ def main():
                 ir_data = cv2.imdecode(ir_data, cv2.IMREAD_UNCHANGED)
                 ir_data = np.resize(ir_data, (height, width, 1))
             else:
-                ir_data = np.resize(ir_data, (height, width, 2))
-            ir_image = np.zeros((height, width, 3), dtype=np.uint8)
-            ir_image[:, :, 0] = ir_data[:, :, 0]
-            ir_image[:, :, 1] = ir_data[:, :, 0] if ir_format == OBFormat.Y8 or ir_format == OBFormat.MJPG else ir_data[
-                                                                                                                :, :, 1]
-            cv2.normalize(ir_image, ir_image, 0, 255, cv2.NORM_MINMAX)
-            ir_image = ir_image.astype(np.uint8)
-            ir_image = cv2.cvtColor(ir_image, cv2.COLORMAP_HOT)
+                ir_data = np.frombuffer(ir_data, dtype=np.uint16)
+                ir_data = np.resize(ir_data, (height, width, 1))
+            cv2.normalize(ir_data, ir_data, 0, 255, cv2.NORM_MINMAX)
+            ir_data = ir_data.astype(np.uint8)
+            ir_image = cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
             cv2.imshow("Infrared Viewer", ir_image)
             key = cv2.waitKey(1)
             if key == ord('q'):

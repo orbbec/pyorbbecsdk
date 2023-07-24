@@ -7,12 +7,15 @@ if not os.path.exists(save_points_dir):
 
 
 def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
+    if frames is None:
+        return
     points = frames.convert_to_points(camera_param)
     if points is None:
         print("no depth points")
         return
     global save_points_dir
-    points_filename = save_points_dir + "/points_{}.ply".format(frames.get_depth_frame().get_timestamp())
+    points_filename = save_points_dir + "/points_{}.ply".format(
+        frames.get_depth_frame().get_timestamp())
     with open(points_filename, "w") as f:
         f.write("ply\n")
         f.write("format ascii 1.0\n")
@@ -26,12 +29,15 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
 
 
 def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
+    if frames is None:
+        return
     points = frames.convert_to_color_points(camera_param)
     if points is None:
         print("no color points")
         return
     global save_points_dir
-    points_filename = save_points_dir + "/color_points_{}.ply".format(frames.get_depth_frame().get_timestamp())
+    points_filename = save_points_dir + "/color_points_{}.ply".format(
+        frames.get_depth_frame().get_timestamp())
     with open(points_filename, "w") as f:
         f.write("ply\n")
         f.write("format ascii 1.0\n")
@@ -44,7 +50,8 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
         f.write("property uchar blue\n")
         f.write("end_header\n")
         for point in points:
-            f.write("{} {} {} {} {} {}\n".format(point.x, point.y, point.z, point.r, point.g, point.b))
+            f.write(
+                "{} {} {} {} {} {}\n".format(point.x, point.y, point.z, point.r, point.g, point.b))
 
 
 def main():

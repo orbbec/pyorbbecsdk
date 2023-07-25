@@ -46,7 +46,10 @@ def main(argv):
     else:
         config.set_align_mode(OBAlignMode.DISABLE)
     if enable_sync:
-        pipeline.enable_frame_sync()
+        try:
+            pipeline.enable_frame_sync()
+        except Exception as e:
+            print(e)
     try:
         pipeline.start(config)
     except Exception as e:

@@ -6,17 +6,16 @@ if not os.path.exists(save_points_dir):
     os.mkdir(save_points_dir)
 
 
-def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
+def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> int:
     if frames is None:
-        return
+        return 0
     depth_frame = frames.get_depth_frame()
     if depth_frame is None:
-        print("No depth frame")
-        return
+        return 0
     points = frames.convert_to_points(camera_param)
     if points is None:
         print("no depth points")
-        return
+        return 0
     global save_points_dir
     points_filename = save_points_dir + "/points_{}.ply".format(depth_frame.get_timestamp())
     with open(points_filename, "w") as f:
@@ -29,19 +28,19 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
         f.write("end_header\n")
         for point in points:
             f.write("{} {} {}\n".format(point.x, point.y, point.z))
+    return 1
 
 
-def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
+def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> int:
     if frames is None:
-        return
+        return 0
     depth_frame = frames.get_depth_frame()
     if depth_frame is None:
-        print("No depth frame")
-        return
+        return 0
     points = frames.convert_to_color_points(camera_param)
     if points is None:
         print("no color points")
-        return
+        return 0
     global save_points_dir
     points_filename = save_points_dir + "/color_points_{}.ply".format(depth_frame.get_timestamp())
     with open(points_filename, "w") as f:
@@ -59,10 +58,13 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam):
             f.write(
                 "{} {} {} {} {} {}\n".format(point.x, point.y, point.z, point.r, point.g, point.b))
 
+    return 1
+
 
 def main():
     pipeline = Pipeline()
     config = Config()
+    has_color_sensor = False
     depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
     if depth_profile_list is None:
         print("No proper depth profile, can not generate point cloud")
@@ -75,24 +77,28 @@ def main():
             color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
             config.set_align_mode(OBAlignMode.HW_MODE)
-
+            has_color_sensor = True
     except OBError as e:
         config.set_align_mode(OBAlignMode.DISABLE)
         print(e)
 
     pipeline.start(config)
-    frame_cnt = 0
+    saved_color_cnt: int = 0
+    saved_depth_cnt: int = 0
     while True:
         try:
             frames = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
-            if frame_cnt > 5:
-                break
-            frame_cnt += 1
             camera_param = pipeline.get_camera_param()
-            save_points_to_ply(frames, camera_param)
-            save_color_points_to_ply(frames, camera_param)
+            saved_depth_cnt += save_points_to_ply(frames, camera_param)
+            if has_color_sensor:
+                saved_color_cnt += save_color_points_to_ply(frames, camera_param)
+            if has_color_sensor:
+                if saved_color_cnt >= 5 and saved_depth_cnt >= 5:
+                    break
+            elif saved_depth_cnt >= 5:
+                break
         except OBError as e:
             print(e)
             break

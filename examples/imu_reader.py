@@ -3,26 +3,36 @@ import time
 from threading import Lock
 
 console_lock = Lock()
+stop_gyro = False
+stop_accel = False
 
 
 def on_gyro_frame_callback(frame: Frame):
     if frame is None:
         return
+    global stop_gyro
+    if stop_gyro:
+        return
     with console_lock:
         gyro_frame: GyroFrame = frame.as_gyro_frame()
         if gyro_frame is not None:
             print("GyroFrame: ts={}".format(gyro_frame.get_timestamp()))
-            print("GyroFrame: x={}, y={}, z={}".format(gyro_frame.get_x(), gyro_frame.get_y(), gyro_frame.get_z()))
+            print("GyroFrame: x={}, y={}, z={}".format(gyro_frame.get_x(), gyro_frame.get_y(),
+                                                       gyro_frame.get_z()))
 
 
 def on_accel_frame_callback(frame: Frame):
     if frame is None:
         return
+    global stop_accel
+    if stop_accel:
+        return
     with console_lock:
         accel_frame: AccelFrame = frame.as_accel_frame()
         if accel_frame is not None:
             print("AccelFrame: ts={}".format(accel_frame.get_timestamp()))
-            print("AccelFrame: x={}, y={}, z={}".format(accel_frame.get_x(), accel_frame.get_y(), accel_frame.get_z()))
+            print("AccelFrame: x={}, y={}, z={}".format(accel_frame.get_x(), accel_frame.get_y(),
+                                                        accel_frame.get_z()))
 
 
 def main():
@@ -62,6 +72,10 @@ def main():
             time.sleep(1)
         except KeyboardInterrupt:
             # Don't forget to stop the sensor
+            global stop_accel, stop_gyro
+            stop_accel = True
+            stop_gyro = True
+            time.sleep(0.01)
             if gyro_senor is not None:
                 gyro_senor.stop()
             if accel_sensor is not None:

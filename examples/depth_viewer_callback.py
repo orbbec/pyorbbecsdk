@@ -8,6 +8,7 @@ from queue import Queue
 depth_frames_queue = Queue()
 MAX_QUEUE_SIZE = 5
 ESC_KEY = 27
+stop_rendering = False
 
 
 def on_new_frame_callback(frame: FrameSet):
@@ -22,8 +23,8 @@ def on_new_frame_callback(frame: FrameSet):
 
 
 def rendering_frames():
-    global depth_frames_queue
-    while True:
+    global depth_frames_queue, stop_rendering
+    while not stop_rendering:
         depth_frame = None
         if not depth_frames_queue.empty():
             depth_frame = depth_frames_queue.get()
@@ -53,6 +54,7 @@ def rendering_frames():
 def main():
     config = Config()
     pipeline = Pipeline()
+    global stop_rendering
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         assert profile_list is not None
@@ -68,6 +70,7 @@ def main():
         try:
             rendering_frames()
         except KeyboardInterrupt:
+            stop_rendering = True
             break
     pipeline.stop()
 

@@ -39,6 +39,9 @@ def main():
                 ir_data = np.resize(ir_data, (height, width, 1))
             elif ir_format == OBFormat.MJPG:
                 ir_data = cv2.imdecode(ir_data, cv2.IMREAD_UNCHANGED)
+                if ir_data is None:
+                    print("decode mjpeg failed")
+                    continue
                 ir_data = np.resize(ir_data, (height, width, 1))
             else:
                 ir_data = np.frombuffer(ir_data, dtype=np.uint16)

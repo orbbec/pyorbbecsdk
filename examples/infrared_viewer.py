@@ -46,7 +46,9 @@ def main():
             else:
                 ir_data = np.frombuffer(ir_data, dtype=np.uint16)
                 ir_data = np.resize(ir_data, (height, width, 1))
-            cv2.normalize(ir_data, ir_data, 0, 255, cv2.NORM_MINMAX)
+            max_ir = 4000
+            clipped_ir_data = np.clip(ir_data, None, max_ir)
+            cv2.normalize(clipped_ir_data, ir_data, 0, 255, cv2.NORM_MINMAX)
             ir_data = ir_data.astype(np.uint8)
             ir_image = cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
             cv2.imshow("Infrared Viewer", ir_image)

@@ -1,18 +1,20 @@
 from pyorbbecsdk import Pipeline
 from pyorbbecsdk import Config
 from pyorbbecsdk import OBSensorType, OBFormat
-from pyorbbecsdk import OBError, OBFrameType
+from pyorbbecsdk import OBError
 import cv2
 import numpy as np
+
+ESC_KEY = 27
 
 
 def main():
     config = Config()
     pipeline = Pipeline()
     try:
-        profile_list = pipeline.get_stream_profile_list(OBSensorType.RIGHT_IR_SENSOR)
+        profile_list = pipeline.get_stream_profile_list(OBSensorType.IR_SENSOR)
         try:
-            ir_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y8, 30)
+            ir_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
         except OBError as e:
             print(e)
             ir_profile = profile_list.get_default_video_stream_profile()
@@ -26,7 +28,7 @@ def main():
             frames = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
-            ir_frame = frames.get_frame_by_type(OBFrameType.RIGHT_IR_FRAME)
+            ir_frame = frames.get_ir_frame()
             if ir_frame is None:
                 continue
             ir_data = np.asanyarray(ir_frame.get_data())
@@ -37,19 +39,21 @@ def main():
                 ir_data = np.resize(ir_data, (height, width, 1))
             elif ir_format == OBFormat.MJPG:
                 ir_data = cv2.imdecode(ir_data, cv2.IMREAD_UNCHANGED)
+                if ir_data is None:
+                    print("decode mjpeg failed")
+                    continue
                 ir_data = np.resize(ir_data, (height, width, 1))
             else:
-                ir_data = np.resize(ir_data, (height, width, 2))
-            ir_image = np.zeros((height, width, 3), dtype=np.uint8)
-            ir_image[:, :, 0] = ir_data[:, :, 0]
-            ir_image[:, :, 1] = ir_data[:, :, 0] if ir_format == OBFormat.Y8 or ir_format == OBFormat.MJPG else ir_data[
-                                                                                                                :, :, 1]
-            cv2.normalize(ir_image, ir_image, 0, 255, cv2.NORM_MINMAX)
-            ir_image = ir_image.astype(np.uint8)
-            ir_image = cv2.cvtColor(ir_image, cv2.COLORMAP_HOT)
+                ir_data = np.frombuffer(ir_data, dtype=np.uint16)
+                ir_data = np.resize(ir_data, (height, width, 1))
+            max_ir = 4000
+            clipped_ir_data = np.clip(ir_data, None, max_ir)
+            cv2.normalize(clipped_ir_data, ir_data, 0, 255, cv2.NORM_MINMAX)
+            ir_data = ir_data.astype(np.uint8)
+            ir_image = cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
             cv2.imshow("Infrared Viewer", ir_image)
             key = cv2.waitKey(1)
-            if key == ord('q'):
+            if key == ord('q') or key == ESC_KEY:
                 break
         except KeyboardInterrupt:
             break

@@ -118,38 +118,62 @@ void define_pipeline(py::object &m) {
               const py::function &callback) {
              self.start(std::move(config), callback);
            })
-      .def("stop", [](Pipeline &self) { self.stop(); })
-      .def("get_config", [](Pipeline &self) { return self.get_config(); })
-      .def("wait_for_frames",
-           [](Pipeline &self, uint32_t timeout) {
-             return self.wait_for_frames(timeout);
-           })
-      .def("get_playback",
-           [](Pipeline &self) { return self.get_playback(); })
-      .def("get_device", [](Pipeline &self) { return self.get_device(); })
-      .def("get_stream_profile_list",
-           [&](Pipeline &self, OBSensorType sensor_type) {
-             return self.get_stream_profile_list(sensor_type);
-           })
-      .def("enable_frame_sync",
-           [](Pipeline &self) { self.enable_frame_sync(); })
-      .def("disable_frame_sync",
-           [](Pipeline &self) { self.disable_frame_sync(); })
-      .def("get_camera_param",
-           [](Pipeline &self) { return self.get_camera_param(); })
-      .def("get_d2c_valid_area",
-           [](Pipeline &self, uint32_t minimum_z, uint32_t maximum_z) {
-             return self.get_d2c_valid_area(minimum_z, maximum_z);
-           })
-      .def("switch_config",
-           [](Pipeline &self, std::shared_ptr<ob::Config> config) {
-             self.switch_config(std::move(config));
-           })
-      .def("start_recording",
-           [](Pipeline &self, const std::string &file_path) {
-             self.start_recording(file_path);
-           })
-      .def("stop_recording", [](Pipeline &self) { self.stop_recording(); });
+      .def(
+          "stop", [](Pipeline &self) { self.stop(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_config", [](Pipeline &self) { return self.get_config(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "wait_for_frames",
+          [](Pipeline &self, uint32_t timeout) {
+            return self.wait_for_frames(timeout);
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_playback", [](Pipeline &self) { return self.get_playback(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_device", [](Pipeline &self) { return self.get_device(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_stream_profile_list",
+          [&](Pipeline &self, OBSensorType sensor_type) {
+            return self.get_stream_profile_list(sensor_type);
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "enable_frame_sync", [](Pipeline &self) { self.enable_frame_sync(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "disable_frame_sync",
+          [](Pipeline &self) { self.disable_frame_sync(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_camera_param",
+          [](Pipeline &self) { return self.get_camera_param(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_d2c_valid_area",
+          [](Pipeline &self, uint32_t minimum_z, uint32_t maximum_z) {
+            return self.get_d2c_valid_area(minimum_z, maximum_z);
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "switch_config",
+          [](Pipeline &self, std::shared_ptr<ob::Config> config) {
+            self.switch_config(std::move(config));
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "start_recording",
+          [](Pipeline &self, const std::string &file_path) {
+            self.start_recording(file_path);
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "stop_recording", [](Pipeline &self) { self.stop_recording(); },
+          py::call_guard<py::gil_scoped_release>());
 }
 
 void define_pipeline_config(py::object &m) {

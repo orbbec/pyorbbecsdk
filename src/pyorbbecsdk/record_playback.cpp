@@ -51,13 +51,13 @@ void define_playback(const py::object& m) {
       .def("stop",
            [](const std::shared_ptr<ob::Playback>& self) {
              OB_TRY_CATCH({ return self->stop(); });
-           })
+           }, py::call_guard<py::gil_scoped_release>())
       .def("get_device_info",
            [](const std::shared_ptr<ob::Playback>& self) {
              OB_TRY_CATCH({ return self->getDeviceInfo(); });
-           })
+           }, py::call_guard<py::gil_scoped_release>())
       .def("get_camera_param", [](const std::shared_ptr<ob::Playback>& self) {
         OB_TRY_CATCH({ return self->getCameraParam(); });
-      });
+      }, py::call_guard<py::gil_scoped_release>());
 }
 }  // namespace pyorbbecsdk

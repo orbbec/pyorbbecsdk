@@ -37,27 +37,36 @@ void define_playback(const py::object& m) {
           },
           py::arg("callback"),
           py::arg("media_type") = OBMediaType::OB_MEDIA_ALL)
-      .def("set_playback_state_callback",
-           [](const std::shared_ptr<ob::Playback>& self,
-              const py::function& callback) {
-             OB_TRY_CATCH({
-               return self->setPlaybackStateCallback(
-                   [callback](OBMediaState state) {
-                     py::gil_scoped_acquire acquire;
-                     callback(state);
-                   });
-             });
-           })
-      .def("stop",
-           [](const std::shared_ptr<ob::Playback>& self) {
-             OB_TRY_CATCH({ return self->stop(); });
-           })
-      .def("get_device_info",
-           [](const std::shared_ptr<ob::Playback>& self) {
-             OB_TRY_CATCH({ return self->getDeviceInfo(); });
-           })
-      .def("get_camera_param", [](const std::shared_ptr<ob::Playback>& self) {
-        OB_TRY_CATCH({ return self->getCameraParam(); });
-      });
+      .def(
+          "set_playback_state_callback",
+          [](const std::shared_ptr<ob::Playback>& self,
+             const py::function& callback) {
+            OB_TRY_CATCH({
+              return self->setPlaybackStateCallback(
+                  [callback](OBMediaState state) {
+                    py::gil_scoped_acquire acquire;
+                    callback(state);
+                  });
+            });
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "stop",
+          [](const std::shared_ptr<ob::Playback>& self) {
+            OB_TRY_CATCH({ return self->stop(); });
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_device_info",
+          [](const std::shared_ptr<ob::Playback>& self) {
+            OB_TRY_CATCH({ return self->getDeviceInfo(); });
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_camera_param",
+          [](const std::shared_ptr<ob::Playback>& self) {
+            OB_TRY_CATCH({ return self->getCameraParam(); });
+          },
+          py::call_guard<py::gil_scoped_release>());
 }
 }  // namespace pyorbbecsdk

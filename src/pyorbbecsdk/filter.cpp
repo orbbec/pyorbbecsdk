@@ -6,15 +6,21 @@ namespace pyorbbecsdk {
 void define_filter(const py::object& m) {
   py::class_<ob::Filter>(m, "Filter")
       .def(py::init<>())
-      .def("reset", [](ob::Filter& self) { OB_TRY_CATCH({ self.reset(); }); })
-      .def("process",
-           [](ob::Filter& self, std::shared_ptr<ob::Frame> frame) {
-             OB_TRY_CATCH({ self.process(frame); });
-           })
-      .def("push_frame",
-           [](ob::Filter& self, std::shared_ptr<ob::Frame> frame) {
-             OB_TRY_CATCH({ self.pushFrame(frame); });
-           })
+      .def(
+          "reset", [](ob::Filter& self) { OB_TRY_CATCH({ self.reset(); }); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "process",
+          [](ob::Filter& self, std::shared_ptr<ob::Frame> frame) {
+            OB_TRY_CATCH({ self.process(frame); });
+          },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "push_frame",
+          [](ob::Filter& self, std::shared_ptr<ob::Frame> frame) {
+            OB_TRY_CATCH({ self.pushFrame(frame); });
+          },
+          py::call_guard<py::gil_scoped_release>())
       .def("set_callback", [](ob::Filter& self, py::function& callback) {
         OB_TRY_CATCH({
           self.setCallBack([callback](std::shared_ptr<ob::Frame> frame) {

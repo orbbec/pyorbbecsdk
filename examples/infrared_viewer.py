@@ -5,6 +5,8 @@ from pyorbbecsdk import OBError
 import cv2
 import numpy as np
 
+ESC_KEY = 27
+
 
 def main():
     config = Config()
@@ -46,7 +48,7 @@ def main():
             ir_image = cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
             cv2.imshow("Infrared Viewer", ir_image)
             key = cv2.waitKey(1)
-            if key == ord('q'):
+            if key == ord('q') or key == ESC_KEY:
                 break
         except KeyboardInterrupt:
             break

@@ -47,11 +47,13 @@ def main():
     config = Config()
     saved_color_cnt: int = 0
     saved_depth_cnt: int = 0
+    has_color_sensor = False
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         if profile_list is not None:
             color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
+            has_color_sensor = True
     except OBError as e:
         print(e)
     depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
@@ -59,21 +61,22 @@ def main():
         depth_profile = depth_profile_list.get_default_video_stream_profile()
         config.enable_stream(depth_profile)
     pipeline.start(config)
-    frame_cnt = 0
     while True:
         try:
             frames = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
-            if frame_cnt > 5:
+            if has_color_sensor:
+                if saved_color_cnt >= 5 and saved_depth_cnt >= 5:
+                    break
+            elif saved_depth_cnt >= 5:
                 break
-            frame_cnt += 1
             color_frame = frames.get_color_frame()
-            if color_frame is not None:
+            if color_frame is not None and saved_color_cnt < 5:
                 save_color_frame(color_frame, saved_color_cnt)
                 saved_color_cnt += 1
             depth_frame = frames.get_depth_frame()
-            if depth_frame is not None:
+            if depth_frame is not None and saved_depth_cnt < 5:
                 save_depth_frame(depth_frame, saved_depth_cnt)
                 saved_depth_cnt += 1
         except KeyboardInterrupt:

@@ -14,6 +14,7 @@ ESC_KEY = 27
 color_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
 depth_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
 has_color_sensor: List[bool] = [False for _ in range(MAX_DEVICES)]
+stop_rendering = False
 
 
 def on_new_frame_callback(frames: FrameSet, index: int):
@@ -35,7 +36,8 @@ def on_new_frame_callback(frames: FrameSet, index: int):
 def rendering_frames():
     global color_frames_queue, depth_frames_queue
     global curr_device_cnt
-    while True:
+    global stop_rendering
+    while not stop_rendering:
         for i in range(curr_device_cnt):
             color_frame = None
             depth_frame = None
@@ -61,7 +63,8 @@ def rendering_frames():
 
                 depth_data = depth_data.astype(np.float32) * scale
 
-                depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+                depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX,
+                                            dtype=cv2.CV_8U)
                 depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
 
             if color_image is not None and depth_image is not None:
@@ -82,7 +85,8 @@ def rendering_frames():
 def start_streams(pipelines: List[Pipeline], configs: List[Config]):
     index = 0
     for pipeline, config in zip(pipelines, configs):
-        pipeline.start(config, lambda frame_set, curr_index=index: on_new_frame_callback(frame_set, curr_index))
+        pipeline.start(config, lambda frame_set, curr_index=index: on_new_frame_callback(frame_set,
+                                                                                         curr_index))
         index += 1
 
 
@@ -123,12 +127,13 @@ def main():
         config.enable_stream(depth_profile)
         pipelines.append(pipeline)
         configs.append(config)
-
+    global stop_rendering
     start_streams(pipelines, configs)
     try:
         rendering_frames()
         stop_streams(pipelines)
     except KeyboardInterrupt:
+        stop_rendering = True
         stop_streams(pipelines)
 
 

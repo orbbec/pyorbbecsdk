@@ -10,6 +10,7 @@ from queue import Queue
 depth_frames_queue = Queue()
 MAX_QUEUE_SIZE = 5
 ESC_KEY = 27
+stop_rendering = False
 
 
 def playback_state_callback(state):
@@ -32,8 +33,8 @@ def frame_playback_callback(frame):
 
 
 def rendering_frames():
-    global depth_frames_queue
-    while True:
+    global depth_frames_queue, stop_rendering
+    while not stop_rendering:
         depth_frame = None
         if not depth_frames_queue.empty():
             depth_frame = depth_frames_queue.get()
@@ -61,10 +62,12 @@ def main():
     print("Device info: ", device_info)
     camera_param = pipeline.get_camera_param()
     print("Camera param: ", camera_param)
+    global stop_rendering
     playback.start(frame_playback_callback)
     try:
         rendering_frames()
     except KeyboardInterrupt:
+        stop_rendering = True
         sys.exit(0)
 
 

@@ -4,7 +4,7 @@
 * [depth_viewer_callback.py](depth_viewer_callback.py) - Displays the depth stream from the camera using a callback.
 * [color_viewer.py](color_viewer.py) - Displays the color stream from the camera.
 * [depth_work_mode.py](depth_work_mode.py) - Demonstrates how to set the depth work mode.
-* [depth_color_sync.py](depth_color_sync.py) - Demonstrates how to synchronize the depth and color streams.
+* [depth_color_sync.py](depth_color_sync_align_viewer.py) - Demonstrates how to synchronize the depth and color streams.
 * [hello_orbbec.py](hello_orbbec.py) - Demonstrates how to get the device information.
 * [hot_plug.py](hot_plug.py) - Demonstrates how to detect hot plug events.
 * [imu_reader.py](imu_reader.py) - Demonstrates how to read the IMU data.

@@ -2,13 +2,23 @@ from pyorbbecsdk import *
 import cv2
 import numpy as np
 from utils import frame_to_bgr_image
+import sys
+import argparse
 
 ESC_KEY = 27
 
 
-def main():
+def main(argv):
     pipeline = Pipeline()
     config = Config()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", "--mode",
+                        help="align mode, HW=hardware mode,SW=software mode,NONE=disable align",
+                        type=str, default='HW')
+    parser.add_argument("-s", "--enable_sync", help="enable sync", type=bool, default=True)
+    args = parser.parse_args()
+    align_mode = args.mode
+    enable_sync = args.enable_sync
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         color_profile = profile_list.get_default_video_stream_profile()
@@ -17,15 +27,26 @@ def main():
         assert profile_list is not None
         depth_profile = profile_list.get_default_video_stream_profile()
         assert depth_profile is not None
-        print("color profile : {}x{}@{}_{}".format(color_profile.get_width(), color_profile.get_height(),
-                                                   color_profile.get_fps(), color_profile.get_format()))
-        print("depth profile : {}x{}@{}_{}".format(depth_profile.get_width(), depth_profile.get_height(),
-                                                   depth_profile.get_fps(), depth_profile.get_format()))
+        print("color profile : {}x{}@{}_{}".format(color_profile.get_width(),
+                                                   color_profile.get_height(),
+                                                   color_profile.get_fps(),
+                                                   color_profile.get_format()))
+        print("depth profile : {}x{}@{}_{}".format(depth_profile.get_width(),
+                                                   depth_profile.get_height(),
+                                                   depth_profile.get_fps(),
+                                                   depth_profile.get_format()))
         config.enable_stream(depth_profile)
     except Exception as e:
         print(e)
         return
-    config.set_align_mode(OBAlignMode.HW_MODE)
+    if align_mode == 'HW':
+        config.set_align_mode(OBAlignMode.HW_MODE)
+    elif align_mode == 'SW':
+        config.set_align_mode(OBAlignMode.SW_MODE)
+    else:
+        config.set_align_mode(OBAlignMode.DISABLE)
+    if enable_sync:
+        pipeline.enable_frame_sync()
     try:
         pipeline.start(config)
     except Exception as e:
@@ -69,4 +90,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

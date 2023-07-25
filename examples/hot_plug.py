@@ -107,7 +107,6 @@ def main():
             if frames is None:
                 time.sleep(0.001)
                 continue
-            print("FrameSet timestamp={}".format(frames.get_timestamp()))
             color_frame = frames.get_color_frame()
             depth_frame = frames.get_depth_frame()
             on_new_frame_callback(color_frame)

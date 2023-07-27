@@ -56,6 +56,7 @@ SDK进行设计封装，主要实现数据流接收，设备指令控制。
 * Windows：Visual Studio 2017 及以上
 * Linux: gcc 5.4.0 及以上
 * cmake: 3.15.0 及以上
+* pybind11 2.10.3 及以上
 
 ### Python 版本
 

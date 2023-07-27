@@ -57,6 +57,7 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 * Windows: Visual Studio 2017 and above
 * Linux: gcc 5.4.0 and above
 * cmake: 3.15.0 and above
+* pybind11 2.10.3 and above
 
 ### Python Version
 

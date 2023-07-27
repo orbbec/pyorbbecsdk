@@ -37,19 +37,17 @@ void define_playback(const py::object& m) {
           },
           py::arg("callback"),
           py::arg("media_type") = OBMediaType::OB_MEDIA_ALL)
-      .def(
-          "set_playback_state_callback",
-          [](const std::shared_ptr<ob::Playback>& self,
-             const py::function& callback) {
-            OB_TRY_CATCH({
-              return self->setPlaybackStateCallback(
-                  [callback](OBMediaState state) {
-                    py::gil_scoped_acquire acquire;
-                    callback(state);
-                  });
-            });
-          },
-          py::call_guard<py::gil_scoped_release>())
+      .def("set_playback_state_callback",
+           [](const std::shared_ptr<ob::Playback>& self,
+              const py::function& callback) {
+             OB_TRY_CATCH({
+               return self->setPlaybackStateCallback(
+                   [callback](OBMediaState state) {
+                     py::gil_scoped_acquire acquire;
+                     callback(state);
+                   });
+             });
+           })
       .def(
           "stop",
           [](const std::shared_ptr<ob::Playback>& self) {

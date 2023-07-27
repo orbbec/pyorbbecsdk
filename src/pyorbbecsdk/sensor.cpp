@@ -28,8 +28,7 @@ void define_sensor(const py::object& m) {
                                    callback(frame);
                                  });
             });
-          },
-          py::call_guard<py::gil_scoped_release>())
+          })
       .def(
           "stop",
           [](const std::shared_ptr<ob::Sensor>& self) { return self->stop(); },

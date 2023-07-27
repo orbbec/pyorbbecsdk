@@ -13,7 +13,7 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> int:
     if depth_frame is None:
         return 0
     points = frames.convert_to_points(camera_param)
-    if points is None:
+    if points is None or len(points) == 0:
         print("no depth points")
         return 0
     global save_points_dir
@@ -38,7 +38,7 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> i
     if depth_frame is None:
         return 0
     points = frames.convert_to_color_points(camera_param)
-    if points is None:
+    if points is None or len(points) == 0:
         print("no color points")
         return 0
     global save_points_dir

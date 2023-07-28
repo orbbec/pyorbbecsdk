@@ -10,7 +10,6 @@
 * [imu_reader.py](imu_reader.py) - Demonstrates how to read the IMU data.
 * [infrared_viewer.py](infrared_viewer.py) - Displays the infrared stream from the camera.
 * [multi_device.py](multi_device.py) - Demonstrates how to use multiple devices.
-* [read_pointcloud.py](read_pointcloud.py) - Use open3d load pointcloud data, you can use meshlab instead.
 * [recorder.py](recorder.py) - Demonstrates how to record the depth and color streams to a file.
 * [playback.py](playback.py) - Demonstrates how to play back the recorded streams.
 * [save_image_to_disk](save_image_to_disk.py) - Demonstrates how to save the depth and color streams to disk.

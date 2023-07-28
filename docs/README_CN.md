@@ -69,7 +69,7 @@ SDK进行设计封装，主要实现数据流接收，设备指令控制。
 | Astra2         | 2.8.20                               |
 | Gemini2 L      | 1.4.32                               |
 | Gemini2        | 1.4.60                               |
-| FemtoMega      | 1.1.5  (支持window10、ubuntu20.04及以上系统) |
+| FemtoMega      | 1.1.7  (支持window10、ubuntu20.04及以上系统) |
 | Astra+         | 1.0.22/1.0.21/1.0.20/1.0.19          |
 | Femto          | 1.6.7                                |
 | Femto W        | 1.1.8                                |

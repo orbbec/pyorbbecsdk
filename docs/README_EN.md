@@ -70,7 +70,7 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 | Astra2           | 2.8.20                                                |
 | Gemini2 L        | 1.4.32                                                |
 | Gemini2          | 1.4.60                                                |
-| FemtoMega        | 1.1.5  (supports Windows 10, Ubuntu 20.04, and above) |
+| FemtoMega        | 1.1.7  (supports Windows 10, Ubuntu 20.04, and above) |
 | Astra+           | 1.0.22/1.0.21/1.0.20/1.0.19                           |
 | Femto            | 1.6.7                                                 |
 | Femto W          | 1.1.8                                                 |

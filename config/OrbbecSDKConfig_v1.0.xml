@@ -792,7 +792,7 @@
                 <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
-        </SV1301S_U3,>
+        </SV1301S_U3>
 
         <Astra>
             <Depth>

@@ -793,6 +793,44 @@
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </SV1301S_U3>
+		<SL1000S_U3>
+            <Depth>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>400</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>Y11</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </Depth>
+            <Color>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>480</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>MJPG</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </Color>
+            <IR>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>400</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>Y10</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+                <StreamFailedRetry>0</StreamFailedRetry>
+            </IR>
+        </SL1000S_U3>
 
         <Astra>
             <Depth>

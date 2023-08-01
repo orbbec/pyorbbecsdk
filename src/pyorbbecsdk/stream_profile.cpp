@@ -79,11 +79,25 @@ void define_video_stream_profile(const py::object &m) {
                     std::to_string(self->fps()) + "@" +
                     ob_format_to_string(self->format());
            })
-      .def("__eq__", [](const std::shared_ptr<ob::VideoStreamProfile> &self,
-                        const std::shared_ptr<ob::VideoStreamProfile> &other) {
-        return self->width() == other->width() &&
-               self->height() == other->height() &&
-               self->fps() == other->fps() && self->format() == other->format();
+      .def("__eq__",
+           [](const std::shared_ptr<ob::VideoStreamProfile> &self,
+              const std::shared_ptr<ob::VideoStreamProfile> &other) {
+             return self->width() == other->width() &&
+                    self->height() == other->height() &&
+                    self->fps() == other->fps() &&
+                    self->format() == other->format();
+           })
+      .def("__hash__", [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
+        std::size_t seed = 0;
+        seed ^= std::hash<int>()(self->width()) + 0x9e3779b9 + (seed << 6) +
+                (seed >> 2);
+        seed ^= std::hash<int>()(self->height()) + 0x9e3779b9 + (seed << 6) +
+                (seed >> 2);
+        seed ^= std::hash<int>()(self->fps()) + 0x9e3779b9 + (seed << 6) +
+                (seed >> 2);
+        seed ^= std::hash<int>()(self->format()) + 0x9e3779b9 + (seed << 6) +
+                (seed >> 2);
+        return seed;
       });
 }
 

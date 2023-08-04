@@ -1,5 +1,5 @@
 from pyorbbecsdk import Pipeline
-from pyorbbecsdk import Config
+from pyorbbecsdk import Config, OBFrameType
 from pyorbbecsdk import OBSensorType, OBFormat
 from pyorbbecsdk import OBError
 import cv2
@@ -12,7 +12,7 @@ def main():
     config = Config()
     pipeline = Pipeline()
     try:
-        profile_list = pipeline.get_stream_profile_list(OBSensorType.IR_SENSOR)
+        profile_list = pipeline.get_stream_profile_list(OBSensorType.LEFT_IR_SENSOR)
         try:
             ir_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
         except OBError as e:
@@ -28,7 +28,7 @@ def main():
             frames = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
-            ir_frame = frames.get_ir_frame()
+            ir_frame = frames.get_frame_by_type(OBFrameType.LEFT_IR_FRAME)
             if ir_frame is None:
                 continue
             ir_data = np.asanyarray(ir_frame.get_data())

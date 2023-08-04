@@ -31,6 +31,10 @@ def rendering_frames():
             continue
         height = depth_frame.get_height()
         width = depth_frame.get_width()
+        data_size = depth_frame.get_data_size()
+        if data_size != width * height * 2:
+            print("Invalid data size: ", data_size)
+            continue
         depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
         depth_data = depth_data.reshape((height, width))
         scale = depth_frame.get_depth_scale()

@@ -248,6 +248,8 @@ void define_device(const py::object &m) {
               const OBDeviceSyncConfig &config) {
              OB_TRY_CATCH({ self->setSyncConfig(config); });
            })
+      .def("reboot",
+           [](const std::shared_ptr<ob::Device> &self) { self->reboot(); })
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();

@@ -1,42 +1,46 @@
 # Orbbec SDK Python Wrapper文档
 
 ## 目录
+
 <!-- TOC -->
+
 * [Orbbec SDK Python Wrapper文档](#orbbec-sdk-python-wrapper文档)
-  * [目录](#目录)
-  * [概述](#概述)
-  * [系统要求](#系统要求)
-    * [操作系統](#操作系統)
-    * [编译平台要求](#编译平台要求)
-    * [Python 版本](#python-版本)
-  * [Python SDK支持的硬件产品](#python-sdk支持的硬件产品)
-  * [Orbbec SDK Python Wrapper Sample编译说明](#orbbec-sdk-python-wrapper-sample编译说明)
-    * [Windows python sdk 编译](#windows-python-sdk-编译)
-      * [下载 python sdk 源码](#下载-python-sdk-源码)
-      * [安装依赖](#安装依赖)
-      * [配置Visual Studio](#配置visual-studio)
-      * [编译python SDK](#编译python-sdk)
-      * [测试python SDK Sample](#测试python-sdk-sample)
-    * [Linux python SDK 编译](#linux-python-sdk-编译)
-      * [下载 python sdk 源码](#下载-python-sdk-源码-1)
-      * [安装依赖](#安装依赖-1)
-      * [Python SDK 编译](#python-sdk-编译)
-      * [测试 Sample](#测试-sample)
-  * [常用调用流程](#常用调用流程)
-    * [视频数据获取](#视频数据获取)
-    * [获取设备列表](#获取设备列表)
-    * [获取传感器列表](#获取传感器列表)
-    * [获取设备信息](#获取设备信息)
-    * [彩色相机自动曝光](#彩色相机自动曝光)
-    * [获取和设置彩色相机曝光值](#获取和设置彩色相机曝光值)
-    * [获取和设置彩色相机增益](#获取和设置彩色相机增益)
-    * [彩色相机数据流镜像](#彩色相机数据流镜像)
-    * [开关激光](#开关激光)
-    * [开关LDP](#开关ldp)
-    * [开关软件滤波](#开关软件滤波)
-    * [其他接口](#其他接口)
-  * [FAQ](#faq)
+    * [目录](#目录)
+    * [概述](#概述)
+    * [系统要求](#系统要求)
+        * [操作系統](#操作系統)
+        * [编译平台要求](#编译平台要求)
+        * [Python 版本](#python-版本)
+    * [Python SDK支持的硬件产品](#python-sdk支持的硬件产品)
+    * [Orbbec SDK Python Wrapper Sample编译说明](#orbbec-sdk-python-wrapper-sample编译说明)
+        * [Windows python sdk 编译](#windows-python-sdk-编译)
+            * [下载 python sdk 源码](#下载-python-sdk-源码)
+            * [安装依赖](#安装依赖)
+            * [配置Visual Studio](#配置visual-studio)
+            * [编译python SDK](#编译python-sdk)
+            * [测试python SDK Sample](#测试python-sdk-sample)
+        * [Linux python SDK 编译](#linux-python-sdk-编译)
+            * [下载 python sdk 源码](#下载-python-sdk-源码-1)
+            * [安装依赖](#安装依赖-1)
+            * [Python SDK 编译](#python-sdk-编译)
+            * [测试 Sample](#测试-sample)
+    * [常用调用流程](#常用调用流程)
+        * [视频数据获取](#视频数据获取)
+        * [获取设备列表](#获取设备列表)
+        * [获取传感器列表](#获取传感器列表)
+        * [获取设备信息](#获取设备信息)
+        * [彩色相机自动曝光](#彩色相机自动曝光)
+        * [获取和设置彩色相机曝光值](#获取和设置彩色相机曝光值)
+        * [获取和设置彩色相机增益](#获取和设置彩色相机增益)
+        * [彩色相机数据流镜像](#彩色相机数据流镜像)
+        * [开关激光](#开关激光)
+        * [开关LDP](#开关ldp)
+        * [开关软件滤波](#开关软件滤波)
+        * [其他接口](#其他接口)
+    * [FAQ](#faq)
+
 <!-- TOC -->
+
 ## 概述
 
 本文档主要介绍Orbbec SDK Python Wrapper的功能，Orbbec SDK Python Wrapper基于Orbbec
@@ -347,6 +351,15 @@ device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filte
 # ...
 ```
 
+### 重启设备
+
+```python
+from pyorbbecsdk import *
+
+# ...
+device.reboot()
+```
+
 ### 其他接口
 
 请参考源码包`examples`目录下的例子和`tests`目录下的测试用例
@@ -385,7 +398,8 @@ export OPENBLAS_CORETYPE=ARMV8
 
 ```
 
-关于如何解决这个问题，请参考[这里](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)的更多信息。
+关于如何解决这个问题，请参考[这里](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)
+的更多信息。
 Q: 运行`python3 examples/depth_viewer.py`时，会出现如下错误？
 
 ```text

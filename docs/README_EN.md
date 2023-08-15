@@ -1,43 +1,47 @@
 # Orbbec SDK Python Wrapper Documentation
 
 ## Contents
+
 <!-- TOC -->
+
 * [Orbbec SDK Python Wrapper Documentation](#orbbec-sdk-python-wrapper-documentation)
-  * [Contents](#contents)
-  * [Overview](#overview)
-  * [System Requirements](#system-requirements)
-    * [OS Requirements](#os-requirements)
-    * [Compilation Platform Requirements](#compilation-platform-requirements)
-    * [Python Version](#python-version)
-    * [Hardware Products Supported by Python SDK](#hardware-products-supported-by-python-sdk)
-  * [Orbbec SDK Python Wrapper Sample Compilation Instructions](#orbbec-sdk-python-wrapper-sample-compilation-instructions)
-    * [Windows Python SDK Compilation](#windows-python-sdk-compilation)
-      * [Download the Python SDK source code.](#download-the-python-sdk-source-code)
-      * [Install dependencies.](#install-dependencies)
-      * [Configure Visual Studio project.](#configure-visual-studio-project)
-      * [Compile the Python SDK.](#compile-the-python-sdk)
-      * [Test examples.](#test-examples)
-  * [Linux Python SDK Compilation](#linux-python-sdk-compilation)
-    * [Download Python SDK source code](#download-python-sdk-source-code)
-    * [Install dependencies](#install-dependencies-1)
-    * [Compile Python SDK](#compile-python-sdk)
-    * [Test examples](#test-examples-1)
-  * [Orbbec SDK Python Wrapper Function Introduction](#orbbec-sdk-python-wrapper-function-introduction)
-    * [Video stream acquisition](#video-stream-acquisition)
-    * [Introduction to common interface APIs](#introduction-to-common-interface-apis)
-      * [Getting a list of devices](#getting-a-list-of-devices)
-      * [Getting a list of sensors](#getting-a-list-of-sensors)
-      * [Getting device information](#getting-device-information)
-      * [Set color  auto-exposure](#set-color--auto-exposure)
-      * [Getting and setting colour camera exposure values](#getting-and-setting-colour-camera-exposure-values)
-      * [Getting and setting the colour camera gain](#getting-and-setting-the-colour-camera-gain)
-      * [Mirroring the colour camera data stream](#mirroring-the-colour-camera-data-stream)
-      * [Switching laser](#switching-laser)
-      * [Switching LDP](#switching-ldp)
-      * [Switch software filtering](#switch-software-filtering)
-      * [Other interfaces](#other-interfaces)
-  * [FAQ](#faq)
+    * [Contents](#contents)
+    * [Overview](#overview)
+    * [System Requirements](#system-requirements)
+        * [OS Requirements](#os-requirements)
+        * [Compilation Platform Requirements](#compilation-platform-requirements)
+        * [Python Version](#python-version)
+        * [Hardware Products Supported by Python SDK](#hardware-products-supported-by-python-sdk)
+    * [Orbbec SDK Python Wrapper Sample Compilation Instructions](#orbbec-sdk-python-wrapper-sample-compilation-instructions)
+        * [Windows Python SDK Compilation](#windows-python-sdk-compilation)
+            * [Download the Python SDK source code.](#download-the-python-sdk-source-code)
+            * [Install dependencies.](#install-dependencies)
+            * [Configure Visual Studio project.](#configure-visual-studio-project)
+            * [Compile the Python SDK.](#compile-the-python-sdk)
+            * [Test examples.](#test-examples)
+    * [Linux Python SDK Compilation](#linux-python-sdk-compilation)
+        * [Download Python SDK source code](#download-python-sdk-source-code)
+        * [Install dependencies](#install-dependencies-1)
+        * [Compile Python SDK](#compile-python-sdk)
+        * [Test examples](#test-examples-1)
+    * [Orbbec SDK Python Wrapper Function Introduction](#orbbec-sdk-python-wrapper-function-introduction)
+        * [Video stream acquisition](#video-stream-acquisition)
+        * [Introduction to common interface APIs](#introduction-to-common-interface-apis)
+            * [Getting a list of devices](#getting-a-list-of-devices)
+            * [Getting a list of sensors](#getting-a-list-of-sensors)
+            * [Getting device information](#getting-device-information)
+            * [Set color  auto-exposure](#set-color--auto-exposure)
+            * [Getting and setting colour camera exposure values](#getting-and-setting-colour-camera-exposure-values)
+            * [Getting and setting the colour camera gain](#getting-and-setting-the-colour-camera-gain)
+            * [Mirroring the colour camera data stream](#mirroring-the-colour-camera-data-stream)
+            * [Switching laser](#switching-laser)
+            * [Switching LDP](#switching-ldp)
+            * [Switch software filtering](#switch-software-filtering)
+            * [Other interfaces](#other-interfaces)
+    * [FAQ](#faq)
+
 <!-- TOC -->
+
 ## Overview
 
 This document mainly introduces the functions of Orbbec SDK Python Wrapper, which is designed and encapsulated based on
@@ -358,6 +362,15 @@ device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, soft_filte
 # ...
 ```
 
+### Reboot device
+
+```python
+from pyorbbecsdk import *
+
+# ...
+device.reboot()
+```
+
 #### Other interfaces
 
 Please refer to the examples in the `examples` directory of the source package and the test cases in the `tests`
@@ -377,7 +390,8 @@ A: Check your OpenCV installation. If you encounter the same error when running
 import cv2
 ```
 
-export OPENBLAS_CORETYPE=ARMV8 (or whatever the actual hardware is) before launching python should hopefully get around this. For example:
+export OPENBLAS_CORETYPE=ARMV8 (or whatever the actual hardware is) before launching python should hopefully get around
+this. For example:
 
 ```bash
 OPENBLAS_CORETYPE=ARMV8 python
@@ -395,7 +409,8 @@ and add the following line at the end of the file:
 export OPENBLAS_CORETYPE=ARMV8
 ```
 
-Refer to [this post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano) for more information on how to resolve the issue.
+Refer to [this post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)
+for more information on how to resolve the issue.
 Q: Why do I get the following error when running `python3 examples/depth_viewer.py`?
 
 ```text

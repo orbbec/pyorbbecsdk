@@ -64,6 +64,15 @@ class DeviceTest(unittest.TestCase):
 
         self.device.set_depth_work_mode(current_depth_work_mode)
 
+    def test_get_calib_camera_params(self):
+        calib_camera_params_list = self.device.get_calibration_camera_param_list()
+        self.assertIsNotNone(calib_camera_params_list)
+        self.assertGreater(calib_camera_params_list.get_count(), 0)
+        for i in range(calib_camera_params_list.get_count()):
+            calib_camera_params = calib_camera_params_list.get_camera_param(i)
+            self.assertIsNotNone(calib_camera_params)
+            print(calib_camera_params)
+
 
 if __name__ == '__main__':
     print("Start test Device interface, Please make sure you have connected a device to your computer.")

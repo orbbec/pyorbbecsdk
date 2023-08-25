@@ -568,7 +568,8 @@ void define_orbbec_types(const py::object &m) {
       .def(
           "set_data",
           [](OBDataBundle &b, const py::array_t<uint8_t> &arr) {
-            if (arr.itemsize() != b.itemTypeSize || arr.size() != b.itemCount) {
+            if (arr.itemsize() != static_cast<long>(b.itemTypeSize) ||
+                arr.size() != static_cast<ssize_t>(b.itemCount)) {
               throw py::value_error("Invalid array size or item size");
             }
             std::memcpy(b.data, arr.data(), arr.nbytes());

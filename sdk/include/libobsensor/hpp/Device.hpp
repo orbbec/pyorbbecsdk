@@ -681,7 +681,7 @@ public:
      * @param index the index of the depth work mode
      * @return std::string the name of the depth work mode
      */
-    std::string getName(uint32_t index);
+    const char* getName(uint32_t index);
 
     /**
      * @brief Get the OBDepthWorkMode object at the specified index

@@ -243,7 +243,7 @@ void define_frame_set(const py::object& m) {
                  return py::list();
                }
                auto points_size =
-                   static_cast<ssize_t>(frame->dataSize() / sizeof(OBPoint));
+                   static_cast<size_t>(frame->dataSize() / sizeof(OBPoint));
                auto scale = depth_frame->getValueScale();
                auto points = reinterpret_cast<OBPoint*>(frame->data());
                if (!points) {
@@ -251,7 +251,7 @@ void define_frame_set(const py::object& m) {
                  return py::list();
                }
                py::list result;
-               for (ssize_t i = 0; i < points_size; ++i) {
+               for (size_t i = 0; i < points_size; ++i) {
                  auto point = points[i];
                  point.x *= scale;
                  point.y *= scale;
@@ -283,7 +283,7 @@ void define_frame_set(const py::object& m) {
                if (!frame) {
                  return py::list();
                }
-               auto points_size = static_cast<ssize_t>(frame->dataSize() /
+               auto points_size = static_cast<size_t>(frame->dataSize() /
                                                        sizeof(OBColorPoint));
                auto scale = depth_frame->getValueScale();
                auto points = reinterpret_cast<OBColorPoint*>(frame->data());
@@ -292,7 +292,7 @@ void define_frame_set(const py::object& m) {
                  return py::list();
                }
                py::list result;
-               for (ssize_t i = 0; i < points_size; ++i) {
+               for (size_t i = 0; i < points_size; ++i) {
                  auto point = points[i];
                  point.x *= scale;
                  point.y *= scale;

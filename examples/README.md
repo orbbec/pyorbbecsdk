@@ -14,3 +14,4 @@
 * [playback.py](playback.py) - Demonstrates how to play back the recorded streams.
 * [save_image_to_disk](save_image_to_disk.py) - Demonstrates how to save the depth and color streams to disk.
 * [save_pointcloud_to_disk.py](save_pointcloud_to_disk.py) - Demonstrates how to save the pointcloud to disk.
+* [double_infrared_viewer.py](double_infrared_viewer.py) - Demonstrates how to display the double infrared stream.

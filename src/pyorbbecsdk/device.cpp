@@ -206,10 +206,6 @@ void define_device(const py::object &m) {
                return self->isPropertySupported(property_id, permission_type);
              });
            })
-      .def("sync_device_time",
-           [](const std::shared_ptr<ob::Device> &self) {
-             OB_TRY_CATCH({ return self->syncDeviceTime(); });
-           })
       .def("get_device_state",
            [](const std::shared_ptr<ob::Device> &self) {
              return self->getDeviceState();
@@ -238,15 +234,6 @@ void define_device(const py::object &m) {
       .def("get_depth_work_mode_list",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDepthWorkModeList(); });
-           })
-      .def("get_device_sync_config",
-           [](const std::shared_ptr<ob::Device> &self) {
-             OB_TRY_CATCH({ return self->getSyncConfig(); });
-           })
-      .def("set_device_sync_config",
-           [](const std::shared_ptr<ob::Device> &self,
-              const OBDeviceSyncConfig &config) {
-             OB_TRY_CATCH({ self->setSyncConfig(config); });
            })
       .def("reboot",
            [](const std::shared_ptr<ob::Device> &self) { self->reboot(); })

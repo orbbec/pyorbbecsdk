@@ -224,6 +224,10 @@ void define_frame_set(const py::object& m) {
            [](const std::shared_ptr<ob::FrameSet>& self, OBFrameType type) {
              return self->getFrame(type);
            })
+      .def("get_frame",
+           [](const std::shared_ptr<ob::FrameSet>& self,  OBFrameType type) {
+             return self->getFrame(type);
+           })
       .def("convert_to_points",
            [](const std::shared_ptr<ob::FrameSet>& self,
               const OBCameraParam& param) -> py::list {
@@ -284,7 +288,7 @@ void define_frame_set(const py::object& m) {
                  return py::list();
                }
                auto points_size = static_cast<size_t>(frame->dataSize() /
-                                                       sizeof(OBColorPoint));
+                                                      sizeof(OBColorPoint));
                auto scale = depth_frame->getValueScale();
                auto points = reinterpret_cast<OBColorPoint*>(frame->data());
                if (!points) {

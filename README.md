@@ -45,6 +45,14 @@ python3 examples/depth_viewer.py
 ```
 
 Other examples can be found in `examples` directory, Please refer to [examples/README.md](examples/README.md) for more.
+### Generate stubs
+
+```bash
+source env.sh
+pip3 install pybind11-stubgen
+pybind11-stubgen  pyorbbecsdk
+```
+
 
 ### For Windows
 

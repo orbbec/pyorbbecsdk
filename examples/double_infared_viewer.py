@@ -46,19 +46,13 @@ def main():
     pipeline = Pipeline()
 
     # Configure both LEFT and RIGHT IR streams
-    try:
-        left_profile_list = pipeline.get_stream_profile_list(OBSensorType.LEFT_IR_SENSOR)
-        left_ir_profile = left_profile_list.get_video_stream_profile(640, 0, OBFormat.Y8, 30)
-        config.enable_stream(left_ir_profile)
-
-        right_profile_list = pipeline.get_stream_profile_list(OBSensorType.RIGHT_IR_SENSOR)
-        right_ir_profile = right_profile_list.get_video_stream_profile(640, 0, OBFormat.Y8, 30)
-        config.enable_stream(right_ir_profile)
-
-    except OBError as e:
-        print(e)
-        return
-
+    left_profile_list = pipeline.get_stream_profile_list(OBSensorType.LEFT_IR_SENSOR)
+    right_profile_list = pipeline.get_stream_profile_list(OBSensorType.RIGHT_IR_SENSOR)
+    # Get the default video stream profile from config/OrbbecSDKConfig_v1.0.xml
+    left_ir_profile = left_profile_list.get_default_video_stream_profile()
+    right_ir_profile = right_profile_list.get_default_video_stream_profile()
+    config.enable_stream(left_ir_profile)
+    config.enable_stream(right_ir_profile)
     pipeline.start(config)
 
     while True:

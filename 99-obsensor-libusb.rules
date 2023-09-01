@@ -80,3 +80,6 @@ SUBSYSTEM=="usb", ATTR{idProduct}=="055c", ATTR{idVendor}=="2bc5", MODE:="0666",
 SUBSYSTEM=="usb", ATTR{idProduct}=="065d", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video", SYMLINK+="gemini_e_lite"
 SUBSYSTEM=="usb", ATTR{idProduct}=="0698", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video", SYMLINK+="j1"
 SUBSYSTEM=="usb", ATTR{idProduct}=="069c", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video", SYMLINK+="TB2201"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0671", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video", SYMLINK+="gemini2 XL"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0675", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video", SYMLINK+="gemini2 VL"
+

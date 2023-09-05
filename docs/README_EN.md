@@ -4,41 +4,42 @@
 
 <!-- TOC -->
 
-* [Orbbec SDK Python Wrapper Documentation](#orbbec-sdk-python-wrapper-documentation)
-    * [Contents](#contents)
-    * [Overview](#overview)
-    * [System Requirements](#system-requirements)
-        * [OS Requirements](#os-requirements)
-        * [Compilation Platform Requirements](#compilation-platform-requirements)
-        * [Python Version](#python-version)
-        * [Hardware Products Supported by Python SDK](#hardware-products-supported-by-python-sdk)
-    * [Orbbec SDK Python Wrapper Sample Compilation Instructions](#orbbec-sdk-python-wrapper-sample-compilation-instructions)
-        * [Windows Python SDK Compilation](#windows-python-sdk-compilation)
-            * [Download the Python SDK source code.](#download-the-python-sdk-source-code)
-            * [Install dependencies.](#install-dependencies)
-            * [Configure Visual Studio project.](#configure-visual-studio-project)
-            * [Compile the Python SDK.](#compile-the-python-sdk)
-            * [Test examples.](#test-examples)
-    * [Linux Python SDK Compilation](#linux-python-sdk-compilation)
-        * [Download Python SDK source code](#download-python-sdk-source-code)
-        * [Install dependencies](#install-dependencies-1)
-        * [Compile Python SDK](#compile-python-sdk)
-        * [Test examples](#test-examples-1)
-    * [Orbbec SDK Python Wrapper Function Introduction](#orbbec-sdk-python-wrapper-function-introduction)
-        * [Video stream acquisition](#video-stream-acquisition)
-        * [Introduction to common interface APIs](#introduction-to-common-interface-apis)
-            * [Getting a list of devices](#getting-a-list-of-devices)
-            * [Getting a list of sensors](#getting-a-list-of-sensors)
-            * [Getting device information](#getting-device-information)
-            * [Set color  auto-exposure](#set-color--auto-exposure)
-            * [Getting and setting colour camera exposure values](#getting-and-setting-colour-camera-exposure-values)
-            * [Getting and setting the colour camera gain](#getting-and-setting-the-colour-camera-gain)
-            * [Mirroring the colour camera data stream](#mirroring-the-colour-camera-data-stream)
-            * [Switching laser](#switching-laser)
-            * [Switching LDP](#switching-ldp)
-            * [Switch software filtering](#switch-software-filtering)
-            * [Other interfaces](#other-interfaces)
-    * [FAQ](#faq)
+- [Orbbec SDK Python Wrapper Documentation](#orbbec-sdk-python-wrapper-documentation)
+  - [Contents](#contents)
+  - [Overview](#overview)
+  - [System Requirements](#system-requirements)
+    - [OS Requirements](#os-requirements)
+    - [Compilation Platform Requirements](#compilation-platform-requirements)
+    - [Python Version](#python-version)
+    - [Hardware Products Supported by Python SDK](#hardware-products-supported-by-python-sdk)
+  - [Orbbec SDK Python Wrapper Sample Compilation Instructions](#orbbec-sdk-python-wrapper-sample-compilation-instructions)
+    - [Windows Python SDK Compilation](#windows-python-sdk-compilation)
+      - [Download the Python SDK source code](#download-the-python-sdk-source-code)
+      - [Install dependencies](#install-dependencies)
+      - [Configure Visual Studio project](#configure-visual-studio-project)
+      - [Compile the Python SDK](#compile-the-python-sdk)
+      - [Test examples](#test-examples)
+  - [Linux Python SDK Compilation](#linux-python-sdk-compilation)
+    - [Download Python SDK source code](#download-python-sdk-source-code)
+    - [Install dependencies](#install-dependencies-1)
+    - [Build](#build)
+    - [Test examples](#test-examples-1)
+  - [Orbbec SDK Python Wrapper Function Introduction](#orbbec-sdk-python-wrapper-function-introduction)
+    - [Video stream acquisition](#video-stream-acquisition)
+    - [Introduction to common interface APIs](#introduction-to-common-interface-apis)
+      - [Getting a list of devices](#getting-a-list-of-devices)
+      - [Getting a list of sensors](#getting-a-list-of-sensors)
+      - [Getting device information](#getting-device-information)
+      - [Set color  auto-exposure](#set-color--auto-exposure)
+      - [Getting and setting colour camera exposure values](#getting-and-setting-colour-camera-exposure-values)
+      - [Getting and setting the colour camera gain](#getting-and-setting-the-colour-camera-gain)
+      - [Mirroring the colour camera data stream](#mirroring-the-colour-camera-data-stream)
+      - [Switching laser](#switching-laser)
+      - [Switching LDP](#switching-ldp)
+      - [Switch software filtering](#switch-software-filtering)
+    - [Reboot device](#reboot-device)
+      - [Other interfaces](#other-interfaces)
+  - [FAQ](#faq)
 
 <!-- TOC -->
 
@@ -69,26 +70,24 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 
 ### Hardware Products Supported by Python SDK
 
-| **Product List** | **Firmware Version**                                  |
-|------------------|-------------------------------------------------------|
-| Astra2           | 2.8.20                                                |
-| Gemini2 L        | 1.4.32                                                |
-| Gemini2          | 1.4.60                                                |
-| FemtoMega        | 1.1.7  (supports Windows 10, Ubuntu 20.04, and above) |
-| Astra+           | 1.0.22/1.0.21/1.0.20/1.0.19                           |
-| Femto            | 1.6.7                                                 |
-| Femto W          | 1.1.8                                                 |
-| Dabai            | 2436                                                  |
-| Dabai DCW        | 2460                                                  |
-| Dabai DW         | 2606                                                  |
-| Astra Mini       | 2418                                                  |
-| Astra Mini Pro   | 1007                                                  |
-| Astra Pro Plus   | 2513                                                  |
-| A1 Pro           | 3057                                                  |
-| Gemini E         | 3460                                                  |
-| Gemini E Lite    | 3606                                                  |
-| Gemini           | 3.0.18                                                |
-| Deeyea           | 3012/3015                                             |
+| **SDK version** | **products list** | **firmware version**                        |
+| --------------- | ----------------- | ------------------------------------------- |
+| v1.7.2          | Gemini 2 XL       | Obox: V1.2.5  VL:1.4.54                     |
+|                 | Astra 2           | 2.8.20                                      |
+|                 | Gemini 2 L        | 1.4.32                                      |
+|                 | Gemini 2          | 1.4.60 /1.4.76                              |
+|                 | Femto Mega        | 1.1.7  (window10、ubuntu20.04、ubuntu22.04) |
+|                 | Astra+            | 1.0.22/1.0.21/1.0.20/1.0.19                 |
+|                 | Femto             | 1.6.7                                       |
+|                 | Femto W           | 1.1.8                                       |
+|                 | DaBai             | 2436                                        |
+|                 | DaBai DCW         | 2460                                        |
+|                 | DaBai DW          | 2606                                        |
+|                 | Astra Mini Pro    | 1007                                        |
+|                 | Gemini E          | 3460                                        |
+|                 | Gemini E Lite     | 3606                                        |
+|                 | Gemini            | 3.0.18                                      |
+|                 | Astra Mini S Pro  | 1.0.05                                      |
 
 ## Orbbec SDK Python Wrapper Sample Compilation Instructions
 

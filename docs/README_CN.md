@@ -4,40 +4,41 @@
 
 <!-- TOC -->
 
-* [Orbbec SDK Python Wrapper文档](#orbbec-sdk-python-wrapper文档)
-    * [目录](#目录)
-    * [概述](#概述)
-    * [系统要求](#系统要求)
-        * [操作系統](#操作系統)
-        * [编译平台要求](#编译平台要求)
-        * [Python 版本](#python-版本)
-    * [Python SDK支持的硬件产品](#python-sdk支持的硬件产品)
-    * [Orbbec SDK Python Wrapper Sample编译说明](#orbbec-sdk-python-wrapper-sample编译说明)
-        * [Windows python sdk 编译](#windows-python-sdk-编译)
-            * [下载 python sdk 源码](#下载-python-sdk-源码)
-            * [安装依赖](#安装依赖)
-            * [配置Visual Studio](#配置visual-studio)
-            * [编译python SDK](#编译python-sdk)
-            * [测试python SDK Sample](#测试python-sdk-sample)
-        * [Linux python SDK 编译](#linux-python-sdk-编译)
-            * [下载 python sdk 源码](#下载-python-sdk-源码-1)
-            * [安装依赖](#安装依赖-1)
-            * [Python SDK 编译](#python-sdk-编译)
-            * [测试 Sample](#测试-sample)
-    * [常用调用流程](#常用调用流程)
-        * [视频数据获取](#视频数据获取)
-        * [获取设备列表](#获取设备列表)
-        * [获取传感器列表](#获取传感器列表)
-        * [获取设备信息](#获取设备信息)
-        * [彩色相机自动曝光](#彩色相机自动曝光)
-        * [获取和设置彩色相机曝光值](#获取和设置彩色相机曝光值)
-        * [获取和设置彩色相机增益](#获取和设置彩色相机增益)
-        * [彩色相机数据流镜像](#彩色相机数据流镜像)
-        * [开关激光](#开关激光)
-        * [开关LDP](#开关ldp)
-        * [开关软件滤波](#开关软件滤波)
-        * [其他接口](#其他接口)
-    * [FAQ](#faq)
+- [Orbbec SDK Python Wrapper文档](#orbbec-sdk-python-wrapper文档)
+  - [目录](#目录)
+  - [概述](#概述)
+  - [系统要求](#系统要求)
+    - [操作系統](#操作系統)
+    - [编译平台要求](#编译平台要求)
+    - [Python 版本](#python-版本)
+  - [Python SDK支持的硬件产品](#python-sdk支持的硬件产品)
+  - [Orbbec SDK Python Wrapper Sample编译说明](#orbbec-sdk-python-wrapper-sample编译说明)
+    - [Windows python sdk 编译](#windows-python-sdk-编译)
+      - [下载 python sdk 源码](#下载-python-sdk-源码)
+      - [安装依赖](#安装依赖)
+      - [配置Visual Studio](#配置visual-studio)
+      - [编译python SDK](#编译python-sdk)
+      - [测试python SDK Sample](#测试python-sdk-sample)
+    - [Linux python SDK 编译](#linux-python-sdk-编译)
+      - [下载 python sdk 源码](#下载-python-sdk-源码-1)
+      - [安装依赖](#安装依赖-1)
+      - [Python SDK 编译](#python-sdk-编译)
+      - [测试 Sample](#测试-sample)
+  - [常用调用流程](#常用调用流程)
+    - [视频数据获取](#视频数据获取)
+    - [获取设备列表](#获取设备列表)
+    - [获取传感器列表](#获取传感器列表)
+    - [获取设备信息](#获取设备信息)
+    - [彩色相机自动曝光](#彩色相机自动曝光)
+    - [获取和设置彩色相机曝光值](#获取和设置彩色相机曝光值)
+    - [获取和设置彩色相机增益](#获取和设置彩色相机增益)
+    - [彩色相机数据流镜像](#彩色相机数据流镜像)
+    - [开关激光](#开关激光)
+    - [开关LDP](#开关ldp)
+    - [开关软件滤波](#开关软件滤波)
+    - [重启设备](#重启设备)
+    - [其他接口](#其他接口)
+  - [FAQ](#faq)
 
 <!-- TOC -->
 
@@ -67,27 +68,24 @@ SDK进行设计封装，主要实现数据流接收，设备指令控制。
 * Python 3.6.9 及以上
 
 ## Python SDK支持的硬件产品
-
-| **产品列表**       | **固件版本**                             |
-|----------------|--------------------------------------|
-| Astra2         | 2.8.20                               |
-| Gemini2 L      | 1.4.32                               |
-| Gemini2        | 1.4.60                               |
-| FemtoMega      | 1.1.7  (支持window10、ubuntu20.04及以上系统) |
-| Astra+         | 1.0.22/1.0.21/1.0.20/1.0.19          |
-| Femto          | 1.6.7                                |
-| Femto W        | 1.1.8                                |
-| Dabai          | 2436                                 |
-| Dabai DCW      | 2460                                 |
-| Dabai DW       | 2606                                 |
-| Astra Mini     | 2418                                 |
-| Astra Mini Pro | 1007                                 |
-| Astra Pro Plus | 2513                                 |
-| A1 Pro         | 3057                                 |
-| Gemini E       | 3460                                 |
-| Gemini E Lite  | 3606                                 |
-| Gemini         | 3.0.18                               |
-| Deeyea         | 3012/3015                            |
+| **SDK version** | **products list** | **firmware version**                        |
+| --------------- | ----------------- | ------------------------------------------- |
+| v1.7.2          | Gemini 2 XL       | Obox: V1.2.5  VL:1.4.54                     |
+|                 | Astra 2           | 2.8.20                                      |
+|                 | Gemini 2 L        | 1.4.32                                      |
+|                 | Gemini 2          | 1.4.60 /1.4.76                              |
+|                 | Femto Mega        | 1.1.7  (window10、ubuntu20.04、ubuntu22.04) |
+|                 | Astra+            | 1.0.22/1.0.21/1.0.20/1.0.19                 |
+|                 | Femto             | 1.6.7                                       |
+|                 | Femto W           | 1.1.8                                       |
+|                 | DaBai             | 2436                                        |
+|                 | DaBai DCW         | 2460                                        |
+|                 | DaBai DW          | 2606                                        |
+|                 | Astra Mini Pro    | 1007                                        |
+|                 | Gemini E          | 3460                                        |
+|                 | Gemini E Lite     | 3606                                        |
+|                 | Gemini            | 3.0.18                                      |
+|                 | Astra Mini S Pro  | 1.0.05                                      |
 
 ## Orbbec SDK Python Wrapper Sample编译说明
 

@@ -16,16 +16,12 @@
 import sys
 
 from pyorbbecsdk import *
-import time
+from utils import frame_to_bgr_image
 import cv2
 import numpy as np
+import signal
 
-from queue import Queue
-
-depth_frames_queue = Queue()
-MAX_QUEUE_SIZE = 5
 ESC_KEY = 27
-stop_rendering = False
 
 
 def playback_state_callback(state):
@@ -37,36 +33,15 @@ def playback_state_callback(state):
         print("Bag player paused")
 
 
-def frame_playback_callback(frame):
-    global depth_frames_queue
-    depth_frame = frame.as_depth_frame()
-    if depth_frame is None:
-        return
-    if depth_frames_queue.qsize() >= MAX_QUEUE_SIZE:
-        depth_frames_queue.get()
-    depth_frames_queue.put(depth_frame)
-
-
-def rendering_frames():
-    global depth_frames_queue, stop_rendering
-    while not stop_rendering:
-        depth_frame = None
-        if not depth_frames_queue.empty():
-            depth_frame = depth_frames_queue.get()
-        if depth_frame is None:
-            continue
-        width = depth_frame.get_width()
-        height = depth_frame.get_height()
-        scale = depth_frame.get_depth_scale()
-        depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-        depth_data = depth_data.reshape((height, width))
-        depth_data = depth_data.astype(np.float32) * scale
-        depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-        depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
-        cv2.imshow("Depth Viewer", depth_image)
-        key = cv2.waitKey(1)
-        if key == ord('q') or key == ESC_KEY:
-            break
+def get_color_frame(frames):
+    color_frame = frames.get_color_frame()
+    if color_frame is None:
+        return None
+    color_image = frame_to_bgr_image(color_frame)
+    if color_image is None:
+        print("failed to convert frame to image")
+        return None
+    return color_image
 
 
 def main():
@@ -77,12 +52,40 @@ def main():
     print("Device info: ", device_info)
     camera_param = pipeline.get_camera_param()
     print("Camera param: ", camera_param)
-    global stop_rendering
-    playback.start(frame_playback_callback)
+    pipeline.start()
     try:
-        rendering_frames()
+        while True:
+            frames = pipeline.wait_for_frames(100)
+            if frames is None:
+                continue
+            depth_frame = frames.get_depth_frame()
+            if depth_frame is None:
+                continue
+
+            width = depth_frame.get_width()
+            height = depth_frame.get_height()
+            scale = depth_frame.get_depth_scale()
+
+            depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+            depth_data = depth_data.reshape((height, width))
+            depth_data = depth_data.astype(np.float32) * scale
+            depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+            color_image = get_color_frame(frames)
+            if color_image is None:
+                cv2.imshow("playbackViewer ", depth_image)
+            else:
+                # concatenate color image and depth image horizontally
+                depth_image_resized = cv2.resize(depth_image, (color_image.shape[1], color_image.shape[0]))
+
+                combined_image = np.hstack((color_image, depth_image_resized))
+                cv2.imshow("playbackViewer ", combined_image)
+            key = cv2.waitKey(1)
+            if key == ord('q') or key == ESC_KEY:
+                break
     except KeyboardInterrupt:
-        stop_rendering = True
+        if pipeline:
+            pipeline.stop()
         sys.exit(0)
 
 

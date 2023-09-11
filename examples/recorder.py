@@ -23,6 +23,7 @@ ESC_KEY = 27
 def main():
     pipeline = Pipeline()
     config = Config()
+    # enable depth stream
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         if profile_list is None:
@@ -33,6 +34,17 @@ def main():
     except Exception as e:
         print(e)
         return
+    # enable color stream
+    try:
+        profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+        if profile_list is None:
+            print("No color sensor found")
+            return
+        profile = profile_list.get_default_video_stream_profile()
+        config.enable_stream(profile)
+    except Exception as e:
+        print(e)
+
     pipeline.start(config)
     pipeline.start_recording("./test.bag")
     while True:

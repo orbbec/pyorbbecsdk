@@ -15,6 +15,14 @@ git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
 ```bash
 sudo apt-get install python3-dev python3-venv python3-pip python3-opencv
 ```
+### Custom Python3 path (optional)
+If you use Anaconda, you can set the python3 path to the Anaconda path. Put below code in `pyorbbecsdk/CMakeLists.txt`
+before `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)`.
+
+```cmake
+set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # replace by your python3 path
+set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.6/site-packages/pybind11/share/cmake/pybind11") # replace by your pybind11 path
+```
 
 ### Build
 

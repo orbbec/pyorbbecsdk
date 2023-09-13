@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright (c) 2023 Orbbec 3D Technology, Inc
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright (c) 2023 Orbbec 3D Technology, Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 #include "device.hpp"
 
 #include <sstream>
@@ -252,6 +252,16 @@ void define_device(const py::object &m) {
            })
       .def("reboot",
            [](const std::shared_ptr<ob::Device> &self) { self->reboot(); })
+      .def("get_baseline",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({
+               OBBaselineCalibrationParam param;
+               uint32_t size = sizeof(param);
+               self->getStructuredData(OB_STRUCT_BASELINE_CALIBRATION_PARAM,
+                                       &param, &size);
+               return param;
+             });
+           })
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();

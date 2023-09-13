@@ -61,7 +61,7 @@ def main():
             depth_frame = frames.get_depth_frame()
             if depth_frame is None:
                 continue
-
+            images = []
             width = depth_frame.get_width()
             height = depth_frame.get_height()
             scale = depth_frame.get_depth_scale()
@@ -72,14 +72,17 @@ def main():
             depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
             color_image = get_color_frame(frames)
-            if color_image is None:
-                cv2.imshow("playbackViewer ", depth_image)
-            else:
-                # concatenate color image and depth image horizontally
-                depth_image_resized = cv2.resize(depth_image, (color_image.shape[1], color_image.shape[0]))
-
-                combined_image = np.hstack((color_image, depth_image_resized))
-                cv2.imshow("playbackViewer ", combined_image)
+            # if you want to add IR frame, it's the same as color
+            if depth_image is not None:
+                images.append(depth_image)
+            if color_image is not None:
+                images.append(color_image)
+            if len(images) > 0:
+                images_to_show = []
+                for img in images:
+                    img = cv2.resize(img, (640, 480))
+                    images_to_show.append(img)
+                cv2.imshow("playbackViewer", np.hstack(images_to_show))
             key = cv2.waitKey(1)
             if key == ord('q') or key == ESC_KEY:
                 break

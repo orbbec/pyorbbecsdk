@@ -19,13 +19,32 @@ from pyorbbecsdk import OBSensorType, OBFormat
 from pyorbbecsdk import OBError
 import cv2
 import numpy as np
+import time
 
 ESC_KEY = 27
+PRINT_INTERVAL = 1  # seconds
+MIN_DEPTH = 20  # 20mm
+MAX_DEPTH = 10000  # 10000mm
+
+
+class TemporalFilter:
+    def __init__(self, alpha):
+        self.alpha = alpha
+        self.previous_frame = None
+
+    def process(self, frame):
+        if self.previous_frame is None:
+            result = frame
+        else:
+            result = cv2.addWeighted(frame, self.alpha, self.previous_frame, 1 - self.alpha, 0)
+        self.previous_frame = result
+        return result
 
 
 def main():
     config = Config()
     pipeline = Pipeline()
+    temporal_filter = TemporalFilter(alpha=0.5)
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         assert profile_list is not None
@@ -41,6 +60,7 @@ def main():
         print(e)
         return
     pipeline.start(config)
+    last_print_time = time.time()
     while True:
         try:
             frames = pipeline.wait_for_frames(100)
@@ -57,10 +77,19 @@ def main():
             depth_data = depth_data.reshape((height, width))
 
             depth_data = depth_data.astype(np.float32) * scale
+            depth_data = np.where((depth_data > MIN_DEPTH) & (depth_data < MAX_DEPTH), depth_data, 0)
+            depth_data = depth_data.astype(np.uint16)
+            # Apply temporal filtering
+            depth_data = temporal_filter.process(depth_data)
+
             center_y = int(height / 2)
             center_x = int(width / 2)
             center_distance = depth_data[center_y, center_x]
-            print("center distance: ", center_distance)
+
+            current_time = time.time()
+            if current_time - last_print_time >= PRINT_INTERVAL:
+                print("center distance: ", center_distance)
+                last_print_time = current_time
 
             depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)

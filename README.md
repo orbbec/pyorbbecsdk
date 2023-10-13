@@ -50,6 +50,8 @@ sudo bash ./scripts/install_udev_rules.sh
 sudo udevadm control --reload-rules && sudo udevadm trigger
 # run examples
 python3 examples/depth_viewer.py
+# network device, you need install ffmpeg
+python3 examples/net_device.py
 ```
 
 Other examples can be found in `examples` directory, Please refer to [examples/README.md](examples/README.md) for more.

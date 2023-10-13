@@ -1,8 +1,8 @@
 import cv2
-import ffmpeg
 import numpy as np
 from pyorbbecsdk import (Pipeline, FrameSet, Context, Config, OBSensorType,
                          OBFormat, OBError, VideoStreamProfile)
+import subprocess
 from utils import frame_to_bgr_image
 
 ESC_KEY = 27
@@ -17,12 +17,31 @@ def get_stream_profile(pipeline, sensor_type, width, height, fmt, fps):
     return profile
 
 
-def decode_h265_frame(color_frame):
-    color_format = 'h265' if color_frame.get_format() == OBFormat.H265 else 'h264'
-    in_proc = ffmpeg.input('pipe:', format=color_format).output('pipe:', format='rawvideo', pix_fmt='bgr24').run(
-        capture_stdout=True, capture_stderr=True, input=color_frame.get_data())
-    decoded_frame = np.frombuffer(in_proc[0], dtype=np.uint8).reshape(color_frame.get_height(), color_frame.get_width(),
-                                                                      3)
+def decode_h265_frame(color_frame, color_format='hevc'):
+    if color_format == 'h265':
+        color_format = 'hevc'
+    elif color_format == 'h264':
+        color_format = 'h264'  # Actually, this remains unchanged but added for clarity.
+
+    cmd_in = [
+        'ffmpeg',
+        '-f', color_format,
+        '-i', 'pipe:',
+        '-f', 'rawvideo',
+        '-pix_fmt', 'bgr24',
+        'pipe:'
+    ]
+
+    byte_data = color_frame.get_data().tobytes()
+
+    proc = subprocess.Popen(cmd_in, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = proc.communicate(input=byte_data)
+
+    if proc.returncode != 0:
+        raise ValueError(f'FFmpeg did not run successfully: {err.decode()}')
+    if len(out) == 0:
+        return None
+    decoded_frame = np.frombuffer(out, dtype=np.uint8).reshape(color_frame.get_height(), color_frame.get_width(), 3)
     return decoded_frame
 
 
@@ -38,11 +57,11 @@ def main():
     pipeline = Pipeline(device)
 
     # Setup color stream
-    color_profile = get_stream_profile(pipeline, OBSensorType.COLOR_SENSOR, 640, 0, OBFormat.H265, 30)
+    color_profile = get_stream_profile(pipeline, OBSensorType.COLOR_SENSOR, 1280, 0, OBFormat.H264, 10)
     config.enable_stream(color_profile)
 
     # Setup depth stream
-    depth_profile = get_stream_profile(pipeline, OBSensorType.DEPTH_SENSOR, 640, 0, OBFormat.Y16, 30)
+    depth_profile = get_stream_profile(pipeline, OBSensorType.DEPTH_SENSOR, 640, 0, OBFormat.Y16, 10)
     config.enable_stream(depth_profile)
 
     pipeline.start(config)
@@ -57,7 +76,8 @@ def main():
             depth_frame = frames.get_depth_frame()
 
             if color_frame and color_frame.get_format() in [OBFormat.H265, OBFormat.H264]:
-                color_image = decode_h265_frame(color_frame)
+                color_format = 'h265' if color_frame.get_format() == OBFormat.H265 else 'h264'
+                color_image = decode_h265_frame(color_frame, color_format)
             elif color_frame:
                 color_image = frame_to_bgr_image(color_frame)
             else:
@@ -74,9 +94,12 @@ def main():
                 depth_image = None
 
             if color_image is not None or depth_image is not None:
+                target_size = (640, 480)
                 images_to_show = [img for img in [color_image, depth_image] if img is not None]
-                cv2.imshow("net_device", np.hstack(images_to_show))
+                # Resize each image to 640x480
+                images_to_show = [cv2.resize(img, target_size) for img in images_to_show]
 
+                cv2.imshow("net_device", np.hstack(images_to_show))
             key = cv2.waitKey(1)
             if key in [ord('q'), ESC_KEY]:
                 break

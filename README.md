@@ -44,7 +44,7 @@ make install
 ```bash
 cd pyorbbecsdk
 # set PYTHONPATH environment variable to include the lib directory in the install directory
-export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
+export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/ # DON'T forget do this
 # install udev rules
 sudo bash ./scripts/install_udev_rules.sh
 sudo udevadm control --reload-rules && sudo udevadm trigger

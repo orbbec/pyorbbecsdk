@@ -11,6 +11,7 @@
 * [infrared_viewer.py](infrared_viewer.py) - Displays the infrared stream from the camera.
 * [multi_device.py](multi_device.py) - Demonstrates how to use multiple devices.
 * [recorder.py](recorder.py) - Demonstrates how to record the depth and color streams to a file.
+* [net_device.py](net_device.py) - Demonstrates how to use the network device.
 * [playback.py](playback.py) - Demonstrates how to play back the recorded streams.
 * [save_image_to_disk](save_image_to_disk.py) - Demonstrates how to save the depth and color streams to disk.
 * [save_pointcloud_to_disk.py](save_pointcloud_to_disk.py) - Demonstrates how to save the pointcloud to disk.

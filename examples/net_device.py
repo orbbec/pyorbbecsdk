@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from pyorbbecsdk import (Pipeline, FrameSet, Context, Config, OBSensorType,
                          OBFormat, OBError, VideoStreamProfile)
+import platform
 import subprocess
 from utils import frame_to_bgr_image
 
@@ -18,6 +19,8 @@ def get_stream_profile(pipeline, sensor_type, width, height, fmt, fps):
 
 
 def decode_h265_frame(color_frame, color_format='hevc'):
+    # This function is only supported on Linux.
+    # and requires ffmpeg to be installed.
     if color_format == 'h265':
         color_format = 'hevc'
     elif color_format == 'h264':
@@ -57,7 +60,7 @@ def main():
     pipeline = Pipeline(device)
 
     # Setup color stream
-    color_profile = get_stream_profile(pipeline, OBSensorType.COLOR_SENSOR, 1280, 0, OBFormat.H264, 10)
+    color_profile = get_stream_profile(pipeline, OBSensorType.COLOR_SENSOR, 1280, 0, OBFormat.MJPG, 10)
     config.enable_stream(color_profile)
 
     # Setup depth stream
@@ -65,6 +68,7 @@ def main():
     config.enable_stream(depth_profile)
 
     pipeline.start(config)
+    warning_printed = False
 
     try:
         while True:
@@ -76,8 +80,14 @@ def main():
             depth_frame = frames.get_depth_frame()
 
             if color_frame and color_frame.get_format() in [OBFormat.H265, OBFormat.H264]:
-                color_format = 'h265' if color_frame.get_format() == OBFormat.H265 else 'h264'
-                color_image = decode_h265_frame(color_frame, color_format)
+                if platform.system() == 'Linux':
+                    color_format = 'h265' if color_frame.get_format() == OBFormat.H265 else 'h264'
+                    color_image = decode_h265_frame(color_frame, color_format)
+                else:
+                    if not warning_printed:
+                        print("H264 and H265 are not supported on this system.")
+                        warning_printed = True
+                    color_image = None
             elif color_frame:
                 color_image = frame_to_bgr_image(color_frame)
             else:

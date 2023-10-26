@@ -103,7 +103,7 @@ def main():
             else:
                 depth_image = None
 
-            if color_image is not None or depth_image is not None:
+            if color_image is not None and depth_image is not None:
                 target_size = (640, 480)
                 images_to_show = [img for img in [color_image, depth_image] if img is not None]
                 # Resize each image to 640x480

@@ -78,6 +78,9 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> i
 
 def main():
     pipeline = Pipeline()
+    device = pipeline.get_device()
+    device_info = device.get_device_info()
+    device_pid = device_info.get_pid()
     config = Config()
     has_color_sensor = False
     depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
@@ -91,7 +94,10 @@ def main():
         if profile_list is not None:
             color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
-            config.set_align_mode(OBAlignMode.HW_MODE)
+            if device_pid == 0x066B:
+               config.set_align_mode(OBAlignMode.SW_MODE)
+            else:
+               config.set_align_mode(OBAlignMode.HW_MODE)
             has_color_sensor = True
     except OBError as e:
         config.set_align_mode(OBAlignMode.DISABLE)

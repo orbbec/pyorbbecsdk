@@ -25,6 +25,9 @@ ESC_KEY = 27
 
 def main(argv):
     pipeline = Pipeline()
+    device = pipeline.get_device()
+    device_info = device.get_device_info()
+    device_pid = device_info.get_pid()
     config = Config()
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--mode",
@@ -55,7 +58,10 @@ def main(argv):
         print(e)
         return
     if align_mode == 'HW':
-        config.set_align_mode(OBAlignMode.HW_MODE)
+          if device_pid == 0x066B:
+             config.set_align_mode(OBAlignMode.SW_MODE)
+          else:
+             config.set_align_mode(OBAlignMode.HW_MODE)
     elif align_mode == 'SW':
         config.set_align_mode(OBAlignMode.SW_MODE)
     else:

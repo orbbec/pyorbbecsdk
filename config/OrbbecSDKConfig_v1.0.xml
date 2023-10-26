@@ -296,6 +296,64 @@
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR>
         </FemtoMega>
+        <FemtoBolt>
+            <Depth>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>576</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>Y16</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+				<StreamFailedRetry>0</StreamFailedRetry>
+                <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
+                <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
+                <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
+				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
+                <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
+            </Depth>
+
+            <Color>
+                <!--The width of the default resolution, int type-->
+                <Width>1920</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>1080</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>MJPG</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+				<StreamFailedRetry>0</StreamFailedRetry>
+                <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
+                <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
+                <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
+				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
+                <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
+            </Color>
+
+            <IR>
+                <!--The width of the default resolution, int type-->
+                <Width>640</Width>
+                <!--The height of the default resolution, int type-->
+                <Height>576</Height>
+                <!--Default frame rate, int type-->
+                <FPS>30</FPS>
+                <!--Default frame format-->
+                <Format>Y16</Format>
+                <!--Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry-->
+				<StreamFailedRetry>0</StreamFailedRetry>
+                <!--The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure-->
+                <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
+                <!--Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts-->
+				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+                <!--The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted-->
+                <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
+            </IR>
+        </FemtoBolt>
 
          <DaBai>
             <Depth>
@@ -1662,47 +1720,17 @@
 	        <!-- 默认是否开启心跳 -->
 	        <DefaulHeartBeat>0</DefaulHeartBeat>
 
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的推荐配置，当然显得繁琐 -->
-            <!-- TODO lumiaozi 要考虑不同相机深度模式下的没有对应分辨率 -->
-			<Depth>
-			    <!-- 开流失败重试次数,0表示不重试 -->
-				<StreamFailedRetry>0</StreamFailedRetry>
-				<!-- 开流等待第一帧数据的超时时间，超过后则本次开流失败 -->
-				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!-- 数据流异常中断重启次数, 0表示不重启 -->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
-				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
-				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
-                <!--默认开启分辨率的宽，int类型-->
-                <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
-                <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
-                <FPS>30</FPS>
-                <Format>RLE</Format>
-            </Depth>
             <Color>
                 <!--默认开启分辨率的宽，int类型-->
                 <Width>1280</Width>
                 <!--默认开启分辨率的高，int类型-->
-                <Height>720</Height>
+                <Height>800</Height>
                 <!--默认开启分辨率的帧率，int类型-->
                 <FPS>30</FPS>
                 <Format>MJPG</Format>
                 <!-- 开流失败重试次数,0表示不重试 -->
 				<StreamFailedRetry>0</StreamFailedRetry>
             </Color>
-            <IR>
-                <!--默认开启分辨率的宽，int类型-->
-                <Width>1280</Width>
-                <!--默认开启分辨率的高，int类型-->
-                <Height>800</Height>
-                <!--默认开启分辨率的帧率，int类型-->
-                <FPS>30</FPS>
-                <Format>Y8</Format>
-                <!-- 开流失败重试次数,0表示不重试 -->
-				<StreamFailedRetry>0</StreamFailedRetry>
-            </IR>
 			<IR_LEFT>
                 <!--默认开启分辨率的宽，int类型-->
                 <Width>1280</Width>
@@ -1727,30 +1755,41 @@
             </IR_RIGHT>
 
 			<!-- 不同相机深度模式下的配置 -->
-			<BinnedSparseDefault>
-			    <Depth>
+			<BinnedSparseStereoImaging>
+			    <Color>
+                    <!--默认开启分辨率的宽，int类型-->
+                    <Width>1280</Width>
+					<!--默认开启分辨率的高，int类型-->
+					<Height>800</Height>
+					<!--默认开启分辨率的帧率，int类型-->
+					<FPS>30</FPS>
+					<Format>MJPG</Format>
+                    <!-- 开流失败重试次数,0表示不重试 -->
+				    <StreamFailedRetry>0</StreamFailedRetry>
+				</Color>
+                <IR_LEFT>
                     <!--默认开启分辨率的宽，int类型-->
                     <Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
-					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
-					<FPS>30</FPS>
-					<Format>RLE</Format>
+                    <!--默认开启分辨率的高，int类型-->
+                    <Height>400</Height>
+                    <!--默认开启分辨率的帧率，int类型-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</Depth>
-				<IR>
-					<!--默认开启分辨率的宽，int类型-->
-					<Width>640</Width>
-					<!--默认开启分辨率的高，int类型-->
-					<Height>400</Height>
-					<!--默认开启分辨率的帧率，int类型-->
-					<FPS>30</FPS>
-					<Format>Y8</Format>
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR_LEFT>
+                <IR_RIGHT>
+                    <!--默认开启分辨率的宽，int类型-->
+                    <Width>640</Width>
+                    <!--默认开启分辨率的高，int类型-->
+                    <Height>400</Height>
+                    <!--默认开启分辨率的帧率，int类型-->
+                    <FPS>30</FPS>
+                    <Format>Y8</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
-				    <StreamFailedRetry>0</StreamFailedRetry>
-				</IR>
-			</BinnedSparseDefault>
+                    <StreamFailedRetry>0</StreamFailedRetry>
+                </IR_RIGHT>
+			</BinnedSparseStereoImaging>
 			<FactoryCalibration>
 			    <Color>
 					<!--默认开启分辨率的宽，int类型-->
@@ -1836,7 +1875,7 @@
 				<!-- 开流等待第一帧数据的超时时间，超过后则本次开流失败 -->
 				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
 				<!-- 数据流异常中断重启次数, 0表示不重启 -->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
+				<StreamInterruptedRestart>5</StreamInterruptedRestart>
 				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
 				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!--默认开启分辨率的宽，int类型-->
@@ -1857,6 +1896,10 @@
                 <Format>MJPG</Format>
                 <!-- 开流失败重试次数,0表示不重试 -->
 				<StreamFailedRetry>0</StreamFailedRetry>
+                <!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<StreamInterruptedRestart>5</StreamInterruptedRestart>
+				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
             </Color>
 			<IR_LEFT>
                 <!--默认开启分辨率的宽，int类型-->
@@ -1868,6 +1911,10 @@
                 <Format>Y8</Format>
                 <!-- 开流失败重试次数,0表示不重试 -->
 				<StreamFailedRetry>0</StreamFailedRetry>
+                <!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<StreamInterruptedRestart>5</StreamInterruptedRestart>
+				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
             </IR_LEFT>
 			<IR_RIGHT>
                 <!--默认开启分辨率的宽，int类型-->
@@ -1879,7 +1926,23 @@
                 <Format>Y8</Format>
                 <!-- 开流失败重试次数,0表示不重试 -->
 				<StreamFailedRetry>0</StreamFailedRetry>
+                <!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<StreamInterruptedRestart>5</StreamInterruptedRestart>
+				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
             </IR_RIGHT>
+            <Accel>
+                <!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<StreamInterruptedRestart>5</StreamInterruptedRestart>
+				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+            </Accel>
+            <Gyro>
+                <!-- 数据流异常中断重启次数, 0表示不重启 -->
+				<StreamInterruptedRestart>5</StreamInterruptedRestart>
+				<!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+            </Gyro>
 
 			<!-- 不同相机深度模式下的配置 -->
 			<BinnedSparseDefault>
@@ -1893,6 +1956,10 @@
 					<Format>MJPG</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</Color>
 			    <Depth>
                     <!--默认开启分辨率的宽，int类型-->
@@ -1904,6 +1971,10 @@
 					<Format>RVL</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</Depth>
                 <IR_LEFT>
                     <!--默认开启分辨率的宽，int类型-->
@@ -1915,6 +1986,10 @@
                     <Format>Y8</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
                     <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 </IR_LEFT>
                 <IR_RIGHT>
                     <!--默认开启分辨率的宽，int类型-->
@@ -1926,6 +2001,10 @@
                     <Format>Y8</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
                     <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 </IR_RIGHT>                
 			</BinnedSparseDefault>
 			<FactoryCalibration>
@@ -1939,6 +2018,10 @@
 					<Format>MJPG</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</Color>
 				<IR_LEFT>
 					<!--默认开启分辨率的宽，int类型-->
@@ -1950,6 +2033,10 @@
 					<Format>Y10</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</IR_LEFT>
 				<IR_RIGHT>
 					<!--默认开启分辨率的宽，int类型-->
@@ -1961,6 +2048,10 @@
 					<Format>Y10</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</IR_RIGHT>
 			</FactoryCalibration>
 			<In-sceneCalibration>
@@ -1974,6 +2065,10 @@
 					<Format>MJPG</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</Color>
 				<IR_LEFT>
 					<!--默认开启分辨率的宽，int类型-->
@@ -1985,6 +2080,10 @@
 					<Format>Y8</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</IR_LEFT>
 				<IR_RIGHT>
 					<!--默认开启分辨率的宽，int类型-->
@@ -1996,6 +2095,10 @@
 					<Format>Y8</Format>
                     <!-- 开流失败重试次数,0表示不重试 -->
 				    <StreamFailedRetry>0</StreamFailedRetry>
+                    <!-- 数据流异常中断重启次数, 0表示不重启 -->
+                    <StreamInterruptedRestart>5</StreamInterruptedRestart>
+                    <!-- 最大帧间隔时间，超过这个值则判断流中断了 -->
+                    <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
 				</IR_RIGHT>
 			</In-sceneCalibration>
         </OrbbecGemini2XL>

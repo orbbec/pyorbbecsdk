@@ -70,24 +70,25 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 
 ### Hardware Products Supported by Python SDK
 
-| **SDK version** | **products list** | **firmware version**                        |
-| --------------- | ----------------- | ------------------------------------------- |
-| v1.7.2          | Gemini 2 XL       | Obox: V1.2.5  VL:1.4.54                     |
-|                 | Astra 2           | 2.8.20                                      |
-|                 | Gemini 2 L        | 1.4.32                                      |
-|                 | Gemini 2          | 1.4.60 /1.4.76                              |
-|                 | Femto Mega        | 1.1.7  (window10、ubuntu20.04、ubuntu22.04) |
-|                 | Astra+            | 1.0.22/1.0.21/1.0.20/1.0.19                 |
-|                 | Femto             | 1.6.7                                       |
-|                 | Femto W           | 1.1.8                                       |
-|                 | DaBai             | 2436                                        |
-|                 | DaBai DCW         | 2460                                        |
-|                 | DaBai DW          | 2606                                        |
-|                 | Astra Mini Pro    | 1007                                        |
-|                 | Gemini E          | 3460                                        |
-|                 | Gemini E Lite     | 3606                                        |
-|                 | Gemini            | 3.0.18                                      |
-|                 | Astra Mini S Pro  | 1.0.05                                      |
+| **products list** | **firmware version**                        |
+| ----------------- | ------------------------------------------- |
+| Femto Bolt        | 1.0.6 (unsupported ARM32)                   |
+| Gemini 2 XL       | Obox: V1.2.5  VL:1.4.54                     |
+| Astra 2           | 2.8.20                                      |
+| Gemini 2 L        | 1.4.32                                      |
+| Gemini 2          | 1.4.60 /1.4.76                              |
+| Femto Mega        | 1.1.7  (window10、ubuntu20.04、ubuntu22.04) |
+| Astra+            | 1.0.22/1.0.21/1.0.20/1.0.19                 |
+| Femto             | 1.6.7                                       |
+| Femto W           | 1.1.8                                       |
+| DaBai             | 2436                                        |
+| DaBai DCW         | 2460                                        |
+| DaBai DW          | 2606                                        |
+| Astra Mini Pro    | 1007                                        |
+| Gemini E          | 3460                                        |
+| Gemini E Lite     | 3606                                        |
+| Gemini            | 3.0.18                                      |
+| Astra Mini S Pro  | 1.0.05                                      |
 
 ## Orbbec SDK Python Wrapper Sample Compilation Instructions
 
@@ -96,7 +97,7 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 #### Download the Python SDK source code
 
 ```bash
-git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
+git clone https://github.com/orbbec/pyorbbecsdk.git
 ```
 
 #### Install dependencies
@@ -166,7 +167,7 @@ In the examples directory, execute test examples such as `python ColorViewer.py`
 ### Download Python SDK source code
 
 ```bash
-git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
+git clone https://github.com/orbbec/pyorbbecsdk.git
 ```
 
 ### Install dependencies

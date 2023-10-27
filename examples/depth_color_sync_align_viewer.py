@@ -59,6 +59,7 @@ def main(argv):
         return
     if align_mode == 'HW':
           if device_pid == 0x066B:
+            #Femto Mega does not support hardware D2C, and it is changed to software D2C
              config.set_align_mode(OBAlignMode.SW_MODE)
           else:
              config.set_align_mode(OBAlignMode.HW_MODE)

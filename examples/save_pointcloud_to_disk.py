@@ -95,6 +95,7 @@ def main():
             color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
             if device_pid == 0x066B:
+                #Femto Mega does not support hardware D2C, and it is changed to software D2C
                config.set_align_mode(OBAlignMode.SW_MODE)
             else:
                config.set_align_mode(OBAlignMode.HW_MODE)

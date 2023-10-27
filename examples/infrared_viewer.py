@@ -21,7 +21,7 @@ import cv2
 import numpy as np
 
 ESC_KEY = 27
-
+#Notes： Gemini 2 XL does not support this sample. Please refer to double_infrared_viewer.py
 
 def main():
     config = Config()

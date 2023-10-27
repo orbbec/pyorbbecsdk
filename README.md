@@ -7,7 +7,7 @@ A python binding for Orbbec SDK.
 ### Get source code
 
 ```bash
-git clone https://github.com/OrbbecDeveloper/pyorbbecsdk.git
+git clone https://github.com/orbbec/pyorbbecsdk.git
 ```
 
 ### Install dependencies

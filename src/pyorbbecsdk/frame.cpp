@@ -272,8 +272,6 @@ void define_frame_set(const py::object& m) {
                py::list result;
                for (size_t i = 0; i < points_size; ++i) {
                  auto point = points[i];
-                 point.x *= scale;
-                 point.y *= scale;
                  point.z *= scale;
                  if (point.z > 0) {
                    result.append(py::cast(point));
@@ -313,8 +311,6 @@ void define_frame_set(const py::object& m) {
                py::list result;
                for (size_t i = 0; i < points_size; ++i) {
                  auto point = points[i];
-                 point.x *= scale;
-                 point.y *= scale;
                  point.z *= scale;
                  if (point.z > 0) {
                    result.append(py::cast(point));

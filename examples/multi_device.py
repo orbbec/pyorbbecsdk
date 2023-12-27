@@ -100,6 +100,7 @@ def rendering_frames():
 def start_streams(pipelines: List[Pipeline], configs: List[Config]):
     index = 0
     for pipeline, config in zip(pipelines, configs):
+        print("Starting device {}".format(index))
         pipeline.start(config, lambda frame_set, curr_index=index: on_new_frame_callback(frame_set,
                                                                                          curr_index))
         index += 1

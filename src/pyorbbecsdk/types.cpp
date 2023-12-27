@@ -632,7 +632,7 @@ void define_orbbec_types(const py::object &m) {
       .def(py::init<>())
       .def_readwrite("mode", &OBMultiDeviceSyncConfig::syncMode)
       .def_readwrite("depth_delay_us", &OBMultiDeviceSyncConfig::depthDelayUs)
-      .def_readwrite("rgb_delay_us", &OBMultiDeviceSyncConfig::colorDelayUs)
+      .def_readwrite("color_delay_us", &OBMultiDeviceSyncConfig::colorDelayUs)
       .def_readwrite("trigger_to_image_delay_us",
                      &OBMultiDeviceSyncConfig::trigger2ImageDelayUs)
       .def_readwrite("trigger_out_enable",

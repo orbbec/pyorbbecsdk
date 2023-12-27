@@ -1,0 +1,28 @@
+{
+    "devices": [
+        {
+            "serial_number": "CL8P83D000N",
+            "config": {
+                "mode": "PRIMARY",
+                "depth_delay_us": 0,
+                "color_delay_us": 0,
+                "trigger_to_image_delay_us": 0,
+                "trigger_out_enable": true,
+                "trigger_out_delay_us": 0,
+                "frames_per_trigger": 1
+            }
+        },
+        {
+            "serial_number": "CL8P83D0005",
+            "config": {
+                "mode": "SECONDARY",
+                "depth_delay_us": 0,
+                "color_delay_us": 0,
+                "trigger_to_image_delay_us": 0,
+                "trigger_out_enable": true,
+                "trigger_out_delay_us": 0,
+                "frames_per_trigger": 1
+            }
+        }
+    ]
+}

@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright (c) 2023 Orbbec 3D Technology, Inc
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright (c) 2023 Orbbec 3D Technology, Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 #include "frame.hpp"
 
 #include <pybind11/numpy.h>
@@ -239,10 +239,8 @@ void define_frame_set(const py::object& m) {
            [](const std::shared_ptr<ob::FrameSet>& self, OBFrameType type) {
              return self->getFrame(type);
            })
-      .def("get_frame",
-           [](const std::shared_ptr<ob::FrameSet>& self,  OBFrameType type) {
-             return self->getFrame(type);
-           })
+      .def("get_frame", [](const std::shared_ptr<ob::FrameSet>& self,
+                           OBFrameType type) { return self->getFrame(type); })
       .def("convert_to_points",
            [](const std::shared_ptr<ob::FrameSet>& self,
               const OBCameraParam& param) -> py::list {
@@ -324,7 +322,123 @@ void define_frame_set(const py::object& m) {
              } catch (const ob::Error& e) {
                throw OBError(e);
              }
-           });
+           })
+      .def("get_point_cloud",
+           [](const std::shared_ptr<ob::FrameSet>& self,
+              const OBCameraParam& param) -> py::array_t<float> {
+             try {
+               ob::PointCloudFilter filter;
+               filter.setCameraParam(param);
+               filter.setCreatePointFormat(OB_FORMAT_POINT);
+
+               auto depth_frame = self->depthFrame();
+               if (!depth_frame) {
+                 std::cerr << "depth frame not exists" << std::endl;
+                 return {};
+               }
+               auto frame = filter.process(self);
+               if (!frame) {
+                 std::cerr << "point cloud filter process failed" << std::endl;
+                 return {};
+               }
+               long points_size =
+                   static_cast<long>(frame->dataSize() / sizeof(OBPoint));
+               auto scale = depth_frame->getValueScale();
+               auto points = reinterpret_cast<OBPoint*>(frame->data());
+               if (!points) {
+                 std::cerr << "cast points failed" << std::endl;
+                 return {};
+               }
+
+               py::array::ShapeContainer shape({points_size, 3});
+               py::array::StridesContainer strides(
+                   {3 * sizeof(float), sizeof(float)});
+               py::dtype dtype("float");
+
+               py::array array(dtype, shape, strides);
+               py::array_t<float> result = py::cast<py::array_t<float>>(array);
+               py::buffer_info buf_info = result.request();
+               auto* ptr = static_cast<float*>(buf_info.ptr);
+               for (long i = 0; i < points_size; ++i) {
+                 auto point = points[i];
+                 point.x *= scale;
+                 point.y *= scale;
+                 point.z *= scale;
+                 size_t index = i * 3;
+                 if (point.z > 0) {
+                   ptr[index] = point.x;
+                   ptr[index + 1] = point.y;
+                   ptr[index + 2] = point.z;
+                 }
+               }
+               return result;
+             } catch (const ob::Error& e) {
+               throw OBError(e);
+             }
+           })
+      .def("get_color_point_cloud",
+           [](const std::shared_ptr<ob::FrameSet>& self,
+              const OBCameraParam& param) -> py::array_t<float> {
+             try {
+               ob::PointCloudFilter filter;
+               filter.setCameraParam(param);
+               filter.setCreatePointFormat(OB_FORMAT_RGB_POINT);
+
+               auto depth_frame = self->depthFrame();
+               auto color_frame = self->colorFrame();
+               if (!depth_frame || !color_frame) {
+                 std::cerr << "depth or color frame not exists" << std::endl;
+                 return {};
+               }
+               auto frame = filter.process(self);
+               if (!frame) {
+                 return {};
+               }
+               long points_size =
+                   static_cast<long>(frame->dataSize() / sizeof(OBColorPoint));
+               auto scale = depth_frame->getValueScale();
+               auto points = reinterpret_cast<OBColorPoint*>(frame->data());
+               if (!points) {
+                 std::cerr << "cast points failed" << std::endl;
+                 return {};
+               }
+               py::array::ShapeContainer shape({points_size, 6});
+               py::array::StridesContainer strides(
+                   {6 * sizeof(float), sizeof(float)});
+               py::dtype dtype("float");
+               py::array array(dtype, shape, strides);
+               py::array_t<float> result = py::cast<py::array_t<float>>(array);
+               py::buffer_info buf_info = result.request();
+               auto* ptr = static_cast<float*>(buf_info.ptr);
+               for (long i = 0; i < points_size; ++i) {
+                 auto point = points[i];
+                 point.x *= scale;
+                 point.y *= scale;
+                 point.z *= scale;
+                 size_t index = i * 6;
+                 if (point.z > 0) {
+                   ptr[index] = point.x;
+                   ptr[index + 1] = point.y;
+                   ptr[index + 2] = point.z;
+                   ptr[index + 3] = point.r;
+                   ptr[index + 4] = point.g;
+                   ptr[index + 5] = point.b;
+                 }
+               }
+               return result;
+             } catch (const ob::Error& e) {
+               throw OBError(e);
+             }
+           })
+      .def("__repr__", [](const std::shared_ptr<ob::FrameSet>& self) {
+        std::ostringstream oss;
+        oss << "<FrameSet type=" << self->type() << " format=" << self->format()
+            << " index=" << self->index() << " data_size=" << self->dataSize()
+            << " timestamp=" << self->timeStamp()
+            << " timestamp_us=" << self->timeStampUs()
+            << " system_timestamp=" << self->systemTimeStamp()
+            << " frame_count=" << self->frameCount() << ">";
+      });
 }
 
 void define_accel_frame(const py::object& m) {

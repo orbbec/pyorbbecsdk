@@ -619,8 +619,6 @@ void define_orbbec_types(const py::object &m) {
              OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_PRIMARY)
       .value("SECONDARY",
              OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SECONDARY)
-      .value("SECONDARY",
-             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SECONDARY)
       .value("SECONDARY_SYNCED",
              OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SECONDARY_SYNCED)
       .value(
@@ -649,10 +647,6 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("enable", &OBDeviceTimestampResetConfig::enable)
       .def_readwrite("timestamp_reset_delay_us",
                      &OBDeviceTimestampResetConfig::timestamp_reset_delay_us);
-
-  py::class_<OBBaselineCalibrationParam>(m, "OBBaselineCalibrationParam")
-      .def(py::init<>())
-      .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline)
-      .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd);
+  
 }
 }  // namespace pyorbbecsdk

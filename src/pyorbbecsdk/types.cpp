@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright (c) 2023 Orbbec 3D Technology, Inc
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright (c) 2023 Orbbec 3D Technology, Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 #include "types.hpp"
 
 #include "utils.hpp"
@@ -602,5 +602,57 @@ void define_orbbec_types(const py::object &m) {
       .value(
           "ANY_SITUATION",
           OBFrameAggregateOutputMode::OB_FRAME_AGGREGATE_OUTPUT_ANY_SITUATION);
+  py::enum_<OBCoordinateSystemType>(m, "OBCoordinateSystemType")
+      .value("LEFT_HAND",
+             OBCoordinateSystemType::OB_LEFT_HAND_COORDINATE_SYSTEM)
+      .value("RIGHT_HAND",
+             OBCoordinateSystemType::OB_RIGHT_HAND_COORDINATE_SYSTEM);
+  py::enum_<OBDeviceDevelopmentMode>(m, "OBDeviceDevelopmentMode")
+      .value("NORMAL", OBDeviceDevelopmentMode::OB_USER_MODE)
+      .value("DEVELOPMENT", OBDeviceDevelopmentMode::OB_DEVELOPER_MODE);
+  py::enum_<OBMultiDeviceSyncMode>(m, "OBMultiDeviceSyncMode")
+      .value("FREE_RUN",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_FREE_RUN)
+      .value("STANDALONE",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_STANDALONE)
+      .value("PRIMARY",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_PRIMARY)
+      .value("SECONDARY",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SECONDARY)
+      .value("SECONDARY",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SECONDARY)
+      .value("SECONDARY_SYNCED",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SECONDARY_SYNCED)
+      .value(
+          "SOFTWARE_TRIGGERING",
+          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_TRIGGERING)
+      .value(
+          "HARDWARE_TRIGGERING",
+          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_HARDWARE_TRIGGERING);
+
+  py::class_<OBMultiDeviceSyncConfig>(m, "OBMultiDeviceSyncConfig")
+      .def(py::init<>())
+      .def_readwrite("mode", &OBMultiDeviceSyncConfig::syncMode)
+      .def_readwrite("depth_delay_us", &OBMultiDeviceSyncConfig::depthDelayUs)
+      .def_readwrite("rgb_delay_us", &OBMultiDeviceSyncConfig::colorDelayUs)
+      .def_readwrite("trigger_to_image_delay_us",
+                     &OBMultiDeviceSyncConfig::trigger2ImageDelayUs)
+      .def_readwrite("trigger_out_enable",
+                     &OBMultiDeviceSyncConfig::triggerOutEnable)
+      .def_readwrite("trigger_out_delay_us",
+                     &OBMultiDeviceSyncConfig::triggerOutDelayUs)
+      .def_readwrite("frames_per_trigger",
+                     &OBMultiDeviceSyncConfig::framesPerTrigger);
+
+  py::class_<OBDeviceTimestampResetConfig>(m, "OBDeviceTimestampResetConfig")
+      .def(py::init<>())
+      .def_readwrite("enable", &OBDeviceTimestampResetConfig::enable)
+      .def_readwrite("timestamp_reset_delay_us",
+                     &OBDeviceTimestampResetConfig::timestamp_reset_delay_us);
+
+  py::class_<OBBaselineCalibrationParam>(m, "OBBaselineCalibrationParam")
+      .def(py::init<>())
+      .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline)
+      .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd);
 }
 }  // namespace pyorbbecsdk

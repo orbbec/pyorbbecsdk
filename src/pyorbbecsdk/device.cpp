@@ -262,6 +262,15 @@ void define_device(const py::object &m) {
                return param;
              });
            })
+      .def("get_multi_device_sync_config",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->getMultiDeviceSyncConfig(); });
+           })
+      .def("set_multi_device_sync_config",
+           [](const std::shared_ptr<ob::Device> &self,
+              const OBMultiDeviceSyncConfig &config) {
+             OB_TRY_CATCH({ return self->setMultiDeviceSyncConfig(config); });
+           })
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();

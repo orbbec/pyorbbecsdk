@@ -273,9 +273,7 @@ void define_frame_set(const py::object& m) {
                  point.x *= scale;
                  point.y *= scale;
                  point.z *= scale;
-                 if (point.z > 0) {
-                   result.append(py::cast(point));
-                 }
+                 result.append(py::cast(point));
                }
                return result;
              } catch (const ob::Error& e) {
@@ -314,9 +312,7 @@ void define_frame_set(const py::object& m) {
                  point.x *= scale;
                  point.y *= scale;
                  point.z *= scale;
-                 if (point.z > 0) {
-                   result.append(py::cast(point));
-                 }
+                 result.append(py::cast(point));
                }
                return result;
              } catch (const ob::Error& e) {
@@ -365,11 +361,9 @@ void define_frame_set(const py::object& m) {
                  point.y *= scale;
                  point.z *= scale;
                  size_t index = i * 3;
-                 if (point.z > 0) {
-                   ptr[index] = point.x;
-                   ptr[index + 1] = point.y;
-                   ptr[index + 2] = point.z;
-                 }
+                 ptr[index] = point.x;
+                 ptr[index + 1] = point.y;
+                 ptr[index + 2] = point.z;
                }
                return result;
              } catch (const ob::Error& e) {
@@ -416,14 +410,12 @@ void define_frame_set(const py::object& m) {
                  point.y *= scale;
                  point.z *= scale;
                  size_t index = i * 6;
-                 if (point.z > 0) {
-                   ptr[index] = point.x;
-                   ptr[index + 1] = point.y;
-                   ptr[index + 2] = point.z;
-                   ptr[index + 3] = point.r;
-                   ptr[index + 4] = point.g;
-                   ptr[index + 5] = point.b;
-                 }
+                 ptr[index] = point.x;
+                 ptr[index + 1] = point.y;
+                 ptr[index + 2] = point.z;
+                 ptr[index + 3] = point.r;
+                 ptr[index + 4] = point.g;
+                 ptr[index + 5] = point.b;
                }
                return result;
              } catch (const ob::Error& e) {

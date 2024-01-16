@@ -20,6 +20,9 @@ endif ()
 if (WIN32)
   set(ORBBEC_LIB_PREFIX "")
   set(ORBBEC_LIB_SUFFIX ".lib")
+elseif(APPLE)
+  set(ORBBEC_LIB_PREFIX "lib")
+  set(ORBBEC_LIB_SUFFIX ".dylib")
 elseif (UNIX)
   set(ORBBEC_LIB_PREFIX "lib")
   set(ORBBEC_LIB_SUFFIX ".so")
@@ -33,7 +36,7 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(pybind11 REQUIRED)
 link_directories(${ORBBEC_LIBS})
 
-pybind11_add_module(${PROJECT_NAME} SHARED
+pybind11_add_module(${PROJECT_NAME}
   src/pyorbbecsdk/pyorbbecsdk.cpp
   src/pyorbbecsdk/context.cpp
   src/pyorbbecsdk/device.cpp
@@ -91,8 +94,12 @@ endif ()
 install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
   RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-
-if (UNIX)
+if(APPLE)
+  install(DIRECTORY ${ORBBEC_LIBS}/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    FILES_MATCHING PATTERN "*.dylib"
+    )
+elseif (UNIX)
   install(DIRECTORY ${ORBBEC_LIBS}/
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
     FILES_MATCHING PATTERN "*.so"

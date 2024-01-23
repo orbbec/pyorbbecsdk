@@ -246,7 +246,41 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("depth_distortion", &OBCameraParam::depthDistortion)
       .def_readwrite("rgb_intrinsic", &OBCameraParam::rgbIntrinsic)
       .def_readwrite("rgb_distortion", &OBCameraParam::rgbDistortion)
-      .def_readwrite("transform", &OBCameraParam::transform);
+      .def_readwrite("transform", &OBCameraParam::transform)
+      .def("__repr__", [](const OBCameraParam &a) {
+        std::ostringstream oss;
+        oss << "<OBCameraParam depth_intrinsic < fx=" << a.depthIntrinsic.fx
+            << "fy = " << a.depthIntrinsic.fy << " cx =" << a.depthIntrinsic.cx
+            << " cy=" << a.depthIntrinsic.cy
+            << " width=" << a.depthIntrinsic.width
+            << " height=" << a.depthIntrinsic.height << " > " << std::endl;
+        oss << " depth_distortion < k1=" << a.depthDistortion.k1
+            << " k2=" << a.depthDistortion.k2 << " k3=" << a.depthDistortion.k3
+            << " k4=" << a.depthDistortion.k4 << " k5=" << a.depthDistortion.k5
+            << " k6=" << a.depthDistortion.k6 << " p1=" << a.depthDistortion.p1
+            << " p2=" << a.depthDistortion.p2 << " > " << std::endl;
+        oss << " rgb_intrinsic < fx=" << a.rgbIntrinsic.fx
+            << "fy = " << a.rgbIntrinsic.fy << " cx =" << a.rgbIntrinsic.cx
+            << " cy=" << a.rgbIntrinsic.cy << " width=" << a.rgbIntrinsic.width
+            << " height=" << a.rgbIntrinsic.height << " > " << std::endl;
+        oss << " rgb_distortion < k1=" << a.rgbDistortion.k1
+            << " k2=" << a.rgbDistortion.k2 << " k3=" << a.rgbDistortion.k3
+            << " k4=" << a.rgbDistortion.k4 << " k5=" << a.rgbDistortion.k5
+            << " k6=" << a.rgbDistortion.k6 << " p1=" << a.rgbDistortion.p1
+            << " p2=" << a.rgbDistortion.p2 << " > " << std::endl;
+        oss << " transform < rot=[";
+        for (int i = 0; i < 9; i++) {
+          oss << a.transform.rot[i];
+          if (i != 8) {
+            oss << ", ";
+          }
+        }
+        oss << "]" << std::endl;
+        oss << " transform=[";
+        oss << a.transform.trans[0] << ", " << a.transform.trans[1] << ", "
+            << a.transform.trans[2] << "]";
+        return oss.str();
+      });
 
   py::enum_<OBAlignMode>(m, "OBAlignMode")
       .value("DISABLE", OBAlignMode::ALIGN_DISABLE)
@@ -647,6 +681,5 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("enable", &OBDeviceTimestampResetConfig::enable)
       .def_readwrite("timestamp_reset_delay_us",
                      &OBDeviceTimestampResetConfig::timestamp_reset_delay_us);
-  
 }
 }  // namespace pyorbbecsdk

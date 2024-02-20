@@ -54,7 +54,7 @@ def main():
             print("Error: ", e)
             depth_profile = profile_list.get_default_video_stream_profile()
         assert depth_profile is not None
-        print("depth profile: ", type(depth_profile))
+        print("depth profile: ", depth_profile)
         config.enable_stream(depth_profile)
     except Exception as e:
         print(e)

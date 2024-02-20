@@ -35,6 +35,7 @@ def main():
         except OBError as e:
             print(e)
             color_profile = profile_list.get_default_video_stream_profile()
+            print("color profile: ", color_profile)
         config.enable_stream(color_profile)
     except Exception as e:
         print(e)

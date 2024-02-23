@@ -262,6 +262,16 @@ void define_device(const py::object &m) {
                return param;
              });
            })
+      .def("get_temperature",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({
+               OBDeviceTemperature temperature;
+               uint32_t size = sizeof(temperature);
+               self->getStructuredData(OB_STRUCT_DEVICE_TEMPERATURE,
+                                       &temperature, &size);
+               return temperature;
+             });
+           })
       .def("get_multi_device_sync_config",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getMultiDeviceSyncConfig(); });

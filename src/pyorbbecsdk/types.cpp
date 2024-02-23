@@ -357,8 +357,22 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("ir_right_temperature", &OBDeviceTemperature::irRightTemp)
       .def_readwrite("chip_top_temperature", &OBDeviceTemperature::chipTopTemp)
       .def_readwrite("chip_bottom_temperature",
-                     &OBDeviceTemperature::chipBottomTemp);
-
+                     &OBDeviceTemperature::chipBottomTemp)
+      .def("__repr__", [](const OBDeviceTemperature &a) {
+        return "<OBDeviceTemperature cpu_temperature=" +
+               std::to_string(a.cpuTemp) +
+               ", ir_temperature=" + std::to_string(a.irTemp) +
+               ", laser_temperature=" + std::to_string(a.ldmTemp) +
+               ", main_board_temperature=" + std::to_string(a.mainBoardTemp) +
+               ", tec_temperature=" + std::to_string(a.tecTemp) +
+               ", imu_temperature=" + std::to_string(a.imuTemp) +
+               ", rgb_temperature=" + std::to_string(a.rgbTemp) +
+               ", ir_left_temperature=" + std::to_string(a.irLeftTemp) +
+               ", ir_right_temperature=" + std::to_string(a.irRightTemp) +
+               ", chip_top_temperature=" + std::to_string(a.chipTopTemp) +
+               ", chip_bottom_temperature=" + std::to_string(a.chipBottomTemp) +
+               ">";
+      });
   py::enum_<OBDepthCroppingMode>(m, "OBDepthCroppingMode")
       .value("AUTO", OBDepthCroppingMode::DEPTH_CROPPING_MODE_AUTO)
       .value("CLOSE", OBDepthCroppingMode::DEPTH_CROPPING_MODE_CLOSE)

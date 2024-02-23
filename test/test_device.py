@@ -73,6 +73,11 @@ class DeviceTest(unittest.TestCase):
             self.assertIsNotNone(calib_camera_params)
             print(calib_camera_params)
 
+    def test_get_temperature(self):
+        temperature = self.device.get_temperature()
+        self.assertIsNotNone(temperature)
+        print("Device temperature: ", temperature)
+
 
 if __name__ == '__main__':
     print("Start test Device interface, Please make sure you have connected a device to your computer.")

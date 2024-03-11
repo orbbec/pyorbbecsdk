@@ -92,4 +92,5 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_accel_stream_profile(m);
   pyorbbecsdk::define_gyro_stream_profile(m);
   pyorbbecsdk::define_stream_profile_list(m);
+  pyorbbecsdk::define_coordinate_transform_helper(m);
 }

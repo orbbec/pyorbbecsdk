@@ -18,7 +18,9 @@
 
 #include <string>
 #include <vector>
+#include <pybind11/pybind11.h>
 
+namespace py = pybind11;
 #define CHECK_NULLPTR(ptr)                                                  \
   do {                                                                      \
     if ((ptr) == nullptr) {                                                 \
@@ -51,4 +53,7 @@
 
 namespace pyorbbecsdk {
 std::vector<std::string> split(const std::string& s, const std::string& delim);
-}
+
+void define_coordinate_transform_helper( py::module & m);
+}  // namespace pyorbbecsdk
+

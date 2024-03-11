@@ -96,8 +96,8 @@ public:
      *
      * @return std::shared_ptr<ob::Frame> Transformed depth frame
      */
-    static std::shared_ptr<ob::Frame> transformationDepthFrameToColorCamera(std::shared_ptr<ob::Device> device, std::shared_ptr<ob::Frame> depthFrame,
-                                                                            uint32_t targetColorCameraWidth, uint32_t targetColorCameraHeight);
+//    static std::shared_ptr<ob::Frame> transformationDepthFrameToColorCamera(std::shared_ptr<ob::Device> device, std::shared_ptr<ob::Frame> depthFrame,
+//                                                                            uint32_t targetColorCameraWidth, uint32_t targetColorCameraHeight);
 
     /**
      * @brief Init transformation tables

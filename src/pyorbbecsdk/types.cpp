@@ -695,5 +695,12 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("enable", &OBDeviceTimestampResetConfig::enable)
       .def_readwrite("timestamp_reset_delay_us",
                      &OBDeviceTimestampResetConfig::timestamp_reset_delay_us);
+  py::class_<OBPoint2f>(m, "OBPoint2f")
+      .def(py::init<>())
+      .def_readwrite("x", &OBPoint2f::x)
+      .def_readwrite("y", &OBPoint2f::y)
+      .def("__repr__", [](const OBPoint2f &p) {
+        return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ")";
+      });
 }
 }  // namespace pyorbbecsdk

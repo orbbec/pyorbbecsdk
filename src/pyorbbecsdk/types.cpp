@@ -702,5 +702,64 @@ void define_orbbec_types(const py::object &m) {
       .def("__repr__", [](const OBPoint2f &p) {
         return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ")";
       });
+  py::class_<OBCalibrationParam>(m, "OBCalibrationParam")
+      .def(py::init<>())
+      .def(
+          "get_intrinsic",
+          [](const OBCalibrationParam &param, int index) -> OBCameraIntrinsic {
+            if (index < 0 || index >= OB_SENSOR_COUNT) {
+              throw py::index_error("Index out of range");
+            }
+            return param.intrinsics[index];
+          },
+          py::return_value_policy::reference_internal)
+      .def("set_intrinsic",
+           [](OBCalibrationParam &param, int index,
+              const OBCameraIntrinsic &intrinsic) {
+             if (index < 0 || index >= OB_SENSOR_COUNT) {
+               throw py::index_error("Index out of range");
+             }
+             param.intrinsics[index] = intrinsic;
+           })
+      .def(
+          "get_distortion",
+          [](const OBCalibrationParam &param, int index) -> OBCameraDistortion {
+            if (index < 0 || index >= OB_SENSOR_COUNT) {
+              throw py::index_error("Index out of range");
+            }
+            return param.distortion[index];
+          },
+          py::return_value_policy::reference_internal)
+      .def("set_distortion",
+           [](OBCalibrationParam &param, int index,
+              const OBCameraDistortion &distortion) {
+             if (index < 0 || index >= OB_SENSOR_COUNT) {
+               throw py::index_error("Index out of range");
+             }
+             param.distortion[index] = distortion;
+           })
+      .def(
+          "get_extrinsic",
+          [](const OBCalibrationParam &param, int source,
+             int target) -> OBD2CTransform {
+            if (source < 0 || source >= OB_SENSOR_COUNT) {
+              throw py::index_error("Source index out of range");
+            }
+            if (target < 0 || target >= OB_SENSOR_COUNT) {
+              throw py::index_error("Target index out of range");
+            }
+            return param.extrinsics[source][target];
+          },
+          py::return_value_policy::reference_internal)
+      .def("set_extrinsic", [](OBCalibrationParam &param, int source,
+                               int target, const OBD2CTransform &extrinsic) {
+        if (source < 0 || source >= OB_SENSOR_COUNT) {
+          throw py::index_error("Source index out of range");
+        }
+        if (target < 0 || target >= OB_SENSOR_COUNT) {
+          throw py::index_error("Target index out of range");
+        }
+        param.extrinsics[source][target] = extrinsic;
+      });
 }
 }  // namespace pyorbbecsdk

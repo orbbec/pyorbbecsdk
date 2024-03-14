@@ -68,6 +68,7 @@ def main():
         gyro_profile_list: StreamProfileList = gyro_sensor.get_stream_profile_list()
         gyro_profile: StreamProfile = gyro_profile_list.get_stream_profile_by_index(0)
         assert gyro_profile is not None
+        print("gyro profile: {}".format(gyro_profile))
         gyro_sensor.start(gyro_profile, on_gyro_frame_callback)
     except OBError as e:
         print(e)
@@ -80,6 +81,7 @@ def main():
         accel_profile_list: StreamProfileList = accel_sensor.get_stream_profile_list()
         accel_profile: StreamProfile = accel_profile_list.get_stream_profile_by_index(0)
         assert accel_profile is not None
+        print("accel profile: {}".format(accel_profile))
         accel_sensor.start(accel_profile, on_accel_frame_callback)
     except OBError as e:
         print(e)

@@ -15,6 +15,7 @@ test.log/
 scripts/images/
 *.bag
 plot_output/
+imu_data.csv
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,c++,python,jetbrains+all,ros,ros2
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,c++,python,jetbrains+all,ros,ros2
 

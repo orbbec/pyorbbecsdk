@@ -55,6 +55,22 @@ void define_frame(const py::object& m) {
            [](const std::shared_ptr<ob::Frame>& self) {
              return self->systemTimeStamp();
            })
+      .def("get_system_timestamp_us",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->systemTimeStampUs();
+           })
+      .def("get_global_timestamp_us",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->globalTimeStampUs();
+           })
+      .def("has_metadata",
+           [](const std::shared_ptr<ob::Frame>& self,
+              OBFrameMetadataType type) { return self->hasMetadata(type); })
+      .def(
+          "get_metadata_value",
+          [](const std::shared_ptr<ob::Frame>& self, OBFrameMetadataType type) {
+            return self->getMetadataValue(type);
+          })
       .def("as_video_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::VideoFrame>()) {
@@ -241,6 +257,10 @@ void define_frame_set(const py::object& m) {
            })
       .def("get_frame", [](const std::shared_ptr<ob::FrameSet>& self,
                            OBFrameType type) { return self->getFrame(type); })
+      .def("get_frame_by_index",
+           [](const std::shared_ptr<ob::FrameSet>& self, int index) {
+             return self->getFrame(index);
+           })
       .def("convert_to_points",
            [](const std::shared_ptr<ob::FrameSet>& self,
               const OBCameraParam& param) -> py::list {

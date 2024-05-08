@@ -25,4 +25,6 @@ void define_sensor(const py::object& m);
 
 void define_sensor_list(const py::object& m);
 
+void define_filter_list(const py::object& m);
+
 }  // namespace pyorbbecsdk

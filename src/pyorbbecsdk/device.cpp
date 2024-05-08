@@ -137,7 +137,7 @@ void define_depth_work_mode_list(const py::object &m) {
       .def(
           "get_name_by_index",
           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-            return self->getName(index);
+            return std::string(self->getName(index));
           },
           "Get the name of the depth work mode at the specified index")
       .def("__len__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
@@ -281,11 +281,94 @@ void define_device(const py::object &m) {
               const OBMultiDeviceSyncConfig &config) {
              OB_TRY_CATCH({ return self->setMultiDeviceSyncConfig(config); });
            })
+      .def("trigger_capture",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->triggerCapture(); });
+           })
+      .def("set_timestamp_reset_config",
+           [](const std::shared_ptr<ob::Device> &self,
+              const OBDeviceTimestampResetConfig &config) {
+             OB_TRY_CATCH({ return self->setTimestampResetConfig(config); });
+           })
+      .def("get_timestamp_reset_config",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->getTimestampResetConfig(); });
+           })
+      .def("timestamp_reset",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->timestampReset(); });
+           })
+      .def("timer_sync_with_host",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->timerSyncWithHost(); });
+           })
+      .def("load_depth_filter_config",
+           [](const std::shared_ptr<ob::Device> &self,
+              const std::string &file_path) {
+             OB_TRY_CATCH(
+                 { return self->loadDepthFilterConfig(file_path.c_str()); });
+           })
+      .def("reset_default_depth_filter_config",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->resetDefaultDepthFilterConfig(); });
+           })
+      .def("get_current_preset_name",
+           [](const std::shared_ptr<ob::Device> &self) {
+             return std::string(self->getCurrentPresetName());
+           })
+      .def("load_preset",
+           [](const std::shared_ptr<ob::Device> &self,
+              const std::string &preset_name) {
+             OB_TRY_CATCH({ return self->loadPreset(preset_name.c_str()); });
+           })
+      .def("get_available_preset_list",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->getAvailablePresetList(); });
+           })
+      .def("load_preset_from_json_file",
+           [](const std::shared_ptr<ob::Device> &self,
+              const std::string &file_path) {
+             OB_TRY_CATCH(
+                 { return self->loadPresetFromJsonFile(file_path.c_str()); });
+           })
+      .def("load_preset_from_json_data",
+           [](const std::shared_ptr<ob::Device> &self,
+              const std::string &preset_name, const std::string &data) {
+             OB_TRY_CATCH({
+               return self->loadPresetFromJsonData(
+                   preset_name.c_str(), (const uint8_t *)data.c_str(),
+                   data.size());
+             });
+           })
+      .def("export_settings_as_preset_json_file",
+           [](const std::shared_ptr<ob::Device> &self,
+              const std::string &file_path) {
+             OB_TRY_CATCH({
+               return self->exportSettingsAsPresetJsonFile(file_path.c_str());
+             });
+           })
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();
         std::string other_device_uid = other->getDeviceInfo()->uid();
         return device_uid == other_device_uid;
+      });
+}
+
+void define_device_preset_list(const py::object &m) {
+  py::class_<ob::DevicePresetList, std::shared_ptr<ob::DevicePresetList>>(
+      m, "DevicePresetList")
+      .def("get_count",
+           [](const std::shared_ptr<ob::DevicePresetList> &self) {
+             return self->count();
+           })
+      .def("get_name_by_index",
+           [](const std::shared_ptr<ob::DevicePresetList> &self, int index) {
+             return std::string(self->getName(index));
+           })
+      .def("has_preset", [](const std::shared_ptr<ob::DevicePresetList> &self,
+                            const std::string &name) {
+        return self->hasPreset(name.c_str());
       });
 }
 

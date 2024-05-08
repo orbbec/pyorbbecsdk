@@ -103,6 +103,9 @@ void define_properties(const py::object& m) {
              "1: Enable")
       .value("OB_PROP_WATCHDOG_BOOL", OBPropertyID::OB_PROP_WATCHDOG_BOOL,
              "Watchdog function switch, 0: Disable, 1: Enable")
+      .value("OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL",
+             OBPropertyID::OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL,
+             "External signal reset function switch, 0: Disable, 1: Enable")
       .value("OB_PROP_HEARTBEAT_BOOL", OBPropertyID::OB_PROP_HEARTBEAT_BOOL,
              "Heartbeat monitoring function switch, 0: Disable, 1: Enable")
       .value("OB_PROP_DEPTH_CROPPING_MODE_INT",
@@ -121,6 +124,13 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEVICE_COMMUNICATION_TYPE_INT",
              OBPropertyID::OB_PROP_DEVICE_COMMUNICATION_TYPE_INT,
              "Device communication type, 0: USB; 1: Ethernet(RTSP)")
+      .value(
+          "OB_PROP_SWITCH_IR_MODE_INT",
+          OBPropertyID::OB_PROP_SWITCH_IR_MODE_INT,
+          "Switch infrared imaging mode, 0: active IR mode, 1: passive IR mode")
+      .value("OB_PROP_LASER_POWER_LEVEL_CONTROL_INT",
+             OBPropertyID::OB_PROP_LASER_POWER_LEVEL_CONTROL_INT,
+             "Laser power level")
       .value("OB_PROP_LASER_ENERGY_LEVEL_INT",
              OBPropertyID::OB_PROP_LASER_ENERGY_LEVEL_INT, "Laser energy level")
       .value("OB_PROP_LDP_MEASURE_DISTANCE_INT",
@@ -165,9 +175,45 @@ void define_properties(const py::object& m) {
           "OB_PROP_LASER_ENERGY_LEVEL_INT(99)will effect this command"
           " which it setting and changed the hardware laser energy level.")
       .value("OB_PROP_USB_POWER_STATE_INT",
-             OBPropertyID::OB_PROP_USB_POWER_STATE_INT)
+             OBPropertyID::OB_PROP_USB_POWER_STATE_INT, "USB's power state")
       .value("OB_PROP_DC_POWER_STATE_INT",
-             OBPropertyID::OB_PROP_DC_POWER_STATE_INT)
+             OBPropertyID::OB_PROP_DC_POWER_STATE_INT, "DC's power state")
+      .value("OB_PROP_DEVICE_DEVELOPMENT_MODE_INT",
+             OBPropertyID::OB_PROP_DEVICE_DEVELOPMENT_MODE_INT)
+      .value("OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL",
+             OBPropertyID::OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL)
+      .value("OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL",
+             OBPropertyID::OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL)
+      .value("OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL",
+             OBPropertyID::OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL)
+      .value("OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL",
+             OBPropertyID::OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL)
+      .value("OB_PROP_CAPTURE_INTERVAL_MODE_INT",
+             OBPropertyID::OB_PROP_CAPTURE_INTERVAL_MODE_INT)
+      .value("OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT",
+             OBPropertyID::OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT)
+      .value("OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT",
+             OBPropertyID::OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT)
+      .value("OB_PROP_TIMER_RESET_ENABLE_BOOL",
+             OBPropertyID::OB_PROP_TIMER_RESET_ENABLE_BOOL)
+      .value("OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL",
+             OBPropertyID::OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL)
+      .value("OB_PROP_DEVICE_REBOOT_DELAY_INT",
+             OBPropertyID::OB_PROP_DEVICE_REBOOT_DELAY_INT)
+      .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
+             OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL)
+      .value("OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL",
+             OBPropertyID::OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL)
+      .value("OB_PROP_LASER_ALWAYS_ON_BOOL",
+             OBPropertyID::OB_PROP_LASER_ALWAYS_ON_BOOL)
+      .value("OB_PROP_LASER_ON_OFF_PATTERN_INT",
+             OBPropertyID::OB_PROP_LASER_ON_OFF_PATTERN_INT)
+      .value("OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT",
+             OBPropertyID::OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT)
+      .value("OB_PROP_LASER_CONTROL_INT",
+             OBPropertyID::OB_PROP_LASER_CONTROL_INT)
+      .value("OB_PROP_IR_BRIGHTNESS_INT",
+             OBPropertyID::OB_PROP_IR_BRIGHTNESS_INT)
       .value("OB_STRUCT_BASELINE_CALIBRATION_PARAM",
              OBPropertyID::OB_STRUCT_BASELINE_CALIBRATION_PARAM)
       .value("OB_STRUCT_DEVICE_TEMPERATURE",
@@ -186,6 +232,14 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_STRUCT_CURRENT_DEPTH_ALG_MODE)
       .value("OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST",
              OBPropertyID::OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST)
+      .value("OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD",
+             OBPropertyID::OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD)
+      .value("OB_STRUCT_DEPTH_HDR_CONFIG",
+             OBPropertyID::OB_STRUCT_DEPTH_HDR_CONFIG)
+      .value("OB_STRUCT_COLOR_AE_ROI", OBPropertyID::OB_STRUCT_COLOR_AE_ROI)
+      .value("OB_STRUCT_DEPTH_AE_ROI", OBPropertyID::OB_STRUCT_DEPTH_AE_ROI)
+      .value("OB_STRUCT_ASIC_SERIAL_NUMBER",
+             OBPropertyID::OB_STRUCT_ASIC_SERIAL_NUMBER)
       .value("OB_PROP_COLOR_AUTO_EXPOSURE_BOOL",
              OBPropertyID::OB_PROP_COLOR_AUTO_EXPOSURE_BOOL)
       .value("OB_PROP_COLOR_EXPOSURE_INT",
@@ -199,10 +253,13 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_COLOR_BRIGHTNESS_INT)
       .value("OB_PROP_COLOR_SHARPNESS_INT",
              OBPropertyID::OB_PROP_COLOR_SHARPNESS_INT)
+      .value("OB_PROP_COLOR_SHUTTER_INT",
+             OBPropertyID::OB_PROP_COLOR_SHUTTER_INT)
       .value("OB_PROP_COLOR_SATURATION_INT",
              OBPropertyID::OB_PROP_COLOR_SATURATION_INT)
       .value("OB_PROP_COLOR_CONTRAST_INT",
              OBPropertyID::OB_PROP_COLOR_CONTRAST_INT)
+      .value("OB_PROP_COLOR_GAMMA_INT", OBPropertyID::OB_PROP_COLOR_GAMMA_INT)
       .value("OB_PROP_COLOR_ROLL_INT", OBPropertyID::OB_PROP_COLOR_ROLL_INT)
       .value("OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT",
              OBPropertyID::OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT)
@@ -224,6 +281,18 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_IR_CHANNEL_DATA_SOURCE_INT)
       .value("OB_PROP_DEPTH_RM_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_RM_FILTER_BOOL)
+      .value("OB_PROP_COLOR_MAXIMAL_GAIN_INT",
+             OBPropertyID::OB_PROP_COLOR_MAXIMAL_GAIN_INT)
+      .value("OB_PROP_COLOR_MAXIMAL_SHUTTER_INT",
+             OBPropertyID::OB_PROP_COLOR_MAXIMAL_SHUTTER_INT)
+      .value("OB_PROP_IR_SHORT_EXPOSURE_BOOL",
+             OBPropertyID::OB_PROP_IR_SHORT_EXPOSURE_BOOL)
+      .value("OB_PROP_COLOR_HDR_BOOL", OBPropertyID::OB_PROP_COLOR_HDR_BOOL)
+      .value("OB_PROP_IR_LONG_EXPOSURE_BOOL",
+             OBPropertyID::OB_PROP_IR_LONG_EXPOSURE_BOOL)
+      .value("OB_PROP_SKIP_FRAME_BOOL", OBPropertyID::OB_PROP_SKIP_FRAME_BOOL)
+      .value("OB_PROP_HDR_MERGE_BOOL", OBPropertyID::OB_PROP_HDR_MERGE_BOOL)
+      .value("OB_PROP_COLOR_FOCUS_INT", OBPropertyID::OB_PROP_COLOR_FOCUS_INT)
       .value("OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL",
              OBPropertyID::OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL)
       .value("OB_PROP_SDK_DEPTH_FRAME_UNPACK_BOOL",
@@ -259,12 +328,5 @@ void define_properties(const py::object& m) {
       .def_readwrite("type", &OBPropertyItem::type, "Property type")
       .def_readwrite("permission", &OBPropertyItem::permission,
                      "Property permission");
-
-  py::class_<OBBaselineCalibrationParam>(m, "OBBaselineCalibrationParam")
-      .def(py::init<>())
-      .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline,
-                     "Baseline")
-      .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd,
-                     "Calibration distance");
 }
 }  // namespace pyorbbecsdk

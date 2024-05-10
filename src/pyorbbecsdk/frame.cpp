@@ -37,6 +37,13 @@ void define_frame(const py::object& m) {
              std::memcpy(result.mutable_data(), data, data_size);
              return result;
            })
+      .def(
+          "get_data_pointer",
+          [](const std::shared_ptr<ob::Frame>& self) {
+            auto ptr = self->data();
+            return py::capsule(ptr, "frame_data_pointer");
+          },
+          py::return_value_policy::reference)
       .def("get_data_size",
            [](const std::shared_ptr<ob::Frame>& self) {
              return self->dataSize();

@@ -585,10 +585,12 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("x", &OBPoint::x)
       .def_readwrite("y", &OBPoint::y)
       .def_readwrite("z", &OBPoint::z)
-      .def("__repr__", [](const OBPoint &p) {
-        return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ", " +
-               std::to_string(p.z) + ")";
-      });
+      .def("__repr__",
+           [](const OBPoint &p) {
+             return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) +
+                    ", " + std::to_string(p.z) + ")";
+           })
+      .def_static("get_sizeof", []() { return sizeof(OBPoint); });
 
   py::class_<OBColorPoint>(m, "OBColorPoint")
       .def(py::init<>())
@@ -604,11 +606,14 @@ void define_orbbec_types(const py::object &m) {
       .def_property(
           "b", [](const OBColorPoint &p) { return static_cast<int>(p.b); },
           [](OBColorPoint &p, int b) { p.b = static_cast<float>(b); })
-      .def("__repr__", [](const OBColorPoint &p) {
-        return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ", " +
-               std::to_string(p.z) + ", " + std::to_string(p.r) + ", " +
-               std::to_string(p.g) + ", " + std::to_string(p.b) + ")";
-      });
+      .def("__repr__",
+           [](const OBColorPoint &p) {
+             return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) +
+                    ", " + std::to_string(p.z) + ", " + std::to_string(p.r) +
+                    ", " + std::to_string(p.g) + ", " + std::to_string(p.b) +
+                    ")";
+           })
+      .def_static("get_sizeof", []() { return sizeof(OBColorPoint); });
 
   py::enum_<OBCompressionMode>(m, "OBCompressionMode")
       .value("LOSSLESS", OBCompressionMode::OB_COMPRESSION_LOSSLESS)

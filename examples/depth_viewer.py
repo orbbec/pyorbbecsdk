@@ -48,11 +48,7 @@ def main():
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         assert profile_list is not None
-        try:
-            depth_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
-        except OBError as e:
-            print("Error: ", e)
-            depth_profile = profile_list.get_default_video_stream_profile()
+        depth_profile = profile_list.get_default_video_stream_profile()
         assert depth_profile is not None
         print("depth profile: ", depth_profile)
         config.enable_stream(depth_profile)

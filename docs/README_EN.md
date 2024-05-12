@@ -30,7 +30,7 @@
       - [Getting a list of devices](#getting-a-list-of-devices)
       - [Getting a list of sensors](#getting-a-list-of-sensors)
       - [Getting device information](#getting-device-information)
-      - [Set color  auto-exposure](#set-color--auto-exposure)
+      - [Set color auto-exposure](#set-color--auto-exposure)
       - [Getting and setting colour camera exposure values](#getting-and-setting-colour-camera-exposure-values)
       - [Getting and setting the colour camera gain](#getting-and-setting-the-colour-camera-gain)
       - [Mirroring the colour camera data stream](#mirroring-the-colour-camera-data-stream)
@@ -52,43 +52,45 @@ Orbbec SDK, mainly achieving data stream reception and device command control.
 
 ### OS Requirements
 
-* Windows: Windows 10 (x64)
-* Linux: 18.04/20.04/22.04 (x64)
-* Arm32: 18.04/20.04/22.04
-* Arm64: Ubuntu18.04/20.04/22.04
+- Windows: Windows 10 (x64)
+- Linux: 18.04/20.04/22.04 (x64)
+- Arm32: 18.04/20.04/22.04
+- Arm64: Ubuntu18.04/20.04/22.04
 
 ### Compilation Platform Requirements
 
-* Windows: Visual Studio 2017 and above
-* Linux: gcc 5.4.0 and above
-* cmake: 3.15.0 and above
-* pybind11 2.10.3 and above
+- Windows: Visual Studio 2017 and above
+- Linux: gcc 5.4.0 and above
+- cmake: 3.15.0 and above
+- pybind11 2.10.3 and above
 
 ### Python Version
 
-* Python 3.6.9 and above
+- Python 3.6.9 and above
 
 ### Hardware Products Supported by Python SDK
 
-| **products list** | **firmware version**                        |
-| ----------------- | ------------------------------------------- |
-| Femto Bolt        | 1.0.6 (unsupported ARM32)                   |
-| Gemini 2 XL       | Obox: V1.2.5  VL:1.4.54                     |
-| Astra 2           | 2.8.20                                      |
-| Gemini 2 L        | 1.4.32                                      |
-| Gemini 2          | 1.4.60 /1.4.76                              |
-| Femto Mega        | 1.1.7  (window10、ubuntu20.04、ubuntu22.04) |
-| Astra+            | 1.0.22/1.0.21/1.0.20/1.0.19                 |
-| Femto             | 1.6.7                                       |
-| Femto W           | 1.1.8                                       |
-| DaBai             | 2436                                        |
-| DaBai DCW         | 2460                                        |
-| DaBai DW          | 2606                                        |
-| Astra Mini Pro    | 1007                                        |
-| Gemini E          | 3460                                        |
-| Gemini E Lite     | 3606                                        |
-| Gemini            | 3.0.18                                      |
-| Astra Mini S Pro  | 1.0.05                                      |
+| **products list** | **firmware version**        |
+| ----------------- | --------------------------- |
+| Gemini 335        | 1.2.20                      |
+| Gemini 335L       | 1.2.20                      |
+| Femto Bolt        | 1.0.6/1.0.9                 |
+| Femto Mega        | 1.1.7/1.2.7                 |
+| Gemini 2 XL       | Obox: V1.2.5 VL:1.4.54      |
+| Astra 2           | 2.8.20                      |
+| Gemini 2 L        | 1.4.32                      |
+| Gemini 2          | 1.4.60 /1.4.76              |
+| Astra+            | 1.0.22/1.0.21/1.0.20/1.0.19 |
+| Femto             | 1.6.7                       |
+| Femto W           | 1.1.8                       |
+| DaBai             | 2436                        |
+| DaBai DCW         | 2460                        |
+| DaBai DW          | 2606                        |
+| Astra Mini Pro    | 1007                        |
+| Gemini E          | 3460                        |
+| Gemini E Lite     | 3606                        |
+| Gemini            | 3.0.18                      |
+| Astra Mini S Pro  | 1.0.05                      |
 
 ## Orbbec SDK Python Wrapper Sample Compilation Instructions
 
@@ -111,12 +113,12 @@ the [Python official website](https://www.python.org/downloads/) and choose your
 
 #### Configure Visual Studio project
 
-* Open Cmake, set the source code path, and set the "build" folder as the path for generating binary files, as shown in
+- Open Cmake, set the source code path, and set the "build" folder as the path for generating binary files, as shown in
   the following figure.
 
 ![image2.png](images/image2.png)
 
-* Click "Configure" and select the corresponding Visual Studio version and platform version. Then click "Finish", as
+- Click "Configure" and select the corresponding Visual Studio version and platform version. Then click "Finish", as
   shown below:
 
 ![image3.png](images/image3.png)
@@ -124,13 +126,13 @@ the [Python official website](https://www.python.org/downloads/) and choose your
 Here, it is assumed that you have installed Cmake correctly. If you have not installed Cmake, you can refer to
 the [Cmake official website](https://cmake.org/download/) for installation.
 
-* Click "Generate", as shown below:
+- Click "Generate", as shown below:
 
 ![image4.png](images/image4.png)
 
 #### Compile the Python SDK
 
-* You can open the Python SDK project in two ways:
+- You can open the Python SDK project in two ways:
 
 Method 1: Use Cmake, click the "Open Project" button, and open the Visual Studio project.
 
@@ -141,18 +143,18 @@ following figure:
 
 ![image6.png](images/image6.png)
 
-* Open the Python SDK project, as shown below:
+- Open the Python SDK project, as shown below:
   ![image7.png](images/image7.png)
 
-* Right-click "pyorbbecsdk" to compile, as shown below:
+- Right-click "pyorbbecsdk" to compile, as shown below:
   ![image8.png](images/image8.png)
 
-* Right-click "INSTALL", as shown below:
+- Right-click "INSTALL", as shown below:
   ![image9.png](images/image9.png)
   The compiled files will be copied to the install/lib directory, as shown below:
   ![image10.png](images/image10.png)
 
-* Copy the files in the install/lib directory to the examples directory, as shown below:
+- Copy the files in the install/lib directory to the examples directory, as shown below:
 
 ![image11.png](images/image11.png)
 
@@ -282,7 +284,7 @@ serial_number = device_info.get_serial_number()
 # ...
 ```
 
-#### Set color  auto-exposure
+#### Set color auto-exposure
 
 ```python
 from pyorbbecsdk import *

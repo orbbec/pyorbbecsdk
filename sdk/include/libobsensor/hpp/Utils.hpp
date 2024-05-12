@@ -6,7 +6,6 @@
 #pragma once
 
 #include "Types.hpp"
-#include "frame.hpp"
 
 namespace ob {
 class Device;

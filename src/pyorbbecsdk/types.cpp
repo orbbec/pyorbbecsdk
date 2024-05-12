@@ -163,6 +163,22 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("step", &OBFloatPropertyRange::step)
       .def_readwrite("default_value", &OBFloatPropertyRange::def);
 
+  py::class_<OBUint16PropertyRange>(m, "OBUint16PropertyRange")
+      .def(py::init<>())
+      .def_readwrite("current", &OBUint16PropertyRange::cur)
+      .def_readwrite("min", &OBUint16PropertyRange::min)
+      .def_readwrite("max", &OBUint16PropertyRange::max)
+      .def_readwrite("step", &OBUint16PropertyRange::step)
+      .def_readwrite("default_value", &OBUint16PropertyRange::def);
+
+  py::class_<OBUint8PropertyRange>(m, "OBUint8PropertyRange")
+      .def(py::init<>())
+      .def_readwrite("current", &OBUint8PropertyRange::cur)
+      .def_readwrite("min", &OBUint8PropertyRange::min)
+      .def_readwrite("max", &OBUint8PropertyRange::max)
+      .def_readwrite("step", &OBUint8PropertyRange::step)
+      .def_readwrite("default_value", &OBUint8PropertyRange::def);
+
   py::class_<OBCameraIntrinsic>(m, "OBCameraIntrinsic")
       .def(py::init<>())
       .def_readwrite("fx", &OBCameraIntrinsic::fx)
@@ -178,6 +194,123 @@ void define_orbbec_types(const py::object &m) {
                " width=" + std::to_string(a.width) +
                " height=" + std::to_string(a.height) + ">";
       });
+
+  py::class_<OBAccelIntrinsic>(m, "OBAccelIntrinsic")
+      .def(py::init<>())
+      .def_readwrite("noise_density", &OBAccelIntrinsic::noiseDensity)
+      .def_readwrite("random_walk", &OBAccelIntrinsic::randomWalk)
+      .def_readwrite("reference_temp", &OBAccelIntrinsic::referenceTemp)
+      .def_property(
+          "bias",
+          [](const OBAccelIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({3});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.bias, 3, ptr);
+            return result;
+          },
+          [](OBAccelIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 3)
+              throw std::runtime_error(
+                  "bias must be a 1D array with 3 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 3, self.bias);
+          })
+      .def_property(
+          "gravity",
+          [](const OBAccelIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({3});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.gravity, 3, ptr);
+            return result;
+          },
+          [](OBAccelIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 3)
+              throw std::runtime_error(
+                  "gravity must be a 1D array with 3 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 3, self.gravity);
+          })
+      .def_property(
+          "scale_misalignment",
+          [](const OBAccelIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({9});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.scaleMisalignment, 9, ptr);
+            return result;
+          },
+          [](OBAccelIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 9)
+              throw std::runtime_error(
+                  "scale_misalignment must be a 1D array with 9 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 9, self.scaleMisalignment);
+          })
+      .def_property(
+          "temp_slope",
+          [](const OBAccelIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({9});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.tempSlope, 9, ptr);
+            return result;
+          },
+          [](OBAccelIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 9)
+              throw std::runtime_error(
+                  "temp_slope must be a 1D array with 9 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 9, self.tempSlope);
+          });
+
+  py::class_<OBGyroIntrinsic>(m, "OBGyroIntrinsic")
+      .def(py::init<>())
+      .def_readwrite("noise_density", &OBGyroIntrinsic::noiseDensity)
+      .def_readwrite("random_walk", &OBGyroIntrinsic::randomWalk)
+      .def_readwrite("reference_temp", &OBGyroIntrinsic::referenceTemp)
+      .def_property(
+          "bias",
+          [](const OBGyroIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({3});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.bias, 3, ptr);
+            return result;
+          },
+          [](OBGyroIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 3)
+              throw std::runtime_error(
+                  "bias must be a 1D array with 3 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 3, self.bias);
+          })
+      .def_property(
+          "scale_misalignment",
+          [](const OBGyroIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({9});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.scaleMisalignment, 9, ptr);
+            return result;
+          },
+          [](OBGyroIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 9)
+              throw std::runtime_error(
+                  "scale_misalignment must be a 1D array with 9 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 9, self.scaleMisalignment);
+          })
+      .def_property(
+          "temp_slope",
+          [](const OBGyroIntrinsic &self) {
+            py::array_t<double, py::array::c_style> result({9});
+            auto ptr = static_cast<double *>(result.request().ptr);
+            std::copy_n(self.tempSlope, 9, ptr);
+            return result;
+          },
+          [](OBGyroIntrinsic &self, const py::array_t<double> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 9)
+              throw std::runtime_error(
+                  "temp_slope must be a 1D array with 9 elements");
+            auto ptr = static_cast<double *>(value.request().ptr);
+            std::copy_n(ptr, 9, self.tempSlope);
+          });
 
   py::class_<OBCameraDistortion>(m, "OBCameraDistortion")
       .def(py::init<>())
@@ -196,6 +329,37 @@ void define_orbbec_types(const py::object &m) {
                " k6=" + std::to_string(a.k6) + " p1=" + std::to_string(a.p1) +
                " p2=" + std::to_string(a.p2) + ">";
       });
+
+  py::enum_<OBCameraDistortionModel>(m, "OBCameraDistortionModel")
+      .value("NONE", OB_DISTORTION_NONE)
+      .value("MODIFIED_BROWN_CONRADY", OB_DISTORTION_MODIFIED_BROWN_CONRADY)
+      .value("INVERSE_BROWN_CONRADY", OB_DISTORTION_INVERSE_BROWN_CONRADY)
+      .value("BROWN_CONRADY", OB_DISTORTION_BROWN_CONRADY);
+
+  py::class_<OBCameraAlignIntrinsic>(m, "OBCameraAlignIntrinsic")
+      .def(py::init<>())
+      .def_readwrite("width", &OBCameraAlignIntrinsic::width)
+      .def_readwrite("height", &OBCameraAlignIntrinsic::height)
+      .def_readwrite("ppx", &OBCameraAlignIntrinsic::ppx)
+      .def_readwrite("ppy", &OBCameraAlignIntrinsic::ppy)
+      .def_readwrite("fx", &OBCameraAlignIntrinsic::fx)
+      .def_readwrite("fy", &OBCameraAlignIntrinsic::fy)
+      .def_readwrite("model", &OBCameraAlignIntrinsic::model)
+      .def_property(
+          "coeffs",
+          [](const OBCameraAlignIntrinsic &self) {
+            py::array_t<float, py::array::c_style> result({5});
+            auto ptr = static_cast<float *>(result.request().ptr);
+            std::copy_n(self.coeffs, 5, ptr);
+            return result;
+          },
+          [](OBCameraAlignIntrinsic &self, const py::array_t<float> &value) {
+            if (value.ndim() != 1 || value.shape(0) != 5)
+              throw std::runtime_error(
+                  "coeffs must be a 1D array with 5 elements");
+            auto ptr = static_cast<float *>(value.request().ptr);
+            std::copy_n(ptr, 5, self.coeffs);
+          });
 
   py::class_<OBD2CTransform>(m, "OBD2CTransform")
       .def(py::init<>())
@@ -421,10 +585,12 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("x", &OBPoint::x)
       .def_readwrite("y", &OBPoint::y)
       .def_readwrite("z", &OBPoint::z)
-      .def("__repr__", [](const OBPoint &p) {
-        return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ", " +
-               std::to_string(p.z) + ")";
-      });
+      .def("__repr__",
+           [](const OBPoint &p) {
+             return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) +
+                    ", " + std::to_string(p.z) + ")";
+           })
+      .def_static("get_sizeof", []() { return sizeof(OBPoint); });
 
   py::class_<OBColorPoint>(m, "OBColorPoint")
       .def(py::init<>())
@@ -440,11 +606,14 @@ void define_orbbec_types(const py::object &m) {
       .def_property(
           "b", [](const OBColorPoint &p) { return static_cast<int>(p.b); },
           [](OBColorPoint &p, int b) { p.b = static_cast<float>(b); })
-      .def("__repr__", [](const OBColorPoint &p) {
-        return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) + ", " +
-               std::to_string(p.z) + ", " + std::to_string(p.r) + ", " +
-               std::to_string(p.g) + ", " + std::to_string(p.b) + ")";
-      });
+      .def("__repr__",
+           [](const OBColorPoint &p) {
+             return "(" + std::to_string(p.x) + ", " + std::to_string(p.y) +
+                    ", " + std::to_string(p.z) + ", " + std::to_string(p.r) +
+                    ", " + std::to_string(p.g) + ", " + std::to_string(p.b) +
+                    ")";
+           })
+      .def_static("get_sizeof", []() { return sizeof(OBColorPoint); });
 
   py::enum_<OBCompressionMode>(m, "OBCompressionMode")
       .value("LOSSLESS", OBCompressionMode::OB_COMPRESSION_LOSSLESS)
@@ -521,6 +690,65 @@ void define_orbbec_types(const py::object &m) {
            [](const OBDepthWorkMode &mode1, const OBDepthWorkMode &mode2) {
              return std::memcmp(mode1.name, mode2.name, 32) == 0;
            });
+
+  py::class_<OBSequenceIdItem>(m, "OBSequenceIdItem")
+      .def(py::init<>())
+      .def_readwrite("sequence_select_id", &OBSequenceIdItem::sequenceSelectId)
+      .def_property(
+          "name",
+          [](const OBSequenceIdItem &item) -> std::string { return item.name; },
+          [](OBSequenceIdItem &item, const std::string &str) {
+            std::strncpy(item.name, str.c_str(), 7);
+            item.name[7] = '\0';  // ensure null-termination
+          });
+
+  py::enum_<OBHoleFillingMode>(m, "OBHoleFillingMode")
+      .value("TOP", OBHoleFillingMode::OB_HOLE_FILL_TOP)
+      .value("NEAREST", OBHoleFillingMode::OB_HOLE_FILL_NEAREST)
+      .value("FURTHEST", OBHoleFillingMode::OB_HOLE_FILL_FAREST);
+
+  py::class_<OBSpatialAdvancedFilterParams>(m, "OBSpatialAdvancedFilterParams")
+      .def(py::init<>())
+      .def_readwrite("magnitude", &OBSpatialAdvancedFilterParams::magnitude)
+      .def_readwrite("alpha", &OBSpatialAdvancedFilterParams::alpha)
+      .def_readwrite("disp_diff", &OBSpatialAdvancedFilterParams::disp_diff)
+      .def_readwrite("radius", &OBSpatialAdvancedFilterParams::radius)
+      .def("__repr__", [](const OBSpatialAdvancedFilterParams &params) {
+        return "<OBSpatialAdvancedFilterParams magnitude=" +
+               std::to_string(params.magnitude) +
+               ", alpha=" + std::to_string(params.alpha) +
+               ", disp_diff=" + std::to_string(params.disp_diff) +
+               ", radius=" + std::to_string(params.radius) + ">";
+      });
+
+  py::enum_<OBEdgeNoiseRemovalType>(m, "OBEdgeNoiseRemovalType")
+      .value("MG_FILTER", OBEdgeNoiseRemovalType::OB_MG_FILTER)
+      .value("MGH_FILTER", OBEdgeNoiseRemovalType::OB_MGH_FILTER)
+      .value("MGA_FILTER", OBEdgeNoiseRemovalType::OB_MGA_FILTER)
+      .value("MGC_FILTER", OBEdgeNoiseRemovalType::OB_MGC_FILTER);
+
+  py::class_<OBEdgeNoiseRemovalFilterParams>(m,
+                                             "OBEdgeNoiseRemovalFilterParams")
+      .def(py::init<>())
+      .def_readwrite("type", &OBEdgeNoiseRemovalFilterParams::type)
+      .def_readwrite("margin_left_th",
+                     &OBEdgeNoiseRemovalFilterParams::marginLeftTh)
+      .def_readwrite("margin_right_th",
+                     &OBEdgeNoiseRemovalFilterParams::marginRightTh)
+      .def_readwrite("margin_top_th",
+                     &OBEdgeNoiseRemovalFilterParams::marginTopTh)
+      .def_readwrite("margin_bottom_th",
+                     &OBEdgeNoiseRemovalFilterParams::marginBottomTh);
+
+  py::enum_<OBDDONoiseRemovalType>(m, "OBDDONoiseRemovalType")
+      .value("LUT", OBDDONoiseRemovalType::OB_NR_LUT)
+      .value("OVERALL", OBDDONoiseRemovalType::OB_NR_OVERALL);
+
+  py::class_<OBNoiseRemovalFilterParams>(m, "OBNoiseRemovalFilterParams")
+      .def(py::init<>())
+      .def_readwrite("max_size", &OBNoiseRemovalFilterParams::max_size)
+      .def_readwrite("disp_diff", &OBNoiseRemovalFilterParams::disp_diff)
+      .def_readwrite("type", &OBNoiseRemovalFilterParams::type);
 
   py::class_<OBDeviceIpAddrConfig>(m, "OBDeviceIpAddrConfig")
       .def(py::init<>())
@@ -695,6 +923,88 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("enable", &OBDeviceTimestampResetConfig::enable)
       .def_readwrite("timestamp_reset_delay_us",
                      &OBDeviceTimestampResetConfig::timestamp_reset_delay_us);
+
+  py::class_<OBBaselineCalibrationParam>(m, "OBBaselineCalibrationParam")
+      .def(py::init<>())
+      .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline)
+      .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd);
+
+  py::class_<OBHdrConfig>(m, "OBHdrConfig")
+      .def(py::init<>())
+      .def_readwrite("enable", &OBHdrConfig::enable)
+      .def_readwrite("sequence_name", &OBHdrConfig::sequence_name)
+      .def_readwrite("exposure_1", &OBHdrConfig::exposure_1)
+      .def_readwrite("gain_1", &OBHdrConfig::gain_1)
+      .def_readwrite("exposure_2", &OBHdrConfig::exposure_2)
+      .def_readwrite("gain_2", &OBHdrConfig::gain_2);
+
+  py::class_<OBRegionOfInterest>(m, "OBRegionOfInterest")
+      .def(py::init<>())
+      .def_readwrite("x0_left", &OBRegionOfInterest::x0_left)
+      .def_readwrite("y0_top", &OBRegionOfInterest::y0_top)
+      .def_readwrite("x1_right", &OBRegionOfInterest::x1_right)
+      .def_readwrite("y1_bottom", &OBRegionOfInterest::y1_bottom);
+
+  py::enum_<OBFrameMetadataType>(m, "OBFrameMetadataType")
+      .value("TIMESTAMP", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_TIMESTAMP)
+      .value("SENSOR_TIMESTAMP",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_SENSOR_TIMESTAMP)
+      .value("FRAME_NUMBER",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_FRAME_NUMBER)
+      .value("AUTO_EXPOSURE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_AUTO_EXPOSURE)
+      .value("EXPOSURE", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_EXPOSURE)
+      .value("GAIN", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_GAIN)
+      .value("AUTO_WHITE_BALANCE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_AUTO_WHITE_BALANCE)
+      .value("WHITE_BALANCE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_WHITE_BALANCE)
+      .value("BRIGHTNESS",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_BRIGHTNESS)
+      .value("CONTRAST", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_CONTRAST)
+      .value("SATURATION",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_SATURATION)
+      .value("SHARPNESS", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_SHARPNESS)
+      .value("BACKLIGHT_COMPENSATION",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_BACKLIGHT_COMPENSATION)
+      .value("HUE", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_HUE)
+      .value("GAMMA", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_GAMMA)
+      .value("POWER_LINE_FREQUENCY",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_POWER_LINE_FREQUENCY)
+      .value("LOW_LIGHT_COMPENSATION",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_LOW_LIGHT_COMPENSATION)
+      .value("MANUAL_WHITE_BALANCE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_MANUAL_WHITE_BALANCE)
+      .value("ACTUAL_FRAME_RATE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_ACTUAL_FRAME_RATE)
+      .value("FRAME_RATE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_FRAME_RATE)
+      .value("AE_ROI_LEFT",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_AE_ROI_LEFT)
+      .value("AE_ROI_TOP",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_AE_ROI_TOP)
+      .value("AE_ROI_RIGHT",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_AE_ROI_RIGHT)
+      .value("AE_ROI_BOTTOM",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_AE_ROI_BOTTOM)
+      .value("EXPOSURE_PRIORITY",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_EXPOSURE_PRIORITY)
+      .value("HDR_SEQUENCE_NAME",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_HDR_SEQUENCE_NAME)
+      .value("HDR_SEQUENCE_SIZE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_HDR_SEQUENCE_SIZE)
+      .value("HDR_SEQUENCE_INDEX",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_HDR_SEQUENCE_INDEX)
+      .value("LASER_POWER",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_LASER_POWER)
+      .value("LASER_POWER_LEVEL",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_LASER_POWER_LEVEL)
+      .value("LASER_STATUS",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_LASER_STATUS)
+      .value("GPIO_INPUT_DATA",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_GPIO_INPUT_DATA)
+      .value("COUNT", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_COUNT);
+
   py::class_<OBPoint2f>(m, "OBPoint2f")
       .def(py::init<>())
       .def_readwrite("x", &OBPoint2f::x)

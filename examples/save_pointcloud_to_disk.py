@@ -15,6 +15,8 @@
 # ******************************************************************************
 from pyorbbecsdk import *
 import os
+from plyfile import PlyData, PlyElement
+import numpy as np
 
 save_points_dir = os.path.join(os.getcwd(), "point_clouds")
 if not os.path.exists(save_points_dir):
@@ -27,22 +29,18 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> int:
     depth_frame = frames.get_depth_frame()
     if depth_frame is None:
         return 0
-    points = frames.convert_to_points(camera_param)
-    if points is None or len(points) == 0:
+    points = frames.get_point_cloud(camera_param)
+    if len(points) == 0:
         print("no depth points")
         return 0
-    global save_points_dir
-    points_filename = save_points_dir + "/points_{}.ply".format(depth_frame.get_timestamp())
-    with open(points_filename, "w") as f:
-        f.write("ply\n")
-        f.write("format ascii 1.0\n")
-        f.write("element vertex {}\n".format(len(points)))
-        f.write("property float x\n")
-        f.write("property float y\n")
-        f.write("property float z\n")
-        f.write("end_header\n")
-        for point in points:
-            f.write("{} {} {}\n".format(point.x, point.y, point.z))
+
+    # Create a structured numpy array directly from points assuming it's a list of lists
+    points_array = np.array([tuple(point) for point in points], dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4')])
+    points_filename = os.path.join(save_points_dir, "points_{}.ply".format(depth_frame.get_timestamp()))
+
+    el = PlyElement.describe(points_array, 'vertex')
+    PlyData([el], text=True).write(points_filename)
+
     return 1
 
 
@@ -52,26 +50,19 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> i
     depth_frame = frames.get_depth_frame()
     if depth_frame is None:
         return 0
-    points = frames.convert_to_color_points(camera_param)
-    if points is None or len(points) == 0:
+    points = frames.get_color_point_cloud(camera_param)
+    if len(points) == 0:
         print("no color points")
         return 0
-    global save_points_dir
-    points_filename = save_points_dir + "/color_points_{}.ply".format(depth_frame.get_timestamp())
-    with open(points_filename, "w") as f:
-        f.write("ply\n")
-        f.write("format ascii 1.0\n")
-        f.write("element vertex {}\n".format(len(points)))
-        f.write("property float x\n")
-        f.write("property float y\n")
-        f.write("property float z\n")
-        f.write("property uchar red\n")
-        f.write("property uchar green\n")
-        f.write("property uchar blue\n")
-        f.write("end_header\n")
-        for point in points:
-            f.write(
-                "{} {} {} {} {} {}\n".format(point.x, point.y, point.z, point.r, point.g, point.b))
+
+    # Create a structured numpy array directly from color_points assuming it's a list of lists
+    points_array = np.array([tuple(point) for point in points],
+                            dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'), ('red', 'u1'), ('green', 'u1'),
+                                   ('blue', 'u1')])
+    points_filename = os.path.join(save_points_dir, "color_points_{}.ply".format(depth_frame.get_timestamp()))
+
+    el = PlyElement.describe(points_array, 'vertex')
+    PlyData([el], text=True).write(points_filename)
 
     return 1
 
@@ -95,16 +86,17 @@ def main():
             color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
             if device_pid == 0x066B:
-                #Femto Mega does not support hardware D2C, and it is changed to software D2C
-               config.set_align_mode(OBAlignMode.SW_MODE)
+                # Femto Mega does not support hardware D2C, and it is changed to software D2C
+                config.set_align_mode(OBAlignMode.SW_MODE)
             else:
-               config.set_align_mode(OBAlignMode.HW_MODE)
+                config.set_align_mode(OBAlignMode.HW_MODE)
             has_color_sensor = True
     except OBError as e:
         config.set_align_mode(OBAlignMode.DISABLE)
         print(e)
 
     pipeline.start(config)
+    pipeline.enable_frame_sync()
     saved_color_cnt: int = 0
     saved_depth_cnt: int = 0
     while True:
@@ -117,9 +109,9 @@ def main():
             if has_color_sensor:
                 saved_color_cnt += save_color_points_to_ply(frames, camera_param)
             if has_color_sensor:
-                if saved_color_cnt >= 5 and saved_depth_cnt >= 5:
+                if saved_color_cnt >= 1 and saved_depth_cnt >= 1:
                     break
-            elif saved_depth_cnt >= 5:
+            elif saved_depth_cnt >= 1:
                 break
         except OBError as e:
             print(e)

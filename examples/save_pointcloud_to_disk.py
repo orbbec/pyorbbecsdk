@@ -96,6 +96,7 @@ def main():
         print(e)
 
     pipeline.start(config)
+    pipeline.enable_frame_sync()
     saved_color_cnt: int = 0
     saved_depth_cnt: int = 0
     while True:

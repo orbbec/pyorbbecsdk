@@ -66,6 +66,11 @@ void define_filter(const py::object& m) {
                });
              });
            })
+      .def("get_name",
+           [](std::shared_ptr<ob::Filter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return std::string(self->type()); });
+           })
       .def("is_hdr_merge_filter", &ob::Filter::is<ob::HdrMerge>)
       .def("is_sequence_id_filter", &ob::Filter::is<ob::SequenceIdFilter>)
       .def("is_threshold_filter", &ob::Filter::is<ob::ThresholdFilter>)

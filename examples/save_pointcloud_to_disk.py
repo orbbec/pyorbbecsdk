@@ -27,7 +27,7 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> int:
     depth_frame = frames.get_depth_frame()
     if depth_frame is None:
         return 0
-    points = frames.convert_to_points(camera_param)
+    points = frames.get_point_cloud(camera_param)
     if points is None or len(points) == 0:
         print("no depth points")
         return 0
@@ -42,7 +42,7 @@ def save_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> int:
         f.write("property float z\n")
         f.write("end_header\n")
         for point in points:
-            f.write("{} {} {}\n".format(point.x, point.y, point.z))
+            f.write("{} {} {}\n".format(point[0], point[1], point[2]))
     return 1
 
 
@@ -52,7 +52,7 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> i
     depth_frame = frames.get_depth_frame()
     if depth_frame is None:
         return 0
-    points = frames.convert_to_color_points(camera_param)
+    points = frames.get_color_point_cloud(camera_param)
     if points is None or len(points) == 0:
         print("no color points")
         return 0
@@ -70,8 +70,14 @@ def save_color_points_to_ply(frames: FrameSet, camera_param: OBCameraParam) -> i
         f.write("property uchar blue\n")
         f.write("end_header\n")
         for point in points:
+            x = point[0]
+            y = point[1]
+            z = point[2]
+            r = int(point[3])
+            g = int(point[4])
+            b = int(point[5])
             f.write(
-                "{} {} {} {} {} {}\n".format(point.x, point.y, point.z, point.r, point.g, point.b))
+                "{} {} {} {} {} {}\n".format(x, y, z, r, g, b))
 
     return 1
 

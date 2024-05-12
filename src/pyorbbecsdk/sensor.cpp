@@ -96,7 +96,7 @@ void define_filter_list(const py::object& m) {
            [](const std::shared_ptr<ob::OBFilterList>& self) {
              return self->count();
            })
-      .def("get_filter_by_index",
+      .def("get_filter",
            [](const std::shared_ptr<ob::OBFilterList>& self, int index) {
              return self->getFilter(index);
            })

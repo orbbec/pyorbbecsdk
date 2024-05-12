@@ -250,6 +250,14 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDepthWorkModeList(); });
            })
+      .def("set_hdr_config",
+           [](const std::shared_ptr<ob::Device> &self,
+              const OBHdrConfig &config) {
+             OB_TRY_CATCH({
+               self->setStructuredData(OB_STRUCT_DEPTH_HDR_CONFIG, &config,
+                                       sizeof(OBHdrConfig));
+             });
+           })
       .def("reboot",
            [](const std::shared_ptr<ob::Device> &self) { self->reboot(); })
       .def("get_baseline",

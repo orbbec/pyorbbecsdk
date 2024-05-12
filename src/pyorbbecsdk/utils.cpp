@@ -21,6 +21,7 @@
 
 #include <libobsensor/hpp/Utils.hpp>
 
+
 #include "error.hpp"
 namespace py = pybind11;
 namespace pyorbbecsdk {

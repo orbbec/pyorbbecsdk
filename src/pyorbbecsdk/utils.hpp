@@ -19,6 +19,8 @@
 #include <string>
 #include <vector>
 #include <pybind11/pybind11.h>
+#include <libobsensor/ObSensor.hpp>
+
 
 namespace py = pybind11;
 #define CHECK_NULLPTR(ptr)                                                  \

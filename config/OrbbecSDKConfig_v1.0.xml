@@ -1,27 +1,37 @@
-This XML file does not appear to have any style information associated with it. The document tree is shown below.
+This XML file does not appear to have any style information associated with it. The document tree is
+shown below.
 <Config>
-    <!-- Configuration file standard version. If you are not an SDK developer, please do not modify it, otherwise the configuration function may fail. -->
+    <!-- Configuration file standard version. If you are not an SDK developer, please do not modify
+    it, otherwise the configuration function may fail. -->
     <ConfigStandardVersion>1.1</ConfigStandardVersion>
     <Log>
-        <!-- Log output level, int type, optional values: 0-DEBUG, 1-INFO, 2-WARN, 3-ERROR, 4-FATAL, 5-OFF -->
-        <!-- Log level configuration execution priority: 0. Application code configuration > 1. Detailed configuration of configuration file (file & console configuration) > 2. Global configuration of configuration file > 3. SDK code default configuration (file: 0, terminal: 1) -->
+        <!-- Log output level, int type, optional values: 0-DEBUG, 1-INFO, 2-WARN, 3-ERROR, 4-FATAL,
+        5-OFF -->
+        <!-- Log level configuration execution priority: 0. Application code configuration > 1.
+        Detailed configuration of configuration file (file & console configuration) > 2. Global
+        configuration of configuration file > 3. SDK code default configuration (file: 0, terminal:
+        1) -->
         <!-- Global log output level -->
         <LogLevel>0</LogLevel>
         <!-- File log output level -->
         <FileLogLevel>0</FileLogLevel>
         <!-- Console log output level -->
         <ConsoleLogLevel>1</ConsoleLogLevel>
-        <!-- Default log output file path, string type. If this item is not configured, the default path will be used: Win/Linux: "./Log"; Android: "/sdcard/Orbbec/Log" -->
+        <!-- Default log output file path, string type. If this item is not configured, the default
+        path will be used: Win/Linux: "./Log"; Android: "/sdcard/Orbbec/Log" -->
         <!-- <OutputDir>./log</OutputDir> -->
         <!-- Default log output file size, int type, unit: MB -->
         <MaxFileSize>100</MaxFileSize>
         <!-- Default log output file number (circular overwrite), int type -->
         <MaxFileNum>3</MaxFileNum>
-        <!-- Log asynchronous output, changing to asynchronous output can reduce the blocking time of printing logs, but some logs may be lost when the program exits abnormally; true-enable, false-disable (default) -->
+        <!-- Log asynchronous output, changing to asynchronous output can reduce the blocking time
+        of printing logs, but some logs may be lost when the program exits abnormally; true-enable,
+        false-disable (default) -->
         <Async>false</Async>
     </Log>
     <Memory>
-        <!-- Enable memory pool to reuse frame memory, avoid frequent memory allocation and release. true-enable, false-disable) -->
+        <!-- Enable memory pool to reuse frame memory, avoid frequent memory allocation and release.
+        true-enable, false-disable) -->
         <EnableMemoryPool> true </EnableMemoryPool>
         <!-- Maximum memory size of all data frames, int type, unit: MB, minimum 100MB -->
         <MaxFrameBufferSize> 2048 </MaxFrameBufferSize>
@@ -32,7 +42,8 @@ This XML file does not appear to have any style information associated with it. 
     </Memory>
     <Misc>
         <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
-        <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 8000, minimum value: 100, it is recommended not to be greater than 10000  -->
+        <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 8000,
+        minimum value: 100, it is recommended not to be greater than 10000  -->
         <GlobalTimestampFitterInterval>8000</GlobalTimestampFitterInterval>
         <!-- Global timestamp fitter queue size, default value: 10, minimum value: 4  -->
         <GlobalTimestampFitterQueueSize>10</GlobalTimestampFitterQueueSize>
@@ -41,24 +52,29 @@ This XML file does not appear to have any style information associated with it. 
     <Pipeline>
         <Stream>
             <Depth>
-                <!-- Use default stream profile, bool type, true： use default stream profile, false：use specified stream profile in the configuration file -->
+                <!-- Use default stream profile, bool type, true： use default stream profile,
+                false：use specified stream profile in the configuration file -->
                 <UseDefaultStreamProfile>true</UseDefaultStreamProfile>
             </Depth>
             <Color>
                 <UseDefaultStreamProfile>true</UseDefaultStreamProfile>
-                <![CDATA[ <!--Do not use the default stream profile. Instead, open the stream according to the specified profile. If the specified profile is not supported, the default profile will be used.--> <UseDefaultStreamProfile>false</UseDefaultStreamProfile> <!--Width of the resolution, int type--> <Width>1920</Width> <!--Height of the resolution, int type--> <Height>1080</Height> <!--Frame rate, int type--> <FPS>30</FPS> <!--frame format--> <Format>MJPG</Format> ]]>
+<![CDATA[ <!--Do not use the default stream profile. Instead, open the stream according to the specified profile. If the specified profile is not supported, the default profile will be used.--> <UseDefaultStreamProfile>false</UseDefaultStreamProfile> <!--Width of the resolution, int type--> <Width>1920</Width> <!--Height of the resolution, int type--> <Height>1080</Height> <!--Frame rate, int type--> <FPS>30</FPS> <!--frame format--> <Format>MJPG</Format> ]]>
             </Color>
-            <!-- If you need to open other streams, you can refer to the above format to add configuration -->
+            <!-- If you need to open other streams, you can refer to the above format to add
+            configuration -->
         </Stream>
-        <!-- Image alignment, int type, optional values: 0 disable, 1 hardware d2c alignment, 2 software d2c alignment -->
+        <!-- Image alignment, int type, optional values: 0 disable, 1 hardware d2c alignment, 2
+        software d2c alignment -->
         <AlignMode>0</AlignMode>
-        <!-- Frame synchronization output between different data streams, bool type, true-enable frame synchronization, false-disable frame synchronization -->
+        <!-- Frame synchronization output between different data streams, bool type, true-enable
+        frame synchronization, false-disable frame synchronization -->
         <FrameSync>false</FrameSync>
     </Pipeline>
     <!-- Default configuration of data streams for different types of devices -->
     <Device>
         <EnumerateNetDevice>false</EnumerateNetDevice>
-        <!-- UVC Backend select on Linux; optional values: Auto, V4L2, LibUVC; Auto is the default value -->
+        <!-- UVC Backend select on Linux; optional values: Auto, V4L2, LibUVC; Auto is the default
+        value -->
         <LinuxUVCBackend>LibUVC</LinuxUVCBackend>
         <!-- The device corresponding to Astra adv is astra+ -->
         <AstraAdv>
@@ -71,10 +87,13 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Profile filter, you can configure unwanted resolution, format, frame rate related profile, use '|' to add multiple options, the filter is not turned on by default -->
-                <![CDATA[ <ProfileFilter> <profile> <Width>640</Width> <Height>480</Height> <FPS>30|10</FPS> <Format>Y11|Y16</Format> </profile> <profile> <Width>1280</Width> <Height>1024</Height> </profile> </ProfileFilter> ]]>
+                <!-- Profile filter, you can configure unwanted resolution, format, frame rate
+                related profile, use '|' to add multiple options, the filter is not turned on by
+                default -->
+<![CDATA[ <ProfileFilter> <profile> <Width>640</Width> <Height>480</Height> <FPS>30|10</FPS> <Format>Y11|Y16</Format> </profile> <profile> <Width>1280</Width> <Height>1024</Height> </profile> </ProfileFilter> ]]>
             </Depth>
             <Color>
                 <!-- The width of the default resolution, int type -->
@@ -85,7 +104,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -97,7 +117,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraAdv>
@@ -111,7 +132,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -123,7 +145,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -135,7 +158,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Femto>
@@ -149,7 +173,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -161,7 +186,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -173,7 +199,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </FemtoW>
@@ -187,7 +214,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -199,7 +227,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -211,7 +240,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </FemtoLive>
@@ -225,13 +255,18 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure -->
+                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not
+                received after the open-flow exceeds this time, the open-flow will be considered as
+                a failure -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts -->
+                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart
+                attempts -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted -->
+                <!-- The maximum frame interval time, unit: ms; if no new data frame is received
+                beyond the maximum interval time, the stream is considered to be interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Depth>
             <Color>
@@ -243,13 +278,18 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure -->
+                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not
+                received after the open-flow exceeds this time, the open-flow will be considered as
+                a failure -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts -->
+                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart
+                attempts -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted -->
+                <!-- The maximum frame interval time, unit: ms; if no new data frame is received
+                beyond the maximum interval time, the stream is considered to be interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Color>
             <IR>
@@ -261,13 +301,18 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure -->
+                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not
+                received after the open-flow exceeds this time, the open-flow will be considered as
+                a failure -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts -->
+                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart
+                attempts -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted -->
+                <!-- The maximum frame interval time, unit: ms; if no new data frame is received
+                beyond the maximum interval time, the stream is considered to be interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR>
         </FemtoMega>
@@ -281,13 +326,18 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure -->
+                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not
+                received after the open-flow exceeds this time, the open-flow will be considered as
+                a failure -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts -->
+                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart
+                attempts -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted -->
+                <!-- The maximum frame interval time, unit: ms; if no new data frame is received
+                beyond the maximum interval time, the stream is considered to be interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Depth>
             <Color>
@@ -299,13 +349,18 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure -->
+                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not
+                received after the open-flow exceeds this time, the open-flow will be considered as
+                a failure -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts -->
+                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart
+                attempts -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted -->
+                <!-- The maximum frame interval time, unit: ms; if no new data frame is received
+                beyond the maximum interval time, the stream is considered to be interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Color>
             <IR>
@@ -317,13 +372,18 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y16</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not received after the open-flow exceeds this time, the open-flow will be considered as a failure -->
+                <!-- The maximum open-flow delay, unit: ms; if the first frame of data is not
+                received after the open-flow exceeds this time, the open-flow will be considered as
+                a failure -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart attempts -->
+                <!-- Stream interruption restart, 0 does not restart, >=1 consecutive restart
+                attempts -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, unit: ms; if no new data frame is received beyond the maximum interval time, the stream is considered to be interrupted -->
+                <!-- The maximum frame interval time, unit: ms; if no new data frame is received
+                beyond the maximum interval time, the stream is considered to be interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR>
         </FemtoBolt>
@@ -337,7 +397,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -349,7 +410,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -361,7 +423,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBai>
@@ -375,7 +438,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
@@ -387,7 +451,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiPro>
@@ -401,7 +466,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -413,7 +479,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -425,15 +492,16 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDCW>
         <DaBaiDCW2>
             <!--  Depth Filter Params  -->
-            <!--
-                        <DepthFilterDDOConfig>./Openni_device.json</DepthFilterDDOConfig>
-                         -->
+            <!-- 
+            <DepthFilterDDOConfig>./Openni_device.json</DepthFilterDDOConfig>
+			 -->
             <Depth>
                 <!-- The width of the default resolution, int type -->
                 <Width>640</Width>
@@ -443,7 +511,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -455,7 +524,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -467,7 +537,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDCW2>
@@ -481,7 +552,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
                 <ProfileFilter>
                     <profile>
@@ -498,7 +570,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -510,7 +583,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
                 <ProfileFilter>
                     <profile>
@@ -529,7 +603,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>10</FPS>
                 <!-- Default frame format -->
                 <Format>Y12</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -541,7 +616,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>25</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -553,7 +629,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>10</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiMax>
@@ -567,7 +644,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>10</FPS>
                 <!-- Default frame format -->
                 <Format>Y12</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -579,7 +657,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>25</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -591,7 +670,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>10</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiMaxPro>
@@ -605,7 +685,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>10</FPS>
                 <!-- Default frame format -->
                 <Format>Y12</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -617,7 +698,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>25</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -629,7 +711,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>10</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiUW>
@@ -643,7 +726,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
@@ -655,7 +739,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDW>
@@ -669,7 +754,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
@@ -681,7 +767,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDW2>
@@ -695,7 +782,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
@@ -707,7 +795,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>15</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiEWLite>
@@ -721,7 +810,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -733,7 +823,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -745,7 +836,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiDC1>
@@ -759,7 +851,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
@@ -771,7 +864,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </DaBaiD1>
@@ -785,7 +879,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -797,7 +892,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>UYVY</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -809,7 +905,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMini>
@@ -823,7 +920,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -835,7 +933,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>UYVY</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -847,7 +946,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniS>
@@ -861,7 +961,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -873,7 +974,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>UYVY</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -885,7 +987,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniPro>
@@ -899,7 +1002,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -911,7 +1015,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>UYVY</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -923,7 +1028,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraMiniSPro>
@@ -937,7 +1043,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -949,7 +1056,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -961,7 +1069,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraStereoSU3>
@@ -975,7 +1084,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -987,7 +1097,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -999,7 +1110,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </SV1301S_U3>
@@ -1013,7 +1125,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1025,7 +1138,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1037,7 +1151,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </SL1000S_U3>
@@ -1051,7 +1166,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1063,7 +1179,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>UYVY</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1075,7 +1192,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Astra>
@@ -1089,7 +1207,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1101,7 +1220,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1113,7 +1233,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraProPlus>
@@ -1127,7 +1248,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1139,7 +1261,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1151,7 +1274,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </AstraEmbeddedS>
@@ -1165,7 +1289,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1177,7 +1302,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1189,7 +1315,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </Deeyea>
@@ -1203,7 +1330,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1215,7 +1343,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1227,7 +1356,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </SL1502P_U2>
@@ -1241,7 +1371,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <Color>
@@ -1253,7 +1384,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>MJPG</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Color>
             <IR>
@@ -1265,7 +1397,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiE>
@@ -1279,7 +1412,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y11</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </Depth>
             <IR>
@@ -1291,7 +1425,8 @@ This XML file does not appear to have any style information associated with it. 
                 <FPS>30</FPS>
                 <!-- Default frame format -->
                 <Format>Y10</Format>
-                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how many times to retry -->
+                <!-- Whether to retry after open stream failure, 0 means no retry, >=1 retry and how
+                many times to retry -->
                 <StreamFailedRetry>0</StreamFailedRetry>
             </IR>
         </GeminiELite>
@@ -1299,22 +1434,28 @@ This XML file does not appear to have any style information associated with it. 
         <OrbbecGemini2>
             <!-- Whether to enable heartbeat by default -->
             <DefaultHeartBeat>0</DefaultHeartBeat>
-            <!-- Whether to enable firmware upgrade foolproof by default, only internal version supports -->
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
             <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
             <!--  Depth Filter Params  -->
-            <!--
-                        <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
-                         -->
-            <!-- TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes -->
-            <!-- TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes -->
+            <!-- 
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+			 -->
+            <!-- TODO lumiaozi It is cumbersome to consider the recommended configuration in
+            different camera depth modes -->
+            <!-- TODO lumiaozi have to consider the uncorresponding resolutions in different camera
+            depth modes -->
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>1280</Width>
@@ -1363,15 +1504,21 @@ This XML file does not appear to have any style information associated with it. 
             <!-- Configurations in different camera depth modes  -->
             <!-- Deep working mode: Unbinned Dense Default  -->
             <UnbinnedDenseDefault>
-                <!-- You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor  -->
+                <!-- You can configure the default resolution corresponding to the sensor in the
+                current mode here, if not configured, then use the Device node to correspond to the
+                default resolution of the sensor  -->
             </UnbinnedDenseDefault>
             <!-- Deep working mode: Unbinned Sparse Default  -->
             <UnbinnedSparseDefault>
-                <!-- You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor  -->
+                <!-- You can configure the default resolution corresponding to the sensor in the
+                current mode here, if not configured, then use the Device node to correspond to the
+                default resolution of the sensor  -->
             </UnbinnedSparseDefault>
             <!-- Deep working mode: Binned Sparse Default  -->
             <BinnedSparseDefault>
-                <!-- You can configure the default resolution corresponding to the sensor in the current mode here, if not configured, then use the Device node to correspond to the default resolution of the sensor  -->
+                <!-- You can configure the default resolution corresponding to the sensor in the
+                current mode here, if not configured, then use the Device node to correspond to the
+                default resolution of the sensor  -->
                 <Depth>
                     <!-- The resolution width is enabled by default, int type -->
                     <Width>640</Width>
@@ -1466,18 +1613,24 @@ This XML file does not appear to have any style information associated with it. 
         <DaBaiDCL>
             <!-- Whether to enable heartbeat by default -->
             <DefaultHeartBeat>0</DefaultHeartBeat>
-            <!-- Whether to enable firmware upgrade foolproof by default, only internal version supports -->
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
             <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
-            <!-- TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes -->
-            <!-- TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes -->
+            <!-- TODO lumiaozi It is cumbersome to consider the recommended configuration in
+            different camera depth modes -->
+            <!-- TODO lumiaozi have to consider the uncorresponding resolutions in different camera
+            depth modes -->
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>1280</Width>
@@ -1610,11 +1763,14 @@ This XML file does not appear to have any style information associated with it. 
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>1280</Width>
@@ -1770,16 +1926,21 @@ This XML file does not appear to have any style information associated with it. 
         <OrbbecAstra2>
             <!-- Whether to enable heartbeat by default -->
             <DefaulHeartBeat>0</DefaulHeartBeat>
-            <!-- TODO lumiaozi It is cumbersome to consider the recommended configuration in different camera depth modes -->
-            <!-- TODO lumiaozi have to consider the uncorresponding resolutions in different camera depth modes -->
+            <!-- TODO lumiaozi It is cumbersome to consider the recommended configuration in
+            different camera depth modes -->
+            <!-- TODO lumiaozi have to consider the uncorresponding resolutions in different camera
+            depth modes -->
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>2</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>10000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>2</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>800</Width>
@@ -2018,11 +2179,14 @@ This XML file does not appear to have any style information associated with it. 
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>1280</Width>
@@ -2042,9 +2206,11 @@ This XML file does not appear to have any style information associated with it. 
                 <Format>MJPG</Format>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Color>
             <IR_LEFT>
@@ -2057,9 +2223,11 @@ This XML file does not appear to have any style information associated with it. 
                 <Format>Y8</Format>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR_LEFT>
             <IR_RIGHT>
@@ -2072,21 +2240,27 @@ This XML file does not appear to have any style information associated with it. 
                 <Format>Y8</Format>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </IR_RIGHT>
             <Accel>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Accel>
             <Gyro>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
             </Gyro>
             <!-- Configurations in different camera depth modes -->
@@ -2101,9 +2275,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>MJPG</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </Color>
                 <Depth>
@@ -2116,9 +2292,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>RVL</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </Depth>
                 <IR_LEFT>
@@ -2131,9 +2309,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>Y8</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </IR_LEFT>
                 <IR_RIGHT>
@@ -2146,9 +2326,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>Y8</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </IR_RIGHT>
             </BinnedSparseDefault>
@@ -2163,9 +2345,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>MJPG</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </Color>
                 <IR_LEFT>
@@ -2178,9 +2362,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>Y10</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </IR_LEFT>
                 <IR_RIGHT>
@@ -2193,9 +2379,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>Y10</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </IR_RIGHT>
             </FactoryCalibration>
@@ -2210,9 +2398,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>MJPG</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </Color>
                 <IR_LEFT>
@@ -2225,9 +2415,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>Y8</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </IR_LEFT>
                 <IR_RIGHT>
@@ -2240,9 +2432,11 @@ This XML file does not appear to have any style information associated with it. 
                     <Format>Y8</Format>
                     <!-- Number of retries for open stream failures, 0 means no retries -->
                     <StreamFailedRetry>0</StreamFailedRetry>
-                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                    <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                    restart -->
                     <StreamInterruptedRestart>5</StreamInterruptedRestart>
-                    <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                    <!-- The maximum frame interval time, if this value is exceeded, it will be
+                    judged that the stream is interrupted -->
                     <MaxFrameIntervalMs>5000</MaxFrameIntervalMs>
                 </IR_RIGHT>
             </In-sceneCalibration>
@@ -2251,20 +2445,24 @@ This XML file does not appear to have any style information associated with it. 
         <OrbbecGemini335>
             <!-- Whether to enable heartbeat by default -->
             <DefaultHeartBeat>0</DefaultHeartBeat>
-            <!-- Whether to enable firmware upgrade foolproof by default, only internal version supports -->
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
             <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
             <!--  Depth Filter Params  -->
-            <!--
-                        <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
-                         -->
+            <!-- 
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+			 -->
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>848</Width>
@@ -2315,20 +2513,24 @@ This XML file does not appear to have any style information associated with it. 
         <OrbbecGemini335L>
             <!-- Whether to enable heartbeat by default -->
             <DefaultHeartBeat>0</DefaultHeartBeat>
-            <!-- Whether to enable firmware upgrade foolproof by default, only internal version supports -->
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
             <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
             <!--  Depth Filter Params  -->
-            <!--
-                        <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
-                         -->
+            <!-- 
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+			 -->
             <Depth>
                 <!-- Number of retries for open stream failures, 0 means no retries -->
                 <StreamFailedRetry>0</StreamFailedRetry>
-                <!-- Open flow waits for the timeout period of the first frame of data, after which the open flow will fail -->
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
                 <MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-                <!-- The number of data stream restarts due to abnormal interruption, 0 means no restart -->
+                <!-- The number of data stream restarts due to abnormal interruption, 0 means no
+                restart -->
                 <StreamInterruptedRestart>0</StreamInterruptedRestart>
-                <!-- The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted -->
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
                 <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>848</Width>

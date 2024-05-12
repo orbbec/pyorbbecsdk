@@ -995,7 +995,7 @@ typedef struct {
     uint16_t              disp_diff;
     OBDDONoiseRemovalType type;
 } OBNoiseRemovalFilterParams, ob_noise_removal_filter_params;
-
+;
 
 /**
  * @brief Control command protocol version number

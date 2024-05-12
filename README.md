@@ -1,36 +1,42 @@
-# Python binding for Orbbec SDK
+# Python Bindings for Orbbec SDK
 
-A python binding for Orbbec SDK.
+This project provides Python bindings for the Orbbec SDK, allowing developers to interface with Orbbec devices in Python.
 
 ## Getting Started
 
-### Get source code
+### Get the Source Code
+
+Clone the repository to get the latest version of the Python bindings for Orbbec SDK.
 
 ```bash
 git clone https://github.com/orbbec/pyorbbecsdk.git
 ```
 
-### Install dependencies
+### Install Dependencies
+
+Install the necessary Python development packages on Ubuntu.
 
 ```bash
 sudo apt-get install python3-dev python3-venv python3-pip python3-opencv
 ```
-### Custom Python3 path (optional)
-If you use Anaconda, you can set the python3 path to the Anaconda path. Put below code in `pyorbbecsdk/CMakeLists.txt`
-before `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)`.
+
+### Custom Python3 Path (Optional)
+
+If you use Anaconda, set the Python3 path to the Anaconda path in `pyorbbecsdk/CMakeLists.txt` before the `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)` line:
 
 ```cmake
-set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # replace by your python3 path
-set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.6/site-packages/pybind11/share/cmake/pybind11") # replace by your pybind11 path
+set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # Replace with your Python3 path
+set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.6/site-packages/pybind11/share/cmake/pybind11") # Replace with your Pybind11 path
 ```
 
-### Build
+### Build the Project
+
+Create a virtual environment and build the project.
 
 ```bash
 cd pyorbbecsdk
-# Strongly recommended create virtual environment.
-python3 -m venv  ./venv
-source venv/bin/activate # activate virtual environment
+python3 -m venv ./venv
+source venv/bin/activate
 pip3 install -r requirements.txt
 mkdir build
 cd build
@@ -39,40 +45,52 @@ make -j4
 make install
 ```
 
-### Try examples
+### Try the Examples
+
+Set up your environment to run examples and install necessary system rules.
 
 ```bash
 cd pyorbbecsdk
-# set PYTHONPATH environment variable to include the lib directory in the install directory
-export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/ # DON'T forget do this
-# install udev rules
+export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
 sudo bash ./scripts/install_udev_rules.sh
 sudo udevadm control --reload-rules && sudo udevadm trigger
-# run examples
 python3 examples/depth_viewer.py
-# network device, you need install ffmpeg
-python3 examples/net_device.py
+python3 examples/net_device.py # Requires ffmpeg installation for network device
 ```
 
-Other examples can be found in `examples` directory, Please refer to [examples/README.md](examples/README.md) for more.
-### Generate stubs
+Additional examples are available in the `examples` directory. Please see [examples/README.md](examples/README.md) for further details.
+
+### Generate Stubs
+
+Generate Python stubs for better IntelliSense in your IDE.
 
 ```bash
 source env.sh
 pip3 install pybind11-stubgen
-pybind11-stubgen  pyorbbecsdk
+pybind11-stubgen pyorbbecsdk
 ```
 
+### Building on Windows
 
-### For Windows
+For instructions on how to build and run the examples on Windows, please refer to [docs/README.md](docs/README_EN.md).
 
-Please refer to [docs/README.md](docs/README_EN.md) for instructions on how to build and run the examples
-on Windows.
+## Making a Python Wheel
+
+Generate a wheel package for easy distribution and installation.
+
+```bash
+pip3 install wheel
+cd pyorbbecsdk
+mkdir build && cd build && cmake .. && make -j4
+make install
+cd ..
+python3 setup.py bdist_wheel
+```
 
 ## Documentation
 
-Please refer to [docs/README.md](docs/README_EN.md) for more.
+For detailed documentation, please refer to [docs/README.md](docs/README_EN.md).
 
 ## License
 
-Apache License 2.0
+This project is licensed under the Apache License 2.0.

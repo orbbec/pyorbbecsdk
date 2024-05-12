@@ -115,7 +115,68 @@ void define_point_cloud_filter(const py::object& m) {
            [](std::shared_ptr<ob::PointCloudFilter>& self, bool state) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ self->setColorDataNormalization(state); });
-           });
+           })
+      .def("calculate", [](std::shared_ptr<ob::PointCloudFilter>& self,
+                           std::shared_ptr<ob::Frame> frame) {
+        CHECK_NULLPTR(self);
+        CHECK_NULLPTR(frame);
+        auto format = frame->format();
+        if (format != OBFormat::OB_FORMAT_RGB_POINT &&
+            format != OBFormat::OB_FORMAT_POINT) {
+          std::cerr << "Is not a point cloud frame, do you call process first?"
+                    << std::endl;
+          throw std::runtime_error(
+              "Is not a point cloud frame, do you call process first?");
+        }
+        if (format == OBFormat::OB_FORMAT_RGB_POINT) {
+          auto data = frame->data();
+          auto data_size = frame->dataSize();
+          uint32_t num_of_points = data_size / sizeof(OBColorPoint);
+          auto points = reinterpret_cast<OBColorPoint*>(data);
+          // Convert to py::array
+          py::array::ShapeContainer shape({num_of_points, 6});
+          py::array::StridesContainer strides(
+              {6 * sizeof(float), sizeof(float)});
+          py::dtype dtype("float");
+          py::array array(dtype, shape, strides);
+          py::array_t<float> result = py::cast<py::array_t<float>>(array);
+          py::buffer_info buf_info = result.request();
+          auto* ptr = static_cast<float*>(buf_info.ptr);
+          for (long i = 0; i < num_of_points; ++i) {
+            auto point = points[i];
+            size_t index = i * 6;
+            ptr[index] = point.x;
+            ptr[index + 1] = point.y;
+            ptr[index + 2] = point.z;
+            ptr[index + 3] = point.r;
+            ptr[index + 4] = point.g;
+            ptr[index + 5] = point.b;
+          }
+          return result;
+        } else {
+          auto data = frame->data();
+          auto data_size = frame->dataSize();
+          uint32_t num_of_points = data_size / sizeof(OBPoint);
+          auto points = reinterpret_cast<OBPoint*>(data);
+          // Convert to py::array
+          py::array::ShapeContainer shape({num_of_points, 3});
+          py::array::StridesContainer strides(
+              {3 * sizeof(float), sizeof(float)});
+          py::dtype dtype("float");
+          py::array array(dtype, shape, strides);
+          py::array_t<float> result = py::cast<py::array_t<float>>(array);
+          py::buffer_info buf_info = result.request();
+          auto* ptr = static_cast<float*>(buf_info.ptr);
+          for (long i = 0; i < num_of_points; ++i) {
+            auto point = points[i];
+            size_t index = i * 3;
+            ptr[index] = point.x;
+            ptr[index + 1] = point.y;
+            ptr[index + 2] = point.z;
+          }
+          return result;
+        }
+      });
 }
 
 void define_format_covert_filter(const py::object& m) {

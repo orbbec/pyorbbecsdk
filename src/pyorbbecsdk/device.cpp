@@ -355,6 +355,21 @@ void define_device(const py::object &m) {
                return self->exportSettingsAsPresetJsonFile(file_path.c_str());
              });
            })
+      .def("get_depth_precision_support_list",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({
+               auto list = self->getStructuredDataExt(
+                   OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST);
+               py::list result;
+               auto *ptr = reinterpret_cast<uint16_t *>(list->data);
+               for (uint32_t i = 0; i < list->dataSize / 2; i++) {
+                 uint16_t data = ptr[i];
+                 result.append(data);
+               }
+               return result;
+             });
+           })
+
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();

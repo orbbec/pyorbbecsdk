@@ -20,7 +20,6 @@ from pyorbbecsdk import Context
 def main():
     print("Hello Orbbec!")
     print("SDK version: {}".format(get_version()))
-    print("SDK stage version: {}".format(get_stage_version()))
     context = Context()
     device_list = context.query_devices()
     if device_list.get_count() == 0:

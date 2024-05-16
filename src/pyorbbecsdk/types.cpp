@@ -490,6 +490,16 @@ void define_orbbec_types(const py::object &m) {
       .value("SAMPLE_RATE_16_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_16_KHZ)
       .value("SAMPLE_RATE_32_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_32_KHZ);
 
+  py::enum_<OBGyroFullScaleRange>(m, "OBGyroFullScaleRange")
+      .value("FS_16dps", OB_GYRO_FS_16dps)
+      .value("FS_31dps", OB_GYRO_FS_31dps)
+      .value("FS_62dps", OB_GYRO_FS_62dps)
+      .value("FS_125dps", OB_GYRO_FS_125dps)
+      .value("FS_250dps", OB_GYRO_FS_250dps)
+      .value("FS_500dps", OB_GYRO_FS_500dps)
+      .value("FS_1000dps", OB_GYRO_FS_1000dps)
+      .value("FS_2000dps", OB_GYRO_FS_2000dps);
+
   py::enum_<OBAccelFullScaleRange>(m, "OBAccelFullScaleRange")
       .value("ACCEL_FS_2g", OBAccelFullScaleRange::OB_ACCEL_FS_2g)
       .value("ACCEL_FS_4g", OBAccelFullScaleRange::OB_ACCEL_FS_4g)

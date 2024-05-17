@@ -35,6 +35,43 @@ accel_csv_file = open('accel_data.csv', 'w', newline='')
 accel_writer = csv.writer(accel_csv_file)
 accel_writer.writerow(['Index', 'Timestamp', 'Global Timestamp','Timestamp Difference', 'Global Timestamp Difference'])
 
+color_csv_file = open('color_data.csv', 'w', newline='')
+color_writer = csv.writer(color_csv_file)
+color_writer.writerow(['Index', 'Timestamp', 'Global Timestamp', 'Timestamp Difference', 'Global Timestamp Difference'])
+
+depth_csv_file = open('depth_data.csv', 'w', newline='')
+depth_writer = csv.writer(depth_csv_file)
+depth_writer.writerow(['Index', 'Timestamp', 'Global Timestamp', 'Timestamp Difference', 'Global Timestamp Difference'])
+last_color_ts = 0
+last_depth_ts = 0
+last_color_global_ts = 0
+last_depth_global_ts = 0
+
+def on_new_frame_set_callback(frame: FrameSet):
+    global last_color_ts, last_depth_ts, last_color_global_ts, last_depth_global_ts
+    if frame is None:
+        return
+    color_frame = frame.get_color_frame()
+    depth_frame = frame.get_depth_frame()
+    if color_frame is not None:
+        timestamp = color_frame.get_timestamp_us()
+        global_timestamp = color_frame.get_global_timestamp_us()
+        index = color_frame.get_index()
+        timestamp_diff = timestamp - last_color_ts if last_color_ts != 0 else 0
+        global_timestamp_diff = global_timestamp - last_color_global_ts if last_color_global_ts != 0 else 0
+        color_writer.writerow([index, timestamp, global_timestamp, timestamp_diff, global_timestamp_diff])
+        last_color_ts = timestamp
+        last_color_global_ts = global_timestamp
+    if depth_frame is not None:
+        timestamp = depth_frame.get_timestamp_us()
+        global_timestamp = depth_frame.get_global_timestamp_us()
+        index = depth_frame.get_index()
+        timestamp_diff = timestamp - last_depth_ts if last_depth_ts != 0 else 0
+        global_timestamp_diff = global_timestamp - last_depth_global_ts if last_depth_global_ts != 0 else 0
+        depth_writer.writerow([index, timestamp, global_timestamp, timestamp_diff, global_timestamp_diff])
+        last_depth_ts = timestamp
+        last_depth_global_ts = global_timestamp
+
 def on_gyro_frame_callback(frame: Frame):
     if frame is None:
         return
@@ -131,24 +168,12 @@ def main():
         print(e)
         return
 
-    pipeline.start(config)
+    pipeline.start(config, lambda frames: on_new_frame_set_callback(frames))
     pipeline.enable_frame_sync()
 
-    last_time = time.time()
     while True:
         try:
-            frames = pipeline.wait_for_frames(100)
-            if not frames:
-                continue
-            color_frame = frames.get_color_frame()
-            depth_frame = frames.get_depth_frame()
-            if not color_frame or not depth_frame:
-                continue
-            if time.time() - last_time > 5.0:
-                print("get color and depth frame")
-                print("color frame timestamp: ", color_frame.get_timestamp())
-                print("depth frame timestamp: ", depth_frame.get_timestamp())
-                last_time = time.time()
+           time.sleep(1.0)
 
         except KeyboardInterrupt:
             # Don't forget to stop the sensor

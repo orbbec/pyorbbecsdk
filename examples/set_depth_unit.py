@@ -71,8 +71,12 @@ def set_depth_unit_float(device):
 
 
 def main():
-    pipeline = Pipeline()
-    device = pipeline.get_device()
+    ctx = Context()
+    device_list = ctx.query_devices()
+    if device_list.get_count() == 0:
+        print("No device connected")
+        return
+    device = device_list.get_device_by_index(0)
     if device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_PRECISION_LEVEL_INT,
                                     OBPermissionType.PERMISSION_READ_WRITE):
         print("Set depth precision level.")

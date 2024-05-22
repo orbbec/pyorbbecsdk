@@ -30,7 +30,7 @@ Pipeline::Pipeline(const std::string &bag_path)
     : impl_(std::make_shared<ob::Pipeline>(bag_path.c_str())) {}
 
 Pipeline::~Pipeline() {
-  if (impl_) {
+  if (impl_ && is_started_) {
     impl_->stop();
   }
 }
@@ -39,6 +39,7 @@ void Pipeline::start(std::shared_ptr<ob::Config> config) {
   CHECK_NULLPTR(impl_);
   // CHECK_NULLPTR(config);
   OB_TRY_CATCH({ impl_->start(std::move(config)); });
+  is_started_ = true;
 }
 
 void Pipeline::start(std::shared_ptr<ob::Config> config,
@@ -52,11 +53,13 @@ void Pipeline::start(std::shared_ptr<ob::Config> config,
                    callback(fs);
                  });
   });
+  is_started_ = true;
 }
 
 void Pipeline::stop() {
   CHECK_NULLPTR(impl_);
   impl_->stop();
+  is_started_ = false;
 }
 
 std::shared_ptr<ob::Config> Pipeline::get_config() {

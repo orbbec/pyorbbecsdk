@@ -16,7 +16,7 @@
 #pragma once
 
 #include <pybind11/pybind11.h>
-
+#include <atomic>
 #include <libobsensor/ObSensor.hpp>
 namespace py = pybind11;
 namespace pyorbbecsdk {
@@ -64,6 +64,7 @@ class Pipeline {
 
  private:
   std::shared_ptr<ob::Pipeline> impl_;
+  std::atomic<bool> is_started_{false};
 };
 
 void define_pipeline(py::object &m);

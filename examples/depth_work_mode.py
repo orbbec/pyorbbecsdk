@@ -42,12 +42,9 @@ def main():
         if depth_work_mode_list.get_count() > index >= 0:
             select_depth_work_mode = depth_work_mode_list.get_depth_work_mode_by_index(index)
             assert select_depth_work_mode is not None
-            device.set_depth_work_mode(select_depth_work_mode)
+            device.set_depth_work_mode(select_depth_work_mode.name)
             assert select_depth_work_mode == device.get_depth_work_mode()
-            device.set_depth_work_mode(current_depth_work_mode)
-            assert current_depth_work_mode == device.get_depth_work_mode()
             print("Set depth work mode to {} success!".format(select_depth_work_mode))
-    device.set_depth_work_mode(current_depth_work_mode)
 
 
 if __name__ == '__main__':

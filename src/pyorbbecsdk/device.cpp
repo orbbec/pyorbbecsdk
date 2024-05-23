@@ -246,6 +246,11 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self, OBDepthWorkMode mode) {
              OB_TRY_CATCH({ return self->switchDepthWorkMode(mode); });
            })
+      .def(
+          "set_depth_work_mode",
+          [](const std::shared_ptr<ob::Device> &self, const std::string &name) {
+            OB_TRY_CATCH({ return self->switchDepthWorkMode(name.c_str()); });
+          })
       .def("get_depth_work_mode_list",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDepthWorkModeList(); });

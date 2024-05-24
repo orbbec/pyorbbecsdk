@@ -13,13 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import Pipeline, FrameSet
-from pyorbbecsdk import Config
-from pyorbbecsdk import OBSensorType, OBFormat
-from pyorbbecsdk import OBError
-from pyorbbecsdk import VideoStreamProfile
 import cv2
-import numpy as np
+
+from pyorbbecsdk import Config
+from pyorbbecsdk import OBError
+from pyorbbecsdk import OBSensorType, OBFormat
+from pyorbbecsdk import Pipeline, FrameSet
+from pyorbbecsdk import VideoStreamProfile
 from utils import frame_to_bgr_image
 
 ESC_KEY = 27

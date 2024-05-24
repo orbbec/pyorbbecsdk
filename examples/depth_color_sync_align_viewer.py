@@ -13,12 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
+import argparse
+import sys
+
 import cv2
 import numpy as np
+
+from pyorbbecsdk import *
 from utils import frame_to_bgr_image
-import sys
-import argparse
 
 ESC_KEY = 27
 
@@ -58,11 +60,11 @@ def main(argv):
         print(e)
         return
     if align_mode == 'HW':
-          if device_pid == 0x066B:
-            #Femto Mega does not support hardware D2C, and it is changed to software D2C
-             config.set_align_mode(OBAlignMode.SW_MODE)
-          else:
-             config.set_align_mode(OBAlignMode.HW_MODE)
+        if device_pid == 0x066B:
+            # Femto Mega does not support hardware D2C, and it is changed to software D2C
+            config.set_align_mode(OBAlignMode.SW_MODE)
+        else:
+            config.set_align_mode(OBAlignMode.HW_MODE)
     elif align_mode == 'SW':
         config.set_align_mode(OBAlignMode.SW_MODE)
     else:

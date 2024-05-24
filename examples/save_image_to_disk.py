@@ -13,11 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
+import os
+
 import cv2
 import numpy as np
+
+from pyorbbecsdk import *
 from utils import frame_to_bgr_image
-import os
 
 
 def save_depth_frame(frame: DepthFrame, index):

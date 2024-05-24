@@ -13,12 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import Pipeline, FrameSet
-from pyorbbecsdk import Config
-from pyorbbecsdk import OBSensorType
+from queue import Queue
+
 import cv2
 import numpy as np
-from queue import Queue
+
+from pyorbbecsdk import Config
+from pyorbbecsdk import OBSensorType
+from pyorbbecsdk import Pipeline, FrameSet
 
 depth_frames_queue = Queue()
 MAX_QUEUE_SIZE = 5

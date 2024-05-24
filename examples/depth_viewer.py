@@ -13,13 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import Pipeline
-from pyorbbecsdk import Config
-from pyorbbecsdk import OBSensorType, OBFormat
-from pyorbbecsdk import OBError
+import time
+
 import cv2
 import numpy as np
-import time
+
+from pyorbbecsdk import Config
+from pyorbbecsdk import OBSensorType
+from pyorbbecsdk import Pipeline
 
 ESC_KEY = 27
 PRINT_INTERVAL = 1  # seconds

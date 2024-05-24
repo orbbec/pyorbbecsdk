@@ -1,13 +1,15 @@
-from pyorbbecsdk import Pipeline
+import cv2
+import numpy as np
+
 # ******************************************************************************
 #  Copyright (c) 2023 Orbbec 3D Technology, Inc
-#  
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
+#  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-#  
+#
 #      http:# www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,13 +17,15 @@ from pyorbbecsdk import Pipeline
 #  limitations under the License.
 # ******************************************************************************
 from pyorbbecsdk import Config
-from pyorbbecsdk import OBSensorType, OBFormat
 from pyorbbecsdk import OBError
-import cv2
-import numpy as np
+from pyorbbecsdk import OBSensorType, OBFormat
+from pyorbbecsdk import Pipeline
 
 ESC_KEY = 27
-#Notes： Gemini 2 XL does not support this sample. Please refer to double_infrared_viewer.py
+
+
+# Notes： Gemini 2 series and Gemini 330 series cameras does not support this sample.
+# Please refer to double_infrared_viewer.py
 
 def main():
     config = Config()

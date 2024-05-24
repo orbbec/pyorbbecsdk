@@ -13,11 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
+from queue import Queue
+from typing import List
+
 import cv2
 import numpy as np
-from typing import List
-from queue import Queue
+
+from pyorbbecsdk import *
 from utils import frame_to_bgr_image
 
 MAX_DEVICES = 2

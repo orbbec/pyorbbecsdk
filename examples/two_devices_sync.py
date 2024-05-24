@@ -13,14 +13,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
-import cv2
-import numpy as np
-from typing import List
-from queue import Queue
-from utils import frame_to_bgr_image
 import json
 import os
+from queue import Queue
+from typing import List
+
+import cv2
+import numpy as np
+
+from pyorbbecsdk import *
+from utils import frame_to_bgr_image
 
 MAX_DEVICES = 2
 curr_device_cnt = 0
@@ -59,6 +61,8 @@ def sync_mode_from_str(sync_mode_str: str) -> OBMultiDeviceSyncMode:
         return OBMultiDeviceSyncMode.HARDWARE_TRIGGERING
     else:
         raise ValueError(f"Invalid sync mode: {sync_mode_str}")
+
+
 def on_new_frame_callback(frames: FrameSet, index: int):
     global color_frames_queue, depth_frames_queue
     global MAX_QUEUE_SIZE
@@ -148,7 +152,7 @@ def stop_streams(pipelines: List[Pipeline]):
 def read_config(config_file: str):
     global multi_device_sync_config
     with open(config_file, "r") as f:
-       config = json.load(f)
+        config = json.load(f)
     for device in config["devices"]:
         multi_device_sync_config[device["serial_number"]] = device
         print(f"Device {device['serial_number']}: {device['config']['mode']}")

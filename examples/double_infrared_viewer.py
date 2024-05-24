@@ -13,12 +13,16 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
 import cv2
 import numpy as np
 
+from pyorbbecsdk import *
+
 ESC_KEY = 27
-#Notes: Demonstrates how to display the double infrared stream,Currently, only Gemini 2 XL supports simultaneous output of double IR
+
+
+# Notes: Demonstrates how to display the double infrared stream,Currently,
+# only Gemini 2 XL supports simultaneous output of double IR
 
 def process_ir_frame(ir_frame):
     if ir_frame is None:

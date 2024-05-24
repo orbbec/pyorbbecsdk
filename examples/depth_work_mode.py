@@ -14,7 +14,6 @@
 #  limitations under the License.
 # ******************************************************************************
 from pyorbbecsdk import *
-import cv2
 
 ESC = 27
 

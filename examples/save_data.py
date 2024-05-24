@@ -19,8 +19,8 @@ import os
 import cv2
 import numpy as np
 from plyfile import PlyData, PlyElement
-from pyorbbecsdk import *
 
+from pyorbbecsdk import *
 from utils import frame_to_bgr_image
 
 # Directories for saving point clouds and images

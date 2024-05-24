@@ -15,10 +15,11 @@
 # ******************************************************************************
 from typing import Union, Any, Optional
 
-from pyorbbecsdk import FormatConvertFilter, VideoFrame
-from pyorbbecsdk import OBFormat, OBConvertFormat
 import cv2
 import numpy as np
+
+from pyorbbecsdk import FormatConvertFilter, VideoFrame
+from pyorbbecsdk import OBFormat, OBConvertFormat
 
 
 def yuyv_to_bgr(frame: np.ndarray, width: int, height: int) -> np.ndarray:

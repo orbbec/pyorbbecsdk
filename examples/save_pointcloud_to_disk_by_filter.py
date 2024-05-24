@@ -14,11 +14,13 @@
 #  limitations under the License.
 # ******************************************************************************
 
-from pyorbbecsdk import *
 import os
+
+import cv2
 import numpy as np
 from plyfile import PlyData, PlyElement
-import cv2
+
+from pyorbbecsdk import *
 
 save_points_dir = os.path.join(os.getcwd(), "point_clouds")
 if not os.path.exists(save_points_dir):

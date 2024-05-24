@@ -13,10 +13,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
 import os
-from plyfile import PlyData, PlyElement
+
 import numpy as np
+from plyfile import PlyData, PlyElement
+
+from pyorbbecsdk import *
 
 save_points_dir = os.path.join(os.getcwd(), "point_clouds")
 if not os.path.exists(save_points_dir):

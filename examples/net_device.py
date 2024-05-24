@@ -1,13 +1,16 @@
-import cv2
-import numpy as np
-from pyorbbecsdk import (Pipeline, FrameSet, Context, Config, OBSensorType,
-                         OBFormat, OBError, VideoStreamProfile)
 import platform
 import subprocess
+
+import cv2
+import numpy as np
+
+from pyorbbecsdk import (Pipeline, Context, Config, OBSensorType,
+                         OBFormat, OBError)
 from utils import frame_to_bgr_image
 
 ESC_KEY = 27
 
+# Only Femto Mega and Gemini2 XL support this sample
 
 def get_stream_profile(pipeline, sensor_type, width, height, fmt, fps):
     profile_list = pipeline.get_stream_profile_list(sensor_type)

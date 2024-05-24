@@ -15,11 +15,11 @@
 # ******************************************************************************
 import sys
 
-from pyorbbecsdk import *
-from utils import frame_to_bgr_image
 import cv2
 import numpy as np
-import signal
+
+from pyorbbecsdk import *
+from utils import frame_to_bgr_image
 
 ESC_KEY = 27
 

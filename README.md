@@ -94,6 +94,37 @@ python3 setup.py bdist_wheel
 pip3 install dist/*.whl
 ```
 
+## Enabling Device Timestamps via UVC Protocol on Windows
+
+To get device timestamps through the UVC protocol on a Windows system, you must modify the registry by completing a registration process. This is required due to default system limitations. Follow the steps below to configure your system:
+
+### 1. Connect the Device
+- Ensure your UVC-compatible device is connected to the computer and recognized by the system. Confirm that the device is online and functioning.
+
+### 2. Open PowerShell with Administrator Privileges
+- Open the Start menu, type `PowerShell`, right-click on the PowerShell app, and select 'Run as administrator'.
+
+### 3. Navigate to the Scripts Directory
+- Use the `cd` command to change the directory to the location of your scripts.
+  ```powershell
+  cd scripts
+  ```
+
+### 4. Modify Execution Policy
+- Modify the PowerShell execution policy to allow script execution. Run the following command and press `Y` when prompted to confirm the change:
+  ```powershell
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+  ```
+
+### 5. Execute the Registration Script
+- Run the registration script to modify the registry settings. Use the following command:
+  ```powershell
+  .\obsensor_metadata_win10.ps1 -op install_all
+  ```
+
+This will complete the necessary registration and modification of settings to allow device timestamps via the UVC protocol on your Windows system.
+
+
 ## Documentation
 
 For detailed documentation, please refer to [docs/README.md](docs/README_EN.md).

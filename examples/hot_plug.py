@@ -13,10 +13,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-from pyorbbecsdk import *
+import threading
 import time
 from typing import Optional
-import threading
+
+from pyorbbecsdk import *
 
 device: Optional[Device] = None
 pipeline: Optional[Pipeline] = None
@@ -93,11 +94,11 @@ def on_device_disconnected_callback(device_list: DeviceList):
 def on_new_frame_callback(frame: Frame):
     if frame is None:
         return
-    print("{} frame, width={}, height={}, format={}, timestamp={}".format(frame.get_type(),
-                                                                          frame.get_width(),
-                                                                          frame.get_height(),
-                                                                          frame.get_format(),
-                                                                          frame.get_timestamp()))
+    print("{} frame, width={}, height={}, format={}, timestamp={}us".format(frame.get_type(),
+                                                                            frame.get_width(),
+                                                                            frame.get_height(),
+                                                                            frame.get_format(),
+                                                                            frame.get_timestamp_us()))
 
 
 def on_device_changed_callback(disconn_device_list: DeviceList, conn_device_list: DeviceList):

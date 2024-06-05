@@ -38,6 +38,8 @@ class Context {
 
   void enable_multi_device_sync(uint64_t repeat_interval);
 
+  void enable_net_device_enumeration(bool enable);
+
   static void set_logger_level(OBLogSeverity level);
 
   static void set_logger_to_console(OBLogSeverity level);

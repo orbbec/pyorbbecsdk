@@ -1,18 +1,18 @@
 /*******************************************************************************
-* Copyright (c) 2023 Orbbec 3D Technology, Inc
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*******************************************************************************/
+ * Copyright (c) 2023 Orbbec 3D Technology, Inc
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 #include "context.hpp"
 
 #include "error.hpp"
@@ -65,6 +65,10 @@ void Context::set_logger_to_file(OBLogSeverity level,
   OB_TRY_CATCH({ ob::Context::setLoggerToFile(level, file_path.c_str()); });
 }
 
+void Context::enable_net_device_enumeration(bool enable) {
+  OB_TRY_CATCH({ impl_->enableNetDeviceEnumeration(enable); });
+}
+
 void define_context(py::object &m) {
   py::class_<Context>(m, "Context")
       .def(py::init<>())
@@ -94,6 +98,10 @@ void define_context(py::object &m) {
           "repeat_interval: The synchronization time interval (unit: ms; if "
           "repeatInterval=0, it means that it will only be synchronized once "
           "and will not be executed regularly).")
+      .def("enable_net_device_enumeration",
+           [](Context &self, bool enable) {
+             self.enable_net_device_enumeration(enable);
+           })
       .def_static("set_logger_level",
                   [](OBLogSeverity level) { Context::set_logger_level(level); })
       .def_static(

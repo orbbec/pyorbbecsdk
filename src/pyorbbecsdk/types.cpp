@@ -1088,5 +1088,11 @@ void define_orbbec_types(const py::object &m) {
         }
         param.extrinsics[source][target] = extrinsic;
       });
+  py::class_<OBDispOffsetConfig>(m, "OBDispOffsetConfig")
+        .def(py::init<>())
+        .def_readwrite("enable", &OBDispOffsetConfig::enable)
+        .def_readwrite("offset0", &OBDispOffsetConfig::offset0)
+        .def_readwrite("offset1", &OBDispOffsetConfig::offset1)
+        .def_readwrite("reserved", &OBDispOffsetConfig::reserved);
 }
 }  // namespace pyorbbecsdk

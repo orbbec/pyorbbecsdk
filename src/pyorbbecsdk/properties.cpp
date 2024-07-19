@@ -179,19 +179,28 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DC_POWER_STATE_INT",
              OBPropertyID::OB_PROP_DC_POWER_STATE_INT, "DC's power state")
       .value("OB_PROP_DEVICE_DEVELOPMENT_MODE_INT",
-             OBPropertyID::OB_PROP_DEVICE_DEVELOPMENT_MODE_INT)
-      .value("OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL",
-             OBPropertyID::OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL)
+             OBPropertyID::OB_PROP_DEVICE_DEVELOPMENT_MODE_INT,
+             "Device development mode switch")
+      .value(
+          "OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL",
+          OBPropertyID::OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL,
+          " Multi-DeviceSync synchronized signal trigger out is enable state")
       .value("OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL",
-             OBPropertyID::OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL)
+             OBPropertyID::OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL,
+             "Restore factory settings and factory parameters")
       .value("OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL",
-             OBPropertyID::OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL)
+             OBPropertyID::OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL,
+             "Enter recovery mode (flashing mode) when boot the device")
       .value("OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL",
-             OBPropertyID::OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL)
+             OBPropertyID::OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL,
+             "Query whether the current device is running in recovery mode"
+             "(read-only)")
       .value("OB_PROP_CAPTURE_INTERVAL_MODE_INT",
-             OBPropertyID::OB_PROP_CAPTURE_INTERVAL_MODE_INT)
+             OBPropertyID::OB_PROP_CAPTURE_INTERVAL_MODE_INT,
+             "Capture interval mode, 0:time interval, 1:number interval")
       .value("OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT",
-             OBPropertyID::OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT)
+             OBPropertyID::OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT,
+             "Capture time interval")
       .value("OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT",
              OBPropertyID::OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT)
       .value("OB_PROP_TIMER_RESET_ENABLE_BOOL",
@@ -201,7 +210,8 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEVICE_REBOOT_DELAY_INT",
              OBPropertyID::OB_PROP_DEVICE_REBOOT_DELAY_INT)
       .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
-             OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL)
+             OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL,
+             "Query the status of laser overcurrent protection (read-only)")
       .value("OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL",
              OBPropertyID::OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL)
       .value("OB_PROP_LASER_ALWAYS_ON_BOOL",
@@ -300,16 +310,28 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_SDK_IR_FRAME_UNPACK_BOOL",
              OBPropertyID::OB_PROP_SDK_IR_FRAME_UNPACK_BOOL)
       .value("OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL",
-             OBPropertyID::OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL)
+             OBPropertyID::OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL,
+             "Accel data conversion function switch (on by default)")
       .value("OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL",
-             OBPropertyID::OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL)
+             OBPropertyID::OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL,
+             "Gyro data conversion function switch (on by default)")
       .value("OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL",
-             OBPropertyID::OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL)
+             OBPropertyID::OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL,
+             "Left IR frame data unpacking function switch (each current will "
+             "be turned on by default, support RLE/Y10/Y11/Y12/Y14 format)")
       .value("OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL",
-             OBPropertyID::OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL)
+             OBPropertyID::OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL,
+             "Right IR frame data unpacking function switch (each current will "
+             "be turned on by default, support RLE/Y10/Y11/Y12/Y14 format)")
       .value("OB_RAW_DATA_CAMERA_CALIB_JSON_FILE",
              OBPropertyID::OB_RAW_DATA_CAMERA_CALIB_JSON_FILE,
-             "Calibration JSON file read from device (Femto Mega, read only)");
+             "Calibration JSON file read from device (Femto Mega, read only)")
+      .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL",
+             OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
+             "depth noise removal filter")
+      .value("OB_PROP_SDK_DEPTH_RECTIFY_MG_FILTER_BOOL",
+             OBPropertyID::OB_PROP_SDK_DEPTH_RECTIFY_MG_FILTER_BOOL,
+             "depth Margin Filter");
 
   py::enum_<OBPropertyType>(m, "OBPropertyType")
       .value("OB_BOOL_PROPERTY", OBPropertyType::OB_BOOL_PROPERTY,

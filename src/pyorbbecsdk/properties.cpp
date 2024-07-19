@@ -202,34 +202,51 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT,
              "Capture time interval")
       .value("OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT",
-             OBPropertyID::OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT)
+             OBPropertyID::OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT,
+             "Capture number interval")
       .value("OB_PROP_TIMER_RESET_ENABLE_BOOL",
-             OBPropertyID::OB_PROP_TIMER_RESET_ENABLE_BOOL)
+             OBPropertyID::OB_PROP_TIMER_RESET_ENABLE_BOOL,
+             "OB_PROP_TIMER_RESET_ENABLE_BOOL")
       .value("OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL",
-             OBPropertyID::OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL)
+             OBPropertyID::OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL,
+             "Enable or disable the device to retry USB2.0 re-identification "
+             "when the device is connected to a USB2.0 port.")
       .value("OB_PROP_DEVICE_REBOOT_DELAY_INT",
-             OBPropertyID::OB_PROP_DEVICE_REBOOT_DELAY_INT)
+             OBPropertyID::OB_PROP_DEVICE_REBOOT_DELAY_INT,
+             "Reboot device delay mode. Delay time unit: ms, range: [0, 8000).")
       .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
              OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL,
              "Query the status of laser overcurrent protection (read-only)")
       .value("OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL",
-             OBPropertyID::OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL)
+             OBPropertyID::OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL,
+             "Query the status of laser pulse width protection (read-only)")
       .value("OB_PROP_LASER_ALWAYS_ON_BOOL",
-             OBPropertyID::OB_PROP_LASER_ALWAYS_ON_BOOL)
+             OBPropertyID::OB_PROP_LASER_ALWAYS_ON_BOOL,
+             " Laser always on, true: always on, false: off, laser will be "
+             "turned off when out of exposure time")
       .value("OB_PROP_LASER_ON_OFF_PATTERN_INT",
-             OBPropertyID::OB_PROP_LASER_ON_OFF_PATTERN_INT)
+             OBPropertyID::OB_PROP_LASER_ON_OFF_PATTERN_INT,
+             "Laser on/off alternate mode, 0: off, 1: on-off alternate, 2: "
+             "off-on alternate")
       .value("OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT",
-             OBPropertyID::OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT)
+             OBPropertyID::OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT,
+             "Depth unit flexible adjustment,This property allows continuous "
+             "adjustment of the depth unit")
       .value("OB_PROP_LASER_CONTROL_INT",
-             OBPropertyID::OB_PROP_LASER_CONTROL_INT)
+             OBPropertyID::OB_PROP_LASER_CONTROL_INT,
+             "Laser control, 0: off, 1: on, 2: auto")
       .value("OB_PROP_IR_BRIGHTNESS_INT",
-             OBPropertyID::OB_PROP_IR_BRIGHTNESS_INT)
+             OBPropertyID::OB_PROP_IR_BRIGHTNESS_INT,
+             "IR brightness")
       .value("OB_STRUCT_BASELINE_CALIBRATION_PARAM",
-             OBPropertyID::OB_STRUCT_BASELINE_CALIBRATION_PARAM)
+             OBPropertyID::OB_STRUCT_BASELINE_CALIBRATION_PARAM,
+             "Baseline calibration parameters")
       .value("OB_STRUCT_DEVICE_TEMPERATURE",
-             OBPropertyID::OB_STRUCT_DEVICE_TEMPERATURE)
+             OBPropertyID::OB_STRUCT_DEVICE_TEMPERATURE,
+             "Device temperature information")
       .value("OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL",
-             OBPropertyID::OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL)
+             OBPropertyID::OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL
+             ,"TOF exposure threshold range")
       .value("OB_STRUCT_DEVICE_SERIAL_NUMBER",
              OBPropertyID::OB_STRUCT_DEVICE_SERIAL_NUMBER)
       .value("OB_STRUCT_DEVICE_TIME", OBPropertyID::OB_STRUCT_DEVICE_TIME)

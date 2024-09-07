@@ -82,6 +82,10 @@ def main(argv):
             frames = pipeline.wait_for_frames(100)
             if not frames:
                 continue
+            color_frame = frames.get_color_frame()
+            depth_frame = frames.get_depth_frame()
+            if not color_frame or not depth_frame:
+                continue
             frames = align_filter.process(frames)
             color_frame = frames.get_color_frame()
             depth_frame = frames.get_depth_frame()

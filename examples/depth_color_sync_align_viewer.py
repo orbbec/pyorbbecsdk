@@ -117,4 +117,6 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    print("Please NOTE: This example is NOT supported by the Gemini 330 series.")
+    print("If you want to see the example on Gemini 330 series, please refer to align_filter_viewer.py")
     main(sys.argv[1:])

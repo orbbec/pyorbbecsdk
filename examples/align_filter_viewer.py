@@ -26,19 +26,6 @@ ESC_KEY = 27
 
 
 # Temporal filter for smoothing depth data over time
-class TemporalFilter:
-    def __init__(self, alpha=0.5):
-        self.alpha = alpha
-        self.previous_frame = None
-
-    def process(self, frame):
-        if self.previous_frame is None:
-            self.previous_frame = frame
-            return frame
-        result = cv2.addWeighted(frame, self.alpha, self.previous_frame, 1 - self.alpha, 0)
-        self.previous_frame = result
-        return result
-
 
 def main(argv):
     pipeline = Pipeline()
@@ -50,8 +37,6 @@ def main(argv):
     args = parser.parse_args(argv)
 
     enable_sync = args.enable_sync
-    temporal_filter = TemporalFilter(alpha=0.5)  # Modify alpha based on desired smoothness
-
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         color_profile = profile_list.get_default_video_stream_profile()
@@ -87,6 +72,7 @@ def main(argv):
             if not color_frame or not depth_frame:
                 continue
             frames = align_filter.process(frames)
+            frames  = frames.as_frame_set()
             color_frame = frames.get_color_frame()
             depth_frame = frames.get_depth_frame()
             if not color_frame or not depth_frame:
@@ -100,8 +86,6 @@ def main(argv):
             depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16).reshape(
                 (depth_frame.get_height(), depth_frame.get_width()))
             depth_data = depth_data.astype(np.float32) * depth_frame.get_depth_scale()
-            depth_data = temporal_filter.process(depth_data)  # Apply temporal filtering
-
             depth_image = cv2.normalize(depth_data, None, 0, 10000, cv2.NORM_MINMAX)
             depth_image = cv2.applyColorMap(depth_image.astype(np.uint8), cv2.COLORMAP_JET)
             depth_image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)

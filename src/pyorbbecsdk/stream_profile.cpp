@@ -48,7 +48,7 @@ void define_stream_profile(const py::object &m) {
                if (!self->is<ob::VideoStreamProfile>()) {
                  throw std::invalid_argument("Not a video stream profile");
                }
-               return std::make_shared<ob::VideoStreamProfile>(*self);
+               return self->as<ob::VideoStreamProfile>();
              });
            })
       .def("as_accel_stream_profile",
@@ -57,7 +57,7 @@ void define_stream_profile(const py::object &m) {
                if (!self->is<ob::AccelStreamProfile>()) {
                  throw std::invalid_argument("Not an accel stream profile");
                }
-               return std::make_shared<ob::AccelStreamProfile>(*self);
+                 return self->as<ob::AccelStreamProfile>();
              });
            })
       .def("as_gyro_stream_profile",
@@ -66,7 +66,7 @@ void define_stream_profile(const py::object &m) {
                if (!self->is<ob::GyroStreamProfile>()) {
                  throw std::invalid_argument("Not a gyro stream profile");
                }
-               return std::make_shared<ob::GyroStreamProfile>(*self);
+               return self->as<ob::GyroStreamProfile>();
              });
            });
 }
@@ -74,7 +74,6 @@ void define_stream_profile(const py::object &m) {
 void define_video_stream_profile(const py::object &m) {
   py::class_<ob::VideoStreamProfile, ob::StreamProfile,
              std::shared_ptr<ob::VideoStreamProfile>>(m, "VideoStreamProfile")
-      .def(py::init<ob::StreamProfile &>())
       .def("get_width",
            [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
              return self->width();
@@ -105,7 +104,6 @@ void define_video_stream_profile(const py::object &m) {
 void define_accel_stream_profile(const py::object &m) {
   py::class_<ob::AccelStreamProfile, ob::StreamProfile,
              std::shared_ptr<ob::AccelStreamProfile>>(m, "AccelStreamProfile")
-      .def(py::init<ob::StreamProfile &>())
       .def("get_full_scale_range",
            [](const std::shared_ptr<ob::AccelStreamProfile> &self) {
              return self->fullScaleRange();
@@ -127,7 +125,6 @@ void define_accel_stream_profile(const py::object &m) {
 void define_gyro_stream_profile(const py::object &m) {
   py::class_<ob::GyroStreamProfile, ob::StreamProfile,
              std::shared_ptr<ob::GyroStreamProfile>>(m, "GyroStreamProfile")
-      .def(py::init<ob::StreamProfile &>())
       .def("get_full_scale_range",
            [](const std::shared_ptr<ob::GyroStreamProfile> &self) {
              return self->fullScaleRange();
@@ -171,7 +168,7 @@ void define_stream_profile_list(const py::object &m) {
             auto default_profile = self->getProfile(0);
             CHECK_NULLPTR(default_profile);
             OB_TRY_CATCH({
-              return std::make_shared<ob::VideoStreamProfile>(*default_profile);
+              return default_profile->as<ob::VideoStreamProfile>();
             });
           })
       .def("__len__", [](const std::shared_ptr<ob::StreamProfileList> &self) {

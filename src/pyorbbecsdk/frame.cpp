@@ -83,56 +83,56 @@ void define_frame(const py::object& m) {
              if (!self->is<ob::VideoFrame>()) {
                throw std::runtime_error("Frame is not a VideoFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::VideoFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::VideoFrame>(); });
            })
       .def("as_color_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::ColorFrame>()) {
                throw std::runtime_error("Frame is not a ColorFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::ColorFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::ColorFrame>(); });
            })
       .def("as_depth_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::DepthFrame>()) {
                throw std::runtime_error("Frame is not a DepthFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::DepthFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::DepthFrame>(); });
            })
       .def("as_ir_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::IRFrame>()) {
                throw std::runtime_error("Frame is not an IRFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::IRFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::IRFrame>(); });
            })
       .def("as_frame_set",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::FrameSet>()) {
                throw std::runtime_error("Frame is not a FrameSet");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::FrameSet>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::FrameSet>(); });
            })
       .def("as_accel_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::AccelFrame>()) {
                throw std::runtime_error("Frame is not an AccelFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::AccelFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::AccelFrame>(); });
            })
       .def("as_gyro_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::GyroFrame>()) {
                throw std::runtime_error("Frame is not an GyroFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::GyroFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::GyroFrame>(); });
            })
       .def("as_points_frame",
            [](const std::shared_ptr<ob::Frame>& self) {
              if (!self->is<ob::PointsFrame>()) {
                throw std::runtime_error("Frame is not a PointsFrame");
              }
-             OB_TRY_CATCH({ return std::make_shared<ob::PointsFrame>(*self); });
+             OB_TRY_CATCH({ return self->as<ob::PointsFrame>(); });
            })
       .def("__repr__", [](const std::shared_ptr<ob::Frame>& self) {
         std::ostringstream oss;
@@ -147,7 +147,6 @@ void define_frame(const py::object& m) {
 void define_video_frame(const py::object& m) {
   py::class_<ob::VideoFrame, ob::Frame, std::shared_ptr<ob::VideoFrame>>(
       m, "VideoFrame")
-      .def(py::init<ob::Frame&>())
       .def("get_width",
            [](const std::shared_ptr<ob::VideoFrame>& self) {
              return self->width();
@@ -204,14 +203,12 @@ void define_video_frame(const py::object& m) {
 
 void define_color_frame(const py::object& m) {
   py::class_<ob::ColorFrame, ob::VideoFrame, std::shared_ptr<ob::ColorFrame>>(
-      m, "ColorFrame")
-      .def(py::init<ob::Frame&>());
+      m, "ColorFrame");
 }
 
 void define_depth_frame(const py::object& m) {
   py::class_<ob::DepthFrame, ob::VideoFrame, std::shared_ptr<ob::DepthFrame>>(
       m, "DepthFrame")
-      .def(py::init<ob::Frame&>())
       .def("get_depth_scale", [](const std::shared_ptr<ob::DepthFrame>& self) {
         return self->getValueScale();
       });
@@ -219,8 +216,7 @@ void define_depth_frame(const py::object& m) {
 
 void define_ir_frame(const py::object& m) {
   py::class_<ob::IRFrame, ob::VideoFrame, std::shared_ptr<ob::IRFrame>>(
-      m, "IRFrame")
-      .def(py::init<ob::Frame&>());
+      m, "IRFrame");
 }
 
 void define_points_frame(const py::object& m) {
@@ -460,7 +456,6 @@ void define_frame_set(const py::object& m) {
 void define_accel_frame(const py::object& m) {
   py::class_<ob::AccelFrame, ob::Frame, std::shared_ptr<ob::AccelFrame>>(
       m, "AccelFrame")
-      .def(py::init<ob::Frame&>())
       .def("get_x",
            [](const std::shared_ptr<ob::AccelFrame>& self) {
              return self->value().x;
@@ -492,7 +487,6 @@ void define_accel_frame(const py::object& m) {
 void define_gyro_frame(const py::object& m) {
   py::class_<ob::GyroFrame, ob::Frame, std::shared_ptr<ob::GyroFrame>>(
       m, "GyroFrame")
-      .def(py::init<ob::Frame&>())
       .def("get_x",
            [](const std::shared_ptr<ob::GyroFrame>& self) {
              return self->value().x;

@@ -22,7 +22,6 @@
 namespace pyorbbecsdk {
 void define_filter(const py::object& m) {
   py::class_<ob::Filter, std::shared_ptr<ob::Filter>>(m, "Filter")
-      .def(py::init<>())
       .def(
           "reset",
           [](std::shared_ptr<ob::Filter>& self) {
@@ -135,7 +134,7 @@ void define_point_cloud_filter(const py::object& m) {
           auto data = frame->data();
           auto data_size = frame->dataSize();
           uint32_t num_of_points = data_size / sizeof(OBColorPoint);
-          auto points = reinterpret_cast<OBColorPoint*>(data);
+          auto points = static_cast<OBColorPoint*>(data);
           // Convert to py::array
           py::array::ShapeContainer shape({num_of_points, 6});
           py::array::StridesContainer strides(
@@ -284,7 +283,7 @@ void define_spatial_advanced_filter(const py::object& m) {
 void define_disparity_transform(const py::object& m) {
   py::class_<ob::DisparityTransform, ob::Filter,
              std::shared_ptr<ob::DisparityTransform>>(m, "DisparityTransform")
-      .def(py::init<bool>(), py::arg("depth_to_disparity") = false);
+      .def(py::init<const std::string&>(), py::arg("activationKey") = "");
 }
 
 void define_HDR_merge_filter(const py::object& m) {

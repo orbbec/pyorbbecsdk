@@ -220,10 +220,7 @@ void define_depth_frame(const py::object& m) {
 void define_ir_frame(const py::object& m) {
   py::class_<ob::IRFrame, ob::VideoFrame, std::shared_ptr<ob::IRFrame>>(
       m, "IRFrame")
-      .def(py::init<ob::Frame&>())
-      .def("get_data_source", [](const std::shared_ptr<ob::IRFrame>& self) {
-        return self->getDataSource();
-      });
+      .def(py::init<ob::Frame&>());
 }
 
 void define_points_frame(const py::object& m) {

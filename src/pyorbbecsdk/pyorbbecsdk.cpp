@@ -24,7 +24,6 @@
 #include "frame.hpp"
 #include "pipeline.hpp"
 #include "properties.hpp"
-#include "record_playback.hpp"
 #include "sensor.hpp"
 #include "stream_profile.hpp"
 #include "types.hpp"
@@ -89,10 +88,6 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
 
   // properties
   pyorbbecsdk::define_properties(m);
-
-  // record_playback
-  pyorbbecsdk::define_recorder(m);
-  pyorbbecsdk::define_playback(m);
 
   // sensor
   pyorbbecsdk::define_sensor(m);

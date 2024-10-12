@@ -345,10 +345,7 @@ void define_properties(const py::object& m) {
              "Calibration JSON file read from device (Femto Mega, read only)")
       .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
-             "depth noise removal filter")
-      .value("OB_PROP_SDK_DEPTH_RECTIFY_MG_FILTER_BOOL",
-             OBPropertyID::OB_PROP_SDK_DEPTH_RECTIFY_MG_FILTER_BOOL,
-             "depth Margin Filter");
+             "depth noise removal filter"),
 
   py::enum_<OBPropertyType>(m, "OBPropertyType")
       .value("OB_BOOL_PROPERTY", OBPropertyType::OB_BOOL_PROPERTY,

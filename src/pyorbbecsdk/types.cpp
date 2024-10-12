@@ -114,8 +114,7 @@ void define_orbbec_types(const py::object &m) {
       .value("BA81", OB_FORMAT_BA81)
       .value("RGBA", OB_FORMAT_RGBA)
       .value("BYR2", OB_FORMAT_BYR2)
-      .value("RW16", OB_FORMAT_RW16)
-      .value("DISP16", OB_FORMAT_DISP16);
+      .value("RW16", OB_FORMAT_RW16);
 
   py::enum_<OBUpgradeState>(m, "OBUpgradeState")
       .value("FILE_TRANSFER", STAT_FILE_TRANSFER)
@@ -342,31 +341,6 @@ void define_orbbec_types(const py::object &m) {
       .value("MODIFIED_BROWN_CONRADY", OB_DISTORTION_MODIFIED_BROWN_CONRADY)
       .value("INVERSE_BROWN_CONRADY", OB_DISTORTION_INVERSE_BROWN_CONRADY)
       .value("BROWN_CONRADY", OB_DISTORTION_BROWN_CONRADY);
-
-  py::class_<OBCameraAlignIntrinsic>(m, "OBCameraAlignIntrinsic")
-      .def(py::init<>())
-      .def_readwrite("width", &OBCameraAlignIntrinsic::width)
-      .def_readwrite("height", &OBCameraAlignIntrinsic::height)
-      .def_readwrite("ppx", &OBCameraAlignIntrinsic::ppx)
-      .def_readwrite("ppy", &OBCameraAlignIntrinsic::ppy)
-      .def_readwrite("fx", &OBCameraAlignIntrinsic::fx)
-      .def_readwrite("fy", &OBCameraAlignIntrinsic::fy)
-      .def_readwrite("model", &OBCameraAlignIntrinsic::model)
-      .def_property(
-          "coeffs",
-          [](const OBCameraAlignIntrinsic &self) {
-            py::array_t<float, py::array::c_style> result({5});
-            auto ptr = static_cast<float *>(result.request().ptr);
-            std::copy_n(self.coeffs, 5, ptr);
-            return result;
-          },
-          [](OBCameraAlignIntrinsic &self, const py::array_t<float> &value) {
-            if (value.ndim() != 1 || value.shape(0) != 5)
-              throw std::runtime_error(
-                  "coeffs must be a 1D array with 5 elements");
-            auto ptr = static_cast<float *>(value.request().ptr);
-            std::copy_n(ptr, 5, self.coeffs);
-          });
 
   py::class_<OBD2CTransform>(m, "OBD2CTransform")
       .def(py::init<>())
@@ -861,30 +835,6 @@ void define_orbbec_types(const py::object &m) {
       .value("NONE", OBCmdVersion::OB_CMD_VERSION_NOVERSION)
       .value("INVALID", OBCmdVersion::OB_CMD_VERSION_INVALID);
 
-  py::class_<OBDataBundle>(m, "OBDataBundle")
-      .def(py::init<>())
-      .def_readwrite("cmd_version", &OBDataBundle::cmdVersion)
-      .def_readwrite("data_size", &OBDataBundle::dataSize)
-      .def_readwrite("item_type_size", &OBDataBundle::itemTypeSize)
-      .def_readwrite("item_count", &OBDataBundle::itemCount)
-      .def("get_data",
-           [](const OBDataBundle &b) -> py::array {
-             // FIXME: copy data to result array
-             py::array_t<uint8_t> arr(b.dataSize);
-             std::memcpy(arr.mutable_data(), b.data, b.dataSize);
-             return arr;
-           })
-      .def(
-          "set_data",
-          [](OBDataBundle &b, const py::array_t<uint8_t> &arr) {
-            if (arr.itemsize() != static_cast<long>(b.itemTypeSize) ||
-                arr.size() != static_cast<long>(b.itemCount)) {
-              throw py::value_error("Invalid array size or item size");
-            }
-            std::memcpy(b.data, arr.data(), arr.nbytes());
-          },
-          py::arg("data"));
-
   py::enum_<OBFrameAggregateOutputMode>(m, "OBFrameAggregateOutputMode")
       .value("FULL_FRAME_REQUIRE",
              OBFrameAggregateOutputMode::
@@ -1034,7 +984,7 @@ void define_orbbec_types(const py::object &m) {
       .def(
           "get_intrinsic",
           [](const OBCalibrationParam &param, int index) -> OBCameraIntrinsic {
-            if (index < 0 || index >= OB_SENSOR_COUNT) {
+            if (index < 0 || index >= OB_SENSOR_TYPE_COUNT) {
               throw py::index_error("Index out of range");
             }
             return param.intrinsics[index];
@@ -1043,7 +993,7 @@ void define_orbbec_types(const py::object &m) {
       .def("set_intrinsic",
            [](OBCalibrationParam &param, int index,
               const OBCameraIntrinsic &intrinsic) {
-             if (index < 0 || index >= OB_SENSOR_COUNT) {
+             if (index < 0 || index >= OB_SENSOR_TYPE_COUNT) {
                throw py::index_error("Index out of range");
              }
              param.intrinsics[index] = intrinsic;
@@ -1051,7 +1001,7 @@ void define_orbbec_types(const py::object &m) {
       .def(
           "get_distortion",
           [](const OBCalibrationParam &param, int index) -> OBCameraDistortion {
-            if (index < 0 || index >= OB_SENSOR_COUNT) {
+            if (index < 0 || index >= OB_SENSOR_TYPE_COUNT) {
               throw py::index_error("Index out of range");
             }
             return param.distortion[index];
@@ -1060,7 +1010,7 @@ void define_orbbec_types(const py::object &m) {
       .def("set_distortion",
            [](OBCalibrationParam &param, int index,
               const OBCameraDistortion &distortion) {
-             if (index < 0 || index >= OB_SENSOR_COUNT) {
+             if (index < 0 || index >= OB_SENSOR_TYPE_COUNT) {
                throw py::index_error("Index out of range");
              }
              param.distortion[index] = distortion;
@@ -1069,10 +1019,10 @@ void define_orbbec_types(const py::object &m) {
           "get_extrinsic",
           [](const OBCalibrationParam &param, int source,
              int target) -> OBD2CTransform {
-            if (source < 0 || source >= OB_SENSOR_COUNT) {
+            if (source < 0 || source >= OB_SENSOR_TYPE_COUNT) {
               throw py::index_error("Source index out of range");
             }
-            if (target < 0 || target >= OB_SENSOR_COUNT) {
+            if (target < 0 || target >= OB_SENSOR_TYPE_COUNT) {
               throw py::index_error("Target index out of range");
             }
             return param.extrinsics[source][target];
@@ -1080,19 +1030,13 @@ void define_orbbec_types(const py::object &m) {
           py::return_value_policy::reference_internal)
       .def("set_extrinsic", [](OBCalibrationParam &param, int source,
                                int target, const OBD2CTransform &extrinsic) {
-        if (source < 0 || source >= OB_SENSOR_COUNT) {
+        if (source < 0 || source >= OB_SENSOR_TYPE_COUNT) {
           throw py::index_error("Source index out of range");
         }
-        if (target < 0 || target >= OB_SENSOR_COUNT) {
+        if (target < 0 || target >= OB_SENSOR_TYPE_COUNT) {
           throw py::index_error("Target index out of range");
         }
         param.extrinsics[source][target] = extrinsic;
       });
-  py::class_<OBDispOffsetConfig>(m, "OBDispOffsetConfig")
-        .def(py::init<>())
-        .def_readwrite("enable", &OBDispOffsetConfig::enable)
-        .def_readwrite("offset0", &OBDispOffsetConfig::offset0)
-        .def_readwrite("offset1", &OBDispOffsetConfig::offset1)
-        .def_readwrite("reserved", &OBDispOffsetConfig::reserved);
 }
 }  // namespace pyorbbecsdk

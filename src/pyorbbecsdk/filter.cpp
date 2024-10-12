@@ -83,12 +83,10 @@ void define_filter(const py::object& m) {
       .def("is_hole_filling_filter", &ob::Filter::is<ob::HoleFillingFilter>)
       .def("is_decimation_filter", &ob::Filter::is<ob::DecimationFilter>)
       .def("is_point_cloud_filter", &ob::Filter::is<ob::PointCloudFilter>)
-      .def("is_compression_filter", &ob::Filter::is<ob::CompressionFilter>)
-      .def("is_decompression_filter", &ob::Filter::is<ob::DecompressionFilter>)
       .def("is_format_converter", &ob::Filter::is<ob::FormatConvertFilter>)
-      .def("is_align_filter", &ob::Filter::is<ob::Align>)
-      .def("is_edge_noise_removal_filter",
-           &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
+      .def("is_align_filter", &ob::Filter::is<ob::Align>);
+      //.def("is_edge_noise_removal_filter",
+      //     &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
 }
 
 void define_point_cloud_filter(const py::object& m) {
@@ -405,44 +403,6 @@ void define_decimation_filter(const py::object& m) {
         CHECK_NULLPTR(self);
         OB_TRY_CATCH({ return self->getScaleRange(); });
       });
-}
-
-void define_edge_noise_removal_filter(const py::object& m) {
-  py::class_<ob::EdgeNoiseRemovalFilter, ob::Filter,
-             std::shared_ptr<ob::EdgeNoiseRemovalFilter>>(
-      m, "EdgeNoiseRemovalFilter")
-      .def(py::init<>())
-      .def("set_filter_params",
-           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self,
-              const OBEdgeNoiseRemovalFilterParams& params) {
-             CHECK_NULLPTR(self);
-             OB_TRY_CATCH({ self->setFilterParams(params); });
-           })
-      .def("get_filter_params",
-           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
-             CHECK_NULLPTR(self);
-             OB_TRY_CATCH({ return self->getFilterParams(); });
-           })
-      .def("get_margin_left_th_range",
-           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
-             CHECK_NULLPTR(self);
-             OB_TRY_CATCH({ return self->getMarginLeftThRange(); });
-           })
-      .def("get_margin_right_th_range",
-           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
-             CHECK_NULLPTR(self);
-             OB_TRY_CATCH({ return self->getMarginRightThRange(); });
-           })
-      .def("get_margin_top_th_range",
-           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
-             CHECK_NULLPTR(self);
-             OB_TRY_CATCH({ return self->getMarginTopThRange(); });
-           })
-      .def("get_margin_bottom_th_range",
-           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
-             CHECK_NULLPTR(self);
-             OB_TRY_CATCH({ return self->getMarginBottomThRange(); });
-           });
 }
 
 }  // namespace pyorbbecsdk

@@ -134,12 +134,12 @@ void define_depth_work_mode_list(const py::object &m) {
             return self->getOBDepthWorkMode(index);
           },
           "Get the OBDepthWorkMode object at the specified index")
-      .def(
-          "get_name_by_index",
-          [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-            return std::string(self->getName(index));
-          },
-          "Get the name of the depth work mode at the specified index")
+      //.def(
+      //    "get_name_by_index",
+      //    [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
+      //      return std::string(self->getName(index));
+      //    },
+      //    "Get the name of the depth work mode at the specified index")
       .def("__len__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
         return self->count();
       });
@@ -230,10 +230,6 @@ void define_device(const py::object &m) {
               const py::function &callback) {
              OB_TRY_CATCH({ self->setDeviceStateChangedCallback(callback); });
            })
-      .def("active_authorization",
-           [](const std::shared_ptr<ob::Device> &self, const std::string &key) {
-             OB_TRY_CATCH({ return self->activateAuthorization(key.c_str()); });
-           })
       .def("get_calibration_camera_param_list",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getCalibrationCameraParamList(); });
@@ -259,7 +255,9 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self,
               const OBHdrConfig &config) {
              OB_TRY_CATCH({
-               self->setStructuredData(OB_STRUCT_DEPTH_HDR_CONFIG, &config,
+               self->setStructuredData(
+                   OB_STRUCT_DEPTH_HDR_CONFIG,
+                   reinterpret_cast<const uint8_t *>(&config),
                                        sizeof(OBHdrConfig));
              });
            })
@@ -271,7 +269,7 @@ void define_device(const py::object &m) {
                OBBaselineCalibrationParam param;
                uint32_t size = sizeof(param);
                self->getStructuredData(OB_STRUCT_BASELINE_CALIBRATION_PARAM,
-                                       &param, &size);
+                   reinterpret_cast<uint8_t *>(&param), &size);
                return param;
              });
            })
@@ -281,7 +279,7 @@ void define_device(const py::object &m) {
                OBDeviceTemperature temperature;
                uint32_t size = sizeof(temperature);
                self->getStructuredData(OB_STRUCT_DEVICE_TEMPERATURE,
-                                       &temperature, &size);
+                   reinterpret_cast<uint8_t *>(&temperature), &size);
                return temperature;
              });
            })
@@ -321,10 +319,6 @@ void define_device(const py::object &m) {
              OB_TRY_CATCH(
                  { return self->loadDepthFilterConfig(file_path.c_str()); });
            })
-      .def("reset_default_depth_filter_config",
-           [](const std::shared_ptr<ob::Device> &self) {
-             OB_TRY_CATCH({ return self->resetDefaultDepthFilterConfig(); });
-           })
       .def("get_current_preset_name",
            [](const std::shared_ptr<ob::Device> &self) {
              return std::string(self->getCurrentPresetName());
@@ -358,20 +352,6 @@ void define_device(const py::object &m) {
               const std::string &file_path) {
              OB_TRY_CATCH({
                return self->exportSettingsAsPresetJsonFile(file_path.c_str());
-             });
-           })
-      .def("get_depth_precision_support_list",
-           [](const std::shared_ptr<ob::Device> &self) {
-             OB_TRY_CATCH({
-               auto list = self->getStructuredDataExt(
-                   OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST);
-               py::list result;
-               auto *ptr = reinterpret_cast<uint16_t *>(list->data);
-               for (uint32_t i = 0; i < list->dataSize / 2; i++) {
-                 uint16_t data = ptr[i];
-                 result.append(data);
-               }
-               return result;
              });
            })
 

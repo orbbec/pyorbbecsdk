@@ -81,19 +81,6 @@ void define_coordinate_transform_helper(py::module& m) {
           });
           return result;
         });
-  m.def("calibration_2d_to_3d_undistortion",
-        [](const OBCalibrationParam calibrationParam,
-           const OBPoint2f sourcePoint2f, const float depth,
-           const OBSensorType sourceSensorType,
-           const OBSensorType targetSensorType) {
-          OBPoint3f result;
-          OB_TRY_CATCH({
-            ob::CoordinateTransformHelper::calibration2dTo3dUndistortion(
-                calibrationParam, sourcePoint2f, depth, sourceSensorType,
-                targetSensorType, &result);
-          });
-          return result;
-        });
   m.def("calibration_3d_to_2d",
         [](const OBCalibrationParam calibrationParam,
            const OBPoint3f sourcePoint3f, const OBSensorType sourceSensorType,

@@ -47,7 +47,6 @@ pybind11_add_module(${PROJECT_NAME}
   src/pyorbbecsdk/frame.cpp
   src/pyorbbecsdk/pipeline.cpp
   src/pyorbbecsdk/properties.cpp
-  src/pyorbbecsdk/record_playback.cpp
   src/pyorbbecsdk/sensor.cpp
   src/pyorbbecsdk/stream_profile.cpp
   src/pyorbbecsdk/types.cpp

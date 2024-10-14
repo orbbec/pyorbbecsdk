@@ -16,6 +16,10 @@
 #include "sensor.hpp"
 
 #include "error.hpp"
+#include <pybind11/stl.h>
+#include <pybind11/functional.h>
+#include <pybind11/chrono.h>
+#include <pybind11/complex.h>
 
 namespace pyorbbecsdk {
 

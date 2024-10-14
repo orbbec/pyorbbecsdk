@@ -88,7 +88,10 @@ def main(argv):
             depth_frame = frames.get_depth_frame()
             if not depth_frame:
                 continue
-            depth_frame = hdr_filter.process(depth_frame)
+            frame = hdr_filter.process(depth_frame)
+            if not frame:
+                continue
+            depth_frame = frame.as_depth_frame()
             # for Y16 format depth frame, print the distance of the center pixel every 30 frames
             width = depth_frame.get_width()
             height = depth_frame.get_height()

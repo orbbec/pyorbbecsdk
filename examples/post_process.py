@@ -72,8 +72,8 @@ def main(argv):
     filter_list = depth_sensor.get_recommended_filters()
     assert filter_list is not None
     # print filter list
-    for i in range(filter_list.get_count()):
-        post_filter = filter_list.get_filter(i)
+    for i in range(len(filter_list)):
+        post_filter = filter_list[i]
         if post_filter:
             print("filter name: ", post_filter.get_name())
             print("filter is enabled: ", post_filter.is_enabled())
@@ -86,8 +86,8 @@ def main(argv):
             depth_frame = frames.get_depth_frame()
             if not depth_frame:
                 continue
-            for i in range(filter_list.get_count()):
-                post_filter = filter_list.get_filter(i)
+            for i in range(len(filter_list)):
+                post_filter = filter_list[i]
                 if post_filter and post_filter.is_enabled() and depth_frame:
                     new_depth_frame = post_filter.process(depth_frame)
                     depth_frame = new_depth_frame.as_depth_frame()

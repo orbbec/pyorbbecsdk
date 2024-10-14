@@ -15,10 +15,8 @@
 # ******************************************************************************
 
 import os
-
-import cv2
 import numpy as np
-from plyfile import PlyData, PlyElement
+import open3d as o3d
 
 from pyorbbecsdk import *
 
@@ -27,39 +25,50 @@ if not os.path.exists(save_points_dir):
     os.mkdir(save_points_dir)
 
 
-def save_points_to_ply(points, file_name) -> int:
-    # save numpy array to ply file
-    if points is None:
-        return 0
-    num_points = len(points)
-    if num_points == 0:
-        return 0
-    # if has color, save as color point cloud
-    if len(points[0]) == 6:
-        vertices = np.zeros(num_points, dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'),
-                                               ('red', 'u1'), ('green', 'u1'), ('blue', 'u1')])
-    else:
-        vertices = np.zeros(num_points, dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4')])
+def convert_to_o3d_point_cloud(points, colors=None):
+    """
+    Converts numpy arrays of points and colors (if provided) into an Open3D point cloud object.
+    """
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(points)
+    if colors is not None:
+        pcd.colors = o3d.utility.Vector3dVector(colors / 255.0)  # Normalize colors to range [0, 1]
+    return pcd
 
-    for i in range(num_points):
-        vertices[i] = tuple(points[i])
-    el = PlyElement.describe(vertices, 'vertex')
-    PlyData([el], text=True).write(file_name)
 
+def save_points_to_ply(points, colors, file_name) -> int:
+    """
+    Save numpy array points to PLY file using Open3D.
+    """
+    if points is None or len(points) == 0:
+        print("No points to save.")
+        return 0
+
+    # Convert points and colors (if available) to Open3D point cloud object
+    pcd = convert_to_o3d_point_cloud(points, colors)
+    
+    # Save the point cloud in PLY format
+    o3d.io.write_point_cloud(file_name, pcd)
+    print(f"Point cloud saved to: {file_name}")
+    
     return 1
 
 
 def main():
     pipeline = Pipeline()
     config = Config()
+    
+    # Configure depth stream
     depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
     if depth_profile_list is None:
-        print("No proper depth profile, can not generate point cloud")
+        print("No proper depth profile, cannot generate point cloud")
         return
     depth_profile = depth_profile_list.get_default_video_stream_profile()
     config.enable_stream(depth_profile)
+
     has_color_sensor = False
     try:
+        # Configure color stream if available
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         if profile_list is not None:
             color_profile = profile_list.get_default_video_stream_profile()
@@ -67,36 +76,47 @@ def main():
             has_color_sensor = True
     except OBError as e:
         print(e)
+
     pipeline.enable_frame_sync()
     pipeline.start(config)
+    
     camera_param = pipeline.get_camera_param()
     align_filter = AlignFilter(align_to_stream=OBStreamType.COLOR_STREAM)
     point_cloud_filter = PointCloudFilter()
     point_cloud_filter.set_camera_param(camera_param)
+
     while True:
         frames = pipeline.wait_for_frames(100)
         if frames is None:
             continue
+        
         depth_frame = frames.get_depth_frame()
         if depth_frame is None:
             continue
+        
         color_frame = frames.get_color_frame()
         if has_color_sensor and color_frame is None:
             continue
+        
         frame = align_filter.process(frames)
         scale = depth_frame.get_depth_scale()
         point_cloud_filter.set_position_data_scaled(scale)
 
-        point_cloud_filter.set_create_point_format(
-            OBFormat.RGB_POINT if has_color_sensor and color_frame is not None else OBFormat.POINT)
+        point_format = OBFormat.RGB_POINT if has_color_sensor and color_frame is not None else OBFormat.POINT
+        point_cloud_filter.set_create_point_format(point_format)
+
         point_cloud_frame = point_cloud_filter.process(frame)
         points = point_cloud_filter.calculate(point_cloud_frame)
-        save_points_to_ply(points, os.path.join(save_points_dir, "point_cloud.ply"))
-        print("point cloud saved to: ", os.path.join(save_points_dir, "point_cloud.ply"))
+        
+        # Prepare points and colors (if available)
+        points_array = np.array([p[:3] for p in points])  # XYZ points
+        colors_array = np.array([p[3:6] for p in points]) if has_color_sensor else None  # RGB colors if available
+        
+        # Save the point cloud data to PLY
+        save_points_to_ply(points_array, colors_array, os.path.join(save_points_dir, "point_cloud.ply"))
         break
-
+    print("stop pipeline")
     pipeline.stop()
-    cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":

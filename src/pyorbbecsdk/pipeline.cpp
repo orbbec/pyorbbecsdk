@@ -64,35 +64,44 @@ std::shared_ptr<ob::Config> Pipeline::get_config() {
   OB_TRY_CATCH({ return impl_->getConfig(); });
 }
 
-std::shared_ptr<ob::FrameSet> Pipeline::wait_for_frames(uint32_t timeout) {
+std::shared_ptr<ob::FrameSet> Pipeline::wait_for_frames(
+    uint32_t timeout) const {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({ return impl_->waitForFrames(timeout); });
 }
 
-std::shared_ptr<ob::Device> Pipeline::get_device() {
+std::shared_ptr<ob::Device> Pipeline::get_device() const {
   OB_TRY_CATCH({ return impl_->getDevice(); });
 }
 
 std::shared_ptr<ob::StreamProfileList> Pipeline::get_stream_profile_list(
-    OBSensorType sensor_type) {
+    OBSensorType sensor_type) const {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({ return impl_->getStreamProfileList(sensor_type); });
 }
 
-void Pipeline::enable_frame_sync() {
+void Pipeline::enable_frame_sync() const {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({ impl_->enableFrameSync(); });
 }
 
-void Pipeline::disable_frame_sync() {
+void Pipeline::disable_frame_sync() const {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({ impl_->disableFrameSync(); });
 }
 
-OBCameraParam Pipeline::get_camera_param() {
+OBCameraParam Pipeline::get_camera_param() const {
   CHECK_NULLPTR(impl_);
 
   OB_TRY_CATCH({ return impl_->getCameraParam(); });
+}
+
+std::shared_ptr<ob::StreamProfileList> Pipeline::get_d2c_depth_profile_list(
+    std::shared_ptr<ob::StreamProfile> color_profile,
+    OBAlignMode align_mode) const {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH(
+      { return impl_->getD2CDepthProfileList(color_profile, align_mode); });
 }
 
 void define_pipeline(py::object &m) {
@@ -109,8 +118,7 @@ void define_pipeline(py::object &m) {
              self.start(std::move(config), callback);
            })
       .def("start", [](Pipeline &self) { self.start(nullptr); })
-      .def(
-          "stop", [](Pipeline &self) { self.stop(); })
+      .def("stop", [](Pipeline &self) { self.stop(); })
       .def(
           "get_config", [](Pipeline &self) { return self.get_config(); },
           py::call_guard<py::gil_scoped_release>())
@@ -139,6 +147,13 @@ void define_pipeline(py::object &m) {
       .def(
           "get_camera_param",
           [](Pipeline &self) { return self.get_camera_param(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_d2c_depth_profile_list",
+          [](Pipeline &self, std::shared_ptr<ob::StreamProfile> color_profile,
+             OBAlignMode align_mode) {
+            return self.get_d2c_depth_profile_list(color_profile, align_mode);
+          },
           py::call_guard<py::gil_scoped_release>());
 }
 

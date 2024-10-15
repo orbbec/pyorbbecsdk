@@ -37,20 +37,22 @@ class Pipeline {
 
   std::shared_ptr<ob::Config> get_config();
 
-  std::shared_ptr<ob::FrameSet> wait_for_frames(uint32_t timeout);
+  std::shared_ptr<ob::FrameSet> wait_for_frames(uint32_t timeout) const;
 
-  std::shared_ptr<ob::Device> get_device();
+  std::shared_ptr<ob::Device> get_device() const;
 
   std::shared_ptr<ob::StreamProfileList> get_stream_profile_list(
-      OBSensorType sensor_type);
+      OBSensorType sensor_type) const;
 
-  void enable_frame_sync();
+  void enable_frame_sync() const;
 
-  void disable_frame_sync();
+  void disable_frame_sync() const;
 
-  OBCameraParam get_camera_param();
+  OBCameraParam get_camera_param() const;
 
   OBRect get_d2c_valid_area(uint32_t minimum_z, uint32_t maximum_z);
+
+  std::shared_ptr<ob::StreamProfileList> get_d2c_depth_profile_list(std::shared_ptr<ob::StreamProfile> color_profile, OBAlignMode align_mode) const;
 
  private:
   std::shared_ptr<ob::Pipeline> impl_;

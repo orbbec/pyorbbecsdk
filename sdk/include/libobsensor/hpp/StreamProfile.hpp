@@ -19,10 +19,8 @@ protected:
     const ob_stream_profile_t *impl_ = nullptr;
 
 public:
-    explicit StreamProfile(const ob_stream_profile_t *impl) : impl_(impl) {}
-
-    StreamProfile(StreamProfile &streamProfile) = delete;
-    StreamProfile &operator=(StreamProfile &streamProfile) = delete;
+                   StreamProfile(StreamProfile &streamProfile) = delete;
+    StreamProfile &operator=(StreamProfile &streamProfile)     = delete;
 
     StreamProfile(StreamProfile &&streamProfile) noexcept : impl_(streamProfile.impl_) {
         streamProfile.impl_ = nullptr;
@@ -106,7 +104,7 @@ public:
             throw std::runtime_error("Unsupported operation. Object's type is not the required type.");
         }
 
-        return std::static_pointer_cast<T>(shared_from_this());
+        return std::dynamic_pointer_cast<T>(shared_from_this());
     }
 
     /**
@@ -123,7 +121,6 @@ public:
         return std::static_pointer_cast<const T>(shared_from_this());
     }
 
-public:
     // The following interfaces are deprecated and are retained here for compatibility purposes.
     OBFormat format() const {
         return getFormat();
@@ -132,6 +129,9 @@ public:
     OBStreamType type() const {
         return getType();
     }
+
+protected:
+    explicit StreamProfile(const ob_stream_profile_t *impl) : impl_(impl) {}
 };
 
 /**
@@ -351,13 +351,37 @@ template <typename T> bool StreamProfile::is() const {
     return false;
 }
 
+class StreamProfileFactory {
+public:
+    static std::shared_ptr<StreamProfile> create(const ob_stream_profile_t *impl) {
+        ob_error  *error = nullptr;
+        const auto type  = ob_stream_profile_get_type(impl, &error);
+        Error::handle(&error);
+        switch(type) {
+        case OB_STREAM_IR:
+        case OB_STREAM_IR_LEFT:
+        case OB_STREAM_IR_RIGHT:
+        case OB_STREAM_DEPTH:
+        case OB_STREAM_COLOR:
+        case OB_STREAM_VIDEO:
+            return std::make_shared<VideoStreamProfile>(impl);
+        case OB_STREAM_ACCEL:
+            return std::make_shared<AccelStreamProfile>(impl);
+        case OB_STREAM_GYRO:
+            return std::make_shared<GyroStreamProfile>(impl);
+        default:
+            return nullptr;
+        }
+    }
+};
+
 class StreamProfileList {
 protected:
     const ob_stream_profile_list_t *impl_;
 
 public:
     explicit StreamProfileList(ob_stream_profile_list_t *impl) : impl_(impl) {}
-    ~StreamProfileList() noexcept {
+    ~        StreamProfileList() noexcept {
         ob_error *error = nullptr;
         ob_delete_stream_profile_list(impl_, &error);
         Error::handle(&error, false);
@@ -385,7 +409,7 @@ public:
         ob_error *error   = nullptr;
         auto      profile = ob_stream_profile_list_get_profile(impl_, index, &error);
         Error::handle(&error);
-        return std::make_shared<StreamProfile>(profile);
+        return StreamProfileFactory::create(profile);
     }
 
     /**
@@ -442,4 +466,3 @@ public:
 };
 
 }  // namespace ob
-

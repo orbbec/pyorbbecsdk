@@ -21,7 +21,6 @@
 
 #include <libobsensor/hpp/Utils.hpp>
 
-
 #include "error.hpp"
 namespace py = pybind11;
 namespace pyorbbecsdk {
@@ -44,54 +43,51 @@ std::vector<std::string> split(const std::string& s, const std::string& delim) {
 }
 
 void define_coordinate_transform_helper(py::module& m) {
-  m.def("calibration_3d_to_3d",
-        [](const OBCalibrationParam calibrationParam,
-           const OBPoint3f sourcePoint3f, const OBSensorType sourceSensorType,
-           const OBSensorType targetSensorType) {
+  m.def("transformation3dto3d",
+        [](const OBPoint3f source, const OBExtrinsic& extrinsic) {
           OBPoint3f result;
           OB_TRY_CATCH({
-            ob::CoordinateTransformHelper::calibration3dTo3d(
-                calibrationParam, sourcePoint3f, sourceSensorType,
-                targetSensorType, &result);
+            ob::CoordinateTransformHelper::transformation3dto3d(
+                source, extrinsic, &result);
           });
           return result;
-        });
-  m.def("calibration_3d_to_2d",
-        [](const OBCalibrationParam calibrationParam,
-           const OBPoint3f sourcePoint3f, const OBSensorType sourceSensorType,
-           const OBSensorType targetSensorType) {
-          OBPoint2f result;
-          OB_TRY_CATCH({
-            ob::CoordinateTransformHelper::calibration3dTo2d(
-                calibrationParam, sourcePoint3f, sourceSensorType,
-                targetSensorType, &result);
-          });
-          return result;
-        });
-  m.def("calibration_2d_to_3d",
-        [](const OBCalibrationParam calibrationParam,
-           const OBPoint2f sourcePoint2f, const float depth,
-           const OBSensorType sourceSensorType,
-           const OBSensorType targetSensorType) {
-          OBPoint3f result;
-          OB_TRY_CATCH({
-            ob::CoordinateTransformHelper::calibration2dTo3d(
-                calibrationParam, sourcePoint2f, depth, sourceSensorType,
-                targetSensorType, &result);
-          });
-          return result;
-        });
-  m.def("calibration_3d_to_2d",
-        [](const OBCalibrationParam calibrationParam,
-           const OBPoint3f sourcePoint3f, const OBSensorType sourceSensorType,
-           const OBSensorType targetSensorType) {
-          OBPoint2f result;
-          OB_TRY_CATCH({
-            ob::CoordinateTransformHelper::calibration3dTo2d(
-                calibrationParam, sourcePoint3f, sourceSensorType,
-                targetSensorType, &result);
-          });
-          return result;
-        });
+        })
+      .def("transformation3dto2d",
+           [](const OBPoint3f source, const OBCameraIntrinsic& target_intrinsic,
+              const OBCameraDistortion& target_distortion,
+              const OBExtrinsic& extrinsic) {
+             OBPoint2f result;
+             OB_TRY_CATCH({
+               ob::CoordinateTransformHelper::transformation3dto2d(
+                   source, target_intrinsic, target_distortion, extrinsic,
+                   &result);
+             });
+             return result;
+           })
+      .def("transformation2dto2d",
+           [](const OBPoint2f source, const float depth,
+              const OBCameraIntrinsic source_intrinsic,
+              const OBCameraDistortion source_distortion,
+              const OBCameraIntrinsic target_intrinsic,
+              const OBCameraDistortion target_distortion,
+              OBExtrinsic extrinsic) {
+             OBPoint2f result;
+             OB_TRY_CATCH({
+               ob::CoordinateTransformHelper::transformation2dto2d(
+                   source, depth, source_intrinsic, source_distortion,
+                   target_intrinsic, target_distortion, extrinsic, &result);
+             });
+             return result;
+           })
+      .def("transformation2dto3d",
+           [](const OBPoint2f source, const float depth,
+              const OBCameraIntrinsic intrinsic, OBExtrinsic extrinsic) {
+             OBPoint3f result;
+             OB_TRY_CATCH({
+               ob::CoordinateTransformHelper::transformation2dto3d(
+                   source, depth, intrinsic, extrinsic, &result);
+             });
+             return result;
+           });
 }
 }  // namespace pyorbbecsdk

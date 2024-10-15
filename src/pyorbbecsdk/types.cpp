@@ -342,7 +342,7 @@ void define_orbbec_types(const py::object &m) {
       .value("INVERSE_BROWN_CONRADY", OB_DISTORTION_INVERSE_BROWN_CONRADY)
       .value("BROWN_CONRADY", OB_DISTORTION_BROWN_CONRADY);
 
-  py::class_<OBD2CTransform>(m, "OBD2CTransform")
+  py::class_<OBD2CTransform>(m, "OBExtrinsic")
       .def(py::init<>())
       .def_property(
           "rot",
@@ -571,8 +571,9 @@ void define_orbbec_types(const py::object &m) {
       .value("FAR", OBTofFilterRange::OB_TOF_FILTER_RANGE_LONG)
       .value("DEBUG", OBTofFilterRange::OB_TOF_FILTER_RANGE_DEBUG);
 
-  py::class_<OBPoint>(m, "OBPoint")
+  py::class_<OBPoint>(m, "OBPoint3f")
       .def(py::init<>())
+      .def(py::init<float, float, float>())
       .def_readwrite("x", &OBPoint::x)
       .def_readwrite("y", &OBPoint::y)
       .def_readwrite("z", &OBPoint::z)
@@ -974,6 +975,7 @@ void define_orbbec_types(const py::object &m) {
 
   py::class_<OBPoint2f>(m, "OBPoint2f")
       .def(py::init<>())
+      .def(py::init<float, float>())
       .def_readwrite("x", &OBPoint2f::x)
       .def_readwrite("y", &OBPoint2f::y)
       .def("__repr__", [](const OBPoint2f &p) {

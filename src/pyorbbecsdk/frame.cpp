@@ -134,6 +134,18 @@ void define_frame(const py::object& m) {
              }
              OB_TRY_CATCH({ return self->as<ob::PointsFrame>(); });
            })
+      .def("get_stream_profile",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->getStreamProfile();
+           })
+      .def("get_sensor",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->getSensor();
+           })
+      .def("get_device",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             return self->getDevice();
+           })
       .def("__repr__", [](const std::shared_ptr<ob::Frame>& self) {
         std::ostringstream oss;
         oss << "<Frame type=" << self->type() << " format=" << self->format()

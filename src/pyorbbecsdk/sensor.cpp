@@ -90,6 +90,9 @@ void define_sensor_list(const py::object& m) {
            })
       .def("__len__", [](const std::shared_ptr<ob::SensorList>& self) {
         return self->count();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::SensorList> &self, int index) {
+        return self->getSensor(index);
       });
 }
 
@@ -106,6 +109,9 @@ void define_filter_list(const py::object& m) {
            })
       .def("__len__", [](const std::shared_ptr<ob::OBFilterList>& self) {
         return self->count();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::OBFilterList> &self, int index) {
+        return self->getFilter(index);
       });
 }
 }  // namespace pyorbbecsdk

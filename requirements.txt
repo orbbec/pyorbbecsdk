@@ -6,3 +6,4 @@ plyfile # for saving point cloud
 open3d # for visualization point cloud
 av # for h264 decoding
 pygame # for visualization
+pynput # for keyboard input

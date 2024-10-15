@@ -68,6 +68,13 @@ void define_stream_profile(const py::object &m) {
                }
                return self->as<ob::GyroStreamProfile>();
              });
+           })
+      .def("get_extrinsic_to",
+           [](const std::shared_ptr<ob::StreamProfile> &self,
+              const std::shared_ptr<ob::StreamProfile> &target) {
+             OB_TRY_CATCH({
+               return self->getExtrinsicTo(target);
+             });
            });
 }
 
@@ -173,6 +180,9 @@ void define_stream_profile_list(const py::object &m) {
           })
       .def("__len__", [](const std::shared_ptr<ob::StreamProfileList> &self) {
         return self->count();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::StreamProfileList> &self, int index) {
+        return self->getProfile(index);
       });
 }
 

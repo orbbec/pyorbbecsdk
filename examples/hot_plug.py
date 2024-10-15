@@ -68,7 +68,7 @@ def stop_stream():
 
 
 def on_device_connected_callback(device_list: DeviceList):
-    if device_list.get_count() == 0:
+    if len(device_list) == 0:
         return
     global device
     print("Device connected")
@@ -83,7 +83,7 @@ def on_device_connected_callback(device_list: DeviceList):
 
 def on_device_disconnected_callback(device_list: DeviceList):
     global device, pipeline
-    if device_list.get_count() == 0:
+    if len(device_list) == 0:
         return
     print("Device disconnected")
     with device_lock:

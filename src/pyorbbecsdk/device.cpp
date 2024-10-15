@@ -116,6 +116,9 @@ void define_camera_list(const py::object &m) {
           "Get the camera parameters for the specified index")
       .def("__len__", [](const std::shared_ptr<ob::CameraParamList> &self) {
         return self->count();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
+        return self->getCameraParam(index);
       });
 }
 
@@ -134,14 +137,11 @@ void define_depth_work_mode_list(const py::object &m) {
             return self->getOBDepthWorkMode(index);
           },
           "Get the OBDepthWorkMode object at the specified index")
-      //.def(
-      //    "get_name_by_index",
-      //    [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-      //      return std::string(self->getName(index));
-      //    },
-      //    "Get the name of the depth work mode at the specified index")
       .def("__len__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
         return self->count();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
+        return self->getOBDepthWorkMode(index);
       });
 }
 
@@ -377,6 +377,15 @@ void define_device_preset_list(const py::object &m) {
       .def("has_preset", [](const std::shared_ptr<ob::DevicePresetList> &self,
                             const std::string &name) {
         return self->hasPreset(name.c_str());
+      })
+      .def("__len__", [](const std::shared_ptr<ob::DevicePresetList> &self) {
+        return self->count();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::DevicePresetList> &self, int index) {
+        return self->getName(index);
+      })
+      .def("__contains__", [](const std::shared_ptr<ob::DevicePresetList> &self, const std::string &name) {
+        return self->hasPreset(name.c_str());
       });
 }
 
@@ -417,6 +426,9 @@ void define_device_list(const py::object &m) {
            })
       .def("__len__", [](const std::shared_ptr<ob::DeviceList> &self) {
         return self->deviceCount();
+      })
+      .def("__getitem__", [](const std::shared_ptr<ob::DeviceList> &self, int index) {
+        return self->getDevice(index);
       });
 }
 }  // namespace pyorbbecsdk

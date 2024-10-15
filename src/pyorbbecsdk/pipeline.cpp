@@ -26,15 +26,22 @@ Pipeline::Pipeline() : impl_(std::make_shared<ob::Pipeline>()) {}
 Pipeline::Pipeline(std::shared_ptr<ob::Device> device)
     : impl_(std::make_shared<ob::Pipeline>(std::move(device))) {}
 
-Pipeline::~Pipeline() {
-  if (impl_ && is_started_) {
-    impl_->stop();
+Pipeline::~Pipeline() noexcept {
+  try {
+    if (impl_ && is_started_) {
+      impl_->stop();
+    }
+  } catch (const ob::Error &e) {
+    std::cerr << "Error stopping pipeline: " << e.getMessage() << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Error stopping pipeline: " << e.what() << std::endl;
+  } catch (...) {
+    std::cerr << "Unknown error stopping pipeline" << std::endl;
   }
 }
 
 void Pipeline::start(std::shared_ptr<ob::Config> config) {
   CHECK_NULLPTR(impl_);
-  // CHECK_NULLPTR(config);
   OB_TRY_CATCH({ impl_->start(std::move(config)); });
   is_started_ = true;
 }
@@ -54,9 +61,18 @@ void Pipeline::start(std::shared_ptr<ob::Config> config,
 }
 
 void Pipeline::stop() {
-  CHECK_NULLPTR(impl_);
-  impl_->stop();
-  is_started_ = false;
+  try {
+    if (impl_) {
+      impl_->stop();
+      is_started_ = false;
+    }
+  } catch (const ob::Error &e) {
+    std::cerr << "Error stopping pipeline: " << e.getMessage() << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Error stopping pipeline: " << e.what() << std::endl;
+  } catch (...) {
+    std::cerr << "Unknown error stopping pipeline" << std::endl;
+  }
 }
 
 std::shared_ptr<ob::Config> Pipeline::get_config() {

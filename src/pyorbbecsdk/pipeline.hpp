@@ -27,7 +27,7 @@ class Pipeline {
 
   explicit Pipeline(std::shared_ptr<ob::Device> device);
 
-  ~Pipeline();
+  ~Pipeline() noexcept;
 
   void start(std::shared_ptr<ob::Config> config);
 

@@ -28,7 +28,50 @@
 #include "stream_profile.hpp"
 #include "types.hpp"
 #include "utils.hpp"
+#include <string>
+#include <iostream>
+
+#if defined(__linux__)
+#include <dlfcn.h>
+#endif
+
+#include <cstring>
+
 namespace py = pybind11;
+
+std::string get_extensions_path() {
+    std::string library_path;
+#if defined(__linux__) && !defined(__APPLE__)
+    Dl_info dl_info;
+    // pass the address of ob_create_context function to dladdr
+    if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
+        if (dl_info.dli_fname) {
+            library_path =  std::string(dl_info.dli_fname);
+        } else {
+            std::cerr << "Failed to get library filename using dladdr" << std::endl;
+        }
+    } else {
+        std::cerr << "dladdr failed to retrieve library info" << std::endl;
+    }
+#endif
+
+    if (!library_path.empty()) {
+        // Find the last directory separator
+        size_t pos = library_path.find_last_of("/\\");
+        if (pos != std::string::npos) {
+            // Extract the directory path
+            std::string dir_path = library_path.substr(0, pos);
+            // Construct the extensions path
+            std::string extensions_path = dir_path + "/extensions";
+            std::cout << "Extensions path: " << extensions_path << std::endl;
+            return extensions_path;
+        }
+    }
+
+    std::cerr << "Failed to get library path" << std::endl;
+    // Return a default path if unable to get the library path
+    return "";
+}
 
 PYBIND11_MODULE(pyorbbecsdk, m) {
   m.doc() = "OrbbecSDK python binding";
@@ -40,6 +83,13 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
     return std::to_string(major) + "." + std::to_string(minor) + "." +
            std::to_string(patch);
   });
+  // test set extensions
+  auto extensions_path = get_extensions_path();
+  if (!extensions_path.empty()){
+    ob::Context::setExtensionsDirectory(extensions_path.c_str());
+  }else {
+    std::cerr << "Failed to get extensions path" << std::endl;
+  }
   // context
   pyorbbecsdk::define_orbbec_types(m);
   pyorbbecsdk::define_context(m);

@@ -11,7 +11,7 @@ def print_help():
     print("Press '3' to transform 3D point to 3D point")
     print("Press '4' to transform 3D point to 2D point")
     print("--------------------------------------------")
-    print("Press 'q' or 'ESC' to exit")
+    print("Press Ctrl+C to exit the program")
 
 def get_frame_data(color_frame, depth_frame):
     color_frame = color_frame.as_video_frame()

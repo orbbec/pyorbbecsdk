@@ -68,7 +68,6 @@ std::string get_extensions_path() {
         }
     }
 
-    std::cerr << "Failed to get library path" << std::endl;
     // Return a default path if unable to get the library path
     return "";
 }

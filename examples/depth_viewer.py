@@ -99,6 +99,7 @@ def main():
                 break
         except KeyboardInterrupt:
             break
+    cv2.destroyAllWindows()
     pipeline.stop()
 
 

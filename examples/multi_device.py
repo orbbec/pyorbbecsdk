@@ -1,18 +1,3 @@
-# ******************************************************************************
-#  Copyright (c) 2023 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http:# www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-# ******************************************************************************
 from queue import Queue
 from typing import List
 
@@ -74,6 +59,10 @@ def rendering_frames():
                 width = depth_frame.get_width()
                 height = depth_frame.get_height()
                 scale = depth_frame.get_depth_scale()
+                depth_format = depth_frame.get_format()
+                if depth_format != OBFormat.Y16:
+                    print("depth format is not Y16")
+                    continue
 
                 depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
                 depth_data = depth_data.reshape((height, width))
@@ -96,7 +85,9 @@ def rendering_frames():
             cv2.imshow("Device {}".format(i), image)
             key = cv2.waitKey(1)
             if key == ord('q') or key == ESC_KEY:
-                return
+                stop_rendering = True
+                break
+    cv2.destroyAllWindows()
 
 
 def start_streams(pipelines: List[Pipeline], configs: List[Config]):
@@ -142,18 +133,17 @@ def main():
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         depth_profile = profile_list.get_default_video_stream_profile()
         config.enable_stream(depth_profile)
-        config.enable_stream(depth_profile)
         pipelines.append(pipeline)
         configs.append(config)
     global stop_rendering
     start_streams(pipelines, configs)
     try:
         rendering_frames()
-        stop_streams(pipelines)
     except KeyboardInterrupt:
         stop_rendering = True
+    finally:
         stop_streams(pipelines)
-
+        cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()

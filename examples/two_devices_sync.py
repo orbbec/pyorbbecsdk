@@ -216,6 +216,7 @@ def main():
     except KeyboardInterrupt:
         stop_rendering = True
         stop_streams(pipelines)
+    cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":

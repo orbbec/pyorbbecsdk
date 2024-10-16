@@ -1,18 +1,3 @@
-# ******************************************************************************
-#  Copyright (c) 2023 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http:# www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-# ******************************************************************************
 from queue import Queue
 
 import cv2
@@ -67,6 +52,7 @@ def rendering_frames():
         cv2.imshow("Depth Viewer", depth_image)
         key = cv2.waitKey(1)
         if key == ord('q') or key == ESC_KEY:
+            stop_rendering = True
             break
 
 
@@ -85,13 +71,13 @@ def main():
         print(e)
         return
     pipeline.start(config, lambda frames: on_new_frame_callback(frames))
-    while True:
-        try:
-            rendering_frames()
-        except KeyboardInterrupt:
-            stop_rendering = True
-            break
-    pipeline.stop()
+    try:
+        rendering_frames()
+    except KeyboardInterrupt:
+        stop_rendering = True
+    finally:
+        cv2.destroyAllWindows()
+        pipeline.stop()
 
 
 if __name__ == "__main__":

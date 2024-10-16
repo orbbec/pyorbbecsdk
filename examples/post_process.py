@@ -121,6 +121,7 @@ def main(argv):
                 break
         except KeyboardInterrupt:
             break
+    cv2.destroyAllWindows()
     pipeline.stop()
 
 

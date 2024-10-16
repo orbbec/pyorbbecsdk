@@ -9,6 +9,7 @@
 
 #include "Types.hpp"
 #include "libobsensor/h/StreamProfile.h"
+#include "libobsensor/h/Error.h"
 #include <iostream>
 #include <memory>
 
@@ -19,8 +20,8 @@ protected:
     const ob_stream_profile_t *impl_ = nullptr;
 
 public:
-                   StreamProfile(StreamProfile &streamProfile) = delete;
-    StreamProfile &operator=(StreamProfile &streamProfile)     = delete;
+    StreamProfile(StreamProfile &streamProfile)            = delete;
+    StreamProfile &operator=(StreamProfile &streamProfile) = delete;
 
     StreamProfile(StreamProfile &&streamProfile) noexcept : impl_(streamProfile.impl_) {
         streamProfile.impl_ = nullptr;
@@ -369,8 +370,11 @@ public:
             return std::make_shared<AccelStreamProfile>(impl);
         case OB_STREAM_GYRO:
             return std::make_shared<GyroStreamProfile>(impl);
-        default:
+        default: {
+            ob_error *err = ob_create_error(OB_STATUS_ERROR, "Unsupported stream type.", "StreamProfileFactory::create", "", OB_EXCEPTION_TYPE_INVALID_VALUE);
+            Error::handle(&err);
             return nullptr;
+        }
         }
     }
 };
@@ -381,7 +385,7 @@ protected:
 
 public:
     explicit StreamProfileList(ob_stream_profile_list_t *impl) : impl_(impl) {}
-    ~        StreamProfileList() noexcept {
+    ~StreamProfileList() noexcept {
         ob_error *error = nullptr;
         ob_delete_stream_profile_list(impl_, &error);
         Error::handle(&error, false);
@@ -427,7 +431,8 @@ public:
         ob_error *error   = nullptr;
         auto      profile = ob_stream_profile_list_get_video_stream_profile(impl_, width, height, format, fps, &error);
         Error::handle(&error);
-        return std::make_shared<VideoStreamProfile>(profile);
+        auto vsp = StreamProfileFactory::create(profile);
+        return vsp->as<VideoStreamProfile>();
     }
 
     /**
@@ -441,7 +446,8 @@ public:
         ob_error *error   = nullptr;
         auto      profile = ob_stream_profile_list_get_accel_stream_profile(impl_, fullScaleRange, sampleRate, &error);
         Error::handle(&error);
-        return std::make_shared<AccelStreamProfile>(profile);
+        auto asp = StreamProfileFactory::create(profile);
+        return asp->as<AccelStreamProfile>();
     }
 
     /**
@@ -455,7 +461,8 @@ public:
         ob_error *error   = nullptr;
         auto      profile = ob_stream_profile_list_get_gyro_stream_profile(impl_, fullScaleRange, sampleRate, &error);
         Error::handle(&error);
-        return std::make_shared<GyroStreamProfile>(profile);
+        auto gsp = StreamProfileFactory::create(profile);
+        return gsp->as<GyroStreamProfile>();
     }
 
 public:

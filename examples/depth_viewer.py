@@ -18,9 +18,7 @@ import time
 import cv2
 import numpy as np
 
-from pyorbbecsdk import Config
-from pyorbbecsdk import OBSensorType
-from pyorbbecsdk import Pipeline
+from pyorbbecsdk import *
 
 ESC_KEY = 27
 PRINT_INTERVAL = 1  # seconds
@@ -65,6 +63,10 @@ def main():
                 continue
             depth_frame = frames.get_depth_frame()
             if depth_frame is None:
+                continue
+            depth_format = depth_frame.get_format()
+            if depth_format != OBFormat.Y16:
+                print("depth format is not Y16")
                 continue
             width = depth_frame.get_width()
             height = depth_frame.get_height()

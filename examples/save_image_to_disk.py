@@ -29,6 +29,10 @@ def save_depth_frame(frame: DepthFrame, index):
     height = frame.get_height()
     timestamp = frame.get_timestamp()
     scale = frame.get_depth_scale()
+    depth_format = frame.get_format()
+    if depth_format != OBFormat.Y16:
+        print("depth format is not Y16")
+        return
     data = np.frombuffer(frame.get_data(), dtype=np.uint16)
     data = data.reshape((height, width))
     data = data.astype(np.float32) * scale

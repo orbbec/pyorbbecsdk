@@ -18,9 +18,7 @@ from queue import Queue
 import cv2
 import numpy as np
 
-from pyorbbecsdk import Config
-from pyorbbecsdk import OBSensorType
-from pyorbbecsdk import Pipeline, FrameSet
+from pyorbbecsdk import *
 
 depth_frames_queue = Queue()
 MAX_QUEUE_SIZE = 5
@@ -46,6 +44,10 @@ def rendering_frames():
         if not depth_frames_queue.empty():
             depth_frame = depth_frames_queue.get()
         if depth_frame is None:
+            continue
+        depth_format = depth_frame.get_format()
+        if depth_format != OBFormat.Y16:
+            print("depth format is not Y16")
             continue
         height = depth_frame.get_height()
         width = depth_frame.get_width()

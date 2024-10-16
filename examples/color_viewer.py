@@ -15,11 +15,7 @@
 # ******************************************************************************
 import cv2
 
-from pyorbbecsdk import Config
-from pyorbbecsdk import OBError
-from pyorbbecsdk import OBSensorType, OBFormat
-from pyorbbecsdk import Pipeline, FrameSet
-from pyorbbecsdk import VideoStreamProfile
+from pyorbbecsdk import *
 from utils import frame_to_bgr_image
 
 ESC_KEY = 27

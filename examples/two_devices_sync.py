@@ -106,7 +106,10 @@ def rendering_frames():
                 width = depth_frame.get_width()
                 height = depth_frame.get_height()
                 scale = depth_frame.get_depth_scale()
-
+                depth_format = depth_frame.get_format()
+                if depth_format != OBFormat.Y16:
+                    print("depth format is not Y16")
+                    continue
                 depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
                 depth_data = depth_data.reshape((height, width))
 

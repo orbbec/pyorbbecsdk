@@ -91,6 +91,10 @@ def main():
         depth_frame = frames.get_depth_frame()
         if not color_frame or not depth_frame:
             continue
+        depth_format = depth_frame.get_format()
+        if depth_format != OBFormat.Y16:
+            print("depth format is not Y16")
+            continue
 
         # Convert the color frame to a BGR image
         color_image = frame_to_bgr_image(color_frame)

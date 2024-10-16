@@ -92,6 +92,10 @@ def main(argv):
             if not frame:
                 continue
             depth_frame = frame.as_depth_frame()
+            depth_format = depth_frame.get_format()
+            if depth_format != OBFormat.Y16:
+                print("depth format is not Y16")
+                continue
             # for Y16 format depth frame, print the distance of the center pixel every 30 frames
             width = depth_frame.get_width()
             height = depth_frame.get_height()

@@ -86,8 +86,6 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   auto extensions_path = get_extensions_path();
   if (!extensions_path.empty()){
     ob::Context::setExtensionsDirectory(extensions_path.c_str());
-  }else {
-    std::cerr << "Failed to get extensions path" << std::endl;
   }
   // context
   pyorbbecsdk::define_orbbec_types(m);

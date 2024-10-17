@@ -61,20 +61,6 @@ std::string get_extensions_path() {
         std::cerr << "dladdr failed to retrieve library info" << std::endl;
     }
 
-#elif defined(_WIN32)
-    HMODULE hModule = nullptr;
-    if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
-                          GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                          (LPCSTR)&ob_create_context, &hModule)) {
-        char path[MAX_PATH];
-        if (GetModuleFileName(hModule, path, MAX_PATH)) {
-            library_path = std::string(path);
-        } else {
-            std::cerr << "Failed to get library filename using GetModuleFileName" << std::endl;
-        }
-    } else {
-        std::cerr << "GetModuleHandleEx failed to retrieve module info" << std::endl;
-    }
 #endif
 
     if (!library_path.empty()) {

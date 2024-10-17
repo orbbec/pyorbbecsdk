@@ -31,27 +31,49 @@
 #include <string>
 #include <iostream>
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(__APPLE__)
 #include <dlfcn.h>
 #endif
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#include <iostream>
 #include <cstring>
+#include <string>
 
 namespace py = pybind11;
 
 std::string get_extensions_path() {
     std::string library_path;
-#if defined(__linux__) && !defined(__APPLE__)
+
+#if defined(__linux__) || defined(__APPLE__)
     Dl_info dl_info;
     // pass the address of ob_create_context function to dladdr
     if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
         if (dl_info.dli_fname) {
-            library_path =  std::string(dl_info.dli_fname);
+            library_path = std::string(dl_info.dli_fname);
         } else {
             std::cerr << "Failed to get library filename using dladdr" << std::endl;
         }
     } else {
         std::cerr << "dladdr failed to retrieve library info" << std::endl;
+    }
+
+#elif defined(_WIN32)
+    HMODULE hModule = nullptr;
+    if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                          GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                          (LPCSTR)&ob_create_context, &hModule)) {
+        char path[MAX_PATH];
+        if (GetModuleFileName(hModule, path, MAX_PATH)) {
+            library_path = std::string(path);
+        } else {
+            std::cerr << "Failed to get library filename using GetModuleFileName" << std::endl;
+        }
+    } else {
+        std::cerr << "GetModuleHandleEx failed to retrieve module info" << std::endl;
     }
 #endif
 
@@ -63,7 +85,6 @@ std::string get_extensions_path() {
             std::string dir_path = library_path.substr(0, pos);
             // Construct the extensions path
             std::string extensions_path = dir_path + "/extensions";
-            std::cout << "Extensions path: " << extensions_path << std::endl;
             return extensions_path;
         }
     }
@@ -71,6 +92,7 @@ std::string get_extensions_path() {
     // Return a default path if unable to get the library path
     return "";
 }
+
 
 PYBIND11_MODULE(pyorbbecsdk, m) {
   m.doc() = "OrbbecSDK python binding";
@@ -85,6 +107,7 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   // test set extensions
   auto extensions_path = get_extensions_path();
   if (!extensions_path.empty()){
+    std::cout << "load extensions from " << extensions_path << std::endl;
     ob::Context::setExtensionsDirectory(extensions_path.c_str());
   }
   // context

@@ -1,38 +1,31 @@
 # Python Bindings for Orbbec SDK
 
-This project provides Python bindings for the Orbbec SDK, allowing developers to interface with Orbbec devices in Python.
+This project provides Python bindings for the Orbbec SDK, enabling developers to interface with Orbbec devices using Python.
 
 ## Getting Started
 
-### Get the Source Code
-
-Clone the repository to get the latest version of the Python bindings for Orbbec SDK.
-
+### Clone the Repository
+Clone the repository to get the latest version:
 ```bash
 git clone https://github.com/orbbec/pyorbbecsdk.git
+git checkout OrbbecSDK_V2.x
 ```
 
-### Install Dependencies
-
-Install the necessary Python development packages on Ubuntu.
-
+### Install Dependencies (Ubuntu)
+Install the necessary Python development packages:
 ```bash
 sudo apt-get install python3-dev python3-venv python3-pip python3-opencv
 ```
 
-### Custom Python3 Path (Optional)
-
-If you use Anaconda, set the Python3 path to the Anaconda path in `pyorbbecsdk/CMakeLists.txt` before the `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)` line:
-
+### Custom Python Path (Optional)
+If you use Anaconda, update the Python path in `pyorbbecsdk/CMakeLists.txt` before the `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)` line:
 ```cmake
-set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # Replace with your Python3 path
+set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # Replace with your Python path
 set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.6/site-packages/pybind11/share/cmake/pybind11") # Replace with your Pybind11 path
 ```
 
 ### Build the Project
-
-Create a virtual environment and build the project.
-
+Create a virtual environment and build the project:
 ```bash
 cd pyorbbecsdk
 python3 -m venv ./venv
@@ -45,25 +38,22 @@ make -j4
 make install
 ```
 
-### Try the Examples
-
-Set up your environment to run examples and install necessary system rules.
-
+### Run the Examples
+Set up the environment and run the examples:
 ```bash
 cd pyorbbecsdk
 export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
 sudo bash ./scripts/install_udev_rules.sh
 sudo udevadm control --reload-rules && sudo udevadm trigger
 python3 examples/depth_viewer.py
-python3 examples/net_device.py # Requires ffmpeg installation for network device
+python3 examples/net_device.py # Requires ffmpeg installation for network devices
 ```
+- **macOS Users**: Copy `./install/lib` to the directory where you run the examples. Running examples may require `sudo`.
 
-Additional examples are available in the `examples` directory. Please see [examples/README.md](examples/README.md) for further details.
+Additional examples are available in the `examples` directory. Refer to [examples/README.md](examples/README.md) for further details.
 
-### Generate Stubs
-
-Generate Python stubs for better IntelliSense in your IDE.
-
+### Generate Python Stubs
+Generate stubs for better IntelliSense support in your IDE:
 ```bash
 source env.sh
 pip3 install pybind11-stubgen
@@ -71,13 +61,10 @@ pybind11-stubgen pyorbbecsdk
 ```
 
 ### Building on Windows
-
-For instructions on how to build and run the examples on Windows, please refer to [docs/README.md](docs/README_EN.md).
+Refer to [docs/README.md](docs/README_EN.md) for instructions on building and running examples on Windows.
 
 ## Making a Python Wheel
-
-Generate a wheel package for easy distribution and installation.
-
+To generate a wheel package for easy distribution:
 ```bash
 cd pyorbbecsdk
 python3 -m venv ./venv
@@ -95,40 +82,27 @@ pip3 install dist/*.whl
 ```
 
 ## Enabling Device Timestamps via UVC Protocol on Windows
+To enable device timestamps via the UVC protocol on Windows, modify the system registry as follows:
 
-To get device timestamps through the UVC protocol on a Windows system, you must modify the registry by completing a registration process. This is required due to default system limitations. Follow the steps below to configure your system:
-
-### 1. Connect the Device
-- Ensure your UVC-compatible device is connected to the computer and recognized by the system. Confirm that the device is online and functioning.
-
-### 2. Open PowerShell with Administrator Privileges
-- Open the Start menu, type `PowerShell`, right-click on the PowerShell app, and select 'Run as administrator'.
-
-### 3. Navigate to the Scripts Directory
-- Use the `cd` command to change the directory to the location of your scripts.
-  ```powershell
-  cd scripts
-  ```
-
-### 4. Modify Execution Policy
-- Modify the PowerShell execution policy to allow script execution. Run the following command and press `Y` when prompted to confirm the change:
-  ```powershell
-  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-  ```
-
-### 5. Execute the Registration Script
-- Run the registration script to modify the registry settings. Use the following command:
-  ```powershell
-  .\obsensor_metadata_win10.ps1 -op install_all
-  ```
-
-This will complete the necessary registration and modification of settings to allow device timestamps via the UVC protocol on your Windows system.
-
+### Steps to Modify the Registry
+1. **Connect the Device**: Ensure the UVC-compatible device is connected and recognized.
+2. **Open PowerShell with Administrator Privileges**: Open PowerShell as an administrator.
+3. **Navigate to the Scripts Directory**:
+   ```powershell
+   cd scripts
+   ```
+4. **Modify the Execution Policy**: Allow script execution:
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+5. **Execute the Registration Script**: Modify the registry settings:
+   ```powershell
+   .\obsensor_metadata_win10.ps1 -op install_all
+   ```
 
 ## Documentation
-
-For detailed documentation, please refer to [docs/README.md](docs/README_EN.md).
+Refer to [docs/README.md](docs/README_EN.md) for detailed documentation.
 
 ## License
-
 This project is licensed under the Apache License 2.0.
+

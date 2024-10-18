@@ -67,19 +67,6 @@ SDK 进行设计封装，主要实现数据流接收，设备指令控制。
 
 - Python 3.6.9 及以上
 
-## Python SDK 支持的硬件产品
-| **products list** | **firmware version**        |
-| ----------------- | --------------------------- |
-| Gemini 335        | 1.3.25                      |
-| Gemini 335L       | 1.3.25                      |
-| Gemini 336        | 1.3.25                      |
-| Gemini 336L       | 1.3.25                      |
-| Femto Bolt        | 1.0.6/1.0.9                 |
-| Femto Mega        | 1.1.7/1.2.7                 |
-| Astra 2           | 2.8.20                      |
-| Gemini 2 L        | 1.4.32                      |
-| Gemini 2          | 1.4.60 /1.4.76              |
-
 ## Orbbec SDK Python Wrapper Sample 编译说明
 
 ### Windows python sdk 编译

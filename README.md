@@ -1,6 +1,21 @@
 # Python Bindings for Orbbec SDK
 
-This project provides Python bindings for the Orbbec SDK, enabling developers to interface with Orbbec devices using Python.
+This project provides Python bindings for the [Orbbec SDK v2.x](https://github.com/orbbec/OrbbecSDK-dev),  enabling developers to interface with Orbbec devices using Python. The Orbbec SDK v.2.x is an open-source cross-platform SDK library based on Orbbec RGB-D cameras. The differences between Orbbec SDK v2.x and [Orbbec SDK v1.x](https://github.com/orbbec/OrbbecSDK) can be found in the [README](https://github.com/orbbec/OrbbecSDK-dev).
+
+## Hardware Products Supported by Python SDK
+
+| **products list** | **firmware version**        |
+| ----------------- | --------------------------- |
+| Gemini 335        | 1.3.25                      |
+| Gemini 335L       | 1.3.25                      |
+| Gemini 336        | 1.3.25                      |
+| Gemini 336L       | 1.3.25                      |
+| Femto Bolt        | 1.0.6/1.0.9                 |
+| Femto Mega        | 1.1.7/1.2.7                 |
+| Astra 2           | 2.8.20                      |
+| Gemini 2 L        | 1.4.32                      |
+| Gemini 2          | 1.4.60 /1.4.76              |
+
 
 ## Getting Started
 

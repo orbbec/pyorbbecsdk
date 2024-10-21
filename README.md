@@ -63,7 +63,6 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 python3 examples/depth_viewer.py
 python3 examples/net_device.py # Requires ffmpeg installation for network devices
 ```
-- **macOS Users**: Copy `./install/lib` to the directory where you run the examples. Running examples may require `sudo`.
 
 Additional examples are available in the `examples` directory. Refer to [examples/README.md](examples/README.md) for further details.
 

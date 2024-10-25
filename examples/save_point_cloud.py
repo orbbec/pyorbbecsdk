@@ -80,10 +80,10 @@ def main():
     pipeline.enable_frame_sync()
     pipeline.start(config)
     
-    camera_param = pipeline.get_camera_param()
+    #camera_param = pipeline.get_camera_param()
     align_filter = AlignFilter(align_to_stream=OBStreamType.COLOR_STREAM)
     point_cloud_filter = PointCloudFilter()
-    point_cloud_filter.set_camera_param(camera_param)
+    #point_cloud_filter.set_camera_param(camera_param)
 
     while True:
         frames = pipeline.wait_for_frames(100)
@@ -99,8 +99,8 @@ def main():
             continue
         
         frame = align_filter.process(frames)
-        scale = depth_frame.get_depth_scale()
-        point_cloud_filter.set_position_data_scaled(scale)
+        #scale = depth_frame.get_depth_scale()
+        #point_cloud_filter.set_position_data_scaled(scale)
 
         point_format = OBFormat.RGB_POINT if has_color_sensor and color_frame is not None else OBFormat.POINT
         point_cloud_filter.set_create_point_format(point_format)

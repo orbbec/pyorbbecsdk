@@ -4,7 +4,7 @@ OrbbecSDK python binding
 from __future__ import annotations
 import numpy
 import typing
-__all__ = ['AccelFrame', 'AccelStreamProfile', 'AlignFilter', 'CameraParamList', 'ColorFrame', 'Config', 'Context', 'DecimationFilter', 'DepthFrame', 'Device', 'DeviceInfo', 'DeviceList', 'DevicePresetList', 'DisparityTransform', 'Filter', 'FormatConvertFilter', 'Frame', 'FrameSet', 'GyroFrame', 'GyroStreamProfile', 'HDRMergeFilter', 'HoleFillingFilter', 'IRFrame', 'NoiseRemovalFilter', 'OBAccelFullScaleRange', 'OBAccelIntrinsic', 'OBAccelValue', 'OBAlignMode', 'OBBaselineCalibrationParam', 'OBCalibrationParam', 'OBCameraDistortion', 'OBCameraDistortionModel', 'OBCameraIntrinsic', 'OBCameraParam', 'OBCmdVersion', 'OBColorPoint', 'OBCommunicationType', 'OBCompressionMode', 'OBCompressionParams', 'OBConvertFormat', 'OBCoordinateSystemType', 'OBDCPowerState', 'OBDDONoiseRemovalType', 'OBDataTranState', 'OBDepthCroppingMode', 'OBDepthPrecisionLevel', 'OBDepthWorkMode', 'OBDepthWorkModeList', 'OBDeviceDevelopmentMode', 'OBDeviceIpAddrConfig', 'OBDeviceSyncConfig', 'OBDeviceTemperature', 'OBDeviceTimestampResetConfig', 'OBDeviceType', 'OBEdgeNoiseRemovalFilterParams', 'OBEdgeNoiseRemovalType', 'OBError', 'OBException', 'OBExtrinsic', 'OBFileTranState', 'OBFilterList', 'OBFloatPropertyRange', 'OBFormat', 'OBFrameAggregateOutputMode', 'OBFrameMetadataType', 'OBFrameType', 'OBGyroFullScaleRange', 'OBGyroIntrinsic', 'OBGyroSampleRate', 'OBHdrConfig', 'OBHoleFillingMode', 'OBIntPropertyRange', 'OBLogLevel', 'OBMediaState', 'OBMediaType', 'OBMultiDeviceSyncConfig', 'OBMultiDeviceSyncMode', 'OBNoiseRemovalFilterParams', 'OBPermissionType', 'OBPoint2f', 'OBPoint3f', 'OBPowerLineFreqMode', 'OBPropertyID', 'OBPropertyItem', 'OBPropertyType', 'OBProtocolVersion', 'OBRect', 'OBRegionOfInterest', 'OBRotateDegreeType', 'OBSensorType', 'OBSequenceIdItem', 'OBSpatialAdvancedFilterParams', 'OBStatus', 'OBStreamType', 'OBSyncMode', 'OBTofExposureThresholdControl', 'OBTofFilterRange', 'OBUSBPowerState', 'OBUint16PropertyRange', 'OBUint8PropertyRange', 'OBUpgradeState', 'Pipeline', 'PointCloudFilter', 'PointsFrame', 'Sensor', 'SensorList', 'SequenceIdFilter', 'SpatialAdvancedFilter', 'StreamProfile', 'StreamProfileList', 'TemporalFilter', 'ThresholdFilter', 'VideoFrame', 'VideoStreamProfile', 'get_version', 'transformation2dto2d', 'transformation2dto3d', 'transformation3dto2d', 'transformation3dto3d']
+__all__ = ['AccelFrame', 'AccelStreamProfile', 'AlignFilter', 'CameraParamList', 'ColorFrame', 'Config', 'Context', 'DecimationFilter', 'DepthFrame', 'Device', 'DeviceInfo', 'DeviceList', 'DevicePresetList', 'DisparityTransform', 'Filter', 'FormatConvertFilter', 'Frame', 'FrameSet', 'GyroFrame', 'GyroStreamProfile', 'HDRMergeFilter', 'HoleFillingFilter', 'IRFrame', 'NoiseRemovalFilter', 'OBAccelFullScaleRange', 'OBAccelIntrinsic', 'OBAccelValue', 'OBAlignMode', 'OBFrameAggregateOutputMode','OBBaselineCalibrationParam', 'OBCalibrationParam', 'OBCameraDistortion', 'OBCameraDistortionModel', 'OBCameraIntrinsic', 'OBCameraParam', 'OBCmdVersion', 'OBColorPoint', 'OBCommunicationType', 'OBCompressionMode', 'OBCompressionParams', 'OBConvertFormat', 'OBCoordinateSystemType', 'OBDCPowerState', 'OBDDONoiseRemovalType', 'OBDataTranState', 'OBDepthCroppingMode', 'OBDepthPrecisionLevel', 'OBDepthWorkMode', 'OBDepthWorkModeList', 'OBDeviceDevelopmentMode', 'OBDeviceIpAddrConfig', 'OBDeviceSyncConfig', 'OBDeviceTemperature', 'OBDeviceTimestampResetConfig', 'OBDeviceType', 'OBEdgeNoiseRemovalFilterParams', 'OBEdgeNoiseRemovalType', 'OBError', 'OBException', 'OBExtrinsic', 'OBFileTranState', 'OBFilterList', 'OBFloatPropertyRange', 'OBFormat', 'OBFrameAggregateOutputMode', 'OBFrameMetadataType', 'OBFrameType', 'OBGyroFullScaleRange', 'OBGyroIntrinsic', 'OBGyroSampleRate', 'OBHdrConfig', 'OBHoleFillingMode', 'OBIntPropertyRange', 'OBLogLevel', 'OBMediaState', 'OBMediaType', 'OBMultiDeviceSyncConfig', 'OBMultiDeviceSyncMode', 'OBNoiseRemovalFilterParams', 'OBPermissionType', 'OBPoint2f', 'OBPoint3f', 'OBPowerLineFreqMode', 'OBPropertyID', 'OBPropertyItem', 'OBPropertyType', 'OBProtocolVersion', 'OBRect', 'OBRegionOfInterest', 'OBRotateDegreeType', 'OBSensorType', 'OBSequenceIdItem', 'OBSpatialAdvancedFilterParams', 'OBStatus', 'OBStreamType', 'OBSyncMode', 'OBTofExposureThresholdControl', 'OBTofFilterRange', 'OBUSBPowerState', 'OBUint16PropertyRange', 'OBUint8PropertyRange', 'OBUpgradeState', 'Pipeline', 'PointCloudFilter', 'PointsFrame', 'Sensor', 'SensorList', 'SequenceIdFilter', 'SpatialAdvancedFilter', 'StreamProfile', 'StreamProfileList', 'TemporalFilter', 'ThresholdFilter', 'VideoFrame', 'VideoStreamProfile', 'get_version', 'transformation2dto2d', 'transformation2dto3d', 'transformation3dto2d', 'transformation3dto3d']
 class AccelFrame(Frame):
     def __repr__(self) -> None:
         ...
@@ -58,7 +58,13 @@ class Config:
         ...
     def enable_stream(self, arg0: ...) -> None:
         ...
+    def enable_video_stream(self, arg0: OBStreamType,arg1: int, arg2: int, arg3: int,arg4: OBFormat) -> None:
+        ...
+    def enable_video_stream(self, arg0: OBSensorType,arg1: int, arg2: int, arg3: int,arg4: OBFormat) -> None:
+        ...
     def set_align_mode(self, arg0: OBAlignMode) -> None:
+        ...
+    def set_frame_aggregate_output_mode(self, arg0: OBFrameAggregateOutputMode) -> None:
         ...
     def set_depth_scale_require(self, arg0: bool) -> None:
         ...
@@ -544,6 +550,8 @@ class OBAlignMode:
     @property
     def value(self) -> int:
         ...
+class OBFrameAggregateOutputMode:
+    
 class OBBaselineCalibrationParam:
     baseline: float
     zpd: float

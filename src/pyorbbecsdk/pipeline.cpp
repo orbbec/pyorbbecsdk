@@ -181,11 +181,59 @@ void define_pipeline_config(py::object &m) {
               const std::shared_ptr<ob::StreamProfile> &stream_profile) {
              OB_TRY_CATCH({ self->enableStream(stream_profile); });
            })
+      .def("enable_stream",
+           [](std::shared_ptr<ob::Config> &self, OBStreamType stream_type) {
+             OB_TRY_CATCH({ self->enableStream(stream_type); });
+           })
+      .def("enable_stream",
+           [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type) {
+             OB_TRY_CATCH({ self->enableStream(sensor_type); });
+           })
+      .def("enable_video_stream",
+           [](std::shared_ptr<ob::Config> &self, OBStreamType stream_type,
+              int width, int height, int fps, OBFormat format) {
+             OB_TRY_CATCH({
+               self->enableVideoStream(stream_type, width, height, fps, format);
+             });
+           })
+      .def("enable_video_stream",
+           [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type,
+              int width, int height, int fps, OBFormat format) {
+             OB_TRY_CATCH({
+               self->enableVideoStream(sensor_type, width, height, fps, format);
+             });
+           })
+      .def(
+          "enable_accel_stream",
+          [](std::shared_ptr<ob::Config> &self,
+             OBAccelFullScaleRange full_scale_range,
+             OBAccelSampleRate sample_rate) {
+            OB_TRY_CATCH(
+                { self->enableAccelStream(full_scale_range, sample_rate); });
+          },
+          py::arg("full_scale_range") =
+              OBAccelFullScaleRange::OB_ACCEL_FS_UNKNOWN,
+          py::arg("sample_rate") = OBAccelSampleRate::OB_SAMPLE_RATE_UNKNOWN)
+      .def(
+          "enable_gyro_stream",
+          [](std::shared_ptr<ob::Config> &self,
+             OBGyroFullScaleRange full_scale_range,
+             OBGyroSampleRate sample_rate) {
+            OB_TRY_CATCH(
+                { self->enableGyroStream(full_scale_range, sample_rate); });
+          },
+          py::arg("full_scale_range") =
+              OBGyroFullScaleRange::OB_GYRO_FS_UNKNOWN,
+          py::arg("sample_rate") = OBGyroSampleRate::OB_SAMPLE_RATE_UNKNOWN)
       .def("enable_all_stream",
            [](std::shared_ptr<ob::Config> &self) { self->enableAllStream(); })
       .def("disable_stream",
            [](std::shared_ptr<ob::Config> &self, OBStreamType stream_type) {
              OB_TRY_CATCH({ self->disableStream(stream_type); });
+           })
+      .def("disable_stream",
+           [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type) {
+             OB_TRY_CATCH({ self->disableStream(sensor_type); });
            })
       .def("disable_all_stream",
            [](std::shared_ptr<ob::Config> &self) {
@@ -195,6 +243,12 @@ void define_pipeline_config(py::object &m) {
            [](std::shared_ptr<ob::Config> &self, OBAlignMode align_mode) {
              OB_TRY_CATCH({ self->setAlignMode(align_mode); });
            })
+      .def("set_frame_aggregate_output_mode",
+           [](std::shared_ptr<ob::Config> &self,
+              OBFrameAggregateOutputMode mode) {
+             OB_TRY_CATCH({ self->setFrameAggregateOutputMode(mode); });
+           })
+
       .def("set_depth_scale_require", [](std::shared_ptr<ob::Config> &self,
                                          bool depth_scale_required) {
         OB_TRY_CATCH({ self->setDepthScaleRequire(depth_scale_required); });

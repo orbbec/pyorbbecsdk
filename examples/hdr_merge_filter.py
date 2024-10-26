@@ -68,6 +68,11 @@ def enhance_contrast(image, clip_limit=3.0, tile_grid_size=(8, 8)):
 
 def main(argv):
     pipeline = Pipeline()
+    device = pipeline.get_device()
+    is_support_hdr = device.is_property_supported(OBPropertyID.OB_STRUCT_DEPTH_HDR_CONFIG,OBPermissionType.PERMISSION_READ_WRITE)
+    if is_support_hdr == False:
+        print("Current default device does not support HDR merge")
+        return
     config = Config()
 
     try:

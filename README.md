@@ -9,6 +9,8 @@ the OrbbecSDK_V2.x branch provides Python bindings for the [Orbbec SDK v2.x](htt
 | ----------------- | --------------------------- |
 | Gemini 335        | 1.2.20                      |
 | Gemini 335L       | 1.2.20                      |
+| Gemini 336        | 1.2.20                      |
+| Gemini 336L       | 1.2.20                      |
 | Femto Bolt        | 1.0.6/1.0.9                 |
 | Femto Mega        | 1.1.7/1.2.7                 |
 | Gemini 2 XL       | Obox: V1.2.5 VL:1.4.54      |

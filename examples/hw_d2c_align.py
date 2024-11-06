@@ -119,6 +119,10 @@ def main():
         # Blend the depth and color images
         blended_image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)
 
+        #resize the window
+        cv2.namedWindow("HW D2C Align Viewer", cv2.WINDOW_NORMAL)
+        cv2.resizeWindow("HW D2C Align Viewer", 640, 480)
+        
         # Display the result
         cv2.imshow("HW D2C Align Viewer", blended_image)
         if cv2.waitKey(1) in [ord('q'), 27]:  # 27 is the ESC key

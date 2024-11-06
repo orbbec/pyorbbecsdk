@@ -86,8 +86,8 @@ void define_device_info(const py::object &m) {
       .def("__repr__", [](const std::shared_ptr<ob::DeviceInfo> &self) {
         std::ostringstream oss;
         oss << "DeviceInfo(name=" << self->name() << std::endl
-            << ", pid=" << self->pid() << std::endl
-            << ", vid=" << self->vid() << ", uid=" << self->uid() << std::endl
+            << ", pid=" << std::hex << self->pid() << std::endl
+            << ", vid=" << std::hex << self->vid() << ", uid=" << self->uid() << std::endl
             << ", serial_number=" << self->serialNumber() << std::endl
             << ", firmware_version=" << self->firmwareVersion() << std::endl
             << ", connection_type=" << self->connectionType() << std::endl

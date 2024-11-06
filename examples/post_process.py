@@ -89,6 +89,11 @@ def main(argv):
             for i in range(len(filter_list)):
                 post_filter = filter_list[i]
                 if post_filter and post_filter.is_enabled() and depth_frame:
+                    depth_data_size = depth_frame.get_data()
+                    if len(depth_data_size) < (depth_frame.get_width() * depth_frame.get_height() * 2):
+                        # print("depth data is not complete")
+                        continue
+
                     new_depth_frame = post_filter.process(depth_frame)
                     depth_frame = new_depth_frame.as_depth_frame()
             # for Y16 format depth frame, print the distance of the center pixel every 30 frames

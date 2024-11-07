@@ -104,9 +104,12 @@ def main(argv):
             if depth_format != OBFormat.Y16:
                 print("depth format is not Y16")
                 continue
-
-            depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-            depth_data = depth_data.reshape((height, width))
+            try:
+                depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+                depth_data = depth_data.reshape((height, width))
+            except ValueError:
+                print("Failed to reshape depth data")
+                continue
 
             depth_data = depth_data.astype(np.float32) * scale
             depth_data = np.where((depth_data > MIN_DEPTH) & (depth_data < MAX_DEPTH), depth_data, 0)

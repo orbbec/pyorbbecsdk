@@ -82,9 +82,12 @@ def main(argv):
             if color_image is None:
                 print("Failed to convert frame to image")
                 continue
-
-            depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16).reshape(
-                (depth_frame.get_height(), depth_frame.get_width()))
+            try:
+                depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16).reshape(
+                    (depth_frame.get_height(), depth_frame.get_width()))
+            except ValueError:
+                print("Failed to reshape depth data")
+                continue
             depth_data = depth_data.astype(np.float32) * depth_frame.get_depth_scale()
             depth_image = cv2.normalize(depth_data, None, 0, 10000, cv2.NORM_MINMAX)
             depth_image = cv2.applyColorMap(depth_image.astype(np.uint8), cv2.COLORMAP_JET)

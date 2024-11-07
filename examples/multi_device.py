@@ -64,8 +64,12 @@ def rendering_frames():
                     print("depth format is not Y16")
                     continue
 
-                depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-                depth_data = depth_data.reshape((height, width))
+                try:
+                    depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+                    depth_data = depth_data.reshape((height, width))
+                except ValueError:
+                    print("Failed to reshape depth data")
+                    continue
 
                 depth_data = depth_data.astype(np.float32) * scale
 

@@ -134,7 +134,7 @@ void define_pipeline(py::object &m) {
              self.start(std::move(config), callback);
            })
       .def("start", [](Pipeline &self) { self.start(nullptr); })
-      .def("stop", [](Pipeline &self) { self.stop(); })
+      .def("stop", [](Pipeline &self) { self.stop(); }, py::call_guard<py::gil_scoped_release>())
       .def(
           "get_config", [](Pipeline &self) { return self.get_config(); },
           py::call_guard<py::gil_scoped_release>())

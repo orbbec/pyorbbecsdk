@@ -32,6 +32,7 @@ ESC_KEY = 27
 
 color_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
 depth_frames_queue: List[Queue] = [Queue() for _ in range(MAX_DEVICES)]
+serial_number_list: List[str] = ["" for _ in range(MAX_DEVICES)]
 has_color_sensor: List[bool] = [False for _ in range(MAX_DEVICES)]
 stop_rendering = False
 multi_device_sync_config = {}
@@ -83,6 +84,7 @@ def rendering_frames():
     global color_frames_queue, depth_frames_queue
     global curr_device_cnt
     global stop_rendering
+    global serial_number_list
     while not stop_rendering:
         for i in range(curr_device_cnt):
             color_frame = None
@@ -93,6 +95,12 @@ def rendering_frames():
                 depth_frame = depth_frames_queue[i].get()
             if color_frame is None and depth_frame is None:
                 continue
+
+            # print serial number, color timestamp, depth timestamp, break line
+            if color_frame is not None:
+                print(f"device#{i}, color frame timestamp: {color_frame.get_timestamp_us()} us , system timestamp: {color_frame.get_system_timestamp_us()} us")
+            if depth_frame is not None:
+                print(f"device#{i}, depth frame timestamp: {depth_frame.get_timestamp_us()} us , system timestamp: {depth_frame.get_system_timestamp_us()} us")
             color_image = None
             depth_image = None
             color_width, color_height = 0, 0
@@ -182,6 +190,7 @@ def main():
         pipeline = Pipeline(device)
         config = Config()
         serial_number = device.get_device_info().get_serial_number()
+        serial_number_list[i] = serial_number
         sync_config_json = multi_device_sync_config[serial_number]
         sync_config = device.get_multi_device_sync_config()
         sync_config.mode = sync_mode_from_str(sync_config_json["config"]["mode"])
@@ -210,6 +219,7 @@ def main():
         configs.append(config)
     global stop_rendering
     start_streams(pipelines, configs)
+    ctx.enable_multi_device_sync(60000)
     try:
         rendering_frames()
         stop_streams(pipelines)

@@ -125,6 +125,14 @@ def main():
             if depth_frame is None or color_frame is None:
                 continue
 
+            # check depth frame data size, if not match, print error
+            depth_width = depth_frame.get_width()
+            depth_height = depth_frame.get_height()
+            depth_data_size = depth_frame.get_data_size()
+            if depth_data_size != depth_width * depth_height * 2:
+                print("Error: depth frame data size does not match")
+                continue
+
             # Check if a key was pressed
             global key_pressed
             if key_pressed:

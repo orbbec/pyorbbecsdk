@@ -25,27 +25,9 @@ PRINT_INTERVAL = 1  # seconds
 MIN_DEPTH = 20  # 20mm
 MAX_DEPTH = 10000  # 10000mm
 
-
-# Temporal filter for smoothing depth data over time
-class TemporalFilter:
-    def __init__(self, alpha=0.5):
-        self.alpha = alpha
-        self.previous_frame = None
-
-    def process(self, frame):
-        if self.previous_frame is None:
-            self.previous_frame = frame
-            return frame
-        result = cv2.addWeighted(frame, self.alpha, self.previous_frame, 1 - self.alpha, 0)
-        self.previous_frame = result
-        return result
-
-
-def main(argv):
+def main():
     pipeline = Pipeline()
     config = Config()
-    temporal_filter = TemporalFilter(alpha=0.5)  # Modify alpha based on desired smoothness
-
     try:
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         depth_profile = profile_list.get_default_video_stream_profile()
@@ -134,4 +116,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()

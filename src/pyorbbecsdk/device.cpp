@@ -87,7 +87,8 @@ void define_device_info(const py::object &m) {
         std::ostringstream oss;
         oss << "DeviceInfo(name=" << self->name() << std::endl
             << ", pid=" << std::hex << self->pid() << std::endl
-            << ", vid=" << std::hex << self->vid() << ", uid=" << self->uid() << std::endl
+            << ", vid=" << std::hex << self->vid() << ", uid=" << self->uid()
+            << std::endl
             << ", serial_number=" << self->serialNumber() << std::endl
             << ", firmware_version=" << self->firmwareVersion() << std::endl
             << ", connection_type=" << self->connectionType() << std::endl
@@ -114,12 +115,14 @@ void define_camera_list(const py::object &m) {
             return self->getCameraParam(index);
           },
           "Get the camera parameters for the specified index")
-      .def("__len__", [](const std::shared_ptr<ob::CameraParamList> &self) {
-        return self->count();
-      })
-      .def("__getitem__", [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
-        return self->getCameraParam(index);
-      });
+      .def("__len__",
+           [](const std::shared_ptr<ob::CameraParamList> &self) {
+             return self->count();
+           })
+      .def("__getitem__",
+           [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
+             return self->getCameraParam(index);
+           });
 }
 
 void define_depth_work_mode_list(const py::object &m) {
@@ -137,12 +140,14 @@ void define_depth_work_mode_list(const py::object &m) {
             return self->getOBDepthWorkMode(index);
           },
           "Get the OBDepthWorkMode object at the specified index")
-      .def("__len__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
-        return self->count();
-      })
-      .def("__getitem__", [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-        return self->getOBDepthWorkMode(index);
-      });
+      .def("__len__",
+           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
+             return self->count();
+           })
+      .def("__getitem__",
+           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
+             return self->getOBDepthWorkMode(index);
+           });
 }
 
 void define_device(const py::object &m) {
@@ -258,7 +263,7 @@ void define_device(const py::object &m) {
                self->setStructuredData(
                    OB_STRUCT_DEPTH_HDR_CONFIG,
                    reinterpret_cast<const uint8_t *>(&config),
-                                       sizeof(OBHdrConfig));
+                   sizeof(OBHdrConfig));
              });
            })
       .def("reboot",
@@ -269,7 +274,8 @@ void define_device(const py::object &m) {
                OBBaselineCalibrationParam param;
                uint32_t size = sizeof(param);
                self->getStructuredData(OB_STRUCT_BASELINE_CALIBRATION_PARAM,
-                   reinterpret_cast<uint8_t *>(&param), &size);
+                                       reinterpret_cast<uint8_t *>(&param),
+                                       &size);
                return param;
              });
            })
@@ -278,7 +284,8 @@ void define_device(const py::object &m) {
              OB_TRY_CATCH({
                OBDeviceTemperature temperature;
                uint32_t size = sizeof(temperature);
-               self->getStructuredData(OB_STRUCT_DEVICE_TEMPERATURE,
+               self->getStructuredData(
+                   OB_STRUCT_DEVICE_TEMPERATURE,
                    reinterpret_cast<uint8_t *>(&temperature), &size);
                return temperature;
              });
@@ -343,7 +350,8 @@ void define_device(const py::object &m) {
               const std::string &preset_name, const std::string &data) {
              OB_TRY_CATCH({
                return self->loadPresetFromJsonData(
-                   preset_name.c_str(), (const uint8_t *)data.c_str(),
+                   preset_name.c_str(),
+                   reinterpret_cast<const uint8_t *>(data.c_str()),
                    data.size());
              });
            })
@@ -354,6 +362,21 @@ void define_device(const py::object &m) {
                return self->exportSettingsAsPresetJsonFile(file_path.c_str());
              });
            })
+      .def(
+          "update_firmware",
+          [](const std::shared_ptr<ob::Device> &self,
+             const std::string &file_path, const py::function &callback,
+             bool async_update) {
+            self->updateFirmware(
+                file_path.c_str(),
+                [callback](OBFwUpdateState state, const char *message,
+                           uint8_t percent) {
+                  callback(state, message, percent);
+                },
+                async_update);
+          },
+          py::arg("file_path"), py::arg("callback"),
+          py::arg("async_update") = false)
 
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
@@ -374,17 +397,18 @@ void define_device_preset_list(const py::object &m) {
            [](const std::shared_ptr<ob::DevicePresetList> &self, int index) {
              return std::string(self->getName(index));
            })
-      .def("has_preset", [](const std::shared_ptr<ob::DevicePresetList> &self,
-                            const std::string &name) {
-        return self->hasPreset(name.c_str());
-      })
-      .def("__len__", [](const std::shared_ptr<ob::DevicePresetList> &self) {
-        return self->count();
-      })
-      .def("__getitem__", [](const std::shared_ptr<ob::DevicePresetList> &self, int index) {
-        return self->getName(index);
-      })
-      .def("__contains__", [](const std::shared_ptr<ob::DevicePresetList> &self, const std::string &name) {
+      .def(
+          "has_preset",
+          [](const std::shared_ptr<ob::DevicePresetList> &self,
+             const std::string &name) { return self->hasPreset(name.c_str()); })
+      .def("__len__",
+           [](const std::shared_ptr<ob::DevicePresetList> &self) {
+             return self->count();
+           })
+      .def("__getitem__", [](const std::shared_ptr<ob::DevicePresetList> &self,
+                             int index) { return self->getName(index); })
+      .def("__contains__", [](const std::shared_ptr<ob::DevicePresetList> &self,
+                              const std::string &name) {
         return self->hasPreset(name.c_str());
       });
 }
@@ -424,11 +448,11 @@ void define_device_list(const py::object &m) {
               const std::string &uid) {
              OB_TRY_CATCH({ return self->getDeviceByUid(uid.c_str()); });
            })
-      .def("__len__", [](const std::shared_ptr<ob::DeviceList> &self) {
-        return self->deviceCount();
-      })
-      .def("__getitem__", [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-        return self->getDevice(index);
-      });
+      .def("__len__",
+           [](const std::shared_ptr<ob::DeviceList> &self) {
+             return self->deviceCount();
+           })
+      .def("__getitem__", [](const std::shared_ptr<ob::DeviceList> &self,
+                             int index) { return self->getDevice(index); });
 }
 }  // namespace pyorbbecsdk

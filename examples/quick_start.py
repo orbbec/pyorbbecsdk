@@ -26,30 +26,14 @@ MIN_DEPTH = 20  # 20mm
 MAX_DEPTH = 10000  # 10000mm
 
 def main():
-    config = Config()
     pipeline = Pipeline()
 
-    try:
-        # Configure color stream
-        color_profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
-        color_profile = color_profile_list.get_default_video_stream_profile()
-        config.enable_stream(color_profile)
-
-        # Configure depth stream
-        depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-        depth_profile = depth_profile_list.get_default_video_stream_profile()
-        config.enable_stream(depth_profile)
-        
-    except Exception as e:
-        print("Failed to configure streams:", e)
-        return
-
-    pipeline.start(config)
+    pipeline.start()
     print("Pipeline started successfully. Press 'q' or ESC to exit.")
 
     # Set window size
-    window_width = 1000
-    window_height = 600
+    window_width = 1280
+    window_height = 720
     cv2.namedWindow("QuickStart Viewer", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("QuickStart Viewer", window_width, window_height)
 

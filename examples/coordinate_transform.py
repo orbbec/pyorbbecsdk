@@ -1,8 +1,25 @@
+# ******************************************************************************
+#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http:# www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+# ******************************************************************************
+
 import numpy as np
 
 import pyorbbecsdk as ob
 
 ESC_KEY = 27
+
 
 def print_help():
     print("Supported commands:")
@@ -12,6 +29,7 @@ def print_help():
     print("Press '4' to transform 3D point to 2D point")
     print("--------------------------------------------")
     print("Press Ctrl+C to exit the program")
+
 
 def get_frame_data(color_frame, depth_frame):
     color_frame = color_frame.as_video_frame()
@@ -35,13 +53,14 @@ def get_frame_data(color_frame, depth_frame):
     return (color_intrinsics, color_distortion, depth_intrinsics, depth_distortion,
             extrinsic, depth_data, depth_width, depth_height)
 
+
 def transform_points(transform_func, color_frame, depth_frame, dimension):
     (color_intrinsics, color_distortion, depth_intrinsics, depth_distortion,
      extrinsic, depth_data, depth_width, depth_height) = get_frame_data(color_frame, depth_frame)
 
     convert_width, convert_height = 3, 3
-    for i in range(depth_width//2, depth_width//2 + convert_width):
-        for j in range(depth_height//2, depth_height//2 + convert_height):
+    for i in range(depth_width // 2, depth_width // 2 + convert_width):
+        for j in range(depth_height // 2, depth_height // 2 + convert_height):
             depth = depth_data[j, i]
             x, y = float(i), float(j)
             original_point = (x, y, depth)
@@ -62,10 +81,12 @@ def transform_points(transform_func, color_frame, depth_frame, dimension):
             else:
                 print("Depth is 0")
 
+
 from pynput import keyboard
 
 # Global variable to track the key that was pressed
 key_pressed = None
+
 
 def on_press(key):
     global key_pressed
@@ -76,6 +97,7 @@ def on_press(key):
         # Handle special keys like 'ESC'
         if key == keyboard.Key.esc:
             key_pressed = 'esc'
+
 
 def main():
     print_help()  # Display help menu
@@ -156,6 +178,7 @@ def main():
     # Stop the pipeline and keyboard listener
     pipeline.stop()
     listener.stop()
+
 
 if __name__ == "__main__":
     main()

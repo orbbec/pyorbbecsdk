@@ -19,13 +19,15 @@ from pyorbbecsdk import *
 import time
 
 def main():
-    # Set console logger (ERROR level)
-    Context.set_logger_to_console(OBLogLevel.ERROR)
+    # Set console logger (INFO level)
+    # if you DO NOT want to see the log message in console, you can set the log level to OBLogLevel.NONE
+    Context.set_logger_to_console(OBLogLevel.INFO)
 
     # Set file logger (DEBUG level)
     log_path = "Log/Custom/"
     os.makedirs(log_path, exist_ok=True)  # Ensure log directory exists
     Context.set_logger_to_file(OBLogLevel.INFO, log_path)
+
 
     # Configure streams
     config = Config()

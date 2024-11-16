@@ -24,7 +24,8 @@ from utils import frame_to_bgr_image
 
 ESC_KEY = 27
 
-
+MIN_DEPTH = 20  # 20mm
+MAX_DEPTH = 10000  # 10000mm
 # Temporal filter for smoothing depth data over time
 
 def main(argv):
@@ -89,7 +90,9 @@ def main(argv):
                 print("Failed to reshape depth data")
                 continue
             depth_data = depth_data.astype(np.float32) * depth_frame.get_depth_scale()
-            depth_image = cv2.normalize(depth_data, None, 0, 10000, cv2.NORM_MINMAX)
+            depth_data = np.where((depth_data > MIN_DEPTH) & (depth_data < MAX_DEPTH), depth_data, 0)
+            depth_data = depth_data.astype(np.uint16)
+            depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX)
             depth_image = cv2.applyColorMap(depth_image.astype(np.uint8), cv2.COLORMAP_JET)
             depth_image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)
 

@@ -102,7 +102,7 @@ def main():
                 center_x = int(width / 2)
                 center_distance = depth_data[center_y, center_x]
                 print("center distance: ", center_distance)
-            depth_image = cv2.normalize(depth_data, None, 0, 10000, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
 
             cv2.imshow("Depth Viewer", depth_image)

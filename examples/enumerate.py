@@ -105,7 +105,11 @@ def main():
             f" - {index}. Device name: {device_info.get_name()}, PID: {device_info.get_pid()}, Serial Number: {device_info.get_serial_number()}")
 
     # Default to selecting the first device
-    device_selected = 0
+    print(f"Please select a device, show between 0 and {device_list.get_count() - 1}")
+    device_selected = get_input_option()
+    if device_selected == -1:
+        print("Exiting...")
+        return
     selected_device = device_list[device_selected]
     enumerate_sensors(selected_device)
 

@@ -134,7 +134,9 @@ void define_pipeline(py::object &m) {
              self.start(std::move(config), callback);
            })
       .def("start", [](Pipeline &self) { self.start(nullptr); })
-      .def("stop", [](Pipeline &self) { self.stop(); }, py::call_guard<py::gil_scoped_release>())
+      .def(
+          "stop", [](Pipeline &self) { self.stop(); },
+          py::call_guard<py::gil_scoped_release>())
       .def(
           "get_config", [](Pipeline &self) { return self.get_config(); },
           py::call_guard<py::gil_scoped_release>())
@@ -189,20 +191,28 @@ void define_pipeline_config(py::object &m) {
            [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type) {
              OB_TRY_CATCH({ self->enableStream(sensor_type); });
            })
-      .def("enable_video_stream",
-           [](std::shared_ptr<ob::Config> &self, OBStreamType stream_type,
-              int width, int height, int fps, OBFormat format) {
-             OB_TRY_CATCH({
-               self->enableVideoStream(stream_type, width, height, fps, format);
-             });
-           })
-      .def("enable_video_stream",
-           [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type,
-              int width, int height, int fps, OBFormat format) {
-             OB_TRY_CATCH({
-               self->enableVideoStream(sensor_type, width, height, fps, format);
-             });
-           })
+      .def(
+          "enable_video_stream",
+          [](std::shared_ptr<ob::Config> &self, OBStreamType stream_type,
+             int width, int height, int fps, OBFormat format) {
+            OB_TRY_CATCH({
+              self->enableVideoStream(stream_type, width, height, fps, format);
+            });
+          },
+          py::arg("stream_type"), py::arg("width") = OB_WIDTH_ANY,
+          py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = 30,
+          py::arg("format") = OB_FORMAT_ANY)
+      .def(
+          "enable_video_stream",
+          [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type,
+             int width, int height, int fps, OBFormat format) {
+            OB_TRY_CATCH({
+              self->enableVideoStream(sensor_type, width, height, fps, format);
+            });
+          },
+          py::arg("sensor_type"), py::arg("width") = OB_WIDTH_ANY,
+          py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = 30,
+          py::arg("format") = OB_FORMAT_ANY)
       .def(
           "enable_accel_stream",
           [](std::shared_ptr<ob::Config> &self,

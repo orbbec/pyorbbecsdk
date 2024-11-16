@@ -14,25 +14,19 @@
 #  limitations under the License.
 # ******************************************************************************
 
-import cv2
 from pyorbbecsdk import *
 
 ESC_KEY = 27
 
 def main():
-    # Initialize Pipeline and Config
+    # Initialize Pipeline
     pipeline = Pipeline()
-    config = Config()
-
-    # Configure color stream
-    profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
-    color_profile = profile_list.get_default_video_stream_profile()
-    config.enable_stream(color_profile)
-
     # Start Pipeline
-    pipeline.start(config)
-    print("Pipeline started. Press 'ESC' to exit.")
+    pipeline.start()
+    print("Pipeline started. Press Ctrl+C to exit.")
 
+    frame_counter = 0  # Add frame counter
+    
     while True:
         try:
             # Get frameSet from Pipeline
@@ -40,21 +34,22 @@ def main():
             if frame_set is None:
                 continue
 
-            for i in range(len(frame_set)):
-                frame = frame_set[i]
+            frame_counter += 1  # Increment counter
+            
+            # Only print metadata every 30 frames
+            if frame_counter % 30 == 0:
+                for i in range(len(frame_set)):
+                    frame = frame_set[i]
 
-                # Print frame metadata
-                print(f"Frame {i + 1}/{len(frame_set)}:")
-                metadata_types = [getattr(OBFrameMetadataType, attr) for attr in dir(OBFrameMetadataType) 
-                                if not attr.startswith('__') and isinstance(getattr(OBFrameMetadataType, attr), OBFrameMetadataType)]
-                
-                for metadata_type in metadata_types:
-                    if frame.has_metadata(metadata_type):
-                        metadata_value = frame.get_metadata_value(metadata_type)
-                        print(f"  Metadata type: {metadata_type.name}, value: {metadata_value}")
-
-            if cv2.waitKey(1) == ESC_KEY:
-                break
+                    # Print frame metadata
+                    print(f"Frame type: {frame.get_type()}")
+                    metadata_types = [getattr(OBFrameMetadataType, attr) for attr in dir(OBFrameMetadataType) 
+                                    if not attr.startswith('__') and isinstance(getattr(OBFrameMetadataType, attr), OBFrameMetadataType)]
+                    
+                    for metadata_type in metadata_types:
+                        if frame.has_metadata(metadata_type):
+                            metadata_value = frame.get_metadata_value(metadata_type)
+                            print(f"  Metadata type: {metadata_type.name}, value: {metadata_value}")
 
         except KeyboardInterrupt:
             break

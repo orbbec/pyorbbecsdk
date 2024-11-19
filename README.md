@@ -1,6 +1,6 @@
 # Python Bindings for Orbbec SDK
 
-This branch provides Python bindings for the [Orbbec SDK v2.x](https://github.com/orbbec/OrbbecSDK_v2),  enabling developers to interface with Orbbec devices using Python. The Orbbec SDK v.2.x is an open-source cross-platform SDK library based on Orbbec RGB-D cameras. The differences between Orbbec SDK v2.x and [Orbbec SDK v1.x](https://github.com/orbbec/OrbbecSDK) can be found in the [README](https://github.com/orbbec/OrbbecSDK_v2).
+the v2-main branch provides Python bindings for the [Orbbec SDK v2.x](https://github.com/orbbec/OrbbecSDK_v2),  enabling developers to interface with Orbbec devices using Python. The Orbbec SDK v.2.x is an open-source cross-platform SDK library based on Orbbec RGB-D cameras. The differences between Orbbec SDK v2.x and [Orbbec SDK v1.x](https://github.com/orbbec/OrbbecSDK) can be found in the [README](https://github.com/orbbec/OrbbecSDK_v2).
 
 ## Hardware Products Supported by Python SDK
 
@@ -23,7 +23,7 @@ This branch provides Python bindings for the [Orbbec SDK v2.x](https://github.co
 Clone the repository to get the latest version:
 ```bash
 git clone https://github.com/orbbec/pyorbbecsdk.git
-git checkout OrbbecSDK_V2.x
+git checkout v2-main
 ```
 
 ### Install Dependencies (Ubuntu)

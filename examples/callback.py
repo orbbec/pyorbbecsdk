@@ -34,7 +34,14 @@ video_sensor_types = [
     OBSensorType.IR_SENSOR,
     OBSensorType.COLOR_SENSOR
 ]
-
+# cached frames for better visualization
+cached_frames = {
+    'color': None,
+    'depth': None,
+    'left_ir': None,
+    'right_ir': None,
+    'ir': None
+}
 
 def on_new_frame_callback(frame: FrameSet):
     """Callback function to handle new frames"""
@@ -50,9 +57,11 @@ def process_color(frame):
     if not frame:
         return None
     color_frame = frame.get_color_frame()
+    color_frame = color_frame if color_frame else cached_frames['color']
     if not color_frame:
         return None
     try:
+        cached_frames['color'] = color_frame
         return frame_to_bgr_image(color_frame)
     except ValueError:
         print("Error processing color frame")
@@ -64,12 +73,14 @@ def process_depth(frame):
     if not frame:
         return None
     depth_frame = frame.get_depth_frame()
+    depth_frame = depth_frame if depth_frame else cached_frames['depth']
     if not depth_frame:
         return None
     try:
         depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
         depth_data = depth_data.reshape(depth_frame.get_height(), depth_frame.get_width())
         depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        cached_frames['depth'] = depth_frame
         return cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
     except ValueError:
         print("Error processing depth frame")
@@ -80,9 +91,12 @@ def process_ir(frame, frame_type):
     if frame is None:
         return None
     ir_frame = frame.get_frame(frame_type)
+    frame_name = 'ir' if frame_type == OBFrameType.IR_FRAME else 'left_ir' if frame_type == OBFrameType.LEFT_IR_FRAME else 'right_ir'
+    ir_frame = ir_frame if ir_frame else cached_frames[frame_name]
     if not ir_frame:
         return None
     ir_frame = ir_frame.as_video_frame()
+    cached_frames[frame_name] = ir_frame
     ir_data = np.asanyarray(ir_frame.get_data())
     width = ir_frame.get_width()
     height = ir_frame.get_height()

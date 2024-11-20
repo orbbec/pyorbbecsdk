@@ -19,6 +19,14 @@ import numpy as np
 from pyorbbecsdk import *
 from utils import frame_to_bgr_image
 
+# cached frames for better visualization
+cached_frames = {
+    'color': None,
+    'depth': None,
+    'left_ir': None,
+    'right_ir': None,
+    'ir': None
+}
 
 def setup_camera():
     """Setup camera and stream configuration"""
@@ -57,11 +65,15 @@ def setup_imu():
 
 def process_color(frame):
     """Process color image"""
+    frame = frame if frame else cached_frames['color']
+    cached_frames['color'] = frame
     return frame_to_bgr_image(frame) if frame else None
 
 
 def process_depth(frame):
     """Process depth image"""
+    frame = frame if frame else cached_frames['depth']
+    cached_frames['depth'] = frame
     if not frame:
         return None
     try:

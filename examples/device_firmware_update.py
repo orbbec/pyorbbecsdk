@@ -29,7 +29,11 @@ def get_firmware_path():
         if firmware_path.lower() == 'q':
             sys.exit("Exiting...")
 
-        firmware_path = firmware_path.strip().strip("'")  # Remove any leading/trailing spaces or quotes
+        # Clean up the input path
+        firmware_path = firmware_path.strip().strip("'").strip('"')  # Remove quotes and extra spaces
+
+        # Convert to absolute path
+        firmware_path = os.path.abspath(firmware_path)
 
         if firmware_path.endswith(".bin") and os.path.isfile(firmware_path):
             print(f"Firmware file confirmed: {firmware_path}\n")

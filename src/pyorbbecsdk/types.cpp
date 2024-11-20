@@ -117,6 +117,7 @@ void define_orbbec_types(const py::object &m) {
       .value("RW16", OB_FORMAT_RW16);
 
   py::enum_<OBUpgradeState>(m, "OBUpgradeState")
+      .value("VERIFY_SUCCESS", STAT_VERIFY_SUCCESS)
       .value("FILE_TRANSFER", STAT_FILE_TRANSFER)
       .value("DONE", STAT_DONE)
       .value("IN_PROGRESS", STAT_IN_PROGRESS)

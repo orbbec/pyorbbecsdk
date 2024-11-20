@@ -24,35 +24,36 @@ def setup_camera():
     """Setup camera and stream configuration"""
     pipeline = Pipeline()
     config = Config()
+    device = pipeline.get_device()
 
     # Try to enable all possible sensors
-    sensors = [
+    video_sensors = [
         OBSensorType.COLOR_SENSOR,
         OBSensorType.DEPTH_SENSOR,
         OBSensorType.IR_SENSOR,
         OBSensorType.LEFT_IR_SENSOR,
         OBSensorType.RIGHT_IR_SENSOR
     ]
-
-    for sensor in sensors:
+    sensor_list = device.get_sensor_list()
+    for sensor in range(len(sensor_list)):
         try:
-            profile_list = pipeline.get_stream_profile_list(sensor)
-            profile = profile_list.get_default_video_stream_profile()
-            config.enable_stream(profile)
+            sensor_type = sensor_list[sensor].get_type()
+            if sensor_type in video_sensors:
+                config.enable_video_stream(sensor_type)
         except:
             continue
-
-    # Try to enable IMU
-    try:
-        config.enable_accel_stream()
-        config.enable_gyro_stream()
-        config.set_frame_aggregate_output_mode(OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE)
-    except:
-        pass
 
     pipeline.start(config)
     return pipeline
 
+def setup_imu():
+    """Setup IMU configuration"""
+    pipeline = Pipeline()   
+    config = Config()
+    config.enable_accel_stream()
+    config.enable_gyro_stream()
+    pipeline.start(config)
+    return pipeline
 
 def process_color(frame):
     """Process color image"""
@@ -63,20 +64,49 @@ def process_depth(frame):
     """Process depth image"""
     if not frame:
         return None
-    depth_data = np.frombuffer(frame.get_data(), dtype=np.uint16)
-    depth_data = depth_data.reshape(frame.get_height(), frame.get_width())
-    depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-    return cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
-
-
-def process_ir(frame):
-    """Process IR image"""
-    if not frame:
+    try:
+        depth_data = np.frombuffer(frame.get_data(), dtype=np.uint16)
+        depth_data = depth_data.reshape(frame.get_height(), frame.get_width())
+        depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        return cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+    except ValueError:
         return None
-    ir_data = np.frombuffer(frame.get_data(), dtype=np.uint8)
-    ir_data = ir_data.reshape(frame.get_height(), frame.get_width())
-    return cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
 
+
+def process_ir(ir_frame):
+    """Process IR frame (left or right) to RGB image"""
+    if ir_frame is None:
+        return None
+    ir_frame = ir_frame.as_video_frame()
+    ir_data = np.asanyarray(ir_frame.get_data())
+    width = ir_frame.get_width()
+    height = ir_frame.get_height()
+    ir_format = ir_frame.get_format()
+
+    if ir_format == OBFormat.Y8:
+        ir_data = np.resize(ir_data, (height, width, 1))
+        data_type = np.uint8
+        image_dtype = cv2.CV_8UC1
+        max_data = 255
+    elif ir_format == OBFormat.MJPG:
+        ir_data = cv2.imdecode(ir_data, cv2.IMREAD_UNCHANGED)
+        data_type = np.uint8
+        image_dtype = cv2.CV_8UC1
+        max_data = 255
+        if ir_data is None:
+            print("decode mjpeg failed")
+            return None
+        ir_data = np.resize(ir_data, (height, width, 1))
+    else:
+        ir_data = np.frombuffer(ir_data, dtype=np.uint16)
+        data_type = np.uint16
+        image_dtype = cv2.CV_16UC1
+        max_data = 255
+        ir_data = np.resize(ir_data, (height, width, 1))
+
+    cv2.normalize(ir_data, ir_data, 0, max_data, cv2.NORM_MINMAX, dtype=image_dtype)
+    ir_data = ir_data.astype(data_type)
+    return cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
 
 def get_imu_text(frame, name):
     """Format IMU data"""
@@ -125,6 +155,7 @@ def main():
 
     # Initialize camera
     pipeline = setup_camera()
+    imu_pipeline = setup_imu()
     cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
     cv2.resizeWindow(WINDOW_NAME, DISPLAY_WIDTH, DISPLAY_HEIGHT)
     while True:
@@ -132,7 +163,6 @@ def main():
         frames = pipeline.wait_for_frames(100)
         if not frames:
             continue
-
         # Process different frame types
         processed_frames = {'color': process_color(frames.get_color_frame()),
                             'depth': process_depth(frames.get_depth_frame())}
@@ -149,8 +179,11 @@ def main():
                 processed_frames['ir'] = process_ir(ir_frame.as_video_frame())
 
         # Process IMU data
-        accel = frames.get_frame(OBFrameType.ACCEL_FRAME)
-        gyro = frames.get_frame(OBFrameType.GYRO_FRAME)
+        imu_frames = imu_pipeline.wait_for_frames(100)
+        if not imu_frames:
+            continue
+        accel = imu_frames.get_frame(OBFrameType.ACCEL_FRAME)
+        gyro = imu_frames.get_frame(OBFrameType.GYRO_FRAME)
         if accel and gyro:
             processed_frames['imu'] = {
                 'accel': accel.as_accel_frame(),

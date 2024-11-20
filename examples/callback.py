@@ -22,7 +22,7 @@ from utils import frame_to_bgr_image
 
 # Global variables
 frames_queue = Queue()
-MAX_QUEUE_SIZE = 5
+MAX_QUEUE_SIZE = 1
 ESC_KEY = 27
 stop_rendering = False
 
@@ -77,20 +77,42 @@ def process_depth(frame):
 
 
 def process_ir(frame, frame_type):
-    """Process IR frame (left or right) to RGB image"""
-    if not frame:
+    if frame is None:
         return None
-    try:
-        ir_frame = frame.get_frame(frame_type)
-        if not ir_frame:
+    ir_frame = frame.get_frame(frame_type)
+    if not ir_frame:
+        return None
+    ir_frame = ir_frame.as_video_frame()
+    ir_data = np.asanyarray(ir_frame.get_data())
+    width = ir_frame.get_width()
+    height = ir_frame.get_height()
+    ir_format = ir_frame.get_format()
+
+    if ir_format == OBFormat.Y8:
+        ir_data = np.resize(ir_data, (height, width, 1))
+        data_type = np.uint8
+        image_dtype = cv2.CV_8UC1
+        max_data = 255
+    elif ir_format == OBFormat.MJPG:
+        ir_data = cv2.imdecode(ir_data, cv2.IMREAD_UNCHANGED)
+        data_type = np.uint8
+        image_dtype = cv2.CV_8UC1
+        max_data = 255
+        if ir_data is None:
+            print("decode mjpeg failed")
             return None
-        ir_frame = ir_frame.as_video_frame()
-        ir_data = np.frombuffer(ir_frame.get_data(), dtype=np.uint8)
-        ir_data = ir_data.reshape(ir_frame.get_height(), ir_frame.get_width())
-        return cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
-    except ValueError:
-        print("Error processing IR frame")
-        return None
+        ir_data = np.resize(ir_data, (height, width, 1))
+    else:
+        ir_data = np.frombuffer(ir_data, dtype=np.uint16)
+        data_type = np.uint16
+        image_dtype = cv2.CV_16UC1
+        max_data = 255
+        ir_data = np.resize(ir_data, (height, width, 1))
+
+    cv2.normalize(ir_data, ir_data, 0, max_data, cv2.NORM_MINMAX, dtype=image_dtype)
+    ir_data = ir_data.astype(data_type)
+    return cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
+
 
 
 def create_display(processed_frames, width=1280, height=720):

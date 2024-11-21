@@ -135,9 +135,7 @@ def main():
             print("Upgrading device firmware, please wait...\n")
             try:
                 devices[device_index].update_firmware(firmware_path, firmware_update_callback, async_update=False)
-                print("Firmware update completed successfully! rebooting device...")
-                # if you set async_update=True, You should wait OBUpgradeState.DONE state
-                devices[device_index].reboot()
+                print("Firmware update completed successfully! Please reboot the device.")
             except Exception as e:
                 print("\nThe upgrade was interrupted! An error occurred!")
                 print(f"Error message: {str(e)}")

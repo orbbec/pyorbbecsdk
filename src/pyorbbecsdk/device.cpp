@@ -364,20 +364,27 @@ void define_device(const py::object &m) {
            })
       .def(
           "update_firmware",
+          // Main binding function taking device pointer, file path, callback
+          // and async flag
           [](const std::shared_ptr<ob::Device> &self,
              const std::string &file_path, const py::function &callback,
              bool async_update) {
+            // Call the native updateFirmware method with a lambda that wraps
+            // the Python callback
+            py::gil_scoped_release release;
             self->updateFirmware(
                 file_path.c_str(),
                 [callback](OBFwUpdateState state, const char *message,
                            uint8_t percent) {
+                  // Forward the firmware update progress to Python callback
+                  py::gil_scoped_acquire acquire;
                   callback(state, message, percent);
                 },
                 async_update);
           },
+          // Parameter definitions with default async_update=true
           py::arg("file_path"), py::arg("callback"),
-          py::arg("async_update") = false)
-
+          py::arg("async_update") = true)
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();

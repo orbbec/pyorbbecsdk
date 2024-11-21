@@ -6,10 +6,11 @@ the v2-main branch provides Python bindings for the [Orbbec SDK v2.x](https://gi
 
 | **products list** | **firmware version**        |
 | ----------------- | --------------------------- |
-| Gemini 335        | 1.3.25                      |
-| Gemini 335L       | 1.3.25                      |
-| Gemini 336        | 1.3.25                      |
-| Gemini 336L       | 1.3.25                      |
+| Gemini 335        | 1.2.20                      |
+| Gemini 335L       | 1.2.20                      |
+| Gemini 336        | 1.2.20                      |
+| Gemini 336L       | 1.2.20                      |
+| Gemini 335Lg       | 1.3.46                      |
 | Femto Bolt        | 1.0.6/1.0.9                 |
 | Femto Mega        | 1.1.7/1.2.7                 |
 | Astra 2           | 2.8.20                      |

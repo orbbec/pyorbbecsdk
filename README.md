@@ -7,6 +7,8 @@ the OrbbecSDK_V2.x branch provides Python bindings for the [Orbbec SDK v2.x](htt
 
 | **products list** | **firmware version**        |
 | ----------------- | --------------------------- |
+| Gemini 330        | 1.2.20                      |
+| Gemini 330L       | 1.2.20                      |
 | Gemini 335        | 1.2.20                      |
 | Gemini 335L       | 1.2.20                      |
 | Gemini 336        | 1.2.20                      |

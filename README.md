@@ -29,7 +29,7 @@ the v2-main branch provides Python bindings for the [Orbbec SDK v2.x](https://gi
 
 ## Documentation
 
-Refer to [docs/README.md](https://orbbec.github.io/pyorbbecsdk/docs/UserGuide/index.html) for detailed documentation.
+Refer to [UserGuide](https://orbbec.github.io/pyorbbecsdk/docs/UserGuide/index.html) for detailed documentation.
 
 ## License
 This project is licensed under the Apache License 2.0.

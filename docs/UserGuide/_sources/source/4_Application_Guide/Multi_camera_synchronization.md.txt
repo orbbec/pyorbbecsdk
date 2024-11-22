@@ -1,0 +1,62 @@
+# Multi-Camera Synchronization
+
+## Multi-Camera Synchronous Hardware Connection
+
+[multi-camera sync document](https://www.orbbec.com/docs/set-up-cameras-for-external-synchronization_v1-2/)
+
+## Multi-Camera Synchronization Software Configuration
+
+First, modify the configuration file (multi_device_sync_config.json), modify the serial number of the Primary Device and Secondary Device, if you need to configure other parameters, please refer to the [multi-camera sync document]( https://www.orbbec.com/docs/set-up-cameras-for-external-synchronization_v1-2/ )
+
+```json
+{
+    "devices": [
+        {
+            "serial_number": "CP3S34D00051",
+            "config": {
+                "mode": "PRIMARY",
+                "depth_delay_us": 0,
+                "color_delay_us": 0,
+                "trigger_to_image_delay_us": 0,
+                "trigger_out_enable": true,
+                "trigger_out_delay_us": 0,
+                "frames_per_trigger": 1
+            }
+        },
+        {
+            "serial_number": "CP3L44P00054",
+            "config": {
+                "mode": "SECONDARY",
+                "depth_delay_us": 0,
+                "color_delay_us": 0,
+                "trigger_to_image_delay_us": 0,
+                "trigger_out_enable": true,
+                "trigger_out_delay_us": 0,
+                "frames_per_trigger": 1
+            }
+        }
+    ]
+}
+```
+
+Multi-device synchronization Sample, please refer to (two_devices_sync.py), if you need to synchronize more than 2 devices, it is recommended to use C++.
+
+``` python
+#1. read sync param from json config，and set multi device sync params
+device.set_multi_device_sync_config(sync_config)
+#2. start the data stream for each device
+start_streams(pipelines, configs)
+#3. Synchronize the device time
+ctx.enable_multi_device_sync(60000)
+#4. print serial number and timestamp，Determine synchronization effect by timestamps
+if color_frame is not None:
+   print(f"device#{i}, color frame timestamp: {color_frame.get_timestamp_us()} us , system timestamp: {color_frame.get_system_timestamp_us()} us")
+if depth_frame is not None:
+   print(f"device#{i}, depth frame timestamp: {depth_frame.get_timestamp_us()} us , system timestamp: {depth_frame.get_system_timestamp_us()} us")
+
+```
+
+Running results:
+We use the timestamps of the Primary and Secondary printed by Sample to determine if they are synchronized on.
+
+![Multi_sync](../image/multi_sync.png)

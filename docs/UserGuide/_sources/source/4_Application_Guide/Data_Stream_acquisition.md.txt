@@ -1,0 +1,159 @@
+# Obtain Data Stream
+
+- Contents:
+
+  - 3.1.1 Stream profile
+  - 3.1.2 Video Stream acquisition
+  - 3.1.3 Imu data acquisition
+  - 3.1.4 Point Cloud：
+    - Depth Point Cloud
+    - RGBD Point Cloud
+
+## Stream Profile
+
+Method 1: obtain stream profile by resolution, frame format, and frame rate
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+# Obtain color profile through resolution, frame format and frame rate. A resolution width and height of 0 indicates wildcard characters
+color_profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+color_profile= color_profile_list.get_video_stream_profile(640, 0, OBFormat.RGB, 30)
+
+# Get depth profile through resolution, frame format and frame rate, resolution width and height are 0 to indicate wildcard characters
+depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+depth_profile = depth_profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
+```
+
+Method 2: Obtain the default stream profile
+
+```python
+  from pyorbbecsdk import *
+  pipeline = Pipeline()
+  depth_profile_list = 
+  pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+  # Obtain the default depth profile. The default resolution can be configured by using the OrbbecSDKConfig_v1.0.xml
+  depth_profile = depth_profile_list.get_default_video_stream_profile()
+```
+
+Method 3: Obtain stream profile through video frames
+
+```python
+  from pyorbbecsdk import *
+  pipeline = Pipeline()
+  pipeline.start(config)
+  frames = pipeline.wait_for_frames(100)
+  depth_frame = frames.get_depth_frame()
+  depth_frame = depth_frame.as_video_frame()
+  #Get depth profile
+  depth_profile = depth_frame.get_stream_profile()
+```
+
+## Obtain Video Stream
+
+This section describes how to obtain IR video frame data. The methods for retrieving Depth and Color frame data are similar.
+
+```python
+# 1. Create Config and Pipeline objects
+config = Config()
+pipeline = Pipeline()
+
+# Get IR profile
+profile_list = pipeline.get_stream_profile_list(OBSensorType.IR_SENSOR)
+ir_profile = profile_list.get_video_stream_profile(640, 0, OBFormat.Y16, 30)
+
+# Enable IR stream
+config.enable_stream(ir_profile)
+pipeline.start(config)
+
+# Wait for a frame of data
+frames = pipeline.wait_for_frames(100)
+ir_frame = frames.get_ir_frame()
+```
+
+The Gemini 330 series supports left IR and right IR sensors, with the IR sensor types being `OBSensorType.LEFT_IR_SENSOR` and `OBSensorType.RIGHT_IR_SENSOR`, respectively.
+The depth sensor type is `OBSensorType.DEPTH_SENSOR`, and the color sensor type is `OBSensorType.COLOR_SENSOR`
+
+## Obtain IMU Data
+
+For imu data, refer to imu_reader.py
+
+```python
+from pyorbbecsdk import *
+config = Config()
+pipeline = Pipeline()
+#enable accel 
+config.enable_accel_stream()
+#enable gyro
+config.enable_gyro_stream()
+#set pipeline to output both accel and gyro data simultaneously
+config.set_frame_aggregate_output_mode(OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE)
+#start imu 
+pipeline.start(config)
+frames = pipeline.wait_for_frames(100)
+#get accel frame 
+accel_frame = frames.get_frame(OBFrameType.ACCEL_FRAME)
+accel_frame = accel_frame.as_accel_frame()
+#get gyro frame 
+gyro_frame = frames.get_frame(OBFrameType.GYRO_FRAME)
+gyro_frame = gyro_frame.as_gyro_frame()
+```
+
+## Point Cloud
+
+### Depth Point Cloud
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+config = Config()
+depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+depth_profile = depth_profile_list.get_default_video_stream_profile()
+config.enable_stream(depth_profile)
+# Start the stream
+pipeline.start(config)
+# Create point cloud filter
+point_cloud_filter = PointCloudFilter()
+# Capture one frame of data
+frames = pipeline.wait_for_frames(100)
+# Get Depth frame
+depth_frame = frames.get_depth_frame()
+# Apply the point cloud filter
+point_cloud_filter.set_create_point_format(OBFormat.POINT)
+point_cloud_frame = point_cloud_filter.process(depth_frame)
+points = point_cloud_filter.calculate(point_cloud_frame)
+# Save point cloud data
+points_array = np.array([p[:3] for p in points])  # XYZ points
+save_points_to_ply(points_array, None, os.path.join(save_points_dir, "point_cloud.ply"))
+```
+
+### RGBD Point Cloud
+
+Please refer to Sample save_point_cloud.py
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+config = Config()
+config.enable_stream(depth_profile)
+config.enable_stream(color_profile)
+# Enable frame synchronization
+pipeline.enable_frame_sync()
+# Start the stream
+pipeline.start(config)
+# Create alignment filter
+align_filter = AlignFilter(align_to_stream=OBStreamType.COLOR_STREAM)
+# Create point cloud filter
+point_cloud_filter = PointCloudFilter()
+# Capture one frame of data
+frames = pipeline.wait_for_frames(100)
+# Get Depth and Color frames
+depth_frame = frames.get_depth_frame()
+color_frame = frames.get_color_frame()
+# Apply the alignment filter
+frame = align_filter.process(frames)
+# Apply the point cloud filter
+point_cloud_filter.set_create_point_format(OBFormat.RGB_POINT)
+point_cloud_frame = point_cloud_filter.process(frame)
+points = point_cloud_filter.calculate(point_cloud_frame)
+```

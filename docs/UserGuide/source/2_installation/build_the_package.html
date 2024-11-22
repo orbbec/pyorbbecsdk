@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.2. Linux Python SDK Compilation &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
+
+  
+    <link rel="shortcut icon" href="../../_static/orbbec_footerlogo_3d_world.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. QuickStarts" href="../3_QuickStarts/QuickStarts.html" />
+    <link rel="prev" title="2.1. Environment" href="Environment.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            OrbbecSDK V2 Python Wrapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1_overview/overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/Introduction.html">1.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/Support_platform.html">1.2. Support Platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/Support_platform.html#support-hardware-products">1.3. Support Hardware Products</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="installation.html">2. Installation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Environment.html">2.1. Environment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Environment.html#compilation-platform-requirements">2.1.1. Compilation Platform Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Environment.html#python-version">2.1.2. Python Version</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.2. Linux Python SDK Compilation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-dependencies-ubuntu">2.2.1. Install Dependencies (Ubuntu)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-python-path-optional">2.2.2. Custom Python Path (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-the-project">2.2.3. Build the Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-the-examples">2.2.4. Run the Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-python-stubs">2.2.5. Generate Python Stubs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-python-wheel">2.2.6. Making a Python Wheel</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-python-sdk-compilation">2.3. Windows Python SDK Compilation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-the-python-sdk-source-code">2.3.1. Download the Python SDK Source Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-dependencies">2.3.2. Install Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-visual-studio-project">2.3.3. Configure Visual Studio Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compile-the-python-sdk">2.3.4. Compile the Python SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-examples">2.3.5. Test Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../3_QuickStarts/QuickStarts.html">3. QuickStarts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html">3.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#build-your-first-camera-application">3.2. Build your First Camera Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#sample-features">3.3. Sample Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../4_Application_Guide/Application_Guide.html">4. Application Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html">4.1. Obtain Data Stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html#stream-profile">4.1.1. Stream Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html#obtain-video-stream">4.1.2. Obtain Video Stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html#obtain-imu-data">4.1.3. Obtain IMU Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html#point-cloud">4.1.4. Point Cloud</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html#depth-point-cloud">4.1.4.1. Depth Point Cloud</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Data_Stream_acquisition.html#rgbd-point-cloud">4.1.4.2. RGBD Point Cloud</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html">4.2. Camera Configuration(Device Parameter Settings)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#device-parameter-settings">4.2.1. Device Parameter Settings:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#obtain-the-serial-number">4.2.1.1. Obtain the Serial Number</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#obtain-the-camera-intrinsic-and-extrinsic-parameters">4.2.1.2. Obtain the Camera Intrinsic and Extrinsic Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#open-device">4.2.1.3. Open Device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#device-reboot">4.2.1.4. Device Reboot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#laser-switch">4.2.1.5. Laser Switch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#ldp-switch">4.2.1.6. LDP Switch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#obtain-ldp-protection-measurements">4.2.1.7. Obtain LDP Protection Measurements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#obtain-ldp-protection-status">4.2.1.8. Obtain LDP Protection Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#device-time-synchronization">4.2.1.9. Device Time Synchronization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#depth-settings">4.2.2. Depth Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#depth-working-mode">4.2.2.1. Depth Working Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#preset-configuration">4.2.2.2. Preset Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-depth-ae">4.2.2.3. Set Depth AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-depth-exposure-gain">4.2.2.4. Set Depth Exposure/Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-min-and-max-depth">4.2.2.5. Set Min and Max Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#d2d-disparity-to-depth">4.2.3. D2D (Disparity to depth)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#hardware-d2d">4.2.3.1. Hardware D2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#software-d2d">4.2.3.2. Software D2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-the-unit-of-depth">4.2.3.3. Set the Unit of Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#ir-parameter-settings">4.2.4. IR Parameter Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-ir-ae">4.2.4.1. Set IR AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-ir-exposure-gain">4.2.4.2. Set IR Exposure/Gain</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#color-parameter-settings">4.2.5. Color Parameter Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-color-ae">4.2.5.1. Set Color AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-color-exposure">4.2.5.2. Set Color Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-color-gain">4.2.5.3. Set Color Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-color-auto-white-balance">4.2.5.4. Set Color Auto White Balance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-color-white-balance-parameters">4.2.5.5. Set Color White Balance Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/Camera_configuration.html#set-color-power-line-frequency">4.2.5.6. Set Color Power Line Frequency</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/Multi_camera_synchronization.html">4.3. Multi-Camera Synchronization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Multi_camera_synchronization.html#multi-camera-synchronous-hardware-connection">4.3.1. Multi-Camera Synchronous Hardware Connection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/Multi_camera_synchronization.html#multi-camera-synchronization-software-configuration">4.3.2. Multi-Camera Synchronization Software Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/Post-processing_Filter.html">4.4. Post-Processing Filter</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5_FAQ/FAQ.html">5. FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">6. License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OrbbecSDK V2 Python Wrapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="installation.html"><span class="section-number">2. </span>Installation</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2.2. </span>Linux Python SDK Compilation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/2_installation/build_the_package.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="linux-python-sdk-compilation">
+<h1><span class="section-number">2.2. </span>Linux Python SDK Compilation<a class="headerlink" href="#linux-python-sdk-compilation" title="Link to this heading"></a></h1>
+<p>This section provides a comprehensive guide to installing, compiling, and running the Orbbec SDK for Python, covering all necessary steps for setup.</p>
+<!-- TOC --><ul class="simple">
+<li><p>Contents:</p>
+<ul>
+<li><p>Install Dependencies (Ubuntu)</p></li>
+<li><p>Custom Python Path (Optional)</p></li>
+<li><p>Build the Project</p></li>
+<li><p>Run the Examples</p></li>
+<li><p>Generate Python Stubs</p></li>
+<li><p>Making a Python Wheel</p></li>
+</ul>
+</li>
+</ul>
+<p>Clone the repository to get the latest version:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w">   </span>https://github.com/orbbec/pyorbbecsdk.git
+git<span class="w"> </span>checkout<span class="w"> </span>OrbbecSDK_V2.x
+</pre></div>
+</div>
+<section id="install-dependencies-ubuntu">
+<h2><span class="section-number">2.2.1. </span>Install Dependencies (Ubuntu)<a class="headerlink" href="#install-dependencies-ubuntu" title="Link to this heading"></a></h2>
+<p>Install the necessary Python development packages</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-dev<span class="w"> </span>python3-venv<span class="w"> </span>python3-pip<span class="w"> </span>python3-opencv
+</pre></div>
+</div>
+</section>
+<section id="custom-python-path-optional">
+<h2><span class="section-number">2.2.2. </span>Custom Python Path (Optional)<a class="headerlink" href="#custom-python-path-optional" title="Link to this heading"></a></h2>
+<p>If you use Anaconda, update the Python path in <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk/CMakeLists.txt</span></code> before the <code class="docutils literal notranslate"><span class="pre">find_package(Python3</span> <span class="pre">REQUIRED</span> <span class="pre">COMPONENTS</span> <span class="pre">Interpreter</span> <span class="pre">Development)</span></code> line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>set<span class="o">(</span>Python3_ROOT_DIR<span class="w"> </span><span class="s2">&quot;/home/anaconda3/envs/py3.6.8&quot;</span><span class="o">)</span><span class="w"> </span><span class="c1"># Replace with your Python path</span>
+set<span class="o">(</span>pybind11_DIR<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">Python3_ROOT_DIR</span><span class="si">}</span><span class="s2">/lib/python3.6/site-packages/pybind11/share/cmake/pybind11&quot;</span><span class="o">)</span><span class="w"> </span><span class="c1"># Replace with your Pybind11 path</span>
+</pre></div>
+</div>
+</section>
+<section id="build-the-project">
+<h2><span class="section-number">2.2.3. </span>Build the Project<a class="headerlink" href="#build-the-project" title="Link to this heading"></a></h2>
+<p>Create a virtual environment and build the project:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>./venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>-Dpybind11_DIR<span class="o">=</span><span class="sb">`</span>pybind11-config<span class="w"> </span>--cmakedir<span class="sb">`</span><span class="w"> </span>..
+make<span class="w"> </span>-j4
+make<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="run-the-examples">
+<h2><span class="section-number">2.2.4. </span>Run the Examples<a class="headerlink" href="#run-the-examples" title="Link to this heading"></a></h2>
+<p>Set up the environment and run the examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PYTHONPATH</span>:<span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/install/lib/
+sudo<span class="w"> </span>bash<span class="w"> </span>./scripts/install_udev_rules.sh
+sudo<span class="w"> </span>udevadm<span class="w"> </span>control<span class="w"> </span>--reload-rules<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>udevadm<span class="w"> </span>trigger
+python3<span class="w"> </span>examples/depth_viewer.py
+python3<span class="w"> </span>examples/net_device.py<span class="w"> </span><span class="c1"># Requires ffmpeg installation for network devices</span>
+</pre></div>
+</div>
+</section>
+<section id="generate-python-stubs">
+<h2><span class="section-number">2.2.5. </span>Generate Python Stubs<a class="headerlink" href="#generate-python-stubs" title="Link to this heading"></a></h2>
+<p>Generate stubs for better IntelliSense support in your IDE</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>env.sh
+pip3<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
+pybind11-stubgen<span class="w"> </span>pyorbbecsdk
+</pre></div>
+</div>
+</section>
+<section id="making-a-python-wheel">
+<h2><span class="section-number">2.2.6. </span>Making a Python Wheel<a class="headerlink" href="#making-a-python-wheel" title="Link to this heading"></a></h2>
+<p>To generate a wheel package for easy distribution</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>./venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>-Dpybind11_DIR<span class="o">=</span><span class="sb">`</span>pybind11-config<span class="w"> </span>--cmakedir<span class="sb">`</span><span class="w"> </span>..
+make<span class="w"> </span>-j4
+make<span class="w"> </span>install
+<span class="nb">cd</span><span class="w"> </span>..
+pip3<span class="w"> </span>install<span class="w"> </span>wheel
+python3<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel
+pip3<span class="w"> </span>install<span class="w"> </span>dist/*.whl
+</pre></div>
+</div>
+</section>
+</section>
+<section id="windows-python-sdk-compilation">
+<h1><span class="section-number">2.3. </span>Windows Python SDK Compilation<a class="headerlink" href="#windows-python-sdk-compilation" title="Link to this heading"></a></h1>
+<section id="download-the-python-sdk-source-code">
+<h2><span class="section-number">2.3.1. </span>Download the Python SDK Source Code<a class="headerlink" href="#download-the-python-sdk-source-code" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">orbbec</span><span class="o">/</span><span class="n">pyorbbecsdk</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</section>
+<section id="install-dependencies">
+<h2><span class="section-number">2.3.2. </span>Install Dependencies<a class="headerlink" href="#install-dependencies" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Here, it is assumed that you have installed Python 3 correctly. If you have not installed Python 3, you can refer to
+the <a class="reference external" href="https://www.python.org/downloads/">Python official website</a> and choose your Python 3 version for installation.</p>
+</section>
+<section id="configure-visual-studio-project">
+<h2><span class="section-number">2.3.3. </span>Configure Visual Studio Project<a class="headerlink" href="#configure-visual-studio-project" title="Link to this heading"></a></h2>
+<ul>
+<li><p>Open Cmake, set the source code path, and set the “build” folder as the path for generating binary files, as shown in
+the following figure.
+<img alt="Multi_camera1" src="../../_images/Win_Config_image1.png" /></p></li>
+<li><p>Click “Configure” and select the corresponding Visual Studio version and platform version. Then click “Finish”, as
+shown below:
+<img alt="Multi_camera1" src="../../_images/Win_Config_image2.png" /></p></li>
+<li><p>Here, it is assumed that you have installed Cmake correctly. If you have not installed Cmake, you can refer to the Cmake official website for installation.</p>
+<p>Click “Generate”, as shown below:
+<img alt="Multi_camera1" src="../../_images/Win_Config_image3.png" /></p>
+</li>
+</ul>
+</section>
+<section id="compile-the-python-sdk">
+<h2><span class="section-number">2.3.4. </span>Compile the Python SDK<a class="headerlink" href="#compile-the-python-sdk" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">You</span> <span class="n">can</span> <span class="nb">open</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">SDK</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">two</span> <span class="n">ways</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>Method 1: Use Cmake, click the “Open Project” button, and open the Visual Studio project.</p>
+<p><img alt="Multi_camera1" src="../../_images/Win_Config_image4.png" /></p>
+<p>Method 2: Use the file explorer to directly start the Visual Studio project in the build directory, as shown in the following figure:</p>
+<p><img alt="Multi_camera1" src="../../_images/Win_Config_image5.png" /></p>
+<p>Open the Python SDK project, as shown below:</p>
+<p><img alt="Multi_camera1" src="../../_images/Win_Config_image6.png" /></p>
+<p>Open the Python SDK project, as shown below:</p>
+<p><img alt="Multi_camera1" src="../../_images/Win_Config_image7.png" /></p>
+<p>Right-click “INSTALL”, as shown below:</p>
+<p><img alt="Multi_camera1" src="../../_images/Win_Config_image8.png" /></p>
+<p>The compiled files will be copied to the install/lib directory, as shown below:
+<img alt="Multi_camera1" src="../../_images/Win_Config_image9.png" /></p>
+<p>Copy the files in the install/lib directory to the examples directory, as shown below:
+<img alt="Multi_camera1" src="../../_images/Win_Config_image10.png" /></p>
+</section>
+<section id="test-examples">
+<h2><span class="section-number">2.3.5. </span>Test Examples<a class="headerlink" href="#test-examples" title="Link to this heading"></a></h2>
+<p>In the examples directory, execute test examples such as python ColorViewer.py, as shown below:
+<img alt="Multi_camera1" src="../../_images/Win_Config_image11.png" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Environment.html" class="btn btn-neutral float-left" title="2.1. Environment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../3_QuickStarts/QuickStarts.html" class="btn btn-neutral float-right" title="3. QuickStarts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
+      <span class="lastupdated">Last updated on 2024-11-22 18:11:34.
+      </span></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

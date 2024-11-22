@@ -1,0 +1,77 @@
+# Introduction
+
+The Python Wrapper primarily includes the following features:
+
+* Obtain Depth, IR, and Color data streams.
+* Obtain IMU data streams.
+* Hardware D2C, Software D2C, and Software C2D.
+* Obtain Depth point cloud and RGBD point cloud.
+* Obtain multiple devices data and  multi-device synchronization.
+* Coordinate transformations between different coordinate systems.
+* Post-processing filters and HDR merge functionality (supported by the Gemini 330 series).
+* Depth work modes (supported by Gemini 2/2L, Astra 2).
+* Presets (supported by Gemini 330 series).
+* Update Firmware .
+* Network functionality (supported by the Femto Mega).
+
+# Build your First Camera Application
+
+quick_start.py show how to use the SDK to capture video streams with minimal code.
+
+* The data flow diagram for quick start sample is as follows:
+
+![quick_start](../image/quick_start.png)
+
+* quick start sample introduction
+
+```python
+#  1. Prerequisites
+# compile pyorbbecsdk and  copy the compiled .pyd library and other dependent Orbbec SDK libraries to the examples directory.
+
+from pyorbbecsdk import *
+#2. create pipeline 
+pipeline = Pipeline()
+
+#3. start pipeline
+pipeline.start()
+
+#4. wait for frames
+frames = pipeline.wait_for_frames(100)
+
+#5. get frames
+color_frame = frames.get_color_frame()
+depth_frame = frames.get_depth_frame()
+
+#6. Render frames using OpenCV
+
+
+#7. stop pipeline
+pipeline.stop()
+
+```
+
+# Sample Features
+
+| Example                   | Description                                                                                                                       | Notes                                               | Level  |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------ |
+| enumerate.py              | Use the SDK interface to obtain camera-related information, including model, various sensors, and sensor-related configurations . |                                                     | ⭐     |
+| hot_plug.py               | Demonstrates how to detect hot plug events.                                                                                       |                                                     | ⭐     |
+| logger.py                 | Use the SDK interface to set the log output level and customize the output path.                                                  |                                                     | ⭐     |
+| quick_start.py            | Demonstrates how to use the SDK.                                                                                                  |                                                     | ⭐     |
+| callback.py               | Displays the video stream from the camera using a callback.                                                                       |                                                     | ⭐⭐   |
+| color.py                  | Displays the color stream from the camera.                                                                                        |                                                     | ⭐⭐   |
+| depth.py                  | Displays the depth stream from the camera.                                                                                        |                                                     | ⭐⭐   |
+| imu.py                    | Demonstrates how to read IMU data.                                                                                                |                                                     | ⭐⭐   |
+| infrared.py               | Displays the infrared stream from the camera.                                                                                     |                                                     | ⭐⭐   |
+| multi_device.py           | Demonstrates how to use multiple devices.                                                                                         |                                                     | ⭐⭐   |
+| net_device.py             | Demonstrates how to use network functions.                                                                                        | Supported by Femto Mega and Gemini 2 XL.            | ⭐⭐   |
+| coordinate_transform.py   | Use the SDK interface to transform different coordinate systems.                                                                  |                                                     | ⭐⭐⭐ |
+| device_firmware_update.py | This sample demonstrates how to read a firmware file to perform firmware upgrades on the device.                                  |                                                     | ⭐⭐⭐ |
+| depth_work_mode.py        | Demonstrates how to set the depth work mode.                                                                                      | Supported by Gemini2、Gemini2L、Astra2、Gemini 2 XL | ⭐⭐⭐ |
+| hdr.py                    | In this sample, user can get the HDR merge image. Also supports user to toggle HDR merge and toggle alternate show origin frame.  | Supported by the Gemini 330 series.                 | ⭐⭐⭐ |
+| hw_d2c_align.py           | Demonstrates how to use hardware D2C.                                                                                             |                                                     | ⭐⭐⭐ |
+| point_cloud.py            | Demonstrates how to save the point cloud to disk using a point cloud filter.                                                      |                                                     | ⭐⭐⭐ |
+| post_processing.py        | Demonstrates how to use post-processing filters.                                                                                  | Supported by the Gemini 330 series.                 | ⭐⭐⭐ |
+| preset.py                 | Use the SDK interface to set and get the preset value.                                                                            | Supported by the Gemini 330 series.                 | ⭐⭐⭐ |
+| sync_align.py             | Demonstrates how to use the align filter.                                                                                         |                                                     | ⭐⭐⭐ |
+| two_devices_sync.py       | Demonstrates how to synchronize two devices.                                                                                      |                                                     | ⭐⭐⭐ |

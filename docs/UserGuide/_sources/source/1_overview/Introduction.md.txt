@@ -1,0 +1,12 @@
+# Introduction
+
+Python Wrapper bindings for the Orbbec SDK，enabling developers to interface with Orbbec devices using Python.
+With the major update of the new branch v2-main in October 2024, python Wrapper is connected to the open source version of [Orbbec SDK v2](https://github.com/orbbec/OrbbecSDK_v2),  which will make python Wrapper more flexible and extensible.
+
+This update in v2-main ensures compatibility with all new Orbbec USB products that comply with the UVC standard. However, python Wrapper v2 no longer supports Orbbec's traditional OpenNI protocol devices. We encourage you to check whether your device is supported by python Wrapper v2 and use the new version if supported.
+
+The Python Wrapper uses pybind11 to convert the interfaces of the Orbbec SDK into Python interfaces.
+
+* The implementation principle of the Python Wrapper is as follows:
+
+![python_principle](../image/python_principle.png)

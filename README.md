@@ -18,104 +18,17 @@ the v2-main branch provides Python bindings for the [Orbbec SDK v2.x](https://gi
 | Gemini 2          | 1.4.60 /1.4.76              |
 
 
-## Getting Started
+## Supported Platforms
 
-### Clone the Repository
-Clone the repository to get the latest version:
-```bash
-git clone https://github.com/orbbec/pyorbbecsdk.git
-git checkout v2-main
-```
+- Windows: Windows 10 (x64)
+- Linux: 18.04/20.04/22.04 (x64)
+- Arm64: Ubuntu18.04/20.04/22.04
+- Linux ARM32: coming soon
 
-### Install Dependencies (Ubuntu)
-Install the necessary Python development packages:
-```bash
-sudo apt-get install python3-dev python3-venv python3-pip python3-opencv
-```
 
-### Custom Python Path (Optional)
-If you use Anaconda, update the Python path in `pyorbbecsdk/CMakeLists.txt` before the `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)` line:
-```cmake
-set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # Replace with your Python path
-set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.6/site-packages/pybind11/share/cmake/pybind11") # Replace with your Pybind11 path
-```
-
-### Build the Project
-Create a virtual environment and build the project:
-```bash
-cd pyorbbecsdk
-python3 -m venv ./venv
-source venv/bin/activate
-pip3 install -r requirements.txt
-mkdir build
-cd build
-cmake -Dpybind11_DIR=`pybind11-config --cmakedir` ..
-make -j4
-make install
-```
-
-### Run the Examples
-Set up the environment and run the examples:
-```bash
-cd pyorbbecsdk
-export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
-sudo bash ./scripts/install_udev_rules.sh
-sudo udevadm control --reload-rules && sudo udevadm trigger
-python3 examples/depth_viewer.py
-python3 examples/net_device.py # Requires ffmpeg installation for network devices
-```
-
-Additional examples are available in the `examples` directory. Refer to [examples/README.md](examples/README.md) for further details.
-
-### Generate Python Stubs
-Generate stubs for better IntelliSense support in your IDE:
-```bash
-source env.sh
-pip3 install pybind11-stubgen
-pybind11-stubgen pyorbbecsdk
-```
-
-### Building on Windows
-Refer to [docs/README.md](docs/README_EN.md) for instructions on building and running examples on Windows.
-
-## Making a Python Wheel
-To generate a wheel package for easy distribution:
-```bash
-cd pyorbbecsdk
-python3 -m venv ./venv
-source venv/bin/activate
-pip3 install -r requirements.txt
-mkdir build
-cd build
-cmake -Dpybind11_DIR=`pybind11-config --cmakedir` ..
-make -j4
-make install
-cd ..
-pip3 install wheel
-python3 setup.py bdist_wheel
-pip3 install dist/*.whl
-```
-
-## Enabling Device Timestamps via UVC Protocol on Windows
-To enable device timestamps via the UVC protocol on Windows, modify the system registry as follows:
-
-### Steps to Modify the Registry
-1. **Connect the Device**: Ensure the UVC-compatible device is connected and recognized.
-2. **Open PowerShell with Administrator Privileges**: Open PowerShell as an administrator.
-3. **Navigate to the Scripts Directory**:
-   ```powershell
-   cd scripts
-   ```
-4. **Modify the Execution Policy**: Allow script execution:
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
-5. **Execute the Registration Script**: Modify the registry settings:
-   ```powershell
-   .\obsensor_metadata_win10.ps1 -op install_all
-   ```
 
 ## Documentation
+
 Refer to [docs/README.md](docs/README_EN.md) for detailed documentation.
 
 ## License

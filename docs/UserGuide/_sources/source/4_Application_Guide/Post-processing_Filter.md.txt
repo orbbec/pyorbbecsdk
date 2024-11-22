@@ -1,0 +1,14 @@
+# Post-Processing Filter
+
+The Gemini 330 series supports post-processing filters. For more information, see post_process.py.
+
+```python
+from pyorbbecsdk import *
+config = Config()
+pipeline = Pipeline()
+#Get a list of post-processing filtering recommendations
+filter_list = depth_sensor.get_recommended_filters()
+# Call the enabled filters in the recommend list in turn
+post_filter = filter_list[i]
+new_depth_frame = post_filter.process(depth_frame)
+```

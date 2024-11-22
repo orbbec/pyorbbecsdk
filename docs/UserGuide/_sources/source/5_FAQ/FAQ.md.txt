@@ -1,0 +1,84 @@
+# FAQ
+
+1、Why do I get the following error when running `python3 examples/depth_viewer.py` on Jetson Nano?
+
+```bash
+illegal instruction (core dumped)
+```
+
+Answer: Check your OpenCV installation. If you encounter the same error when running
+
+```python
+import cv2
+```
+
+export OPENBLAS_CORETYPE=ARMV8 (or whatever the actual hardware is) before launching python should hopefully get around
+this. For example:
+
+```bash
+OPENBLAS_CORETYPE=ARMV8 python
+```
+
+If you would like to make this export permanent, you should open your .bashrc file by typing on the terminal:
+
+```bash
+nano ~/.bashrc
+```
+
+and add the following line at the end of the file:
+
+```bash
+export OPENBLAS_CORETYPE=ARMV8
+```
+
+Refer to [this post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano)
+for more information on how to resolve the issue.
+
+
+2、 Why do I get the following error when running `python3 examples/depth_viewer.py`?
+
+```text
+ msg:failed to open usb device!  error: OB_USB_STATUS_ACCESS
+  - type:St13runtime_error
+[2023-07-04 17:09:19.891859][warning][117523][EnumeratorLibusb.cpp:342] failed to create usb device at index: 1, url:2-1.4.1-6
+[2023-07-04 17:09:20.391989][error][117523][DeviceLibusb.cpp:109] failed to open usb device!  error: OB_USB_STATUS_ACCESS
+[2023-07-04 17:09:20.392032][warning][117523][EnumeratorLibusb.cpp:342] Execute failure! A std::exception has occurred!
+  - where:342#createUsbDevice
+  - msg:failed to open usb device!  error: OB_USB_STATUS_ACCESS
+  - type:St13runtime_error
+[2023-07-04 17:09:20.392057][warning][117523][EnumeratorLibusb.cpp:342] failed to create usb device at index: 1, url:2-1.4.1-6
+[2023-07-04 17:09:20.392072][warning][117523][ObException.hpp:40] usbEnumerator createUsbDevice failed!
+Traceback (most recent call last):
+  File "depth_viewer.py", line 73, in <module>
+    main()
+  File "depth_viewer.py", line 34, in main
+    device: Device = device_list.get_device_by_index(0)
+pyorbbecsdk.OBError: usbEnumerator createUsbDevice failed!
+[2023-07-04 17:09:20.403747][info][117523][Context.cpp:81] Context destroyed
+```
+
+Answer: The current device does not have permission to access the device， check the PID of the current device
+
+```bash
+lsusb | grep 2bc5
+```
+
+Your output should look like this
+
+```text
+Bus 002 Device 007: ID 2bc5:your_pid_here
+```
+
+Edit`/etc/udev/rules.d/99-obsensor-libusb.rules`，add the following line
+
+```bash
+SUBSYSTEM=="usb", ATTR{idProduct}=="your_pid_here", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root"  GROUP:="video", SYMLINK+="you_device_name_here"
+```
+
+`you_device_name_here` is the name of the device you want to create, for example `Astra`.
+
+Then restart the udev service
+
+```bash
+sudo udevadm control --reload-rules && sudo service udev restart && sudo udevadm trigger
+

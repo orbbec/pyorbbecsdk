@@ -1,0 +1,408 @@
+# Camera Configuration(Device Parameter Settings)
+
+## Device Parameter Settings:
+
+The parameter settings are all set by device. In this section, only the commonly used parameter setting methods are listed. Other parameter settings are similar. For the command code of the attribute ID, refer to Property.h.
+
+### Obtain the Serial Number
+
+```python
+from pyorbbecsdk import *
+context = Context()
+device_list = context.query_devices()
+device = device_list.get_device_by_index(0)
+device_info = device.get_device_info()
+# get device serial number
+serial_number = device_info.get_serial_number()
+```
+
+### Obtain the Camera Intrinsic and Extrinsic Parameters
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+#Get color_profile
+color_profile = profile_list.get_default_video_stream_profile()
+profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+#Get depth_profile
+depth_profile = profile_list.get_default_video_stream_profile()
+#Get external parameters
+extrinsic = depth_profile.get_extrinsic_to(color_profile)
+print("extrinsic  {}".format(extrinsic))
+#Get depth inernal parameters
+depth_intrinsics = depth_profile.get_intrinsic()
+print("depth_intrinsics  {}".format(depth_intrinsics))
+#Get depth distortion parameter
+depth_distortion = depth_profile.get_distortion()
+print("depth_distortion  {}".format(depth_distortion))
+#Get color internala parameters
+color_intrinsics = color_profile.get_intrinsic()
+print("color_intrinsics  {}".format(color_intrinsics))
+#Get color distortion parameter
+color_distortion = color_profile.get_distortion()
+print("color_distortion  {}".format(color_distortion))
+
+```
+
+### Open Device
+
+Method 1: Obtain the specified device by specifying the index number of the enumerated device list.
+
+```python
+from pyorbbecsdk import *
+context = Context()
+device_list = context.query_devices()
+device = device_list.get_device_by_index(0)
+```
+
+Method 2: Obtain the specified device by specifying the SN of the enumerated device list.
+
+```python
+from pyorbbecsdk import *
+context = Context()
+device_list = context.query_devices()
+# For example, obtain the device whose SN number is "CP8E54D0000J".
+device =device_list.get_device_by_serial_number("CP8E54D0000J")
+```
+
+Method 3: Obtain the specified device by specifying the UID of the enumerated device list.
+
+```python
+from pyorbbecsdk import *
+context = Context()
+device_list = context.query_devices()
+#for example, the device with uid 1f3c29744.
+device =device_list.get_device_by_uid("1f3c29744")
+```
+
+Method 4: Get device through pipiline
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+```
+
+### Device Reboot
+
+```python
+from pyorbbecsdk import *
+context = Context()
+device_list = context.query_devices()
+#get device
+device = device_list.get_device_by_index(0)
+#reboot device
+device.reboot()
+```
+
+### Laser Switch
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True：turn on laser，False：turn off laser
+device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, laser)
+```
+
+* Notes: The instruction for switching lasers of the Gemini 330 series is: OBPropertyID. Ob_prop_laser_control_int.
+
+### LDP Switch
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True：turn on LDP，False：turn off LDP
+device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, True)
+
+```
+
+### Obtain LDP Protection Measurements
+
+OB_PROP_LDP_MEASURE_DISTANCE_INT = 100,
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+distance = device.get_int_property(OBPropertyID.OB_PROP_LDP_MEASURE_DISTANCE_INT)
+print("distance: ",distance)
+```
+
+### Obtain LDP Protection Status
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#Return value true:Trigger LDP protection
+ldp_status = device.get_bool_property(OBPropertyID.OB_PROP_LDP_STATUS_BOOL)
+```
+
+### Device Time Synchronization
+
+Device Timing: sets the host time to the device.
+
+Gemini 2/2L, Gemini 330 series, Femto Mega、Femto Bolt support device timing.
+
+1. If only a single device is connected, the following interface can be called:
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.timer_sync_with_host()
+```
+
+2. If multiple devices are connected at the same time, the following interfaces can be called:
+
+```python
+from pyorbbecsdk import *
+context = Context()
+# Parameter: The interval for auto-repeated synchronization, in milliseconds. If the value is 0, synchronization is performed only once.
+context.enable_multi_device_sync(60000)
+```
+
+## Depth Settings
+
+### Depth Working Mode
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.set_depth_work_mode("Binned Sparse Default")
+```
+
+Note: Setting the Depth mode must be set before start the stream.
+
+### Preset Configuration
+
+Gemini 330 series 3D cameras have built-in a variety of predefined Presets. For the specific application scenarios of 3D cameras, users can use the Orbbec Viewer tool to select the best Presets.
+
+The method of loading the preset is as follows:
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.load_preset("Default")
+```
+
+### Set Depth AE
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True open depth AE， False: close depth AE
+device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, True)
+```
+
+### Set Depth Exposure/Gain
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#close depth AE，
+device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, False)
+#set depth exposure
+device.set_int_property(OBPropertyID.OB_PROP_DEPTH_EXPOSURE_INT, 100)
+#set depth gain
+device.set_int_property(OBPropertyID.OB_PROP_DEPTH_GAIN_INT, 64)
+```
+
+### Set Min and Max Depth
+
+Set the min and max values of Depth, and all Depth outside this range will be set to 0.
+
+* For devices other than the Gemini 330 series, the method to set the max and min depth values is as follows:
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+# Set the min Depth value, and the Depth less than the modified value will be set to 0,Unit: mm
+device.set_int_property(OBPropertyID.OB_PROP_MIN_DEPTH_INT , 100)
+# Set the max Depth value, the Depth greater than the modified value will be set to 0, unit mm
+device.set_int_property(OBPropertyID.OB_PROP_MAX_DEPTH_INT , 1000)
+```
+
+* Notes: For the Gemini 330 series, max and min depth values are set through post-processing with the ThresholdFilter, as follows:
+
+```python
+from pyorbbecsdk import *
+#create threshold filter
+threshold_filter = ThresholdFilter()
+#set min and max depth,unit: mm
+threshold_filter.set_value_range(100,1000)
+#get depth frame
+frames = pipeline.wait_for_frames(100)
+depth_frame = frames.get_depth_frame()
+#call threshold filter
+new_depth_frame = threshold_filter.process(depth_frame)
+depth_frame = new_depth_frame.as_depth_frame()
+```
+
+## D2D (Disparity to depth)
+
+Disparity  to depth is an image processing technique used to convert disparity information into depth information.
+
+### Hardware D2D
+
+Hardware D2D refers to disparity-to-depth conversion implemented internally within the device. Devices such as the Gemini 330 series, Gemini 2, Gemini 2 L, Astra 2 support this feature.
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#Parameters: True to turn on hardware D2D, False to turn off hardware D2D
+device.set_bool_property(OBPropertyID.OB_PROP_DISPARITY_TO_DEPTH_BOOL,True)
+```
+
+### Software D2D
+
+Software D2D refers to disparity-to-depth conversion implemented within the SDK. All devices support Software D2D except for TOF devices like Femto Mega and Femto Bolt.
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#Parameters: True to turn on Software D2D, False to turn off Software D2D
+device.set_bool_property(OBPropertyID.OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL,True)
+```
+
+### Set the Unit of Depth
+
+The precision of depth measurements is determined by the unit of pixel values in the depth data frame. By adjusting the depth unit, the accuracy of depth measurements can be modified. For instance, if the unit is set to 0.2mm, an object at a distance of 1000mm will have a pixel value of 5000 in the output depth data frame (as 5000 multiplied by 0.2mm equals 1000mm). Similarly, if the unit is set to 0.1mm, the pixel value will be 10000.
+
+Gemini 2/2L, Astra 2,Gemini 330 series support the setting of Depth units. Gemini 2/2L sets the Depth unit as follows:
+
+Among them:
+
+OBDepthPrecisionLevel.ONE_MM： 1mm
+
+OBDepthPrecisionLevel.ZERO_POINT_EIGHT_MM：0.8mm
+
+OBDepthPrecisionLevel.ZERO_POINT_FOUR_MM: 0.4mm
+
+OBDepthPrecisionLevel.ZERO_POINT_TWO_MM: 0.2mm
+
+OBDepthPrecisionLevel.ZERO_POINT_ONE_MM: 0.1mm
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.set_int_property(OBPropertyID.OB_PROP_DEPTH_PRECISION_LEVEL_INT, OBDepthPrecisionLevel.ONE_MM)
+```
+
+The Gemini 330 series supports setting the Depth unit as follows:
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.set_float_property(OBPropertyID.OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT, 0.1)
+```
+
+* Notes: The Gemini 330 series Depth unit supports setting arbitrary units, with the parameter as a float.
+
+## IR Parameter Settings
+
+### Set IR AE
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True open IR AE， False: close IR AE
+device.set_bool_property(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL, True)
+```
+
+### Set IR Exposure/Gain
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#Close IR AE
+device.set_bool_property(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL, False)
+#set IR exposure
+device.set_int_property(OBPropertyID.OB_PROP_IR_EXPOSURE_INT, 100)
+#set IR gain
+device.set_int_property(OBPropertyID.OB_PROP_IR_GAIN_INT, 64)
+```
+
+## Color Parameter Settings
+
+### Set Color AE
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True open color AE， False: close color AE
+device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, True)
+```
+
+### Set Color Exposure
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True open color AE， False: close color AE
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT, True)
+```
+
+### Set Color Gain
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True open color AE， False: close color AE
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT, True)
+```
+
+### Set Color Auto White Balance
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+#True: Turn on Auto White Balance，False: Turn off Auto White Balance
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL, True)
+```
+
+### Set Color White Balance Parameters
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.set_int_property(OBPropertyID.OB_PROP_COLOR_WHITE_BALANCE_INT, 5000)
+```
+
+### Set Color Power Line Frequency
+
+It is necessary to set 50Hz or 60Hz according to the power line frequency of different countries and regions. The purpose of setting the power supply frequency is to prevent Color images from flickering.
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+device.set_int_property(OBPropertyID.OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT, OBPowerLineFreqMode.FREQUENCY_50HZ)
+```
+
+Remarks:
+
+OBPowerLineFreqMode.FREQUENCY_50HZ ：50HZ
+
+OBPowerLineFreqMode.FREQUENCY_60HZ ：60HZ
+
+OBPowerLineFreqMode.FREQUENCY_CLOSE ：Close

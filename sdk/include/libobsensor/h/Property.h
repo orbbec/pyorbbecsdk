@@ -1,4 +1,4 @@
-// Copyright (c) Orbbec Inc. All Rights Reserved.
+﻿// Copyright (c) Orbbec Inc. All Rights Reserved.
 // Licensed under the MIT License.
 
 /**
@@ -97,7 +97,7 @@ typedef enum {
     /**
      * @brief Software filter switch
      */
-    OB_PROP_DEPTH_SOFT_FILTER_BOOL = 24,
+    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL = 24,
 
     /**
      * @brief LDP status
@@ -105,14 +105,14 @@ typedef enum {
     OB_PROP_LDP_STATUS_BOOL = 32,
 
     /**
-     * @brief soft filter maxdiff param
+     * @brief maxdiff for depth noise removal filter
      */
-    OB_PROP_DEPTH_MAX_DIFF_INT = 40,
+    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT = 40,
 
     /**
-     * @brief soft filter maxSpeckleSize
+     * @brief maxSpeckleSize for depth noise removal filter
      */
-    OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT = 41,
+    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT = 41,
 
     /**
      * @brief Hardware d2c is on
@@ -448,6 +448,20 @@ typedef enum {
     OB_PROP_DEVICE_REPOWER_BOOL = 202,
 
     /**
+     * @brief frame interleave config index
+     */
+    OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT = 204,
+
+    /**
+     * @brief frame interleave enable (true:enable,false:disable)
+     */
+    OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL = 205,
+    /**
+     * @brief laser pattern sync with delay(us)
+     */
+    OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT = 206,
+
+    /**
      * @brief Baseline calibration parameters
      */
     OB_STRUCT_BASELINE_CALIBRATION_PARAM = 1002,
@@ -745,7 +759,9 @@ typedef enum {
 #define OB_PROP_LASER_ENERGY_LEVEL_INT OB_PROP_LASER_POWER_LEVEL_CONTROL_INT
 #define OB_PROP_LASER_HW_ENERGY_LEVEL_INT OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT
 #define OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL OB_PROP_DEVICE_USB2_REPEAT_IDENTIFY_BOOL
-#define OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL OB_PROP_DEPTH_SOFT_FILTER_BOOL
+#define OB_PROP_DEPTH_SOFT_FILTER_BOOL OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL
+#define OB_PROP_DEPTH_MAX_DIFF_INT OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT
+#define OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT
 
 /**
  * @brief The data type used to describe all property settings
@@ -771,4 +787,3 @@ typedef struct OBPropertyItem {
 #ifdef __cplusplus
 }
 #endif
-

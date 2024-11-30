@@ -236,8 +236,31 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_LASER_CONTROL_INT,
              "Laser control, 0: off, 1: on, 2: auto")
       .value("OB_PROP_IR_BRIGHTNESS_INT",
-             OBPropertyID::OB_PROP_IR_BRIGHTNESS_INT,
-             "IR brightness")
+             OBPropertyID::OB_PROP_IR_BRIGHTNESS_INT, "IR brightness")
+      .value("OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL",
+             OBPropertyID::OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL)
+      .value("OB_PROP_COLOR_AE_MAX_EXPOSURE_INT",
+             OBPropertyID::OB_PROP_COLOR_AE_MAX_EXPOSURE_INT,
+             "Color AE max exposure")
+      .value("OB_PROP_IR_AE_MAX_EXPOSURE_INT",
+             OBPropertyID::OB_PROP_IR_AE_MAX_EXPOSURE_INT,
+             "Max exposure time of IR auto exposure")
+      .value("OB_PROP_DISP_SEARCH_RANGE_MODE_INT",
+             OBPropertyID::OB_PROP_DISP_SEARCH_RANGE_MODE_INT,
+             "Disparity search range mode, 1: 128, 2: 256")
+      .value("OB_PROP_DEVICE_REPOWER_BOOL",
+             OBPropertyID::OB_PROP_DEVICE_REPOWER_BOOL,
+             "Repower device (cut off power and power on again)")
+      .value("OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT",
+             OBPropertyID::OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT,
+             "frame interleave config index")
+      .value("OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL",
+             OBPropertyID::OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL,
+             "frame interleave enable (true:enable,false:disable)")
+      .value(
+          "OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT",
+          OBPropertyID::OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT,
+          "laser pattern sync with delay(us)")
       .value("OB_STRUCT_BASELINE_CALIBRATION_PARAM",
              OBPropertyID::OB_STRUCT_BASELINE_CALIBRATION_PARAM,
              "Baseline calibration parameters")
@@ -245,8 +268,8 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_STRUCT_DEVICE_TEMPERATURE,
              "Device temperature information")
       .value("OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL",
-             OBPropertyID::OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL
-             ,"TOF exposure threshold range")
+             OBPropertyID::OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL,
+             "TOF exposure threshold range")
       .value("OB_STRUCT_DEVICE_SERIAL_NUMBER",
              OBPropertyID::OB_STRUCT_DEVICE_SERIAL_NUMBER)
       .value("OB_STRUCT_DEVICE_TIME", OBPropertyID::OB_STRUCT_DEVICE_TIME)
@@ -347,15 +370,15 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
              "depth noise removal filter"),
 
-  py::enum_<OBPropertyType>(m, "OBPropertyType")
-      .value("OB_BOOL_PROPERTY", OBPropertyType::OB_BOOL_PROPERTY,
-             "Boolean property")
-      .value("OB_INT_PROPERTY", OBPropertyType::OB_INT_PROPERTY,
-             "Integer property")
-      .value("OB_FLOAT_PROPERTY", OBPropertyType::OB_FLOAT_PROPERTY,
-             "Float property")
-      .value("OB_STRUCT_PROPERTY", OBPropertyType::OB_STRUCT_PROPERTY,
-             "Struct property");
+      py::enum_<OBPropertyType>(m, "OBPropertyType")
+          .value("OB_BOOL_PROPERTY", OBPropertyType::OB_BOOL_PROPERTY,
+                 "Boolean property")
+          .value("OB_INT_PROPERTY", OBPropertyType::OB_INT_PROPERTY,
+                 "Integer property")
+          .value("OB_FLOAT_PROPERTY", OBPropertyType::OB_FLOAT_PROPERTY,
+                 "Float property")
+          .value("OB_STRUCT_PROPERTY", OBPropertyType::OB_STRUCT_PROPERTY,
+                 "Struct property");
 
   py::class_<OBPropertyItem>(m, "OBPropertyItem")
       .def(py::init<>())

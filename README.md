@@ -5,7 +5,7 @@ the OrbbecSDK_V2.x branch provides Python bindings for the [Orbbec SDK v2.x](htt
 
 > [!IMPORTANT]
 >
-> Welcome to the Orbbec SDK. Before you begin using this version of Orbbec SDK, it's crucial to check the following device support list to verify the compatibility.
+> Welcome to the python wrapper . Before you begin using this version of python wrapper , it's crucial to check the following device support list to verify the compatibility.
 
 
 Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):

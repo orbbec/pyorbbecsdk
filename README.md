@@ -138,6 +138,8 @@ Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):
 | Astra 2           | 2.8.20                      |
 | Gemini 2 L        | 1.4.32                      |
 | Gemini 2          | 1.4.60 /1.4.76              |
+| Gemini 215        | 1.0.9                        |
+| Gemini 210        | 1.0.9                        |
 
 
 ## Supported Platforms

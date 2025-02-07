@@ -66,7 +66,7 @@ class CustomBuildExt(build_ext):
 
 setup(
     name='pyorbbecsdk',
-    version='3.10.0',
+    version='2.0.7',
     author='Zhong Hong',
     author_email='zhonghong@orbbec.com',
     description='pyorbbecsdk is a python wrapper for the OrbbecSDK',

@@ -63,6 +63,26 @@ std::string get_extensions_path() {
 
 #endif
 
+#if defined(_WIN32)
+  HMODULE hModule = nullptr;
+
+  // Get a handle to the module containing `ob_create_context`
+  if (GetModuleHandleEx(
+          GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+          reinterpret_cast<LPCSTR>(&ob_create_context), &hModule)) {
+      
+      char path[MAX_PATH];
+      // Get the full path of the module
+      if (GetModuleFileNameA(hModule, path, MAX_PATH)) {
+          library_path = std::string(path);
+      } else {
+          std::cerr << "GetModuleFileName failed: " << GetLastError() << std::endl;
+      }
+  } else {
+      std::cerr << "GetModuleHandleEx failed: " << GetLastError() << std::endl;
+  }
+#endif
+
     if (!library_path.empty()) {
         // Find the last directory separator
         size_t pos = library_path.find_last_of("/\\");

@@ -1,0 +1,3 @@
+[tool.cibuildwheel]
+build = "cp39-* cp310-*"
+archs = "AMD64"   # Options: AMD64 ARM64 x86

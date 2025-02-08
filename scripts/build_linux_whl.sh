@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Enter python virtual env
+source venv/bin/activate
+
+# Remove ./build directory
+rm -rf ./build
+
+# Create build directory and navigate into it
+mkdir -p build && cd build
+
+# Run CMake
+cmake -Dpybind11_DIR=$(pybind11-config --cmakedir) ..
+
+# Build with make using 4 threads
+make -j4
+
+# Move back to the parent directory
+cd ..
+
+# Remove old /install directory and create new /install/lib directory
+rm -rf ./install
+mkdir -p ./install/lib
+
+# Copy shared objects (*.so) from /build to /install/lib
+cp ./build/*.so ./install/lib/
+
+# Copy all files from /sdk/lib/arm64/ except *.cmake to /install/lib
+rsync -av --exclude='*.cmake' ./sdk/lib/arm64/ ./install/lib/
+
+# Run Python setup.py to build a wheel package
+python3 setup.py bdist_wheel
+
+# Exit python virtual env
+deactivate
+

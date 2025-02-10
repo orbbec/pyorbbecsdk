@@ -1,7 +1,7 @@
 @REM #!/bin/bash
 
 @REM # Enter python virtual env
-@REM source venv/bin/activate
+call venv\Scripts\activate
 
 @REM # Remove ./build directory
 @REM cd ..
@@ -36,5 +36,5 @@ robocopy ./examples/ ./install/lib/pyorbbecsdk/examples /E
 python3 setup.py bdist_wheel
 
 @REM # Exit python virtual env
-@REM deactivate
+call deactivate
 

@@ -30,7 +30,9 @@ robocopy ./build/Release/ ./install/lib/ *.pyd /E
 @REM # Copy all c++ librarys except *.cmake to /install/lib
 robocopy ./sdk/lib/win_x64/ ./install/lib/ /E
 
+@REM # Copy examples to /install/lib
 robocopy ./examples/ ./install/lib/pyorbbecsdk/examples /E
+robocopy ./requirements.txt ./install/lib/pyorbbecsdk/examples
 
 @REM # Run Python setup.py to build a wheel package
 python3 setup.py bdist_wheel

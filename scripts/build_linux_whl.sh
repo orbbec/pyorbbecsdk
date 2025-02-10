@@ -20,7 +20,7 @@ cd ..
 
 # Remove old /install directory and create new /install/lib directory
 rm -rf ./install
-mkdir -p ./install/lib
+mkdir -p ./install/lib/pyorbbecsdk
 
 # Copy shared objects (*.so) from /build to /install/lib
 cp ./build/*.so ./install/lib/
@@ -28,9 +28,12 @@ cp ./build/*.so ./install/lib/
 # Copy all files from /sdk/lib/arm64/ except *.cmake to /install/lib
 rsync -av --exclude='*.cmake' ./sdk/lib/arm64/ ./install/lib/
 
+# Copy examples to /install/lib
+cp -r ./examples ./install/lib/pyorbbecsdk
+cp ./requirements.txt ./install/lib/pyorbbecsdk/examples
+
 # Run Python setup.py to build a wheel package
 python3 setup.py bdist_wheel
 
 # Exit python virtual env
 deactivate
-

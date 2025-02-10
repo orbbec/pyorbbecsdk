@@ -1,3 +1,6 @@
+Install the requirements to run the sample after install the .whl
+pip3 install -r requirements.txt
+
 | Example                   | Description                                                                                                                       | Notes                                                                                                            | Level |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|-------|
 | enumerate.py              | Use the SDK interface to obtain camera-related information, including model, various sensors, and sensor-related configurations . |                                                                                                                  | ⭐     |

@@ -1,0 +1,9 @@
+pybind11==2.11.0
+pybind11-global==2.11.0
+opencv-python
+wheel
+numpy<2.0  # see https://github.com/orbbec/pyorbbecsdk/issues/47
+open3d # for visualization point cloud
+av # for h264 decoding
+pygame # for visualization
+pynput # for keyboard input

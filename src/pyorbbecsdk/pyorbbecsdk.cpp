@@ -42,16 +42,60 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <Python.h>
 
 namespace py = pybind11;
+
+std::string get_site_packages_path() {
+    Py_Initialize();  // Initialize the Python interpreter
+
+    // Get the sysconfig module and call get_paths() to retrieve paths
+    PyObject *sysconfig = PyImport_ImportModule("sysconfig");
+    if (!sysconfig) {
+        PyErr_Print();
+        return "";
+    }
+
+    PyObject *get_paths_func = PyObject_GetAttrString(sysconfig, "get_paths");
+    if (!get_paths_func || !PyCallable_Check(get_paths_func)) {
+        PyErr_Print();
+        return "";
+    }
+
+    // Call sysconfig.get_paths()
+    PyObject *paths = PyObject_CallObject(get_paths_func, NULL);
+    if (!paths) {
+        PyErr_Print();
+        return "";
+    }
+
+    // Extract the 'purelib' path (site-packages)
+    PyObject *purelib = PyDict_GetItemString(paths, "purelib");
+    if (purelib && PyUnicode_Check(purelib)) {
+        std::string site_packages_path = PyUnicode_AsUTF8(purelib);
+        Py_Finalize();
+        return site_packages_path;
+    }
+
+    Py_Finalize();
+    return "";
+}
 
 std::string get_extensions_path() {
     std::string library_path;
 
 #if defined(__linux__) || defined(__APPLE__)
+
+    std::string site_packages_path = get_site_packages_path();
+    
     Dl_info dl_info;
+
+    if (!site_packages_path.empty()) {
+        std::cout << "Found python site-packages path: " << site_packages_path << std::endl;
+    }
+
     // pass the address of ob_create_context function to dladdr
-    if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
+    else if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
         if (dl_info.dli_fname) {
             library_path = std::string(dl_info.dli_fname);
         } else {

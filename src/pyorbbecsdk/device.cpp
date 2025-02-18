@@ -386,38 +386,38 @@ void define_device(const py::object &m) {
           py::arg("file_path"), py::arg("callback"),
           py::arg("async_update") = true)
       .def("update_optional_depth_presets",
-        [](const std::shared_ptr<ob::Device> &self,
-          const py::list &file_path_list, const py::function &callback) {
+          [](const std::shared_ptr<ob::Device> &self,
+            const py::list &file_path_list, const py::function &callback) {
 
-            // Convert Python list to a C++ array of file paths
-            std::vector<const char*> file_paths;
-            for (const auto &item : file_path_list) {
-                if (!py::isinstance<py::str>(item)) {
-                    throw std::invalid_argument("All items in file_path_list must be strings.");
-                }
-                file_paths.push_back(item.cast<std::string>().c_str());
-            }
+              // Ensure the number of file paths does not exceed the max allowed
+              uint8_t path_count = static_cast<uint8_t>(file_path_list.size());
+              if (path_count > OB_PATH_MAX) {
+                  throw std::invalid_argument("Too many file paths.");
+              }
 
-            uint8_t path_count = static_cast<uint8_t>(file_paths.size());
+              // Create a 2D array of char to store file paths
+              char filePathList[OB_PATH_MAX][1024] = {};  // OB_PATH_MAX and 1024 as fixed size
 
-            // Ensure file paths do not exceed OB_PATH_MAX length (you can adjust based on your needs)
-            for (const auto &file_path : file_paths) {
-                if (strlen(file_path) >= OB_PATH_MAX) {
-                    throw std::invalid_argument("One or more file paths exceed the maximum allowed length.");
-                }
-            }
+              // Copy file paths into the array
+              for (size_t i = 0; i < path_count; ++i) {
+                  const std::string &file_path = file_path_list[i].cast<std::string>();
+                  if (file_path.size() >= 1024) {
+                      throw std::invalid_argument("One or more file paths exceed the maximum allowed length.");
+                  }
+                  strncpy(filePathList[i], file_path.c_str(), 1024);  // Copy up to 1024 chars
+              }
 
-            // Call the C++ function with a callback wrapped in a lambda
-            py::gil_scoped_release release;
-            self->updateOptionalDepthPresets(
-                file_paths.data(), path_count,
-                [callback](OBFwUpdateState state, const char *message, uint8_t percent) {
-                    py::gil_scoped_acquire acquire;
-                    callback(state, message, percent);
-                });
-        },
-        py::arg("file_path_list"), py::arg("callback")
-      )
+              // Call the C++ function with the 2D array
+              py::gil_scoped_release release;
+              self->updateOptionalDepthPresets(filePathList, path_count,
+                  [callback](OBFwUpdateState state, const char *message, uint8_t percent) {
+                      py::gil_scoped_acquire acquire;
+                      callback(state, message, percent);
+                  });
+          },
+          py::arg("file_path_list"), py::arg("callback")
+        )
+
       .def("__eq__", [](const std::shared_ptr<ob::Device> &self,
                         const std::shared_ptr<ob::Device> &other) {
         std::string device_uid = self->getDeviceInfo()->uid();

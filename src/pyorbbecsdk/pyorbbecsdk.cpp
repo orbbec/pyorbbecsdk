@@ -42,7 +42,7 @@
 #include <iostream>
 #include <cstring>
 #include <string>
-#include <Python.h>
+// #include <Python.h>
 
 namespace py = pybind11;
 
@@ -89,16 +89,16 @@ std::string get_extensions_path() {
 
 #if defined(__linux__) || defined(__APPLE__)
 
-    std::string site_packages_path = get_site_packages_path();
+    // std::string site_packages_path = get_site_packages_path();
     
     Dl_info dl_info;
 
-    if (!site_packages_path.empty()) {
-        std::cout << "Found python site-packages path: " << site_packages_path << std::endl;
-    }
+    // if (!site_packages_path.empty()) {
+    //     std::cout << "Found python site-packages path: " << site_packages_path << std::endl;
+    // }
 
     // pass the address of ob_create_context function to dladdr
-    else if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
+    if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
         if (dl_info.dli_fname) {
             library_path = std::string(dl_info.dli_fname);
         } else {

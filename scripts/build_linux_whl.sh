@@ -41,6 +41,9 @@ rsync -av --exclude='*.cmake' "$SRC_DIR/" ./install/lib/
 # Copy examples to /install/lib
 cp -r ./examples ./install/lib/pyorbbecsdk
 cp ./requirements.txt ./install/lib/pyorbbecsdk/examples
+# cp ./build/*.so ./install/lib/pyorbbecsdk/examples
+# rsync -av --exclude='*.cmake' "$SRC_DIR/" ./install/lib/pyorbbecsdk/examples
+
 
 # Run Python setup.py to build a wheel package
 python3 setup.py bdist_wheel

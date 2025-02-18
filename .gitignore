@@ -1,3 +1,6 @@
+sdk/include_old
+dist-latest/
+
 .vscode/
 .idea/
 .obj-x86_64-linux-gnu/

@@ -130,7 +130,10 @@ void define_orbbec_types(const py::object &m) {
       .value("IMAGE_SIZE_ERROR", ERR_IMAGE_SIZE)
       .value("OTHER_ERROR", ERR_OTHER)
       .value("DDR_ERROR", ERR_DDR)
-      .value("TIMEOUT_ERROR", ERR_TIMEOUT);
+      .value("TIMEOUT_ERROR", ERR_TIMEOUT)
+      .value("ERR_MISMATCH", ERR_MISMATCH)
+      .value("ERR_UNSUPPORT_DEV", ERR_UNSUPPORT_DEV)
+      .value("ERR_INVALID_COUNT", ERR_INVALID_COUNT);
 
   py::enum_<OBFileTranState>(m, "OBFileTranState")
       .value("TRANSFER", FILE_TRAN_STAT_TRANSFER)
@@ -633,6 +636,8 @@ void define_orbbec_types(const py::object &m) {
              OBSyncMode::OB_SYNC_MODE_PRIMARY_SOFT_TRIGGER)
       .value("SECONDARY_SOFT_TRIGGER",
              OBSyncMode::OB_SYNC_MODE_SECONDARY_SOFT_TRIGGER)
+      .value("IR_IMU_SYNC",
+             OBSyncMode::OB_SYNC_MODE_IR_IMU_SYNC)
       .value("UNKNOWN", OBSyncMode::OB_SYNC_MODE_UNKNOWN);
 
   py::enum_<OBPowerLineFreqMode>(m, "OBPowerLineFreqMode")
@@ -658,6 +663,12 @@ void define_orbbec_types(const py::object &m) {
                      &OBDeviceSyncConfig::mcuTriggerFrequency)
       .def_readwrite("device_index", &OBDeviceSyncConfig::deviceId);
 
+  py::enum_<OBDepthWorkModeTag>(m, "OBDepthWorkModeTag")
+      .value("OB_DEVICE_DEPTH_WORK_MODE",
+             OBDepthWorkModeTag::OB_DEVICE_DEPTH_WORK_MODE)
+      .value("OB_CUSTOM_DEPTH_WORK_MODE",
+             OBDepthWorkModeTag::OB_CUSTOM_DEPTH_WORK_MODE);
+
   py::class_<OBDepthWorkMode>(m, "OBDepthWorkMode")
       .def(py::init<>())
       .def_property(
@@ -677,6 +688,7 @@ void define_orbbec_types(const py::object &m) {
             std::strncpy(mode.name, str.c_str(), 31);
             mode.name[31] = '\0';  // ensure null-termination
           })
+      .def_readwrite("tag", &OBDepthWorkMode::tag)
       .def("__repr__",
            [](const OBDepthWorkMode &mode) { return std::string(mode.name); })
       .def("__eq__",
@@ -846,7 +858,10 @@ void define_orbbec_types(const py::object &m) {
                  OB_FRAME_AGGREGATE_OUTPUT_COLOR_FRAME_REQUIRE)
       .value(
           "ANY_SITUATION",
-          OBFrameAggregateOutputMode::OB_FRAME_AGGREGATE_OUTPUT_ANY_SITUATION);
+          OBFrameAggregateOutputMode::OB_FRAME_AGGREGATE_OUTPUT_ANY_SITUATION)
+      .value(
+          "DISABLE",
+          OBFrameAggregateOutputMode::OB_FRAME_AGGREGATE_OUTPUT_DISABLE);
   py::enum_<OBCoordinateSystemType>(m, "OBCoordinateSystemType")
       .value("LEFT_HAND",
              OBCoordinateSystemType::OB_LEFT_HAND_COORDINATE_SYSTEM)
@@ -871,7 +886,10 @@ void define_orbbec_types(const py::object &m) {
           OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_TRIGGERING)
       .value(
           "HARDWARE_TRIGGERING",
-          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_HARDWARE_TRIGGERING);
+          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_HARDWARE_TRIGGERING)
+      .value(
+          "IR_IMU_SYNC",
+          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_IR_IMU_SYNC);
 
   py::class_<OBMultiDeviceSyncConfig>(m, "OBMultiDeviceSyncConfig")
       .def(py::init<>())
@@ -972,6 +990,10 @@ void define_orbbec_types(const py::object &m) {
              OBFrameMetadataType::OB_FRAME_METADATA_TYPE_LASER_STATUS)
       .value("GPIO_INPUT_DATA",
              OBFrameMetadataType::OB_FRAME_METADATA_TYPE_GPIO_INPUT_DATA)
+      .value("DISPARITY_SEARCH_OFFSET",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_DISPARITY_SEARCH_OFFSET)
+      .value("DISPARITY_SEARCH_RANGE",
+             OBFrameMetadataType::OB_FRAME_METADATA_TYPE_DISPARITY_SEARCH_RANGE)
       .value("COUNT", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_COUNT);
 
   py::class_<OBPoint2f>(m, "OBPoint2f")

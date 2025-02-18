@@ -26,11 +26,24 @@ mkdir -p ./install/lib/pyorbbecsdk
 cp ./build/*.so ./install/lib/
 
 # Copy all files from /sdk/lib/arm64/ except *.cmake to /install/lib
-rsync -av --exclude='*.cmake' ./sdk/lib/arm64/ ./install/lib/
+ARCH=$(uname -m)
+# Define source directory based on architecture
+if [ "$ARCH" == "aarch64" ]; then
+    SRC_DIR="./sdk/lib/arm64"
+elif [ "$ARCH" == "x86_64" ]; then
+    SRC_DIR="./sdk/lib/linux_x64"
+else
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+fi
+rsync -av --exclude='*.cmake' "$SRC_DIR/" ./install/lib/
 
 # Copy examples to /install/lib
 cp -r ./examples ./install/lib/pyorbbecsdk
 cp ./requirements.txt ./install/lib/pyorbbecsdk/examples
+# cp ./build/*.so ./install/lib/pyorbbecsdk/examples
+# rsync -av --exclude='*.cmake' "$SRC_DIR/" ./install/lib/pyorbbecsdk/examples
+
 
 # Run Python setup.py to build a wheel package
 python3 setup.py bdist_wheel

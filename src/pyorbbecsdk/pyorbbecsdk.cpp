@@ -49,32 +49,35 @@ namespace py = pybind11;
 std::string get_site_packages_path() {
     Py_Initialize();  // Initialize the Python interpreter
 
-    // Get the sysconfig module and call get_paths() to retrieve paths
-    PyObject *sysconfig = PyImport_ImportModule("sysconfig");
-    if (!sysconfig) {
+    // Get the site module, which provides the correct user-specific site-packages path
+    PyObject *site = PyImport_ImportModule("site");
+    if (!site) {
         PyErr_Print();
         return "";
     }
 
-    PyObject *get_paths_func = PyObject_GetAttrString(sysconfig, "get_paths");
-    if (!get_paths_func || !PyCallable_Check(get_paths_func)) {
+    // Call site.getsitepackages() to get the list of site-packages paths
+    PyObject *getsitepackages_func = PyObject_GetAttrString(site, "getsitepackages");
+    if (!getsitepackages_func || !PyCallable_Check(getsitepackages_func)) {
         PyErr_Print();
         return "";
     }
 
-    // Call sysconfig.get_paths()
-    PyObject *paths = PyObject_CallObject(get_paths_func, NULL);
-    if (!paths) {
+    // Call site.getsitepackages() to get all site-packages paths
+    PyObject *site_packages = PyObject_CallObject(getsitepackages_func, NULL);
+    if (!site_packages) {
         PyErr_Print();
         return "";
     }
 
-    // Extract the 'purelib' path (site-packages)
-    PyObject *purelib = PyDict_GetItemString(paths, "purelib");
-    if (purelib && PyUnicode_Check(purelib)) {
-        std::string site_packages_path = PyUnicode_AsUTF8(purelib);
-        Py_Finalize();
-        return site_packages_path;
+    // The result is a list, so extract the first entry (user-specific site-packages)
+    if (PyList_Check(site_packages) && PyList_Size(site_packages) > 0) {
+        PyObject *path = PyList_GetItem(site_packages, 0);  // First entry in the list
+        if (path && PyUnicode_Check(path)) {
+            std::string site_packages_path = PyUnicode_AsUTF8(path);
+            Py_Finalize();
+            return site_packages_path;
+        }
     }
 
     Py_Finalize();

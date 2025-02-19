@@ -13,7 +13,7 @@ mkdir -p build && cd build
 cmake -Dpybind11_DIR=$(pybind11-config --cmakedir) ..
 
 # Build with make using 4 threads
-make -j4
+make -j${nproc}
 
 # Move back to the parent directory
 cd ..

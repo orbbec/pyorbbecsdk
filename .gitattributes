@@ -1,0 +1,4 @@
+sdk/lib/README.md filter=lfs diff=lfs merge=lfs -text
+sdk/lib/win_x64 filter=lfs diff=lfs merge=lfs -text
+sdk/lib/arm64 filter=lfs diff=lfs merge=lfs -text
+sdk/lib/linux_x64 filter=lfs diff=lfs merge=lfs -text

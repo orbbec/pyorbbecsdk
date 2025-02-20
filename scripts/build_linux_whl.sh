@@ -1,7 +1,15 @@
 #!/bin/bash
+echo $PYTHON3_EXECUTABLE
+echo $PYTHON3_INCLUDE_DIR
+echo $PYTHON3_LIBRARY
+python3 --version
+pip3 --version
+which python3
+which python3.10
+which pybind11
 
 # Enter python virtual env
-source venv/bin/activate
+# source venv/bin/activate
 
 # Remove ./build directory
 rm -rf ./build
@@ -13,7 +21,7 @@ mkdir -p build && cd build
 cmake -Dpybind11_DIR=$(pybind11-config --cmakedir) ..
 
 # Build with make using 4 threads
-make -j4
+make -j$(nproc)
 
 # Move back to the parent directory
 cd ..
@@ -49,4 +57,4 @@ rsync -av --exclude='*.cmake' "$SRC_DIR/" ./install/lib/pyorbbecsdk/examples
 python3 setup.py bdist_wheel
 
 # Exit python virtual env
-deactivate
+# deactivate

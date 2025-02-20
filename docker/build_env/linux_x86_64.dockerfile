@@ -63,5 +63,5 @@ COPY . /workspace
 # EXPOSE 8080
 
 # Command to run the build script
-CMD ["bash", "../../scripts/build_whl/build_linux_whl.sh"]
+CMD ["bash", "./scripts/build_whl/build_linux_whl.sh"]
 

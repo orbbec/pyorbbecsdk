@@ -391,9 +391,6 @@ void define_device(const py::object &m) {
 
               // Ensure the number of file paths does not exceed the max allowed
               uint8_t path_count = static_cast<uint8_t>(file_path_list.size());
-              if (path_count > OB_PATH_MAX) {
-                  throw std::invalid_argument("Too many file paths.");
-              }
 
               // Create a 2D array of char to store file paths
               char filePathList[OB_PATH_MAX][1024] = {};  // OB_PATH_MAX and 1024 as fixed size

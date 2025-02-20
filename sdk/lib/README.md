@@ -1,5 +1,3 @@
-# Orbbec SDK library
-
-This Directory contains the Orbbec SDK library, depth engine and drivers files. Those files are close source now and will be open source in the near future.
-
-The license for those files can be found in the LICENSE file in the root directory of the Orbbec SDK repository.
+version https://git-lfs.github.com/spec/v1
+oid sha256:a3c26f707f44d08d6339bba528abf924cf0e53679f07a1fdecddc4593803f90c
+size 298

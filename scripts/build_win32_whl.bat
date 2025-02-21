@@ -33,6 +33,7 @@ robocopy ./sdk/lib/win_x64/ ./install/lib/ /E
 @REM # Copy examples to /install/lib
 robocopy ./examples/ ./install/lib/pyorbbecsdk/examples /E
 robocopy ./requirements.txt ./install/lib/pyorbbecsdk/examples
+robocopy ./config ./install/lib/pyorbbecsdk /E
 
 @REM # Run Python setup.py to build a wheel package
 python3 setup.py bdist_wheel

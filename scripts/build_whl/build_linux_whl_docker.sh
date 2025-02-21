@@ -3,9 +3,9 @@
 # Enter python virtual env
 # source venv/bin/activate
 
-for py_version in cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313; do
+# for py_version in cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313; do
     # export current python3 path
-    export PATH=/opt/python/$py_version/bin:$PATH
+    export PATH=/opt/python/cp310-cp310/bin:$PATH
 
     # Remove ./build directory
     rm -rf ./build
@@ -56,7 +56,7 @@ for py_version in cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-
     # Exit python virtual env
     # deactivate
 
-    echo "$py_version whl done!"
-done
+#    echo "$py_version whl done!"
+# done
 
 echo "All whl generated!"

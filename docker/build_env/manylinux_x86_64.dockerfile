@@ -34,6 +34,7 @@ RUN for py_version in cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp
 	pip3 install --upgrade pip && \
 	pip3 install pybind11 && \
 	pip3 install wheel; \
+#	pip3 install setuptools; \
 done
 
 # Set working directory in the container
@@ -43,5 +44,5 @@ WORKDIR /workspace
 COPY . /workspace
 
 # Command to run the build script
-CMD ["bash", "./scripts/build_whl/build_linux_whl.sh"]
+CMD ["bash", "./scripts/build_whl/build_linux_whl_docker.sh"]
 

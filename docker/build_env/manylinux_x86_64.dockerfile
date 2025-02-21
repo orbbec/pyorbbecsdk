@@ -26,15 +26,27 @@ RUN yum install -y \
     make \
     && yum clean all
 
-# Switch python3 version
-RUN for py_version in cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313; do \
-	export PATH=/opt/python/$py_version/bin:$PATH  && \
+# Build python3.8 to python3.13 from source
+RUN rm /usr/bin/python3*
+RUN rm -r /opt/python/ *
+
+RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11 3.12.9 3.13.2; do \
+    # Build required python3 version from sources
+    curl -O https://www.python.org/ftp/python/$py_version/Python-$py_version.tgz
+    tar xzf Python-$py_version.tgz
+    cd Python-$py_version && \
+    ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/$py_version && \
+    make -j$(nproc) && \
+    make altinstall
+    cd /opt/python/$py_version/bin && \
+    ./python3 --version
+    # Install pip dependencies
+    export PATH=/opt/python/$py_version/bin:$PATH  && \
 	python3 --version && \
 	pip3 --version && \
 	pip3 install --upgrade pip && \
 	pip3 install pybind11 && \
 	pip3 install wheel; \
-#	pip3 install setuptools; \
 done
 
 # Set working directory in the container

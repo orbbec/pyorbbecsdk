@@ -55,7 +55,7 @@ rsync -av --exclude='*.cmake' "$SRC_DIR/" ./install/lib/pyorbbecsdk/examples
 
 
 # Run Python setup.py to build a wheel package
-python3 setup.py bdist_wheel
+python3 setup.py sdist bdist_wheel
 
 # Exit python virtual env
 # deactivate

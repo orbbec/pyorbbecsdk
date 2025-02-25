@@ -22,7 +22,8 @@ cd ..
 
 @REM # Remove old /install directory and create new /install/lib directory
 rmdir /s /q install
-mkdir -p ./install/lib/pyorbbecsdk/examples
+mkdir ./install/lib/pyorbbecsdk/examples
+mkdir ./install/lib/pyorbbecsdk/config
 
 @REM # Copy shared objects (*.pyd) from /build to /install/lib
 robocopy ./build/Release/ ./install/lib/ *.pyd /E
@@ -33,7 +34,7 @@ robocopy ./sdk/lib/win_x64/ ./install/lib/ /E
 @REM # Copy examples to /install/lib
 robocopy ./examples/ ./install/lib/pyorbbecsdk/examples /E
 robocopy ./requirements.txt ./install/lib/pyorbbecsdk/examples
-robocopy ./config ./install/lib/pyorbbecsdk /E
+robocopy ./config ./install/lib/pyorbbecsdk/config /E
 
 @REM # Run Python setup.py to build a wheel package
 python3 setup.py bdist_wheel

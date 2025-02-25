@@ -5,7 +5,8 @@
 
 # for py_version in cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312 cp313-cp313; do
     # export current python3 path
-    export PATH=/opt/python/cp310-cp310/bin:$PATH
+    export PATH=/opt/python/3.10.16/bin:$PATH
+    export LD_LIBRARY_PATH=/opt/python/3.10.16/lib:$LD_LIBRARY_PATH
 
     # Remove ./build directory
     rm -rf ./build

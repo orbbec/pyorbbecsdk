@@ -65,7 +65,7 @@ class CustomBuildExt(build_ext):
 
 
 setup(
-    name='pyorbbecsdk2',
+    name='pyorbbecsdk',
     version='2.0.9',
     author='Shanpang',
     author_email='shanpang@orbbec.com',

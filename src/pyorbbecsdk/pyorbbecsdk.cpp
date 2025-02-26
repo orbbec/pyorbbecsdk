@@ -45,6 +45,7 @@
 // #include <Python.h>
 
 namespace py = pybind11;
+namespace pyorbbecsdk2 = pyorbbecsdk;
 
 std::string get_site_packages_path() {
     Py_Initialize();  // Initialize the Python interpreter
@@ -148,6 +149,84 @@ std::string get_extensions_path() {
 
 
 PYBIND11_MODULE(pyorbbecsdk, m) {
+  m.doc() = "OrbbecSDK python binding";
+  // version
+  m.def("get_version", []() {
+    auto major = ob::Version::getMajor();
+    auto minor = ob::Version::getMinor();
+    auto patch = ob::Version::getPatch();
+    return std::to_string(major) + "." + std::to_string(minor) + "." +
+           std::to_string(patch);
+  });
+  // test set extensions
+  auto extensions_path = get_extensions_path();
+  if (!extensions_path.empty()){
+    std::cout << "load extensions from " << extensions_path << std::endl;
+    ob::Context::setExtensionsDirectory(extensions_path.c_str());
+  }
+  // context
+  pyorbbecsdk::define_orbbec_types(m);
+  pyorbbecsdk::define_context(m);
+
+  // device
+  pyorbbecsdk::define_device_info(m);
+  pyorbbecsdk::define_device_list(m);
+  pyorbbecsdk::define_device_preset_list(m);
+  pyorbbecsdk::define_depth_work_mode_list(m);
+  pyorbbecsdk::define_device(m);
+  pyorbbecsdk::define_camera_list(m);
+
+  // error
+  pyorbbecsdk::define_orbbec_error(m);
+
+  // filter
+  pyorbbecsdk::define_filter(m);
+  pyorbbecsdk::define_point_cloud_filter(m);
+  pyorbbecsdk::define_format_covert_filter(m);
+  pyorbbecsdk::define_hole_filling_filter(m);
+  pyorbbecsdk::define_temporal_filter(m);
+  pyorbbecsdk::define_spatial_advanced_filter(m);
+  pyorbbecsdk::define_disparity_transform(m);
+  pyorbbecsdk::define_HDR_merge_filter(m);
+  pyorbbecsdk::define_align_filter(m);
+  pyorbbecsdk::define_threshold_filter(m);
+  pyorbbecsdk::define_sequence_id_filter(m);
+  pyorbbecsdk::define_noise_removal_filter(m);
+  pyorbbecsdk::define_decimation_filter(m);
+
+  // frame
+  pyorbbecsdk::define_frame(m);
+  pyorbbecsdk::define_video_frame(m);
+  pyorbbecsdk::define_color_frame(m);
+  pyorbbecsdk::define_depth_frame(m);
+  pyorbbecsdk::define_ir_frame(m);
+  pyorbbecsdk::define_points_frame(m);
+  pyorbbecsdk::define_frame_set(m);
+  pyorbbecsdk::define_accel_frame(m);
+  pyorbbecsdk::define_gyro_frame(m);
+
+  // pipeline
+  pyorbbecsdk::define_pipeline(m);
+  pyorbbecsdk::define_pipeline_config(m);
+
+  // properties
+  pyorbbecsdk::define_properties(m);
+
+  // sensor
+  pyorbbecsdk::define_sensor(m);
+  pyorbbecsdk::define_sensor_list(m);
+  pyorbbecsdk::define_filter_list(m);
+  // stream_profile
+  pyorbbecsdk::define_stream_profile(m);
+  pyorbbecsdk::define_video_stream_profile(m);
+  pyorbbecsdk::define_accel_stream_profile(m);
+  pyorbbecsdk::define_gyro_stream_profile(m);
+  pyorbbecsdk::define_stream_profile_list(m);
+  pyorbbecsdk::define_coordinate_transform_helper(m);
+}
+
+// Bind pyorbbecsdk2 to pyorbbecsdk
+PYBIND11_MODULE(pyorbbecsdk2, m) {
   m.doc() = "OrbbecSDK python binding";
   // version
   m.def("get_version", []() {

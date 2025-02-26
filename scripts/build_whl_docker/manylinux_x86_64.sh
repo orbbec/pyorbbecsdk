@@ -1,1 +1,1 @@
-docker run --rm -v $(pwd):/workspace pyorbbecsdk2-env.manylinux_x86_64
+docker run --rm -v $(pwd):/workspace pyorbbecsdk-env.multipython_linux_x86_64

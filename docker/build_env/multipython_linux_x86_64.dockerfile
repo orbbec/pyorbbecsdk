@@ -60,10 +60,10 @@ RUN cd Python-3.11.11 && \
     ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.11.11 && \
     make -j$(nproc) && \
     make altinstall
-RUN cd Python-3.12.9 && \
-    ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.12.9 && \
-    make -j$(nproc) && \
-    make altinstall
+# RUN cd Python-3.12.9 && \
+#     ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.12.9 && \
+#     make -j$(nproc) && \
+#     make altinstall
 # RUN cd Python-3.13.2 && \
 #     ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.13.2 && \
 #     make -j$(nproc) && \
@@ -71,7 +71,7 @@ RUN cd Python-3.12.9 && \
 
 # done
 
-RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11 3.12.9; do \
+RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11; do \
     cd /opt/python/$py_version/bin && \
     ln -s ./python${py_version%.*} ./python3 && \
     ln -s ./pip${py_version%.*} ./pip3 && \

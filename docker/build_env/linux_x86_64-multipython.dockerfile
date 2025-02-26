@@ -37,7 +37,8 @@ RUN rm -f /usr/bin/python3*
 RUN rm -rf /opt/python/* 
 
 # Install multiple Python versions and their dependencies
-RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11 3.12.9 3.13.2; do \
+# 3.12.9 3.13.2 has issue
+RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11; do \
     # Build required python version from sources
     curl -O https://www.python.org/ftp/python/$py_version/Python-$py_version.tgz && \
     tar xzf Python-$py_version.tgz; \
@@ -60,16 +61,12 @@ RUN cd Python-3.11.11 && \
     ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.11.11 && \
     make -j$(nproc) && \
     make altinstall
-# RUN cd Python-3.12.9 && \
-#     ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.12.9 && \
-#     make -j$(nproc) && \
-#     make altinstall
-# RUN cd Python-3.13.2 && \
-#     ./configure --enable-optimizations --with-ssl --enable-shared --enable-static --prefix=/opt/python/3.13.2 && \
-#     make -j$(nproc) && \
-#     make altinstall
 
-# done
+# Remove python source code for disk save
+RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11; do \
+    rm -rf Python-$py_version && \
+    rm -rf Python-$py_version.tgz; \
+done
 
 RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11; do \
     cd /opt/python/$py_version/bin && \

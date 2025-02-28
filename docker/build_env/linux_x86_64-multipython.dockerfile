@@ -77,8 +77,7 @@ RUN for py_version in 3.8.20 3.9.21 3.10.16 3.11.11; do \
     python3 --version && \
     pip3 --version && \
     pip3 install --upgrade pip && \
-    pip3 install pybind11 && \
-    pip3 install wheel; \
+    pip3 install pybind11 wheel cibuildwheel auditwheel; \
 done
 
 # Set working directory in the container

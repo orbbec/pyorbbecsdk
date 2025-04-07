@@ -93,18 +93,18 @@ def main():
             depth_data = np.where((depth_data > MIN_DEPTH) & (depth_data < MAX_DEPTH), depth_data, 0)
             depth_data = depth_data.astype(np.uint16)
             # Apply temporal filtering
-            depth_data = temporal_filter.process(depth_data)
+            # depth_data = temporal_filter.process(depth_data)
 
-            # 获取中心点距离
-            center_y = int(height / 2)
-            center_x = int(width / 2)
-            center_distance = depth_data[center_y, center_x]
+            # # 获取中心点距离
+            # center_y = int(height / 2)
+            # center_x = int(width / 2)
+            # center_distance = depth_data[center_y, center_x]
 
-            # 每隔 1s 打印一次
-            current_time = time.time()
-            if current_time - last_print_time >= PRINT_INTERVAL:
-                print("center distance: ", center_distance)
-                last_print_time = current_time
+            # # 每隔 1s 打印一次
+            # current_time = time.time()
+            # if current_time - last_print_time >= PRINT_INTERVAL:
+            #     print("center distance: ", center_distance)
+            #     last_print_time = current_time
 
             # 将深度值归一化到 0~255
             depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)

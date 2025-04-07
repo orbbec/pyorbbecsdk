@@ -20,12 +20,13 @@ from pyorbbecsdk import *
 
 ESC_KEY = 27
 
-
 def main():
+    # 初始化与配置
     pipeline = Pipeline()
     config = Config()
     # enable depth stream
     try:
+        # 启用深度图像流
         profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
         if profile_list is None:
             print("No depth sensor found")
@@ -37,6 +38,7 @@ def main():
         return
     # enable color stream
     try:
+        # 启用彩色图像流
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         if profile_list is None:
             print("No color sensor found")
@@ -46,13 +48,18 @@ def main():
     except Exception as e:
         print(e)
 
+    # 启动设备
     pipeline.start(config)
+    # 启动录制
     pipeline.start_recording("./test.bag")
     while True:
         try:
+            # 等待一帧
             frames = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
+
+            # 深度图像
             depth_frame = frames.get_depth_frame()
             if depth_frame is None:
                 continue
@@ -65,6 +72,7 @@ def main():
             depth_data = depth_data.astype(np.float32) * scale
             depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+
             cv2.imshow("Depth Viewer", depth_image)
             key = cv2.waitKey(1)
             if key == ord('q') or key == ESC_KEY:

@@ -26,20 +26,25 @@ ESC_KEY = 27
 
 
 def main(argv):
+    # 获取设备信息、配置数据流
     pipeline = Pipeline()
     device = pipeline.get_device()
     device_info = device.get_device_info()
     device_pid = device_info.get_pid()
     config = Config()
     parser = argparse.ArgumentParser()
+    # 对齐模式
     parser.add_argument("-m", "--mode",
-                        help="align mode, HW=hardware mode,SW=software mode,NONE=disable align",
+                        help="align mode, HW=hardware mode, SW=software mode, NONE=disable align",
                         type=str, default='HW')
+    # 是否启用彩色帧与深度帧的时间同步
     parser.add_argument("-s", "--enable_sync", help="enable sync", type=bool, default=True)
     args = parser.parse_args()
     align_mode = args.mode
     enable_sync = args.enable_sync
     try:
+        # 选择彩色与深度传感器的默认视频流配置
+        # 启用数据流
         profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
         color_profile = profile_list.get_default_video_stream_profile()
         config.enable_stream(color_profile)
@@ -59,6 +64,8 @@ def main(argv):
     except Exception as e:
         print(e)
         return
+    
+    # 设置对齐模式
     if align_mode == 'HW':
         if device_pid == 0x066B:
             # Femto Mega does not support hardware D2C, and it is changed to software D2C
@@ -69,6 +76,8 @@ def main(argv):
         config.set_align_mode(OBAlignMode.SW_MODE)
     else:
         config.set_align_mode(OBAlignMode.DISABLE)
+    
+    # 设置同步
     if enable_sync:
         try:
             pipeline.enable_frame_sync()
@@ -79,11 +88,14 @@ def main(argv):
     except Exception as e:
         print(e)
         return
+    
     while True:
         try:
+            # 获取帧
             frames: FrameSet = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
+            # 获取彩色帧
             color_frame = frames.get_color_frame()
             if color_frame is None:
                 continue
@@ -92,6 +104,7 @@ def main(argv):
             if color_image is None:
                 print("failed to convert frame to image")
                 continue
+            # 获取深度帧并可视化
             depth_frame = frames.get_depth_frame()
             if depth_frame is None:
                 continue
@@ -105,9 +118,10 @@ def main(argv):
             depth_data = depth_data.astype(np.float32) * scale
             depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+
             # overlay color image on depth image
-            depth_image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)
-            cv2.imshow("SyncAlignViewer ", depth_image)
+            image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)
+            cv2.imshow("SyncAlignViewer ", image)
             key = cv2.waitKey(1)
             if key == ord('q') or key == ESC_KEY:
                 break

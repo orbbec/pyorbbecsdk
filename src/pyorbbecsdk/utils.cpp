@@ -90,4 +90,19 @@ void define_coordinate_transform_helper(py::module& m) {
              return result;
            });
 }
+
+void define_point_cloud_helper(py::module& m) {
+  m.def(
+      "save_point_cloud_to_ply",
+      [](const char* file_name, std::shared_ptr<ob::Frame> frame,
+         bool save_binary, bool use_mesh, float mesh_threshold) {
+        OB_TRY_CATCH({
+          ob::PointCloudHelper::savePointcloudToPly(
+              file_name, frame, save_binary, use_mesh, mesh_threshold);
+        });
+      },
+      py::arg("file_name"), py::arg("frame"), py::arg("save_binary") = false,
+      py::arg("use_mesh") = false, py::arg("mesh_threshold") = 50.0f);
+}
+
 }  // namespace pyorbbecsdk

@@ -15,7 +15,9 @@
  *******************************************************************************/
 #include <pybind11/pybind11.h>
 
+#include <iostream>
 #include <libobsensor/ObSensor.hpp>
+#include <string>
 
 #include "context.hpp"
 #include "device.hpp"
@@ -24,12 +26,11 @@
 #include "frame.hpp"
 #include "pipeline.hpp"
 #include "properties.hpp"
+#include "record_playback.hpp"
 #include "sensor.hpp"
 #include "stream_profile.hpp"
 #include "types.hpp"
 #include "utils.hpp"
-#include <string>
-#include <iostream>
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <dlfcn.h>
@@ -39,8 +40,8 @@
 #include <windows.h>
 #endif
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 #include <string>
 // #include <Python.h>
 
@@ -48,66 +49,71 @@ namespace py = pybind11;
 namespace pyorbbecsdk2 = pyorbbecsdk;
 
 std::string get_site_packages_path() {
-    Py_Initialize();  // Initialize the Python interpreter
+  Py_Initialize();  // Initialize the Python interpreter
 
-    // Get the site module, which provides the correct user-specific site-packages path
-    PyObject *site = PyImport_ImportModule("site");
-    if (!site) {
-        PyErr_Print();
-        return "";
-    }
-
-    // Call site.getsitepackages() to get the list of site-packages paths
-    PyObject *getsitepackages_func = PyObject_GetAttrString(site, "getsitepackages");
-    if (!getsitepackages_func || !PyCallable_Check(getsitepackages_func)) {
-        PyErr_Print();
-        return "";
-    }
-
-    // Call site.getsitepackages() to get all site-packages paths
-    PyObject *site_packages = PyObject_CallObject(getsitepackages_func, NULL);
-    if (!site_packages) {
-        PyErr_Print();
-        return "";
-    }
-
-    // The result is a list, so extract the first entry (user-specific site-packages)
-    if (PyList_Check(site_packages) && PyList_Size(site_packages) > 0) {
-        PyObject *path = PyList_GetItem(site_packages, 0);  // First entry in the list
-        if (path && PyUnicode_Check(path)) {
-            std::string site_packages_path = PyUnicode_AsUTF8(path);
-            Py_Finalize();
-            return site_packages_path;
-        }
-    }
-
-    Py_Finalize();
+  // Get the site module, which provides the correct user-specific site-packages
+  // path
+  PyObject *site = PyImport_ImportModule("site");
+  if (!site) {
+    PyErr_Print();
     return "";
+  }
+
+  // Call site.getsitepackages() to get the list of site-packages paths
+  PyObject *getsitepackages_func =
+      PyObject_GetAttrString(site, "getsitepackages");
+  if (!getsitepackages_func || !PyCallable_Check(getsitepackages_func)) {
+    PyErr_Print();
+    return "";
+  }
+
+  // Call site.getsitepackages() to get all site-packages paths
+  PyObject *site_packages = PyObject_CallObject(getsitepackages_func, NULL);
+  if (!site_packages) {
+    PyErr_Print();
+    return "";
+  }
+
+  // The result is a list, so extract the first entry (user-specific
+  // site-packages)
+  if (PyList_Check(site_packages) && PyList_Size(site_packages) > 0) {
+    PyObject *path =
+        PyList_GetItem(site_packages, 0);  // First entry in the list
+    if (path && PyUnicode_Check(path)) {
+      std::string site_packages_path = PyUnicode_AsUTF8(path);
+      Py_Finalize();
+      return site_packages_path;
+    }
+  }
+
+  Py_Finalize();
+  return "";
 }
 
 std::string get_extensions_path() {
-    std::string library_path;
+  std::string library_path;
 
 #if defined(__linux__) || defined(__APPLE__)
 
-    // std::string site_packages_path = get_site_packages_path();
-    
-    Dl_info dl_info;
+  // std::string site_packages_path = get_site_packages_path();
 
-    // if (!site_packages_path.empty()) {
-    //     std::cout << "Found python site-packages path: " << site_packages_path << std::endl;
-    // }
+  Dl_info dl_info;
 
-    // pass the address of ob_create_context function to dladdr
-    if (dladdr(reinterpret_cast<void*>(&ob_create_context), &dl_info)) {
-        if (dl_info.dli_fname) {
-            library_path = std::string(dl_info.dli_fname);
-        } else {
-            std::cerr << "Failed to get library filename using dladdr" << std::endl;
-        }
+  // if (!site_packages_path.empty()) {
+  //     std::cout << "Found python site-packages path: " << site_packages_path
+  //     << std::endl;
+  // }
+
+  // pass the address of ob_create_context function to dladdr
+  if (dladdr(reinterpret_cast<void *>(&ob_create_context), &dl_info)) {
+    if (dl_info.dli_fname) {
+      library_path = std::string(dl_info.dli_fname);
     } else {
-        std::cerr << "dladdr failed to retrieve library info" << std::endl;
+      std::cerr << "Failed to get library filename using dladdr" << std::endl;
     }
+  } else {
+    std::cerr << "dladdr failed to retrieve library info" << std::endl;
+  }
 
 #endif
 
@@ -115,38 +121,37 @@ std::string get_extensions_path() {
   HMODULE hModule = nullptr;
 
   // Get a handle to the module containing `ob_create_context`
-  if (GetModuleHandleEx(
-          GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-          reinterpret_cast<LPCSTR>(&ob_create_context), &hModule)) {
-      
-      char path[MAX_PATH];
-      // Get the full path of the module
-      if (GetModuleFileNameA(hModule, path, MAX_PATH)) {
-          library_path = std::string(path);
-      } else {
-          std::cerr << "GetModuleFileName failed: " << GetLastError() << std::endl;
-      }
+  if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                        reinterpret_cast<LPCSTR>(&ob_create_context),
+                        &hModule)) {
+    char path[MAX_PATH];
+    // Get the full path of the module
+    if (GetModuleFileNameA(hModule, path, MAX_PATH)) {
+      library_path = std::string(path);
+    } else {
+      std::cerr << "GetModuleFileName failed: " << GetLastError() << std::endl;
+    }
   } else {
-      std::cerr << "GetModuleHandleEx failed: " << GetLastError() << std::endl;
+    std::cerr << "GetModuleHandleEx failed: " << GetLastError() << std::endl;
   }
 #endif
 
-    if (!library_path.empty()) {
-        // Find the last directory separator
-        size_t pos = library_path.find_last_of("/\\");
-        if (pos != std::string::npos) {
-            // Extract the directory path
-            std::string dir_path = library_path.substr(0, pos);
-            // Construct the extensions path
-            std::string extensions_path = dir_path + "/extensions";
-            return extensions_path;
-        }
+  if (!library_path.empty()) {
+    // Find the last directory separator
+    size_t pos = library_path.find_last_of("/\\");
+    if (pos != std::string::npos) {
+      // Extract the directory path
+      std::string dir_path = library_path.substr(0, pos);
+      // Construct the extensions path
+      std::string extensions_path = dir_path + "/extensions";
+      return extensions_path;
     }
+  }
 
-    // Return a default path if unable to get the library path
-    return "";
+  // Return a default path if unable to get the library path
+  return "";
 }
-
 
 PYBIND11_MODULE(pyorbbecsdk, m) {
   m.doc() = "OrbbecSDK python binding";
@@ -160,7 +165,7 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   });
   // test set extensions
   auto extensions_path = get_extensions_path();
-  if (!extensions_path.empty()){
+  if (!extensions_path.empty()) {
     std::cout << "load extensions from " << extensions_path << std::endl;
     ob::Context::setExtensionsDirectory(extensions_path.c_str());
   }
@@ -223,6 +228,9 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_gyro_stream_profile(m);
   pyorbbecsdk::define_stream_profile_list(m);
   pyorbbecsdk::define_coordinate_transform_helper(m);
+  pyorbbecsdk::define_point_cloud_helper(m);
+  pyorbbecsdk::define_record(m);
+  pyorbbecsdk::define_playback(m);
 }
 
 // Bind pyorbbecsdk2 to pyorbbecsdk
@@ -238,7 +246,7 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   });
   // test set extensions
   auto extensions_path = get_extensions_path();
-  if (!extensions_path.empty()){
+  if (!extensions_path.empty()) {
     std::cout << "load extensions from " << extensions_path << std::endl;
     ob::Context::setExtensionsDirectory(extensions_path.c_str());
   }
@@ -301,4 +309,7 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   pyorbbecsdk::define_gyro_stream_profile(m);
   pyorbbecsdk::define_stream_profile_list(m);
   pyorbbecsdk::define_coordinate_transform_helper(m);
+  pyorbbecsdk::define_point_cloud_helper(m);
+  pyorbbecsdk::define_record(m);
+  pyorbbecsdk::define_playback(m);
 }

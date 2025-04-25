@@ -16,43 +16,12 @@
 
 import os
 import numpy as np
-import open3d as o3d
 
 from pyorbbecsdk import *
 
 save_points_dir = os.path.join(os.getcwd(), "point_clouds")
 if not os.path.exists(save_points_dir):
     os.mkdir(save_points_dir)
-
-
-def convert_to_o3d_point_cloud(points, colors=None):
-    """
-    Converts numpy arrays of points and colors (if provided) into an Open3D point cloud object.
-    """
-    pcd = o3d.geometry.PointCloud()
-    pcd.points = o3d.utility.Vector3dVector(points)
-    if colors is not None:
-        pcd.colors = o3d.utility.Vector3dVector(colors / 255.0)  # Normalize colors to range [0, 1]
-    return pcd
-
-
-def save_points_to_ply(points, colors, file_name) -> int:
-    """
-    Save numpy array points to PLY file using Open3D.
-    """
-    if points is None or len(points) == 0:
-        print("No points to save.")
-        return 0
-
-    # Convert points and colors (if available) to Open3D point cloud object
-    pcd = convert_to_o3d_point_cloud(points, colors)
-    
-    # Save the point cloud in PLY format
-    o3d.io.write_point_cloud(file_name, pcd)
-    print(f"Point cloud saved to: {file_name}")
-    
-    return 1
-
 
 def main():
     pipeline = Pipeline()
@@ -106,14 +75,12 @@ def main():
         point_cloud_filter.set_create_point_format(point_format)
 
         point_cloud_frame = point_cloud_filter.process(frame)
-        points = point_cloud_filter.calculate(point_cloud_frame)
-        
-        # Prepare points and colors (if available)
-        points_array = np.array([p[:3] for p in points])  # XYZ points
-        colors_array = np.array([p[3:6] for p in points]) if has_color_sensor else None  # RGB colors if available
-        
-        # Save the point cloud data to PLY
-        save_points_to_ply(points_array, colors_array, os.path.join(save_points_dir, "point_cloud.ply"))
+        if point_cloud_frame is None:
+            continue
+        #save point cloud
+        save_point_cloud_to_ply(os.path.join(save_points_dir, "point_cloud.ply"), point_cloud_frame)
+        #save mesh to point cloud
+        #save_point_cloud_to_ply(os.path.join(save_points_dir, "point_cloud.ply"), point_cloud_frame, False, True, 50)        
         break
     print("stop pipeline")
     pipeline.stop()

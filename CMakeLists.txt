@@ -52,6 +52,7 @@ pybind11_add_module(${PROJECT_NAME}
   src/pyorbbecsdk/stream_profile.cpp
   src/pyorbbecsdk/types.cpp
   src/pyorbbecsdk/utils.cpp
+  src/pyorbbecsdk/record_playback.cpp
   )
 
 if (CMAKE_C_COMPILER_ID MATCHES "Clang" AND NOT APPLE)

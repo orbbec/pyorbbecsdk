@@ -47,7 +47,7 @@ def setup_camera():
         try:
             sensor_type = sensor_list[sensor].get_type()
             if sensor_type in video_sensors:
-                config.enable_video_stream(sensor_type)
+                config.enable_stream(sensor_type)
         except:
             continue
 

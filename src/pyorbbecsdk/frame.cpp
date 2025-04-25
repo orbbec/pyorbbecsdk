@@ -237,7 +237,14 @@ void define_points_frame(const py::object& m) {
       .def("get_position_value_scale",
            [](const std::shared_ptr<ob::PointsFrame>& self) {
              return self->getPositionValueScale();
-           });
+           })
+      .def("get_width",
+           [](const std::shared_ptr<ob::PointsFrame>& self) {
+             return self->getWidth();
+           })
+      .def("get_height", [](const std::shared_ptr<ob::PointsFrame>& self) {
+        return self->getHeight();
+      });
 }
 
 void define_frame_set(const py::object& m) {
@@ -273,16 +280,16 @@ void define_frame_set(const py::object& m) {
            [](const std::shared_ptr<ob::FrameSet>& self, int index) {
              return self->getFrame(index);
            })
-      .def("__getitem__",
-           [](const std::shared_ptr<ob::FrameSet>& self, int index) {
-             return self->getFrame(index);
+      .def("__getitem__", [](const std::shared_ptr<ob::FrameSet>& self,
+                             int index) { return self->getFrame(index); })
+      .def("get_count",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->frameCount();
            })
-      .def("get_count", [](const std::shared_ptr<ob::FrameSet>& self) {
-        return self->frameCount();
-      })
-      .def("__len__", [](const std::shared_ptr<ob::FrameSet>& self) {
-        return self->frameCount();
-      })
+      .def("__len__",
+           [](const std::shared_ptr<ob::FrameSet>& self) {
+             return self->frameCount();
+           })
       .def("__repr__", [](const std::shared_ptr<ob::FrameSet>& self) {
         std::ostringstream oss;
         oss << "<FrameSet type=" << self->type() << " format=" << self->format()

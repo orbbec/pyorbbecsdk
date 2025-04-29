@@ -44,7 +44,7 @@ def setup_camera(playback):
         OBSensorType.ACCEL_SENSOR, 
         OBSensorType.GYRO_SENSOR, 
     ]
-    enabled_sensor_types = []  # 记录启用的传感器
+    enabled_sensor_types = []  
 
     sensor_list = device.get_sensor_list()
     for sensor in range(len(sensor_list)):
@@ -80,7 +80,7 @@ def process_depth(frame):
 
 
 def process_ir(ir_frame, key):
-    """Process IR frame (left, right, or mono) with cache"""  # <-- 修改了
+    """Process IR frame (left, right, or mono) with cache"""  
     ir_frame = ir_frame if ir_frame else cached_frames[key]
     cached_frames[key] = ir_frame
     if ir_frame is None:
@@ -131,7 +131,6 @@ def get_imu_text(frame, name):
 
 def create_display(frames, enabled_sensor_types, width=1280, height=720):
     """Create display window with correct dynamic layout"""
-    # 定义 sensor_type ➔ display 名称映射
     sensor_type_to_name = {
         OBSensorType.COLOR_SENSOR: 'color',
         OBSensorType.DEPTH_SENSOR: 'depth',
@@ -150,7 +149,9 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
 
     total_elements = num_videos + (1 if has_imu else 0)
 
-    if total_elements <= 2:
+    if total_elements == 1:
+        grid_cols, grid_rows = 1, 1
+    elif total_elements <= 2:
         grid_cols, grid_rows = 2, 1
     elif total_elements <= 4:
         grid_cols, grid_rows = 2, 2
@@ -170,10 +171,13 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
         x_start = col * cell_w
         y_start = row * cell_h
         if frame is not None:
-            resized = cv2.resize(frame, (cell_w, cell_h))
-            display[y_start:y_start + cell_h, x_start:x_start + cell_w] = resized
+            if total_elements == 1:
+                resized = cv2.resize(frame, (width, height))
+                display = resized
+            else:
+                resized = cv2.resize(frame, (cell_w, cell_h))
+                display[y_start:y_start + cell_h, x_start:x_start + cell_w] = resized
         else:
-            # 如果没有这一帧，绘制黑色背景
             cv2.rectangle(display, (x_start, y_start), (x_start + cell_w, y_start + cell_h), (0, 0, 0), -1)
 
     if has_imu:
@@ -193,6 +197,7 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
             y_offset += 100
 
     return display
+
 
 
 def main():

@@ -40,25 +40,22 @@ def setup_camera(playback):
         OBSensorType.DEPTH_SENSOR,
         OBSensorType.IR_SENSOR,
         OBSensorType.LEFT_IR_SENSOR,
-        OBSensorType.RIGHT_IR_SENSOR
+        OBSensorType.RIGHT_IR_SENSOR,
+        OBSensorType.ACCEL_SENSOR, 
+        OBSensorType.GYRO_SENSOR, 
     ]
+    enabled_sensor_types = []  # 记录启用的传感器
+
     sensor_list = device.get_sensor_list()
     for sensor in range(len(sensor_list)):
         try:
             sensor_type = sensor_list[sensor].get_type()
             if sensor_type in video_sensors:
                 config.enable_stream(sensor_type)
+                enabled_sensor_types.append(sensor_type)
         except:
             continue
-    return pipeline,config
-
-def setup_imu(playback):
-    """Setup IMU configuration"""
-    pipeline = Pipeline(playback)   
-    config = Config()
-    config.enable_accel_stream()
-    config.enable_gyro_stream()
-    return pipeline,config
+    return pipeline, config, enabled_sensor_types
 
 def process_color(frame):
     """Process color image"""
@@ -82,10 +79,13 @@ def process_depth(frame):
         return None
 
 
-def process_ir(ir_frame):
-    """Process IR frame (left or right) to RGB image"""
+def process_ir(ir_frame, key):
+    """Process IR frame (left, right, or mono) with cache"""  # <-- 修改了
+    ir_frame = ir_frame if ir_frame else cached_frames[key]
+    cached_frames[key] = ir_frame
     if ir_frame is None:
         return None
+
     ir_frame = ir_frame.as_video_frame()
     ir_data = np.asanyarray(ir_frame.get_data())
     width = ir_frame.get_width()
@@ -128,32 +128,72 @@ def get_imu_text(frame, name):
     ]
 
 
-def create_display(frames, width=1280, height=720):
-    """Create display window"""
-    display = np.zeros((height, width, 3), dtype=np.uint8)
-    h, w = height // 2, width // 2
 
-    # Process video frames
-    if 'color' in frames and frames['color'] is not None:
-        display[0:h, 0:w] = cv2.resize(frames['color'], (w, h))
+def create_display(frames, enabled_sensor_types, width=1280, height=720):
+    """Create display window with correct dynamic layout"""
+    # 定义 sensor_type ➔ display 名称映射
+    sensor_type_to_name = {
+        OBSensorType.COLOR_SENSOR: 'color',
+        OBSensorType.DEPTH_SENSOR: 'depth',
+        OBSensorType.LEFT_IR_SENSOR: 'left_ir',
+        OBSensorType.RIGHT_IR_SENSOR: 'right_ir',
+        OBSensorType.IR_SENSOR: 'ir'
+    }
+    video_keys = []
+    for sensor_type in enabled_sensor_types:
+        if sensor_type in sensor_type_to_name:
+            video_keys.append(sensor_type_to_name[sensor_type])
 
-    if 'depth' in frames and frames['depth'] is not None:
-        display[0:h, w:] = cv2.resize(frames['depth'], (w, h))
+    video_frames = [frames.get(k) for k in video_keys]
+    has_imu = 'imu' in frames
+    num_videos = len(video_frames)
 
-    if 'ir' in frames and frames['ir'] is not None:
-        display[h:, 0:w] = cv2.resize(frames['ir'], (w, h))
+    total_elements = num_videos + (1 if has_imu else 0)
 
-    # Display IMU data
-    if 'imu' in frames:
-        y_offset = h + 20
+    if total_elements <= 2:
+        grid_cols, grid_rows = 2, 1
+    elif total_elements <= 4:
+        grid_cols, grid_rows = 2, 2
+    elif total_elements <= 5:
+        grid_cols, grid_rows = 2, 3
+    else:
+        raise ValueError("Too many elements! Maximum supported is 5.")
+
+    cell_w = width // grid_cols
+    cell_h = height // grid_rows
+
+    display = np.zeros((cell_h * grid_rows, cell_w * grid_cols, 3), dtype=np.uint8)
+
+    for idx, frame in enumerate(video_frames):
+        row = idx // grid_cols
+        col = idx % grid_cols
+        x_start = col * cell_w
+        y_start = row * cell_h
+        if frame is not None:
+            resized = cv2.resize(frame, (cell_w, cell_h))
+            display[y_start:y_start + cell_h, x_start:x_start + cell_w] = resized
+        else:
+            # 如果没有这一帧，绘制黑色背景
+            cv2.rectangle(display, (x_start, y_start), (x_start + cell_w, y_start + cell_h), (0, 0, 0), -1)
+
+    if has_imu:
+        imu_idx = num_videos
+        row = imu_idx // grid_cols
+        col = imu_idx % grid_cols
+        x_start = col * cell_w
+        y_start = row * cell_h
+        cv2.rectangle(display, (x_start, y_start), (x_start + cell_w, y_start + cell_h), (50, 50, 50), -1)
+
+        y_offset = y_start + 30
         for data_type in ['accel', 'gyro']:
             text_lines = get_imu_text(frames['imu'].get(data_type), data_type.title())
             for i, line in enumerate(text_lines):
-                cv2.putText(display, line, (w + 10, y_offset + i * 20),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-            y_offset += 80
+                cv2.putText(display, line, (x_start + 10, y_offset + i * 20),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
+            y_offset += 100
 
     return display
+
 
 def main():
     # Window settings
@@ -165,49 +205,49 @@ def main():
     # initialize playback
     playback  = PlaybackDevice(file_path)
     # Initialize camera
-    pipeline,config = setup_camera(playback)
+    pipeline, config, enabled_sensor_types = setup_camera(playback)
     device = pipeline.get_device()
-    imu_pipeline,imu_config = setup_imu(playback)
     def on_status_change(status):
         print(f"[Callback] status changed: {status}")
         if status == PlaybackStatus.Stopped:
             pipeline.stop()
-            imu_pipeline.stop()
             pipeline.start(config)
-            imu_pipeline.start(imu_config)
     playback.set_playback_status_change_callback(on_status_change)
 
     pipeline.start(config)
-    imu_pipeline.start(imu_config)
 
     cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
     cv2.resizeWindow(WINDOW_NAME, DISPLAY_WIDTH, DISPLAY_HEIGHT)
+    processed_frames = {}
     while True:
         # Get all frames
         frames = pipeline.wait_for_frames(100)
         if not frames:
             continue
-        # Process different frame types
-        processed_frames = {'color': process_color(frames.get_color_frame()),
-                            'depth': process_depth(frames.get_depth_frame())}
 
-        # Process IR image: try stereo IR first, fallback to mono if unavailable
-        try:
-            left = process_ir(frames.get_frame(OBFrameType.LEFT_IR_FRAME).as_video_frame())
-            right = process_ir(frames.get_frame(OBFrameType.RIGHT_IR_FRAME).as_video_frame())
-            if left is not None and right is not None:
-                processed_frames['ir'] = np.hstack((left, right))
-        except:
-            ir_frame = frames.get_ir_frame()
-            if ir_frame:
-                processed_frames['ir'] = process_ir(ir_frame.as_video_frame())
+        # Process color image        
+        color_frame = frames.get_frame(OBFrameType.COLOR_FRAME)
+        if color_frame:
+            processed_frames['color'] = process_color(color_frame.as_video_frame())
+        # Process depth image
+        depth_frame = frames.get_frame(OBFrameType.DEPTH_FRAME)
+        if depth_frame:
+            processed_frames['depth'] = process_depth(depth_frame.as_video_frame())       
+        # Process left IR
+        left_ir_frame = frames.get_frame(OBFrameType.LEFT_IR_FRAME)
+        processed_frames['left_ir'] = process_ir(left_ir_frame, 'left_ir')
+
+        # Process right IR
+        right_ir_frame = frames.get_frame(OBFrameType.RIGHT_IR_FRAME)
+        processed_frames['right_ir'] = process_ir(right_ir_frame, 'right_ir')
+
+        # Process mono IR
+        ir_frame = frames.get_ir_frame()
+        processed_frames['ir'] = process_ir(ir_frame, 'ir')
 
         # Process IMU data
-        imu_frames = imu_pipeline.wait_for_frames(100)
-        if not imu_frames:
-            continue
-        accel = imu_frames.get_frame(OBFrameType.ACCEL_FRAME)
-        gyro = imu_frames.get_frame(OBFrameType.GYRO_FRAME)
+        accel = frames.get_frame(OBFrameType.ACCEL_FRAME)
+        gyro = frames.get_frame(OBFrameType.GYRO_FRAME)
         if accel and gyro:
             processed_frames['imu'] = {
                 'accel': accel.as_accel_frame(),
@@ -215,7 +255,7 @@ def main():
             }
 
         # create display
-        display = create_display(processed_frames, DISPLAY_WIDTH, DISPLAY_HEIGHT)
+        display = create_display(processed_frames, enabled_sensor_types, DISPLAY_WIDTH, DISPLAY_HEIGHT)
         cv2.imshow(WINDOW_NAME, display)
 
         # check exit key
@@ -224,7 +264,6 @@ def main():
             break
 
     pipeline.stop()
-    imu_pipeline.stop()
     playback  = None 
     cv2.destroyAllWindows()
 

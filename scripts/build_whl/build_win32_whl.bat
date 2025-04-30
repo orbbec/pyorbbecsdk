@@ -37,7 +37,7 @@ robocopy ./requirements.txt ./install/lib/pyorbbecsdk/examples
 robocopy ./config ./install/lib/pyorbbecsdk/config /E
 
 @REM # Run Python setup.py to build a wheel package
-python3 setup.py bdist_wheel
+python setup.py bdist_wheel
 
 @REM # Exit python virtual env
 call deactivate

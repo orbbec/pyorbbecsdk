@@ -126,6 +126,7 @@ Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):
 
 | **Products List** | **Minimal Firmware Version** |
 |-------------------|------------------------------|
+| Gemini 335Le        | 1.5.31                       |
 | Gemini 330        | 1.2.20                       |
 | Gemini 330L       | 1.2.20                       |
 | Gemini 335        | 1.2.20                       |
@@ -135,6 +136,7 @@ Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):
 | Gemini 335Lg      | 1.3.46                       |
 | Femto Bolt        | 1.1.2                  |
 | Femto Mega        | 1.3.0                  |
+| Femto Mega I        | 2.0.4                  |
 | Astra 2           | 2.8.20                       |
 | Gemini 2 L        | 1.4.53                       |
 | Gemini 2          | 1.4.92               |

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>4.1. Obtain Data Stream &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
 
@@ -16,7 +16,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -194,7 +194,7 @@
 <section id="stream-profile">
 <h2><span class="section-number">4.1.1. </span>Stream Profile<a class="headerlink" href="#stream-profile" title="Link to this heading"></a></h2>
 <p>Method 1: obtain stream profile by resolution, frame format, and frame rate</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="c1"># Obtain color profile through resolution, frame format and frame rate. A resolution width and height of 0 indicates wildcard characters</span>
 <span class="n">color_profile_list</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_stream_profile_list</span><span class="p">(</span><span class="n">OBSensorType</span><span class="o">.</span><span class="n">COLOR_SENSOR</span><span class="p">)</span>
@@ -206,7 +206,7 @@
 </pre></div>
 </div>
 <p>Method 2: Obtain the default stream profile</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
   <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
   <span class="n">depth_profile_list</span> <span class="o">=</span> 
   <span class="n">pipeline</span><span class="o">.</span><span class="n">get_stream_profile_list</span><span class="p">(</span><span class="n">OBSensorType</span><span class="o">.</span><span class="n">DEPTH_SENSOR</span><span class="p">)</span>
@@ -215,7 +215,7 @@
 </pre></div>
 </div>
 <p>Method 3: Obtain stream profile through video frames</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
   <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
   <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
   <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
@@ -252,7 +252,7 @@ The depth sensor type is <code class="docutils literal notranslate"><span class=
 <section id="obtain-imu-data">
 <h2><span class="section-number">4.1.3. </span>Obtain IMU Data<a class="headerlink" href="#obtain-imu-data" title="Link to this heading"></a></h2>
 <p>For imu data, refer to imu_reader.py</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="c1">#enable accel </span>
@@ -277,7 +277,7 @@ The depth sensor type is <code class="docutils literal notranslate"><span class=
 <h2><span class="section-number">4.1.4. </span>Point Cloud<a class="headerlink" href="#point-cloud" title="Link to this heading"></a></h2>
 <section id="depth-point-cloud">
 <h3><span class="section-number">4.1.4.1. </span>Depth Point Cloud<a class="headerlink" href="#depth-point-cloud" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
 <span class="n">depth_profile_list</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_stream_profile_list</span><span class="p">(</span><span class="n">OBSensorType</span><span class="o">.</span><span class="n">DEPTH_SENSOR</span><span class="p">)</span>
@@ -304,7 +304,7 @@ The depth sensor type is <code class="docutils literal notranslate"><span class=
 <section id="rgbd-point-cloud">
 <h3><span class="section-number">4.1.4.2. </span>RGBD Point Cloud<a class="headerlink" href="#rgbd-point-cloud" title="Link to this heading"></a></h3>
 <p>Please refer to Sample save_point_cloud.py</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
 <span class="n">config</span><span class="o">.</span><span class="n">enable_stream</span><span class="p">(</span><span class="n">depth_profile</span><span class="p">)</span>
@@ -346,7 +346,7 @@ The depth sensor type is <code class="docutils literal notranslate"><span class=
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2024-11-22 18:11:34.
+      <span class="lastupdated">Last updated on 2025-04-30 16:24:17.
       </span></p>
   </div>
 

@@ -13,6 +13,7 @@ The Python Wrapper primarily includes the following features:
 * Presets (supported by Gemini 330 series).
 * Update Firmware .
 * Network functionality (supported by the Femto Mega).
+* Record and playback.
 
 # Build your First Camera Application
 
@@ -65,6 +66,9 @@ pipeline.stop()
 | infrared.py               | Displays the infrared stream from the camera.                                                                                     |                                                     | ⭐⭐   |
 | multi_device.py           | Demonstrates how to use multiple devices.                                                                                         |                                                     | ⭐⭐   |
 | net_device.py             | Demonstrates how to use network functions.                                                                                        | Supported by Femto Mega and Gemini 2 XL.            | ⭐⭐   |
+|recorder.py                |Demonstrates how to record the streams to a file.        |                      |    ⭐⭐     |
+|playback.py               |Demonstrates how to play back recorded streams.        |                      |    ⭐⭐     |
+|device_optional_depth_presets_update.py| This sample shows how to read a BIN file to perform optional depth presets upgrades on the device. | Supported by Gemini 330 series  | ⭐⭐  |
 | coordinate_transform.py   | Use the SDK interface to transform different coordinate systems.                                                                  |                                                     | ⭐⭐⭐ |
 | device_firmware_update.py | This sample demonstrates how to read a firmware file to perform firmware upgrades on the device.                                  |                                                     | ⭐⭐⭐ |
 | depth_work_mode.py        | Demonstrates how to set the depth work mode.                                                                                      | Supported by Gemini2、Gemini2L、Astra2、Gemini 2 XL | ⭐⭐⭐ |

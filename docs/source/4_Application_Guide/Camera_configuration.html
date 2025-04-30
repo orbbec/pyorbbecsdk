@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>4.2. Camera Configuration(Device Parameter Settings) &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
 
@@ -16,7 +16,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -181,7 +181,7 @@
 <p>The parameter settings are all set by device. In this section, only the commonly used parameter setting methods are listed. Other parameter settings are similar. For the command code of the attribute ID, refer to Property.h.</p>
 <section id="obtain-the-serial-number">
 <h3><span class="section-number">4.2.1.1. </span>Obtain the Serial Number<a class="headerlink" href="#obtain-the-serial-number" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 <span class="n">device_list</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="o">.</span><span class="n">get_device_by_index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -193,7 +193,7 @@
 </section>
 <section id="obtain-the-camera-intrinsic-and-extrinsic-parameters">
 <h3><span class="section-number">4.2.1.2. </span>Obtain the Camera Intrinsic and Extrinsic Parameters<a class="headerlink" href="#obtain-the-camera-intrinsic-and-extrinsic-parameters" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">profile_list</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_stream_profile_list</span><span class="p">(</span><span class="n">OBSensorType</span><span class="o">.</span><span class="n">COLOR_SENSOR</span><span class="p">)</span>
 <span class="c1">#Get color_profile</span>
@@ -222,14 +222,14 @@
 <section id="open-device">
 <h3><span class="section-number">4.2.1.3. </span>Open Device<a class="headerlink" href="#open-device" title="Link to this heading"></a></h3>
 <p>Method 1: Obtain the specified device by specifying the index number of the enumerated device list.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 <span class="n">device_list</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">device_list</span><span class="o">.</span><span class="n">get_device_by_index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Method 2: Obtain the specified device by specifying the SN of the enumerated device list.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 <span class="n">device_list</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
 <span class="c1"># For example, obtain the device whose SN number is &quot;CP8E54D0000J&quot;.</span>
@@ -237,7 +237,7 @@
 </pre></div>
 </div>
 <p>Method 3: Obtain the specified device by specifying the UID of the enumerated device list.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 <span class="n">device_list</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
 <span class="c1">#for example, the device with uid 1f3c29744.</span>
@@ -245,7 +245,7 @@
 </pre></div>
 </div>
 <p>Method 4: Get device through pipiline</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 </pre></div>
@@ -253,7 +253,7 @@
 </section>
 <section id="device-reboot">
 <h3><span class="section-number">4.2.1.4. </span>Device Reboot<a class="headerlink" href="#device-reboot" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 <span class="n">device_list</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
 <span class="c1">#get device</span>
@@ -265,7 +265,7 @@
 </section>
 <section id="laser-switch">
 <h3><span class="section-number">4.2.1.5. </span>Laser Switch<a class="headerlink" href="#laser-switch" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True：turn on laser，False：turn off laser</span>
@@ -278,7 +278,7 @@
 </section>
 <section id="ldp-switch">
 <h3><span class="section-number">4.2.1.6. </span>LDP Switch<a class="headerlink" href="#ldp-switch" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True：turn on LDP，False：turn off LDP</span>
@@ -289,7 +289,7 @@
 <section id="obtain-ldp-protection-measurements">
 <h3><span class="section-number">4.2.1.7. </span>Obtain LDP Protection Measurements<a class="headerlink" href="#obtain-ldp-protection-measurements" title="Link to this heading"></a></h3>
 <p>OB_PROP_LDP_MEASURE_DISTANCE_INT = 100,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">distance</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">get_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_LDP_MEASURE_DISTANCE_INT</span><span class="p">)</span>
@@ -299,7 +299,7 @@
 </section>
 <section id="obtain-ldp-protection-status">
 <h3><span class="section-number">4.2.1.8. </span>Obtain LDP Protection Status<a class="headerlink" href="#obtain-ldp-protection-status" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#Return value true:Trigger LDP protection</span>
@@ -314,7 +314,7 @@
 <ol class="simple">
 <li><p>If only a single device is connected, the following interface can be called:</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">timer_sync_with_host</span><span class="p">()</span>
@@ -323,7 +323,7 @@
 <ol class="simple">
 <li><p>If multiple devices are connected at the same time, the following interfaces can be called:</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 <span class="c1"># Parameter: The interval for auto-repeated synchronization, in milliseconds. If the value is 0, synchronization is performed only once.</span>
 <span class="n">context</span><span class="o">.</span><span class="n">enable_multi_device_sync</span><span class="p">(</span><span class="mi">60000</span><span class="p">)</span>
@@ -335,7 +335,7 @@
 <h2><span class="section-number">4.2.2. </span>Depth Settings<a class="headerlink" href="#depth-settings" title="Link to this heading"></a></h2>
 <section id="depth-working-mode">
 <h3><span class="section-number">4.2.2.1. </span>Depth Working Mode<a class="headerlink" href="#depth-working-mode" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_depth_work_mode</span><span class="p">(</span><span class="s2">&quot;Binned Sparse Default&quot;</span><span class="p">)</span>
@@ -347,7 +347,7 @@
 <h3><span class="section-number">4.2.2.2. </span>Preset Configuration<a class="headerlink" href="#preset-configuration" title="Link to this heading"></a></h3>
 <p>Gemini 330 series 3D cameras have built-in a variety of predefined Presets. For the specific application scenarios of 3D cameras, users can use the Orbbec Viewer tool to select the best Presets.</p>
 <p>The method of loading the preset is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">load_preset</span><span class="p">(</span><span class="s2">&quot;Default&quot;</span><span class="p">)</span>
@@ -356,7 +356,7 @@
 </section>
 <section id="set-depth-ae">
 <h3><span class="section-number">4.2.2.3. </span>Set Depth AE<a class="headerlink" href="#set-depth-ae" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True open depth AE， False: close depth AE</span>
@@ -366,7 +366,7 @@
 </section>
 <section id="set-depth-exposure-gain">
 <h3><span class="section-number">4.2.2.4. </span>Set Depth Exposure/Gain<a class="headerlink" href="#set-depth-exposure-gain" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#close depth AE，</span>
@@ -384,7 +384,7 @@
 <ul class="simple">
 <li><p>For devices other than the Gemini 330 series, the method to set the max and min depth values is as follows:</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1"># Set the min Depth value, and the Depth less than the modified value will be set to 0,Unit: mm</span>
@@ -396,7 +396,7 @@
 <ul class="simple">
 <li><p>Notes: For the Gemini 330 series, max and min depth values are set through post-processing with the ThresholdFilter, as follows:</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="c1">#create threshold filter</span>
 <span class="n">threshold_filter</span> <span class="o">=</span> <span class="n">ThresholdFilter</span><span class="p">()</span>
 <span class="c1">#set min and max depth,unit: mm</span>
@@ -417,7 +417,7 @@
 <section id="hardware-d2d">
 <h3><span class="section-number">4.2.3.1. </span>Hardware D2D<a class="headerlink" href="#hardware-d2d" title="Link to this heading"></a></h3>
 <p>Hardware D2D refers to disparity-to-depth conversion implemented internally within the device. Devices such as the Gemini 330 series, Gemini 2, Gemini 2 L, Astra 2 support this feature.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#Parameters: True to turn on hardware D2D, False to turn off hardware D2D</span>
@@ -428,7 +428,7 @@
 <section id="software-d2d">
 <h3><span class="section-number">4.2.3.2. </span>Software D2D<a class="headerlink" href="#software-d2d" title="Link to this heading"></a></h3>
 <p>Software D2D refers to disparity-to-depth conversion implemented within the SDK. All devices support Software D2D except for TOF devices like Femto Mega and Femto Bolt.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#Parameters: True to turn on Software D2D, False to turn off Software D2D</span>
@@ -446,14 +446,14 @@
 <p>OBDepthPrecisionLevel.ZERO_POINT_FOUR_MM: 0.4mm</p>
 <p>OBDepthPrecisionLevel.ZERO_POINT_TWO_MM: 0.2mm</p>
 <p>OBDepthPrecisionLevel.ZERO_POINT_ONE_MM: 0.1mm</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_DEPTH_PRECISION_LEVEL_INT</span><span class="p">,</span> <span class="n">OBDepthPrecisionLevel</span><span class="o">.</span><span class="n">ONE_MM</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The Gemini 330 series supports setting the Depth unit as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_float_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
@@ -468,7 +468,7 @@
 <h2><span class="section-number">4.2.4. </span>IR Parameter Settings<a class="headerlink" href="#ir-parameter-settings" title="Link to this heading"></a></h2>
 <section id="set-ir-ae">
 <h3><span class="section-number">4.2.4.1. </span>Set IR AE<a class="headerlink" href="#set-ir-ae" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True open IR AE， False: close IR AE</span>
@@ -478,7 +478,7 @@
 </section>
 <section id="set-ir-exposure-gain">
 <h3><span class="section-number">4.2.4.2. </span>Set IR Exposure/Gain<a class="headerlink" href="#set-ir-exposure-gain" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#Close IR AE</span>
@@ -495,7 +495,7 @@
 <h2><span class="section-number">4.2.5. </span>Color Parameter Settings<a class="headerlink" href="#color-parameter-settings" title="Link to this heading"></a></h2>
 <section id="set-color-ae">
 <h3><span class="section-number">4.2.5.1. </span>Set Color AE<a class="headerlink" href="#set-color-ae" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True open color AE， False: close color AE</span>
@@ -505,7 +505,7 @@
 </section>
 <section id="set-color-exposure">
 <h3><span class="section-number">4.2.5.2. </span>Set Color Exposure<a class="headerlink" href="#set-color-exposure" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True open color AE， False: close color AE</span>
@@ -515,7 +515,7 @@
 </section>
 <section id="set-color-gain">
 <h3><span class="section-number">4.2.5.3. </span>Set Color Gain<a class="headerlink" href="#set-color-gain" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True open color AE， False: close color AE</span>
@@ -525,7 +525,7 @@
 </section>
 <section id="set-color-auto-white-balance">
 <h3><span class="section-number">4.2.5.4. </span>Set Color Auto White Balance<a class="headerlink" href="#set-color-auto-white-balance" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="c1">#True: Turn on Auto White Balance，False: Turn off Auto White Balance</span>
@@ -535,7 +535,7 @@
 </section>
 <section id="set-color-white-balance-parameters">
 <h3><span class="section-number">4.2.5.5. </span>Set Color White Balance Parameters<a class="headerlink" href="#set-color-white-balance-parameters" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_WHITE_BALANCE_INT</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
@@ -545,7 +545,7 @@
 <section id="set-color-power-line-frequency">
 <h3><span class="section-number">4.2.5.6. </span>Set Color Power Line Frequency<a class="headerlink" href="#set-color-power-line-frequency" title="Link to this heading"></a></h3>
 <p>It is necessary to set 50Hz or 60Hz according to the power line frequency of different countries and regions. The purpose of setting the power supply frequency is to prevent Color images from flickering.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT</span><span class="p">,</span> <span class="n">OBPowerLineFreqMode</span><span class="o">.</span><span class="n">FREQUENCY_50HZ</span><span class="p">)</span>
@@ -571,7 +571,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2024-11-22 18:11:34.
+      <span class="lastupdated">Last updated on 2025-04-30 16:24:17.
       </span></p>
   </div>
 

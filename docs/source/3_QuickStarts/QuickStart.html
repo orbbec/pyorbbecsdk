@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3.1. Introduction &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
 
@@ -16,7 +16,7 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -189,6 +189,7 @@
 <li><p>Presets (supported by Gemini 330 series).</p></li>
 <li><p>Update Firmware .</p></li>
 <li><p>Network functionality (supported by the Femto Mega).</p></li>
+<li><p>Record and playback.</p></li>
 </ul>
 </section>
 <section id="build-your-first-camera-application">
@@ -204,7 +205,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#  1. Prerequisites</span>
 <span class="c1"># compile pyorbbecsdk and  copy the compiled .pyd library and other dependent Orbbec SDK libraries to the examples directory.</span>
 
-<span class="kn">from</span> <span class="nn">pyorbbecsdk</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="c1">#2. create pipeline </span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 
@@ -305,6 +306,24 @@
 <td>⭐⭐</td>
 </tr>
 <tr>
+<td>recorder.py</td>
+<td>Demonstrates how to record the streams to a file.</td>
+<td></td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td>playback.py</td>
+<td>Demonstrates how to play back recorded streams.</td>
+<td></td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td>device_optional_depth_presets_update.py</td>
+<td>This sample shows how to read a BIN file to perform optional depth presets upgrades on the device.</td>
+<td>Supported by Gemini 330 series</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
 <td>coordinate_transform.py</td>
 <td>Use the SDK interface to transform different coordinate systems.</td>
 <td></td>
@@ -379,7 +398,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2024-11-22 18:11:34.
+      <span class="lastupdated">Last updated on 2025-04-30 16:24:17.
       </span></p>
   </div>
 

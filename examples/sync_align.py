@@ -32,8 +32,6 @@ def main(argv):
     pipeline = Pipeline()
     config = Config()
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--mode", help="align mode, HW=hardware mode,SW=software mode,NONE=disable align",
-                        type=str, default='HW')
     parser.add_argument("-s", "--enable_sync", help="enable sync", type=bool, default=True)
     args = parser.parse_args(argv)
 

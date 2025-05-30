@@ -105,14 +105,17 @@ if(APPLE)
 elseif (UNIX)
   install(DIRECTORY ${ORBBEC_LIBS}/
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-    FILES_MATCHING PATTERN "*.so"
+    FILES_MATCHING
+    PATTERN "*.so"
     PATTERN "*.so.*"
+    PATTERN "*.xml"
     )
 elseif (WIN32)
   install(DIRECTORY ${ORBBEC_LIBS}/
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
     FILES_MATCHING PATTERN "*.lib"
     PATTERN "*.dll"
+    PATTERN "*.xml"
     )
 endif ()
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UninstallTarget.cmake)

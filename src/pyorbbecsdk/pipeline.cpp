@@ -200,7 +200,7 @@ void define_pipeline_config(py::object &m) {
             });
           },
           py::arg("stream_type"), py::arg("width") = OB_WIDTH_ANY,
-          py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = 30,
+          py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = OB_FPS_ANY,
           py::arg("format") = OB_FORMAT_ANY)
       .def(
           "enable_video_stream",
@@ -211,7 +211,7 @@ void define_pipeline_config(py::object &m) {
             });
           },
           py::arg("sensor_type"), py::arg("width") = OB_WIDTH_ANY,
-          py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = 30,
+          py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = OB_FPS_ANY,
           py::arg("format") = OB_FORMAT_ANY)
       .def(
           "enable_accel_stream",

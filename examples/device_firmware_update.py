@@ -41,7 +41,7 @@ def get_firmware_path():
             firmware_path = os.path.abspath(os.path.expanduser(firmware_path))
 
             # Verify the file exists and has .bin extension
-            if os.path.isfile(firmware_path) and firmware_path.lower().endswith(".bin"):
+            if os.path.isfile(firmware_path):
                 # Try to open the file to verify access permissions
                 try:
                     with open(firmware_path, 'rb') as f:

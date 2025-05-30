@@ -37,13 +37,22 @@ def main():
         assert depth_work_mode is not None
         print("{}. {}".format(i, depth_work_mode))
     if depth_work_mode_list.get_count() > 1:
-        index = int(input("Please input depth work mode index: "))
+        try:
+            index = int(input("Please input depth work mode index: "))
+        except ValueError:
+            print("Invalid input: Please enter an integer.")
+            return
         if depth_work_mode_list.get_count() > index >= 0:
             select_depth_work_mode = depth_work_mode_list.get_depth_work_mode_by_index(index)
             assert select_depth_work_mode is not None
             device.set_depth_work_mode(select_depth_work_mode.name)
-            assert select_depth_work_mode == device.get_depth_work_mode()
-            print("Set depth work mode to {} success!".format(select_depth_work_mode))
+            current_depth_work_mode = device.get_depth_work_mode()
+            if current_depth_work_mode.name != select_depth_work_mode.name:
+                print("Set depth work mode failed!")
+            else:
+                print("Set depth work mode to {} success!".format(select_depth_work_mode))
+        else:
+            print("Invalid input: index is out of range!")
 
 
 if __name__ == '__main__':

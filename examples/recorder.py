@@ -171,6 +171,8 @@ def main():
     # Initialize camera
     pipeline = setup_camera()
     device = pipeline.get_device()
+    #synchronize the timer of the device with the host
+    device.timer_sync_with_host();
     # initialize recording
     recorder = RecordDevice(device, file_path)
     imu_pipeline = setup_imu()

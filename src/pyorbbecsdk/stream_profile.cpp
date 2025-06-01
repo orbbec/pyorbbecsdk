@@ -57,7 +57,7 @@ void define_stream_profile(const py::object &m) {
                if (!self->is<ob::AccelStreamProfile>()) {
                  throw std::invalid_argument("Not an accel stream profile");
                }
-                 return self->as<ob::AccelStreamProfile>();
+               return self->as<ob::AccelStreamProfile>();
              });
            })
       .def("as_gyro_stream_profile",
@@ -69,12 +69,24 @@ void define_stream_profile(const py::object &m) {
                return self->as<ob::GyroStreamProfile>();
              });
            })
+      .def("bind_extrinsic_to",
+           [](const std::shared_ptr<ob::StreamProfile> &self,
+              std::shared_ptr<ob::StreamProfile> &target,
+              const OBExtrinsic &extrinsic) {
+             OB_TRY_CATCH({ return self->bindExtrinsicTo(target, extrinsic); });
+           })
+      .def("bind_extrinsic_to",
+           [](const std::shared_ptr<ob::StreamProfile> &self,
+              const OBStreamType &targetStreamType,
+              const OBExtrinsic &extrinsic) {
+             OB_TRY_CATCH({
+               return self->bindExtrinsicTo(targetStreamType, extrinsic);
+             });
+           })
       .def("get_extrinsic_to",
            [](const std::shared_ptr<ob::StreamProfile> &self,
               const std::shared_ptr<ob::StreamProfile> &target) {
-             OB_TRY_CATCH({
-               return self->getExtrinsicTo(target);
-             });
+             OB_TRY_CATCH({ return self->getExtrinsicTo(target); });
            });
 }
 
@@ -168,22 +180,20 @@ void define_stream_profile_list(const py::object &m) {
                return self->getVideoStreamProfile(width, height, format, fps);
              });
            })
-      .def(
-          "get_default_video_stream_profile",
-          [](const std::shared_ptr<ob::StreamProfileList> &self)
-              -> std::shared_ptr<ob::VideoStreamProfile> {
-            auto default_profile = self->getProfile(0);
-            CHECK_NULLPTR(default_profile);
-            OB_TRY_CATCH({
-              return default_profile->as<ob::VideoStreamProfile>();
-            });
-          })
-      .def("__len__", [](const std::shared_ptr<ob::StreamProfileList> &self) {
-        return self->count();
-      })
-      .def("__getitem__", [](const std::shared_ptr<ob::StreamProfileList> &self, int index) {
-        return self->getProfile(index);
-      });
+      .def("get_default_video_stream_profile",
+           [](const std::shared_ptr<ob::StreamProfileList> &self)
+               -> std::shared_ptr<ob::VideoStreamProfile> {
+             auto default_profile = self->getProfile(0);
+             CHECK_NULLPTR(default_profile);
+             OB_TRY_CATCH(
+                 { return default_profile->as<ob::VideoStreamProfile>(); });
+           })
+      .def("__len__",
+           [](const std::shared_ptr<ob::StreamProfileList> &self) {
+             return self->count();
+           })
+      .def("__getitem__", [](const std::shared_ptr<ob::StreamProfileList> &self,
+                             int index) { return self->getProfile(index); });
 }
 
 }  // namespace pyorbbecsdk

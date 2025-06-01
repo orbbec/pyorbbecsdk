@@ -248,16 +248,16 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DISP_SEARCH_RANGE_MODE_INT",
              OBPropertyID::OB_PROP_DISP_SEARCH_RANGE_MODE_INT,
              "Disparity search range mode, 1: 128, 2: 256")
-       .value("OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL",
+      .value("OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL",
              OBPropertyID::OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL,
              "Laser high temperature protection")
-       .value("OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL",
+      .value("OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL",
              OBPropertyID::OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL,
              "low exposure laser control")
-       .value("OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL",
+      .value("OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL",
              OBPropertyID::OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL,
              "check pps sync in signal")
-       .value("OB_PROP_DISP_SEARCH_OFFSET_INT",
+      .value("OB_PROP_DISP_SEARCH_OFFSET_INT",
              OBPropertyID::OB_PROP_DISP_SEARCH_OFFSET_INT,
              "Disparity search range offset, range: [0, 127]")
       .value("OB_PROP_DEVICE_REPOWER_BOOL",
@@ -273,22 +273,18 @@ void define_properties(const py::object& m) {
           "OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT",
           OBPropertyID::OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT,
           "laser pattern sync with delay(us)")
-       .value(
-          "OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT",
-          OBPropertyID::OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT,
-          "Get the health check result from device,range is [0.0f,1.5f]")
-       .value(
-          "OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL",
-          OBPropertyID::OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL,
-          "Enable or disable on-chip calibration")
-       .value(
-          "OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL",
-          OBPropertyID::OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL,
-          "hardware noise remove filter switch")
-       .value(
-          "OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT",
-          OBPropertyID::OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT,
-          "hardware noise remove filter threshold ,range [0.0 - 1.0]")
+      .value("OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT",
+             OBPropertyID::OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT,
+             "Get the health check result from device,range is [0.0f,1.5f]")
+      .value("OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL",
+             OBPropertyID::OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL,
+             "Enable or disable on-chip calibration")
+      .value("OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL",
+             OBPropertyID::OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL,
+             "hardware noise remove filter switch")
+      .value("OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT",
+             OBPropertyID::OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT,
+             "hardware noise remove filter threshold ,range [0.0 - 1.0]")
       .value("OB_STRUCT_BASELINE_CALIBRATION_PARAM",
              OBPropertyID::OB_STRUCT_BASELINE_CALIBRATION_PARAM,
              "Baseline calibration parameters")
@@ -318,7 +314,7 @@ void define_properties(const py::object& m) {
       .value("OB_STRUCT_DEPTH_AE_ROI", OBPropertyID::OB_STRUCT_DEPTH_AE_ROI)
       .value("OB_STRUCT_ASIC_SERIAL_NUMBER",
              OBPropertyID::OB_STRUCT_ASIC_SERIAL_NUMBER)
-       .value("OB_STRUCT_DISP_OFFSET_CONFIG",
+      .value("OB_STRUCT_DISP_OFFSET_CONFIG",
              OBPropertyID::OB_STRUCT_DISP_OFFSET_CONFIG,
              "Disparity offset interleaving")
       .value("OB_PROP_COLOR_AUTO_EXPOSURE_BOOL",
@@ -400,8 +396,13 @@ void define_properties(const py::object& m) {
              "Calibration JSON file read from device (Femto Mega, read only)")
       .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
-             "depth noise removal filter"),
-
+             "depth noise removal filter")
+      .value("OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL",
+             OBPropertyID::OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL,
+             "PTP time synchronization enable")
+      .value("OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT",
+             OBPropertyID::OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT,
+             "Confidence degree"),
       py::enum_<OBPropertyType>(m, "OBPropertyType")
           .value("OB_BOOL_PROPERTY", OBPropertyType::OB_BOOL_PROPERTY,
                  "Boolean property")

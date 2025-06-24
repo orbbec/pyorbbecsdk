@@ -2,10 +2,10 @@
 
 - Contents:
 
-  - 3.1.1 Stream profile
-  - 3.1.2 Video Stream acquisition
-  - 3.1.3 Imu data acquisition
-  - 3.1.4 Point Cloud：
+  - 4.1.1 Stream profile
+  - 4.1.2 Video Stream acquisition
+  - 4.1.3 Imu data acquisition
+  - 4.1.4 Point Cloud：
     - Depth Point Cloud
     - RGBD Point Cloud
 

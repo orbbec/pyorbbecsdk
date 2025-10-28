@@ -183,7 +183,7 @@ python 3.8 to python 3.13
 
 ## Environment Setup
 
-### windows
+### Windows
 
 For windows, you need to register the metadata associated with frames (this includes things like timestamps and other information about the video frame).
 
@@ -215,7 +215,7 @@ For Linux, we have provided a script to help you set up the environment. You can
 To make Python more user-friendly, We provide two installation methods: online installation and offline installation.
 We provide online installation packages for Python versions **3.9** to **3.13** and provide offline installation packages for Python versions **3.8** to **3.13**.
 
-### window
+### Windows
 
 Follow the [windows install documentation](
 https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html#windows) to install the SDK online or offline. Then verify the package and run the sample.

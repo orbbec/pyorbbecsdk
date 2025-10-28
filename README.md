@@ -213,15 +213,19 @@ For Linux, we have provided a script to help you set up the environment. You can
 
 ## How to Use install package
 To make Python more user-friendly, We provide two installation methods: online installation and offline installation.
-We provide online installation packages for Python versions **3.9** to **3.13** and provide offline installation packages for Python versions **3.8** to **3.13**.
+
 
 ### Windows
+
+We provide both online and offline installation packages for Python versions **3.8** to **3.13**.
 
 Follow the [windows install documentation](
 https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html#windows) to install the SDK online or offline. Then verify the package and run the sample.
 
 
 ### Linux
+
+We provide online installation packages for Python versions **3.9** to **3.13** and provide offline installation packages for Python versions **3.8** to **3.13**.
 
 Follow the [linux install documentation](
 https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html#linux) to install the SDK online or offline. Then verify the package and run the sample.

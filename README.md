@@ -213,26 +213,18 @@ For Linux, we have provided a script to help you set up the environment. You can
 
 ## How to Use install package
 To make Python more user-friendly, We provide two installation methods: online installation and offline installation.
+We provide online installation packages for Python versions **3.9** to **3.13** and provide offline installation packages for Python versions **3.8** to **3.13**.
 
-### online installation
+### window
 
-We provide online installation packages for Python versions **3.9** to **3.13**. The installation methods are as follows:
-
-```cpp
-pip install pyorbbecsdk2
-```
+Follow the [windows install documentation](
+https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html#windows) to install the SDK online or offline. Then verify the package and run the sample.
 
 
-### offline installation
+### Linux
 
-We provide offline installation packages for Python versions **3.8** to **3.13**.
-
-First, you need to download the corresponding [installation package](https://github.com/orbbec/pyorbbecsdk/releases) based on your system's Python version. Then refer to [this document](https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html#) for installation.
-
-- The file pyorbbecsdk-xxx-xxx-xxx-win_amd64.whl serves as the installation package for python wrapper On Win10.
-- The file pyorbbecsdk-xxx-xxx-xxx-linux_x86_64.whl serves as the installation package for python wrapper On Linux x64，likes ubuntu.
-- The file pyorbbecsdk-xxx-xxx-xxx-linux_aarch64.whl serves as the installation package for python wrapper on Arm64，likes Nvidia Jetson nano、Orin nano、Orin NX，AGX NX.
-
+Follow the [linux install documentation](
+https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html#linux) to install the SDK online or offline. Then verify the package and run the sample.
 
 ## Documentation
 

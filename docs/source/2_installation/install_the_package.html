@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2.2. Online installation &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
+  <title>2.2. Linux &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
@@ -66,24 +66,34 @@
 <li class="toctree-l3"><a class="reference internal" href="registration_script.html#registering-metadata-using-a-script-windows">2.1.2. Registering Metadata Using a Script (Windows)</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">2.2. Online installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#offline-installation">2.3. Offline installation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#linux">2.3.1. Linux</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#prerequisites">2.3.1.1. Prerequisites</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#download-the-appropriate-whl-package">2.3.1.2. Download the Appropriate .whl Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#install-the-package">2.3.1.3. Install the Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#verify-the-installation">2.3.1.4. Verify the Installation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#run-the-example">2.3.1.5. Run the Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.2. Linux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">2.2.1. Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#online-installation">2.2.1.1. Online installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#offline-installation">2.2.1.2. Offline installation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#prerequisites">2.2.1.2.1. Prerequisites</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#download-the-appropriate-whl-package">2.2.1.2.2. Download the Appropriate .whl Package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#install-the-package">2.2.1.2.3. Install the Package</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#windows">2.3.2. Windows</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id1">2.3.2.1. Prerequisites</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id2">2.3.2.2. Download the Appropriate .whl Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id3">2.3.2.3. Install the Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id4">2.3.2.4. Verify the Installation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id5">2.3.2.5. Run the Example</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#verify-the-installation">2.2.2. Verify the Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-the-example">2.2.3. Run the Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#windows">2.3. Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2.3.1. Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">2.3.1.1. Online installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">2.3.1.2. Offline installation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#id4">2.3.1.2.1. Prerequisites</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#id5">2.3.1.2.2. Download the Appropriate .whl Package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#id6">2.3.1.2.3. Install the Package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.3.2. Verify the Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">2.3.3. Run the Example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="build_the_package.html">2.4. Build from Source</a><ul>
@@ -264,7 +274,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="installation.html"><span class="section-number">2. </span>Installation</a></li>
-      <li class="breadcrumb-item active"><span class="section-number">2.2. </span>Online installation</li>
+      <li class="breadcrumb-item active"><span class="section-number">2.2. </span>Linux</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/source/2_installation/install_the_package.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -274,29 +284,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="online-installation">
-<h1><span class="section-number">2.2. </span>Online installation<a class="headerlink" href="#online-installation" title="Link to this heading"></a></h1>
-<p>We provide online installation packages for Python versions <strong>3.9</strong> to <strong>3.13</strong>. The installation methods are as follows:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">pyorbbecsdk2</span>
+  <section id="linux">
+<h1><span class="section-number">2.2. </span>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h1>
+<section id="installation">
+<h2><span class="section-number">2.2.1. </span>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<section id="online-installation">
+<h3><span class="section-number">2.2.1.1. </span>Online installation<a class="headerlink" href="#online-installation" title="Link to this heading"></a></h3>
+<p>We provide <strong>online installation packages</strong> for Python versions <strong>3.9</strong> to <strong>3.13</strong>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2
 </pre></div>
 </div>
 </section>
 <section id="offline-installation">
-<h1><span class="section-number">2.3. </span>Offline installation<a class="headerlink" href="#offline-installation" title="Link to this heading"></a></h1>
-<p>We provide offline installation packages for Python versions <strong>3.8</strong> to <strong>3.13</strong>.</p>
-<section id="linux">
-<h2><span class="section-number">2.3.1. </span>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h2>
+<h3><span class="section-number">2.2.1.2. </span>Offline installation<a class="headerlink" href="#offline-installation" title="Link to this heading"></a></h3>
+<p>We provide <strong>offline installation packages</strong> for Python versions <strong>3.8</strong> to <strong>3.13</strong>.</p>
 <section id="prerequisites">
-<h3><span class="section-number">2.3.1.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<h4><span class="section-number">2.2.1.2.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h4>
 <p>Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.</p>
-</section>
-<section id="download-the-appropriate-whl-package">
-<h3><span class="section-number">2.3.1.2. </span>Download the Appropriate .whl Package<a class="headerlink" href="#download-the-appropriate-whl-package" title="Link to this heading"></a></h3>
-<p>Download the .whl installation package that matches your local Python version from the <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">Python Wrapper Release</a></p>
-<p>First, check your Python version:</p>
+<p>check your Python version:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>--version
 </pre></div>
 </div>
+</section>
+<section id="download-the-appropriate-whl-package">
+<h4><span class="section-number">2.2.1.2.2. </span>Download the Appropriate .whl Package<a class="headerlink" href="#download-the-appropriate-whl-package" title="Link to this heading"></a></h4>
+<p>Download the .whl installation package that matches your local Python version from the <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">Python Wrapper Release</a></p>
 <p>For example, if your Python version is 3.11.9, look for a .whl file that matches cp311 and your platform (e.g., Linux x86_64).
 A typical file name will look like:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyorbbecsdk-2.0.13-cp311-cp311-linux_x86_64.whl
@@ -304,21 +316,27 @@ A typical file name will look like:</p>
 </div>
 </section>
 <section id="install-the-package">
-<h3><span class="section-number">2.3.1.3. </span>Install the Package<a class="headerlink" href="#install-the-package" title="Link to this heading"></a></h3>
+<h4><span class="section-number">2.2.1.2.3. </span>Install the Package<a class="headerlink" href="#install-the-package" title="Link to this heading"></a></h4>
 <p>Navigate to the directory where you downloaded the .whl file and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk-2.0.13-cp311-cp311-linux_x86_64.whl
 </pre></div>
 </div>
 </section>
+</section>
+</section>
 <section id="verify-the-installation">
-<h3><span class="section-number">2.3.1.4. </span>Verify the Installation<a class="headerlink" href="#verify-the-installation" title="Link to this heading"></a></h3>
+<h2><span class="section-number">2.2.2. </span>Verify the Installation<a class="headerlink" href="#verify-the-installation" title="Link to this heading"></a></h2>
 <p>Check whether the package was installed successfully:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk
+<ul class="simple">
+<li><p>For <strong>online installation</strong>, use <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>.</p></li>
+<li><p>For <strong>offline installation</strong>, use <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk<span class="w">     </span><span class="c1">#or pyorbbecsdk2</span>
 </pre></div>
 </div>
 <p>If the output shows a Location: field, the package was installed successfully at that path.
 For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lijie@lijie-orbbec:~$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lijie@lijie-orbbec:~$<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk<span class="w"> </span>
 
 Name:<span class="w"> </span>pyorbbecsdk
 Version:<span class="w"> </span><span class="m">2</span>.0.13
@@ -330,9 +348,14 @@ Location:<span class="w"> </span>/home/lijie/.local/lib/python3.11/site-packages
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/home/lijie/.local/lib/python3.11/site-packages
 </pre></div>
 </div>
+<p>Inside this directory, you will find the package folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/home/lijie/.local/lib/python3.11/site-packages/pyorbbecsdk
+</pre></div>
+</div>
+<p><em>Notes: Regardless of whether you installed <strong>online installation packages</strong> (pyorbbecsdk2) or <strong>offline installation packages</strong> (pyorbbecsdk),the final installed package folder is always named <strong>pyorbbecsdk</strong>.</em></p>
 </section>
 <section id="run-the-example">
-<h3><span class="section-number">2.3.1.5. </span>Run the Example<a class="headerlink" href="#run-the-example" title="Link to this heading"></a></h3>
+<h2><span class="section-number">2.2.3. </span>Run the Example<a class="headerlink" href="#run-the-example" title="Link to this heading"></a></h2>
 <ul>
 <li><p>Locate the site-packages path
 Use the output from the previous step to find your_site_packages_path.</p></li>
@@ -351,36 +374,55 @@ python3<span class="w"> </span>examples/color.py
 </ul>
 </section>
 </section>
+<hr class="docutils" />
 <section id="windows">
-<h2><span class="section-number">2.3.2. </span>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h2>
+<h1><span class="section-number">2.3. </span>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h1>
 <section id="id1">
-<h3><span class="section-number">2.3.2.1. </span>Prerequisites<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
-<p>Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.</p>
-</section>
+<h2><span class="section-number">2.3.1. </span>Installation<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <section id="id2">
-<h3><span class="section-number">2.3.2.2. </span>Download the Appropriate .whl Package<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<p>Download the .whl installation package that matches your local Python version from the <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">Python SDK Wrapper Release</a></p>
-<p>First, check your Python version:</p>
+<h3><span class="section-number">2.3.1.1. </span>Online installation<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>We provide <strong>online installation packages</strong> for Python versions <strong>3.8</strong> to <strong>3.13</strong>. The installation methods are as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3><span class="section-number">2.3.1.2. </span>Offline installation<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>We provide <strong>offline installation packages</strong> for Python versions <strong>3.8</strong> to <strong>3.13</strong>.</p>
+<section id="id4">
+<h4><span class="section-number">2.3.1.2.1. </span>Prerequisites<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
+<p>Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.</p>
+<p>check your Python version:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>--version
 </pre></div>
 </div>
+</section>
+<section id="id5">
+<h4><span class="section-number">2.3.1.2.2. </span>Download the Appropriate .whl Package<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
+<p>Download the .whl installation package that matches your local Python version from the <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">Python SDK Wrapper Release</a></p>
 <p>For example, if your Python version is 3.11.9, look for a .whl file that matches cp311 and your platform (e.g., win x64).
 A typical file name will look like:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyorbbecsdk-2.0.13-cp311-cp311-win_amd64.whl
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h3><span class="section-number">2.3.2.3. </span>Install the Package<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="id6">
+<h4><span class="section-number">2.3.1.2.3. </span>Install the Package<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
 <p>Navigate to the directory where you downloaded the .whl file and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk-2.0.13-cp311-cp311-win_amd64.whl
 </pre></div>
 </div>
 </section>
-<section id="id4">
-<h3><span class="section-number">2.3.2.4. </span>Verify the Installation<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+</section>
+</section>
+<section id="id7">
+<h2><span class="section-number">2.3.2. </span>Verify the Installation<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p>Check whether the package was installed successfully:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk
+<ul class="simple">
+<li><p>For <strong>online installation</strong>, use <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>.</p></li>
+<li><p>For <strong>offline installation</strong>, use <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk<span class="w">       </span><span class="c1">#or pyorbbecsdk2</span>
 </pre></div>
 </div>
 <p>If the output shows a Location: field, the package was installed successfully at that path.
@@ -397,9 +439,14 @@ Location:<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>C:<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\P</span>rograms<span class="se">\P</span>ython<span class="se">\P</span>ython311<span class="se">\L</span>ib<span class="se">\s</span>ite-packages
 </pre></div>
 </div>
+<p>Inside this directory, you will find the package folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>C:<span class="se">\U</span>sers<span class="se">\A</span>dministrator<span class="se">\A</span>ppData<span class="se">\L</span>ocal<span class="se">\P</span>rograms<span class="se">\P</span>ython<span class="se">\P</span>ython311<span class="se">\L</span>ib<span class="se">\s</span>ite-packages<span class="se">\p</span>yorbbecsdk
+</pre></div>
+</div>
+<p><em>Notes: Regardless of whether you installed <strong>online installation packages</strong> (pyorbbecsdk2) or <strong>offline installation packages</strong> (pyorbbecsdk),the final installed package folder is always named <strong>pyorbbecsdk</strong>.</em></p>
 </section>
-<section id="id5">
-<h3><span class="section-number">2.3.2.5. </span>Run the Example<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<section id="id8">
+<h2><span class="section-number">2.3.3. </span>Run the Example<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <ul>
 <li><p>Locate the site-packages path
 Use the output from the previous step to find your_site_packages_path.</p></li>
@@ -418,7 +465,6 @@ python<span class="w"> </span>examples/color.py
 </ul>
 </section>
 </section>
-</section>
 
 
            </div>
@@ -432,7 +478,7 @@ python<span class="w"> </span>examples/color.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2025-10-24 19:06:49.
+      <span class="lastupdated">Last updated on 2025-10-28 15:28:48.
       </span></p>
   </div>
 

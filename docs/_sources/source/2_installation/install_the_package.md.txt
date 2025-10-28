@@ -1,27 +1,26 @@
-# Online installation
-We provide online installation packages for Python versions **3.9** to **3.13**. The installation methods are as follows:
+# Linux
+## Installation
+### Online installation
+We provide **online installation packages** for Python versions **3.9** to **3.13**.
 
-```cpp
-pip install pyorbbecsdk2
+```bash
+pip3 install pyorbbecsdk2
 ```
 
+### Offline installation
+We provide **offline installation packages** for Python versions **3.8** to **3.13**.
 
-# Offline installation
-
-We provide offline installation packages for Python versions **3.8** to **3.13**.
-
-## Linux
-### Prerequisites
+#### Prerequisites
 Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.
 
-### Download the Appropriate .whl Package
-Download the .whl installation package that matches your local Python version from the [Python Wrapper Release](https://github.com/orbbec/pyorbbecsdk/releases)
-
-First, check your Python version:
+check your Python version:
 
 ```bash
 python3 --version
 ```
+
+#### Download the Appropriate .whl Package
+Download the .whl installation package that matches your local Python version from the [Python Wrapper Release](https://github.com/orbbec/pyorbbecsdk/releases)
 
 For example, if your Python version is 3.11.9, look for a .whl file that matches cp311 and your platform (e.g., Linux x86_64).
 A typical file name will look like:
@@ -30,25 +29,28 @@ A typical file name will look like:
 pyorbbecsdk-2.0.13-cp311-cp311-linux_x86_64.whl
 ```
 
-### Install the Package
+#### Install the Package
 Navigate to the directory where you downloaded the .whl file and run:
 
 ```bash
 python3 -m pip install pyorbbecsdk-2.0.13-cp311-cp311-linux_x86_64.whl
 ```
 
-### Verify the Installation
+## Verify the Installation
 Check whether the package was installed successfully:
 
+ - For **online installation**, use `pyorbbecsdk2`.  
+ - For **offline installation**, use `pyorbbecsdk`.
+
 ```bash
-python3 -m pip show pyorbbecsdk
+python3 -m pip show pyorbbecsdk     #or pyorbbecsdk2
 ```
 
 If the output shows a Location: field, the package was installed successfully at that path.
 For example:
 
 ```bash
-lijie@lijie-orbbec:~$ python3 -m pip show pyorbbecsdk
+lijie@lijie-orbbec:~$ python3 -m pip show pyorbbecsdk 
 
 Name: pyorbbecsdk
 Version: 2.0.13
@@ -62,7 +64,15 @@ In this example, your site-packages path is:
 /home/lijie/.local/lib/python3.11/site-packages
 ```
 
-### Run the Example
+Inside this directory, you will find the package folder:
+
+```bash
+/home/lijie/.local/lib/python3.11/site-packages/pyorbbecsdk
+```
+
+*Notes: Regardless of whether you installed **online installation packages** (pyorbbecsdk2) or **offline installation packages** (pyorbbecsdk),the final installed package folder is always named **pyorbbecsdk**.*
+
+## Run the Example
 - Locate the site-packages path
     Use the output from the previous step to find your_site_packages_path.
 - If you are running an example for the first time, you may need to install additional dependencies.
@@ -79,18 +89,31 @@ Install the example dependencies:
     python3 examples/color.py
     ```
 
-## Windows
-### Prerequisites
+---
+
+# Windows
+## Installation
+### Online installation
+We provide **online installation packages** for Python versions **3.8** to **3.13**. The installation methods are as follows:
+
+```bash
+pip install pyorbbecsdk2
+```
+
+### Offline installation
+We provide **offline installation packages** for Python versions **3.8** to **3.13**.
+
+#### Prerequisites
 Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.
 
-### Download the Appropriate .whl Package
-Download the .whl installation package that matches your local Python version from the [Python SDK Wrapper Release](https://github.com/orbbec/pyorbbecsdk/releases)
-
-First, check your Python version:
+check your Python version:
 
 ```bash
 python --version
 ```
+
+#### Download the Appropriate .whl Package
+Download the .whl installation package that matches your local Python version from the [Python SDK Wrapper Release](https://github.com/orbbec/pyorbbecsdk/releases)
 
 For example, if your Python version is 3.11.9, look for a .whl file that matches cp311 and your platform (e.g., win x64).
 A typical file name will look like:
@@ -99,18 +122,21 @@ A typical file name will look like:
 pyorbbecsdk-2.0.13-cp311-cp311-win_amd64.whl
 ```
 
-### Install the Package
+#### Install the Package
 Navigate to the directory where you downloaded the .whl file and run:
 
 ```bash
 python -m pip install pyorbbecsdk-2.0.13-cp311-cp311-win_amd64.whl
 ```
 
-### Verify the Installation
+## Verify the Installation
 Check whether the package was installed successfully:
 
+ - For **online installation**, use `pyorbbecsdk2`.  
+ - For **offline installation**, use `pyorbbecsdk`.
+
 ```bash
-python -m pip show pyorbbecsdk
+python -m pip show pyorbbecsdk       #or pyorbbecsdk2
 ```
 
 If the output shows a Location: field, the package was installed successfully at that path.
@@ -131,7 +157,15 @@ In this example, your site-packages path is:
 C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages
 ```
 
-### Run the Example
+Inside this directory, you will find the package folder:
+
+```bash
+C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pyorbbecsdk
+```
+
+*Notes: Regardless of whether you installed **online installation packages** (pyorbbecsdk2) or **offline installation packages** (pyorbbecsdk),the final installed package folder is always named **pyorbbecsdk**.*
+
+## Run the Example
 - Locate the site-packages path
     Use the output from the previous step to find your_site_packages_path.
 - If you are running an example for the first time, you may need to install additional dependencies.
@@ -139,7 +173,6 @@ Install the example dependencies:
 
     ```bash
     python -m pip install -r <your_site_packages_path>\pyorbbecsdk\examples\requirements.txt
-
     ```
 
 - Run an example

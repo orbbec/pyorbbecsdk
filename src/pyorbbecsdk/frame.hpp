@@ -31,6 +31,8 @@ void define_depth_frame(const py::object& m);
 
 void define_ir_frame(const py::object& m);
 
+void define_confidence_frame(const py::object& m);
+
 void define_points_frame(const py::object& m);
 
 void define_frame_set(const py::object& m);
@@ -39,5 +41,6 @@ void define_accel_frame(const py::object& m);
 
 void define_gyro_frame(const py::object& m);
 
+void define_lidar_points_frame(const py::object& m);
 
 }  // namespace pyorbbecsdk

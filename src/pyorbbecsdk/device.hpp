@@ -28,6 +28,8 @@ void define_camera_list(const py::object &m);
 
 void define_depth_work_mode_list(const py::object &m);
 
+void define_preset_resolution_config_list(const py::object &m);
+
 void define_device(const py::object &m);
 
 void define_device_list(const py::object &m);

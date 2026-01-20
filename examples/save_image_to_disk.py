@@ -5,7 +5,7 @@
 #  you may not use this file except in compliance with the License.  
 #  You may obtain a copy of the License at
 #  
-#      http:# www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #  
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,9 +40,10 @@ def save_depth_frame(frame: DepthFrame, index):
     save_image_dir = os.path.join(os.getcwd(), "depth_images")
     if not os.path.exists(save_image_dir):
         os.mkdir(save_image_dir)
-    raw_filename = save_image_dir + "/depth_{}x{}_{}_{}.raw".format(width, height, index, timestamp)
-    data.tofile(raw_filename)
-
+    filename = save_image_dir + "/depth_{}x{}_{}_{}.png".format(width, height, index, timestamp)
+    params = [cv2.IMWRITE_PNG_COMPRESSION, 0]
+    cv2.imwrite(filename, data, params)
+    print(f"Depth saved: {filename}")
 
 def save_color_frame(frame: ColorFrame, index):
     if frame is None:
@@ -59,7 +60,7 @@ def save_color_frame(frame: ColorFrame, index):
         print("failed to convert frame to image")
         return
     cv2.imwrite(filename, image)
-
+    print(f"Color saved: {filename}")
 
 def main():
     pipeline = Pipeline()
@@ -73,34 +74,44 @@ def main():
             color_profile: VideoStreamProfile = profile_list.get_default_video_stream_profile()
             config.enable_stream(color_profile)
             has_color_sensor = True
+        depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+        if depth_profile_list is not None:
+            depth_profile = depth_profile_list.get_default_video_stream_profile()
+            config.enable_stream(depth_profile)
+        config.set_frame_aggregate_output_mode(OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE)
     except OBError as e:
         print(e)
-    depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-    if depth_profile_list is not None:
-        depth_profile = depth_profile_list.get_default_video_stream_profile()
-        config.enable_stream(depth_profile)
     pipeline.start(config)
-    while True:
-        try:
+    
+    print("Waiting for sensor to stabilize...")
+    for _ in range(15):
+        pipeline.wait_for_frames(100)
+        
+    frame_index = 0
+    try:
+        while True:
             frames = pipeline.wait_for_frames(100)
             if frames is None:
                 continue
-            if has_color_sensor:
-                if saved_color_cnt >= 5 and saved_depth_cnt >= 5:
-                    break
-            elif saved_depth_cnt >= 5:
+            frame_index += 1
+            if frame_index >= 5:
+                print("The demo is over!")
                 break
+            
             color_frame = frames.get_color_frame()
-            if color_frame is not None and saved_color_cnt < 5:
-                save_color_frame(color_frame, saved_color_cnt)
-                saved_color_cnt += 1
             depth_frame = frames.get_depth_frame()
-            if depth_frame is not None and saved_depth_cnt < 5:
-                save_depth_frame(depth_frame, saved_depth_cnt)
-                saved_depth_cnt += 1
-        except KeyboardInterrupt:
-            break
-
-
+            
+            if color_frame:
+                save_color_frame(color_frame, frame_index)
+            if depth_frame:
+                save_depth_frame(depth_frame, frame_index)
+    except KeyboardInterrupt:
+        pass
+    except OBError as e:
+        print(e)
+    finally:
+        pipeline.stop()
+        print("Pipeline stopped.")
+        
 if __name__ == "__main__":
     main()

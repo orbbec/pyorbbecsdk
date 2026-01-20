@@ -724,6 +724,26 @@ if device.is_property_supported(OBPropertyID.OB_PROP_HW_NOISE_REMOVE_FILTER_ENAB
     device.set_float_property(OBPropertyID.OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT, 0.2)
 ```
 
+## Software Noise Removeal Filter
+
+Software Noise Removeal Filter is a processing feature provided by the SDK that reduces depth noise through software algorithms.
+
+Key API Description：
+
+```python
+# 1.Get device by Pipeline
+device = pipe.get_device()
+# 2.Determine whether to enable filter
+enable = device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL)
+# 3.Get filter-related parameters
+max_diff = device.get_int_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT)
+min_diff = device.get_int_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT)
+# 4.Set the relevant filter parameters
+device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL, True)
+device.set_int_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT, 512)
+device.set_int_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT, 960)
+```
+
 # Depth Post-Processing Filters
 The SDK provides a recommended list of post-processing filters,For details on how to use the post-processing filter list interface,see [examples/post_processing.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/post_processing.py).
 
@@ -805,7 +825,7 @@ config = Config()
 # 5.Set playback status change callback, when the playback stops, start the pipeline again with the same config
 def on_status_change(status):
     print(f"[Callback] status changed: {status}")
-    if status == PlaybackStatus.Stopped:
+    if status == PlaybackStatus.STOPPED:
         pipeline.stop()
         pipeline.start(config)
 playback.set_playback_status_change_callback(on_status_change)
@@ -1037,6 +1057,22 @@ device_status = context.ob_force_ip_config(device_list.get_device_uid_by_index(d
 
 For detailed code, refer to: [examples/forceip.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/forceip.py).
 
+## Obtain Device Temperature
+
+```python
+pipe = Pipeline()
+device = pipe.get_device()
+temperature = device.get_temperature()
+```
+
+## Obtain Device Baseline
+
+```python
+pipe = Pipeline()
+device = pipe.get_device()
+baseline = device.get_baseline()
+```
+
 ## Stream Profile
 
 Method 1: obtain stream profile by resolution, frame format, and frame rate
@@ -1138,6 +1174,34 @@ from pyorbbecsdk import *
 device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, True)
 ```
 
+## HDR Merge
+
+Currently, only the Gemini 330 series supports,The detailed implementation can be found in the SDK example.
+
+Key API Descriptions:
+
+```python
+device = pipeline.get_device()
+
+if device.isFrameInterleaveSupported():
+    device.loadFrameInterleave("Depth from HDR")
+    device.set_bool_property(OBPropertyID.OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL,True)
+else:
+    config = OBHdrConfig()
+    config.enable = True
+    config.exposure_1 = 7500
+    config.gain_1 = 24
+    config.exposure_2 = 100
+    config.gain_2 = 16
+    device.set_hdr_config(config)
+
+hdr_filter = HDRMergeFilter()
+frames = pipeline.wait_for_frames(100)
+merged_frame = hdr_filter.process(frames)
+```
+
+For detailed code, refer to: [examples/hdr.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hdr.py).
+
 ## Obtain LDP Measurement Value
 To obtain the LDP (Laser Distance Protection) measurement values when the LDP switch is enabled.
 
@@ -1199,6 +1263,32 @@ device.trigger_capture()
 ```
 
 For detailed code, refer to: [examples/two_devices_sync.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/two_devices_sync.py).
+
+### Timed Capture
+
+For Gemini 2/Gemini 2 L and early versions of the Gemini 330 series firmware, timed capture must be implemented by the user in the application. The user needs to create a separate thread to periodically trigger the software capture.
+
+```python
+# First, configure the device to software trigger mode through the Device.
+cur_config = device.get_multi_device_sync_config()
+cur_config.mode = OBMultiDeviceSyncMode.SOFTWARE_TRIGGERING
+device.set_multi_device_sync_config(cur_config)
+# Finally, after the video stream is started, a thread is created to periodically trigger via the interface provided by the Device.
+device.trigger_capture()
+```
+
+For the Gemini 330 series with firmware version v1.5.10 or above, and using OrbbecSDK version v2.2.12 or above, the firmware already supports built-in timed capture functionality. Therefore, the SDK provides two new interfaces: one to enable timed capture, and the other to set the capture interval on the firmware side. You no longer need to create a thread to manually trigger capture.
+
+```python
+# First, configure the device to software trigger mode through the Device.
+cur_config = device.get_multi_device_sync_config()
+cur_config.mode = OBMultiDeviceSyncMode.SOFTWARE_TRIGGERING
+device.set_multi_device_sync_config(cur_config)
+# Set the automatic snapshot interval, unit: ms
+device.set_int_property(OBPropertyID.OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT, 67)
+# Enable automatic snapshot by setting it to true: automatic snapshot, set it to false: manual snapshot.
+device.set_bool_property(OBPropertyID.OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL, True)
+```
 
 ## Timestamp Reset
 
@@ -1818,3 +1908,50 @@ Heart Beat allows the host to maintain an active connection with the device to p
 from pyorbbecsdk import *
 # Enable the heart beat mechanism
 device.enable_heart_beat(True)
+```
+
+## Log Management
+
+Each log management interface has a log level parameter, and the log level is determined by the last called interface. To set the global log level, you can use the setLoggerSeverity function, which simultaneously controls the log level for console output, file output and the log callback function. The following three log output methods are independent and setting one will not affect the others.
+
+### Set the log level
+
+This is a global interface. Setting this interface can affect the log level for console output, file output and the log callback function.
+
+If the setLoggerSeverity function is called first to set the log level, and later other interfaces are called to set the log level, the log level will be determined by the last log level set.
+
+```python
+Context.set_logger_level(OBLogLevel.DEBUG)
+```
+
+### Set the Log Output to the Console
+
+`Note`: Only the log level output to the console is affected.
+
+```python
+Context.set_logger_to_console(OBLogLevel.DEBUG)
+```
+
+### Set Log Output to File
+
+`Note`: Only the log level of the output file is affected.
+
+```python
+# Set file logger (DEBUG level)
+log_path = "Log/Custom/"
+os.makedirs(log_path, exist_ok=True)  # Ensure log directory exists
+Context.set_logger_to_file(OBLogLevel.INFO, log_path)
+```
+
+### Set the Log Callback Output
+
+`Note`: Only the log level output to the callback function is affected.
+
+```python
+def on_log(level, msg):
+    print(f"[{level}] {msg.strip()}")
+Context.set_logger_to_callback(OBLogLevel.DEBUG, on_log)
+ctx = Context()
+```
+
+For detailed code, refer to: [examples/logger.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/logger.py).

@@ -1,15 +1,28 @@
-import time
-
-import numpy as np
-
+# ******************************************************************************
+#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+# ******************************************************************************
 from pyorbbecsdk import *
 
 def get_ip_config():
+    """Get the new IP configuration from user input"""
     cfg = OBDeviceIpAddrConfig()
-    cfg.dhcp = 0
+    cfg.dhcp = 0  # Static IP configuration
 
     print("Please enter the network configuration information:")
 
+    # Get and validate IP address
     while True:
         val = input("Enter IP address: ")
         parts = val.split(".")
@@ -18,6 +31,7 @@ def get_ip_config():
             break
         print("Invalid format.")
 
+    # Get and validate Subnet Mask
     while True:
         val = input("Enter Subnet Mask: ")
         parts = val.split(".")
@@ -26,6 +40,7 @@ def get_ip_config():
             break
         print("Invalid format.")
 
+    # Get and validate Gateway address
     while True:
         val = input("Enter Gateway address: ")
         parts = val.split(".")
@@ -37,6 +52,7 @@ def get_ip_config():
     return cfg
 
 def select_device(device_list):
+    """Select a device to operate, specifically filtering for Ethernet devices"""
     device_count = device_list.get_count()
     if device_count == 0:
         print("No devices found.")
@@ -45,9 +61,10 @@ def select_device(device_list):
     index_list = []
     ethernet_dev_num = 0
 
-    print("Device list:")
+    print("Ethernet device list:")
     for i in range(device_count):
         conn_type = device_list.get_device_connection_type_by_index(i)
+        # Only show and allow selection of Ethernet-connected devices
         if conn_type != "Ethernet":
             continue
 
@@ -64,6 +81,7 @@ def select_device(device_list):
         print("No network devices found.")
         return -1
 
+    # User input loop for device selection
     while True:
         try:
             choice = int(input("Enter your choice: "))
@@ -76,17 +94,31 @@ def select_device(device_list):
     return -1
 
 def main():
-    context = Context()
-    device_list = context.query_devices()
-    device_number = select_device(device_list)
-    if device_number != -1:
-        config = get_ip_config()
-        device_status = context.ob_force_ip_config(device_list.get_device_uid_by_index(device_number), config)
-        if device_status is not True:
-            print("Failed to apply the new IP configuration.")
-        else:
-            print("The new IP configuration has been successfully applied to the device.")
+    try:
+        # Create a Context object to interact with Orbbec devices
+        context = Context()
+        # Query the list of connected devices
+        device_list = context.query_devices()
+        
+        # Select a device to operate
+        device_number = select_device(device_list)
+        
+        if device_number != -1:
+            # Get the new IP configuration from user input
+            config = get_ip_config()
             
+            # Change device IP configuration (Force IP)
+            # This is typically used when the device is on a different subnet
+            device_uid = device_list.get_device_uid_by_index(device_number)
+            device_status = context.ob_force_ip_config(device_uid, config)
+            
+            if device_status is not True:
+                print("Failed to apply the new IP configuration.")
+            else:
+                print("The new IP configuration has been successfully applied to the device.")
+                
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 if __name__ == "__main__":
     main()
-

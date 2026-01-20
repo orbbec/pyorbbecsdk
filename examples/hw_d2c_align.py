@@ -5,7 +5,7 @@
 #  you may not use this file except in compliance with the License.  
 #  You may obtain a copy of the License at
 #  
-#      http:# www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #  
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,18 @@ from pyorbbecsdk import *
 import cv2
 import numpy as np
 from utils import frame_to_bgr_image
+
+def switch_d2c_mode(pipeline, config, enable_hw_d2c: bool):
+    pipeline.stop()
+
+    if enable_hw_d2c:
+        config.set_align_mode(OBAlignMode.HW_MODE)
+        print("Hardware D2C: Enabled")
+    else:
+        config.set_align_mode(OBAlignMode.DISABLE)
+        print("Hardware D2C: Disabled")
+
+    pipeline.start(config)
 
 def get_stream_config(pipeline: Pipeline):
     """
@@ -68,6 +80,11 @@ def main():
     # Create a pipeline object
     pipeline = Pipeline()
     
+    try:
+        pipeline.enable_frame_sync()
+    except Exception as e:
+        print(f"Sync error: {e}")
+    
     # Get the stream configuration
     config = get_stream_config(pipeline)
     if config is None:
@@ -76,10 +93,21 @@ def main():
     # Start the pipeline
     pipeline.start(config)
     
+    print("========== Hardware D2C Align ==========")
+    print("T       : Enable / Disable HW D2C")
+    print("+ / -   : Adjust Transparency")
+    print("Q / ESC : Quit")
+    print("========================================")
+    
     # Set the depth range
     min_depth = 20  # Minimum depth value, keep closer depths
     max_depth = 10000  # Maximum depth value, allow far depths to be lost
 
+    # Initialize HW D2C state and overlay transparency parameters
+    enable_hw_d2c = True
+    alpha = 0.5
+    alpha_step = 0.1
+    
     while True:
         # Wait for frames
         frames = pipeline.wait_for_frames(100)
@@ -115,9 +143,17 @@ def main():
         # Normalize depth data for display
         depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX)
         depth_image = cv2.applyColorMap(depth_image.astype(np.uint8), cv2.COLORMAP_JET)
+        
+        # Match depth image size to color image for overlay output when D2C is disable
+        h, w = color_image.shape[:2]
+        if depth_image.shape[:2] != (h, w):
+            depth_image = cv2.resize(
+                depth_image, (w, h),
+                interpolation=cv2.INTER_NEAREST
+            )
 
         # Blend the depth and color images
-        blended_image = cv2.addWeighted(color_image, 0.5, depth_image, 0.5, 0)
+        blended_image = cv2.addWeighted(color_image, 1-alpha, depth_image, alpha, 0)
 
         #resize the window
         cv2.namedWindow("HW D2C Align Viewer", cv2.WINDOW_NORMAL)
@@ -125,8 +161,20 @@ def main():
         
         # Display the result
         cv2.imshow("HW D2C Align Viewer", blended_image)
-        if cv2.waitKey(1) in [ord('q'), 27]:  # 27 is the ESC key
+        
+        # Handle keyboard input for D2C toggle, transparency adjustment, and exit
+        key = cv2.waitKey(1) & 0xFF
+        if key in (27, ord('q')):  # 27 is the ESC key
             break
+        elif key in (ord('t'), ord('T')):
+            enable_hw_d2c = not enable_hw_d2c
+            switch_d2c_mode(pipeline, config, enable_hw_d2c)
+        elif key in (ord('+'), ord('=')):
+            alpha = min(1.0, alpha + alpha_step)
+            print(f"[INFO] Alpha: {alpha:.2f}")
+        elif key in (ord('-'), ord('_')):
+            alpha = max(0.0, alpha - alpha_step)
+            print(f"[INFO] Alpha: {alpha:.2f}")
 
     # Stop the pipeline
     pipeline.stop()

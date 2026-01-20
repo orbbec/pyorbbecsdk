@@ -15,6 +15,9 @@
 
 #include <functional>
 #include <memory>
+#include <string>
+#include <unordered_map>
+#include <mutex>
 
 namespace ob {
 
@@ -28,22 +31,33 @@ public:
     /**
      * @brief Type definition for the device changed callback function.
      *
-     * @param removedList The list of removed devices.
-     * @param addedList The list of added devices.
+     * @param[in] removedList The list of removed devices.
+     * @param[in] addedList The list of added devices.
      */
     typedef std::function<void(std::shared_ptr<DeviceList> removedList, std::shared_ptr<DeviceList> addedList)> DeviceChangedCallback;
 
     /**
      * @brief Type definition for the log output callback function.
      *
-     * @param severity The current callback log level.
-     * @param logMsg The log message.
+     * @param[in] severity The current callback log level.
+     * @param[in] logMsg The log message.
      */
     typedef std::function<void(OBLogSeverity severity, const char *logMsg)> LogCallback;
 
+    struct DeviceChangedCallbackContext {
+        Context              *ctx;
+        uint64_t              callbackId;
+        DeviceChangedCallback callback;
+    };
+
 private:
-    ob_context           *impl_ = nullptr;
-    DeviceChangedCallback deviceChangedCallback_;
+    ob_context *impl_ = nullptr;
+    std::mutex  callbackMtx_;
+
+    std::mutex   legacyCallbackMtx_;
+    OBCallbackId legacyCallbackId_ = INVALID_CALLBACK_ID;
+
+    std::unordered_map<OBCallbackId, std::unique_ptr<DeviceChangedCallbackContext>> devChangedCallbacks_;
     // static LogCallback    logCallback_;
 
 public:
@@ -65,6 +79,7 @@ public:
      * @brief Context destructor.
      */
     ~Context() noexcept {
+        // delete contex of C API, which will auto unregister all callbacks
         ob_error *error = nullptr;
         ob_delete_context(impl_, &error);
         Error::handle(&error, false);
@@ -101,12 +116,12 @@ public:
      * @brief "Force" a static IP address configuration in a device identified by its MAC Address.
      *
      * @param[in] macAddress MAC address of the network device.
-     *                       You can obtain it from @ref DeviceList::uid(), or specify it manually
+     *                       You can obtain it from @ref ob_device_info_get_uid, or specify it manually
      *                       in the format xx:xx:xx:xx:xx:xx, where each xx is a two-digit hexadecimal value.
      * @param[in] config The new IP configuration.
      * @return bool true if the configuration command was processed successfully, false otherwise.
      *
-     * @note This applies to all Orbbec GigE Vision devices
+     * @note This applies to all GigE Vision devices
      */
     bool forceIp(const char *macAddress, const OBNetIpConfig &config) {
         ob_error *error = nullptr;
@@ -120,32 +135,69 @@ public:
      *
      * @param[in] address The IP address, ipv4 only. such as "192.168.1.10"
      * @param[in] port The port number, currently only support 8090
+     * @param[in] accessMode Device access mode. @ref ob_device_access_mode.
+     *                       If the device does not support setting the Access Mode, the default OB_DEVICE_DEFAULT_ACCESS is used.
+     *                       Applies only on first device creation or after release and re-creation; subsequent calls ignore it.
+     *
      * @return std::shared_ptr<Device> The created device object.
      */
-    std::shared_ptr<Device> createNetDevice(const char *address, uint16_t port) const {
+    std::shared_ptr<Device> createNetDevice(const char *address, uint16_t port, OBDeviceAccessMode accessMode = OB_DEVICE_DEFAULT_ACCESS) const {
         ob_error *error  = nullptr;
-        auto      device = ob_create_net_device(impl_, address, port, &error);
+        auto      device = ob_create_net_device_ex(impl_, address, port, accessMode, &error);
         Error::handle(&error);
         return std::make_shared<Device>(device);
     }
 
     /**
      * @brief Set the device plug-in callback function.
+     *
+     * @deprecated This function is deprecated. Please use registerDeviceChangedCallback() instead.
+     *
      * @attention This function supports multiple callbacks. Each call to this function adds a new callback to an internal list.
      *
-     * @param callback The function triggered when the device is plugged and unplugged.
+     * @param[in] callback The function triggered when the device is plugged and unplugged.
      */
     void setDeviceChangedCallback(DeviceChangedCallback callback) {
-        deviceChangedCallback_ = callback;
-        ob_error *error        = nullptr;
-        ob_set_device_changed_callback(impl_, &Context::deviceChangedCallback, this, &error);
+        std::lock_guard<std::mutex> lock(legacyCallbackMtx_);
+        // remove the last callback first
+        if(legacyCallbackId_ != INVALID_CALLBACK_ID) {
+            unregisterDeviceChangedCallback(legacyCallbackId_);
+        }
+        // register the new callback
+        legacyCallbackId_ = registerDeviceChangedCallback(callback);
+    }
+
+    OBCallbackId registerDeviceChangedCallback(DeviceChangedCallback callback) {
+        ob_error *error       = nullptr;
+        auto      cbCtxHolder = std::unique_ptr<DeviceChangedCallbackContext>(new DeviceChangedCallbackContext({ this, 0, nullptr }));
+        auto      id          = ob_register_device_changed_callback(impl_, &Context::deviceChangedCallback, (void *)cbCtxHolder.get(), &error);
+        Error::handle(&error);
+
+        cbCtxHolder->callbackId = id;
+        cbCtxHolder->callback   = callback;
+        {
+            std::unique_lock<std::mutex> lock(callbackMtx_);
+            devChangedCallbacks_[id] = std::move(cbCtxHolder);
+        }
+        return id;
+    }
+
+    void unregisterDeviceChangedCallback(OBCallbackId id) {
+        ob_error *error = nullptr;
+        ob_unregister_device_changed_callback(impl_, id, &error);
+        {
+            std::unique_lock<std::mutex> lock(callbackMtx_);
+            if(devChangedCallbacks_.count(id)) {
+                devChangedCallbacks_.erase(id);
+            }
+        }
         Error::handle(&error);
     }
 
     /**
      * @brief Activates device clock synchronization to synchronize the clock of the host and all created devices (if supported).
      *
-     * @param repeatIntervalMsec The interval for auto-repeated synchronization, in milliseconds. If the value is 0, synchronization is performed only once.
+     * @param[in] repeatIntervalMsec The interval for auto-repeated synchronization, in milliseconds. If the value is 0, synchronization is performed only once.
      */
     void enableDeviceClockSync(uint64_t repeatIntervalMsec) const {
         ob_error *error = nullptr;
@@ -181,7 +233,7 @@ public:
      * @brief Set the level of the global log, which affects both the log level output to the console, output to the file and output the user defined
      * callback.
      *
-     * @param severity The log output level.
+     * @param[in] severity The log output level.
      */
     static void setLoggerSeverity(OBLogSeverity severity) {
         ob_error *error = nullptr;
@@ -192,9 +244,9 @@ public:
     /**
      * @brief Set log output to a file.
      *
-     * @param severity The log level output to the file.
-     * @param directory The log file output path. If the path is empty, the existing settings will continue to be used (if the existing configuration is also
-     * empty, the log will not be output to the file).
+     * @param[in] severity The log level output to the file.
+     * @param[in] directory The log file output path. If the path is empty, the existing settings will continue to be used (if the existing configuration is
+     * also empty, the log will not be output to the file).
      */
     static void setLoggerToFile(OBLogSeverity severity, const char *directory) {
         ob_error *error = nullptr;
@@ -203,9 +255,22 @@ public:
     }
 
     /**
+     * @brief Set the log file name for file output
+     *
+     * @param[in] fileName Log file name. Must not be empty.
+     *
+     * @note Other settings, such as log level and output directory, remain unchanged.
+     */
+    static void setLoggerFileName(const std::string &fileName) {
+        ob_error *error = nullptr;
+        ob_set_logger_file_name(fileName.c_str(), &error);
+        Error::handle(&error);
+    }
+
+    /**
      * @brief Set log output to the console.
      *
-     * @param severity The log level output to the console.
+     * @param[in] severity The log level output to the console.
      */
     static void setLoggerToConsole(OBLogSeverity severity) {
         ob_error *error = nullptr;
@@ -216,8 +281,8 @@ public:
     /**
      * @brief Set the logger to callback.
      *
-     * @param severity The callback log level.
-     * @param callback The callback function.
+     * @param[in] severity The callback log level.
+     * @param[in] callback The callback function.
      */
     static void setLoggerToCallback(OBLogSeverity severity, LogCallback callback) {
         ob_error *error           = nullptr;
@@ -227,12 +292,29 @@ public:
     }
 
     /**
+     * @brief Logs a message with severity, file, function, and line info.
+     *
+     * @param severity Log level, see @ref OBLogSeverity for details
+     * @param module The module or component the log belongs to
+     * @param message Message string to log
+     * @param file Source file name, e.g., __FILE__
+     * @param func Function name, e.g., __func__
+     * @param line Line number, e.g., __LINE__
+     */
+    static void logExternalMessage(OBLogSeverity severity, const std::string &module, const std::string &message, const std::string &file,
+                                   const std::string &func, int line) {
+        ob_error *error = nullptr;
+        ob_log_external_message(severity, module.c_str(), message.c_str(), file.c_str(), func.c_str(), line, &error);
+        Error::handle(&error);
+    }
+
+    /**
      * @brief Set the extensions directory
      * @brief The extensions directory is used to search for dynamic libraries that provide additional functionality to the SDK, such as the Frame filters.
      *
      * @attention Should be called before creating the context and pipeline, otherwise the default extensions directory (./extensions) will be used.
      *
-     * @param directory Path to the extensions directory. If the path is empty, the existing settings will continue to be used (if the existing
+     * @param[in] directory Path to the extensions directory. If the path is empty, the existing settings will continue to be used (if the existing
      */
     static void setExtensionsDirectory(const char *directory) {
         ob_error *error = nullptr;
@@ -242,11 +324,19 @@ public:
 
 private:
     static void deviceChangedCallback(ob_device_list *removedList, ob_device_list *addedList, void *userData) {
-        auto ctx = static_cast<Context *>(userData);
-        if(ctx && ctx->deviceChangedCallback_) {
+        auto cbCtx = static_cast<DeviceChangedCallbackContext *>(userData);
+        if(cbCtx && cbCtx->ctx && cbCtx->callbackId != INVALID_CALLBACK_ID) {
+            DeviceChangedCallback callbackCopy;
+            {
+                // preventing the captured variables from being released.
+                std::unique_lock<std::mutex> lock(cbCtx->ctx->callbackMtx_);
+                if(cbCtx->ctx->devChangedCallbacks_.count(cbCtx->callbackId)) {
+                    callbackCopy = cbCtx->callback;
+                }
+            }
             auto removed = std::make_shared<DeviceList>(removedList);
             auto added   = std::make_shared<DeviceList>(addedList);
-            ctx->deviceChangedCallback_(removed, added);
+            callbackCopy(removed, added);
         }
     }
 

@@ -54,15 +54,17 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEPTH_MAX_DIFF_INT",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT,
              "soft filter max diff param")
-      .value("OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT",
-             OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT,
-             "soft filter maxSpeckleSize")
+      .value(
+          "OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT",
+          OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT,
+          "soft filter maxSpeckleSize")
       .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT,
              "depth noise removal filter max diff param")
-      .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT",
-             OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT,
-             "depth noise removal filter maxSpeckleSize")
+      .value(
+          "OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT",
+          OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT,
+          "depth noise removal filter maxSpeckleSize")
       .value("OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL",
              OBPropertyID::OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL,
              "Hardware d2c is on")
@@ -400,15 +402,20 @@ void define_properties(const py::object& m) {
       .value("OB_RAW_DATA_CAMERA_CALIB_JSON_FILE",
              OBPropertyID::OB_RAW_DATA_CAMERA_CALIB_JSON_FILE,
              "Calibration JSON file read from device (Femto Mega, read only)")
+      .value("OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT",
+             OBPropertyID::OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT,
+             "LiDAR: set/get tail filter level")
       .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
              "depth noise removal filter")
       .value("OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL",
              OBPropertyID::OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL,
-             "soft trigger auto capture enable, use in OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_TRIGGERING mode")
+             "soft trigger auto capture enable, use in "
+             "OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_TRIGGERING mode")
       .value("OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT",
              OBPropertyID::OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT,
-             "soft trigger auto capture interval time, use in OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_TRIGGERING mode")
+             "soft trigger auto capture interval time, use in "
+             "OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_TRIGGERING mode")
       .value("OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL",
              OBPropertyID::OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL,
              "PTP time synchronization enable")

@@ -172,7 +172,10 @@ C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages
 Install the example dependencies:
 
     ```bash
-    python -m pip install -r <your_site_packages_path>\pyorbbecsdk\examples\requirements.txt
+    sudo chmod +x <your_site_packages_path>/pyorbbecsdk/shared/install_udev_rules.sh
+    sudo <your_site_packages_path>/pyorbbecsdk/shared/install_udev_rules.sh
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+    python -m pip install -r <your_site_packages_path>/pyorbbecsdk/examples/requirements.txt
     ```
 
 - Run an example

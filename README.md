@@ -203,7 +203,7 @@ For windows, you need to register the metadata associated with frames (this incl
 For Linux, we have provided a script to help you set up the environment. You can run the script as follows:
 
 ```bash
-  cd pyorbbecsdk/scripts
+  cd pyorbbecsdk/scripts/env_setup
   sudo chmod +x ./install_udev_rules.sh
   sudo ./install_udev_rules.sh
   sudo udevadm control --reload && sudo udevadm trigger

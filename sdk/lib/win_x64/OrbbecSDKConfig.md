@@ -18,7 +18,7 @@ Log configuration mainly sets the Log level, the Log level output to the console
         <FileLogLevel>0</FileLogLevel>
         <!--Console log output level-->
         <ConsoleLogLevel>1</ConsoleLogLevel>
-        <!--Default log output file path, string type. If this item is not configured, the default path will be used: Win/Linux: "./Log"; Android: "/sdcard/Orbbec/Log"-->
+        <!--Default log output file path, string type. If this item is not configured, the default path will be used: Win/Linux: "./Log"; Android: "/sdcard/3DCamera/Log"-->
         <!--<OutputDir>./log</OutputDir>-->
         <!--Default log output file size, int type, unit: MB-->
         <MaxFileSize>100</MaxFileSize>

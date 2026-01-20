@@ -55,7 +55,13 @@ void define_orbbec_types(const py::object &m) {
       .value("ACCEL_SENSOR", OB_SENSOR_ACCEL)
       .value("GYRO_SENSOR", OB_SENSOR_GYRO)
       .value("LEFT_IR_SENSOR", OB_SENSOR_IR_LEFT)
-      .value("RIGHT_IR_SENSOR", OB_SENSOR_IR_RIGHT);
+      .value("RIGHT_IR_SENSOR", OB_SENSOR_IR_RIGHT)
+      .value("RAW_PHASE_SENSOR", OB_SENSOR_RAW_PHASE)
+      .value("CONFIDENCE_SENSOR", OB_SENSOR_CONFIDENCE)
+      .value("LIDAR_SENSOR", OB_SENSOR_LIDAR)
+      .value("LEFT_COLOR_SENSOR", OB_SENSOR_COLOR_LEFT)
+      .value("RIGHT_COLOR_SENSOR", OB_SENSOR_COLOR_RIGHT)
+      .value("TYPE_COUNT_SENSOR", OB_SENSOR_TYPE_COUNT);
 
   py::enum_<OBStreamType>(m, "OBStreamType")
       .value("UNKNOWN_STREAM", OB_STREAM_UNKNOWN)
@@ -66,7 +72,13 @@ void define_orbbec_types(const py::object &m) {
       .value("ACCEL_STREAM", OB_STREAM_ACCEL)
       .value("GYRO_STREAM", OB_STREAM_GYRO)
       .value("LEFT_IR_STREAM", OB_STREAM_IR_LEFT)
-      .value("RIGHT_IR_STREAM", OB_STREAM_IR_RIGHT);
+      .value("RIGHT_IR_STREAM", OB_STREAM_IR_RIGHT)
+      .value("RAW_PHASE_STREAM", OB_STREAM_RAW_PHASE)
+      .value("CONFIDENCE_STREAM", OB_STREAM_CONFIDENCE)
+      .value("LIDAR_STREAM", OB_STREAM_LIDAR)
+      .value("LEFT_COLOR_STREAM", OB_STREAM_COLOR_LEFT)
+      .value("RIGHT_COLOR_STREAM", OB_STREAM_COLOR_RIGHT)
+      .value("TYPE_COUNT_STREAM", OB_STREAM_TYPE_COUNT);
 
   py::enum_<OBFrameType>(m, "OBFrameType")
       .value("UNKNOWN_FRAME", OB_FRAME_UNKNOWN)
@@ -78,7 +90,20 @@ void define_orbbec_types(const py::object &m) {
       .value("GYRO_FRAME", OB_FRAME_GYRO)
       .value("LEFT_IR_FRAME", OB_FRAME_IR_LEFT)
       .value("RIGHT_IR_FRAME", OB_FRAME_IR_RIGHT)
-      .value("FRAME_SET", OB_FRAME_SET);
+      .value("FRAME_SET", OB_FRAME_SET)
+      .value("RAW_PHASE_FRAME", OB_FRAME_RAW_PHASE)
+      .value("CONFIDENCE_FRAME", OB_FRAME_CONFIDENCE)
+      .value("LIDAR_POINTS_FRAME", OB_FRAME_LIDAR_POINTS)
+      .value("LEFT_COLOR_FRAME", OB_FRAME_COLOR_LEFT)
+      .value("RIGHT_COLOR_FRAME", OB_FRAME_COLOR_RIGHT)
+      .value("TYPE_COUNT_FRAME", OB_FRAME_TYPE_COUNT);
+
+  py::enum_<OBPixelType>(m, "OBPixelType")
+      .value("OB_PIXEL_UNKNOWN", OBPixelType::OB_PIXEL_UNKNOWN)
+      .value("OB_PIXEL_DEPTH", OBPixelType::OB_PIXEL_DEPTH)
+      .value("OB_PIXEL_DISPARITY", OBPixelType::OB_PIXEL_DISPARITY)
+      .value("OB_PIXEL_RAW_PHASE", OBPixelType::OB_PIXEL_RAW_PHASE)
+      .value("OB_PIXEL_TOF_DEPTH", OBPixelType::OB_PIXEL_TOF_DEPTH);
 
   py::enum_<OBFormat>(m, "OBFormat")
       .value("UNKNOWN_FORMAT", OB_FORMAT_UNKNOWN)
@@ -114,48 +139,57 @@ void define_orbbec_types(const py::object &m) {
       .value("BA81", OB_FORMAT_BA81)
       .value("RGBA", OB_FORMAT_RGBA)
       .value("BYR2", OB_FORMAT_BYR2)
-      .value("RW16", OB_FORMAT_RW16);
+      .value("RW16", OB_FORMAT_RW16)
+      .value("Y12C4", OB_FORMAT_Y12C4)
+      .value("LIDAR_POINT", OB_FORMAT_LIDAR_POINT)
+      .value("LIDAR_SPHERE_POINT", OB_FORMAT_LIDAR_SPHERE_POINT)
+      .value("LIDAR_SCAN", OB_FORMAT_LIDAR_SCAN)
+      .value("LIDAR_CALIBRATION", OB_FORMAT_LIDAR_CALIBRATION);
 
   py::enum_<OBUpgradeState>(m, "OBUpgradeState")
+      .value("DONE_REBOOT_AND_REUPDATE", STAT_DONE_REBOOT_AND_REUPDATE)
+      .value("DONE_WITH_DUPLICATES", STAT_DONE_WITH_DUPLICATES)
       .value("VERIFY_SUCCESS", STAT_VERIFY_SUCCESS)
       .value("FILE_TRANSFER", STAT_FILE_TRANSFER)
       .value("DONE", STAT_DONE)
       .value("IN_PROGRESS", STAT_IN_PROGRESS)
       .value("START", STAT_START)
       .value("VERIFY_IMAGE", STAT_VERIFY_IMAGE)
-      .value("VERIFY_ERROR", ERR_VERIFY)
-      .value("PROGRAM_ERROR", ERR_PROGRAM)
-      .value("ERASE_ERROR", ERR_ERASE)
-      .value("FLASH_TYPE_ERROR", ERR_FLASH_TYPE)
-      .value("IMAGE_SIZE_ERROR", ERR_IMAGE_SIZE)
-      .value("OTHER_ERROR", ERR_OTHER)
-      .value("DDR_ERROR", ERR_DDR)
-      .value("TIMEOUT_ERROR", ERR_TIMEOUT)
+      .value("ERR_VERIFY", ERR_VERIFY)
+      .value("ERR_PROGRAM", ERR_PROGRAM)
+      .value("ERR_ERASE", ERR_ERASE)
+      .value("ERR_FLASH_TYPE", ERR_FLASH_TYPE)
+      .value("ERR_IMAGE_SIZE", ERR_IMAGE_SIZE)
+      .value("ERR_OTHER", ERR_OTHER)
+      .value("ERR_DDR", ERR_DDR)
+      .value("ERR_TIMEOUT", ERR_TIMEOUT)
       .value("ERR_MISMATCH", ERR_MISMATCH)
       .value("ERR_UNSUPPORT_DEV", ERR_UNSUPPORT_DEV)
-      .value("ERR_INVALID_COUNT", ERR_INVALID_COUNT);
+      .value("ERR_INVALID_COUNT", ERR_INVALID_COUNT)
+      .value("ERR_FILE_READ", ERR_FILE_READ)
+      .value("ERR_TRANSFER", ERR_TRANSFER);
 
   py::enum_<OBFileTranState>(m, "OBFileTranState")
       .value("TRANSFER", FILE_TRAN_STAT_TRANSFER)
       .value("DONE", FILE_TRAN_STAT_DONE)
       .value("PREPARING", FILE_TRAN_STAT_PREPAR)
-      .value("DDR_ERROR", FILE_TRAN_ERR_DDR)
-      .value("NOT_ENOUGH_SPACE_ERROR", FILE_TRAN_ERR_NOT_ENOUGH_SPACE)
-      .value("PATH_NOT_WRITABLE_ERROR", FILE_TRAN_ERR_PATH_NOT_WRITABLE)
-      .value("MD5_ERROR", FILE_TRAN_ERR_MD5_ERROR)
-      .value("WRITE_FLASH_ERROR", FILE_TRAN_ERR_WRITE_FLASH_ERROR)
-      .value("TIMEOUT_ERROR", FILE_TRAN_ERR_TIMEOUT);
+      .value("ERR_DDR", FILE_TRAN_ERR_DDR)
+      .value("ERR_NOT_ENOUGH_SPACE", FILE_TRAN_ERR_NOT_ENOUGH_SPACE)
+      .value("ERR_PATH_NOT_WRITABLE", FILE_TRAN_ERR_PATH_NOT_WRITABLE)
+      .value("ERR_MD5_ERROR", FILE_TRAN_ERR_MD5_ERROR)
+      .value("ERR_WRITE_FLASH_ERROR", FILE_TRAN_ERR_WRITE_FLASH_ERROR)
+      .value("ERR_TIMEOUT", FILE_TRAN_ERR_TIMEOUT);
 
   py::enum_<OBDataTranState>(m, "OBDataTranState")
       .value("STOPPED", DATA_TRAN_STAT_STOPPED)
       .value("DONE", DATA_TRAN_STAT_DONE)
       .value("VERIFYING", DATA_TRAN_STAT_VERIFYING)
       .value("TRANSFERRING", DATA_TRAN_STAT_TRANSFERRING)
-      .value("BUSY", DATA_TRAN_ERR_BUSY)
-      .value("UNSUPPORTED_ERROR", DATA_TRAN_ERR_UNSUPPORTED)
-      .value("TRANSFER_FAILED", DATA_TRAN_ERR_TRAN_FAILED)
-      .value("VERIFY_FAILED", DATA_TRAN_ERR_VERIFY_FAILED)
-      .value("OTHER_ERROR", DATA_TRAN_ERR_OTHER);
+      .value("ERR_BUSY", DATA_TRAN_ERR_BUSY)
+      .value("ERR_UNSUPPORTED", DATA_TRAN_ERR_UNSUPPORTED)
+      .value("ERR_TRAN_FAILED", DATA_TRAN_ERR_TRAN_FAILED)
+      .value("ERR_VERIFY_FAILED", DATA_TRAN_ERR_VERIFY_FAILED)
+      .value("ERR_OTHER", DATA_TRAN_ERR_OTHER);
 
   py::class_<OBIntPropertyRange>(m, "OBIntPropertyRange")
       .def(py::init<>())
@@ -431,6 +465,15 @@ void define_orbbec_types(const py::object &m) {
         return oss.str();
       });
 
+  py::class_<OBPresetResolutionConfig>(m, "OBPresetResolutionConfig")
+      .def(py::init<>())
+      .def_readwrite("width", &OBPresetResolutionConfig::width)
+      .def_readwrite("height", &OBPresetResolutionConfig::height)
+      .def_readwrite("ir_decimation_factor",
+                     &OBPresetResolutionConfig::irDecimationFactor)
+      .def_readwrite("depth_decimation_factor",
+                     &OBPresetResolutionConfig::depthDecimationFactor);
+
   py::enum_<OBAlignMode>(m, "OBAlignMode")
       .value("DISABLE", OBAlignMode::ALIGN_DISABLE)
       .value("HW_MODE", OBAlignMode::ALIGN_D2C_HW_MODE)
@@ -473,7 +516,9 @@ void define_orbbec_types(const py::object &m) {
       .value("SAMPLE_RATE_4_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_4_KHZ)
       .value("SAMPLE_RATE_8_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_8_KHZ)
       .value("SAMPLE_RATE_16_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_16_KHZ)
-      .value("SAMPLE_RATE_32_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_32_KHZ);
+      .value("SAMPLE_RATE_32_KHZ", OBGyroSampleRate::OB_SAMPLE_RATE_32_KHZ)
+      .export_values();
+  m.attr("OBAccelSampleRate") = m.attr("OBGyroSampleRate");
 
   py::enum_<OBGyroFullScaleRange>(m, "OBGyroFullScaleRange")
       .value("FS_16dps", OB_GYRO_FS_16dps)
@@ -497,10 +542,21 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("y", &OBAccelValue::y)
       .def_readwrite("z", &OBAccelValue::z)
       .def("__repr__", [](const OBAccelValue &a) {
-        return "<OBAccelValue x=" + std::to_string(a.x) +
-               ", y=" + std::to_string(a.y) + ", z=" + std::to_string(a.z) +
-               ">";
+        return "<x=" + std::to_string(a.x) + ", y=" + std::to_string(a.y) +
+               ", z=" + std::to_string(a.z) + ">";
       });
+  m.attr("OBGyroValue") = m.attr("OBAccelValue");
+  m.attr("OBFloat3D") = m.attr("OBAccelValue");
+
+  py::enum_<OBLiDARScanRate>(m, "OBLiDARScanRate")
+      .value("LIDAR_SCAN_UNKNOWN", OBLiDARScanRate::OB_LIDAR_SCAN_UNKNOWN)
+      .value("LIDAR_SCAN_5HZ", OBLiDARScanRate::OB_LIDAR_SCAN_5HZ)
+      .value("LIDAR_SCAN_10HZ", OBLiDARScanRate::OB_LIDAR_SCAN_10HZ)
+      .value("LIDAR_SCAN_15HZ", OBLiDARScanRate::OB_LIDAR_SCAN_15HZ)
+      .value("LIDAR_SCAN_20HZ", OBLiDARScanRate::OB_LIDAR_SCAN_20HZ)
+      .value("LIDAR_SCAN_25HZ", OBLiDARScanRate::OB_LIDAR_SCAN_25HZ)
+      .value("LIDAR_SCAN_30HZ", OBLiDARScanRate::OB_LIDAR_SCAN_30HZ)
+      .value("LIDAR_SCAN_40HZ", OBLiDARScanRate::OB_LIDAR_SCAN_40HZ);
 
   py::class_<OBDeviceTemperature>(m, "OBDeviceTemperature")
       .def(py::init<>())
@@ -559,7 +615,7 @@ void define_orbbec_types(const py::object &m) {
   py::enum_<OBMediaState>(m, "OBMediaState")
       .value("OB_MEDIA_BEGIN", OBMediaState::OB_MEDIA_BEGIN)
       .value("OB_MEDIA_PAUSE", OBMediaState::OB_MEDIA_PAUSE)
-      .value("OB_MEDIA_RESUME", OBMediaState::OB_MEDIA_PAUSE)
+      .value("OB_MEDIA_RESUME", OBMediaState::OB_MEDIA_RESUME)
       .value("OB_MEDIA_END", OBMediaState::OB_MEDIA_END);
 
   py::enum_<OBDepthPrecisionLevel>(m, "OBDepthPrecisionLevel")
@@ -610,6 +666,28 @@ void define_orbbec_types(const py::object &m) {
                     ")";
            })
       .def_static("get_sizeof", []() { return sizeof(OBColorPoint); });
+
+  py::class_<OBLiDARScanPoint>(m, "OBLiDARScanPoint")
+      .def(py::init<>())
+      .def_readwrite("angle", &OBLiDARScanPoint::angle)
+      .def_readwrite("distance", &OBLiDARScanPoint::distance)
+      .def_readwrite("intensity", &OBLiDARScanPoint::intensity);
+
+  py::class_<OBLiDARPoint>(m, "OBLiDARPoint")
+      .def(py::init<>())
+      .def_readwrite("x", &OBLiDARPoint::x)
+      .def_readwrite("y", &OBLiDARPoint::y)
+      .def_readwrite("z", &OBLiDARPoint::z)
+      .def_readwrite("reflectivity", &OBLiDARPoint::reflectivity)
+      .def_readwrite("tag", &OBLiDARPoint::tag);
+
+  py::class_<OBLiDARSpherePoint>(m, "OBLiDARSpherePoint")
+      .def(py::init<>())
+      .def_readwrite("distance", &OBLiDARSpherePoint::distance)
+      .def_readwrite("theta", &OBLiDARSpherePoint::theta)
+      .def_readwrite("phi", &OBLiDARSpherePoint::phi)
+      .def_readwrite("reflectivity", &OBLiDARSpherePoint::reflectivity)
+      .def_readwrite("tag", &OBLiDARSpherePoint::tag);
 
   py::enum_<OBCompressionMode>(m, "OBCompressionMode")
       .value("LOSSLESS", OBCompressionMode::OB_COMPRESSION_LOSSLESS)
@@ -887,9 +965,10 @@ void define_orbbec_types(const py::object &m) {
       .value(
           "HARDWARE_TRIGGERING",
           OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_HARDWARE_TRIGGERING)
-      .value(
-          "IR_IMU_SYNC",
-          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_IR_IMU_SYNC);
+      .value("IR_IMU_SYNC",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_IR_IMU_SYNC)
+      .value("SOFTWARE_SYNCED",
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_SYNCED);
 
   py::class_<OBMultiDeviceSyncConfig>(m, "OBMultiDeviceSyncConfig")
       .def(py::init<>())
@@ -931,6 +1010,39 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("y0_top", &OBRegionOfInterest::y0_top)
       .def_readwrite("x1_right", &OBRegionOfInterest::x1_right)
       .def_readwrite("y1_bottom", &OBRegionOfInterest::y1_bottom);
+
+  py::enum_<OBFilterConfigValueType>(m, "OBFilterConfigValueType")
+      .value("INVALID",
+             OBFilterConfigValueType::OB_FILTER_CONFIG_VALUE_TYPE_INVALID)
+      .value("INT", OBFilterConfigValueType::OB_FILTER_CONFIG_VALUE_TYPE_INT)
+      .value("FLOAT",
+             OBFilterConfigValueType::OB_FILTER_CONFIG_VALUE_TYPE_FLOAT)
+      .value("BOOLEAN",
+             OBFilterConfigValueType::OB_FILTER_CONFIG_VALUE_TYPE_BOOLEAN);
+
+  py::class_<OBFilterConfigSchemaItem>(m, "OBFilterConfigSchemaItem")
+      .def(py::init<>())
+      .def_readonly("name", &OBFilterConfigSchemaItem::name)
+      .def_readwrite("type", &OBFilterConfigSchemaItem::type)
+      .def_readwrite("min", &OBFilterConfigSchemaItem::min)
+      .def_readwrite("max", &OBFilterConfigSchemaItem::max)
+      .def_readwrite("step", &OBFilterConfigSchemaItem::step)
+      .def_readwrite("default", &OBFilterConfigSchemaItem::def)
+      .def_readonly("desc", &OBFilterConfigSchemaItem::desc);
+
+  py::class_<OBHardwareDecimationConfig>(m, "OBHardwareDecimationConfig")
+      .def(py::init<>())
+      .def_readwrite("origin_width", &OBHardwareDecimationConfig::originWidth)
+      .def_readwrite("origin_height", &OBHardwareDecimationConfig::originHeight)
+      .def_readwrite("factor", &OBHardwareDecimationConfig::factor);
+
+  py::enum_<OBPlaybackStatus>(m, "OBPlaybackStatus")
+      .value("UNKNOWN", OBPlaybackStatus::OB_PLAYBACK_UNKNOWN)
+      .value("PLAYING", OBPlaybackStatus::OB_PLAYBACK_PLAYING)
+      .value("PAUSED", OBPlaybackStatus::OB_PLAYBACK_PAUSED)
+      .value("STOPPED", OBPlaybackStatus::OB_PLAYBACK_STOPPED)
+      .value("COUNT", OBPlaybackStatus::OB_PLAYBACK_COUNT)
+      .export_values();
 
   py::enum_<OBFrameMetadataType>(m, "OBFrameMetadataType")
       .value("TIMESTAMP", OBFrameMetadataType::OB_FRAME_METADATA_TYPE_TIMESTAMP)
@@ -1063,5 +1175,17 @@ void define_orbbec_types(const py::object &m) {
         }
         param.extrinsics[source][target] = extrinsic;
       });
+
+  py::enum_<OBDeviceAccessMode>(m, "OBDeviceAccessMode")
+      .value("OB_DEVICE_ACCESS_DENIED",
+             OBDeviceAccessMode::OB_DEVICE_ACCESS_DENIED)
+      .value("OB_DEVICE_EXCLUSIVE_ACCESS",
+             OBDeviceAccessMode::OB_DEVICE_EXCLUSIVE_ACCESS)
+      .value("OB_DEVICE_CONTROL_ACCESS",
+             OBDeviceAccessMode::OB_DEVICE_CONTROL_ACCESS)
+      .value("OB_DEVICE_MONITOR_ACCESS",
+             OBDeviceAccessMode::OB_DEVICE_MONITOR_ACCESS)
+      .value("OB_DEVICE_DEFAULT_ACCESS",
+             OBDeviceAccessMode::OB_DEVICE_DEFAULT_ACCESS);
 }
 }  // namespace pyorbbecsdk

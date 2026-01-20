@@ -78,7 +78,7 @@ Set up the environment and run the examples:
 ```bash
 cd pyorbbecsdk
 export PYTHONPATH=$PYTHONPATH:$(pwd)/install/lib/
-sudo bash ./scripts/install_udev_rules.sh
+sudo bash ./scripts/env_setup/install_udev_rules.sh
 sudo udevadm control --reload-rules && sudo udevadm trigger
 python3 examples/depth.py
 python3 examples/net_device.py # Requires ffmpeg installation for network devices

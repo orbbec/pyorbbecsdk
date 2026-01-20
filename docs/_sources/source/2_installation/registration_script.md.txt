@@ -10,7 +10,7 @@ First, [download the source code](https://github.com/orbbec/pyorbbecsdk/blob/v2-
 Please install it using the following commands:[/scripts/install_udev_rules.sh](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/scripts/install_udev_rules.sh)
 
 ~~~
-cd pyorbbecsdk/scripts
+cd pyorbbecsdk/scripts/env_setup
 sudo chmod +x ./install_udev_rules.sh
 sudo ./install_udev_rules.sh
 sudo udevadm control --reload-rules && udevadm trigger

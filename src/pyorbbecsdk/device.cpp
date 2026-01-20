@@ -25,96 +25,98 @@ void define_device_info(const py::object &m) {
       .def(
           "get_name",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->name());
+            OB_TRY_CATCH({ return std::string(self->name()); });
           },
           "Get device name")
       .def(
           "get_pid",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return self->pid();
+            OB_TRY_CATCH({ return self->pid(); });
           },
           "Get device pid")
       .def(
           "get_vid",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return self->vid();
+            OB_TRY_CATCH({ return self->vid(); });
           },
           "Get device vid")
       .def(
           "get_uid",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->uid());
+            OB_TRY_CATCH({ return std::string(self->uid()); });
           },
           "Get system assigned uid for distinguishing between different "
           "devices")
       .def(
           "get_serial_number",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->serialNumber());
+            OB_TRY_CATCH({ return std::string(self->serialNumber()); });
           },
           "Get the serial number of the device")
       .def(
           "get_firmware_version",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->firmwareVersion());
+            OB_TRY_CATCH({ return std::string(self->firmwareVersion()); });
           },
           "Get the version number of the firmware")
       .def(
           "get_connection_type",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->connectionType());
+            OB_TRY_CATCH({ return std::string(self->connectionType()); });
           },
           "Get the connection type of the device")
       .def(
           "get_hardware_version",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->hardwareVersion());
+            OB_TRY_CATCH({ return std::string(self->hardwareVersion()); });
           },
           "Get the version number of the hardware")
       .def(
           "get_supported_min_sdk_version",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->supportedMinSdkVersion());
+            OB_TRY_CATCH({ return std::string(self->supportedMinSdkVersion()); });
           },
           "Get the minimum version number of the SDK supported by the device")
       .def(
           "get_device_type",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return self->deviceType();
+            OB_TRY_CATCH({ return self->deviceType(); });
           },
           "Get the device type")
       .def(
           "get_device_ip_address",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->getIpAddress());
+            OB_TRY_CATCH({ return std::string(self->getIpAddress()); });
           },
           "Get device ip address")
       .def(
           "get_device_subnet_mask",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->getDeviceSubnetMask());
+            OB_TRY_CATCH({ return std::string(self->getDeviceSubnetMask()); });
           },
           "Get device subnet mask")
       .def(
           "get_device_gateway",
           [](const std::shared_ptr<ob::DeviceInfo> &self) {
-            return std::string(self->getDevicegateway());
+            OB_TRY_CATCH({ return std::string(self->getDeviceGateway()); });
           },
           "Get device gateway")
       .def("__repr__", [](const std::shared_ptr<ob::DeviceInfo> &self) {
-        std::ostringstream oss;
-        oss << "DeviceInfo(name=" << self->name() << std::endl
-            << ", pid=" << std::hex << self->pid() << std::endl
-            << ", vid=" << std::hex << self->vid() << ", uid=" << self->uid()
-            << std::endl
-            << ", serial_number=" << self->serialNumber() << std::endl
-            << ", firmware_version=" << self->firmwareVersion() << std::endl
-            << ", connection_type=" << self->connectionType() << std::endl
-            << ", hardware_version=" << self->hardwareVersion() << std::endl
-            << ", supported_min_sdk_version=" << self->supportedMinSdkVersion()
-            << std::endl
-            << ", device_type=" << self->deviceType() << ")";
-        return oss.str();
+        OB_TRY_CATCH({
+          std::ostringstream oss;
+          oss << "DeviceInfo(name=" << self->name() << std::endl
+              << ", pid=" << std::hex << self->pid() << std::endl
+              << ", vid=" << std::hex << self->vid() << ", uid=" << self->uid()
+              << std::endl
+              << ", serial_number=" << self->serialNumber() << std::endl
+              << ", firmware_version=" << self->firmwareVersion() << std::endl
+              << ", connection_type=" << self->connectionType() << std::endl
+              << ", hardware_version=" << self->hardwareVersion() << std::endl
+              << ", supported_min_sdk_version=" << self->supportedMinSdkVersion()
+              << std::endl
+              << ", device_type=" << self->deviceType() << ")";
+          return oss.str();
+        });
       });
 }
 
@@ -124,22 +126,22 @@ void define_camera_list(const py::object &m) {
       .def(
           "get_count",
           [](const std::shared_ptr<ob::CameraParamList> &self) {
-            return self->count();
+            OB_TRY_CATCH({ return self->count(); });
           },
           "Get the number of devices in the list")
       .def(
           "get_camera_param",
           [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
-            return self->getCameraParam(index);
+            OB_TRY_CATCH({ return self->getCameraParam(index); });
           },
           "Get the camera parameters for the specified index")
       .def("__len__",
            [](const std::shared_ptr<ob::CameraParamList> &self) {
-             return self->count();
+             OB_TRY_CATCH({ return self->count(); });
            })
       .def("__getitem__",
            [](const std::shared_ptr<ob::CameraParamList> &self, int index) {
-             return self->getCameraParam(index);
+             OB_TRY_CATCH({ return self->getCameraParam(index); });
            });
 }
 
@@ -149,38 +151,57 @@ void define_depth_work_mode_list(const py::object &m) {
       .def(
           "get_count",
           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
-            return self->count();
+            OB_TRY_CATCH({ return self->count(); });
           },
           "Get the number of OBDepthWorkMode objects in the list")
       .def(
           "get_depth_work_mode_by_index",
           [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-            return self->getOBDepthWorkMode(index);
+            OB_TRY_CATCH({ return self->getOBDepthWorkMode(index); });
           },
           "Get the OBDepthWorkMode object at the specified index")
       .def("__len__",
            [](const std::shared_ptr<ob::OBDepthWorkModeList> &self) {
-             return self->count();
+             OB_TRY_CATCH({ return self->count(); });
            })
       .def("__getitem__",
            [](const std::shared_ptr<ob::OBDepthWorkModeList> &self, int index) {
-             return self->getOBDepthWorkMode(index);
+             OB_TRY_CATCH({ return self->getOBDepthWorkMode(index); });
            });
+}
+
+void define_preset_resolution_config_list(const py::object &m) {
+  py::class_<ob::PresetResolutionConfigList,
+             std::shared_ptr<ob::PresetResolutionConfigList>>(
+      m, "PresetResolutionConfigList")
+      .def(
+          "get_count",
+          [](const std::shared_ptr<ob::PresetResolutionConfigList> &self) {
+            OB_TRY_CATCH({ return self->getCount(); });
+          },
+          "Get the number of device preset resolution ratio in the list")
+      .def(
+          "get_preset_resolution_ratio_config",
+          [](const std::shared_ptr<ob::PresetResolutionConfigList> &self,
+             uint32_t index) {
+            OB_TRY_CATCH({ return self->getPresetResolutionRatioConfig(index); });
+          },
+          "Get the device preset resolution ratio at the specified index");
 }
 
 void define_device(const py::object &m) {
   py::class_<ob::Device, std::shared_ptr<ob::Device>>(m, "Device")
       .def("get_device_info",
            [](const std::shared_ptr<ob::Device> &self) {
-             return self->getDeviceInfo();
+             OB_TRY_CATCH({ return self->getDeviceInfo(); });
            })
       .def("get_sensor_list",
            [](const std::shared_ptr<ob::Device> &self) {
-             return self->getSensorList();
+             OB_TRY_CATCH({ return self->getSensorList(); });
            })
       .def("get_sensor",
            [](const std::shared_ptr<ob::Device> &self, OBSensorType type) {
-             return self->getSensor(type);
+             OB_TRY_CATCH({ return self->getSensor(type); });
            })
       .def("set_int_property",
            [](const std::shared_ptr<ob::Device> &self, OBPropertyID property_id,
@@ -231,11 +252,11 @@ void define_device(const py::object &m) {
            })
       .def("get_support_property_count",
            [](const std::shared_ptr<ob::Device> &self) {
-             return self->getSupportedPropertyCount();
+             OB_TRY_CATCH({ return self->getSupportedPropertyCount(); });
            })
       .def("get_supported_property",
            [](const std::shared_ptr<ob::Device> &self, int index) {
-             return self->getSupportedProperty(index);
+             OB_TRY_CATCH({ return self->getSupportedProperty(index); });
            })
       .def("is_property_supported",
            [](const std::shared_ptr<ob::Device> &self, OBPropertyID property_id,
@@ -246,7 +267,7 @@ void define_device(const py::object &m) {
            })
       .def("get_device_state",
            [](const std::shared_ptr<ob::Device> &self) {
-             return self->getDeviceState();
+             OB_TRY_CATCH({ return self->getDeviceState(); });
            })
       .def("set_device_state_changed_callback",
            [](const std::shared_ptr<ob::Device> &self,
@@ -294,8 +315,20 @@ void define_device(const py::object &m) {
                    sizeof(OBDeviceIpAddrConfig));
              });
            })
+      .def("set_preset_resolution_config",
+           [](const std::shared_ptr<ob::Device> &self,
+              const OBPresetResolutionConfig &config) {
+             OB_TRY_CATCH({
+               self->setStructuredData(
+                   OB_STRUCT_PRESET_RESOLUTION_CONFIG,
+                   reinterpret_cast<const uint8_t *>(&config),
+                   sizeof(OBPresetResolutionConfig));
+             });
+           })
       .def("reboot",
-           [](const std::shared_ptr<ob::Device> &self) { self->reboot(); })
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ self->reboot(); });
+           })
       .def("get_baseline",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({
@@ -348,6 +381,10 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->timestampReset(); });
            })
+      .def("timer_reset",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->timerReset(); });
+           })
       .def("timer_sync_with_host",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->timerSyncWithHost(); });
@@ -360,7 +397,7 @@ void define_device(const py::object &m) {
            })
       .def("get_current_preset_name",
            [](const std::shared_ptr<ob::Device> &self) {
-             return std::string(self->getCurrentPresetName());
+             OB_TRY_CATCH({ return std::string(self->getCurrentPresetName()); });
            })
       .def("load_preset",
            [](const std::shared_ptr<ob::Device> &self,
@@ -370,6 +407,11 @@ void define_device(const py::object &m) {
       .def("get_available_preset_list",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getAvailablePresetList(); });
+           })
+      .def("get_available_preset_resolution_config_list",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH(
+                 { return self->getAvailablePresetResolutionConfigList(); });
            })
       .def("load_preset_from_json_file",
            [](const std::shared_ptr<ob::Device> &self,
@@ -403,16 +445,18 @@ void define_device(const py::object &m) {
              bool async_update) {
             // Call the native updateFirmware method with a lambda that wraps
             // the Python callback
-            py::gil_scoped_release release;
-            self->updateFirmware(
-                file_path.c_str(),
-                [callback](OBFwUpdateState state, const char *message,
-                           uint8_t percent) {
-                  // Forward the firmware update progress to Python callback
-                  py::gil_scoped_acquire acquire;
-                  callback(state, message, percent);
-                },
-                async_update);
+            OB_TRY_CATCH({
+              py::gil_scoped_release release;
+              self->updateFirmware(
+                  file_path.c_str(),
+                  [callback](OBFwUpdateState state, const char *message,
+                             uint8_t percent) {
+                    // Forward the firmware update progress to Python callback
+                    py::gil_scoped_acquire acquire;
+                    callback(state, message, percent);
+                  },
+                  async_update);
+            });
           },
           // Parameter definitions with default async_update=true
           py::arg("file_path"), py::arg("callback"),
@@ -442,33 +486,37 @@ void define_device(const py::object &m) {
             }
 
             // Call the C++ function with the 2D array
-            py::gil_scoped_release release;
-            self->updateOptionalDepthPresets(
-                filePathList, path_count,
-                [callback](OBFwUpdateState state, const char *message,
-                           uint8_t percent) {
-                  py::gil_scoped_acquire acquire;
-                  callback(state, message, percent);
-                });
+            OB_TRY_CATCH({
+              py::gil_scoped_release release;
+              self->updateOptionalDepthPresets(
+                  filePathList, path_count,
+                  [callback](OBFwUpdateState state, const char *message,
+                             uint8_t percent) {
+                    py::gil_scoped_acquire acquire;
+                    callback(state, message, percent);
+                  });
+            });
           },
           py::arg("file_path_list"), py::arg("callback"))
 
       .def("__eq__",
            [](const std::shared_ptr<ob::Device> &self,
               const std::shared_ptr<ob::Device> &other) {
-             std::string device_uid = self->getDeviceInfo()->uid();
-             std::string other_device_uid = other->getDeviceInfo()->uid();
-             return device_uid == other_device_uid;
+             OB_TRY_CATCH({
+               std::string device_uid = self->getDeviceInfo()->uid();
+               std::string other_device_uid = other->getDeviceInfo()->uid();
+               return device_uid == other_device_uid;
+             });
            })
 
       .def("isFrameInterleaveSupported",
            [](const std::shared_ptr<ob::Device> &self) {
-             return self->isFrameInterleaveSupported();
+             OB_TRY_CATCH({ return self->isFrameInterleaveSupported(); });
            })
 
       .def("loadFrameInterleave", [](const std::shared_ptr<ob::Device> &self,
                                      const std::string &frameInterleaveName) {
-        return self->loadFrameInterleave(frameInterleaveName.c_str());
+        OB_TRY_CATCH({ return self->loadFrameInterleave(frameInterleaveName.c_str()); });
       });
 }
 
@@ -477,25 +525,29 @@ void define_device_preset_list(const py::object &m) {
       m, "DevicePresetList")
       .def("get_count",
            [](const std::shared_ptr<ob::DevicePresetList> &self) {
-             return self->count();
+             OB_TRY_CATCH({ return self->count(); });
            })
       .def("get_name_by_index",
            [](const std::shared_ptr<ob::DevicePresetList> &self, int index) {
-             return std::string(self->getName(index));
+             OB_TRY_CATCH({ return std::string(self->getName(index)); });
            })
       .def(
           "has_preset",
           [](const std::shared_ptr<ob::DevicePresetList> &self,
-             const std::string &name) { return self->hasPreset(name.c_str()); })
+             const std::string &name) {
+            OB_TRY_CATCH({ return self->hasPreset(name.c_str()); });
+          })
       .def("__len__",
            [](const std::shared_ptr<ob::DevicePresetList> &self) {
              return self->count();
            })
       .def("__getitem__", [](const std::shared_ptr<ob::DevicePresetList> &self,
-                             int index) { return self->getName(index); })
+                             int index) {
+        OB_TRY_CATCH({ return self->getName(index); });
+      })
       .def("__contains__", [](const std::shared_ptr<ob::DevicePresetList> &self,
                               const std::string &name) {
-        return self->hasPreset(name.c_str());
+        OB_TRY_CATCH({ return self->hasPreset(name.c_str()); });
       });
 }
 
@@ -503,86 +555,102 @@ void define_device_list(const py::object &m) {
   py::class_<ob::DeviceList, std::shared_ptr<ob::DeviceList>>(m, "DeviceList")
       .def("get_count",
            [](const std::shared_ptr<ob::DeviceList> &self) {
-             return self->deviceCount();
+             OB_TRY_CATCH({ return self->deviceCount(); });
            })
       .def("get_device_name_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return std::string(self->getName(index));
+             OB_TRY_CATCH({ return std::string(self->getName(index)); });
            })
       .def("get_device_pid_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return self->pid(index);
+             OB_TRY_CATCH({ return self->pid(index); });
            })
       .def("get_device_vid_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return self->vid(index);
+             OB_TRY_CATCH({ return self->vid(index); });
            })
       .def("get_device_serial_number_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self,
-              int index) -> std::string { return self->serialNumber(index); })
+              int index) -> std::string {
+             OB_TRY_CATCH({ return self->serialNumber(index); });
+           })
       .def("get_device_uid_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self,
-              int index) -> std::string { return self->uid(index); })
+              int index) -> std::string {
+             OB_TRY_CATCH({ return self->uid(index); });
+           })
       .def("get_device_connection_type_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return std::string(self->getConnectionType(index));
+             OB_TRY_CATCH({ return std::string(self->getConnectionType(index)); });
            })
-      .def("get_device_by_index",
-           [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             OB_TRY_CATCH({ return self->getDevice(index); });
-           })
-      .def("get_device_by_serial_number",
-           [](const std::shared_ptr<ob::DeviceList> &self,
-              const std::string &serial_number) {
-             OB_TRY_CATCH(
-                 { return self->getDeviceBySN(serial_number.c_str()); });
-           })
-      .def("get_device_by_uid",
-           [](const std::shared_ptr<ob::DeviceList> &self,
-              const std::string &uid) {
-             OB_TRY_CATCH({ return self->getDeviceByUid(uid.c_str()); });
-           })
+      .def(
+          "get_device_by_index",
+          [](const std::shared_ptr<ob::DeviceList> &self, int index,
+             OBDeviceAccessMode access_mode) {
+            OB_TRY_CATCH({ return self->getDevice(index, access_mode); });
+          },
+          py::arg("index"), py::arg("access_mode") = OB_DEVICE_DEFAULT_ACCESS)
+      .def(
+          "get_device_by_serial_number",
+          [](const std::shared_ptr<ob::DeviceList> &self,
+             const std::string &serial_number, OBDeviceAccessMode access_mode) {
+            OB_TRY_CATCH({
+              return self->getDeviceBySN(serial_number.c_str(), access_mode);
+            });
+          },
+          py::arg("serial_number"),
+          py::arg("access_mode") = OB_DEVICE_DEFAULT_ACCESS)
+      .def(
+          "get_device_by_uid",
+          [](const std::shared_ptr<ob::DeviceList> &self,
+             const std::string &uid, OBDeviceAccessMode access_mode) {
+            OB_TRY_CATCH(
+                { return self->getDeviceByUid(uid.c_str(), access_mode); });
+          },
+          py::arg("uid"), py::arg("access_mode") = OB_DEVICE_DEFAULT_ACCESS)
       .def("get_device_ip_address_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return std::string(self->getIpAddress(index));
+             OB_TRY_CATCH({ return std::string(self->getIpAddress(index)); });
            })
       .def("get_device_subnet_mask_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return std::string(self->getSubnetMask(index));
+             OB_TRY_CATCH({ return std::string(self->getSubnetMask(index)); });
            })
       .def("get_device_gateway_by_index",
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-             return std::string(self->getGateway(index));
+             OB_TRY_CATCH({ return std::string(self->getGateway(index)); });
            })
       .def(
           "get_local_mac_address",
           [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-            return std::string(self->getLocalMacAddress(index));
+            OB_TRY_CATCH({ return std::string(self->getLocalMacAddress(index)); });
           },
           "Get the host Mac address for the specified device")
       .def(
           "get_local_ip",
           [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-            return std::string(self->getLocalIP(index));
+            OB_TRY_CATCH({ return std::string(self->getLocalIP(index)); });
           },
           "Get the host Ip address for the specified device")
       .def(
           "get_local_subnet_length",
           [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-            return self->getLocalSubnetLength(index);
+            OB_TRY_CATCH({ return self->getLocalSubnetLength(index); });
           },
           "Get the host subnet length for the specified device")
       .def(
           "get_local_gateway",
           [](const std::shared_ptr<ob::DeviceList> &self, int index) {
-            return std::string(self->getLocalGateway(index));
+            OB_TRY_CATCH({ return std::string(self->getLocalGateway(index)); });
           },
           "Get the host gateway for the specified device")
       .def("__len__",
            [](const std::shared_ptr<ob::DeviceList> &self) {
-             return self->deviceCount();
+             OB_TRY_CATCH({ return self->deviceCount(); });
            })
       .def("__getitem__", [](const std::shared_ptr<ob::DeviceList> &self,
-                             int index) { return self->getDevice(index); });
+                             int index) {
+        OB_TRY_CATCH({ return self->getDevice(index); });
+      });
 }
 }  // namespace pyorbbecsdk

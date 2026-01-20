@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>1. Overview &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
 
   
@@ -16,8 +16,8 @@
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -155,6 +155,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#rgbd-point-cloud">4.11. RGBD Point Cloud</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#noise-removeal-filter">4.12. Noise Removeal Filter</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hardware-noise-removeal-filter">4.12.1. Hardware Noise Removeal Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-noise-removeal-filter">4.12.2. Software Noise Removeal Filter</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-post-processing-filters">4.13. Depth Post-Processing Filters</a></li>
@@ -176,81 +177,92 @@
 <li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#force-ip-configuration-temporary">4.18.5.2. Force IP Configuration (Temporary)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#stream-profile">4.18.6. Stream Profile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-streamprofile">4.18.7. Obtain IMU StreamProfile</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-intrinsic-and-extrinsic-parameters">4.18.8. Obtain Intrinsic and Extrinsic Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-intrinsic-parameters">4.18.9. Obtain IMU Intrinsic Parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ldp-switch">4.18.10. LDP Switch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-ldp-measurement-value">4.18.11. Obtain LDP Measurement Value</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-ldp-protection-status">4.18.12. Obtain LDP Protection Status</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#laser-switch">4.18.13. Laser Switch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-metadata">4.18.14. Obtain MetaData</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#triggered-capture">4.18.15. Triggered Capture</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-triggered-capture">4.18.15.1. Software Triggered Capture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-device-temperature">4.18.6. Obtain Device Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-device-baseline">4.18.7. Obtain Device Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#stream-profile">4.18.8. Stream Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-streamprofile">4.18.9. Obtain IMU StreamProfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-intrinsic-and-extrinsic-parameters">4.18.10. Obtain Intrinsic and Extrinsic Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-intrinsic-parameters">4.18.11. Obtain IMU Intrinsic Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ldp-switch">4.18.12. LDP Switch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hdr-merge">4.18.13. HDR Merge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-ldp-measurement-value">4.18.14. Obtain LDP Measurement Value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-ldp-protection-status">4.18.15. Obtain LDP Protection Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#laser-switch">4.18.16. Laser Switch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-metadata">4.18.17. Obtain MetaData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#triggered-capture">4.18.18. Triggered Capture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-triggered-capture">4.18.18.1. Software Triggered Capture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#timed-capture">4.18.18.2. Timed Capture</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#timestamp-reset">4.18.16. Timestamp Reset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#device-time-synchronization">4.18.17. Device Time Synchronization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#d2d-disparity-to-depth">4.18.18. D2D (Disparity to depth)</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hardware-d2d">4.18.18.1. Hardware D2D</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-d2d">4.18.18.2. Software D2D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#timestamp-reset">4.18.19. Timestamp Reset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#device-time-synchronization">4.18.20. Device Time Synchronization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#d2d-disparity-to-depth">4.18.21. D2D (Disparity to depth)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hardware-d2d">4.18.21.1. Hardware D2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-d2d">4.18.21.2. Software D2D</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-settings">4.18.19. Depth Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-working-mode">4.18.19.1. Depth Working Mode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#preset-configuration">4.18.19.2. Preset Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-ae">4.18.19.3. Set Depth AE</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-exposure">4.18.19.4. Set Depth Exposure</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-gain">4.18.19.5. Set Depth Gain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-mirror">4.18.19.6. Set Depth Mirror</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-flip">4.18.19.7. Set Depth Flip</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-rotation">4.18.19.8. Set Depth Rotation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-unit-of-depth">4.18.19.9. Set the Unit of Depth</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-min-and-max-depth">4.18.19.10. Set Min and Max Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-settings">4.18.22. Depth Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-working-mode">4.18.22.1. Depth Working Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#preset-configuration">4.18.22.2. Preset Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-ae">4.18.22.3. Set Depth AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-exposure">4.18.22.4. Set Depth Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-gain">4.18.22.5. Set Depth Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-mirror">4.18.22.6. Set Depth Mirror</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-flip">4.18.22.7. Set Depth Flip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-rotation">4.18.22.8. Set Depth Rotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-unit-of-depth">4.18.22.9. Set the Unit of Depth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-min-and-max-depth">4.18.22.10. Set Min and Max Depth</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ir-parameter-settings">4.18.20. IR Parameter Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-ae">4.18.20.1. Set IR AE</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-exposure">4.18.20.2. Set IR Exposure</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-gain">4.18.20.3. Set IR Gain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-target-brightness">4.18.20.4. Set IR Target Brightness</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-maximum-exposure-value">4.18.20.5. Set IR Maximum Exposure Value</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-mirror">4.18.20.6. set IR Mirror</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-flip">4.18.20.7. Set IR Flip</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-rotation">4.18.20.8. Set IR Rotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ir-parameter-settings">4.18.23. IR Parameter Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-ae">4.18.23.1. Set IR AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-exposure">4.18.23.2. Set IR Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-gain">4.18.23.3. Set IR Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-target-brightness">4.18.23.4. Set IR Target Brightness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-maximum-exposure-value">4.18.23.5. Set IR Maximum Exposure Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-mirror">4.18.23.6. set IR Mirror</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-flip">4.18.23.7. Set IR Flip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-rotation">4.18.23.8. Set IR Rotation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#color-parameter-settings">4.18.21. Color Parameter Settings</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-ae">4.18.21.1. Set Color AE</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-exposure">4.18.21.2. Set Color Exposure</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-gain">4.18.21.3. Set Color Gain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-mirror">4.18.21.4. set Color Mirror</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-flip">4.18.21.5. Set Color Flip</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-rotation">4.18.21.6. Set Color Rotation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-automatic-white-balance-awb">4.18.21.7. Set Color Automatic White Balance (AWB)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-white-balance-parameters">4.18.21.8. Set Color White Balance Parameters</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-color-brightness">4.18.21.9. Set the Color Brightness</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-sharpness">4.18.21.10. Set Color Sharpness</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-gamma">4.18.21.11. Set Color Gamma</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-saturation">4.18.21.12. Set Color Saturation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-hue">4.18.21.13. Set Color Hue</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-auto-exposure-priority">4.18.21.14. Set Color Auto Exposure Priority</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-backlight-compensation">4.18.21.15. Set Color Backlight Compensation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-contrast">4.18.21.16. Set Color Contrast</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-power-line-frequency">4.18.21.17. Set Color Power Line Frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#color-parameter-settings">4.18.24. Color Parameter Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-ae">4.18.24.1. Set Color AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-exposure">4.18.24.2. Set Color Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-gain">4.18.24.3. Set Color Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-mirror">4.18.24.4. set Color Mirror</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-flip">4.18.24.5. Set Color Flip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-rotation">4.18.24.6. Set Color Rotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-automatic-white-balance-awb">4.18.24.7. Set Color Automatic White Balance (AWB)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-white-balance-parameters">4.18.24.8. Set Color White Balance Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-color-brightness">4.18.24.9. Set the Color Brightness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-sharpness">4.18.24.10. Set Color Sharpness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-gamma">4.18.24.11. Set Color Gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-saturation">4.18.24.12. Set Color Saturation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-hue">4.18.24.13. Set Color Hue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-auto-exposure-priority">4.18.24.14. Set Color Auto Exposure Priority</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-backlight-compensation">4.18.24.15. Set Color Backlight Compensation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-contrast">4.18.24.16. Set Color Contrast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-power-line-frequency">4.18.24.17. Set Color Power Line Frequency</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronization">4.18.22. Multi-Camera Synchronization</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronous-hardware-connection">4.18.22.1. Multi-Camera Synchronous Hardware Connection</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronization-software-configuration">4.18.22.2. Multi-Camera Synchronization Software Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronization">4.18.25. Multi-Camera Synchronization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronous-hardware-connection">4.18.25.1. Multi-Camera Synchronous Hardware Connection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronization-software-configuration">4.18.25.2. Multi-Camera Synchronization Software Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#frame-interleave">4.18.23. Frame Interleave</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#load-frame-interleave">4.18.23.1. Load Frame Interleave</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#check-frame-interleave-support">4.18.23.2. Check Frame Interleave Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#frame-interleave">4.18.26. Frame Interleave</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#load-frame-interleave">4.18.26.1. Load Frame Interleave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#check-frame-interleave-support">4.18.26.2. Check Frame Interleave Support</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#heart-beat-control">4.18.24. Heart Beat Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#heart-beat-control">4.18.27. Heart Beat Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#log-management">4.18.28. Log Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-log-level">4.18.28.1. Set the log level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-log-output-to-the-console">4.18.28.2. Set the Log Output to the Console</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-log-output-to-file">4.18.28.3. Set Log Output to File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-log-callback-output">4.18.28.4. Set the Log Callback Output</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -318,7 +330,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2025-10-28 15:28:48.
+      <span class="lastupdated">Last updated on 2026-01-20 15:56:16.
       </span></p>
   </div>
 

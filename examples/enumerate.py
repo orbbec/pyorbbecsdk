@@ -5,7 +5,7 @@
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #
-#      http:# www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
 #  limitations under the License.
 # ******************************************************************************
 
-import sys
 from pyorbbecsdk import *
 
 ESC_KEY = 'q'
@@ -102,7 +101,7 @@ def main():
         device = device_list[index]
         device_info = device.get_device_info()
         print(
-            f" - {index}. Device name: {device_info.get_name()}, PID: {device_info.get_pid()}, Serial Number: {device_info.get_serial_number()}")
+            f" - {index}. Device name: {device_info.get_name()}, PID: {device_info.get_pid()}, Serial Number: {device_info.get_serial_number()}, Connection Type: {device_info.get_connection_type()}")
 
     # Default to selecting the first device
     print(f"Please select a device, show between 0 and {device_list.get_count() - 1}")

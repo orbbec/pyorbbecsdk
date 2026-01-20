@@ -5,7 +5,7 @@
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #
-#      http:# www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,8 @@ cached_frames = {
     'depth': None,
     'left_ir': None,
     'right_ir': None,
-    'ir': None
+    'ir': None,
+    'confidence': None
 }
 
 def setup_camera(playback):
@@ -41,6 +42,7 @@ def setup_camera(playback):
         OBSensorType.IR_SENSOR,
         OBSensorType.LEFT_IR_SENSOR,
         OBSensorType.RIGHT_IR_SENSOR,
+        OBSensorType.CONFIDENCE_SENSOR,
         OBSensorType.ACCEL_SENSOR, 
         OBSensorType.GYRO_SENSOR, 
     ]
@@ -117,17 +119,40 @@ def process_ir(ir_frame, key):
     ir_data = ir_data.astype(data_type)
     return cv2.cvtColor(ir_data, cv2.COLOR_GRAY2RGB)
 
+def process_confidence(frame):
+    """Process confidence image"""
+    frame = frame if frame else cached_frames['confidence']
+    cached_frames['confidence'] = frame
+    if not frame:
+        return None
+    try:
+        confidence_data = np.frombuffer(frame.get_data(), dtype=np.uint8)
+        confidence_data = confidence_data.reshape(frame.get_height(), frame.get_width())
+        confidence_image = cv2.normalize(confidence_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+        return cv2.cvtColor(confidence_image, cv2.COLOR_GRAY2RGB)
+    except ValueError:
+        return None
+
 def get_imu_text(frame, name):
     """Format IMU data"""
     if not frame:
         return []
-    return [
-        f"{name} x: {frame.get_x():.2f}",
-        f"{name} y: {frame.get_y():.2f}",
-        f"{name} z: {frame.get_z():.2f}"
-    ]
-
-
+    if name == "accel":
+        return [
+            f"{name}:",
+            f"timestampus = {frame.get_timestamp_us()}us",
+            f"x = {frame.get_x():.6f}m/s^2",
+            f"y = {frame.get_y():.6f}m/s^2",
+            f"z = {frame.get_z():.6f}m/s^2"
+        ]
+    else:
+        return [
+            f"{name}:",
+            f"timestampus = {frame.get_timestamp_us()}us",
+            f"x = {frame.get_x():.6f}rad/s",
+            f"y = {frame.get_y():.6f}rad/s",
+            f"z = {frame.get_z():.6f}rad/s"
+        ]
 
 def create_display(frames, enabled_sensor_types, width=1280, height=720):
     """Create display window with correct dynamic layout"""
@@ -136,7 +161,8 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
         OBSensorType.DEPTH_SENSOR: 'depth',
         OBSensorType.LEFT_IR_SENSOR: 'left_ir',
         OBSensorType.RIGHT_IR_SENSOR: 'right_ir',
-        OBSensorType.IR_SENSOR: 'ir'
+        OBSensorType.IR_SENSOR: 'ir',
+        OBSensorType.CONFIDENCE_SENSOR: 'confidence'
     }
     video_keys = []
     for sensor_type in enabled_sensor_types:
@@ -144,10 +170,10 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
             video_keys.append(sensor_type_to_name[sensor_type])
 
     video_frames = [frames.get(k) for k in video_keys]
-    has_imu = 'imu' in frames
+    imu_keys = [k for k in ['accel', 'gyro'] if k in frames]
     num_videos = len(video_frames)
-
-    total_elements = num_videos + (1 if has_imu else 0)
+    
+    total_elements = num_videos + len(imu_keys)
 
     if total_elements == 1:
         grid_cols, grid_rows = 1, 1
@@ -155,8 +181,10 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
         grid_cols, grid_rows = 2, 1
     elif total_elements <= 4:
         grid_cols, grid_rows = 2, 2
-    elif total_elements <= 5:
-        grid_cols, grid_rows = 2, 3
+    elif total_elements <= 6:
+        grid_cols, grid_rows = 3, 2
+    elif total_elements <= 9:
+        grid_cols, grid_rows = 3, 3
     else:
         raise ValueError("Too many elements! Maximum supported is 5.")
 
@@ -180,21 +208,18 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
         else:
             cv2.rectangle(display, (x_start, y_start), (x_start + cell_w, y_start + cell_h), (0, 0, 0), -1)
 
-    if has_imu:
-        imu_idx = num_videos
-        row = imu_idx // grid_cols
-        col = imu_idx % grid_cols
+    for i, key in enumerate(imu_keys):
+        current_idx = num_videos + i
+        row = current_idx // grid_cols
+        col = current_idx % grid_cols
         x_start = col * cell_w
         y_start = row * cell_h
         cv2.rectangle(display, (x_start, y_start), (x_start + cell_w, y_start + cell_h), (50, 50, 50), -1)
 
-        y_offset = y_start + 30
-        for data_type in ['accel', 'gyro']:
-            text_lines = get_imu_text(frames['imu'].get(data_type), data_type.title())
-            for i, line in enumerate(text_lines):
-                cv2.putText(display, line, (x_start + 10, y_offset + i * 20),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
-            y_offset += 100
+        text_lines = get_imu_text(frames[key], key.title())
+        for line_idx, line in enumerate(text_lines):
+            cv2.putText(display, line, (x_start + 10, y_start + 40 + line_idx * 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1, cv2.LINE_AA)
 
     return display
 
@@ -249,16 +274,20 @@ def main():
         # Process mono IR
         ir_frame = frames.get_ir_frame()
         processed_frames['ir'] = process_ir(ir_frame, 'ir')
+        
+        # Process confidence
+        confidence = frames.get_frame_by_type(OBFrameType.CONFIDENCE_FRAME)
+        if confidence:
+            processed_frames['confidence'] = process_confidence(confidence.as_confidence_frame())
 
         # Process IMU data
         accel = frames.get_frame(OBFrameType.ACCEL_FRAME)
         gyro = frames.get_frame(OBFrameType.GYRO_FRAME)
-        if accel and gyro:
-            processed_frames['imu'] = {
-                'accel': accel.as_accel_frame(),
-                'gyro': gyro.as_gyro_frame()
-            }
-
+        if accel:
+            processed_frames['accel'] = accel.as_accel_frame()
+        if gyro:
+            processed_frames['gyro'] = gyro.as_gyro_frame()
+        
         # create display
         display = create_display(processed_frames, enabled_sensor_types, DISPLAY_WIDTH, DISPLAY_HEIGHT)
         cv2.imshow(WINDOW_NAME, display)

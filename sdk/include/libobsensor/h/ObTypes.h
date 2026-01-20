@@ -51,6 +51,7 @@ typedef struct ob_preset_resolution_config_list_t ob_preset_resolution_config_li
 #define OB_ACCEL_SAMPLE_RATE_ANY OB_SAMPLE_RATE_UNKNOWN
 #define OB_GYRO_FULL_SCALE_RANGE_ANY OB_GYRO_FS_UNKNOWN
 #define OB_GYRO_SAMPLE_RATE_ANY OB_SAMPLE_RATE_UNKNOWN
+#define OB_LIDAR_SCAN_ANY OB_LIDAR_SCAN_UNKNOWN
 
 /**
  * @brief maximum path length
@@ -108,6 +109,7 @@ typedef enum {
     OB_EXCEPTION_TYPE_IO,                      /**< SDK access IO exception error */
     OB_EXCEPTION_TYPE_MEMORY,                  /**< SDK access and use memory errors. For example, the frame fails to allocate memory */
     OB_EXCEPTION_TYPE_UNSUPPORTED_OPERATION,   /**< Unsupported operation type error by SDK or device */
+    OB_EXCEPTION_TYPE_ACCESS_DENIED,           /**< Device access denied */
 } OBExceptionType,
     ob_exception_type;
 
@@ -126,17 +128,20 @@ typedef struct ob_error {
  * @brief Enumeration value describing the sensor type
  */
 typedef enum {
-    OB_SENSOR_UNKNOWN    = 0, /**< Unknown type sensor */
-    OB_SENSOR_IR         = 1, /**< IR */
-    OB_SENSOR_COLOR      = 2, /**< Color */
-    OB_SENSOR_DEPTH      = 3, /**< Depth */
-    OB_SENSOR_ACCEL      = 4, /**< Accel */
-    OB_SENSOR_GYRO       = 5, /**< Gyro */
-    OB_SENSOR_IR_LEFT    = 6, /**< left IR for stereo camera*/
-    OB_SENSOR_IR_RIGHT   = 7, /**< Right IR for stereo camera*/
-    OB_SENSOR_RAW_PHASE  = 8, /**< Raw Phase */
-    OB_SENSOR_CONFIDENCE = 9, /**< Confidence */
-    OB_SENSOR_TYPE_COUNT,     /**The total number of sensor types, is not a valid sensor type */
+    OB_SENSOR_UNKNOWN     = 0,  /**< Unknown type sensor */
+    OB_SENSOR_IR          = 1,  /**< IR */
+    OB_SENSOR_COLOR       = 2,  /**< Color */
+    OB_SENSOR_DEPTH       = 3,  /**< Depth */
+    OB_SENSOR_ACCEL       = 4,  /**< Accel */
+    OB_SENSOR_GYRO        = 5,  /**< Gyro */
+    OB_SENSOR_IR_LEFT     = 6,  /**< left IR for stereo camera*/
+    OB_SENSOR_IR_RIGHT    = 7,  /**< Right IR for stereo camera*/
+    OB_SENSOR_RAW_PHASE   = 8,  /**< Raw Phase */
+    OB_SENSOR_CONFIDENCE  = 9,  /**< Confidence */
+    OB_SENSOR_LIDAR       = 10, /**< LiDAR */
+    OB_SENSOR_COLOR_LEFT  = 11, /**< Left Color */
+    OB_SENSOR_COLOR_RIGHT = 12, /**< Right Color */
+    OB_SENSOR_TYPE_COUNT,       /**The total number of sensor types, is not a valid sensor type */
 } OBSensorType,
     ob_sensor_type;
 
@@ -144,18 +149,21 @@ typedef enum {
  * @brief Enumeration value describing the type of data stream
  */
 typedef enum {
-    OB_STREAM_UNKNOWN    = -1, /**< Unknown type stream */
-    OB_STREAM_VIDEO      = 0,  /**< Video stream (infrared, color, depth streams are all video streams) */
-    OB_STREAM_IR         = 1,  /**< IR stream */
-    OB_STREAM_COLOR      = 2,  /**< color stream */
-    OB_STREAM_DEPTH      = 3,  /**< depth stream */
-    OB_STREAM_ACCEL      = 4,  /**< Accelerometer data stream */
-    OB_STREAM_GYRO       = 5,  /**< Gyroscope data stream */
-    OB_STREAM_IR_LEFT    = 6,  /**< Left IR stream for stereo camera */
-    OB_STREAM_IR_RIGHT   = 7,  /**< Right IR stream for stereo camera */
-    OB_STREAM_RAW_PHASE  = 8,  /**< RawPhase Stream */
-    OB_STREAM_CONFIDENCE = 9,  /**< Confidence Stream*/
-    OB_STREAM_TYPE_COUNT,      /**< The total number of stream type,is not a valid stream type */
+    OB_STREAM_UNKNOWN     = -1, /**< Unknown type stream */
+    OB_STREAM_VIDEO       = 0,  /**< Video stream (infrared, color, depth streams are all video streams) */
+    OB_STREAM_IR          = 1,  /**< IR stream */
+    OB_STREAM_COLOR       = 2,  /**< color stream */
+    OB_STREAM_DEPTH       = 3,  /**< depth stream */
+    OB_STREAM_ACCEL       = 4,  /**< Accelerometer data stream */
+    OB_STREAM_GYRO        = 5,  /**< Gyroscope data stream */
+    OB_STREAM_IR_LEFT     = 6,  /**< Left IR stream for stereo camera */
+    OB_STREAM_IR_RIGHT    = 7,  /**< Right IR stream for stereo camera */
+    OB_STREAM_RAW_PHASE   = 8,  /**< RawPhase Stream */
+    OB_STREAM_CONFIDENCE  = 9,  /**< Confidence Stream*/
+    OB_STREAM_LIDAR       = 10, /**< LiDAR Stream for LiDAR device*/
+    OB_STREAM_COLOR_LEFT  = 11, /**< Left Color stream */
+    OB_STREAM_COLOR_RIGHT = 12, /**< Right Color stream */
+    OB_STREAM_TYPE_COUNT,       /**< The total number of stream type,is not a valid stream type */
 } OBStreamType,
     ob_stream_type;
 
@@ -163,20 +171,23 @@ typedef enum {
  * @brief Enumeration value describing the type of frame
  */
 typedef enum {
-    OB_FRAME_UNKNOWN    = -1, /**< Unknown frame type */
-    OB_FRAME_VIDEO      = 0,  /**< Video frame */
-    OB_FRAME_IR         = 1,  /**< IR frame */
-    OB_FRAME_COLOR      = 2,  /**< Color frame */
-    OB_FRAME_DEPTH      = 3,  /**< Depth frame */
-    OB_FRAME_ACCEL      = 4,  /**< Accelerometer data frame */
-    OB_FRAME_SET        = 5,  /**< Frame collection (internally contains a variety of data frames) */
-    OB_FRAME_POINTS     = 6,  /**< Point cloud frame */
-    OB_FRAME_GYRO       = 7,  /**< Gyroscope data frame */
-    OB_FRAME_IR_LEFT    = 8,  /**< Left IR frame for stereo camera */
-    OB_FRAME_IR_RIGHT   = 9,  /**< Right IR frame for stereo camera */
-    OB_FRAME_RAW_PHASE  = 10, /**< Raw Phase frame*/
-    OB_FRAME_CONFIDENCE = 11, /**< Confidence frame*/
-    OB_FRAME_TYPE_COUNT,      /**< The total number of frame types, is not a valid frame type */
+    OB_FRAME_UNKNOWN      = -1, /**< Unknown frame type */
+    OB_FRAME_VIDEO        = 0,  /**< Video frame */
+    OB_FRAME_IR           = 1,  /**< IR frame */
+    OB_FRAME_COLOR        = 2,  /**< Color frame */
+    OB_FRAME_DEPTH        = 3,  /**< Depth frame */
+    OB_FRAME_ACCEL        = 4,  /**< Accelerometer data frame */
+    OB_FRAME_SET          = 5,  /**< Frame collection (internally contains a variety of data frames) */
+    OB_FRAME_POINTS       = 6,  /**< Point cloud frame */
+    OB_FRAME_GYRO         = 7,  /**< Gyroscope data frame */
+    OB_FRAME_IR_LEFT      = 8,  /**< Left IR frame for stereo camera */
+    OB_FRAME_IR_RIGHT     = 9,  /**< Right IR frame for stereo camera */
+    OB_FRAME_RAW_PHASE    = 10, /**< Raw Phase frame*/
+    OB_FRAME_CONFIDENCE   = 11, /**< Confidence frame*/
+    OB_FRAME_LIDAR_POINTS = 12, /**< LiDAR point3d cloud frame*/
+    OB_FRAME_COLOR_LEFT   = 13, /**< Left Color frame */
+    OB_FRAME_COLOR_RIGHT  = 14, /**< Right Color frame */
+    OB_FRAME_TYPE_COUNT,        /**< The total number of frame types, is not a valid frame type */
 } OBFrameType,
     ob_frame_type;
 
@@ -197,41 +208,45 @@ typedef enum {
  * @brief Enumeration value describing the pixel format
  */
 typedef enum {
-    OB_FORMAT_UNKNOWN    = -1, /**< unknown format */
-    OB_FORMAT_YUYV       = 0,  /**< YUYV format */
-    OB_FORMAT_YUY2       = 1,  /**< YUY2 format (the actual format is the same as YUYV) */
-    OB_FORMAT_UYVY       = 2,  /**< UYVY format */
-    OB_FORMAT_NV12       = 3,  /**< NV12 format */
-    OB_FORMAT_NV21       = 4,  /**< NV21 format */
-    OB_FORMAT_MJPG       = 5,  /**< MJPEG encoding format */
-    OB_FORMAT_H264       = 6,  /**< H.264 encoding format */
-    OB_FORMAT_H265       = 7,  /**< H.265 encoding format */
-    OB_FORMAT_Y16        = 8,  /**< Y16 format, 16-bit per pixel, single-channel*/
-    OB_FORMAT_Y8         = 9,  /**< Y8 format, 8-bit per pixel, single-channel */
-    OB_FORMAT_Y10        = 10, /**< Y10 format, 10-bit per pixel, single-channel(SDK will unpack into Y16 by default) */
-    OB_FORMAT_Y11        = 11, /**< Y11 format, 11-bit per pixel, single-channel (SDK will unpack into Y16 by default) */
-    OB_FORMAT_Y12        = 12, /**< Y12 format, 12-bit per pixel, single-channel(SDK will unpack into Y16 by default) */
-    OB_FORMAT_GRAY       = 13, /**< GRAY (the actual format is the same as YUYV) */
-    OB_FORMAT_HEVC       = 14, /**< HEVC encoding format (the actual format is the same as H265) */
-    OB_FORMAT_I420       = 15, /**< I420 format */
-    OB_FORMAT_ACCEL      = 16, /**< Acceleration data format */
-    OB_FORMAT_GYRO       = 17, /**< Gyroscope data format */
-    OB_FORMAT_POINT      = 19, /**< XYZ 3D coordinate point format, @ref OBPoint */
-    OB_FORMAT_RGB_POINT  = 20, /**< XYZ 3D coordinate point format with RGB information, @ref OBColorPoint */
-    OB_FORMAT_RLE        = 21, /**< RLE pressure test format (SDK will be unpacked into Y16 by default) */
-    OB_FORMAT_RGB        = 22, /**< RGB format (actual RGB888)  */
-    OB_FORMAT_BGR        = 23, /**< BGR format (actual BGR888) */
-    OB_FORMAT_Y14        = 24, /**< Y14 format, 14-bit per pixel, single-channel (SDK will unpack into Y16 by default) */
-    OB_FORMAT_BGRA       = 25, /**< BGRA format */
-    OB_FORMAT_COMPRESSED = 26, /**< Compression format */
-    OB_FORMAT_RVL        = 27, /**< RVL pressure test format (SDK will be unpacked into Y16 by default) */
-    OB_FORMAT_Z16        = 28, /**< Is same as Y16*/
-    OB_FORMAT_YV12       = 29, /**< Is same as Y12, using for right ir stream*/
-    OB_FORMAT_BA81       = 30, /**< Is same as Y8, using for right ir stream*/
-    OB_FORMAT_RGBA       = 31, /**< RGBA format */
-    OB_FORMAT_BYR2       = 32, /**< byr2 format */
-    OB_FORMAT_RW16       = 33, /**< RAW16 format */
-    OB_FORMAT_Y12C4      = 34, /**<  Y12C4 format */
+    OB_FORMAT_UNKNOWN            = -1, /**< unknown format */
+    OB_FORMAT_YUYV               = 0,  /**< YUYV format */
+    OB_FORMAT_YUY2               = 1,  /**< YUY2 format (the actual format is the same as YUYV) */
+    OB_FORMAT_UYVY               = 2,  /**< UYVY format */
+    OB_FORMAT_NV12               = 3,  /**< NV12 format */
+    OB_FORMAT_NV21               = 4,  /**< NV21 format */
+    OB_FORMAT_MJPG               = 5,  /**< MJPEG encoding format */
+    OB_FORMAT_H264               = 6,  /**< H.264 encoding format */
+    OB_FORMAT_H265               = 7,  /**< H.265 encoding format */
+    OB_FORMAT_Y16                = 8,  /**< Y16 format, 16-bit per pixel, single-channel*/
+    OB_FORMAT_Y8                 = 9,  /**< Y8 format, 8-bit per pixel, single-channel */
+    OB_FORMAT_Y10                = 10, /**< Y10 format, 10-bit per pixel, single-channel(SDK will unpack into Y16 by default) */
+    OB_FORMAT_Y11                = 11, /**< Y11 format, 11-bit per pixel, single-channel (SDK will unpack into Y16 by default) */
+    OB_FORMAT_Y12                = 12, /**< Y12 format, 12-bit per pixel, single-channel(SDK will unpack into Y16 by default) */
+    OB_FORMAT_GRAY               = 13, /**< GRAY (the actual format is the same as YUYV) */
+    OB_FORMAT_HEVC               = 14, /**< HEVC encoding format (the actual format is the same as H265) */
+    OB_FORMAT_I420               = 15, /**< I420 format */
+    OB_FORMAT_ACCEL              = 16, /**< Acceleration data format */
+    OB_FORMAT_GYRO               = 17, /**< Gyroscope data format */
+    OB_FORMAT_POINT              = 19, /**< XYZ 3D coordinate point format, @ref OBPoint */
+    OB_FORMAT_RGB_POINT          = 20, /**< XYZ 3D coordinate point format with RGB information, @ref OBColorPoint */
+    OB_FORMAT_RLE                = 21, /**< RLE pressure test format (SDK will be unpacked into Y16 by default) */
+    OB_FORMAT_RGB                = 22, /**< RGB format (actual RGB888)  */
+    OB_FORMAT_BGR                = 23, /**< BGR format (actual BGR888) */
+    OB_FORMAT_Y14                = 24, /**< Y14 format, 14-bit per pixel, single-channel (SDK will unpack into Y16 by default) */
+    OB_FORMAT_BGRA               = 25, /**< BGRA format */
+    OB_FORMAT_COMPRESSED         = 26, /**< Compression format */
+    OB_FORMAT_RVL                = 27, /**< RVL pressure test format (SDK will be unpacked into Y16 by default) */
+    OB_FORMAT_Z16                = 28, /**< Is same as Y16*/
+    OB_FORMAT_YV12               = 29, /**< Is same as Y12, using for right ir stream*/
+    OB_FORMAT_BA81               = 30, /**< Is same as Y8, using for right ir stream*/
+    OB_FORMAT_RGBA               = 31, /**< RGBA format */
+    OB_FORMAT_BYR2               = 32, /**< byr2 format */
+    OB_FORMAT_RW16               = 33, /**< RAW16 format */
+    OB_FORMAT_Y12C4              = 34, /**<  Y12C4 format */
+    OB_FORMAT_LIDAR_POINT        = 35, /**< XYZ 3D coordinate point format with LiDAR information, @ref OBLiDARPoint */
+    OB_FORMAT_LIDAR_SPHERE_POINT = 36, /**< Spherical coordinate point format with LiDAR information, @ref OBLiDARSpherePoint */
+    OB_FORMAT_LIDAR_SCAN         = 37, /**< LiDAR single-line scan mode data format, @ref OBLiDARScanPoint */
+    OB_FORMAT_LIDAR_CALIBRATION  = 38, /**< LiDAR calibration mode point format */
 } OBFormat,
     ob_format;
 
@@ -251,24 +266,27 @@ typedef enum {
  * @brief Enumeration value describing the firmware upgrade status
  */
 typedef enum {
-    STAT_DONE_WITH_DUPLICATES = 6,   /**< update completed, but some files were duplicated and ignored */
-    STAT_VERIFY_SUCCESS       = 5,   /**< Image file verifify success */
-    STAT_FILE_TRANSFER        = 4,   /**< file transfer */
-    STAT_DONE                 = 3,   /**< update completed */
-    STAT_IN_PROGRESS          = 2,   /**< upgrade in process */
-    STAT_START                = 1,   /**< start the upgrade */
-    STAT_VERIFY_IMAGE         = 0,   /**< Image file verification */
-    ERR_VERIFY                = -1,  /**< Verification failed */
-    ERR_PROGRAM               = -2,  /**< Program execution failed */
-    ERR_ERASE                 = -3,  /**< Flash parameter failed */
-    ERR_FLASH_TYPE            = -4,  /**< Flash type error */
-    ERR_IMAGE_SIZE            = -5,  /**< Image file size error */
-    ERR_OTHER                 = -6,  /**< other errors */
-    ERR_DDR                   = -7,  /**< DDR access error */
-    ERR_TIMEOUT               = -8,  /**< timeout error */
-    ERR_MISMATCH              = -9,  /**< Mismatch firmware error */
-    ERR_UNSUPPORT_DEV         = -10, /**< Unsupported device error */
-    ERR_INVALID_COUNT         = -11, /**< invalid firmware/preset count */
+    STAT_DONE_REBOOT_AND_REUPDATE = 7,   /**< update completed and device requires manual reboot and a second update*/
+    STAT_DONE_WITH_DUPLICATES     = 6,   /**< update completed, but some files were duplicated and ignored */
+    STAT_VERIFY_SUCCESS           = 5,   /**< Image file verifify success */
+    STAT_FILE_TRANSFER            = 4,   /**< file transfer */
+    STAT_DONE                     = 3,   /**< update completed */
+    STAT_IN_PROGRESS              = 2,   /**< upgrade in process */
+    STAT_START                    = 1,   /**< start the upgrade */
+    STAT_VERIFY_IMAGE             = 0,   /**< Image file verification */
+    ERR_VERIFY                    = -1,  /**< Verification failed */
+    ERR_PROGRAM                   = -2,  /**< Program execution failed */
+    ERR_ERASE                     = -3,  /**< Flash parameter failed */
+    ERR_FLASH_TYPE                = -4,  /**< Flash type error */
+    ERR_IMAGE_SIZE                = -5,  /**< Image file size error */
+    ERR_OTHER                     = -6,  /**< other errors */
+    ERR_DDR                       = -7,  /**< DDR access error */
+    ERR_TIMEOUT                   = -8,  /**< timeout error */
+    ERR_MISMATCH                  = -9,  /**< Mismatch firmware error */
+    ERR_UNSUPPORT_DEV             = -10, /**< Unsupported device error */
+    ERR_INVALID_COUNT             = -11, /**< invalid firmware/preset count */
+    ERR_FILE_READ                 = -12, /**< Read image file error */
+    ERR_TRANSFER                  = -13  /**< Transfer failed */
 } OBUpgradeState,
     OBFwUpdateState, ob_upgrade_state, ob_fw_update_state;
 
@@ -642,6 +660,21 @@ typedef struct {
 } OBAccelValue, OBGyroValue, OBFloat3D, ob_accel_value, ob_gyro_value, ob_float_3d;
 
 /**
+ * @brief Data structures for LiDAR scan rate
+ */
+typedef enum {
+    OB_LIDAR_SCAN_UNKNOWN = 0,
+    OB_LIDAR_SCAN_5HZ     = 1,
+    OB_LIDAR_SCAN_10HZ    = 2,
+    OB_LIDAR_SCAN_15HZ    = 3,
+    OB_LIDAR_SCAN_20HZ    = 4,
+    OB_LIDAR_SCAN_25HZ    = 5,
+    OB_LIDAR_SCAN_30HZ    = 6,
+    OB_LIDAR_SCAN_40HZ    = 7,
+} OBLiDARScanRate,
+    ob_lidar_scan_rate, OB_LIDAR_SCAN_RATE;
+
+/**
  * @brief Device state
  */
 typedef uint64_t OBDeviceState, ob_device_state;
@@ -797,6 +830,37 @@ typedef struct {
     float g;  ///< Green channel component
     float b;  ///< Blue channel component
 } OBColorPoint, ob_color_point;
+
+/**
+ * @brief 3D point structure with LiDAR information
+ */
+typedef struct {
+    float    angle;      ///< angle, unit: degrees
+    float    distance;   ///< distance, unit: mm
+    uint16_t intensity;  ///< intensity, 0~2000
+} OBLiDARScanPoint, ob_lidar_scan_point;
+
+/**
+ * @brief 3D point structure with LiDAR information
+ */
+typedef struct {
+    float   x;             ///< X coordinate, unit mm
+    float   y;             ///< Y coordinate, unit mm
+    float   z;             ///< Z coordinate, unit mm
+    uint8_t reflectivity;  ///< reflectivity
+    uint8_t tag;           ///< point state
+} OBLiDARPoint, ob_lidar_point;
+
+/**
+ * @brief 3D point structure with LiDAR information
+ */
+typedef struct {
+    float   distance;      ///< distance, unit: mm
+    float   theta;         ///< azimuth angle, unit: degrees
+    float   phi;           ///< zenith angle, unit: degrees
+    uint8_t reflectivity;  ///< reflectivity
+    uint8_t tag;           ///< tag
+} OBLiDARSpherePoint, ob_lidar_sphere_point;
 
 /**
  * @brief Compression mode
@@ -1253,8 +1317,8 @@ typedef enum {
      * @brief primary mode
      * @brief The device is the primary device in the multi-device system, it will output the trigger signal via VSYNC_OUT pin on synchronization port by
      * default.
-     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref colorDelayUs, @ref
-     * depthDelayUs or @ref trigger2ImageDelayUs.
+     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref
+     * OBMultiDeviceSyncConfig::colorDelayUs, @ref OBMultiDeviceSyncConfig::depthDelayUs or @ref OBMultiDeviceSyncConfig::trigger2ImageDelayUs.
      */
     OB_MULTI_DEVICE_SYNC_MODE_PRIMARY = 1 << 2,
 
@@ -1262,8 +1326,8 @@ typedef enum {
      * @brief secondary mode
      * @brief The device is the secondary device in the multi-device system, it will receive the trigger signal via VSYNC_IN pin on synchronization port. It
      * will out the trigger signal via VSYNC_OUT pin on synchronization port by default.
-     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref colorDelayUs, @ref
-     * depthDelayUs or @ref trigger2ImageDelayUs.
+     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref
+     * OBMultiDeviceSyncConfig::colorDelayUs, @ref OBMultiDeviceSyncConfig::depthDelayUs or @ref OBMultiDeviceSyncConfig::trigger2ImageDelayUs.
      * @brief After starting the stream, the device will wait for the trigger signal to start capturing images, and will stop capturing images when the trigger
      * signal is stopped.
      *
@@ -1275,8 +1339,8 @@ typedef enum {
      * @brief secondary synced mode
      * @brief The device is the secondary device in the multi-device system, it will receive the trigger signal via VSYNC_IN pin on synchronization port. It
      * will out the trigger signal via VSYNC_OUT pin on synchronization port by default.
-     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref colorDelayUs, @ref
-     * depthDelayUs or @ref trigger2ImageDelayUs.
+     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref
+     * OBMultiDeviceSyncConfig::colorDelayUs, @ref OBMultiDeviceSyncConfig::depthDelayUs or @ref OBMultiDeviceSyncConfig::trigger2ImageDelayUs.
      * @brief After starting the stream, the device will be immediately start capturing images, and will adjust the capture time when the trigger signal is
      * received to synchronize with the primary device. If the trigger signal is stopped, the device will still capture images.
      *
@@ -1288,9 +1352,9 @@ typedef enum {
      * @brief software triggering mode
      * @brief The device will start one time image capture after receiving the capture command and will output the trigger signal via VSYNC_OUT pin by default.
      * The capture command can be sent form host by call @ref ob_device_trigger_capture. The number of images captured each time can be set by @ref
-     * framesPerTrigger.
-     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref colorDelayUs, @ref
-     * depthDelayUs or @ref trigger2ImageDelayUs.
+     * OBMultiDeviceSyncConfig::framesPerTrigger.
+     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref
+     * OBMultiDeviceSyncConfig::colorDelayUs, @ref OBMultiDeviceSyncConfig::depthDelayUs or @ref OBMultiDeviceSyncConfig::trigger2ImageDelayUs.
      *
      * @brief The frequency of the user call @ref ob_device_trigger_capture to send the capture command multiplied by the number of frames per trigger should be
      * less than the frame rate of the stream profile which is set when starting the stream.
@@ -1300,9 +1364,9 @@ typedef enum {
     /**
      * @brief hardware triggering mode
      * @brief The device will start one time image capture after receiving the trigger signal via VSYNC_IN pin on synchronization port and will output the
-     * trigger signal via VSYNC_OUT pin by default. The number of images captured each time can be set by @ref framesPerTrigger.
-     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref colorDelayUs, @ref
-     * depthDelayUs or @ref trigger2ImageDelayUs.
+     * trigger signal via VSYNC_OUT pin by default. The number of images captured each time can be set by @ref OBMultiDeviceSyncConfig::framesPerTrigger.
+     * @brief The Color and Depth should be set to same frame rates, the Color and Depth will be synchronized and can be adjusted by @ref
+     * OBMultiDeviceSyncConfig::colorDelayUs, @ref OBMultiDeviceSyncConfig::depthDelayUs or @ref OBMultiDeviceSyncConfig::trigger2ImageDelayUs.
      *
      * @attention The frequency of the trigger signal multiplied by the number of frames per trigger should be less than the frame rate of the stream profile
      * which is set when starting the stream.
@@ -1318,6 +1382,10 @@ typedef enum {
      */
     OB_MULTI_DEVICE_SYNC_MODE_IR_IMU_SYNC = 1 << 7,
 
+    /**
+     * @brief The device captures data in software synchronization mode, starting acquisition based on the system time.
+     */
+    OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_SYNCED = 1 << 8,
 } ob_multi_device_sync_mode,
     OBMultiDeviceSyncMode;
 
@@ -1492,6 +1560,15 @@ typedef struct {
     uint8_t offset1;
     uint8_t reserved;
 } OBDispOffsetConfig, ob_disp_offset_config;
+
+/**
+ * @details Defines the original resolution and hardware decimation factor.
+ */
+typedef struct {
+    uint32_t originWidth;   ///< Origin width
+    uint32_t originHeight;  ///< Origin height
+    uint32_t factor;        ///< Decimation factor
+} OBHardwareDecimationConfig, ob_hardware_decimation_config;
 
 /**
  * @brief Frame metadata types
@@ -1740,77 +1817,92 @@ typedef enum {
  * @brief Intra-camera Sync Reference based on the exposure start time, the exposure middle time, or the exposure end time.
  */
 typedef enum {
-    START_OF_EXPOSURE = 0, /**< start of exposure */
-    MIDDLE_OF_EXPOSURE,    /**< middle of exposure */
-    END_OF_EXPOSURE,       /**< end of exposure  */
+    OB_START_OF_EXPOSURE = 0, /**< start of exposure */
+    OB_MIDDLE_OF_EXPOSURE,    /**< middle of exposure */
+    OB_END_OF_EXPOSURE,       /**< end of exposure  */
 } ob_intra_camera_sync_reference,
     OBIntraCameraSyncReference;
 
 // For compatibility
 #define OB_FRAME_METADATA_TYPE_LASER_POWER_MODE OB_FRAME_METADATA_TYPE_LASER_POWER_LEVEL
 #define OB_FRAME_METADATA_TYPE_EMITTER_MODE OB_FRAME_METADATA_TYPE_LASER_STATUS
+#define START_OF_EXPOSURE OB_START_OF_EXPOSURE
+#define MIDDLE_OF_EXPOSURE OB_MIDDLE_OF_EXPOSURE
+#define END_OF_EXPOSURE OB_END_OF_EXPOSURE
+
+/**
+ * @brief Device access mode for GigE network device
+ */
+typedef enum {
+    OB_DEVICE_ACCESS_DENIED    = 0,  ///< No access. This value is only used as a return value
+    OB_DEVICE_EXCLUSIVE_ACCESS = 1,  ///< Exclusive access: full read/write, no other application allowed; can preempt existing monitor access
+    OB_DEVICE_CONTROL_ACCESS   = 2,  ///< Control access: read/write allowed; other applications permitted read-only monitor access
+    OB_DEVICE_MONITOR_ACCESS   = 3,  ///< Monitor access: read-only; no write or control privileges
+    OB_DEVICE_DEFAULT_ACCESS   = 4,  ///< Default access: control access for capable devices, ignored otherwise
+} ob_device_access_mode,
+    OBDeviceAccessMode;
 
 /**
  * @brief Callback for file transfer
  *
- * @param state Transmission status
- * @param message Transfer status information
- * @param percent Transfer progress percentage
- * @param user_data User-defined data
+ * @param[in] state Transmission status
+ * @param[in] message Transfer status information
+ * @param[in] percent Transfer progress percentage
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_file_send_callback)(ob_file_tran_state state, const char *message, uint8_t percent, void *user_data);
 
 /**
  * @brief Callback for firmware upgrade
  *
- * @param state Upgrade status
- * @param message Upgrade status information
- * @param percent Upgrade progress percentage
- * @param user_data User-defined data
+ * @param[in] state Upgrade status
+ * @param[in] message Upgrade status information
+ * @param[in] percent Upgrade progress percentage
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_device_fw_update_callback)(ob_fw_update_state state, const char *message, uint8_t percent, void *user_data);
 
 /**
  * @brief Callback for device status
  *
- * @param state Device status
- * @param message Device status information
- * @param user_data User-defined data
+ * @param[in] state Device status
+ * @param[in] message Device status information
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_device_state_callback)(ob_device_state state, const char *message, void *user_data);
 
 /**
  * @brief Callback for writing data
  *
- * @param state Write data status
- * @param percent Write data percentage
- * @param user_data User-defined data
+ * @param[in] state Write data status
+ * @param[in] percent Write data percentage
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_set_data_callback)(ob_data_tran_state state, uint8_t percent, void *user_data);
 
 /**
  * @brief Callback for reading data
  *
- * @param state Read data status
- * @param dataChunk Read the returned data block
- * @param user_data User-defined data
+ * @param[in] state Read data status
+ * @param[in] dataChunk Read the returned data block
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_get_data_callback)(ob_data_tran_state state, ob_data_chunk *dataChunk, void *user_data);
 
 /**
  * @brief Callback for media status (recording and playback)
  *
- * @param state Condition
- * @param user_data User-defined data
+ * @param[in] state Condition
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_media_state_callback)(ob_media_state state, void *user_data);
 
 /**
  * @brief Callback for device change
  *
- * @param removed List of deleted (dropped) devices
- * @param added List of added (online) devices
- * @param user_data User-defined data
+ * @param[in] removed List of deleted (dropped) devices
+ * @param[in] added List of added (online) devices
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_device_changed_callback)(ob_device_list *removed, ob_device_list *added, void *user_data);
 
@@ -1820,8 +1912,8 @@ typedef void (*ob_device_changed_callback)(ob_device_list *removed, ob_device_li
 /**
  * @brief Callback for frame
  *
- * @param frame Frame object
- * @param user_data User-defined data
+ * @param[in] frame Frame object
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_frame_callback)(ob_frame *frame, void *user_data);
 #define ob_filter_callback ob_frame_callback
@@ -1830,75 +1922,110 @@ typedef void (*ob_frame_callback)(ob_frame *frame, void *user_data);
 /**
  * @brief Callback for frameset
  *
- * @param frameset Frameset object
- * @param user_data User-defined data
+ * @param[in] frameset Frameset object
+ * @param[in] user_data User-defined data
  */
 typedef void (*ob_frameset_callback)(ob_frame *frameset, void *user_data);
 
 /**
  * @brief Customize the delete callback
  *
- * @param buffer Data that needs to be deleted
- * @param user_data User-defined data
+ * @param[in] buffer Data that needs to be deleted
+ * @param[in] user_data User-defined data
  */
 typedef void(ob_frame_destroy_callback)(uint8_t *buffer, void *user_data);
 
 /**
  * @brief Callback for receiving log
  *
- * @param severity Current log level
- * @param message Log message
- * @param user_data User-defined data
+ * @param[in] severity Current log level
+ * @param[in] message Log message
+ * @param[in] user_data User-defined data
  */
 typedef void(ob_log_callback)(ob_log_severity severity, const char *message, void *user_data);
 
 typedef void (*ob_playback_status_changed_callback)(ob_playback_status status, void *user_data);
+
+/**
+ * @brief Callback Id
+ */
+typedef uint64_t OBCallbackId, ob_callback_id;
+#define INVALID_CALLBACK_ID (0)
+
 /**
  * @brief Check if the sensor_type is a video sensor
  *
- * @param sensor_type Sensor type to check
+ * @param[in] sensor_type Sensor type to check
  * @return True if sensor_type is a video sensor, false otherwise
  */
-#define ob_is_video_sensor_type(sensor_type)                                                                                             \
-    (sensor_type == OB_SENSOR_COLOR || sensor_type == OB_SENSOR_DEPTH || sensor_type == OB_SENSOR_IR || sensor_type == OB_SENSOR_IR_LEFT \
-     || sensor_type == OB_SENSOR_IR_RIGHT || sensor_type == OB_SENSOR_CONFIDENCE)
+#define ob_is_video_sensor_type(sensor_type)                                                                                                         \
+    (sensor_type == OB_SENSOR_COLOR || sensor_type == OB_SENSOR_COLOR_LEFT || sensor_type == OB_SENSOR_COLOR_RIGHT || sensor_type == OB_SENSOR_DEPTH \
+     || sensor_type == OB_SENSOR_IR || sensor_type == OB_SENSOR_IR_LEFT || sensor_type == OB_SENSOR_IR_RIGHT || sensor_type == OB_SENSOR_CONFIDENCE)
 
 /**
  * @brief check if the stream_type is a video stream
  *
- * @param stream_type Stream type to check
+ * @param[in] stream_type Stream type to check
  * @return True if stream_type is a video stream, false otherwise
  */
-#define ob_is_video_stream_type(stream_type)                                                                                             \
-    (stream_type == OB_STREAM_COLOR || stream_type == OB_STREAM_DEPTH || stream_type == OB_STREAM_IR || stream_type == OB_STREAM_IR_LEFT \
-     || stream_type == OB_STREAM_IR_RIGHT || stream_type == OB_STREAM_VIDEO || stream_type == OB_STREAM_CONFIDENCE)
+#define ob_is_video_stream_type(stream_type)                                                                                                         \
+    (stream_type == OB_STREAM_COLOR || stream_type == OB_STREAM_COLOR_LEFT || stream_type == OB_STREAM_COLOR_RIGHT || stream_type == OB_STREAM_DEPTH \
+     || stream_type == OB_STREAM_IR || stream_type == OB_STREAM_IR_LEFT || stream_type == OB_STREAM_IR_RIGHT || stream_type == OB_STREAM_VIDEO       \
+     || stream_type == OB_STREAM_CONFIDENCE)
 
 /**
  * @brief Check if sensor_type is an IR sensor
  *
- * @param sensor_type Sensor type to check
+ * @param[in] sensor_type Sensor type to check
  * @return True if sensor_type is an IR sensor, false otherwise
  */
 #define is_ir_sensor(sensor_type) (sensor_type == OB_SENSOR_IR || sensor_type == OB_SENSOR_IR_LEFT || sensor_type == OB_SENSOR_IR_RIGHT)
 #define isIRSensor is_ir_sensor
 
 /**
+ * @brief Check if sensor_type is an Color sensor
+ *
+ * @param sensor_type Sensor type to check
+ * @return True if sensor_type is an Color sensor, false otherwise
+ */
+#define is_color_sensor(sensor_type) (sensor_type == OB_SENSOR_COLOR || sensor_type == OB_SENSOR_COLOR_LEFT || sensor_type == OB_SENSOR_COLOR_RIGHT)
+#define isColorSensor is_color_sensor
+
+/**
  * @brief Check if stream_type is an IR stream
  *
- * @param stream_type Stream type to check
+ * @param[in] stream_type Stream type to check
  * @return True if stream_type is an IR stream, false otherwise
  */
 #define is_ir_stream(stream_type) (stream_type == OB_STREAM_IR || stream_type == OB_STREAM_IR_LEFT || stream_type == OB_STREAM_IR_RIGHT)
 #define isIRStream is_ir_stream
 
 /**
+ * @brief Check if stream_type is an Color stream
+ *
+ * @param stream_type Stream type to check
+ * @return True if stream_type is an Color stream, false otherwise
+ */
+#define is_color_stream(stream_type) (stream_type == OB_STREAM_COLOR || stream_type == OB_STREAM_COLOR_LEFT || stream_type == OB_STREAM_COLOR_RIGHT)
+#define isColorStream is_color_stream
+
+/**
  * @brief Check if frame_type is an IR frame
  *
- * @param frame_type Frame type to check
+ * @param[in] frame_type Frame type to check
  * @return True if frame_type is an IR frame, false otherwise
  */
 #define is_ir_frame(frame_type) (frame_type == OB_FRAME_IR || frame_type == OB_FRAME_IR_LEFT || frame_type == OB_FRAME_IR_RIGHT)
 #define isIRFrame is_ir_frame
+
+/**
+ * @brief Check if frame_type is an Color frame
+ *
+ * @param frame_type Frame type to check
+ * @return True if frame_type is an Color frame, false otherwise
+ */
+#define is_color_frame(frame_type) (frame_type == OB_FRAME_COLOR || frame_type == OB_FRAME_COLOR_LEFT || frame_type == OB_FRAME_COLOR_RIGHT)
+#define isColorFrame is_color_frame
 
 /**
  * @brief The default Decrypt Key

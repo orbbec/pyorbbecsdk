@@ -178,6 +178,7 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_device_list(m);
   pyorbbecsdk::define_device_preset_list(m);
   pyorbbecsdk::define_depth_work_mode_list(m);
+  pyorbbecsdk::define_preset_resolution_config_list(m);
   pyorbbecsdk::define_device(m);
   pyorbbecsdk::define_camera_list(m);
 
@@ -205,10 +206,12 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_color_frame(m);
   pyorbbecsdk::define_depth_frame(m);
   pyorbbecsdk::define_ir_frame(m);
+  pyorbbecsdk::define_confidence_frame(m);
   pyorbbecsdk::define_points_frame(m);
   pyorbbecsdk::define_frame_set(m);
   pyorbbecsdk::define_accel_frame(m);
   pyorbbecsdk::define_gyro_frame(m);
+  pyorbbecsdk::define_lidar_points_frame(m);
 
   // pipeline
   pyorbbecsdk::define_pipeline(m);
@@ -226,6 +229,7 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_video_stream_profile(m);
   pyorbbecsdk::define_accel_stream_profile(m);
   pyorbbecsdk::define_gyro_stream_profile(m);
+  pyorbbecsdk::define_lidar_stream_profile(m);
   pyorbbecsdk::define_stream_profile_list(m);
   pyorbbecsdk::define_coordinate_transform_helper(m);
   pyorbbecsdk::define_point_cloud_helper(m);
@@ -259,6 +263,7 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   pyorbbecsdk::define_device_list(m);
   pyorbbecsdk::define_device_preset_list(m);
   pyorbbecsdk::define_depth_work_mode_list(m);
+  pyorbbecsdk::define_preset_resolution_config_list(m);
   pyorbbecsdk::define_device(m);
   pyorbbecsdk::define_camera_list(m);
 
@@ -286,10 +291,12 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   pyorbbecsdk::define_color_frame(m);
   pyorbbecsdk::define_depth_frame(m);
   pyorbbecsdk::define_ir_frame(m);
+  pyorbbecsdk::define_confidence_frame(m);
   pyorbbecsdk::define_points_frame(m);
   pyorbbecsdk::define_frame_set(m);
   pyorbbecsdk::define_accel_frame(m);
   pyorbbecsdk::define_gyro_frame(m);
+  pyorbbecsdk::define_lidar_points_frame(m);
 
   // pipeline
   pyorbbecsdk::define_pipeline(m);
@@ -307,6 +314,7 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   pyorbbecsdk::define_video_stream_profile(m);
   pyorbbecsdk::define_accel_stream_profile(m);
   pyorbbecsdk::define_gyro_stream_profile(m);
+  pyorbbecsdk::define_lidar_stream_profile(m);
   pyorbbecsdk::define_stream_profile_list(m);
   pyorbbecsdk::define_coordinate_transform_helper(m);
   pyorbbecsdk::define_point_cloud_helper(m);

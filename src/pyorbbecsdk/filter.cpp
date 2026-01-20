@@ -18,7 +18,10 @@
 
 #include "error.hpp"
 #include "utils.hpp"
-
+#include <pybind11/stl.h>
+#include <pybind11/functional.h>
+#include <pybind11/chrono.h>
+#include <pybind11/complex.h>
 namespace pyorbbecsdk {
 void define_filter(const py::object& m) {
   py::class_<ob::Filter, std::shared_ptr<ob::Filter>>(m, "Filter")
@@ -65,6 +68,17 @@ void define_filter(const py::object& m) {
                });
              });
            })
+      .def("get_config_schema_vec",
+           [](std::shared_ptr<ob::Filter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getConfigSchemaVec(); });
+           })
+      .def("get_config_value",
+           [](std::shared_ptr<ob::Filter>& self,
+              const std::string& config_name) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getConfigValue(config_name.c_str()); });
+           })
       .def("get_name",
            [](std::shared_ptr<ob::Filter>& self) {
              CHECK_NULLPTR(self);
@@ -84,8 +98,8 @@ void define_filter(const py::object& m) {
       .def("is_point_cloud_filter", &ob::Filter::is<ob::PointCloudFilter>)
       .def("is_format_converter", &ob::Filter::is<ob::FormatConvertFilter>)
       .def("is_align_filter", &ob::Filter::is<ob::Align>);
-      //.def("is_edge_noise_removal_filter",
-      //     &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
+  //.def("is_edge_noise_removal_filter",
+  //     &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
 }
 
 void define_point_cloud_filter(const py::object& m) {
@@ -96,6 +110,18 @@ void define_point_cloud_filter(const py::object& m) {
            [](std::shared_ptr<ob::PointCloudFilter>& self, OBFormat format) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ return self->setCreatePointFormat(format); });
+           })
+      .def("set_decimation_factor",
+           [](std::shared_ptr<ob::PointCloudFilter>& self, int value) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setDecimationFactor(value); });
+           })
+      .def("get_decimation_factor_range",
+           [](std::shared_ptr<ob::PointCloudFilter>& self) {
+             CHECK_NULLPTR(self);
+             OBIntPropertyRange range;
+             OB_TRY_CATCH({ range = self->getDecimationFactorRange(); });
+             return range;
            })
       .def("set_camera_param",
            [](std::shared_ptr<ob::PointCloudFilter>& self,
@@ -122,62 +148,64 @@ void define_point_cloud_filter(const py::object& m) {
                            std::shared_ptr<ob::Frame> frame) {
         CHECK_NULLPTR(self);
         CHECK_NULLPTR(frame);
-        auto format = frame->format();
-        if (format != OBFormat::OB_FORMAT_RGB_POINT &&
-            format != OBFormat::OB_FORMAT_POINT) {
-          std::cerr << "Is not a point cloud frame, do you call process first?"
-                    << std::endl;
-          throw std::runtime_error(
-              "Is not a point cloud frame, do you call process first?");
-        }
-        if (format == OBFormat::OB_FORMAT_RGB_POINT) {
-          auto data = frame->data();
-          auto data_size = frame->dataSize();
-          uint32_t num_of_points = data_size / sizeof(OBColorPoint);
-          auto points = static_cast<OBColorPoint*>(data);
-          // Convert to py::array
-          py::array::ShapeContainer shape({num_of_points, 6});
-          py::array::StridesContainer strides(
-              {6 * sizeof(float), sizeof(float)});
-          py::dtype dtype("float");
-          py::array array(dtype, shape, strides);
-          py::array_t<float> result = py::cast<py::array_t<float>>(array);
-          py::buffer_info buf_info = result.request();
-          auto* ptr = static_cast<float*>(buf_info.ptr);
-          for (long i = 0; i < num_of_points; ++i) {
-            auto point = points[i];
-            size_t index = i * 6;
-            ptr[index] = point.x;
-            ptr[index + 1] = point.y;
-            ptr[index + 2] = point.z;
-            ptr[index + 3] = point.r;
-            ptr[index + 4] = point.g;
-            ptr[index + 5] = point.b;
+        OB_TRY_CATCH({
+          auto format = frame->format();
+          if (format != OBFormat::OB_FORMAT_RGB_POINT &&
+              format != OBFormat::OB_FORMAT_POINT) {
+            std::cerr << "Is not a point cloud frame, do you call process first?"
+                      << std::endl;
+            throw std::runtime_error(
+                "Is not a point cloud frame, do you call process first?");
           }
-          return result;
-        } else {
-          auto data = frame->data();
-          auto data_size = frame->dataSize();
-          uint32_t num_of_points = data_size / sizeof(OBPoint);
-          auto points = reinterpret_cast<OBPoint*>(data);
-          // Convert to py::array
-          py::array::ShapeContainer shape({num_of_points, 3});
-          py::array::StridesContainer strides(
-              {3 * sizeof(float), sizeof(float)});
-          py::dtype dtype("float");
-          py::array array(dtype, shape, strides);
-          py::array_t<float> result = py::cast<py::array_t<float>>(array);
-          py::buffer_info buf_info = result.request();
-          auto* ptr = static_cast<float*>(buf_info.ptr);
-          for (long i = 0; i < num_of_points; ++i) {
-            auto point = points[i];
-            size_t index = i * 3;
-            ptr[index] = point.x;
-            ptr[index + 1] = point.y;
-            ptr[index + 2] = point.z;
+          if (format == OBFormat::OB_FORMAT_RGB_POINT) {
+            auto data = frame->data();
+            auto data_size = frame->dataSize();
+            uint32_t num_of_points = data_size / sizeof(OBColorPoint);
+            auto points = static_cast<OBColorPoint*>(data);
+            // Convert to py::array
+            py::array::ShapeContainer shape({num_of_points, 6});
+            py::array::StridesContainer strides(
+                {6 * sizeof(float), sizeof(float)});
+            py::dtype dtype("float");
+            py::array array(dtype, shape, strides);
+            py::array_t<float> result = py::cast<py::array_t<float>>(array);
+            py::buffer_info buf_info = result.request();
+            auto* ptr = static_cast<float*>(buf_info.ptr);
+            for (long i = 0; i < num_of_points; ++i) {
+              auto point = points[i];
+              size_t index = i * 6;
+              ptr[index] = point.x;
+              ptr[index + 1] = point.y;
+              ptr[index + 2] = point.z;
+              ptr[index + 3] = point.r;
+              ptr[index + 4] = point.g;
+              ptr[index + 5] = point.b;
+            }
+            return result;
+          } else {
+            auto data = frame->data();
+            auto data_size = frame->dataSize();
+            uint32_t num_of_points = data_size / sizeof(OBPoint);
+            auto points = reinterpret_cast<OBPoint*>(data);
+            // Convert to py::array
+            py::array::ShapeContainer shape({num_of_points, 3});
+            py::array::StridesContainer strides(
+                {3 * sizeof(float), sizeof(float)});
+            py::dtype dtype("float");
+            py::array array(dtype, shape, strides);
+            py::array_t<float> result = py::cast<py::array_t<float>>(array);
+            py::buffer_info buf_info = result.request();
+            auto* ptr = static_cast<float*>(buf_info.ptr);
+            for (long i = 0; i < num_of_points; ++i) {
+              auto point = points[i];
+              size_t index = i * 3;
+              ptr[index] = point.x;
+              ptr[index + 1] = point.y;
+              ptr[index + 2] = point.z;
+            }
+            return result;
           }
-          return result;
-        }
+        });
       });
 }
 

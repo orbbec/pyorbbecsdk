@@ -214,6 +214,18 @@ void define_pipeline_config(py::object &m) {
           py::arg("height") = OB_HEIGHT_ANY, py::arg("fps") = OB_FPS_ANY,
           py::arg("format") = OB_FORMAT_ANY)
       .def(
+          "enable_video_stream",
+          [](std::shared_ptr<ob::Config> &self, OBSensorType sensor_type,
+             OBHardwareDecimationConfig decimation_config, int fps,
+             OBFormat format) {
+            OB_TRY_CATCH({
+              self->enableVideoStream(sensor_type, decimation_config, fps,
+                                      format);
+            });
+          },
+          py::arg("sensor_type"), py::arg("decimation_config"),
+          py::arg("fps") = OB_FPS_ANY, py::arg("format") = OB_FORMAT_ANY)
+      .def(
           "enable_accel_stream",
           [](std::shared_ptr<ob::Config> &self,
              OBAccelFullScaleRange full_scale_range,
@@ -235,8 +247,18 @@ void define_pipeline_config(py::object &m) {
           py::arg("full_scale_range") =
               OBGyroFullScaleRange::OB_GYRO_FS_UNKNOWN,
           py::arg("sample_rate") = OBGyroSampleRate::OB_SAMPLE_RATE_UNKNOWN)
+      .def(
+          "enable_lidar_stream",
+          [](std::shared_ptr<ob::Config> &self, OBLiDARScanRate scan_rate,
+             OBFormat format) {
+            OB_TRY_CATCH({ self->enableLiDARStream(scan_rate, format); });
+          },
+          py::arg("scan_rate") = OB_LIDAR_SCAN_ANY,
+          py::arg("format") = OB_FORMAT_ANY)
       .def("enable_all_stream",
-           [](std::shared_ptr<ob::Config> &self) { self->enableAllStream(); })
+           [](std::shared_ptr<ob::Config> &self) {
+             OB_TRY_CATCH({ self->enableAllStream(); });
+           })
       .def("disable_stream",
            [](std::shared_ptr<ob::Config> &self, OBStreamType stream_type) {
              OB_TRY_CATCH({ self->disableStream(stream_type); });
@@ -248,6 +270,10 @@ void define_pipeline_config(py::object &m) {
       .def("disable_all_stream",
            [](std::shared_ptr<ob::Config> &self) {
              OB_TRY_CATCH({ self->disableAllStream(); });
+           })
+      .def("get_enabled_stream_profile_list",
+           [](std::shared_ptr<ob::Config> &self) {
+             OB_TRY_CATCH({ return self->getEnabledStreamProfileList(); });
            })
       .def("set_align_mode",
            [](std::shared_ptr<ob::Config> &self, OBAlignMode align_mode) {

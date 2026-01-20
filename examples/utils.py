@@ -5,7 +5,7 @@
 #  you may not use this file except in compliance with the License.  
 #  You may obtain a copy of the License at
 #  
-#      http:# www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #  
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,9 +18,22 @@ from typing import Union, Any, Optional
 import cv2
 import numpy as np
 
-from pyorbbecsdk import FormatConvertFilter, VideoFrame
-from pyorbbecsdk import OBFormat, OBConvertFormat
+from pyorbbecsdk import FormatConvertFilter, VideoFrame, Device
+from pyorbbecsdk import OBFormat, OBConvertFormat, OBSensorType
 
+def is_astra_mini_device(vid: int, pid: int) -> bool:
+    if (vid == 0x2bc5) and (pid == 0x069d or pid == 0x069d or pid ==0x065b or pid == 0x065e):
+        return True
+    return False
+
+def is_lidar_device(device: Device) -> bool:
+    sensor_list = device.get_sensor_list()
+    count = sensor_list.get_count()
+    for index in range(count):
+        sensor_type = sensor_list.get_sensor_by_index(index).get_type()
+        if sensor_type == OBSensorType.LIDAR_SENSOR:
+            return True
+    return False
 
 def yuyv_to_bgr(frame: np.ndarray, width: int, height: int) -> np.ndarray:
     yuyv = frame.reshape((height, width, 2))

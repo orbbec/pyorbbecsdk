@@ -31,10 +31,15 @@ class Context {
 
   std::shared_ptr<ob::DeviceList> query_devices();
 
-  std::shared_ptr<ob::Device> create_net_device(const std::string &ip,
-                                                uint16_t port);
+  std::shared_ptr<ob::Device> create_net_device(
+      const std::string &address, uint16_t port,
+      const OBDeviceAccessMode access_mode);
 
   void set_device_changed_callback(const py::function &callback);
+
+  uint64_t register_device_changed_callback(const py::function &callback);
+
+  void unregister_device_changed_callback(const uint64_t id);
 
   void enable_multi_device_sync(uint64_t repeat_interval);
 
@@ -47,8 +52,19 @@ class Context {
 
   static void set_logger_to_console(OBLogSeverity level);
 
+  static void set_logger_to_callback(OBLogSeverity level,
+                                     const py::function &callback);
+
   static void set_logger_to_file(OBLogSeverity level,
                                  const std::string &file_path);
+
+  static void set_logger_file_name(const std::string &file_name);
+
+  static void log_external_message(OBLogSeverity level,
+                                   const std::string &module,
+                                   const std::string &message,
+                                   const std::string &file,
+                                   const std::string &func, int line);
 
  private:
   std::shared_ptr<ob::Context> impl_;

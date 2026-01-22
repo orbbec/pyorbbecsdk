@@ -26,7 +26,9 @@ cached_frames = {
     'left_ir': None,
     'right_ir': None,
     'ir': None,
-    'confidence': None
+    'confidence': None,
+    'left_color': None,
+    'right_color': None
 }
 
 def setup_camera(playback):
@@ -44,7 +46,9 @@ def setup_camera(playback):
         OBSensorType.RIGHT_IR_SENSOR,
         OBSensorType.CONFIDENCE_SENSOR,
         OBSensorType.ACCEL_SENSOR, 
-        OBSensorType.GYRO_SENSOR, 
+        OBSensorType.GYRO_SENSOR,
+        OBSensorType.LEFT_COLOR_SENSOR,
+        OBSensorType.RIGHT_COLOR_SENSOR 
     ]
     enabled_sensor_types = []  
 
@@ -162,7 +166,9 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
         OBSensorType.LEFT_IR_SENSOR: 'left_ir',
         OBSensorType.RIGHT_IR_SENSOR: 'right_ir',
         OBSensorType.IR_SENSOR: 'ir',
-        OBSensorType.CONFIDENCE_SENSOR: 'confidence'
+        OBSensorType.CONFIDENCE_SENSOR: 'confidence',
+        OBSensorType.LEFT_COLOR_SENSOR: 'left_color',
+        OBSensorType.RIGHT_COLOR_SENSOR: 'right_color'
     }
     video_keys = []
     for sensor_type in enabled_sensor_types:
@@ -287,6 +293,16 @@ def main():
             processed_frames['accel'] = accel.as_accel_frame()
         if gyro:
             processed_frames['gyro'] = gyro.as_gyro_frame()
+            
+        # Process left RGB
+        left_color_frame = frames.get_frame(OBFrameType.LEFT_COLOR_FRAME)
+        if left_color_frame:
+            processed_frames['left_color'] = process_color(left_color_frame.as_video_frame())
+
+        # Process right RGB
+        right_color_frame = frames.get_frame(OBFrameType.RIGHT_COLOR_FRAME)
+        if right_color_frame:
+            processed_frames['right_color'] = process_color(right_color_frame.as_video_frame())
         
         # create display
         display = create_display(processed_frames, enabled_sensor_types, DISPLAY_WIDTH, DISPLAY_HEIGHT)

@@ -27,6 +27,7 @@ class GlobalState:
         self.frame_mutex = threading.Lock()
         self.stop_rendering = False
         self.support_dual_ir = False
+        self.support_dual_rgb = False
         # Storage for processed images to ensure smooth visualization
         self.cached_frames = {
             'color': None, 
@@ -34,7 +35,9 @@ class GlobalState:
             'left_ir': None, 
             'right_ir': None, 
             'ir': None, 
-            'confidence': None
+            'confidence': None,
+            'left_color': None,
+            'right_color': None
         }
 state = GlobalState()
 
@@ -52,7 +55,9 @@ def setup_camera():
         OBSensorType.IR_SENSOR,
         OBSensorType.LEFT_IR_SENSOR,
         OBSensorType.RIGHT_IR_SENSOR,
-        OBSensorType.CONFIDENCE_SENSOR
+        OBSensorType.CONFIDENCE_SENSOR,
+        OBSensorType.LEFT_COLOR_SENSOR,
+        OBSensorType.RIGHT_COLOR_SENSOR
     ]
     
     sensor_list = device.get_sensor_list()
@@ -62,6 +67,9 @@ def setup_camera():
         # Check if the device hardware supports Dual IR (Left/Right)
         if sensor_type in [OBSensorType.LEFT_IR_SENSOR, OBSensorType.RIGHT_IR_SENSOR]:
             state.support_dual_ir = True
+        
+        if sensor_type in [OBSensorType.LEFT_COLOR_SENSOR, OBSensorType.RIGHT_COLOR_SENSOR]:
+            state.support_dual_rgb = True
             
         if sensor_type in video_sensors:
             # Special handling: Astra Mini IR sensor might conflict with specific configs
@@ -170,6 +178,16 @@ def video_frame_callback(frames):
                     state.cached_frames['confidence'] = process_confidence(confidence.as_confidence_frame())
                 except:
                     pass
+                
+            if state.support_dual_rgb:
+                left_color = frames.get_frame(OBFrameType.LEFT_COLOR_FRAME)
+                right_color = frames.get_frame(OBFrameType.RIGHT_COLOR_FRAME)
+                if left_color and right_color:
+                    try:
+                        state.cached_frames['left_color'] = process_color(left_color.as_video_frame())
+                        state.cached_frames['right_color'] = process_color(right_color.as_video_frame())
+                    except:
+                        pass
 
 def create_display(blocks, width=1280, height=720):
     """
@@ -215,7 +233,7 @@ def render_frames():
     
     while not state.stop_rendering:
         blocks = []
-        check_keys = ['color', 'depth', 'left_ir', 'right_ir', 'ir', 'confidence']           
+        check_keys = ['color', 'depth', 'left_ir', 'right_ir', 'ir', 'confidence', 'left_color', 'right_color']           
         with state.frame_mutex: 
             # create display
             for key in check_keys:

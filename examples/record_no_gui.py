@@ -45,7 +45,6 @@ def setup_camera(file_path):
         device.timer_sync_with_host()
     except OBError as e:
         print(e)
-        return
     
     state.recorder = RecordDevice(device, file_path)
     print("Streams and recorder have started!")

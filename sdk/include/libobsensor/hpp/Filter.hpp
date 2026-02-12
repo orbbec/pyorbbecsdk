@@ -1122,6 +1122,344 @@ public:
 };
 
 /**
+ * @brief FalsePositive filter
+ */
+class FalsePositiveFilter : public Filter {
+public:
+    FalsePositiveFilter(const std::string &activationKey = "") {
+        ob_error *error = nullptr;
+        auto      impl  = ob_create_private_filter("FalsePositiveFilter", activationKey.c_str(), &error);
+        Error::handle(&error);
+        init(impl);
+    }
+
+    virtual ~FalsePositiveFilter() noexcept override = default;
+
+    /**
+     * @brief Get the FalsePositive filter fpEdgeBleedFilterEnable range.
+     *
+     * @return OBUint8PropertyRange the fpEdgeBleedFilterEnable value of property range.
+     */
+    OBUint8PropertyRange getfpEdgeBleedFilterEnableRange() {
+        OBUint8PropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpEdgeBleedFilterEnable") == 0) {
+                range = getPropertyRange<OBUint8PropertyRange>(item, getConfigValue("fpEdgeBleedFilterEnable"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fpebfROIMinXRatio range.
+     *
+     * @return OBFloatPropertyRange the fpebfROIMinXRatio value of property range.
+     */
+    OBFloatPropertyRange getfpebfROIMinXRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpebfROIMinXRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fpebfROIMinXRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fpebfROIMaxXRatio range.
+     *
+     * @return OBFloatPropertyRange the fpebfROIMaxXRatio value of property range.
+     */
+    OBFloatPropertyRange getfpebfROIMaxXRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpebfROIMaxXRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fpebfROIMaxXRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fpebfROIMinYRatio range.
+     *
+     * @return OBFloatPropertyRange the fpebfROIMinYRatio value of property range.
+     */
+    OBFloatPropertyRange getfpebfROIMinYRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpebfROIMinYRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fpebfROIMinYRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fpebfROIMaxYRatio range.
+     *
+     * @return OBFloatPropertyRange the fpebfROIMaxYRatio value of property range.
+     */
+    OBFloatPropertyRange getfpebfROIMaxYRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpebfROIMaxYRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fpebfROIMaxYRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fpTextureSparsityFilterEnable range.
+     *
+     * @return OBUint8PropertyRange the fpTextureSparsityFilterEnable value of property range.
+     */
+    OBUint8PropertyRange getfpTextureSparsityFilterEnableRange() {
+        OBUint8PropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpTextureSparsityFilterEnable") == 0) {
+                range = getPropertyRange<OBUint8PropertyRange>(item, getConfigValue("fpTextureSparsityFilterEnable"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fptsfROIMinXRatio range.
+     *
+     * @return OBFloatPropertyRange the fptsfROIMinXRatio value of property range.
+     */
+    OBFloatPropertyRange getfptsfROIMinXRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fptsfROIMinXRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fptsfROIMinXRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fptsfROIMaxXRatio range.
+     *
+     * @return OBFloatPropertyRange the fptsfROIMaxXRatio value of property range.
+     */
+    OBFloatPropertyRange getfptsfROIMaxXRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fptsfROIMaxXRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fptsfROIMaxXRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fptsfROIMinYRatio range.
+     *
+     * @return OBFloatPropertyRange the fptsfROIMinYRatio value of property range.
+     */
+    OBFloatPropertyRange getfptsfROIMinYRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fptsfROIMinYRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fptsfROIMinYRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fptsfROIMaxYRatio range.
+     *
+     * @return OBFloatPropertyRange the fptsfROIMaxYRatio value of property range.
+     */
+    OBFloatPropertyRange getfptsfROIMaxYRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fptsfROIMaxYRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fptsfROIMaxYRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fptsfMaxNoiseLevel range.
+     *
+     * @return OBUint16PropertyRange the fptsfMaxNoiseLevel value of property range.
+     */
+    OBUint16PropertyRange getfptsfMaxNoiseLevelRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fptsfMaxNoiseLevel") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("fptsfMaxNoiseLevel"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fptsfMaxSpeckleSize range.
+     *
+     * @return OBUint16PropertyRange the fptsfMaxSpeckleSize value of property range.
+     */
+    OBUint16PropertyRange getfptsfMaxSpeckleSizeRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fptsfMaxSpeckleSize") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("fptsfMaxSpeckleSize"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fpPatternAmbiguityFilterEnable range.
+     *
+     * @return OBUint8PropertyRange the fpPatternAmbiguityFilterEnable value of property range.
+     */
+    OBUint8PropertyRange getfpPatternAmbiguityFilterEnableRange() {
+        OBUint8PropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fpPatternAmbiguityFilterEnable") == 0) {
+                range = getPropertyRange<OBUint8PropertyRange>(item, getConfigValue("fpPatternAmbiguityFilterEnable"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fppafROIMinXRatio range.
+     *
+     * @return OBFloatPropertyRange the fppafROIMinXRatio value of property range.
+     */
+    OBFloatPropertyRange getfppafROIMinXRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fppafROIMinXRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fppafROIMinXRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fppafROIMaxXRatio range.
+     *
+     * @return OBFloatPropertyRange the fppafROIMaxXRatio value of property range.
+     */
+    OBFloatPropertyRange getfppafROIMaxXRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fppafROIMaxXRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fppafROIMaxXRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fppafROIMinYRatio range.
+     *
+     * @return OBFloatPropertyRange the fppafROIMinYRatio value of property range.
+     */
+    OBFloatPropertyRange getfppafROIMinYRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fppafROIMinYRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fppafROIMinYRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fppafROIMaxYRatio range.
+     *
+     * @return OBFloatPropertyRange the fppafROIMaxYRatio value of property range.
+     */
+    OBFloatPropertyRange getfppafROIMaxYRatioRange() {
+        OBFloatPropertyRange range{};
+        const auto          &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fppafROIMaxYRatio") == 0) {
+                range = getPropertyRange<OBFloatPropertyRange>(item, getConfigValue("fppafROIMaxYRatio"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fppafMaxNoiseLevel range.
+     *
+     * @return OBUint16PropertyRange the fppafMaxNoiseLevel value of property range.
+     */
+    OBUint16PropertyRange getfppafMaxNoiseLevelRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fppafMaxNoiseLevel") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("fppafMaxNoiseLevel"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the FalsePositive filter fppafMaxSpeckleSize range.
+     *
+     * @return OBUint16PropertyRange the fppafMaxSpeckleSize value of property range.
+     */
+    OBUint16PropertyRange getfppafMaxSpeckleSizeRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "fppafMaxSpeckleSize") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("fppafMaxSpeckleSize"));
+                break;
+            }
+        }
+        return range;
+    }
+};
+
+/**
  * @brief Depth to disparity or disparity to depth
  */
 class DisparityTransform : public Filter {
@@ -1187,13 +1525,14 @@ public:
  */
 inline const std::unordered_map<std::string, std::type_index> &getFilterTypeMap() {
     static const std::unordered_map<std::string, std::type_index> filterTypeMap = {
-        { "PointCloudFilter", typeid(PointCloudFilter) },   { "Align", typeid(Align) },
-        { "FormatConverter", typeid(FormatConvertFilter) }, { "HDRMerge", typeid(HdrMerge) },
-        { "SequenceIdFilter", typeid(SequenceIdFilter) },   { "DecimationFilter", typeid(DecimationFilter) },
-        { "ThresholdFilter", typeid(ThresholdFilter) },     { "SpatialAdvancedFilter", typeid(SpatialAdvancedFilter) },
-        { "HoleFillingFilter", typeid(HoleFillingFilter) }, { "NoiseRemovalFilter", typeid(NoiseRemovalFilter) },
-        { "TemporalFilter", typeid(TemporalFilter) },       { "DisparityTransform", typeid(DisparityTransform) },
-        { "SpatialFastFilter", typeid(SpatialFastFilter) }, { "SpatialModerateFilter", typeid(SpatialModerateFilter) },
+        { "PointCloudFilter", typeid(PointCloudFilter) },       { "Align", typeid(Align) },
+        { "FormatConverter", typeid(FormatConvertFilter) },     { "HDRMerge", typeid(HdrMerge) },
+        { "SequenceIdFilter", typeid(SequenceIdFilter) },       { "DecimationFilter", typeid(DecimationFilter) },
+        { "ThresholdFilter", typeid(ThresholdFilter) },         { "SpatialAdvancedFilter", typeid(SpatialAdvancedFilter) },
+        { "HoleFillingFilter", typeid(HoleFillingFilter) },     { "NoiseRemovalFilter", typeid(NoiseRemovalFilter) },
+        { "TemporalFilter", typeid(TemporalFilter) },           { "DisparityTransform", typeid(DisparityTransform) },
+        { "SpatialFastFilter", typeid(SpatialFastFilter) },     { "SpatialModerateFilter", typeid(SpatialModerateFilter) },
+        { "FalsePositiveFilter", typeid(FalsePositiveFilter) },
     };
     return filterTypeMap;
 }

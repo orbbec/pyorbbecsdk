@@ -252,7 +252,7 @@ def main():
     input_thread.start()
     
     while running:
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
         

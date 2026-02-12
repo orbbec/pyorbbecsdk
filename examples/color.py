@@ -39,7 +39,7 @@ def main():
     pipeline.start(config)
     while True:
         try:
-            frames: FrameSet = pipeline.wait_for_frames(100)
+            frames: FrameSet = pipeline.wait_for_frames(1000)
             if frames is None:
                 continue
             color_frame = frames.get_color_frame()

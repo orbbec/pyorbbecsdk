@@ -126,7 +126,7 @@ def main(argv):
 
     while True:
         try:
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if not frames:
                 print("No frames received")
                 continue

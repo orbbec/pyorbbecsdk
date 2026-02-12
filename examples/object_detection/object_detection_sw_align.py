@@ -246,7 +246,7 @@ if __name__ == '__main__':
 
     while True:
         # Get aligned frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if not frames:
             continue
 

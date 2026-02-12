@@ -1295,6 +1295,25 @@ typedef enum {
     OBDeviceDevelopmentMode, ob_device_development_mode;
 
 /**
+ * @brief Color camera preset
+ */
+typedef enum {
+    /**
+     * @brief Suitable for standard single-color-temperature lighting environments (e.g., typical indoor white LED or office lighting).
+     * This strategy serves as the system's default mode to achieve a balanced and natural white balance effect.
+     */
+    OB_DEFAULT = 0,
+
+    /**
+     * @brief Warm Biased AWB for mixed lighting is designed for mixed illumination combining standard white light and low-CCT sources (warm/yellow/red).
+     * This profile applies a controlled warm bias after AWB convergence to reduce blue cast in white-lit regions and deliver a more consistent,
+     * warm-leaning appearance in mixed-light scenes.
+     */
+    OB_WARM_BIASED_AWB = 1,
+} OBColorPreset,
+    ob_color_preset;
+
+/**
  * @brief The synchronization mode of the device.
  */
 typedef enum {

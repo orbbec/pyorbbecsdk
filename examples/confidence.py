@@ -60,7 +60,7 @@ def main():
     while True:
         try:
             # Wait for a new set of frames (timeout set to 100ms)
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if frames is None:
                 continue
             

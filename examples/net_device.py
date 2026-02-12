@@ -146,7 +146,7 @@ def main():
             if not running:
                 break
 
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if frames:
                 color_frame = frames.get_color_frame()
                 if color_frame:

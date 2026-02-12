@@ -85,12 +85,12 @@ def main():
     
     print("Waiting for sensor to stabilize...")
     for _ in range(15):
-        pipeline.wait_for_frames(100)
+        pipeline.wait_for_frames(1000)
         
     frame_index = 0
     try:
         while True:
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if frames is None:
                 continue
             frame_index += 1

@@ -18,7 +18,7 @@ Log configuration mainly sets the Log level, the Log level output to the console
         <FileLogLevel>0</FileLogLevel>
         <!--Console log output level-->
         <ConsoleLogLevel>1</ConsoleLogLevel>
-        <!--Default log output file path, string type. If this item is not configured, the default path will be used: Win/Linux: "./Log"; Android: "/sdcard/Orbbec/Log"-->
+        <!--Default log output file path, string type. If this item is not configured, the default path will be used: Win/Linux: "./Log"; Android: "/sdcard/3DCamera/Log"-->
         <!--<OutputDir>./log</OutputDir>-->
         <!--Default log output file size, int type, unit: MB-->
         <MaxFileSize>100</MaxFileSize>
@@ -145,8 +145,6 @@ Based on the device's timestamp and considering data transmission delays, the ti
 				<StreamFailedRetry>0</StreamFailedRetry>
 				<!--Open flow waits for the timeout period of the first frame of data, after which the open flow will fail-->
 				<MaxStartStreamDelayMs>5000</MaxStartStreamDelayMs>
-				<!--The number of data stream restarts due to abnormal interruption, 0 means no restart-->
-				<StreamInterruptedRestart>0</StreamInterruptedRestart>
 				<!--The maximum frame interval time, if this value is exceeded, it will be judged that the stream is interrupted-->
 				<MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
                 <!--The resolution width is enabled by default, int type-->

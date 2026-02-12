@@ -25,6 +25,10 @@ MIN_DEPTH = 20    # Minimum valid depth distance in mm
 MAX_DEPTH = 10000 # Maximum valid depth distance in mm
 
 def main():
+    window_name = "SyncAlignViewer"
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    cv2.resizeWindow(window_name, 1280, 720)
+
     # Initialize the pipeline and configuration objects
     pipeline = Pipeline()
     config = Config()
@@ -74,7 +78,7 @@ def main():
     while True:
         try:
             # Retrieve a frameset with a 100ms timeout
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if not frames:
                 continue
                 
@@ -130,8 +134,8 @@ def main():
             sync_text = "Sync: ON" if enable_sync else "Sync: OFF"
             cv2.putText(overlay_image, f"{mode_text} | {sync_text}", (20, 30), 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
-            
-            cv2.imshow("SyncAlignViewer", overlay_image)
+        
+            cv2.imshow(window_name, overlay_image)
             
             # Handle Keyboard Input
             key = cv2.waitKey(1)

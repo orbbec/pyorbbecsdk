@@ -54,7 +54,7 @@ def main():
     #point_cloud_filter.set_camera_param(camera_param)
 
     while True:
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
         

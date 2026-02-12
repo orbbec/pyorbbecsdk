@@ -42,14 +42,21 @@ void define_filter(const py::object& m) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ return self->isEnabled(); });
            })
-      .def(
-          "process",
-          [](std::shared_ptr<ob::Filter>& self,
-             std::shared_ptr<ob::Frame> frame) {
-            CHECK_NULLPTR(self);
-            OB_TRY_CATCH({ return self->process(frame); });
-          },
-          py::call_guard<py::gil_scoped_release>())
+      .def("process",
+           [](std::shared_ptr<ob::Filter>& self,
+              std::shared_ptr<ob::Frame> frame) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({
+               auto out = self->process(frame);
+               if (!out) {
+                 return py::object(py::none());
+               }
+               if (out->is<ob::FrameSet>()) {
+                 return py::cast(out->as<ob::FrameSet>());
+               }
+               return py::cast(out);
+             });
+           })
       .def(
           "push_frame",
           [](std::shared_ptr<ob::Filter>& self,

@@ -59,7 +59,7 @@ def main():
                 print("Save LiDAR PointCloud to ply file, this will take some time...")
                 
                 # Wait for frameSet from the pipeline, the default timeout is 1000ms.
-                frames = pipeline.wait_for_frames(100)
+                frames = pipeline.wait_for_frames(1000)
                 if frames is None:
                     print("No frame data, please try again!")
                     continue

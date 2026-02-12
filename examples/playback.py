@@ -18,6 +18,10 @@ import cv2
 import numpy as np
 from pyorbbecsdk import *
 from utils import frame_to_bgr_image
+import time
+
+exit_requested = False
+playback_status = None
 
 # cached frames for better visualization
 cached_frames = {
@@ -229,93 +233,109 @@ def create_display(frames, enabled_sensor_types, width=1280, height=720):
 
     return display
 
-
+def on_status_change(status):
+    global playback_status, exit_requested
+    if exit_requested:
+        return
+    playback_status = status
+    print(f"[Callback] status changed: {status}")
 
 def main():
+    global exit_requested, playback_status
+
     # Window settings
     WINDOW_NAME = "MultiStream Playback(.bag) Viewer"
     file_path = input("Enter output filename (.bag) and press Enter to start playbacking: ")
 
     DISPLAY_WIDTH = 1280
     DISPLAY_HEIGHT = 720
-    # initialize playback
-    playback  = PlaybackDevice(file_path)
-    # Initialize camera
-    pipeline, config, enabled_sensor_types = setup_camera(playback)
-    device = pipeline.get_device()
-    def on_status_change(status):
-        print(f"[Callback] status changed: {status}")
-        if status == PlaybackStatus.Stopped:
-            pipeline.stop()
-            pipeline.start(config)
-    playback.set_playback_status_change_callback(on_status_change)
+    try:
+        # initialize playback
+        playback = PlaybackDevice(file_path)
+        # Initialize camera
+        pipeline, config, enabled_sensor_types = setup_camera(playback)
 
-    pipeline.start(config)
+        playback.set_playback_status_change_callback(on_status_change)
+        pipeline.start(config)
 
-    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(WINDOW_NAME, DISPLAY_WIDTH, DISPLAY_HEIGHT)
-    processed_frames = {}
-    while True:
-        # Get all frames
-        frames = pipeline.wait_for_frames(100)
-        if not frames:
-            continue
+        cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(WINDOW_NAME, DISPLAY_WIDTH, DISPLAY_HEIGHT)
+        processed_frames = {}
+        while True:
+            if playback_status == OBPlaybackStatus.STOPPED:
+                print("Replay again")
+                pipeline.stop()
+                time.sleep(1.0)
+                if exit_requested:
+                    break
+                playback_status = None
+                pipeline.start(config)
+                continue
+                
+            # Get all frames
+            frames = pipeline.wait_for_frames(1000)
+            if not frames:
+                continue
 
-        # Process color image        
-        color_frame = frames.get_frame(OBFrameType.COLOR_FRAME)
-        if color_frame:
-            processed_frames['color'] = process_color(color_frame.as_video_frame())
-        # Process depth image
-        depth_frame = frames.get_frame(OBFrameType.DEPTH_FRAME)
-        if depth_frame:
-            processed_frames['depth'] = process_depth(depth_frame.as_video_frame())       
-        # Process left IR
-        left_ir_frame = frames.get_frame(OBFrameType.LEFT_IR_FRAME)
-        processed_frames['left_ir'] = process_ir(left_ir_frame, 'left_ir')
+            # Process color image        
+            color_frame = frames.get_frame(OBFrameType.COLOR_FRAME)
+            if color_frame:
+                processed_frames['color'] = process_color(color_frame.as_video_frame())
+            # Process depth image
+            depth_frame = frames.get_frame(OBFrameType.DEPTH_FRAME)
+            if depth_frame:
+                processed_frames['depth'] = process_depth(depth_frame.as_video_frame())       
+            # Process left IR
+            left_ir_frame = frames.get_frame(OBFrameType.LEFT_IR_FRAME)
+            processed_frames['left_ir'] = process_ir(left_ir_frame, 'left_ir')
 
-        # Process right IR
-        right_ir_frame = frames.get_frame(OBFrameType.RIGHT_IR_FRAME)
-        processed_frames['right_ir'] = process_ir(right_ir_frame, 'right_ir')
+            # Process right IR
+            right_ir_frame = frames.get_frame(OBFrameType.RIGHT_IR_FRAME)
+            processed_frames['right_ir'] = process_ir(right_ir_frame, 'right_ir')
 
-        # Process mono IR
-        ir_frame = frames.get_ir_frame()
-        processed_frames['ir'] = process_ir(ir_frame, 'ir')
-        
-        # Process confidence
-        confidence = frames.get_frame_by_type(OBFrameType.CONFIDENCE_FRAME)
-        if confidence:
-            processed_frames['confidence'] = process_confidence(confidence.as_confidence_frame())
-
-        # Process IMU data
-        accel = frames.get_frame(OBFrameType.ACCEL_FRAME)
-        gyro = frames.get_frame(OBFrameType.GYRO_FRAME)
-        if accel:
-            processed_frames['accel'] = accel.as_accel_frame()
-        if gyro:
-            processed_frames['gyro'] = gyro.as_gyro_frame()
+            # Process mono IR
+            ir_frame = frames.get_ir_frame()
+            processed_frames['ir'] = process_ir(ir_frame, 'ir')
             
-        # Process left RGB
-        left_color_frame = frames.get_frame(OBFrameType.LEFT_COLOR_FRAME)
-        if left_color_frame:
-            processed_frames['left_color'] = process_color(left_color_frame.as_video_frame())
+            # Process confidence
+            confidence = frames.get_frame_by_type(OBFrameType.CONFIDENCE_FRAME)
+            if confidence:
+                processed_frames['confidence'] = process_confidence(confidence.as_confidence_frame())
 
-        # Process right RGB
-        right_color_frame = frames.get_frame(OBFrameType.RIGHT_COLOR_FRAME)
-        if right_color_frame:
-            processed_frames['right_color'] = process_color(right_color_frame.as_video_frame())
-        
-        # create display
-        display = create_display(processed_frames, enabled_sensor_types, DISPLAY_WIDTH, DISPLAY_HEIGHT)
-        cv2.imshow(WINDOW_NAME, display)
+            # Process IMU data
+            accel = frames.get_frame(OBFrameType.ACCEL_FRAME)
+            gyro = frames.get_frame(OBFrameType.GYRO_FRAME)
+            if accel:
+                processed_frames['accel'] = accel.as_accel_frame()
+            if gyro:
+                processed_frames['gyro'] = gyro.as_gyro_frame()
+                
+            # Process left RGB
+            left_color_frame = frames.get_frame(OBFrameType.LEFT_COLOR_FRAME)
+            if left_color_frame:
+                processed_frames['left_color'] = process_color(left_color_frame.as_video_frame())
 
-        # check exit key
-        key = cv2.waitKey(1) & 0xFF
-        if key in (ord('q'), 27):
-            break
+            # Process right RGB
+            right_color_frame = frames.get_frame(OBFrameType.RIGHT_COLOR_FRAME)
+            if right_color_frame:
+                processed_frames['right_color'] = process_color(right_color_frame.as_video_frame())
+            
+            # create display
+            display = create_display(processed_frames, enabled_sensor_types, DISPLAY_WIDTH, DISPLAY_HEIGHT)
+            cv2.imshow(WINDOW_NAME, display)
 
-    pipeline.stop()
-    playback  = None 
-    cv2.destroyAllWindows()
+            # check exit key
+            key = cv2.waitKey(1) & 0xFF
+            if key in (ord('q'), 27):
+                exit_requested = True
+                break
+    except Exception as e:
+        print(e)
+
+    finally:
+        pipeline.stop()
+        playback  = None 
+        cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":

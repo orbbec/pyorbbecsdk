@@ -25,136 +25,57 @@ device: Optional[Device] = None
 pipeline: Optional[Pipeline] = None
 device_lock = threading.Lock()
 
-def start_stream(device: Device):
-    """Starts the stream for both color and depth sensors."""
-    global pipeline
-    if device is None:
-        print("No device connected")
+def print_device_list(prompt: str, device_list: DeviceList):
+    count = len(device_list)
+    if count == 0:
         return
-   
-    config = Config()
-    print("Try to reset pipeline")
-    pipeline = Pipeline(device)
-    print("Try to enable color stream")
-    # Enable color stream
-    try:
-        profile_list = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
-        color_profile = profile_list.get_default_video_stream_profile()
-        config.enable_stream(color_profile)
-    except Exception as e:
-        print(f"Failed to enable color stream: {e}")
-    
-    # Enable depth stream
-    try:
-        profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-        depth_profile = profile_list.get_default_video_stream_profile()
-        config.enable_stream(depth_profile)
-    except Exception as e:
-        print(f"Failed to enable depth stream: {e}")
-    
-    print("Starting the stream...")
-    pipeline.start(config)
 
-def stop_stream():
-    """Stops the pipeline if it is running."""
-    global pipeline
-    if pipeline is None:
-        print("Pipeline is not started")
-        return
-    pipeline.stop()
-    pipeline = None
+    print(f"{count} device(s) {prompt}:")
+    for i in range(count):
+        try:
+            uid = device_list.get_device_uid_by_index(i)
+            vid = device_list.get_device_vid_by_index(i)
+            pid = device_list.get_device_pid_by_index(i)
+            sn  = device_list.get_device_serial_number_by_index(i)
+            conn = device_list.get_device_connection_type_by_index(i)
 
-def on_device_connected_callback(device_list: DeviceList):
-    """Callback when a new device is connected."""
-    global device
-    if len(device_list) == 0:
-        return
-    
-    print("Device connected")
-    with device_lock:
-        if device is not None:
-            print("Device is already connected")
-            return
-        
-        # Get the first available device and start the stream
-        print("Try to get device")
-        device = device_list[0]
-        print("Try to start stream")
-        start_stream(device)
-        print("Start stream successfully")
+            print(
+                f" - uid: {uid}, "
+                f"vid: 0x{vid:04x}, "
+                f"pid: 0x{pid:04x}, "
+                f"serial number: {sn}, "
+                f"connection: {conn}"
+            )
+        except Exception as e:
+            print(f" - failed to read device list info: {e}")
+    print("")
 
-def on_device_disconnected_callback(device_list: DeviceList):
-    """Callback when a device is disconnected."""
-    global device, pipeline
-    if len(device_list) == 0:
-        return
-    
-    print("Device disconnected")
-    try:
-        with device_lock:
-            print("reset device ...")
-            device = None
-            print("reset device successfully")
-    except OBError as e:
-        print(e)
-    print("Device disconnected successfully")
 
-def on_new_frame_callback(frame: Frame):
-    """Handles new frames captured by the sensors."""
-    if frame is None:
-        return
-    print(f"{frame.get_type()} frame, width={frame.get_width()}, height={frame.get_height()}, format={frame.get_format()}, timestamp={frame.get_timestamp_us()}us")
+def on_device_changed_callback(removed_list: DeviceList, added_list: DeviceList):
+    print_device_list("added", added_list)
+    print_device_list("removed", removed_list)
 
-def on_device_changed_callback(disconn_device_list: DeviceList, conn_device_list: DeviceList):
-    """Handles device changes by invoking appropriate connect/disconnect callbacks."""
-    on_device_connected_callback(conn_device_list)
-    on_device_disconnected_callback(disconn_device_list)
 
 def main():
-    """Main program loop to handle device connection and frame processing."""
+    print("Create Context")
     ctx = Context()
-    
-    # Set callback for device changes (connect/disconnect)
-    ctx.set_device_changed_callback(on_device_changed_callback)
-    
-    # Check for currently connected devices
-    device_list = ctx.query_devices()
-    on_device_connected_callback(device_list)
-    
-    global pipeline, device
 
-    while True:
-        try:
-            with device_lock:
-                if pipeline is not None and device is not None:
-                    # Wait for a new set of frames
-                    frames: FrameSet = pipeline.wait_for_frames(100)
-                else:
-                    continue
-            if frames is None:
-                time.sleep(0.001)  # Avoid busy waiting
-                continue
-            
-            # Get color and depth frames
-            color_frame = frames.get_color_frame()
-            depth_frame = frames.get_depth_frame()
-            
-            # Process each frame
-            on_new_frame_callback(color_frame)
-            on_new_frame_callback(depth_frame)
-        except KeyboardInterrupt:
-            break
-        except OBError as e:
-            print(f"Error during frame capture: {e}")
-            continue
-    
-    # Stop the pipeline on exit
-    print("Stopping the pipeline...")
+    print("Register device changed callback")
+    ctx.set_device_changed_callback(on_device_changed_callback)
+
+    print("Query current device list")
+    current_list = ctx.query_devices()
+    print_device_list("connected", current_list)
+
+    print("Press Ctrl+C to exit.")
+    print("You can manually unplug / plugin device to trigger callbacks.\n")
+
     try:
-        if pipeline is not None:
-            pipeline.stop()
-    except OBError as e:
-        print(f"Error during pipeline stop: {e}")
+        while True:
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        print("\nExit.")
+
 
 if __name__ == "__main__":
     main()

@@ -606,6 +606,11 @@ typedef enum {
     OB_PROP_COLOR_LEFT_FLIP_BOOL = 253,
 
     /**
+     * @brief Color camera preset priority
+     */
+    OB_PROP_COLOR_PRESET_PRIORITY_INT = 255,
+
+    /**
      * @brief Baseline calibration parameters
      */
     OB_STRUCT_BASELINE_CALIBRATION_PARAM = 1002,

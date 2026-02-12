@@ -58,7 +58,7 @@ def main():
     last_print_time = time.time()
     while True:
         try:
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if frames is None:
                 continue
             depth_frame = frames.get_depth_frame()

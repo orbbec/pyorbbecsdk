@@ -150,7 +150,7 @@ def main():
                     if is_get:
                         # get property value
                         if item.type == OBPropertyType.OB_BOOL_PROPERTY:
-                            val = device.get_bool_property(item.id)
+                            val = int(device.get_bool_property(item.id))
                         elif item.type == OBPropertyType.OB_INT_PROPERTY:
                             val = device.get_int_property(item.id)
                         elif item.type == OBPropertyType.OB_FLOAT_PROPERTY:

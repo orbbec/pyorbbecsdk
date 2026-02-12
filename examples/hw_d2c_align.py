@@ -18,9 +18,11 @@ from pyorbbecsdk import *
 import cv2
 import numpy as np
 from utils import frame_to_bgr_image
+import time
 
 def switch_d2c_mode(pipeline, config, enable_hw_d2c: bool):
     pipeline.stop()
+    time.sleep(0.1)
 
     if enable_hw_d2c:
         config.set_align_mode(OBAlignMode.HW_MODE)
@@ -110,7 +112,7 @@ def main():
     
     while True:
         # Wait for frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
         

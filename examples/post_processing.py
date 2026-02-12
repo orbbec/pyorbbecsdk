@@ -178,7 +178,7 @@ def main():
         
         while not quit_program:
             # Wait for frameset from the pipeline
-            frames = pipeline.wait_for_frames(100)
+            frames = pipeline.wait_for_frames(1000)
             if frames is None:
                 continue
             depth_frame = frames.get_depth_frame()

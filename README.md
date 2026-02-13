@@ -151,6 +151,9 @@ Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):
 
 | **Products List** | **Minimal Firmware Version** | **Recommended Firmware Version**    |
 |-------------------|------------------------------|-------------------------------|
+| Gemini 305        | 1.0.30                       |        1.0.30                       |
+| Gemini 345        | 1.7.04                       |        1.9.03                       |
+| Gemini 345Lg        | 1.7.04                     |        1.9.03                   |
 | Gemini 435Le        | 1.2.4                     |        1.3.6                   |
 | Gemini 335Le        | 1.5.31                     |        1.6.00                     |
 | Gemini 330        | 1.2.20                       |        1.6.00                       |
@@ -160,7 +163,7 @@ Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):
 | Gemini 336        | 1.2.20                       |       1.6.00                        |
 | Gemini 336L       | 1.2.20                       |        1.6.00                       |
 | Gemini 335Lg      | 1.3.46                       |        1.6.00                       |
-| Femto Bolt        | 1.1.2                  |              1.1.2                       |
+| Femto Bolt        | 1.1.2                  |              1.1.3                       |
 | Femto Mega        | 1.3.0                  |              1.3.1                       |
 | Femto Mega I        | 2.0.4                  |            2.0.4                     |
 | Astra 2           | 2.8.20                       |         2.8.20                      |
@@ -170,6 +173,8 @@ Here is the device support list of main branch (v1.x) and v2-main branch (v2.x):
 | Gemini 210        | 1.0.9                        |        1.0.9                      |
 | Astra mini Pro        | 2.0.03                        |        2.0.03                        |
 | Astra mini S Pro        | 2.0.03                        |        2.0.03                        |
+| Pulsar SL450        | 2.2.4.5                        |        2.2.4.5                        |
+| Pulsar ME450        | 1.0.0.6                        |        1.0.0.6                        |
 
 ## Supported Platforms
 

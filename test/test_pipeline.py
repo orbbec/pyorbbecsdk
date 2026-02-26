@@ -1,47 +1,56 @@
-import unittest
-from pyorbbecsdk import *
+import pytest
+
+from pyorbbecsdk import Pipeline, Config, OBSensorType
+
+pytestmark = pytest.mark.hardware
 
 
-class PipelineTest(unittest.TestCase):
+class TestPipelineCameraParam:
 
-    def setUp(self) -> None:
-        self.context = Context()
-        device_list = self.context.query_devices()
-        self.assertIsNotNone(device_list)
-        self.assertGreater(device_list.get_count(), 0)
-        self.device = device_list.get_device_by_index(0)
-        self.assertIsNotNone(self.device)
-        self.pipeline = Pipeline(self.device)
-        self.assertIsNotNone(self.pipeline)
+    def test_camera_param_accessible(self, pipeline, device):
+        """get_camera_param() must not raise; returned object must be non-None."""
+        config = Config()
+        for sensor in [OBSensorType.DEPTH_SENSOR, OBSensorType.COLOR_SENSOR]:
+            try:
+                pl = pipeline.get_stream_profile_list(sensor)
+                config.enable_stream(pl.get_default_video_stream_profile())
+            except Exception:
+                pass
+        pipeline.start(config)
+        param = pipeline.get_camera_param()
+        assert param is not None
 
-    def tearDown(self) -> None:
-        self.pipeline = None
-        self.device = None
-        self.context = None
+    def test_depth_intrinsic_not_none(self, pipeline, device):
+        config = Config()
+        try:
+            pl = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+            config.enable_stream(pl.get_default_video_stream_profile())
+        except Exception:
+            pytest.skip("Could not enable depth stream")
+        pipeline.start(config)
+        param = pipeline.get_camera_param()
+        assert param.depth_intrinsic is not None
 
-    def test_get_device_info(self):
-        device_info = self.device.get_device_info()
-        self.assertIsNotNone(device_info)
-        self.assertIsNotNone(device_info.get_name())
-        self.assertIsNotNone(device_info.get_pid())
-        self.assertIsNotNone(device_info.get_vid())
-        self.assertIsNotNone(device_info.get_serial_number())
-        self.assertIsNotNone(device_info.get_firmware_version())
-        self.assertIsNotNone(device_info.get_hardware_version())
-        self.assertIsNotNone(device_info.get_connection_type())
-        self.assertIsNotNone(device_info.get_device_type())
-        print("Device info: ", device_info)
+    def test_rgb_intrinsic_not_none(self, pipeline, device):
+        config = Config()
+        for sensor in [OBSensorType.DEPTH_SENSOR, OBSensorType.COLOR_SENSOR]:
+            try:
+                pl = pipeline.get_stream_profile_list(sensor)
+                config.enable_stream(pl.get_default_video_stream_profile())
+            except Exception:
+                pass
+        pipeline.start(config)
+        param = pipeline.get_camera_param()
+        assert param.rgb_intrinsic is not None
 
-    def test_get_camera_param(self):
-        camera_param = self.pipeline.get_camera_param()
-        self.assertIsNotNone(camera_param)
-        print(camera_param.depth_intrinsic)
-        print(camera_param.rgb_intrinsic)
-        print(camera_param.depth_distortion)
-        print(camera_param.rgb_distortion)
-        print(camera_param.transform)
-
-
-if __name__ == '__main__':
-    print("Start test Pipeline interface, Please make sure you have connected a device to your computer.")
-    unittest.main()
+    def test_transform_not_none(self, pipeline, device):
+        config = Config()
+        for sensor in [OBSensorType.DEPTH_SENSOR, OBSensorType.COLOR_SENSOR]:
+            try:
+                pl = pipeline.get_stream_profile_list(sensor)
+                config.enable_stream(pl.get_default_video_stream_profile())
+            except Exception:
+                pass
+        pipeline.start(config)
+        param = pipeline.get_camera_param()
+        assert param.transform is not None

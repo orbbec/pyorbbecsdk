@@ -1,3 +1,14 @@
 [tool.cibuildwheel]
 build = "cp39-* cp310-*"
 archs = "AMD64"   # Options: AMD64 ARM64 x86
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+markers = [
+    "hardware: test requires a physical Orbbec camera connected via USB",
+    "gemini335: test is specific to the Gemini 335 camera family",
+    "performance: long-running performance benchmark (may take 60+ seconds)",
+]
+# Default: run with verbose output; reports go to reports/ directory
+addopts = "-v --timeout=60"
+# Increase timeout for performance tests via: pytest -m performance --timeout=120

@@ -1,54 +1,60 @@
-import unittest
-from pyorbbecsdk import *
+import pytest
+
+from pyorbbecsdk import (
+    Context,
+    DeviceList,
+    OBLogLevel,
+)
+
+pytestmark = pytest.mark.hardware
 
 
-def on_device_connected_callback(_: DeviceList):
-    print("on_device_connected_callback")
+def on_device_connected(device_list: DeviceList):
+    pass  # callback stub for testing
 
 
-def on_device_disconnected_callback(_: DeviceList):
-    print("on_device_disconnected_callback")
+def on_device_disconnected(device_list: DeviceList):
+    pass  # callback stub for testing
 
 
-def on_set_device_changed_callback(disconn_list: DeviceList, conn_list: DeviceList):
-    on_device_disconnected_callback(disconn_list)
-    on_device_connected_callback(conn_list)
+def on_device_changed(disconn_list: DeviceList, conn_list: DeviceList):
+    on_device_disconnected(disconn_list)
+    on_device_connected(conn_list)
 
 
-class ContextTest(unittest.TestCase):
+class TestContext:
 
-    def setUp(self) -> None:
-        self.context = Context()
+    def test_query_devices_returns_list(self, context):
+        device_list = context.query_devices()
+        assert device_list is not None
 
-    def tearDown(self) -> None:
-        self.context = None
+    def test_query_devices_has_device(self, context):
+        """Requires a physical device. Skipped automatically if none connected."""
+        device_list = context.query_devices()
+        assert device_list.get_count() > 0, (
+            "Expected at least one device — ensure USB camera is connected"
+        )
 
-    def test_get_device_list(self):
-        device_list = self.context.query_devices()
-        self.assertIsNotNone(device_list)
-        self.assertGreater(device_list.get_count(), 0)
+    def test_set_logger_level_all_levels(self, context):
+        for level in [
+            OBLogLevel.DEBUG,
+            OBLogLevel.INFO,
+            OBLogLevel.WARNING,
+            OBLogLevel.ERROR,
+            OBLogLevel.FATAL,
+            OBLogLevel.NONE,
+        ]:
+            context.set_logger_level(level)
 
-    def test_setup_logger_level(self):
-        self.context.set_logger_level(OBLogLevel.DEBUG)
-        self.context.set_logger_level(OBLogLevel.INFO)
-        self.context.set_logger_level(OBLogLevel.WARNING)
-        self.context.set_logger_level(OBLogLevel.ERROR)
-        self.context.set_logger_level(OBLogLevel.FATAL)
-        self.context.set_logger_level(OBLogLevel.NONE)
+    def test_set_device_changed_callback(self, context):
+        context.set_device_changed_callback(on_device_changed)
 
-    def test_set_device_changed_callback(self):
-        self.context.set_device_changed_callback(on_set_device_changed_callback)
+    def test_enable_multi_device_sync(self, context):
+        context.enable_multi_device_sync(100)
 
-    def test_enable_multi_device_sync(self):
-        self.context.enable_multi_device_sync(100)
+    def test_set_logger_to_console(self, context):
+        context.set_logger_to_console(OBLogLevel.WARNING)
 
-    def test_set_logger_to_console(self):
-        self.context.set_logger_to_console(OBLogLevel.DEBUG)
-
-    def test_set_logger_to_file(self):
-        self.context.set_logger_to_file(OBLogLevel.DEBUG, "test.log")
-
-
-if __name__ == '__main__':
-    print("Start test Context interface, Please make sure you have connected a device to your computer.")
-    unittest.main()
+    def test_set_logger_to_file(self, context, tmp_path):
+        log_file = str(tmp_path / "test.log")
+        context.set_logger_to_file(OBLogLevel.WARNING, log_file)

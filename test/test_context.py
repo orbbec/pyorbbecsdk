@@ -6,7 +6,7 @@ from pyorbbecsdk import (
     OBLogLevel,
 )
 
-pytestmark = pytest.mark.hardware
+pytestmark = [pytest.mark.hardware, pytest.mark.functional]
 
 
 def on_device_connected(device_list: DeviceList):

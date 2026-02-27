@@ -2,7 +2,7 @@ import pytest
 
 from pyorbbecsdk import Pipeline, Config, OBSensorType
 
-pytestmark = pytest.mark.hardware
+pytestmark = [pytest.mark.hardware, pytest.mark.functional]
 
 
 class TestPipelineCameraParam:

@@ -17,11 +17,16 @@
 pytest configuration and shared fixtures for pyorbbecsdk test suite.
 
 Usage:
-    pytest test/ -v                          # Run all tests (skip if no device)
-    pytest test/ -v -m hardware              # Only hardware tests
-    pytest test/ -v -m "not hardware"        # Only non-hardware tests
-    pytest test/ -v -m gemini335            # Only Gemini 335 tests
-    pytest test/test_gemini335_*.py -v      # All Gemini 335 tests
+    pytest test/ -v                              # Run all tests (skip if no device)
+    pytest test/ -v -m hardware                  # Only hardware tests
+    pytest test/ -v -m "not hardware"            # Only non-hardware tests
+    pytest test/ -v -m g300_series               # All G300 series tests
+    pytest test/ -v -m femto                     # All Femto Bolt/Mega tests
+    pytest test/ -v -m astra_mini                # All Astra Mini tests
+    pytest test/ -v -m astra2                    # All Astra 2 tests
+    pytest test/test_g300_series_*.py -v         # All G300 series test files
+    pytest test/test_femto_*.py -v               # All Femto test files
+    pytest test/ -m "not performance" -v         # Skip long benchmarks
 """
 
 import time
@@ -39,13 +44,43 @@ from pyorbbecsdk import (
 
 
 # ---------------------------------------------------------------------------
+# Device name sets used for fixture matching
+# ---------------------------------------------------------------------------
+
+# Gemini 330 series: 330, 335, 335L, 335Le, 335Lg, 336, 336L, 330L, 335Le
+_G300_NAME_PREFIXES = [
+    "Gemini 330", "Gemini 335", "Gemini 336", "Gemini 305",
+    "Gemini 345", "Gemini345", "Gemini305",
+]
+
+# Femto Bolt and Femto Mega family
+_FEMTO_NAME_PREFIXES = ["Femto Bolt", "Femto Mega", "FemtoBolt", "FemtoMega"]
+
+# Astra Mini Pro / S Pro
+_ASTRA_MINI_NAME_PREFIXES = ["Astra Mini", "Astra mini"]
+
+# Astra 2
+_ASTRA2_NAME_PREFIXES = ["Astra 2", "Astra2"]
+
+
+def _device_matches(name: str, prefixes: list) -> bool:
+    name = name or ""
+    return any(p in name for p in prefixes)
+
+
+# ---------------------------------------------------------------------------
 # Marker registration
 # ---------------------------------------------------------------------------
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "hardware: test requires a physical Orbbec camera")
-    config.addinivalue_line("markers", "gemini335: test specific to Gemini 335 camera")
-    config.addinivalue_line("markers", "performance: long-running performance benchmark")
+    config.addinivalue_line("markers", "g300_series: test for G300 series cameras (Gemini 330/335/336/305/345)")
+    config.addinivalue_line("markers", "femto: test for Femto Bolt / Femto Mega cameras")
+    config.addinivalue_line("markers", "astra_mini: test for Astra Mini Pro / S Pro cameras")
+    config.addinivalue_line("markers", "astra2: test for Astra 2 cameras")
+    config.addinivalue_line("markers", "functional: API correctness — device info, stream start, sensor controls, calibration, filters")
+    config.addinivalue_line("markers", "stability: multi-frame reliability — timestamp monotonicity, sync accuracy, drop rate")
+    config.addinivalue_line("markers", "performance: long-running benchmark — FPS, latency, throughput (60+ seconds)")
 
 
 # ---------------------------------------------------------------------------
@@ -79,15 +114,67 @@ def device_info(device):
     return device.get_device_info()
 
 
+# ---------------------------------------------------------------------------
+# Device-specific fixtures — each skips if wrong model is connected
+# ---------------------------------------------------------------------------
+
 @pytest.fixture(scope="session")
-def gemini335_device(device, device_info):
+def g300_series_device(device, device_info):
     """
-    Return a device only if it is a Gemini 335 (or 335L / 335Le).
-    Skip otherwise so Gemini 335-specific tests are not run on other cameras.
+    Return device for any G300 series camera:
+    Gemini 330, 335, 335L, 335Le, 335Lg, 336, 336L, 330L, 305, 345.
+    Skip if a different device family is connected.
     """
     name = device_info.get_name() or ""
-    if "Gemini 335" not in name and "Gemini335" not in name:
-        pytest.skip(f"Connected device is '{name}', not Gemini 335 — skipping")
+    if not _device_matches(name, _G300_NAME_PREFIXES):
+        pytest.skip(
+            f"Connected device is '{name}', not a G300 series camera — skipping. "
+            f"G300 series includes: Gemini 330/335/336/305/345 and their variants."
+        )
+    return device
+
+
+@pytest.fixture(scope="session")
+def femto_device(device, device_info):
+    """
+    Return device for Femto Bolt or Femto Mega cameras.
+    Skip if a non-Femto device is connected.
+    """
+    name = device_info.get_name() or ""
+    if not _device_matches(name, _FEMTO_NAME_PREFIXES):
+        pytest.skip(
+            f"Connected device is '{name}', not a Femto Bolt/Mega — skipping. "
+            f"Femto series includes: Femto Bolt, Femto Mega, Femto Mega I."
+        )
+    return device
+
+
+@pytest.fixture(scope="session")
+def astra_mini_device(device, device_info):
+    """
+    Return device for Astra Mini Pro or Astra Mini S Pro cameras.
+    Skip if a different device is connected.
+    """
+    name = device_info.get_name() or ""
+    if not _device_matches(name, _ASTRA_MINI_NAME_PREFIXES):
+        pytest.skip(
+            f"Connected device is '{name}', not an Astra Mini — skipping. "
+            f"Astra Mini series includes: Astra Mini Pro, Astra Mini S Pro."
+        )
+    return device
+
+
+@pytest.fixture(scope="session")
+def astra2_device(device, device_info):
+    """
+    Return device for Astra 2 cameras.
+    Skip if a different device is connected.
+    """
+    name = device_info.get_name() or ""
+    if not _device_matches(name, _ASTRA2_NAME_PREFIXES):
+        pytest.skip(
+            f"Connected device is '{name}', not an Astra 2 — skipping."
+        )
     return device
 
 
@@ -187,10 +274,12 @@ def collect_frames(pipeline, sensor_type, count=30, timeout_ms=2000):
 def _sensor_to_frame_type(sensor_type):
     from pyorbbecsdk import OBFrameType
     mapping = {
-        OBSensorType.DEPTH_SENSOR: OBFrameType.DEPTH_FRAME,
-        OBSensorType.COLOR_SENSOR: OBFrameType.COLOR_FRAME,
-        OBSensorType.IR_SENSOR: OBFrameType.IR_FRAME,
-        OBSensorType.LEFT_IR_SENSOR: OBFrameType.IR_FRAME,
-        OBSensorType.RIGHT_IR_SENSOR: OBFrameType.IR_FRAME,
+        OBSensorType.DEPTH_SENSOR:     OBFrameType.DEPTH_FRAME,
+        OBSensorType.COLOR_SENSOR:     OBFrameType.COLOR_FRAME,
+        OBSensorType.IR_SENSOR:        OBFrameType.IR_FRAME,
+        OBSensorType.LEFT_IR_SENSOR:   OBFrameType.IR_FRAME,
+        OBSensorType.RIGHT_IR_SENSOR:  OBFrameType.IR_FRAME,
+        OBSensorType.ACCEL_SENSOR:     OBFrameType.ACCEL_FRAME,
+        OBSensorType.GYRO_SENSOR:      OBFrameType.GYRO_FRAME,
     }
     return mapping.get(sensor_type, OBFrameType.DEPTH_FRAME)

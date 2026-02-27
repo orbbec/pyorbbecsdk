@@ -8,7 +8,10 @@
 #      http://www.apache.org/licenses/LICENSE-2.0
 # ******************************************************************************
 """
-Gemini 335 performance benchmark tests.
+G300 series performance benchmark tests.
+
+Covers all G300 series cameras: Gemini 330, 335, 335L, 335Le, 335Lg,
+336, 336L, 330L, 305, 345 and their variants.
 
 These tests measure:
   - Time-to-first-frame (stream startup latency)
@@ -28,11 +31,10 @@ import numpy as np
 from pyorbbecsdk import (
     Config,
     OBSensorType,
-    OBFrameType,
     OBError,
 )
 
-pytestmark = [pytest.mark.hardware, pytest.mark.gemini335, pytest.mark.performance]
+pytestmark = [pytest.mark.hardware, pytest.mark.g300_series, pytest.mark.performance]
 
 FRAME_TIMEOUT_MS = 2000
 TARGET_FPS = 30
@@ -57,7 +59,7 @@ def _depth_config(pipeline):
 class TestStartupLatency:
 
     @pytest.mark.timeout(15)
-    def test_time_to_first_depth_frame(self, pipeline, gemini335_device):
+    def test_time_to_first_depth_frame(self, pipeline, g300_series_device):
         """First depth frame must arrive within 5 seconds of pipeline.start()."""
         config = _depth_config(pipeline)
         t0 = time.perf_counter()
@@ -77,11 +79,10 @@ class TestStartupLatency:
         assert elapsed <= 5.0, (
             f"Time-to-first-frame {elapsed:.2f}s exceeds 5s threshold"
         )
-        # Report actual latency (visible in verbose mode)
         print(f"\n  Time-to-first-depth-frame: {elapsed*1000:.0f}ms")
 
     @pytest.mark.timeout(15)
-    def test_time_to_first_color_frame(self, pipeline, gemini335_device):
+    def test_time_to_first_color_frame(self, pipeline, g300_series_device):
         """First color frame must arrive within 5 seconds of pipeline.start()."""
         config = Config()
         try:
@@ -115,7 +116,7 @@ class TestStartupLatency:
 class TestFrameRateStability:
 
     @pytest.mark.timeout(75)
-    def test_depth_fps_over_60_seconds(self, pipeline, gemini335_device):
+    def test_depth_fps_over_60_seconds(self, pipeline, g300_series_device):
         """
         Collect depth frames for 60 seconds; measure per-second frame counts.
         Mean FPS must be ≥27, std-dev ≤ 3.
@@ -170,7 +171,7 @@ class TestFrameRateStability:
 class TestPipelineRestart:
 
     @pytest.mark.timeout(30)
-    def test_restart_time(self, pipeline, gemini335_device):
+    def test_restart_time(self, pipeline, g300_series_device):
         """
         stop() → start() round-trip must complete and produce a frame within 3s.
         Tested 3 times to check consistency.
@@ -217,7 +218,7 @@ class TestPipelineRestart:
 class TestFrameProcessingThroughput:
 
     @pytest.mark.timeout(30)
-    def test_numpy_processing_under_frame_budget(self, pipeline, gemini335_device):
+    def test_numpy_processing_under_frame_budget(self, pipeline, g300_series_device):
         """
         Common depth post-processing (uint16→float32 reshape, normalize, colormap)
         must complete within 33ms per frame (30fps budget) on this machine.
@@ -251,7 +252,7 @@ class TestFrameProcessingThroughput:
             raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
             depth = raw.reshape(h, w).astype(np.float32) * scale
             depth = np.where((depth > 20) & (depth < 10000), depth, 0)
-            normalized = cv2_normalize_equiv(depth)
+            normalized = _cv2_normalize_equiv(depth)
 
             elapsed_ms = (time.perf_counter() - t0) * 1000
             processing_times.append(elapsed_ms)
@@ -269,7 +270,7 @@ class TestFrameProcessingThroughput:
         )
 
 
-def cv2_normalize_equiv(arr: np.ndarray) -> np.ndarray:
+def _cv2_normalize_equiv(arr: np.ndarray) -> np.ndarray:
     """Equivalent to cv2.normalize(arr, None, 0, 255, NORM_MINMAX) without cv2 dep."""
     valid = arr[arr > 0]
     if len(valid) == 0:
@@ -288,8 +289,7 @@ def cv2_normalize_equiv(arr: np.ndarray) -> np.ndarray:
 class TestDualStreamSyncLatency:
 
     @pytest.mark.timeout(30)
-    def test_color_depth_sync_latency_distribution(self, pipeline,
-                                                    gemini335_device):
+    def test_color_depth_sync_latency_distribution(self, pipeline, g300_series_device):
         """
         Collect 50 paired (color, depth) frame sets and measure timestamp deltas.
         P50 ≤ 20ms and P95 ≤ 33ms (one frame duration at 30fps).

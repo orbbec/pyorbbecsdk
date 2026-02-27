@@ -19,7 +19,7 @@ Usage:
     python test/generate_report.py --quick
 
     # Specific test module
-    python test/generate_report.py --module test_gemini335_streams
+    python test/generate_report.py --module test_g300_series_streams
 
     # Skip hardware tests (dry run, no camera needed)
     python test/generate_report.py --no-hardware

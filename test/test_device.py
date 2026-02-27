@@ -5,7 +5,7 @@ from pyorbbecsdk import (
     OBPermissionType,
 )
 
-pytestmark = pytest.mark.hardware
+pytestmark = [pytest.mark.hardware, pytest.mark.functional]
 
 
 class TestDeviceInfo:

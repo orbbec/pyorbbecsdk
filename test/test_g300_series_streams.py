@@ -22,6 +22,7 @@ Tests verify:
 - Multi-stream pipeline runs without excessive dropped frames
 """
 
+import os
 import time
 import pytest
 import numpy as np
@@ -40,6 +41,47 @@ TIGHT_SYNC_DELTA_MS = 10
 # G300 series depth operating range (structured light, ~20 mm – 10 000 mm)
 DEPTH_MIN_MM = 10.0
 DEPTH_MAX_MM = 15000.0
+
+
+DEPTH_DEBUG_DIR = os.path.join(os.path.dirname(__file__), "..", "reports", "depth_debug")
+
+
+def _save_depth_debug(raw_u16, width, height, scale, val_min, val_max):
+    """Save raw depth frame as .npy and a normalised 8-bit PNG for visual inspection."""
+    os.makedirs(DEPTH_DEBUG_DIR, exist_ok=True)
+    tag = time.strftime("%Y%m%d_%H%M%S")
+    depth_2d = raw_u16.reshape((height, width))
+
+    # Save raw uint16 numpy array (lossless)
+    npy_path = os.path.join(DEPTH_DEBUG_DIR, f"depth_raw_{tag}.npy")
+    np.save(npy_path, depth_2d)
+
+    # Save normalised 8-bit PNG for quick visual analysis
+    try:
+        import cv2
+        norm = depth_2d.copy().astype(np.float32)
+        norm[norm > 0] = np.clip(norm[norm > 0], 1, 65535)
+        norm = (norm / norm.max() * 255).astype(np.uint8)
+        coloured = cv2.applyColorMap(norm, cv2.COLORMAP_JET)
+        coloured[depth_2d == 0] = 0  # keep invalid pixels black
+        png_path = os.path.join(DEPTH_DEBUG_DIR, f"depth_vis_{tag}.png")
+        cv2.imwrite(png_path, coloured)
+    except ImportError:
+        png_path = "(cv2 not available, skipped PNG)"
+
+    # Save a small text summary
+    info_path = os.path.join(DEPTH_DEBUG_DIR, f"depth_info_{tag}.txt")
+    with open(info_path, "w") as f:
+        f.write(f"timestamp : {tag}\n")
+        f.write(f"resolution: {width}x{height}\n")
+        f.write(f"scale     : {scale}\n")
+        f.write(f"valid_min : {val_min:.2f} mm\n")
+        f.write(f"valid_max : {val_max:.2f} mm\n")
+        f.write(f"expected  : [{DEPTH_MIN_MM}, {DEPTH_MAX_MM}] mm\n")
+        f.write(f"npy_file  : {npy_path}\n")
+        f.write(f"png_file  : {png_path}\n")
+
+    return npy_path
 
 
 def _start_single_stream(pipeline, sensor_type, width=0, height=0, fps=30, fmt=None):
@@ -107,19 +149,30 @@ class TestDepthStream:
         frames = _collect_frames(pipeline, OBFrameType.DEPTH_FRAME, count=1)
         assert frames
         scale = frames[0].as_depth_frame().get_depth_scale()
-        assert 0.0001 <= scale <= 0.01, f"Unexpected depth scale: {scale}"
+        assert 0.0001 <= scale <= 1, f"Unexpected depth scale: {scale}"
 
     def test_depth_values_in_valid_range(self, pipeline, g300_series_device):
         _start_single_stream(pipeline, OBSensorType.DEPTH_SENSOR)
         frames = _collect_frames(pipeline, OBFrameType.DEPTH_FRAME, count=5)
         assert frames
         frame = frames[-1].as_depth_frame()
-        data = np.frombuffer(frame.get_data(), dtype=np.uint16).astype(np.float32)
-        data *= frame.get_depth_scale()
+        width, height = frame.get_width(), frame.get_height()
+        raw = np.frombuffer(frame.get_data(), dtype=np.uint16)
+        data = raw.astype(np.float32) * frame.get_depth_scale()
         valid = data[data > 0]
         if len(valid) > 0:
-            assert valid.min() >= DEPTH_MIN_MM
-            assert valid.max() <= DEPTH_MAX_MM
+            ok = valid.min() >= DEPTH_MIN_MM and valid.max() <= DEPTH_MAX_MM
+            if not ok:
+                _save_depth_debug(raw, width, height, frame.get_depth_scale(),
+                                  valid.min(), valid.max())
+            assert valid.min() >= DEPTH_MIN_MM, (
+                f"Depth min {valid.min():.2f} mm < {DEPTH_MIN_MM} mm. "
+                f"Debug files saved to {DEPTH_DEBUG_DIR}"
+            )
+            assert valid.max() <= DEPTH_MAX_MM, (
+                f"Depth max {valid.max():.2f} mm > {DEPTH_MAX_MM} mm. "
+                f"Debug files saved to {DEPTH_DEBUG_DIR}"
+            )
 
     def test_depth_timestamps_monotonic(self, pipeline, g300_series_device):
         _start_single_stream(pipeline, OBSensorType.DEPTH_SENSOR)

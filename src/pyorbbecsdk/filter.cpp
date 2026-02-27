@@ -86,6 +86,13 @@ void define_filter(const py::object& m) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ return self->getConfigValue(config_name.c_str()); });
            })
+      .def(
+          "set_config_value",
+          [](std::shared_ptr<ob::Filter>& self,
+             const std::string& config_name, double value) {
+            CHECK_NULLPTR(self);
+            OB_TRY_CATCH({ self->setConfigValue(config_name.c_str(), value); });
+          })
       .def("get_name",
            [](std::shared_ptr<ob::Filter>& self) {
              CHECK_NULLPTR(self);

@@ -151,7 +151,7 @@ class TestDecimationFilter:
         orig_h = original.get_height()
 
         filt = DecimationFilter()
-        filt.set_filter_param("filter_magnitude", 2)
+        filt.set_config_value("decimate", 2)
         result = filt.process(original)
         assert result is not None
         out = result.as_depth_frame()
@@ -167,8 +167,8 @@ class TestThresholdFilter:
         assert frames
         filt = ThresholdFilter()
         min_mm, max_mm = 300, 3000
-        filt.set_filter_param("min_range", min_mm)
-        filt.set_filter_param("max_range", max_mm)
+        filt.set_config_value("min", min_mm)
+        filt.set_config_value("max", max_mm)
         result = filt.process(frames[-1])
         assert result is not None
         data = _depth_as_array(result.as_depth_frame())
@@ -260,7 +260,7 @@ class TestPointCloudFilter:
                 result = filt.process(fs)
         assert result is not None
         pts = result.as_points_frame()
-        assert pts.get_point_size() > 0
+        assert pts.get_data_size() > 0
 
     def test_point_cloud_coordinates_reasonable(self, pipeline, g300_series_device):
         """All XYZ coordinates must be within ±10 000 mm (±10 m)."""

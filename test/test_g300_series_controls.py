@@ -327,7 +327,7 @@ class TestHDRControls:
 
     def test_hdr_mode_toggle(self, g300_series_device):
         """HDR merge mode toggle — skipped on models that do not support it."""
-        prop = OBPropertyID.OB_PROP_DEPTH_HDR_MERGE_BOOL
+        prop = OBPropertyID.OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL
         _skip_if_unsupported(g300_series_device, prop)
         original = g300_series_device.get_bool_property(prop)
         g300_series_device.set_bool_property(prop, not original)

@@ -201,38 +201,88 @@ class TestColorStream:
 # IR stream
 # ===========================================================================
 
+def _has_dual_ir(device):
+    """
+    Return True if the device exposes LEFT_IR_SENSOR or RIGHT_IR_SENSOR
+    (G300 series Gemini 330/335/336 use dual IR).
+    """
+    sensor_list = device.get_sensor_list()
+    for i in range(len(sensor_list)):
+        st = sensor_list[i].get_type()
+        if st in (OBSensorType.LEFT_IR_SENSOR, OBSensorType.RIGHT_IR_SENSOR):
+            return True
+    return False
+
+
 class TestIRStream:
 
-    def test_ir_stream_starts(self, pipeline, g300_series_device):
+    def test_ir_dual_streams_start(self, pipeline, g300_series_device):
+        """
+        G300 series has dual IR (LEFT + RIGHT).  Both streams must start
+        simultaneously; fall back to single IR_SENSOR if dual is absent.
+        """
         config = Config()
-        for st in [OBSensorType.IR_SENSOR, OBSensorType.LEFT_IR_SENSOR]:
+        if _has_dual_ir(g300_series_device):
             try:
-                pl = pipeline.get_stream_profile_list(st)
-                config.enable_stream(pl.get_default_video_stream_profile())
-                pipeline.start(config)
-                return
-            except OBError:
-                continue
-        pytest.skip("No IR sensor available")
-
-    def test_ir_frame_data_valid(self, pipeline, g300_series_device):
-        config = Config()
-        frame_type = None
-        for st, ft in [(OBSensorType.IR_SENSOR, OBFrameType.IR_FRAME),
-                       (OBSensorType.LEFT_IR_SENSOR, OBFrameType.IR_FRAME)]:
+                config.enable_video_stream(OBSensorType.LEFT_IR_SENSOR)
+                config.enable_video_stream(OBSensorType.RIGHT_IR_SENSOR)
+            except OBError as e:
+                pytest.skip(f"Could not enable dual IR streams: {e}")
+        else:
             try:
-                pl = pipeline.get_stream_profile_list(st)
+                pl = pipeline.get_stream_profile_list(OBSensorType.IR_SENSOR)
                 config.enable_stream(pl.get_default_video_stream_profile())
-                frame_type = ft
-                break
-            except OBError:
-                continue
-        if frame_type is None:
-            pytest.skip("No IR sensor available")
+            except OBError as e:
+                pytest.skip(f"No IR sensor available: {e}")
         pipeline.start(config)
-        frames = _collect_frames(pipeline, frame_type, count=5)
-        assert frames
-        assert np.frombuffer(frames[-1].get_data(), dtype=np.uint8).mean() > 0
+
+    def test_left_ir_frame_valid(self, pipeline, g300_series_device):
+        """Left IR stream must produce non-trivial frame data."""
+        if not _has_dual_ir(g300_series_device):
+            pytest.skip("Device does not have dual IR (LEFT/RIGHT) sensors")
+        config = Config()
+        try:
+            config.enable_video_stream(OBSensorType.LEFT_IR_SENSOR)
+            config.enable_video_stream(OBSensorType.RIGHT_IR_SENSOR)
+        except OBError as e:
+            pytest.skip(f"Could not enable dual IR streams: {e}")
+        pipeline.start(config)
+        frames = _collect_frames(pipeline, OBFrameType.LEFT_IR_FRAME, count=5)
+        assert frames, "No LEFT_IR_FRAME received within timeout"
+        data = np.frombuffer(frames[-1].get_data(), dtype=np.uint8)
+        assert data.mean() > 0, "Left IR frame is entirely zero"
+
+    def test_right_ir_frame_valid(self, pipeline, g300_series_device):
+        """Right IR stream must produce non-trivial frame data."""
+        if not _has_dual_ir(g300_series_device):
+            pytest.skip("Device does not have dual IR (LEFT/RIGHT) sensors")
+        config = Config()
+        try:
+            config.enable_video_stream(OBSensorType.LEFT_IR_SENSOR)
+            config.enable_video_stream(OBSensorType.RIGHT_IR_SENSOR)
+        except OBError as e:
+            pytest.skip(f"Could not enable dual IR streams: {e}")
+        pipeline.start(config)
+        frames = _collect_frames(pipeline, OBFrameType.RIGHT_IR_FRAME, count=5)
+        assert frames, "No RIGHT_IR_FRAME received within timeout"
+        data = np.frombuffer(frames[-1].get_data(), dtype=np.uint8)
+        assert data.mean() > 0, "Right IR frame is entirely zero"
+
+    def test_ir_frame_valid_single_sensor(self, pipeline, g300_series_device):
+        """For devices with a single IR sensor, IR_FRAME must be non-trivial."""
+        if _has_dual_ir(g300_series_device):
+            pytest.skip("Device has dual IR — use test_left/right_ir_frame_valid instead")
+        config = Config()
+        try:
+            pl = pipeline.get_stream_profile_list(OBSensorType.IR_SENSOR)
+            config.enable_stream(pl.get_default_video_stream_profile())
+        except OBError as e:
+            pytest.skip(f"No IR_SENSOR available: {e}")
+        pipeline.start(config)
+        frames = _collect_frames(pipeline, OBFrameType.IR_FRAME, count=5)
+        assert frames, "No IR_FRAME received within timeout"
+        data = np.frombuffer(frames[-1].get_data(), dtype=np.uint8)
+        assert data.mean() > 0, "IR frame is entirely zero"
 
 
 # ===========================================================================
@@ -304,18 +354,51 @@ class TestMultiStreamSync:
 
     @pytest.mark.timeout(60)
     def test_tri_stream_no_dropped_frames(self, pipeline, g300_series_device):
-        """Depth + Color + IR running for 60 frames with < 5% drop rate."""
+        """
+        Depth + Color + IR (LEFT+RIGHT for dual-IR devices) running for
+        60 frames with < 5% drop rate.
+        """
         config = Config()
         enabled = 0
-        for st in [OBSensorType.DEPTH_SENSOR, OBSensorType.COLOR_SENSOR,
-                   OBSensorType.IR_SENSOR]:
+
+        # Depth
+        try:
+            config.enable_stream(
+                pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+                        .get_default_video_stream_profile()
+            )
+            enabled += 1
+        except OBError:
+            pass
+
+        # Color
+        try:
+            config.enable_stream(
+                pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+                        .get_default_video_stream_profile()
+            )
+            enabled += 1
+        except OBError:
+            pass
+
+        # IR — dual (G300) or single
+        if _has_dual_ir(g300_series_device):
+            try:
+                config.enable_video_stream(OBSensorType.LEFT_IR_SENSOR)
+                config.enable_video_stream(OBSensorType.RIGHT_IR_SENSOR)
+                enabled += 1
+            except OBError:
+                pass
+        else:
             try:
                 config.enable_stream(
-                    pipeline.get_stream_profile_list(st).get_default_video_stream_profile()
+                    pipeline.get_stream_profile_list(OBSensorType.IR_SENSOR)
+                            .get_default_video_stream_profile()
                 )
                 enabled += 1
             except OBError:
                 pass
+
         if enabled < 2:
             pytest.skip("Fewer than 2 streams available")
         pipeline.start(config)

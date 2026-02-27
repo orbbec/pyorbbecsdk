@@ -30,11 +30,24 @@ from pyorbbecsdk import (
 # ---------------------------------------------------------------------------
 # Configuration — adjust these for your scene
 # ---------------------------------------------------------------------------
-MIN_DEPTH_MM = 300    # Clip depth closer than this (mm)
-MAX_DEPTH_MM = 3000   # Clip depth farther than this (mm)
-COLORMAP     = cv2.COLORMAP_TURBO   # Best perceptual depth separation
-WINDOW_TITLE = "Depth Viewer  |  Press 'q' to quit"
+MIN_DEPTH_MM = 100    # Clip depth closer than this (mm)
+MAX_DEPTH_MM = 10000  # Clip depth farther than this (mm)
+WINDOW_TITLE = "Depth Viewer  |  C = next colormap  |  Q/ESC = quit"
 ESC_KEY = 27
+
+# Press 'C' during playback to cycle through these options.
+# Each entry: (cv2 colormap constant, display name)
+COLORMAPS = [
+    (cv2.COLORMAP_TURBO,   "TURBO"),    # warm→cool, high perceptual separation
+    (cv2.COLORMAP_MAGMA,   "MAGMA"),    # dark→light, great for low-light scenes
+    (cv2.COLORMAP_PLASMA,  "PLASMA"),   # purple→yellow, uniform brightness
+    (cv2.COLORMAP_INFERNO, "INFERNO"),  # deep black→bright yellow, dramatic
+    (cv2.COLORMAP_VIRIDIS, "VIRIDIS"),  # scientific standard, colorblind-safe
+    (cv2.COLORMAP_JET,     "JET"),      # classic rainbow, familiar look
+    (cv2.COLORMAP_HOT,     "HOT"),      # black→red→yellow→white, heat-map style
+    (cv2.COLORMAP_OCEAN,   "OCEAN"),    # dark blue→white, underwater aesthetic
+]
+_cmap_index = 0   # current selection
 
 
 def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
@@ -74,8 +87,9 @@ def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
     lighting = lighting * 0.15 + 0.85
     np.clip(lighting, 0.7, 1.0, out=lighting)         # floor at 70% brightness
 
-    # --- 5. Apply colormap ---
-    depth_colored = cv2.applyColorMap(depth_8bit, COLORMAP)
+    # --- 5. Apply colormap (current selection from COLORMAPS list) ---
+    colormap, cmap_name = COLORMAPS[_cmap_index]
+    depth_colored = cv2.applyColorMap(depth_8bit, colormap)
 
     # --- 6. Multiply color by lighting (broadcast over 3 channels) ---
     depth_colored = (depth_colored * lighting[..., np.newaxis]).astype(np.uint8)
@@ -92,6 +106,12 @@ def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
     cv2.line(depth_colored, (5, h-6),       (5, h-6-clen),     ccol, 1)
     cv2.line(depth_colored, (w-6, h-6),     (w-6-clen, h-6),   ccol, 1)
     cv2.line(depth_colored, (w-6, h-6),     (w-6, h-6-clen),   ccol, 1)
+
+    # --- 8. Colormap name (top-right, press C to cycle) ---
+    label_size, _ = cv2.getTextSize(cmap_name, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+    cv2.putText(depth_colored, cmap_name,
+                (w - label_size[0] - 8, 25),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
     return depth_colored
 
@@ -160,6 +180,11 @@ def main():
             key = cv2.waitKey(1)
             if key in (ord("q"), ESC_KEY):
                 break
+            elif key == ord("c"):
+                # Cycle to next colormap
+                global _cmap_index
+                _cmap_index = (_cmap_index + 1) % len(COLORMAPS)
+                print(f"Colormap → {COLORMAPS[_cmap_index][1]}")
 
     finally:
         pipeline.stop()

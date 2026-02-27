@@ -4,8 +4,10 @@
 #  What you will learn:
 #    1. How to discover connected Orbbec cameras
 #    2. How to print device information (name, firmware, serial number)
-#    3. How to list available sensors (Depth, Color, IR)
-#    4. How to safely release resources when done
+#    3. How to enumerate default stream configurations for every sensor
+#       (Depth, Color, IR / dual IR, Accelerometer, Gyroscope)
+#    4. How to read the active depth preset and available preset list
+#    5. How to safely release resources when done
 #
 #  Prerequisites:
 #    pip install pyorbbecsdk2
@@ -15,7 +17,7 @@
 #    python examples/beginner/01_hello_camera.py
 # ******************************************************************************
 
-from pyorbbecsdk import Context, OBLogLevel
+from pyorbbecsdk import *  # type: ignore  # compiled extension; stubs in stubs/pyorbbecsdk.pyi
 
 # ---------------------------------------------------------------------------
 # Step 1: Create a Context
@@ -44,7 +46,7 @@ if device_list.get_count() == 0:
 print(f"Found {device_list.get_count()} device(s):\n")
 
 # ---------------------------------------------------------------------------
-# Step 3: Open each device and print its information
+# Step 3: Open each device, print identity and enumerate default configs
 # ---------------------------------------------------------------------------
 for i in range(device_list.get_count()):
     # get_device_by_index() opens the device exclusively.
@@ -52,29 +54,92 @@ for i in range(device_list.get_count()):
     device = device_list.get_device_by_index(i)
 
     info = device.get_device_info()
-    print(f"  Device #{i + 1}")
-    print(f"    Name           : {info.get_name()}")
-    print(f"    Serial Number  : {info.get_serial_number()}")
-    print(f"    Firmware       : {info.get_firmware_version()}")
-    print(f"    Hardware       : {info.get_hardware_version()}")
-    print(f"    USB PID / VID  : 0x{info.get_pid():04X} / 0x{info.get_vid():04X}")
-    print(f"    Connection     : {info.get_connection_type()}")
-
-    # Step 3b: List available sensors
-    sensor_list = device.get_sensor_list()
-    sensor_names = [
-        str(sensor_list.get_sensor_by_index(j).get_type())
-        for j in range(sensor_list.get_count())
-    ]
-    print(f"    Sensors        : {', '.join(sensor_names)}")
+    print(f"Device #{i + 1}")
+    print(f"  Name           : {info.get_name()}")
+    print(f"  Serial Number  : {info.get_serial_number()}")
+    print(f"  Firmware       : {info.get_firmware_version()}")
+    print(f"  Hardware       : {info.get_hardware_version()}")
+    print(f"  USB PID / VID  : 0x{info.get_pid():04X} / 0x{info.get_vid():04X}")
+    print(f"  Connection     : {info.get_connection_type()}")
     print()
 
-    # Step 3c: Read device temperature (useful for thermal monitoring)
+    # ------------------------------------------------------------------
+    # Step 3a: Default video stream configs (Depth, Color, IR)
+    #   Pipeline.get_stream_profile_list(sensor_type) returns all
+    #   supported profiles for a sensor.
+    #   get_default_video_stream_profile() picks the recommended one.
+    # ------------------------------------------------------------------
+    pipeline = Pipeline(device)
+
+    VIDEO_SENSORS = [
+        (OBSensorType.DEPTH_SENSOR,     "Depth"),
+        (OBSensorType.COLOR_SENSOR,     "Color"),
+        (OBSensorType.IR_SENSOR,        "IR"),
+        (OBSensorType.LEFT_IR_SENSOR,   "Left IR"),
+        (OBSensorType.RIGHT_IR_SENSOR,  "Right IR"),
+    ]
+
+    print("  Default stream configurations:")
+    for sensor_type, label in VIDEO_SENSORS:
+        try:
+            profiles = pipeline.get_stream_profile_list(sensor_type)
+            p = profiles.get_default_video_stream_profile()
+            print(
+                f"    {label:<10} : {p.get_width()}x{p.get_height()} "
+                f"@ {p.get_fps()} fps  format={p.get_format()}"
+            )
+        except OBError:
+            pass  # sensor not present on this device
+
+    # ------------------------------------------------------------------
+    # Step 3b: IMU default configurations (Accelerometer, Gyroscope)
+    #   IMU sensors use AccelStreamProfile / GyroStreamProfile instead
+    #   of VideoStreamProfile. Read sample rate and full-scale range.
+    # ------------------------------------------------------------------
+    IMU_SENSORS = [
+        (OBSensorType.ACCEL_SENSOR, "Accel"),
+        (OBSensorType.GYRO_SENSOR,  "Gyro"),
+    ]
+
+    for sensor_type, label in IMU_SENSORS:
+        try:
+            profiles = pipeline.get_stream_profile_list(sensor_type)
+            # get_stream_profile_by_index(0) is the default IMU profile
+            sp = profiles.get_stream_profile_by_index(0)
+            if sensor_type == OBSensorType.ACCEL_SENSOR:
+                ap = sp.as_accel_stream_profile()
+                print(
+                    f"    {label:<10} : sample_rate={ap.get_sample_rate()}"
+                    f"  full_scale={ap.get_full_scale_range()}"
+                )
+            else:
+                gp = sp.as_gyro_stream_profile()
+                print(
+                    f"    {label:<10} : sample_rate={gp.get_sample_rate()}"
+                    f"  full_scale={gp.get_full_scale_range()}"
+                )
+        except OBError:
+            pass  # IMU not available on this device
+
+    # ------------------------------------------------------------------
+    # Step 3c: Depth preset
+    #   Presets bundle a named set of depth processing parameters
+    #   (e.g. "Default", "Hand", "High Accuracy").
+    #   get_current_preset_name() returns the active preset.
+    #   get_available_preset_list() lists all presets on the device.
+    # ------------------------------------------------------------------
+    print()
+    print("  Depth preset:")
     try:
-        temp = device.get_temperature()
-        print(f"    Temperature    : {temp}")
-    except Exception:
-        pass  # Not all devices support temperature reading
+        current = device.get_current_preset_name()
+        print(f"    Active preset  : {current}")
+        preset_list = device.get_available_preset_list()
+        names = [preset_list[j] for j in range(len(preset_list))]
+        print(f"    Available      : {', '.join(names)}")
+    except OBError:
+        print("    (preset not supported on this device)")
+
+    print()
 
 # ---------------------------------------------------------------------------
 # Step 4: Resources are automatically released

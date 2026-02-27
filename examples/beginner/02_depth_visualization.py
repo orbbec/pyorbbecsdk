@@ -11,7 +11,7 @@
 #
 #  Rendering pipeline (based on ui.py):
 #    raw uint16  →  mm float  →  clip [MIN, MAX]  →  gamma 0.8  →  8-bit
-#    →  Scharr gradient  →  diffuse lighting  →  COLORMAP_TURBO  →  display
+#    →  Scharr gradient  →  diffuse lighting  →  COLORMAP_JET (default)  →  display
 #
 #  Press 'q' or ESC to quit.
 #
@@ -38,16 +38,16 @@ ESC_KEY = 27
 # Press 'C' during playback to cycle through these options.
 # Each entry: (cv2 colormap constant, display name)
 COLORMAPS = [
+    (cv2.COLORMAP_JET,     "JET"),      # classic rainbow, familiar look (default)
     (cv2.COLORMAP_TURBO,   "TURBO"),    # warm→cool, high perceptual separation
     (cv2.COLORMAP_MAGMA,   "MAGMA"),    # dark→light, great for low-light scenes
     (cv2.COLORMAP_PLASMA,  "PLASMA"),   # purple→yellow, uniform brightness
     (cv2.COLORMAP_INFERNO, "INFERNO"),  # deep black→bright yellow, dramatic
     (cv2.COLORMAP_VIRIDIS, "VIRIDIS"),  # scientific standard, colorblind-safe
-    (cv2.COLORMAP_JET,     "JET"),      # classic rainbow, familiar look
     (cv2.COLORMAP_HOT,     "HOT"),      # black→red→yellow→white, heat-map style
     (cv2.COLORMAP_OCEAN,   "OCEAN"),    # dark blue→white, underwater aesthetic
 ]
-_cmap_index = 0   # current selection
+_cmap_index = 0   # current selection (JET)
 
 
 def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:

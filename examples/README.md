@@ -74,13 +74,10 @@ Single-feature scripts you can run independently. Each demonstrates one aspect o
 | Script | Description | Device Notes |
 |--------|-------------|--------------|
 | `quick_start.py` | Color + depth side-by-side viewer; the simplest full-featured example | All |
-| `color.py` | Color-only stream viewer with format display | All |
-| `depth.py` | Depth-only stream viewer with min/max range overlay | All |
-| `infrared.py` | IR stream viewer | All |
+| `depth.py` | Depth-only stream viewer with temporal filtering and center-distance overlay | All |
+| `infrared.py` | IR stream viewer; supports single IR and dual IR (left + right) automatically | All |
 | `imu.py` | Read accelerometer and gyroscope data; display timestamp, temperature, and values | All |
-| `callback.py` | Receive frames via async callback (non-blocking pipeline mode) | All |
-| `multi_streams.py` | Enable all available streams at once in a single pipeline | All |
-| `multi_device.py` | Open and stream from two or more cameras simultaneously | All |
+| `multi_streams.py` | Enable all available streams (color, depth, IR, IMU) simultaneously via async callbacks | All |
 | `net_device.py` | Connect to a network-attached camera via IP address | Femto Mega, Gemini 2 XL |
 
 ### Data Capture
@@ -128,7 +125,7 @@ These scripts combine multiple SDK features or require domain knowledge of depth
 | `hdr.py` | HDR merge: combine alternating-exposure frames for extended dynamic range depth | Gemini 330 series |
 | `preset.py` | Load and apply named depth presets (e.g., `Default`, `Hand`, `High Accuracy`) | Gemini 330 series |
 | `depth_work_mode.py` | Switch depth work modes at runtime: High Accuracy, High Density, Medium Density, etc. | Gemini 2, Gemini 2L, Astra 2, Gemini 2 XL |
-| `two_devices_sync.py` | Hardware-level frame synchronization between two cameras (primary/secondary trigger) | All |
+| `two_devices_sync.py` | Open and stream from two cameras simultaneously; supports hardware-level frame sync (primary/secondary trigger) via JSON config | All |
 | `device_firmware_update.py` | Perform an OTA firmware upgrade by reading a `.bin` file and flashing the device | All |
 | `device_optional_depth_presets_update.py` | Update optional depth preset profiles on the device | Gemini 330 series |
 | `laser_interleave.py` | Enable laser interleave mode to reduce multi-camera interference | Select devices |

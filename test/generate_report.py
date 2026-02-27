@@ -110,13 +110,13 @@ def build_pytest_args(args, report_path, device_info, sdk_version):
         "--self-contained-html",
         "-v",
         "--tb=short",
-        f"--metadata=SDK Version={sdk_version}",
-        f"--metadata=Device={device_info['name']}",
-        f"--metadata=Serial={device_info['serial']}",
-        f"--metadata=Firmware={device_info['firmware']}",
-        f"--metadata=OS={platform.system()} {platform.release()}",
-        f"--metadata=Python={sys.version.split()[0]}",
-        f"--metadata=Machine={platform.machine()}",
+        "--metadata=SDK Version", sdk_version,
+        "--metadata=Device", device_info['name'],
+        "--metadata=Serial", device_info['serial'],
+        "--metadata=Firmware", device_info['firmware'],
+        "--metadata=OS", f"{platform.system()} {platform.release()}",
+        "--metadata=Python", sys.version.split()[0],
+        "--metadata=Machine", platform.machine(),
     ]
 
     if args.quick or args.no_hardware:

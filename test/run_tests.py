@@ -185,12 +185,12 @@ def build_pytest_cmd(test_dir, report_path, device_marker,
     args += [
         f"--html={report_path}",
         "--self-contained-html",
-        "--metadata=SDK Version", sdk_version,
-        "--metadata=Device", device_name,
-        "--metadata=Serial", serial,
-        "--metadata=Firmware", firmware,
-        "--metadata=OS", f"{platform.system()} {platform.release()}",
-        "--metadata=Python", sys.version.split()[0],
+        "--metadata", "SDK Version", sdk_version,
+        "--metadata", "Device", device_name,
+        "--metadata", "Serial", serial,
+        "--metadata", "Firmware", firmware,
+        "--metadata", "OS", f"{platform.system()} {platform.release()}",
+        "--metadata", "Python", sys.version.split()[0],
     ]
 
     if not quick and not no_hardware:

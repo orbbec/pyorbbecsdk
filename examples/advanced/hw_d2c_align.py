@@ -1,18 +1,21 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http://www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  pyorbbecsdk Advanced Example — Hardware Depth-to-Color (D2C) Alignment
+#
+#  What you will learn:
+#    1. Enable on-device hardware D2C alignment via pipeline configuration
+#    2. Compare hardware alignment (lower CPU) vs software AlignFilter
+#    3. Toggle between SW and HW alignment modes at runtime
+#    4. Visualize the aligned depth overlaid on the color stream
+#
+#  Device requirement: All
+#
+#  Run:
+#    python examples/advanced/hw_d2c_align.py
 # ******************************************************************************
+
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from pyorbbecsdk import *
 import cv2

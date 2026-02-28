@@ -5,7 +5,7 @@
 #    1. How to discover connected Orbbec cameras
 #    2. How to print device information (name, firmware, serial number)
 #    3. How to enumerate default stream configurations for every sensor
-#       (Depth, Color, IR / dual IR, Accelerometer, Gyroscope)
+#       (Depth, Color)
 #    4. How to read the active depth preset and available preset list
 #    5. How to safely release resources when done
 #
@@ -74,9 +74,6 @@ for i in range(device_list.get_count()):
     VIDEO_SENSORS = [
         (OBSensorType.DEPTH_SENSOR,     "Depth"),
         (OBSensorType.COLOR_SENSOR,     "Color"),
-        (OBSensorType.IR_SENSOR,        "IR"),
-        (OBSensorType.LEFT_IR_SENSOR,   "Left IR"),
-        (OBSensorType.RIGHT_IR_SENSOR,  "Right IR"),
     ]
 
     print("  Default stream configurations:")
@@ -91,38 +88,9 @@ for i in range(device_list.get_count()):
         except OBError:
             pass  # sensor not present on this device
 
+   
     # ------------------------------------------------------------------
-    # Step 3b: IMU default configurations (Accelerometer, Gyroscope)
-    #   IMU sensors use AccelStreamProfile / GyroStreamProfile instead
-    #   of VideoStreamProfile. Read sample rate and full-scale range.
-    # ------------------------------------------------------------------
-    IMU_SENSORS = [
-        (OBSensorType.ACCEL_SENSOR, "Accel"),
-        (OBSensorType.GYRO_SENSOR,  "Gyro"),
-    ]
-
-    for sensor_type, label in IMU_SENSORS:
-        try:
-            profiles = pipeline.get_stream_profile_list(sensor_type)
-            # get_stream_profile_by_index(0) is the default IMU profile
-            sp = profiles.get_stream_profile_by_index(0)
-            if sensor_type == OBSensorType.ACCEL_SENSOR:
-                ap = sp.as_accel_stream_profile()
-                print(
-                    f"    {label:<10} : sample_rate={ap.get_sample_rate()}"
-                    f"  full_scale={ap.get_full_scale_range()}"
-                )
-            else:
-                gp = sp.as_gyro_stream_profile()
-                print(
-                    f"    {label:<10} : sample_rate={gp.get_sample_rate()}"
-                    f"  full_scale={gp.get_full_scale_range()}"
-                )
-        except OBError:
-            pass  # IMU not available on this device
-
-    # ------------------------------------------------------------------
-    # Step 3c: Depth preset
+    # Step 3b: Depth preset
     #   Presets bundle a named set of depth processing parameters
     #   (e.g. "Default", "Hand", "High Accuracy").
     #   get_current_preset_name() returns the active preset.

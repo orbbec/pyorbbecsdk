@@ -1,20 +1,21 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — Two-Device Hardware Sync Streaming
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. Enumerate and open two cameras simultaneously from a single context
+#    2. Apply a JSON sync config to set primary/secondary hardware trigger roles
+#    3. Run per-device pipelines on separate threads with thread-safe frame queues
+#    4. Display synchronized depth and color streams from both devices side by side
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Device requirement: All (hardware sync requires devices with trigger support)
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Run:
+#    python examples/advanced/two_devices_sync.py
 # ******************************************************************************
 import json
 import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from queue import Queue
 from typing import List
 

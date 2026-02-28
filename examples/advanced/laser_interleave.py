@@ -1,17 +1,16 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — Laser Interleave Mode
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. Detect which connected devices support the laser interleave property
+#    2. Enable laser interleave mode to reduce multi-camera IR interference
+#    3. Configure interleave timing parameters for coordinated frame capture
+#    4. Stream depth frames with interleave active and verify reduced crosstalk
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Device requirement: Devices with laser interleave support
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Run:
+#    python examples/advanced/laser_interleave.py
 # ******************************************************************************
 import cv2
 import numpy as np

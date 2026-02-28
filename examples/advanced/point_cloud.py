@@ -1,17 +1,16 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — 3D Point Cloud Generation
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. Use PointCloudFilter to convert depth frames into 3D point clouds
+#    2. Align color to depth to produce a colored point cloud
+#    3. Save the resulting point cloud to a .ply file on disk
+#    4. Load and visualize .ply files with open3d or MeshLab
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Device requirement: All
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Run:
+#    python examples/advanced/point_cloud.py
 # ******************************************************************************
 
 import os

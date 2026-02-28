@@ -1,17 +1,16 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http://www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  pyorbbecsdk Advanced Example — Named Depth Presets
+#
+#  What you will learn:
+#    1. Query the device for all available named depth presets
+#    2. Load and apply a preset by name (e.g., Default, Hand, High Accuracy)
+#    3. Switch between presets at runtime without restarting the pipeline
+#    4. Observe how different presets affect depth range, fill rate, and noise
+#
+#  Device requirement: Gemini 330 series
+#
+#  Run:
+#    python examples/advanced/preset.py
 # ******************************************************************************
 
 import pyorbbecsdk as ob

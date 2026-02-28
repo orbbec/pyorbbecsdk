@@ -1,17 +1,19 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — Coordinate System Transforms
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. Use the calibration API to transform between 2D image and 3D space
+#    2. Apply transformation2dto2d, 2dto3d, 3dto3d, and 3dto2d conversions
+#    3. Select the desired transform type interactively at runtime
+#    4. Understand how intrinsics and extrinsics relate sensor coordinate frames
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Keyboard controls (requires pynput):
+#    1 — 2D-to-2D  |  2 — 2D-to-3D  |  3 — 3D-to-3D  |  4 — 3D-to-2D
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Device requirement: All
+#
+#  Run:
+#    python examples/advanced/coordinate_transform.py
 # ******************************************************************************
 
 import numpy as np

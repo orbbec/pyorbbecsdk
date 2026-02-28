@@ -1,17 +1,16 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http://www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  pyorbbecsdk Advanced Example — Depth Work Mode Switching
+#
+#  What you will learn:
+#    1. List all depth work modes supported by the connected device
+#    2. Select and apply a work mode (High Accuracy, High Density, Medium Density)
+#    3. Switch work modes at runtime and restart the pipeline to apply changes
+#    4. Understand the trade-offs between accuracy, density, and frame rate
+#
+#  Device requirement: Gemini 2, Gemini 2L, Astra 2, Gemini 2 XL
+#
+#  Run:
+#    python examples/advanced/depth_work_mode.py
 # ******************************************************************************
 from pyorbbecsdk import *
 

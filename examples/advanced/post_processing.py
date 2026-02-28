@@ -1,17 +1,16 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — Post-Processing Filter Stack
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. Build a full post-processing pipeline (decimation, spatial, temporal, hole-fill)
+#    2. Apply the filter chain to raw depth frames in real time
+#    3. Display raw depth and filtered depth side by side for direct comparison
+#    4. Tune individual filter parameters to balance quality and performance
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Device requirement: Gemini 330 series
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Run:
+#    python examples/advanced/post_processing.py
 # ******************************************************************************
 import sys
 import cv2

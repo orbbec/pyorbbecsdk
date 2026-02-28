@@ -1,17 +1,18 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — OTA Device Firmware Update
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. Read a firmware .bin file and initiate an OTA upgrade on the device
+#    2. Register a progress callback to monitor the update state and percentage
+#    3. Handle update completion and error conditions safely
+#    4. Understand safe upgrade practices (do not unplug during update)
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Caution: Do not disconnect the device while a firmware update is in progress.
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Device requirement: All
+#
+#  Run:
+#    python examples/advanced/device_firmware_update.py
 # ******************************************************************************
 
 import os

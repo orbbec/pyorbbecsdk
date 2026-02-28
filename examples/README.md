@@ -37,22 +37,23 @@ A curated collection of examples organized by difficulty level — from connecti
 **Running an example (from the repository root):**
 ```bash
 python examples/beginner/01_hello_camera.py
-python examples/depth.py
+python examples/quick_start.py
 ```
 
 ---
 
 ## Level 1 — Beginner (Start Here ⭐)
 
-Three annotated tutorials designed for first-time users. Each file is heavily commented, teaches one concept at a time, and requires no prior Orbbec SDK knowledge. **Run them in order: 01 → 02 → 03.**
+Four annotated tutorials designed for first-time users. Each file is heavily commented, teaches one concept at a time, and requires no prior Orbbec SDK knowledge. **Run them in order: 01 → 02 → 03 → 04.**
 
 | Script | What You Learn | Extra Dependencies |
 |--------|---------------|--------------------|
-| `beginner/01_hello_camera.py` | Discover connected devices, print device name, firmware version, and sensor list | none |
-| `beginner/02_depth_visualization.py` | Configure a depth stream, convert raw `uint16` data to millimeters, display with an OpenCV colormap | numpy, opencv-python |
+| `beginner/01_hello_camera.py` | Discover connected devices, print device name, firmware version, serial number, and default stream configurations | none |
+| `beginner/02_depth_visualization.py` | Configure a depth stream, convert raw `uint16` data to millimeters, display with gamma correction and Scharr-gradient 3D lighting; press `C` to cycle colormaps | numpy, opencv-python |
 | `beginner/03_color_and_depth_aligned.py` | Enable multiple streams simultaneously, use `AlignFilter` to project depth into the color camera view | numpy, opencv-python |
+| `beginner/04_camera_calibration.py` | Read intrinsic parameters (fx, fy, cx, cy), distortion coefficients, and the depth-to-color extrinsic (rotation + translation); build OpenCV-style camera matrices | numpy |
 
-> **Tip:** After running all three, try `quick_start.py` for a self-contained color + depth side-by-side viewer.
+> **Tip:** After running all four, try `quick_start.py` for a self-contained color + depth side-by-side viewer.
 
 ---
 
@@ -74,7 +75,6 @@ Single-feature scripts you can run independently. Each demonstrates one aspect o
 | Script | Description | Device Notes |
 |--------|-------------|--------------|
 | `quick_start.py` | Color + depth side-by-side viewer; the simplest full-featured example | All |
-| `depth.py` | Depth-only stream viewer with temporal filtering and center-distance overlay | All |
 | `infrared.py` | IR stream viewer; supports single IR and dual IR (left + right) automatically | All |
 | `imu.py` | Read accelerometer and gyroscope data; display timestamp, temperature, and values | All |
 | `multi_streams.py` | Enable all available streams (color, depth, IR, IMU) simultaneously via async callbacks | All |
@@ -94,43 +94,43 @@ Single-feature scripts you can run independently. Each demonstrates one aspect o
 
 ## Level 3 — Advanced (⭐⭐⭐)
 
-These scripts combine multiple SDK features or require domain knowledge of depth sensing.
+These scripts combine multiple SDK features or require domain knowledge of depth sensing. All files are in the `examples/advanced/` directory.
 
 ### Post-Processing & Alignment
 
 | Script | Description | Device Notes |
 |--------|-------------|--------------|
 | `advanced/custom_filter_chain.py` | Chain `TemporalFilter` + `SpatialAdvancedFilter` + `HoleFillingFilter` + `ThresholdFilter`; use keyboard shortcuts to tune parameters live | All |
-| `sync_align.py` | Software `AlignFilter` — align depth to color in Python, configurable target stream | All |
-| `hw_d2c_align.py` | Hardware D2C alignment — depth-to-color projection done on-device (lower CPU overhead) | Select devices |
-| `post_processing.py` | Compare before/after applying the full post-processing filter stack | Gemini 330 series |
+| `advanced/sync_align.py` | Software `AlignFilter` — align depth to color in Python, configurable target stream | All |
+| `advanced/hw_d2c_align.py` | Hardware D2C alignment — depth-to-color projection done on-device (lower CPU overhead); toggle between SW and HW at runtime | All |
+| `advanced/post_processing.py` | Compare before/after applying the full post-processing filter stack side by side | Gemini 330 series |
 
 ### Performance & Architecture
 
 | Script | Description | Device Notes |
 |--------|-------------|--------------|
 | `advanced/high_performance_pipeline.py` | Async callback pipeline with bounded frame queue, FPS meter, and end-to-end latency measurement | All |
+| `advanced/two_devices_sync.py` | Open and stream from two cameras simultaneously; supports hardware-level frame sync (primary/secondary trigger) via JSON config | All |
 
 ### 3D & Geometry
 
 | Script | Description | Device Notes |
 |--------|-------------|--------------|
-| `point_cloud.py` | Generate a colored 3D point cloud using `PointCloudFilter`; save to `.ply` for open3d visualization | All |
-| `coordinate_transform.py` | Transform between 2D image, 3D depth, and color coordinate systems using the calibration API | All |
+| `advanced/point_cloud.py` | Generate a colored 3D point cloud using `PointCloudFilter`; save to `.ply` for Open3D / MeshLab visualization | All |
+| `advanced/coordinate_transform.py` | Transform between 2D image, 3D depth, and color coordinate systems using the calibration API; press 1–4 to choose transform type | All |
 
 ### Device-Specific Features
 
 | Script | Description | Device Notes |
 |--------|-------------|--------------|
-| `hdr.py` | HDR merge: combine alternating-exposure frames for extended dynamic range depth | Gemini 330 series |
-| `preset.py` | Load and apply named depth presets (e.g., `Default`, `Hand`, `High Accuracy`) | Gemini 330 series |
-| `depth_work_mode.py` | Switch depth work modes at runtime: High Accuracy, High Density, Medium Density, etc. | Gemini 2, Gemini 2L, Astra 2, Gemini 2 XL |
-| `two_devices_sync.py` | Open and stream from two cameras simultaneously; supports hardware-level frame sync (primary/secondary trigger) via JSON config | All |
-| `device_firmware_update.py` | Perform an OTA firmware upgrade by reading a `.bin` file and flashing the device | All |
-| `device_optional_depth_presets_update.py` | Update optional depth preset profiles on the device | Gemini 330 series |
-| `laser_interleave.py` | Enable laser interleave mode to reduce multi-camera interference | Select devices |
-| `confidence.py` | Access depth confidence data alongside the depth frame | Select devices |
-| `forceip.py` | Assign a static IP address to a network-attached camera | Femto Mega, Gemini 2 XL |
+| `advanced/hdr.py` | HDR merge: combine alternating-exposure frames for extended dynamic range depth using `HdrMergeFilter` | Gemini 330 series |
+| `advanced/preset.py` | Load and apply named depth presets (e.g., `Default`, `Hand`, `High Accuracy`); list all available presets | Gemini 330 series |
+| `advanced/depth_work_mode.py` | Switch depth work modes at runtime: High Accuracy, High Density, Medium Density, etc. | Gemini 2, Gemini 2L, Astra 2, Gemini 2 XL |
+| `advanced/confidence.py` | Access depth confidence data alongside the depth frame; visualize and threshold by confidence | Select devices |
+| `advanced/laser_interleave.py` | Enable laser interleave mode to reduce multi-camera interference | Select devices |
+| `advanced/device_firmware_update.py` | Perform an OTA firmware upgrade by reading a `.bin` file and flashing the device | All |
+| `advanced/device_optional_depth_presets_update.py` | Update optional depth preset profiles stored on the device | Gemini 330 series |
+| `advanced/forceip.py` | Assign a static IP address to a network-attached camera | Femto Mega, Gemini 2 XL |
 
 ---
 
@@ -172,11 +172,11 @@ Computer vision examples using depth + color together. Located in `examples/obje
 ## Learning Path Summary
 
 ```
-New to Orbbec?     →  beginner/01 → 02 → 03 → quick_start.py
-Need a specific    →  Pick any Level 2 script by feature
+New to Orbbec?        →  beginner/01 → 02 → 03 → 04 → quick_start.py
+Need a specific       →  Pick any Level 2 script by feature
 feature?
-Building a real    →  advanced/high_performance_pipeline.py
-application?              + advanced/custom_filter_chain.py
-Working with 3D?   →  point_cloud.py + coordinate_transform.py
-Using a LiDAR?     →  lidar_examples/lidar_quick_start.py
+Building a real       →  advanced/high_performance_pipeline.py
+application?                 + advanced/custom_filter_chain.py
+Working with 3D?      →  advanced/point_cloud.py + advanced/coordinate_transform.py
+Using a LiDAR?        →  lidar_examples/lidar_quick_start.py
 ```

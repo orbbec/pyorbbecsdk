@@ -14,12 +14,15 @@
 #  limitations under the License.
 # ******************************************************************************
 
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
 import cv2
 import av
 import threading
 import time
 import pygame
-import os
 from pyorbbecsdk import (Pipeline, Context, Config, OBSensorType, OBFormat, OBError)
 from utils import frame_to_bgr_image
 

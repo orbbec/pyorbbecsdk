@@ -44,7 +44,9 @@ python examples/quick_start.py
 
 ## Level 1 — Beginner (Start Here ⭐)
 
-Four annotated tutorials designed for first-time users. Each file is heavily commented, teaches one concept at a time, and requires no prior Orbbec SDK knowledge. **Run them in order: 01 → 02 → 03 → 04.**
+Eight annotated scripts designed for first-time users. The numbered tutorials (01–04) teach core concepts step by step; the remaining scripts each demonstrate one additional feature with minimal boilerplate.
+
+**Numbered tutorials — run in order: 01 → 02 → 03 → 04**
 
 | Script | What You Learn | Extra Dependencies |
 |--------|---------------|--------------------|
@@ -53,7 +55,14 @@ Four annotated tutorials designed for first-time users. Each file is heavily com
 | `beginner/03_color_and_depth_aligned.py` | Enable multiple streams simultaneously, use `AlignFilter` to project depth into the color camera view | numpy, opencv-python |
 | `beginner/04_camera_calibration.py` | Read intrinsic parameters (fx, fy, cx, cy), distortion coefficients, and the depth-to-color extrinsic (rotation + translation); build OpenCV-style camera matrices | numpy |
 
-> **Tip:** After running all four, try `quick_start.py` for a self-contained color + depth side-by-side viewer.
+**Additional beginner scripts**
+
+| Script | Description | Device Notes |
+|--------|-------------|--------------|
+| `beginner/imu.py` | Read accelerometer and gyroscope data; display timestamp, temperature, and values | All |
+| `beginner/logger.py` | Set the SDK log level (`DEBUG` / `INFO` / `WARNING` / `ERROR`); redirect logs to a custom file path | All |
+| `beginner/multi_streams.py` | Enable all available streams (color, depth, IR, IMU) simultaneously via async callbacks | All |
+| `beginner/net_device.py` | Connect to a network-attached camera via IP address | Femto Mega, Gemini 2 XL |
 
 ---
 
@@ -67,7 +76,6 @@ Single-feature scripts you can run independently. Each demonstrates one aspect o
 |--------|-------------|--------------|
 | `enumerate.py` | List all connected devices, sensors, stream profiles, and supported formats | All |
 | `hot_plug.py` | Detect camera connect/disconnect events at runtime via callbacks | All |
-| `logger.py` | Set the SDK log level (`DEBUG` / `INFO` / `WARNING` / `ERROR`); redirect logs to a custom file path | All |
 | `control.py` | Read and write device properties: exposure, gain, white balance, mirror, flood, laser, etc. | All |
 
 ### Streaming
@@ -76,9 +84,6 @@ Single-feature scripts you can run independently. Each demonstrates one aspect o
 |--------|-------------|--------------|
 | `quick_start.py` | Color + depth side-by-side viewer; the simplest full-featured example | All |
 | `infrared.py` | IR stream viewer; supports single IR and dual IR (left + right) automatically | All |
-| `imu.py` | Read accelerometer and gyroscope data; display timestamp, temperature, and values | All |
-| `multi_streams.py` | Enable all available streams (color, depth, IR, IMU) simultaneously via async callbacks | All |
-| `net_device.py` | Connect to a network-attached camera via IP address | Femto Mega, Gemini 2 XL |
 
 ### Data Capture
 
@@ -172,7 +177,7 @@ Computer vision examples using depth + color together. Located in `examples/obje
 ## Learning Path Summary
 
 ```
-New to Orbbec?        →  beginner/01 → 02 → 03 → 04 → quick_start.py
+New to Orbbec?        →  beginner/01 → 02 → 03 → 04 → beginner/multi_streams.py
 Need a specific       →  Pick any Level 2 script by feature
 feature?
 Building a real       →  advanced/high_performance_pipeline.py

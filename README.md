@@ -23,7 +23,6 @@
 - [Hardware & Firmware Requirements](#hardware-products-supported-by-python-sdk)
 - [Supported Platforms](#supported-platforms)
 - [Supported Python Versions](#supported-python-versions)
-- [Environment Setup](#environment-setup)
 - [Examples](#examples)
 - [Documentation](#documentation)
 - [Troubleshooting / FAQ](#troubleshooting--faq)
@@ -53,6 +52,8 @@
 
 ## Quick Installation
 
+### Step 1 — Install the package
+
 ```bash
 pip install pyorbbecsdk2
 ```
@@ -67,59 +68,101 @@ Pre-built wheels are available for:
 - **Linux x64:** Python 3.9–3.13 (online), 3.8–3.13 (offline)
 - **ARM64:** Python 3.8–3.13 (offline packages only)
 
-For offline installation packages or building from source, see the [installation documentation](https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html).
+For offline installation packages or building from source, see the [installation documentation](https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html) or [CONTRIBUTING.md](CONTRIBUTING.md#building-from-source).
+
+### Step 2 — Environment Setup (one-time)
+
+The camera requires a one-time OS-level configuration. Connect your device, then run the setup script:
+
+```bash
+# Windows (PowerShell — will auto-request Administrator)
+python scripts/env_setup/setup_env.py
+
+# Linux (will auto-request sudo)
+python3 scripts/env_setup/setup_env.py
+```
+
+That's it! The script auto-detects your OS and applies the correct configuration:
+- **Windows** — registers UVC metadata in the registry (required for correct timestamps and frame sync)
+- **Linux** — installs udev rules for USB device access
+
+You can verify the setup later with `python scripts/env_setup/setup_env.py --check`.
+
+<details>
+<summary><strong>Manual setup (if you prefer not to use the script)</strong></summary>
+
+**Windows** — register frame metadata (run PowerShell as Administrator):
+```powershell
+cd scripts\env_setup
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\obsensor_metadata_win10.ps1 -op install_all
+```
+See [obsensor_metadata_win10.md](scripts/env_setup/obsensor_metadata_win10.md) for details.
+
+**Linux** — install udev rules:
+```bash
+cd scripts/env_setup
+sudo chmod +x ./install_udev_rules.sh
+sudo ./install_udev_rules.sh
+sudo udevadm control --reload && sudo udevadm trigger
+```
+
+</details>
 
 ---
 
 ## Quick Start
 
-### Step 1 — Verify your camera is detected
+With **just 3 lines of core code**, you can get RGB-D data streaming:
 
 ```python
-from pyorbbecsdk import Context, OBLogLevel
-
-ctx = Context()
-ctx.set_logger_level(OBLogLevel.WARNING)
-
-device_list = ctx.query_devices()
-if device_list.get_count() == 0:
-    print("No device found. Check USB connection and environment setup.")
-else:
-    device = device_list.get_device_by_index(0)
-    info = device.get_device_info()
-    print(f"Connected : {info.get_name()}")
-    print(f"Firmware  : {info.get_firmware_version()}")
-    print(f"Serial    : {info.get_serial_number()}")
-```
-
-### Step 2 — Read one depth frame
-
-```python
-from pyorbbecsdk import Pipeline, Config, OBSensorType
-import numpy as np
+from pyorbbecsdk import *
 
 pipeline = Pipeline()
-config   = Config()
+pipeline.start()                        # uses default config from OrbbecSDKConfig.xml
+frames = pipeline.wait_for_frames(1000)  # get synchronized Color + Depth frames
+```
 
-profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-config.enable_stream(profile_list.get_default_video_stream_profile())
-pipeline.start(config)
+The complete [`examples/quick_start.py`](examples/quick_start.py) adds visualisation in ~30 lines:
 
-frame_set = pipeline.wait_for_frames(2000)   # wait up to 2 s
-if frame_set:
-    depth_frame = frame_set.get_depth_frame()
-    if depth_frame:
-        w, h  = depth_frame.get_width(), depth_frame.get_height()
-        scale = depth_frame.get_depth_scale()
-        data  = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-        depth_mm = data.reshape(h, w) * scale
-        cx, cy   = w // 2, h // 2
-        print(f"Center pixel depth: {depth_mm[cy, cx]:.0f} mm")
+```python
+import cv2
+import numpy as np
+from pyorbbecsdk import *
+from utils import frame_to_bgr_image
+
+pipeline = Pipeline()
+pipeline.start()   # zero-config: loads default settings from config/OrbbecSDKConfig.xml
+
+while True:
+    frames = pipeline.wait_for_frames(1000)
+    if frames is None:
+        continue
+
+    # --- Color ---
+    color_frame = frames.get_color_frame()
+    color_image = frame_to_bgr_image(color_frame)
+
+    # --- Depth ---
+    depth_frame = frames.get_depth_frame()
+    depth_data  = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+    depth_data  = depth_data.reshape(depth_frame.get_height(), depth_frame.get_width())
+    depth_data  = (depth_data.astype(np.float32) * depth_frame.get_depth_scale()).astype(np.uint16)
+
+    # Visualise depth as a colour map
+    depth_vis = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    depth_vis = cv2.applyColorMap(depth_vis, cv2.COLORMAP_JET)
+
+    cv2.imshow("RGBD", np.hstack((color_image, depth_vis)))
+    if cv2.waitKey(1) in (27, ord('q')):
+        break
 
 pipeline.stop()
 ```
 
-For visual display, alignment, point clouds, IMU, and more — see the [Examples](#examples) section.
+> **Default configuration:** When `pipeline.start()` is called without a `Config` object, the SDK automatically reads [`config/OrbbecSDKConfig.xml`](config/OrbbecSDKConfig.xml). You can customise stream resolution, FPS, and format in that XML file without modifying any code —  see [`config/OrbbecSDKConfig.md`](config/OrbbecSDKConfig.md) for the full reference.
+
+For alignment, point clouds, IMU, recording, and more — see the [Examples](#examples) section.
 
 ---
 
@@ -322,70 +365,29 @@ Python **3.8** through **3.13**
 
 ---
 
-## Environment Setup
-
-The SDK requires a one-time OS-level configuration before the camera can be opened.
-
-### Windows — Metadata Registration
-
-Frame timestamps and frame synchronization rely on Windows metadata. Without this step, timestamps will be incorrect and frame sync will fail.
-
-1. Connect the device and confirm it appears in Device Manager.
-2. Open **PowerShell as Administrator**.
-3. Navigate to the setup script:
-   ```powershell
-   cd pyorbbecsdk\scripts\env_setup
-   ```
-4. Allow script execution:
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
-   If the above fails, try:
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
-   ```
-5. Run the installer:
-   ```powershell
-   .\obsensor_metadata_win10.ps1 -op install_all
-   ```
-
-*If metadata is not registered, device timestamps will be abnormal and the SDK's internal frame synchronization functionality will be affected.*
-
-### Linux — udev Rules
-
-Without udev rules, opening the device will fail due to USB permission issues.
-
-```bash
-cd pyorbbecsdk/scripts/env_setup
-sudo chmod +x ./install_udev_rules.sh
-sudo ./install_udev_rules.sh
-sudo udevadm control --reload && sudo udevadm trigger
-```
-
-### ARM64 (Linux)
-
-Follow the same Linux udev rules steps above. ARM64 pre-built wheels are available as offline packages — see the [installation documentation](https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html).
-
----
-
 ## Examples
 
-The [examples/](examples/) directory is organized by difficulty level:
+The [examples/](examples/) directory contains **35+ scripts** organized by difficulty:
 
-| Level | Location | Description |
-|-------|----------|-------------|
-| ⭐ Beginner | `examples/beginner/` | 3 annotated tutorials: hello camera → depth visualization → color+depth alignment |
-| ⭐⭐ Intermediate | `examples/*.py` | 20+ single-feature scripts: streaming, IMU, callbacks, multi-device, recording |
-| ⭐⭐⭐ Advanced | `examples/advanced/` | Async pipeline with FPS meter; filter chain with live keyboard tuning |
-| Specialized | `examples/lidar_examples/` `examples/object_detection/` | LiDAR streaming; depth-fused object detection |
+| Level | Location | Scripts | Highlights |
+|-------|----------|---------|------------|
+| Quick Start | `examples/quick_start.py` | 1 | Zero-config RGBD viewer — first thing to run |
+| ⭐ Beginner | `examples/beginner/` | 9 | Numbered 01–09: hello camera → depth viz → alignment → calibration → point cloud → multi-stream → IMU → network camera → firmware update |
+| ⭐⭐ Advanced | `examples/advanced/` | 19 | Recording & playback, device control, filter chains, HDR, presets, depth work modes, multi-device sync, coordinate transforms, high-performance pipeline |
+| ⭐⭐⭐ Applications | `examples/applications/` | 2 | YOLO object detection with depth overlay; interactive depth ruler |
+| LiDAR | `examples/lidar_examples/` | 5 | LiDAR streaming, control, recording, playback |
 
-See [examples/README.md](examples/README.md) for the full list with descriptions and device compatibility notes.
+See [examples/README.md](examples/README.md) for the full list with per-script descriptions and device compatibility.
 
 **Learning path:**
 ```
-New user?          →  examples/beginner/01_hello_camera.py
-Need depth data?   →  examples/beginner/02_depth_visualization.py
-Building an app?   →  examples/advanced/high_performance_pipeline.py
+First time?           →  examples/quick_start.py                        (30s to first frame)
+Learn the basics      →  examples/beginner/01 → 02 → 03 → 04 → 05
+Specific SDK feature  →  examples/advanced/ (pick by category)
+Building an app       →  examples/applications/ruler.py
+                          examples/applications/object_detection/
+High performance      →  examples/advanced/15_high_performance_pipeline.py
+LiDAR device          →  examples/lidar_examples/lidar_quick_start.py
 ```
 
 ---
@@ -407,7 +409,7 @@ The **[Orbbec SDK V2 Python Wrapper User Guide](https://orbbec.github.io/pyorbbe
 
 **Windows:**
 - Confirm the device appears in Device Manager.
-- Ensure metadata registration was completed (see [Environment Setup](#environment-setup)).
+- Ensure metadata registration was completed (see [Quick Installation — Step 2](#step-2--environment-setup-one-time)).
 - Try a different USB 3.0 port or cable.
 
 **Linux:**

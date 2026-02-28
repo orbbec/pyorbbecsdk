@@ -46,6 +46,14 @@ class CustomBuildExt(build_ext):
         os.makedirs(extdir, exist_ok=True)  # Ensure the destination path exists
         self.copy_all_files(ext.lib_dir, extdir)
 
+        # Copy type stub (.pyi) for IDE auto-completion (PEP 561)
+        stub_src = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                'stubs', 'pyorbbecsdk.pyi')
+        if os.path.isfile(stub_src):
+            stub_dst = os.path.join(extdir, 'pyorbbecsdk.pyi')
+            shutil.copy2(stub_src, stub_dst)
+            print(f"Copied type stub {stub_src} to {stub_dst}")
+
     def copy_all_files(self, source_dir, destination_dir):
         os.makedirs(destination_dir, exist_ok=True)  # Ensure the entire destination directory structure exists
 

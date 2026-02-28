@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — High-Performance Async Pipeline
+#  pyorbbecsdk Advanced Example 15 — High-Performance Async Pipeline
 #
 #  What you will learn:
 #    1. Callback-based pipeline (async, no blocking wait_for_frames)
@@ -16,8 +16,11 @@
 #  Press 'q' or ESC to quit.
 #
 #  Run:
-#    python examples/advanced/high_performance_pipeline.py
+#    python examples/advanced/15_high_performance_pipeline.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import threading
 import time

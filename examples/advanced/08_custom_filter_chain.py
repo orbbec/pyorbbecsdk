@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Custom Filter Chain
+#  pyorbbecsdk Advanced Example 08 — Custom Filter Chain
 #
 #  What you will learn:
 #    1. How to chain multiple post-processing filters in sequence
@@ -19,8 +19,11 @@
 #    q  — quit
 #
 #  Run:
-#    python examples/advanced/custom_filter_chain.py
+#    python examples/advanced/08_custom_filter_chain.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import sys
 import numpy as np
@@ -127,6 +130,7 @@ def main():
 
             # ---- Build display panels ----
             raw_vis = depth_to_colormap(raw_frame, MIN_DEPTH_MM, MAX_DEPTH_MM)
+            filtered = filtered.as_depth_frame()
             flt_vis = depth_to_colormap(filtered, MIN_DEPTH_MM, MAX_DEPTH_MM)
 
             # Active filter labels

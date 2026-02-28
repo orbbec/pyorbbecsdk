@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Post-Processing Filter Stack
+#  pyorbbecsdk Advanced Example 09 — Post-Processing Filter Stack
 #
 #  What you will learn:
 #    1. Build a full post-processing pipeline (decimation, spatial, temporal, hole-fill)
@@ -10,8 +10,11 @@
 #  Device requirement: Gemini 330 series
 #
 #  Run:
-#    python examples/advanced/post_processing.py
+#    python examples/advanced/09_post_processing.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import sys
 import cv2
 import time
@@ -28,6 +31,11 @@ MAX_DEPTH = 10000   # Maximum depth value in mm
 # Global control flag to synchronize program exit across threads
 quit_program = False
 
+def _has_config_schema_api(f):
+    """Check whether get_config_schema_vec / get_config_value / set_config_value are available."""
+    return hasattr(f, 'get_config_schema_vec')
+
+
 def print_filters_info(filters):
     """
     Print information about recommended filters, including their current status
@@ -37,10 +45,11 @@ def print_filters_info(filters):
     for filter in filters:
         status = "enabled" if filter.is_enabled() else "disabled"
         print(f" - {filter.get_name()}: {status}")
-        config_schema_vec = filter.get_config_schema_vec()
-        for config_schema in config_schema_vec:
-            # Print detailed schema for each parameter of the filter
-            print(f" - {{{config_schema.name}, {config_schema.type}, {config_schema.min}, {config_schema.max}, {config_schema.step}, {config_schema.default}, {config_schema.desc}}}") 
+        if _has_config_schema_api(filter):
+            config_schema_vec = filter.get_config_schema_vec()
+            for config_schema in config_schema_vec:
+                # Print detailed schema for each parameter of the filter
+                print(f" - {{{config_schema.name}, {config_schema.type}, {config_schema.min}, {config_schema.max}, {config_schema.step}, {config_schema.default}, {config_schema.desc}}}")
         # By default, disable filters to allow user to enable them manually
         filter.enable(False)
 
@@ -96,8 +105,20 @@ def filter_control(filter_list):
                 break
         
         if found_filter:
+            if not _has_config_schema_api(found_filter):
+                # Only on/off toggle is available without config schema API
+                if len(tokens) == 2 and tokens[1].lower() in ["on", "off"]:
+                    is_on = tokens[1].lower() == "on"
+                    found_filter.enable(is_on)
+                    status = "enabled" if found_filter.is_enabled() else "disabled"
+                    print(f"Success: Filter {found_filter.get_name()} is now {status}")
+                elif len(tokens) == 1:
+                    status = "enabled" if found_filter.is_enabled() else "disabled"
+                    print(f" - {found_filter.get_name()}: {status} (config schema API not available)")
+                else:
+                    print(f"Error: Config schema API not available for this build. Only on/off is supported.", file=sys.stderr)
             # Case 1: [Filter] -> Show all current parameter values
-            if len(tokens) == 1:
+            elif len(tokens) == 1:
                 print(f"Config values for {found_filter.get_name()}:")
                 schema_vec = found_filter.get_config_schema_vec()
                 for schema in schema_vec:

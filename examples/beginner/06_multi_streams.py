@@ -312,6 +312,8 @@ def render_frames():
             break
         
 def main():  
+    pipeline = None
+    imu_pipeline = None
     try:  
         # Initialize camera
         pipeline = setup_camera()
@@ -327,7 +329,8 @@ def main():
         print(f"Error: {str(e)}")
         
     # Clean up
-    pipeline.stop()
+    if pipeline:
+        pipeline.stop()
     if imu_pipeline:
         imu_pipeline.stop()
     cv2.destroyAllWindows()

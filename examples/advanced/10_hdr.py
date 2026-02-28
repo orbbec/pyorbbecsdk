@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — HDR Depth Merge
+#  pyorbbecsdk Advanced Example 10 — HDR Depth Merge
 #
 #  What you will learn:
 #    1. Enable HDR mode on the device to capture alternating-exposure depth frames
@@ -10,8 +10,11 @@
 #  Device requirement: Gemini 330 series
 #
 #  Run:
-#    python examples/advanced/hdr.py
+#    python examples/advanced/10_hdr.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import sys
 import cv2
 import numpy as np

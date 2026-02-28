@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Force Static IP Assignment
+#  pyorbbecsdk Advanced Example 18 — Force Static IP Assignment
 #
 #  What you will learn:
 #    1. Discover network-attached cameras connected over Ethernet
@@ -10,8 +10,11 @@
 #  Device requirement: Femto Mega, Gemini 2 XL
 #
 #  Run:
-#    python examples/advanced/forceip.py
+#    python examples/advanced/18_forceip.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from pyorbbecsdk import *
 
 def get_ip_config():

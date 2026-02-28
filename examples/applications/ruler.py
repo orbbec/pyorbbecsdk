@@ -223,6 +223,7 @@ def main():
             aligned_set = align_filter.process(frame_set)
             if aligned_set is None:
                 continue
+            aligned_set = aligned_set.as_frame_set()
 
             # --- Extract color frame ---
             color_frame = aligned_set.get_color_frame()

@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Device and Sensor Enumeration
+#  pyorbbecsdk Advanced Example 04 — Device and Sensor Enumeration
 #
 #  What you will learn:
 #    1. How to list all connected devices with PID, VID, serial, and connection type
@@ -9,8 +9,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/enumerate.py
+#    python examples/advanced/04_enumerate.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from pyorbbecsdk import *
 

@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Per-Frame Metadata
+#  pyorbbecsdk Advanced Example 07 — Per-Frame Metadata
 #
 #  What you will learn:
 #    1. How to read per-frame metadata: exposure time, gain, and timestamp
@@ -9,8 +9,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/metadata.py
+#    python examples/advanced/07_metadata.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from pyorbbecsdk import *
 

@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Two-Device Hardware Sync Streaming
+#  pyorbbecsdk Advanced Example 14 — Two-Device Hardware Sync Streaming
 #
 #  What you will learn:
 #    1. Enumerate and open two cameras simultaneously from a single context
@@ -10,7 +10,7 @@
 #  Device requirement: All (hardware sync requires devices with trigger support)
 #
 #  Run:
-#    python examples/advanced/two_devices_sync.py
+#    python examples/advanced/14_two_devices_sync.py
 # ******************************************************************************
 import json
 import os

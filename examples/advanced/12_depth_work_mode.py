@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Depth Work Mode Switching
+#  pyorbbecsdk Advanced Example 12 — Depth Work Mode Switching
 #
 #  What you will learn:
 #    1. List all depth work modes supported by the connected device
@@ -10,8 +10,11 @@
 #  Device requirement: Gemini 2, Gemini 2L, Astra 2, Gemini 2 XL
 #
 #  Run:
-#    python examples/advanced/depth_work_mode.py
+#    python examples/advanced/12_depth_work_mode.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from pyorbbecsdk import *
 
 ESC = 27

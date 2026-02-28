@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Optional Depth Preset Profiles Update
+#  pyorbbecsdk Advanced Example 19 — Optional Depth Preset Profiles Update
 #
 #  What you will learn:
 #    1. Read a binary .bin preset file containing optional depth preset profiles
@@ -10,8 +10,11 @@
 #  Device requirement: All (device must support optional depth preset storage)
 #
 #  Run:
-#    python examples/advanced/device_optional_depth_presets_update.py
+#    python examples/advanced/19_device_optional_depth_presets_update.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import sys
 from pyorbbecsdk import *
 

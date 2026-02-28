@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Device Property Control
+#  pyorbbecsdk Advanced Example 06 — Device Property Control
 #
 #  What you will learn:
 #    1. How to enumerate all device properties (bool, int, float) and their ranges
@@ -9,8 +9,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/control.py
+#    python examples/advanced/06_control.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from pyorbbecsdk import *
 
 def permission_type_to_string(permission):

@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Bag File Playback
+#  pyorbbecsdk Advanced Example 02 — Bag File Playback
 #
 #  What you will learn:
 #    1. How to open a recorded .bag file with PlaybackDevice
@@ -12,8 +12,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/playback.py
+#    python examples/advanced/02_playback.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import cv2
 import numpy as np

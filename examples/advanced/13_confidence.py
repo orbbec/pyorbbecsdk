@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Depth Confidence Map
+#  pyorbbecsdk Advanced Example 13 — Depth Confidence Map
 #
 #  What you will learn:
 #    1. Enable and retrieve per-pixel depth confidence data alongside depth frames
@@ -10,8 +10,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/confidence.py
+#    python examples/advanced/13_confidence.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import cv2
 import numpy as np
 from pyorbbecsdk import *

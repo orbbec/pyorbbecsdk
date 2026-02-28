@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Coordinate System Transforms
+#  pyorbbecsdk Advanced Example 16 — Coordinate System Transforms
 #
 #  What you will learn:
 #    1. Use the calibration API to transform between 2D image and 3D space
@@ -13,8 +13,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/coordinate_transform.py
+#    python examples/advanced/16_coordinate_transform.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import numpy as np
 

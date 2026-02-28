@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Save Frames to Disk
+#  pyorbbecsdk Advanced Example 03 — Save Frames to Disk
 #
 #  What you will learn:
 #    1. How to capture a single color frame and save it as a PNG file
@@ -9,8 +9,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/save_image_to_disk.py
+#    python examples/advanced/03_save_image_to_disk.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import os
 
 import cv2

@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Laser Interleave Mode
+#  pyorbbecsdk Advanced Example 17 — Laser Interleave Mode
 #
 #  What you will learn:
 #    1. Detect which connected devices support the laser interleave property
@@ -10,8 +10,11 @@
 #  Device requirement: Devices with laser interleave support
 #
 #  Run:
-#    python examples/advanced/laser_interleave.py
+#    python examples/advanced/17_laser_interleave.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import cv2
 import numpy as np
 import threading

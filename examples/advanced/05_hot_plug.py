@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Device Hot-Plug Detection
+#  pyorbbecsdk Advanced Example 05 — Device Hot-Plug Detection
 #
 #  What you will learn:
 #    1. How to register a device-changed callback with Context
@@ -11,8 +11,11 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/hot_plug.py
+#    python examples/advanced/05_hot_plug.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import threading
 import time

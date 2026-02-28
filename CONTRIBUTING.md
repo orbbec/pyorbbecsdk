@@ -107,47 +107,51 @@ set PYTHONPATH=%CD%\install\lib;%PYTHONPATH%
 
 ## Environment Setup
 
-The Orbbec SDK requires one-time OS-level configuration before the camera can be opened.
-
-### Windows — Metadata Registration
-
-Frame timestamps and frame synchronization depend on Windows metadata. Without this step, timestamps will be incorrect.
-
-1. Connect the device and confirm it appears in Device Manager.
-2. Open **PowerShell as Administrator**.
-3. Navigate to the setup script directory:
-   ```powershell
-   cd pyorbbecsdk\scripts\env_setup
-   ```
-4. Allow script execution:
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ```
-   If this fails, try:
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
-   ```
-5. Run the installer:
-   ```powershell
-   .\obsensor_metadata_win10.ps1 -op install_all
-   ```
-
-### Linux — udev Rules
-
-Without udev rules, opening the device will fail with a permissions error.
+The Orbbec SDK requires a one-time OS-level configuration before the camera can be opened. Connect your device, then run:
 
 ```bash
-cd pyorbbecsdk/scripts/env_setup
+# Windows (PowerShell — will auto-request Administrator)
+python scripts/env_setup/setup_env.py
+
+# Linux (will auto-request sudo)
+python3 scripts/env_setup/setup_env.py
+```
+
+The script auto-detects your OS and applies the correct configuration:
+- **Windows** — registers UVC metadata in the registry (required for correct timestamps and frame sync)
+- **Linux** — installs udev rules for USB device access
+
+You can verify the setup with `--check` or remove it with `--uninstall`:
+
+```bash
+python scripts/env_setup/setup_env.py --check      # verify status
+python scripts/env_setup/setup_env.py --uninstall   # remove configuration
+```
+
+> **Linux tip:** Also add yourself to the `plugdev` group (log out and back in after):
+> ```bash
+> sudo usermod -aG plugdev $USER
+> ```
+
+<details>
+<summary><strong>Manual setup (if you prefer not to use the script)</strong></summary>
+
+**Windows** — register frame metadata (run PowerShell as Administrator):
+```powershell
+cd scripts\env_setup
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\obsensor_metadata_win10.ps1 -op install_all
+```
+
+**Linux** — install udev rules:
+```bash
+cd scripts/env_setup
 sudo chmod +x ./install_udev_rules.sh
 sudo ./install_udev_rules.sh
 sudo udevadm control --reload && sudo udevadm trigger
 ```
 
-Add yourself to the `plugdev` group (log out and back in after):
-
-```bash
-sudo usermod -aG plugdev $USER
-```
+</details>
 
 ---
 

@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — Named Depth Presets
+#  pyorbbecsdk Advanced Example 11 — Named Depth Presets
 #
 #  What you will learn:
 #    1. Query the device for all available named depth presets
@@ -10,8 +10,11 @@
 #  Device requirement: Gemini 330 series
 #
 #  Run:
-#    python examples/advanced/preset.py
+#    python examples/advanced/11_preset.py
 # ******************************************************************************
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import pyorbbecsdk as ob
 

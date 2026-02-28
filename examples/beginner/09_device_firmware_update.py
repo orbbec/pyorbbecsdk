@@ -1,5 +1,5 @@
 # ******************************************************************************
-#  pyorbbecsdk Beginner Example — Device Firmware Update (OTA)
+#  pyorbbecsdk Beginner Example 09 — Device Firmware Update (OTA)
 #
 #  What you will learn:
 #    1. How to read a firmware .bin file and initiate an OTA upgrade on the device
@@ -12,7 +12,7 @@
 #  Device requirement: All
 #
 #  Run:
-#    python examples/beginner/device_firmware_update.py
+#    python examples/beginner/09_device_firmware_update.py
 # ******************************************************************************
 
 import os

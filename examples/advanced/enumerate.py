@@ -1,17 +1,15 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — Device and Sensor Enumeration
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. How to list all connected devices with PID, VID, serial, and connection type
+#    2. How to enumerate every sensor and its supported stream profiles
+#    3. How to read format, resolution, and FPS for each profile interactively
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Device requirement: All
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Run:
+#    python examples/advanced/enumerate.py
 # ******************************************************************************
 
 from pyorbbecsdk import *

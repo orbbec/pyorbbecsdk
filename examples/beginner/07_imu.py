@@ -1,17 +1,17 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http://www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  pyorbbecsdk Beginner Example 07 — IMU Data Stream
+#
+#  What you will learn:
+#    1. How to enable the accelerometer (ACCEL) and gyroscope (GYRO) sensors
+#    2. How to read IMU frames: timestamp, temperature, and 3-axis values
+#    3. How to display accelerometer (m/s²) and gyroscope (dps) data in real time
+#
+#  Keyboard: Ctrl+C to quit
+#
+#  Device requirement: All
+#
+#  Run:
+#    python examples/beginner/07_imu.py
 # ******************************************************************************
 import cv2
 from pyorbbecsdk import *

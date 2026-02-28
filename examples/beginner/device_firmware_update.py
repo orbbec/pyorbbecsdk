@@ -1,18 +1,18 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — OTA Device Firmware Update
+#  pyorbbecsdk Beginner Example — Device Firmware Update (OTA)
 #
 #  What you will learn:
-#    1. Read a firmware .bin file and initiate an OTA upgrade on the device
-#    2. Register a progress callback to monitor the update state and percentage
-#    3. Handle update completion and error conditions safely
-#    4. Understand safe upgrade practices (do not unplug during update)
+#    1. How to read a firmware .bin file and initiate an OTA upgrade on the device
+#    2. How to register a progress callback to monitor update state and percentage
+#    3. How to handle update completion and error conditions safely
+#    4. Safe upgrade practices: never disconnect the device during an update
 #
 #  Caution: Do not disconnect the device while a firmware update is in progress.
 #
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/device_firmware_update.py
+#    python examples/beginner/device_firmware_update.py
 # ******************************************************************************
 
 import os

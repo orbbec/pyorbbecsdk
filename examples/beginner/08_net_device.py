@@ -1,17 +1,15 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
-#  
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.  
-#  You may obtain a copy of the License at
-#  
-#      http://www.apache.org/licenses/LICENSE-2.0
-#  
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  pyorbbecsdk Beginner Example 08 — Network Camera (Net Device)
+#
+#  What you will learn:
+#    1. How to connect to an Orbbec camera over a network (Ethernet / Wi-Fi)
+#    2. How to stream H.264 or MJPG color video and decode it with PyAV
+#    3. How to display the live network stream using pygame
+#
+#  Device requirement: Gemini 335Le / Gemini 435Le (network-capable models)
+#
+#  Run:
+#    python examples/beginner/08_net_device.py
 # ******************************************************************************
 
 import sys

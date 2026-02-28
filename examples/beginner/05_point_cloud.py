@@ -1,16 +1,18 @@
 # ******************************************************************************
-#  pyorbbecsdk Advanced Example — 3D Point Cloud Generation
+#  pyorbbecsdk Beginner Example 05 — 3D Point Cloud
 #
 #  What you will learn:
-#    1. Use PointCloudFilter to convert depth frames into 3D point clouds
-#    2. Align color to depth to produce a colored point cloud
-#    3. Save the resulting point cloud to a .ply file on disk
-#    4. Load and visualize .ply files with open3d or MeshLab
+#    1. How to enable PointCloudFilter to generate a 3D point cloud
+#    2. How to use AlignFilter to get a colored point cloud (RGB + XYZ)
+#    3. How to save the point cloud to a .ply file for visualization
+#    4. How to open the result in Open3D or MeshLab
+#
+#  Keyboard: press any key to capture and save one frame, Q/ESC to quit
 #
 #  Device requirement: All
 #
 #  Run:
-#    python examples/advanced/point_cloud.py
+#    python examples/beginner/05_point_cloud.py
 # ******************************************************************************
 
 import os

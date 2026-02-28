@@ -1,24 +1,22 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk LiDAR Example — LiDAR Recording
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. How to record LiDAR point cloud streams to a .bag file
+#    2. How to select the recording duration and output path
+#    3. How to verify the recording by checking the frame count
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Device requirement: Orbbec LiDAR devices
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Run:
+#    python examples/lidar_examples/lidar_record.py
 # ******************************************************************************
 import sys
 import os
 import time
 import threading
 from pyorbbecsdk import *
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from utils import is_lidar_device
 
 # Select a device: the name, vid, pid, uid, and sn of the device will be printed.

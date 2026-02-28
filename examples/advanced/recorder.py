@@ -1,17 +1,18 @@
 # ******************************************************************************
-#  Copyright (c) 2024 Orbbec 3D Technology, Inc
+#  pyorbbecsdk Advanced Example — Multi-Stream Recorder
 #
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  What you will learn:
+#    1. How to use RecordDevice to record all available streams to a .bag file
+#    2. How to enumerate and enable dual-IR, dual-color, and IMU streams
+#    3. How to use frame callbacks with threading for smooth GUI recording
+#    4. How to pause and resume recording without stopping the pipeline
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+#  Keyboard: P = pause/resume, Q/ESC = stop and save
 #
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
+#  Device requirement: All
+#
+#  Run:
+#    python examples/advanced/recorder.py
 # ******************************************************************************
 
 import cv2

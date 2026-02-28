@@ -19,8 +19,7 @@
 - [Key Features](#key-features)
 - [Quick Installation](#quick-installation)
 - [Quick Start](#quick-start)
-- [Device Support](#device-support)
-- [Hardware & Firmware Requirements](#hardware-products-supported-by-python-sdk)
+- [Supported Devices & Firmware](#supported-devices--firmware)
 - [Supported Platforms](#supported-platforms)
 - [Supported Python Versions](#supported-python-versions)
 - [Examples](#examples)
@@ -54,8 +53,19 @@
 
 ### Step 1 — Install the package
 
+**Option A — From PyPI (recommended):**
+
 ```bash
 pip install pyorbbecsdk2
+```
+
+**Option B — From GitHub Release:**
+
+Download the `.whl` file for your platform and Python version from the [Releases page](https://github.com/orbbec/pyorbbecsdk/releases), then install locally:
+
+```bash
+# Example: Windows x64, Python 3.10
+pip install pyorbbecsdk2-2.0.18-cp310-cp310-win_amd64.whl
 ```
 
 > **Package name note:** The PyPI package is `pyorbbecsdk2`, but the Python import name is `pyorbbecsdk`:
@@ -64,11 +74,11 @@ pip install pyorbbecsdk2
 > ```
 
 Pre-built wheels are available for:
-- **Windows x64:** Python 3.8–3.13 (online and offline)
-- **Linux x64:** Python 3.9–3.13 (online), 3.8–3.13 (offline)
-- **ARM64:** Python 3.8–3.13 (offline packages only)
+- **Windows x64:** Python 3.8–3.13
+- **Linux x64:** Python 3.8–3.13
+- **ARM64:** Python 3.8–3.13
 
-For offline installation packages or building from source, see the [installation documentation](https://orbbec.github.io/pyorbbecsdk/source/2_installation/install_the_package.html) or [CONTRIBUTING.md](CONTRIBUTING.md#building-from-source).
+For building from source, see [CONTRIBUTING.md](CONTRIBUTING.md#building-from-source).
 
 ### Step 2 — Environment Setup (one-time)
 
@@ -164,181 +174,51 @@ pipeline.stop()
 
 For alignment, point clouds, IMU, recording, and more — see the [Examples](#examples) section.
 
+**Running result:**
+
+![quick_start_result](docs/_images/quick_start_result.png)
+
 ---
 
-## Device Support
+## Supported Devices & Firmware
 
-> [!IMPORTANT]
-> Before using this SDK, verify that your device is supported in the `v2-main` branch (v2.x column below).
+The table below lists all devices supported by this SDK (v2.x branch), along with the minimum and recommended firmware versions.
 
-<table border="1" style="border-collapse: collapse; text-align: left; width: 100%;">
-  <thead>
-    <tr style="background-color: #1f4e78; color: white; text-align: center;">
-      <th>Product Series</th>
-      <th>Product</th>
-      <th><a href="https://github.com/orbbec/pyorbbecsdk/tree/main" style="color: white; text-decoration: none;">Branch main (v1.x)</a></th>
-      <th><a href="https://github.com/orbbec/pyorbbecsdk/tree/v2-main" style="color: white; text-decoration: none;">Branch v2-main (v2.x)</a></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center; font-weight: bold;">Gemini 435Le</td>
-      <td>Gemini 435Le</td>
-      <td>not supported</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td rowspan="8" style="text-align: center; font-weight: bold;">Gemini 330</td>
-      <td>Gemini 335Le</td>
-      <td>not supported</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 335</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 336</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 330</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 335L</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 336L</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 330L</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 335Lg</td>
-      <td>not supported</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td rowspan="5" style="text-align: center; font-weight: bold;">Gemini 2</td>
-      <td>Gemini 2</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 2 L</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 2 XL</td>
-      <td>recommended for new designs</td>
-      <td>to be supported</td>
-    </tr>
-    <tr>
-      <td>Gemini 215</td>
-      <td>not supported</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Gemini 210</td>
-      <td>not supported</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td rowspan="3" style="text-align: center; font-weight: bold;">Femto</td>
-      <td>Femto Bolt</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Femto Mega</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Femto Mega I</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td rowspan="3" style="text-align: center; font-weight: bold;">Astra</td>
-      <td>Astra 2</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-    <tr>
-      <td>Astra+</td>
-      <td>limited maintenance</td>
-      <td>not supported</td>
-    </tr>
-    <tr>
-      <td>Astra Pro Plus</td>
-      <td>limited maintenance</td>
-      <td>not supported</td>
-    </tr>
-    <tr>
-      <td style="text-align: center; font-weight: bold;">Astra Mini</td>
-      <td>Astra Mini (S) Pro</td>
-      <td>full maintenance</td>
-      <td>recommended for new designs</td>
-    </tr>
-  </tbody>
-</table>
+| **Product Series** | **Product** | **Min Firmware** | **Recommended Firmware** |
+|--------------------|-------------|------------------|--------------------------|
+| **Gemini 435Le** | Gemini 435Le      | 1.2.4   | 1.3.6   |
+| **Gemini 330**   | Gemini 305        | 1.0.30  | 1.0.30  |
+|                  | Gemini 345        | 1.7.04  | 1.9.03  |
+|                  | Gemini 345Lg      | 1.7.04  | 1.9.03  |
+|                  | Gemini 335Le      | 1.5.31  | 1.6.00  |
+|                  | Gemini 330        | 1.2.20  | 1.6.00  |
+|                  | Gemini 330L       | 1.2.20  | 1.6.00  |
+|                  | Gemini 335        | 1.2.20  | 1.6.00  |
+|                  | Gemini 335L       | 1.2.20  | 1.6.00  |
+|                  | Gemini 336        | 1.2.20  | 1.6.00  |
+|                  | Gemini 336L       | 1.2.20  | 1.6.00  |
+|                  | Gemini 335Lg      | 1.3.46  | 1.6.00  |
+| **Gemini 2**     | Gemini 2          | 1.4.92  | 1.4.98  |
+|                  | Gemini 2 L        | 1.4.53  | 1.5.2   |
+|                  | Gemini 215        | 1.0.9   | 1.0.9   |
+|                  | Gemini 210        | 1.0.9   | 1.0.9   |
+| **Femto**        | Femto Bolt        | 1.1.2   | 1.1.3   |
+|                  | Femto Mega        | 1.3.0   | 1.3.1   |
+|                  | Femto Mega I      | 2.0.4   | 2.0.4   |
+| **Astra**        | Astra 2           | 2.8.20  | 2.8.20  |
+|                  | Astra Mini Pro    | 2.0.03  | 2.0.03  |
+|                  | Astra Mini S Pro  | 2.0.03  | 2.0.03  |
+| **Pulsar**       | Pulsar SL450      | 2.2.4.5 | 2.2.4.5 |
+|                  | Pulsar ME450      | 1.0.0.6 | 1.0.0.6 |
+
+> **Check your firmware:** `device.get_device_info().get_firmware_version()`
+>
+> If your firmware is below the minimum version, contact Orbbec support for upgrade assistance.
 
 **Notes:**
-- If you do not find your device, please contact our FAE or sales representative for help.
+- If your device is not listed, please contact our FAE or sales representative.
 - Starting from October 2025 (Orbbec SDK v2.5.5), devices using the OpenNI protocol will be upgraded to UVC protocol. See [the upgrade document](https://github.com/orbbec/OrbbecSDK_v2?tab=readme-ov-file#12-upgrading-from-openni-protocol-to-uvc-protocol) for details.
-
-**Maintenance status definitions:**
-
-| Status | Meaning |
-|--------|---------|
-| recommended for new designs | Full support: new features, bug fixes, and performance optimization |
-| full maintenance | Bug fix support |
-| limited maintenance | Critical bug fix support only |
-| not supported | Not supported in this branch/version |
-| to be supported | Support planned for a future release |
-
----
-
-## Hardware Products Supported by Python SDK
-
-| **Product** | **Minimum Firmware** | **Recommended Firmware** |
-|-------------|----------------------|--------------------------|
-| Gemini 305        | 1.0.30  | 1.0.30  |
-| Gemini 345        | 1.7.04  | 1.9.03  |
-| Gemini 345Lg      | 1.7.04  | 1.9.03  |
-| Gemini 435Le      | 1.2.4   | 1.3.6   |
-| Gemini 335Le      | 1.5.31  | 1.6.00  |
-| Gemini 330        | 1.2.20  | 1.6.00  |
-| Gemini 330L       | 1.2.20  | 1.6.00  |
-| Gemini 335        | 1.2.20  | 1.6.00  |
-| Gemini 335L       | 1.2.20  | 1.6.00  |
-| Gemini 336        | 1.2.20  | 1.6.00  |
-| Gemini 336L       | 1.2.20  | 1.6.00  |
-| Gemini 335Lg      | 1.3.46  | 1.6.00  |
-| Femto Bolt        | 1.1.2   | 1.1.3   |
-| Femto Mega        | 1.3.0   | 1.3.1   |
-| Femto Mega I      | 2.0.4   | 2.0.4   |
-| Astra 2           | 2.8.20  | 2.8.20  |
-| Gemini 2 L        | 1.4.53  | 1.5.2   |
-| Gemini 2          | 1.4.92  | 1.4.98  |
-| Gemini 215        | 1.0.9   | 1.0.9   |
-| Gemini 210        | 1.0.9   | 1.0.9   |
-| Astra Mini Pro    | 2.0.03  | 2.0.03  |
-| Astra Mini S Pro  | 2.0.03  | 2.0.03  |
-| Pulsar SL450      | 2.2.4.5 | 2.2.4.5 |
-| Pulsar ME450      | 1.0.0.6 | 1.0.0.6 |
+- For v1.x device support (Astra+, Astra Pro Plus, Gemini 2 XL), use the [main branch](https://github.com/orbbec/pyorbbecsdk/tree/main).
 
 ---
 
@@ -349,7 +229,6 @@ For alignment, point clouds, IMU, recording, and more — see the [Examples](#ex
 | Windows  | x64         | Windows 10+ |
 | Linux    | x64         | Ubuntu 18.04 / 20.04 / 22.04 |
 | Linux    | ARM64       | Ubuntu 18.04 / 20.04 / 22.04 |
-| macOS    | x64         | Experimental (CI build only) |
 
 ---
 
@@ -479,7 +358,7 @@ Some features are model-specific:
 | Network connect | Femto Mega, Gemini 2 XL |
 | Hardware D2C | Select devices |
 
-Check the [Hardware Products table](#hardware-products-supported-by-python-sdk) and [examples/README.md](examples/README.md) for per-feature device notes.
+Check the [Supported Devices table](#supported-devices--firmware) and [examples/README.md](examples/README.md) for per-feature device notes.
 
 ---
 
@@ -490,7 +369,7 @@ Check your current firmware version:
 info = device.get_device_info()
 print(info.get_firmware_version())
 ```
-Compare against the [Hardware Products table](#hardware-products-supported-by-python-sdk). Contact Orbbec support for firmware upgrade assistance.
+Compare against the [Supported Devices table](#supported-devices--firmware). Contact Orbbec support for firmware upgrade assistance.
 
 ---
 

@@ -20,8 +20,7 @@
 #    1. How to use Pipeline with zero-config — the SDK loads the default stream
 #       configuration from  config/OrbbecSDKConfig.xml  automatically.
 #    2. How to retrieve synchronized Color + Depth frames.
-#    3. How to convert the raw depth data (uint16, mm) into a colour-mapped
-#       visualisation using OpenCV.
+#    3. How to render depth with 3D relief lighting (gamma + Scharr gradient).
 #    4. How to display Color and Depth side-by-side in a single window.
 #
 #  Default configuration:
@@ -57,11 +56,46 @@ from utils import frame_to_bgr_image
 # ---------------------------------------------------------------------------
 ESC_KEY = 27
 MIN_DEPTH = 20      # mm — ignore noisy near-range readings
-MAX_DEPTH = 10000   # mm — ignore far-range readings
+MAX_DEPTH = 5000   # mm — ignore far-range readings
 
 WINDOW_NAME = "QuickStart Viewer"
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
+
+
+def render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
+    """
+    Convert a float32 depth-in-mm array into a 3D-looking BGR image.
+
+    Pipeline:
+      clip [MIN, MAX] → gamma 0.8 → uint8 → Scharr gradient lighting → colormap
+    """
+    # 1. Clip to fixed range (keeps colors stable across frames)
+    depth_clipped = np.clip(depth_mm, MIN_DEPTH, MAX_DEPTH)
+
+    # 2. Normalize to [0, 1] then apply gamma correction
+    #    γ < 1 stretches near-field gradients for better detail
+    depth_norm = (depth_clipped - MIN_DEPTH) / (MAX_DEPTH - MIN_DEPTH + 1e-6)
+    depth_gamma = np.power(depth_norm, 0.8)
+
+    # 3. Map to uint8
+    depth_8bit = (depth_gamma * 255).astype(np.uint8)
+
+    # 4. Surface-normal lighting via Scharr gradient
+    #    Simulates a directional light from top-left for 3D relief
+    grad_x = cv2.Scharr(depth_8bit, cv2.CV_32F, 1, 0)
+    grad_y = cv2.Scharr(depth_8bit, cv2.CV_32F, 0, 1)
+    mag = cv2.magnitude(grad_x, grad_y) + 1.0
+
+    lighting = -0.707 * (grad_x + grad_y) / mag   # diffuse term
+    lighting = lighting * 0.15 + 0.85               # ambient 85% + diffuse 15%
+    np.clip(lighting, 0.7, 1.0, out=lighting)
+
+    # 5. Apply colormap then multiply by lighting
+    depth_colored = cv2.applyColorMap(depth_8bit, cv2.COLORMAP_JET)
+    depth_colored = (depth_colored * lighting[..., np.newaxis]).astype(np.uint8)
+
+    return depth_colored
 
 
 def main():
@@ -112,18 +146,15 @@ def main():
 
             depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
             depth_data = depth_data.reshape((height, width))
-            depth_data = (depth_data.astype(np.float32) * scale).astype(np.uint16)
-            depth_data = np.where(
-                (depth_data > MIN_DEPTH) & (depth_data < MAX_DEPTH), depth_data, 0
-            )
+            depth_mm = depth_data.astype(np.float32) * scale
 
             # ----------------------------------------------------------
-            # Step 5: Visualise — normalise depth to 0-255 and apply a
-            #         colour map, then display side-by-side with colour.
+            # Step 5: Render depth with 3D relief lighting.
+            #
+            #   Uses gamma correction + Scharr surface-normal lighting
+            #   for a more visually informative depth display.
             # ----------------------------------------------------------
-            depth_image = cv2.normalize(depth_data, None, 0, 255,
-                                        cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-            depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+            depth_image = render_depth_3d(depth_mm)
 
             half_w = WINDOW_WIDTH // 2
             color_resized = cv2.resize(color_image, (half_w, WINDOW_HEIGHT))

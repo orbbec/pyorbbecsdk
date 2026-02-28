@@ -142,31 +142,43 @@ from pyorbbecsdk import *
 from utils import frame_to_bgr_image
 
 pipeline = Pipeline()
-pipeline.start()   # zero-config: loads default settings from config/OrbbecSDKConfig.xml
+pipeline.start()
+cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+cv2.resizeWindow(WINDOW_NAME, WINDOW_WIDTH, WINDOW_HEIGHT)
 
 while True:
-    frames = pipeline.wait_for_frames(1000)
-    if frames is None:
-        continue
+    try:
+        frames = pipeline.wait_for_frames(1000)
+        if frames is None:
+            continue
 
-    # --- Color ---
-    color_frame = frames.get_color_frame()
-    color_image = frame_to_bgr_image(color_frame)
+        color_frame = frames.get_color_frame()
+        color_image = frame_to_bgr_image(color_frame)
 
-    # --- Depth ---
-    depth_frame = frames.get_depth_frame()
-    depth_data  = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-    depth_data  = depth_data.reshape(depth_frame.get_height(), depth_frame.get_width())
-    depth_data  = (depth_data.astype(np.float32) * depth_frame.get_depth_scale()).astype(np.uint16)
+        depth_frame = frames.get_depth_frame()
 
-    # Visualise depth as a colour map
-    depth_vis = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-    depth_vis = cv2.applyColorMap(depth_vis, cv2.COLORMAP_JET)
+        width = depth_frame.get_width()
+        height = depth_frame.get_height()
+        scale = depth_frame.get_depth_scale()
 
-    cv2.imshow("RGBD", np.hstack((color_image, depth_vis)))
-    if cv2.waitKey(1) in (27, ord('q')):
+        depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+        depth_data = depth_data.reshape((height, width))
+        depth_mm = depth_data.astype(np.float32) * scale
+
+        depth_image = render_depth_3d(depth_mm)
+
+        half_w = WINDOW_WIDTH // 2
+        color_resized = cv2.resize(color_image, (half_w, WINDOW_HEIGHT))
+        depth_resized = cv2.resize(depth_image, (half_w, WINDOW_HEIGHT))
+        combined = np.hstack((color_resized, depth_resized))
+        cv2.imshow(WINDOW_NAME, combined)
+        if cv2.waitKey(1) in (ord('q'), ord('Q'), ESC_KEY):
+            break
+
+    except KeyboardInterrupt:
         break
 
+cv2.destroyAllWindows()
 pipeline.stop()
 ```
 

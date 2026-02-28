@@ -5,15 +5,19 @@
 #    1. How to configure and start a depth stream
 #    2. How to convert raw uint16 depth data to millimeters
 #    3. How to clip depth to a fixed range (avoids flickering normalization)
-#    4. How to add gamma correction for better near-field depth gradients
-#    5. How to apply surface-normal lighting (Scharr gradient) for 3D relief
+#    4. How to toggle between 2D simple and 3D relief rendering modes
+#    5. How to add gamma correction and surface-normal lighting for 3D mode
 #    6. How to overlay center distance and a depth range legend
 #
-#  Rendering pipeline (based on ui.py):
-#    raw uint16  →  mm float  →  clip [MIN, MAX]  →  gamma 0.8  →  8-bit
-#    →  Scharr gradient  →  diffuse lighting  →  COLORMAP_JET (default)  →  display
+#  Rendering modes:
+#    2D mode: raw uint16 → mm float → clip [MIN, MAX] → normalize → colormap
+#    3D mode: raw uint16 → mm float → clip [MIN, MAX] → gamma 0.8 → 8-bit
+#             → Scharr gradient → diffuse lighting → colormap → display
 #
-#  Press 'q' or ESC to quit.
+#  Controls:
+#    M        —  Toggle 2D/3D rendering mode (default: 3D)
+#    C        —  Cycle colormap
+#    Q / ESC  —  Quit
 #
 #  Run:
 #    python examples/beginner/02_depth_visualization.py
@@ -31,31 +35,82 @@ from pyorbbecsdk import (
 # Configuration — adjust these for your scene
 # ---------------------------------------------------------------------------
 MIN_DEPTH_MM = 100    # Clip depth closer than this (mm)
-MAX_DEPTH_MM = 10000  # Clip depth farther than this (mm)
-WINDOW_TITLE = "Depth Viewer  |  C = next colormap  |  Q/ESC = quit"
+MAX_DEPTH_MM = 5000  # Clip depth farther than this (mm)
+WINDOW_TITLE = "Depth Viewer  |  M = 2D/3D  |  C = colormap  |  Q/ESC = quit"
 ESC_KEY = 27
 
-# Press 'C' during playback to cycle through these options.
+# Press 'C' to cycle through these colormaps.
 # Each entry: (cv2 colormap constant, display name)
 COLORMAPS = [
     (cv2.COLORMAP_JET,     "JET"),      # classic rainbow, familiar look (default)
     (cv2.COLORMAP_TURBO,   "TURBO"),    # warm→cool, high perceptual separation
+    (cv2.COLORMAP_VIRIDIS, "VIRIDIS"),  # perceptually uniform, colorblind-friendly
     (cv2.COLORMAP_MAGMA,   "MAGMA"),    # dark→light, great for low-light scenes
+    (cv2.COLORMAP_INFERNO, "INFERNO"),  # warm tones, high contrast
+    (cv2.COLORMAP_BONE,    "BONE"),     # grayscale-like with blue tint
+    (cv2.COLORMAP_OCEAN,   "OCEAN"),    # blue gradient
+    (-1,                   "GRAY"),     # pure grayscale (special case)
 
 ]
 _cmap_index = 0   # current selection (JET)
+_use_3d_mode = True  # True = 3D relief lighting, False = 2D simple
+
+
+def _render_depth_2d(depth_mm: np.ndarray) -> np.ndarray:
+    """
+    Simple 2D depth rendering: normalize + colormap.
+    
+    Steps:
+      1. Clip to [MIN_DEPTH_MM, MAX_DEPTH_MM]
+      2. Normalize to [0, 255]
+      3. Apply selected colormap
+    """
+    depth_clipped = np.clip(depth_mm, MIN_DEPTH_MM, MAX_DEPTH_MM)
+    depth_clipped = np.where(depth_clipped > MIN_DEPTH_MM, depth_clipped, 0)
+    
+    depth_norm = cv2.normalize(depth_clipped, None, 0, 255,
+                               cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    
+    # Apply selected colormap
+    colormap, cmap_name = COLORMAPS[_cmap_index]
+    if colormap == -1:  # GRAY (special case)
+        depth_colored = cv2.cvtColor(depth_norm, cv2.COLOR_GRAY2BGR)
+    else:
+        depth_colored = cv2.applyColorMap(depth_norm, colormap)
+    
+    # Corner frame markers
+    h, w = depth_colored.shape[:2]
+    clen = 20
+    ccol = (200, 200, 200)
+    cv2.line(depth_colored, (5, 5),         (5 + clen, 5),     ccol, 1)
+    cv2.line(depth_colored, (5, 5),         (5, 5 + clen),     ccol, 1)
+    cv2.line(depth_colored, (w-6, 5),       (w-6-clen, 5),     ccol, 1)
+    cv2.line(depth_colored, (w-6, 5),       (w-6, 5+clen),     ccol, 1)
+    cv2.line(depth_colored, (5, h-6),       (5+clen, h-6),     ccol, 1)
+    cv2.line(depth_colored, (5, h-6),       (5, h-6-clen),     ccol, 1)
+    cv2.line(depth_colored, (w-6, h-6),     (w-6-clen, h-6),   ccol, 1)
+    cv2.line(depth_colored, (w-6, h-6),     (w-6, h-6-clen),   ccol, 1)
+    
+    # Mode + colormap label (top-right)
+    label = f"2D - {cmap_name}"
+    label_size, _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+    cv2.putText(depth_colored, label,
+                (w - label_size[0] - 8, 25),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+    
+    return depth_colored
 
 
 def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
     """
-    Convert a float32 depth-in-mm array into a 3D-looking BGR image.
+    3D relief depth rendering: gamma correction + Scharr gradient lighting.
 
     Steps (mirrors ui.py _on_depth_frame):
       1. Clip to [MIN_DEPTH_MM, MAX_DEPTH_MM] — fixed range keeps colors stable
       2. Gamma correction (0.8) — stretches near-field gradient for better detail
       3. Map to 8-bit
       4. Scharr gradient → simplified diffuse lighting from top-left
-      5. Apply COLORMAP_TURBO
+      5. Apply selected colormap
       6. Multiply color by per-pixel lighting (gives relief / 3D feel)
       7. Draw corner frame markers
     """
@@ -85,7 +140,10 @@ def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
 
     # --- 5. Apply colormap (current selection from COLORMAPS list) ---
     colormap, cmap_name = COLORMAPS[_cmap_index]
-    depth_colored = cv2.applyColorMap(depth_8bit, colormap)
+    if colormap == -1:  # GRAY (special case)
+        depth_colored = cv2.cvtColor(depth_8bit, cv2.COLOR_GRAY2BGR)
+    else:
+        depth_colored = cv2.applyColorMap(depth_8bit, colormap)
 
     # --- 6. Multiply color by lighting (broadcast over 3 channels) ---
     depth_colored = (depth_colored * lighting[..., np.newaxis]).astype(np.uint8)
@@ -103,9 +161,10 @@ def _render_depth_3d(depth_mm: np.ndarray) -> np.ndarray:
     cv2.line(depth_colored, (w-6, h-6),     (w-6-clen, h-6),   ccol, 1)
     cv2.line(depth_colored, (w-6, h-6),     (w-6, h-6-clen),   ccol, 1)
 
-    # --- 8. Colormap name (top-right, press C to cycle) ---
-    label_size, _ = cv2.getTextSize(cmap_name, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-    cv2.putText(depth_colored, cmap_name,
+    # --- 8. Mode + colormap name (top-right, press C to cycle) ---
+    label = f"3D - {cmap_name}"
+    label_size, _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+    cv2.putText(depth_colored, label,
                 (w - label_size[0] - 8, 25),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
@@ -132,7 +191,7 @@ def main():
 
     pipeline.start(config)
     print(f"Depth stream started. Range: {MIN_DEPTH_MM} – {MAX_DEPTH_MM} mm")
-    print("Press 'q' or ESC to quit.\n")
+    print("Press 'M' to toggle 2D/3D, 'C' to change colormap, 'Q' or ESC to quit.\n")
 
     try:
         while True:
@@ -153,8 +212,12 @@ def main():
             raw      = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
             depth_mm = raw.reshape(height, width).astype(np.float32) * scale
 
-            # --- Step 4: Render with 3D lighting effect ---
-            display = _render_depth_3d(depth_mm)
+            # --- Step 4: Render depth (2D or 3D mode, toggle with 'M') ---
+            global _use_3d_mode
+            if _use_3d_mode:
+                display = _render_depth_3d(depth_mm)
+            else:
+                display = _render_depth_2d(depth_mm)
 
             # --- Step 5: Overlay center-point distance ---
             cy, cx       = height // 2, width // 2
@@ -174,9 +237,14 @@ def main():
 
             cv2.imshow(WINDOW_TITLE, display)
             key = cv2.waitKey(1)
-            if key in (ord("q"), ESC_KEY):
+            if key in (ord("q"), ord("Q"), ESC_KEY):
                 break
-            elif key == ord("c"):
+            elif key in (ord("m"), ord("M")):
+                # Toggle 2D/3D rendering mode
+                _use_3d_mode = not _use_3d_mode
+                mode_str = "3D relief" if _use_3d_mode else "2D simple"
+                print(f"Depth rendering mode → {mode_str}")
+            elif key in (ord("c"), ord("C")):
                 # Cycle to next colormap
                 global _cmap_index
                 _cmap_index = (_cmap_index + 1) % len(COLORMAPS)

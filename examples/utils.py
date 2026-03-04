@@ -22,7 +22,7 @@ from pyorbbecsdk import FormatConvertFilter, VideoFrame, Device
 from pyorbbecsdk import OBFormat, OBConvertFormat, OBSensorType
 
 def is_astra_mini_device(vid: int, pid: int) -> bool:
-    if (vid == 0x2bc5) and (pid == 0x069d or pid == 0x069d or pid ==0x065b or pid == 0x065e):
+    if (vid == 0x2bc5) and (pid == 0x069d or pid == 0x065b or pid == 0x065e):
         return True
     return False
 

@@ -42,8 +42,7 @@ Please read this guide before submitting changes, and ensure you follow the [Cod
 pip install -r examples/requirements.txt
 ```
 
-Key dependency note: use `numpy<2.0` — numpy 2.x introduced breaking C API changes.
-See [issue #47](https://github.com/orbbec/pyorbbecsdk/issues/47) for details.
+Key dependency note: the SDK supports numpy 2.x.
 
 ---
 

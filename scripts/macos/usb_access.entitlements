@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Required for USB device access without sudo -->
+    <key>com.apple.vm.device-access</key>
+    <true/>
+
+    <!-- Allow USB device enumeration -->
+    <key>com.apple.security.device.usb</key>
+    <true/>
+
+    <!-- Camera access (may be needed for some configurations) -->
+    <key>com.apple.security.device.camera</key>
+    <true/>
+</dict>
+</plist>

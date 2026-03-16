@@ -21,3 +21,7 @@ src/pyorbbecsdk2.egg-info/
 # ai_optimization additions
 reports/
 *.html
+
+# Local environment and artifacts
+venv_orbbec/
+*.whl

@@ -194,43 +194,27 @@ For alignment, point clouds, IMU, recording, and more — see the [Examples](#ex
 
 ## Supported Devices & Firmware
 
-The table below lists all devices supported by this SDK (v2.x branch), along with the minimum and recommended firmware versions.
+> **Important:** 
+> - Most new devices come with compatible firmware pre-installed and work out-of-the-box. You only need to check this section if your device is not detected or behaves abnormally.
+> - Starting from October 2025 (Orbbec SDK v2.5.5), devices using the OpenNI protocol will be upgraded to UVC protocol. See [the upgrade document](https://github.com/orbbec/OrbbecSDK_v2?tab=readme-ov-file#12-upgrading-from-openni-protocol-to-uvc-protocol) for details.
+> - For v1.x device support (Astra+, Astra Pro Plus, Gemini 2 XL), use the [main branch](https://github.com/orbbec/pyorbbecsdk/tree/main).
 
-| **Product Series** | **Product** | **Min Firmware** | **Recommended Firmware** |
-|--------------------|-------------|------------------|--------------------------|
-| **Gemini 435Le** | Gemini 435Le      | 1.2.4   | 1.3.6   |
-| **Gemini 330**   | Gemini 305        | 1.0.30  | 1.0.30  |
-|                  | Gemini 345        | 1.7.04  | 1.9.03  |
-|                  | Gemini 345Lg      | 1.7.04  | 1.9.03  |
-|                  | Gemini 335Le      | 1.5.31  | 1.6.00  |
-|                  | Gemini 330        | 1.2.20  | 1.6.00  |
-|                  | Gemini 330L       | 1.2.20  | 1.6.00  |
-|                  | Gemini 335        | 1.2.20  | 1.6.00  |
-|                  | Gemini 335L       | 1.2.20  | 1.6.00  |
-|                  | Gemini 336        | 1.2.20  | 1.6.00  |
-|                  | Gemini 336L       | 1.2.20  | 1.6.00  |
-|                  | Gemini 335Lg      | 1.3.46  | 1.6.00  |
-| **Gemini 2**     | Gemini 2          | 1.4.92  | 1.4.98  |
-|                  | Gemini 2 L        | 1.4.53  | 1.5.2   |
-|                  | Gemini 215        | 1.0.9   | 1.0.9   |
-|                  | Gemini 210        | 1.0.9   | 1.0.9   |
-| **Femto**        | Femto Bolt        | 1.1.2   | 1.1.3   |
-|                  | Femto Mega        | 1.3.0   | 1.3.1   |
-|                  | Femto Mega I      | 2.0.4   | 2.0.4   |
-| **Astra**        | Astra 2           | 2.8.20  | 2.8.20  |
-|                  | Astra Mini Pro    | 2.0.03  | 2.0.03  |
-|                  | Astra Mini S Pro  | 2.0.03  | 2.0.03  |
-| **Pulsar**       | Pulsar SL450      | 2.2.4.5 | 2.2.4.5 |
-|                  | Pulsar ME450      | 1.0.0.6 | 1.0.0.6 |
+### Automated Firmware Update
 
-> **Check your firmware:** `device.get_device_info().get_firmware_version()`
->
-> If your firmware is below the minimum version, contact Orbbec support for upgrade assistance.
+If you encounter errors related to firmware version mismatch (e.g., in logs), please use the automated update assistant:
 
-**Notes:**
-- If your device is not listed, please contact our FAE or sales representative.
-- Starting from October 2025 (Orbbec SDK v2.5.5), devices using the OpenNI protocol will be upgraded to UVC protocol. See [the upgrade document](https://github.com/orbbec/OrbbecSDK_v2?tab=readme-ov-file#12-upgrading-from-openni-protocol-to-uvc-protocol) for details.
-- For v1.x device support (Astra+, Astra Pro Plus, Gemini 2 XL), use the [main branch](https://github.com/orbbec/pyorbbecsdk/tree/main).
+```bash
+python scripts/auto_update_firmware.py
+```
+
+This script will:
+1. **Check** your current device firmware version.
+2. **Guide** you to download the correct firmware if an update is needed.
+3. **Perform** the firmware update safely.
+
+> **Note:** Firmware files can be manually downloaded from the [Orbbec Firmware Repository](https://github.com/orbbec/OrbbecFirmware).
+
+
 
 ---
 
@@ -244,17 +228,6 @@ The table below lists all devices supported by this SDK (v2.x branch), along wit
 
 ---
 
-## Supported Python Versions
-
-Python **3.8** through **3.13**
-
-| Platform | Online install | Offline install |
-|----------|---------------|-----------------|
-| Windows x64  | 3.8–3.13 | 3.8–3.13 |
-| Linux x64    | 3.9–3.13 | 3.8–3.13 |
-| Linux ARM64  | —        | 3.8–3.13 |
-
----
 
 ## Examples
 

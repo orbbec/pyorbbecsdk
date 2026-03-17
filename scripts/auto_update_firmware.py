@@ -22,7 +22,7 @@ except ImportError:
     print("Please install it via pip: pip install pyorbbecsdk2")
     sys.exit(1)
 
-CONFIG_FILE_PATH = os.path.join(project_root, 'config', 'firmware_compatibility.json')
+CONFIG_FILE_PATH = os.path.join(project_root, 'config', 'firmware_compatibility_pid.json')
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -44,17 +44,22 @@ def load_config():
         print(f"[!] Error loading config file: {e}")
         return None
 
-def get_device_config(device_name, config):
-    """Find the configuration entry for a given device name."""
+def get_device_config(pid, device_name, config):
+    """Find the configuration entry for a given device pid or name."""
     if not config or 'devices' not in config:
         return None
     
+    # Primary match: PID
     for entry in config['devices']:
-        # Check if the device name is in the products list
-        # We perform a case-insensitive check and also check if the device name contains the product name
-        for product in entry['products']:
-            if product.lower() in device_name.lower():
-                return entry
+        if 'pids' in entry and pid in entry['pids']:
+            return entry
+            
+    # Fallback match: Name
+    for entry in config['devices']:
+        if 'products' in entry:
+            for product in entry['products']:
+                if product.lower() in device_name.lower():
+                    return entry
     return None
 
 def parse_version(version_str):
@@ -152,6 +157,7 @@ def main():
             device = device_list.get_device_by_index(i)
             info = device.get_device_info()
             name = info.get_name()
+            pid = info.get_pid()
             # Normalize name by removing 'Orbbec' (case-insensitive) if present
             if "orbbec" in name.lower():
                 name = re.sub(r'(?i)orbbec', '', name).strip()
@@ -159,11 +165,11 @@ def main():
             serial = info.get_serial_number()
             current_fw = info.get_firmware_version()
             
-            print(f"\n  Device [{i}]: {name} (SN: {serial})")
+            print(f"\n  Device [{i}]: {name} (PID: {pid}, SN: {serial})")
             print(f"    Current Firmware: {current_fw}")
             
             # Check against config
-            dev_config = get_device_config(name, config)
+            dev_config = get_device_config(pid, name, config)
             if dev_config:
                 rec_fw = dev_config['recommended_version']
                 print(f"    Recommended Firmware: {rec_fw}")

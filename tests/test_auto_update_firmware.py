@@ -19,6 +19,7 @@ class TestAutoUpdateFirmware(unittest.TestCase):
             "devices": [
                 {
                     "products": ["MockDevice"],
+                    "pids": [1234],
                     "recommended_version": "2.0.0",
                     "download_url": "http://example.com/mock_firmware.bin"
                 }
@@ -37,6 +38,7 @@ class TestAutoUpdateFirmware(unittest.TestCase):
         mock_info = MagicMock()
         mock_device.get_device_info.return_value = mock_info
         mock_info.get_name.return_value = "MockDevice"
+        mock_info.get_pid.return_value = 1234
         mock_info.get_serial_number.return_value = "SN123456"
         mock_info.get_firmware_version.return_value = "1.0.0" # Needs update
 

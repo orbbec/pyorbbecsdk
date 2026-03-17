@@ -122,11 +122,10 @@ See [examples/README.md](examples/README.md) for the full list with per-script d
 
 Here is the list of all supported operating systems for the pyorbbecsdk. Pre-built wheels are available for all of them.
 
-| Platform | Architecture | OS Version |
-|----------|-------------|------------|
-| **Windows**  | x64         | Windows 10+ |
-| **Linux**    | x64         | Ubuntu 18.04 / 20.04 / 22.04 |
-| **Linux**    | ARM64       | Ubuntu 18.04 / 20.04 / 22.04 |
+| <div align="center"><img src="https://user-images.githubusercontent.com/32394882/230619282-fe2f84fb-2130-4164-a193-db2893b58272.png" width="40%" alt="Windows" /></div> | <div align="center"><img src="https://user-images.githubusercontent.com/32394882/230619268-bdf66472-8bf5-41e7-9efa-ca3698ff271a.png" width="40%" alt="Linux x64" /></div> | <div align="center"><img src="https://user-images.githubusercontent.com/32394882/230619273-feeee52b-209b-48da-b990-06630cabe323.png" width="40%" alt="Linux ARM" /></div> |
+| :---: | :---: | :---: |
+| **Windows (x64)** | **Linux (x64)** | **Linux (ARM64)** |
+| Windows 10+ | Ubuntu 18.04 / 20.04 / 22.04 | Ubuntu 18.04 / 20.04 / 22.04 |
 
 Supported Python versions: **Python 3.8 to 3.13**
 

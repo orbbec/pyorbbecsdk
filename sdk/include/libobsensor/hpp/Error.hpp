@@ -26,7 +26,7 @@ private:
      */
     explicit Error(ob_error *error) : impl_(error) {};
 
-    Error& operator=(const Error&) = default;
+    Error &operator=(const Error &) = default;
 
 public:
     /**
@@ -106,6 +106,15 @@ public:
         return impl_->message;
     }
 
+    /**
+     * @brief Returns the error status code of the exception.
+     *
+     * @return OBStatus The error status code.
+     */
+    OBStatus getStatus() const noexcept {
+        return impl_->status;
+    }
+
 public:
     // The following interfaces are deprecated and are retained here for compatibility purposes.
     const char *getName() const noexcept {
@@ -113,4 +122,3 @@ public:
     }
 };
 }  // namespace ob
-

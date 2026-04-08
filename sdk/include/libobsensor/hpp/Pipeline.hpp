@@ -289,8 +289,9 @@ public:
     typedef std::function<void(std::shared_ptr<FrameSet> frame)> FrameSetCallback;
 
 private:
-    ob_pipeline_t   *impl_;
-    FrameSetCallback callback_;
+    ob_pipeline_t                               *impl_;
+    FrameSetCallback                             callback_;
+    std::function<void(OBPipelineStatus status)> statusCallback_;
 
 public:
     /**
@@ -352,6 +353,13 @@ public:
     static void frameSetCallback(ob_frame_t *frameSet, void *userData) {
         auto pipeline = static_cast<Pipeline *>(userData);
         pipeline->callback_(std::make_shared<FrameSet>(frameSet));
+    }
+
+    static void healthMonitorCallback(ob_pipeline_status status, void *userData) {
+        auto pipeline = static_cast<Pipeline *>(userData);
+        if(pipeline->statusCallback_) {
+            pipeline->statusCallback_(status);
+        }
     }
 
     /**
@@ -451,6 +459,40 @@ public:
     void disableFrameSync() const {
         ob_error *error = nullptr;
         ob_pipeline_disable_frame_sync(impl_, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Get the current pipeline status observed during streaming.
+     *
+     * @return OBPipelineStatus The accumulated status since the last call or pipeline start. Status is reset after each call.
+     */
+    OBPipelineStatus getStatus() const {
+        ob_error        *error  = nullptr;
+        OBPipelineStatus status = ob_pipeline_get_status(impl_, &error);
+        Error::handle(&error);
+        return status;
+    }
+
+    /**
+     * @brief Enable pipeline health monitor with periodic status polling.
+     *
+     * @param[in] callback The callback function invoked when abnormal status is detected (from internal thread, avoid blocking).
+     * @param[in] intervalMs Polling interval in milliseconds (recommended: 3000-5000, default: 3000).
+     */
+    void enableHealthMonitor(std::function<void(OBPipelineStatus status)> callback, uint32_t intervalMs = 3000) {
+        statusCallback_ = callback;
+        ob_error *error = nullptr;
+        ob_pipeline_enable_health_monitor(impl_, &Pipeline::healthMonitorCallback, this, intervalMs, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Disable pipeline health monitor.
+     */
+    void disableHealthMonitor() const {
+        ob_error *error = nullptr;
+        ob_pipeline_disable_health_monitor(impl_, &error);
         Error::handle(&error);
     }
 

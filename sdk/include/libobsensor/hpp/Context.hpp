@@ -131,6 +131,33 @@ public:
     }
 
     /**
+     * @brief Set the GVCP port scheme used for network device discovery and control.
+     *
+     * @param[in] scheme Target GVCP port scheme.
+     *                   Thrown exception if the specified scheme is invalid or unsupported.
+     *
+     * @note This change affects only the current session and is not persisted.
+     * @note Switching to a different scheme will force disconnection of all currently connected network devices.
+     */
+    void setGvcpPortScheme(OBGvcpPortScheme scheme) {
+        ob_error *error = nullptr;
+        ob_set_gvcp_port_scheme(impl_, scheme, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Get the current GVCP port scheme.
+     *
+     * @return Current GVCP port scheme.
+     */
+    OBGvcpPortScheme getGvcpPortScheme() const {
+        ob_error *error  = nullptr;
+        auto      scheme = ob_get_gvcp_port_scheme(impl_, &error);
+        Error::handle(&error);
+        return scheme;
+    }
+
+    /**
      * @brief Creates a network device with the specified IP address and port.
      *
      * @param[in] address The IP address, ipv4 only. such as "192.168.1.10"

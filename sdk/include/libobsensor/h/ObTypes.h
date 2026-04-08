@@ -74,10 +74,45 @@ typedef enum {
  * @brief error code
  */
 typedef enum {
-    OB_STATUS_OK    = 0, /**< status ok */
-    OB_STATUS_ERROR = 1, /**< status error */
+    OB_STATUS_OK     = 0, /**< Status OK (success) */
+    OB_STATUS_ERROR  = 1, /**< Status error (legacy failure) */
+    OB_ERROR_UNKNOWN = 1, /**< Alias for OB_STATUS_ERROR */
+
+    // // 00001 ~ 0999: Common errors (reserved range)
+    OB_ERROR_INVALID_PARAMETER       = 100, /**< One or more parameters are invalid */
+    OB_ERROR_INVALID_DATA            = 101, /**< Data is invalid or corrupted */
+    OB_ERROR_INVALID_DATA_LEN        = 102, /**< Data length is invalid */
+    OB_ERROR_BUFFER_TOO_SMALL        = 103, /**< Target buffer is too small to hold data */
+    OB_ERROR_MEMORY                  = 104, /**< Memory allocation or access failure */
+    OB_ERROR_WAIT_TIMEOUT            = 105, /**< Operation timed out */
+    OB_ERROR_NOT_IMPLEMENTED         = 106, /**< Functionality not implemented in SDK */
+    OB_ERROR_UNSUPPORTED_OPERATION   = 107, /**< Functionality not implemented in SDK */
+    OB_ERROR_WRONG_API_CALL_SEQUENCE = 108, /**< API called in an invalid order or state */
+    OB_ERROR_NO_DEVICE               = 109, /**< No available device found */
+    OB_ERROR_DEVICE_CONNECT_FAILED   = 110, /**< Failed to connect to device */
+    OB_ERROR_DEVICE_ACCESS_DENIED    = 111, /**< Access to device denied */
+    OB_ERROR_DEVICE_DISCONNECTED     = 112, /**< Device was disconnected */
+    OB_ERROR_DEVICE_UNAVAILABLE      = 113, /**< Device was unavailable */
+    OB_ERROR_ITEM_NOT_FOUND          = 114, /**< Specified item or component not found */
+    OB_ERROR_IO_FAILURE              = 115, /**< I/O operation failed */
+    OB_ERROR_RESOURCE_BUSY           = 116, /**< Resource is busy or locked by another operation */
+
+    // - Pipeline/Frame
+    OB_ERROR_FRAME_QUEUE_OVERFLOW = 200, /**< Frame queue overflow */
+    OB_ERROR_FRAME_DATA           = 201, /**< Frame data is invalid or corrupted */
+    OB_ERROR_FRAME_DATA_LEN       = 202, /**< Frame data length is invalid */
+
+    // 1000 ~ 1999: Device errors
+    OB_ERROR_DEVICE_UNKNOWN                  = 1000, /**< Unknown device error */
+    OB_ERROR_DEVICE_RESPONSE_BAD_MAGIC       = 1001, /**< Device response has invalid magic number */
+    OB_ERROR_DEVICE_RESPONSE_WRONG_ID        = 1002, /**< Device response contains incorrect ID */
+    OB_ERROR_DEVICE_RESPONSE_WRONG_OPCODE    = 1003, /**< Device response contains incorrect opcode */
+    OB_ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE = 1004, /**< Device response has incorrect data size */
+    OB_ERROR_DEVICE_RESPONSE_ERROR           = 1005, /**< Device response indicates an error */
+    OB_ERROR_DEVICE_RESPONSE_WARNING         = 1006, /**< Device response indicates a warning */
+
 } OBStatus,
-    ob_status;
+    OBErrorCode, ob_status, ob_error_code;
 
 /**
  * @brief log level, the higher the level, the stronger the log filter
@@ -98,18 +133,22 @@ typedef enum {
  * For detailed error API interface functions and error logs, please refer to the information of ob_error
  */
 typedef enum {
-    OB_EXCEPTION_TYPE_UNKNOWN,             /**< Unknown error, an error not clearly defined by the SDK */
-    OB_EXCEPTION_STD_EXCEPTION,            /** < Standard exception, an error caused by the standard library */
-    OB_EXCEPTION_TYPE_CAMERA_DISCONNECTED, /**< Camera/Device has been disconnected, the camera/device is not available */
-    OB_EXCEPTION_TYPE_PLATFORM,            /**< An error in the SDK adaptation platform layer, which means an error in the implementation of a specific system
-                                              platform */
-    OB_EXCEPTION_TYPE_INVALID_VALUE,       /**< Invalid parameter type exception, need to check input parameter */
+    OB_EXCEPTION_TYPE_UNKNOWN,                 /**< Unknown error, an error not clearly defined by the SDK */
+    OB_EXCEPTION_STD_EXCEPTION,                /**< Standard exception, an error caused by the standard library */
+    OB_EXCEPTION_TYPE_CAMERA_DISCONNECTED,     /**< Camera/Device has been disconnected, the camera/device is not available */
+    OB_EXCEPTION_TYPE_PLATFORM,                /**< An error in the SDK adaptation platform layer, which means an error in the
+                                                 implementation of a specific system platform */
+    OB_EXCEPTION_TYPE_INVALID_VALUE,           /**< Invalid parameter type exception, need to check input parameter */
     OB_EXCEPTION_TYPE_WRONG_API_CALL_SEQUENCE, /**< Wrong API call sequence, the API is called in the wrong order or the wrong parameter is passed */
     OB_EXCEPTION_TYPE_NOT_IMPLEMENTED,         /**< SDK and firmware have not yet implemented this function or feature */
     OB_EXCEPTION_TYPE_IO,                      /**< SDK access IO exception error */
     OB_EXCEPTION_TYPE_MEMORY,                  /**< SDK access and use memory errors. For example, the frame fails to allocate memory */
     OB_EXCEPTION_TYPE_UNSUPPORTED_OPERATION,   /**< Unsupported operation type error by SDK or device */
     OB_EXCEPTION_TYPE_ACCESS_DENIED,           /**< Device access denied */
+    OB_EXCEPTION_TYPE_DEVICE_UNAVAILABLE,      /**< Camera or Device is not available */
+    OB_EXCEPTION_TYPE_INVALID_DATA,            /**< Runtime data is invalid, check data content or size */
+    OB_EXCEPTION_TYPE_NOT_FOUND,               /**< The requested item was not found */
+    OB_EXCEPTION_TYPE_RESOURCE_BUSY,           /**< Resource is busy or locked by another operation */
 } OBExceptionType,
     ob_exception_type;
 
@@ -123,6 +162,15 @@ typedef struct ob_error {
     char              args[256];       ///< Describes the parameters passed to the function when an error occurs. Used to check whether the parameter is wrong
     ob_exception_type exception_type;  ///< The description is the specific error type of the SDK
 } ob_error;
+
+/**
+ * @brief GVCP port scheme
+ */
+typedef enum {
+    OB_GVCP_PORT_SCHEME_STANDARD = 0, /**< Standard GVCP port (3956) */
+    OB_GVCP_PORT_SCHEME_B        = 1, /**< Vendor-defined GVCP port scheme */
+} OBGvcpPortScheme,
+    ob_gvcp_port_scheme;
 
 /**
  * @brief Enumeration value describing the sensor type
@@ -680,6 +728,39 @@ typedef enum {
 typedef uint64_t OBDeviceState, ob_device_state;
 
 /**
+ * @brief Pipeline issue location flags observed during streaming.
+ */
+typedef enum {
+    OB_PIPELINE_ISSUE_NONE   = 0x00, /**< No issue observed */
+    OB_PIPELINE_ISSUE_SDK    = 0x01, /**< Issue observed in SDK */
+    OB_PIPELINE_ISSUE_DRIVER = 0x02, /**< Issue observed in driver */
+    OB_PIPELINE_ISSUE_FW     = 0x04, /**< Issue observed in device firmware */
+    OB_PIPELINE_ISSUE_HW     = 0x08, /**< Issue observed in device hardware */
+} OBPipelineIssue,
+    ob_pipeline_issue;
+
+/**
+ * @brief SDK-defined pipeline status bits observed during streaming.
+ */
+#define OB_SDK_STATUS_FRAME_DROP_DATA (1ULL << 0)      /**< Frame dropped due to data error */
+#define OB_SDK_STATUS_FRAME_DROP_TIMESTAMP (1ULL << 1) /**< Frame dropped due to timestamp error */
+#define OB_SDK_STATUS_FRAME_DROP_MATCH (1ULL << 2)     /**< Frame dropped due to aggregation match failure */
+#define OB_SDK_STATUS_FRAME_QUEUE_OVERFLOW (1ULL << 3) /**< Frame dropped due to queue overflow */
+#define OB_SDK_STATUS_FRAME_WAIT_TIMEOUT (1ULL << 4)   /**< Wait for frame timeout */
+#define OB_SDK_STATUS_STREAM_NO_FRAME (1ULL << 5)      /**< A stream has not received any frame for a prolonged period */
+
+/**
+ * @brief Pipeline status observed during streaming.
+ */
+typedef struct {
+    OBPipelineIssue issue;       /**< Issue location flags */
+    uint64_t        sdkStatus;   /**< SDK-defined bitmask composed of OB_SDK_STATUS_* macros */
+    uint64_t        devStatus;   /**< Device-specific diagnostic bits (not for application logic) */
+    uint64_t        drvStatus;   /**< Driver-specific diagnostic bits (not for application logic) */
+    uint64_t        reserved[3]; /**< Reserved for future use */
+} OBPipelineStatus, ob_pipeline_status;
+
+/**
  * @brief Temperature parameters of the device (unit: Celsius)
  */
 typedef struct {
@@ -1099,14 +1180,6 @@ typedef enum OB_EDGE_NOISE_REMOVAL_TYPE {
 } OBEdgeNoiseRemovalType,
     ob_edge_noise_removal_type;
 
-typedef struct {
-    OBEdgeNoiseRemovalType type;
-    uint16_t               marginLeftTh;
-    uint16_t               marginRightTh;
-    uint16_t               marginTopTh;
-    uint16_t               marginBottomTh;
-} OBEdgeNoiseRemovalFilterParams, ob_edge_noise_removal_filter_params;
-
 /**
  * @brief Denoising method
  */
@@ -1121,6 +1194,41 @@ typedef struct {
     uint16_t              disp_diff;
     OBDDONoiseRemovalType type;
 } OBNoiseRemovalFilterParams, ob_noise_removal_filter_params;
+
+typedef struct {
+    int      margin_x_th;       ///< Horizontal threshold settings
+    int      margin_y_th;       ///< Vertical threshold settings
+    int      limit_x_th;        ///< Maximum horizontal threshold
+    int      limit_y_th;        ///< Maximum vertical threshold
+    uint32_t width;             ///< Image width
+    uint32_t height;            ///< Image height
+    bool     enable_direction;  ///< Set to true for horizontal and vertical, false for horizontal only
+} OBEdgeNoiseRemovalFilterParams, ob_edge_noise_removal_filter_params;
+
+/**
+ * @brief Configuration parameters for the MGC noise removal filter
+ */
+typedef struct {
+    int      max_width_left;   ///< Left chamfer threshold settings
+    int      max_width_right;  ///< Right chamfer threshold settings
+    int      max_radius;       ///< Chamfer radius threshold settings
+    int      margin_x_th;      ///< Horizontal threshold settings
+    int      margin_y_th;      ///< Vertical threshold settings
+    int      limit_x_th;       ///< Maximum horizontal threshold
+    int      limit_y_th;       ///< Maximum vertical threshold
+    uint32_t width;            ///< Depth map width the above parameters correspond to
+    uint32_t height;           ///< Depth map height the above parameters correspond to
+} OBMgcNoiseRemovalFilterParams, ob_mgc_noise_removal_filter_params;
+
+/**
+ * @brief Configuration parameters for the LUT noise removal filter
+ */
+typedef struct {
+    uint16_t max_lut[16];  ///< LUT max size of noise pixels (4x4 LUT, 16 entries total)
+    uint16_t min_diff;     ///< Difference threshold between neighbor pixels
+    uint32_t width;        ///< Depth map width the above parameters correspond to
+    uint32_t height;       ///< Depth map height the above parameters correspond to
+} OBLutNoiseRemovalFilterParams, ob_lut_noise_removal_filter_params;
 
 /**
  * @brief Control command protocol version number
@@ -1157,7 +1265,27 @@ typedef enum {
     OBCmdVersion, ob_cmd_version;
 
 /**
- * @brief IP address configuration for network devices (IPv4)
+ * @brief IP address configuration for network devices (IPv4), used with property OB_STRUCT_DEVICE_IP_ADDR_CONFIG.
+ *
+ * @note Device support:
+ *   - Femto Mega / Femto Mega I: only this structure is supported.
+ *   - Gemini 335Le / Gemini 435Le with older firmware: only this structure is supported.
+ *   - Gemini 335Le / Gemini 435Le with newer firmware: both this structure and @ref OBNetIpConfigV2 are supported;
+ *     it is recommended to use @ref OBNetIpConfigV2 (property OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2) instead.
+ *
+ * @note How to choose between OBNetIpConfig and OBNetIpConfigV2:
+ *   First check whether OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2 is supported by the device. If yes, use @ref OBNetIpConfigV2;
+ *   otherwise fall back to this structure.
+ *   Example:
+ *   @code
+ *   bool v2Supported = ob_device_is_property_supported(dev, OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2,
+ *                                                       OB_PERMISSION_READ_WRITE, &error);
+ *   if(v2Supported) {
+ *       // Use OBNetIpConfigV2 with OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2
+ *   } else {
+ *       // Use OBNetIpConfig with OB_STRUCT_DEVICE_IP_ADDR_CONFIG
+ *   }
+ *   @endcode
  */
 typedef struct {
     /**
@@ -1185,6 +1313,38 @@ typedef struct {
 
 #define OBDeviceIpAddrConfig OBNetIpConfig
 #define ob_device_ip_addr_config OBNetIpConfig
+
+// IP bit masks
+#define OB_NET_IP_FLAG_DHCP (0x01u)
+#define OB_NET_IP_FLAG_PERSISTENT (0x02u)
+
+/**
+ * @brief IP address configuration v2 for network devices (IPv4), used with property OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2.
+ *
+ * @note This is the recommended structure for Gemini 335Le / Gemini 435Le devices with newer firmware.
+ *       It extends @ref OBNetIpConfig by replacing the single @c dhcp field with a @c flags bitmask that supports
+ *       both DHCP mode and Persistent IP mode.
+ *
+ * @note Device support:
+ *   - Femto Mega / Femto Mega I: NOT supported; use @ref OBNetIpConfig instead.
+ *   - Gemini 335Le / Gemini 435Le with older firmware: NOT supported; use @ref OBNetIpConfig instead.
+ *   - Gemini 335Le / Gemini 435Le with newer firmware: supported and recommended.
+ *
+ * @note Before using this structure, verify support at runtime:
+ *   @code
+ *   bool v2Supported = ob_device_is_property_supported(dev, OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2,
+ *                                                       OB_PERMISSION_READ_WRITE, &error);
+ *   @endcode
+ */
+typedef struct {
+    uint16_t flags;      ///< IP configuration mode flags
+                         ///< bit0: DHCP enable (1=on, 0=off)
+                         ///< bit1: Persistent IP enable (1=on, 0=off)
+                         ///< bit[2:15]: reserved, must be 0
+    uint8_t address[4];  ///< IP address (IPv4, big-endian, e.g. 192.168.1.1 -> address[0]=192)
+    uint8_t mask[4];     ///< Subnet mask (big-endian)
+    uint8_t gateway[4];  ///< Gateway (big-endian)
+} OBNetIpConfigV2, ob_net_ip_config_v2, DEVICE_IP_ADDR_CONFIG_V2;
 
 /**
  * @brief Device communication mode
@@ -1861,6 +2021,14 @@ typedef enum {
 } ob_device_access_mode,
     OBDeviceAccessMode;
 
+typedef enum {
+    OB_IP_SOURCE_NONE       = 0,  ///< No IP configuration active (e.g. USB device).
+    OB_IP_SOURCE_LLA        = 1,  ///< LLA (Link-Local Address / Auto IP).
+    OB_IP_SOURCE_DHCP       = 2,  ///< DHCP (Dynamic Host Configuration Protocol).
+    OB_IP_SOURCE_PERSISTENT = 3,  ///< Persistent IP (Static IP stored in memory).
+} ob_ip_source_type,
+    OBIpSourceType;
+
 /**
  * @brief Callback for file transfer
  *
@@ -1963,7 +2131,21 @@ typedef void(ob_frame_destroy_callback)(uint8_t *buffer, void *user_data);
  */
 typedef void(ob_log_callback)(ob_log_severity severity, const char *message, void *user_data);
 
+/**
+ * @brief Callback for playback status notification
+ *
+ * @param[in] status Playback status
+ * @param[in] user_data User-defined data
+ */
 typedef void (*ob_playback_status_changed_callback)(ob_playback_status status, void *user_data);
+
+/**
+ * @brief Callback for pipeline status notification
+ *
+ * @param[in] status Pipeline status
+ * @param[in] user_data User-defined data
+ */
+typedef void (*ob_pipeline_status_callback)(ob_pipeline_status status, void *user_data);
 
 /**
  * @brief Callback Id

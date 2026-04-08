@@ -19,5 +19,10 @@ namespace pyorbbecsdk {
 
 void define_orbbec_error(const py::object &m) {
   py::register_exception<OBError>(m, "OBError");
+  py::class_<OBError>(m, "OBErrorDetails", py::dynamic_attr())
+      .def("what", &OBError::what)
+      .def("get_type", &OBError::get_type)
+      .def("get_name", &OBError::get_name)
+      .def("get_status", &OBError::get_status);
 }
 }  // namespace pyorbbecsdk

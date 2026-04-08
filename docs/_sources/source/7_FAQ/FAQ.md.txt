@@ -1,0 +1,692 @@
+# FAQ
+
+Frequently Asked Questions and Solutions for pyorbbecsdk.
+
+## Table of Contents
+
+- [Installation Issues](#installation-issues)
+  - [No device found on Linux](#no-device-found-on-linux)
+  - [Permission denied on macOS](#permission-denied-on-macos)
+  - [ImportError on Windows](#importerror-on-windows)
+  - [Python version mismatch](#python-version-mismatch)
+  - [Offline installation fails](#offline-installation-fails)
+  - [Package name confusion](#package-name-confusion)
+  - [Open3D and NumPy version compatibility](#open3d-and-numpy-version-compatibility)
+- [Build Issues](#build-issues)
+  - [uv command not found](#uv-command-not-found)
+  - [CMake configuration failed](#cmake-configuration-failed)
+  - [pybind11 not found in offline mode](#pybind11-not-found-in-offline-mode)
+  - [Build fails on Windows with Visual Studio not found](#build-fails-on-windows-with-visual-studio-not-found)
+- [Runtime Issues](#runtime-issues)
+  - [Empty frames or frames is None](#empty-frames-or-frames-is-none)
+  - [Display issues with OpenCV](#display-issues-with-opencv)
+  - [Jetson Nano illegal instruction](#jetson-nano-illegal-instruction)
+  - [Import Error ModuleNotFoundError](#import-error-modulenotfounderror)
+- [Platform-Specific Issues](#platform-specific-issues)
+  - [USB device access permission error on Linux](#usb-device-access-permission-error-on-linux)
+  - [Metadata or timestamp issues on Windows](#metadata-or-timestamp-issues-on-windows)
+  - [macOS camera and terminal authorization](#macos-camera-and-terminal-authorization)
+- [Camera and Streaming](#camera-and-streaming)
+  - [Frame synchronization failures](#frame-synchronization-failures)
+  - [Resolution or FPS configuration issues](#resolution-or-fps-configuration-issues)
+- [Configuration](#configuration)
+  - [How to configure or disable SDK logging](#how-to-configure-or-disable-sdk-logging)
+- [Firmware](#firmware)
+  - [Firmware version mismatch](#firmware-version-mismatch)
+  - [How to update firmware](#how-to-update-firmware)
+
+---
+
+## Installation Issues
+
+### No device found on Linux
+
+**Question:** When running examples, I get "No device found" or the camera is not detected.
+
+**Solution:**
+
+This is typically a USB permission issue. The current user doesn't have permission to access the USB device.
+
+**Quick Fix - Run the environment setup script:**
+
+```bash
+# Option 1: From repository
+python scripts/env_setup/setup_env.py
+
+# Option 2: From installed package (v2.1.0+)
+# 1. Get pyorbbecsdk installation path
+python -c "import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))"
+# Example output: /path/to/site-packages/pyorbbecsdk
+# 2. Run setup.py(replace with the path from step 1)
+python /path/to/site-packages/pyorbbecsdk/shared/setup_env.py
+```
+
+**Manual Fix - Install udev rules:**
+
+1. Check your device's PID:
+   ```bash
+   lsusb | grep 2bc5
+   ```
+
+2. Edit the udev rules file:
+   ```bash
+   sudo nano /etc/udev/rules.d/99-obsensor-libusb.rules
+   ```
+
+3. Add the following line (replace `your_pid_here` with the actual PID):
+   ```bash
+   SUBSYSTEM=="usb", ATTR{idProduct}=="your_pid_here", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+   ```
+
+4. Reload udev rules:
+   ```bash
+   sudo udevadm control --reload-rules && sudo service udev restart && sudo udevadm trigger
+   ```
+
+> **Note:** If you don't install udev rules, you'll need to use `sudo` every time you run SDK scripts.
+
+---
+
+### Permission denied on macOS
+
+**Question:** I get `Permission denied` or `Library not loaded` errors when running on macOS.
+
+**Solution:**
+
+Use `sudo -E` to preserve environment variables (especially important when using virtual environments):
+
+```bash
+sudo -E python examples/beginner/02_depth_visualization.py
+```
+
+The `-E` flag preserves your Python environment variables, ensuring your virtualenv packages are accessible.
+
+---
+
+### ImportError on Windows
+
+**Question:** I get `ImportError: DLL load failed` or similar errors on Windows.
+
+**Solution:**
+
+1. **Ensure you're using 64-bit Python** (required):
+   ```powershell
+   python -c "import struct; print(struct.calcsize('P') * 8)"
+   # Should output: 64
+   ```
+
+2. **Install Visual C++ Redistributable** (usually pre-installed, but may need reinstallation)
+
+3. **Verify Python version matches the wheel** (e.g., cp311 = Python 3.11):
+   ```powershell
+   python --version
+   ```
+
+---
+
+### Python version mismatch
+
+**Question:** I get `No matching distribution found` error when installing.
+
+**Solution:**
+
+Check your Python version matches supported versions (3.8-3.13):
+
+```bash
+python3 --version
+```
+
+If using a version manager (pyenv, conda), ensure you're using the correct Python:
+
+```bash
+which python3
+```
+
+Supported Python versions: **3.8, 3.9, 3.10, 3.11, 3.12, 3.13**
+
+---
+
+### Offline installation fails
+
+**Question:** Wheel installation fails with platform tag error.
+
+**Solution:**
+
+Ensure you download the correct wheel for your:
+- Operating system (Linux/macOS/Windows)
+- Architecture (x86_64/ARM64)
+- Python version (cp38, cp39, cp310, cp311, cp312, cp313)
+
+Check platform tags:
+
+```bash
+# For Linux/macOS
+python3 -c "import platform; print(platform.machine()); print(platform.system())"
+# For Windows
+python -c "import platform; print(platform.machine()); print(platform.system())"
+```
+
+**Wheel naming convention:**
+- Linux x86_64: `pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl`
+- Linux ARM64: `pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl`
+- macOS ARM64: `pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl`
+- Windows x64: `pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl`
+
+---
+
+### Package name confusion
+
+**Question:** Should I install `pyorbbecsdk` or `pyorbbecsdk2`? The import is different from the package name.
+
+**Solution:**
+
+Starting from version 2.0.18, both online (PyPI) and offline packages use the name **`pyorbbecsdk2`**:
+
+```bash
+# Install from PyPI
+pip install --upgrade pyorbbecsdk2
+
+# Install offline wheel
+pip install pyorbbecsdk2-2.x.x-xxx.whl
+```
+
+**Import in code:** `import pyorbbecsdk` (module name remains unchanged)
+
+**Verify installation:**
+```bash
+pip show pyorbbecsdk2 | grep Version
+```
+
+---
+
+### Open3D and NumPy version compatibility
+
+**Question:** Why are there version restrictions for Open3D and NumPy? I get compatibility errors when using them together.
+
+**Solution:**
+
+Open3D has specific NumPy version requirements due to ABI (Application Binary Interface) compatibility. Using incompatible versions can cause runtime errors or crashes.
+
+**Key points:**
+
+1. **Open3D's NumPy dependency**: Open3D is compiled against specific NumPy versions. Using a different NumPy version than what Open3D was built with can cause:
+   - `RuntimeError` when calling Open3D functions
+   - Segmentation faults
+   - Incorrect computation results
+
+2. **Recommended compatible versions**:
+   | Open3D Version | Compatible NumPy Version |
+   |:---|:---|
+   | 0.16.x | 1.21 - 1.23 |
+   | 0.17.x | 1.21 - 1.24 |
+   | 0.18.x | 1.22 - 1.26 |
+
+3. **Best practice**: Always check Open3D's official getting started guide for the latest compatibility information:
+   [Open3D Getting Started Guide](https://www.open3d.org/docs/release/getting_started.html)
+
+4. **If you encounter issues**:
+   ```bash
+   # Check your current versions
+   python -c "import numpy; print(f'NumPy: {numpy.__version__}')"
+   python -c "import open3d; print(f'Open3D: {open3d.__version__}')"
+
+   # Install compatible versions
+   pip install numpy==1.23.5 open3d==0.17.0
+   ```
+
+---
+
+## Build Issues
+
+### uv command not found
+
+**Question:** When running the build script, I get "uv: command not found".
+
+**Solution:**
+
+Ensure uv is installed and in your PATH:
+
+```bash
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Add to ~/.bashrc or ~/.zshrc
+export PATH="$HOME/.local/bin:$PATH"
+
+# Reload shell configuration
+source ~/.bashrc  # or ~/.zshrc
+```
+
+---
+
+### CMake configuration failed
+
+**Question:** Build fails with "CMake configuration failed" error.
+
+**Solution:**
+
+Verify CMake version and Python development headers:
+
+```bash
+# Check CMake version (requires 3.15.0+)
+cmake --version
+
+# Install Python development headers (Linux)
+# Ubuntu/Debian:
+sudo apt-get install python3-dev build-essential
+
+# CentOS/RHEL/Fedora:
+sudo yum install python3-devel gcc-c++
+```
+
+---
+
+### pybind11 not found in offline mode
+
+**Question:** Offline build fails with "pybind11 not found" error.
+
+**Solution:**
+
+Ensure virtual environments are set up correctly before copying to the offline machine:
+
+```bash
+# On a machine with internet access, prepare the offline environment:
+for ver in 3.8 3.9 3.10 3.11 3.12 3.13; do
+    uv venv venv${ver//./} --python $ver
+    uv pip install pybind11 -e . --python venv${ver//./}/bin/python
+done
+
+# Then copy the entire project directory (including venv* directories) to the offline machine
+```
+
+---
+
+### Build fails on Windows with Visual Studio not found
+
+**Question:** Build fails with "Visual Studio not found" or generator errors on Windows.
+
+**Solution:**
+
+Ensure Visual Studio 2019 or 2022 with C++ build tools is installed, or specify the generator explicitly:
+
+```powershell
+# In the PowerShell script, modify the cmake command
+cmake -G "Visual Studio 17 2022" -A x64 ...
+```
+
+Required components:
+- Visual Studio 2019 or 2022
+- C++ build tools
+- Windows SDK
+
+---
+
+## Runtime Issues
+
+### Empty frames or frames is None
+
+**Question:** `frames` is always `None` or frames don't contain data.
+
+**Solution:**
+
+1. **Check timeout:** Increase the timeout in `wait_for_frames()`:
+   ```python
+   frames = pipeline.wait_for_frames(5000)  # Wait up to 5 seconds
+   ```
+
+2. **Verify streams are available:** Run the hello camera example to check supported streams:
+   ```bash
+   python examples/beginner/01_hello_camera.py
+   ```
+
+3. **Ensure frames are valid before processing:**
+   ```python
+   if frames is None:
+       continue
+   color_frame = frames.get_color_frame()
+   if color_frame is None:
+       continue
+   ```
+
+4. **Try the quick start:** The zero-config approach handles defaults automatically:
+   ```bash
+   python examples/quick_start.py
+   ```
+
+---
+
+### Display issues with OpenCV
+
+**Question:** OpenCV window doesn't appear or shows blank images.
+
+**Solution:**
+
+1. **Check OpenCV installation:**
+   ```bash
+   python -c "import cv2; print(cv2.__version__)"
+   ```
+
+2. **Ensure frames are valid before displaying:**
+   ```python
+   if color_frame is not None:
+       color_image = frame_to_bgr_image(color_frame)
+       if color_image is not None:
+           cv2.imshow("Color", color_image)
+   ```
+
+3. **Install dependencies** (for versions < 2.1.0):
+   ```bash
+   pip install opencv-python numpy
+   ```
+
+---
+
+### Jetson Nano illegal instruction
+
+**Question:** When running `python examples/beginner/02_depth_visualization.py` on Jetson Nano, the following error occurs:
+
+```bash
+illegal instruction (core dumped)
+```
+
+**Solution:**
+
+Check your OpenCV installation. If you encounter the same error when running:
+
+```python
+import cv2
+```
+
+Set the `OPENBLAS_CORETYPE` environment variable before launching Python:
+
+```bash
+OPENBLAS_CORETYPE=ARMV8 python
+```
+
+To make this setting permanent, edit your `.bashrc` file:
+
+```bash
+nano ~/.bashrc
+```
+
+Add the following line at the end of the file:
+
+```bash
+export OPENBLAS_CORETYPE=ARMV8
+```
+
+Refer to [this Stack Overflow post](https://stackoverflow.com/questions/65631801/illegal-instructioncore-dumped-error-on-jetson-nano) for more information.
+
+---
+
+### Import Error ModuleNotFoundError
+
+**Question:** I get `ModuleNotFoundError: No module named 'pyorbbecsdk'`.
+
+**Solution:**
+
+Install the SDK and verify installation:
+
+```bash
+# Install the SDK
+pip install --upgrade pyorbbecsdk2
+
+# Verify installation
+pip show pyorbbecsdk2 | grep Version
+```
+
+If using a virtual environment, ensure it's activated:
+```bash
+source orbbec_env/bin/activate  # Linux/macOS
+.\orbbec_env\Scripts\activate  # Windows
+```
+
+---
+
+## Platform-Specific Issues
+
+### USB device access permission error on Linux
+
+**Question:** When running `python examples/beginner/02_depth_visualization.py`, the following error occurs:
+
+```text
+msg:failed to open usb device!  error: OB_USB_STATUS_ACCESS
+ - type:St13runtime_error
+[2023-07-04 17:09:19.891859][warning][117523][EnumeratorLibusb.cpp:342] failed to create usb device at index: 1, url:2-1.4.1-6
+[2023-07-04 17:09:20.391989][error][117523][DeviceLibusb.cpp:109] failed to open usb device!  error: OB_USB_STATUS_ACCESS
+...
+pyorbbecsdk.OBError: usbEnumerator createUsbDevice failed!
+```
+
+**Solution:**
+
+The current user does not have permission to access the device. See [No device found on Linux](#no-device-found-on-linux) for the solution.
+
+---
+
+### Metadata or timestamp issues on Windows
+
+**Question:** Timestamps are abnormal or frame synchronization fails on Windows.
+
+**Solution:**
+
+Run the environment setup script to register UVC metadata:
+
+```powershell
+python scripts/env_setup/setup_env.py
+```
+
+Or manually (PowerShell as Administrator):
+
+```powershell
+cd C:\path\to\pyorbbecsdk\scripts\env_setup
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\obsensor_metadata_win10.ps1 -op install_all
+```
+
+> **Note:** This must be run once per device/computer.
+
+---
+
+### macOS camera and terminal authorization
+
+**Question:** On macOS, the first time I run examples that access the camera, I get permission errors or the camera doesn't work. The terminal doesn't seem to have camera access.
+
+**Solution:**
+
+macOS requires explicit permission grants for applications to access camera and other hardware resources. When you first run a Python script from the terminal that accesses the camera, macOS will prompt you to grant permission.
+
+**Steps to grant terminal camera access:**
+
+1. **First run**: When you run a camera example for the first time, macOS will show a system dialog:
+   > "Terminal" would like to access the camera.
+
+   Click **"Allow"** or **"OK"**.
+
+2. **If you accidentally denied permission**:
+   - Open **System Settings** (or System Preferences on older macOS)
+   - Go to **Privacy & Security** → **Input Monitoring**
+   - Find **Terminal** (or iTerm2 if using that) in the list
+   - Toggle the switch to **ON**
+
+3. **Verify permission is granted**:
+   ```bash
+   # Run any camera example
+   python examples/beginner/01_hello_camera.py
+   ```
+   If the camera works without permission prompts, authorization is complete.
+
+> **Note:** You only need to authorize once per terminal application. After granting permission, all subsequent camera operations from that terminal will work without additional prompts.
+
+---
+
+## Camera and Streaming
+
+### Frame synchronization failures
+
+**Question:** Color and depth frames are not synchronized or timestamps don't match.
+
+**Solution:**
+
+1. **Use `wait_for_frames()`** to get synchronized frames:
+   ```python
+   frames = pipeline.wait_for_frames(1000)  # Returns synchronized FrameSet
+   color = frames.get_color_frame()
+   depth = frames.get_depth_frame()
+   ```
+
+2. **On Windows**, ensure metadata registration is complete (see [Metadata issues on Windows](#metadata-or-timestamp-issues-on-windows))
+
+3. **Check timestamp metadata:**
+   ```python
+   color_timestamp = color_frame.get_timestamp()
+   depth_timestamp = depth_frame.get_timestamp()
+   diff = abs(color_timestamp - depth_timestamp)
+   ```
+
+---
+
+### Resolution or FPS configuration issues
+
+**Question:** I can't set a specific resolution or FPS, or the configuration fails.
+
+**Solution:**
+
+Check available stream profiles first:
+
+```python
+from pyorbbecsdk import Config, OBSensorType, OBFormat
+
+config = Config()
+profiles = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
+
+# List all available profiles
+for i in range(profiles.get_count()):
+    profile = profiles.get_profile(i)
+    print(f"{profile.width()}x{profile.height()} @ {profile.fps()}fps")
+
+# Try specific profile with fallback
+try:
+    color_profile = profiles.get_video_stream_profile(1280, 720, OBFormat.RGB, 30)
+except:
+    color_profile = profiles.get_default_video_stream_profile()
+
+config.enable_stream(color_profile)
+pipeline.start(config)
+```
+
+---
+
+## Configuration
+
+### How to configure or disable SDK logging
+
+**Question:** How do I change the log level or disable SDK logging?
+
+**Solution:**
+
+Modify the log level by editing the `OrbbecSDKConfig.xml` configuration file.
+
+**Steps:**
+
+1. **Locate the configuration file**
+
+   For pip-installed packages, run `pip show pyorbbecsdk2` to get the installation path. The XML file is located at `<Location>/OrbbecSDKConfig.xml`
+
+   ```bash
+   pip show pyorbbecsdk2
+   # Output: Location: /Users/me/.../site-packages
+   # Full path: /Users/me/.../site-packages/OrbbecSDKConfig.xml
+   ```
+
+2. **Modify the log level**
+
+   Open the XML file and find the `<Log>` section:
+
+   ```xml
+   <Log>
+       <FileLogLevel>1</FileLogLevel>          <!-- Change this from 1 to 5 -->
+       <ConsoleLogLevel>3</ConsoleLogLevel>
+   </Log>
+   ```
+
+   Change `FileLogLevel` to 5:
+
+   ```xml
+   <Log>
+       <FileLogLevel>5</FileLogLevel>          <!-- 5 = NONE, disables logging -->
+       <ConsoleLogLevel>3</ConsoleLogLevel>
+   </Log>
+   ```
+
+**Log Level Values:**
+
+| Value | Level | Description |
+|:---|:---|:---|
+| 0 | DEBUG | Debug information |
+| 1 | INFO | General information (default) |
+| 2 | WARN | Warning messages |
+| 3 | ERROR | Error messages |
+| 4 | FATAL | Fatal errors |
+| 5 | NONE | Disables logging |
+
+---
+
+## Firmware
+
+### Firmware version mismatch
+
+**Question:** I encounter errors related to firmware version mismatch or the device doesn't work correctly.
+
+**Solution:**
+
+Use the automated firmware update assistant to check and update your device firmware:
+
+```bash
+python scripts/auto_update_firmware.py
+```
+
+This script will:
+1. Check your current device firmware version
+2. Guide you to download the correct firmware
+3. Perform the firmware update safely
+
+> **Important:** Most new devices come with compatible firmware pre-installed and work out-of-the-box. Starting from October 2025 (Orbbec SDK v2.5.5), devices using the OpenNI protocol will be upgraded to UVC protocol.
+
+---
+
+### How to update firmware
+
+**Question:** How do I update the camera firmware?
+
+**Solution:**
+
+Use the firmware update example:
+
+```bash
+python examples/beginner/09_device_firmware_update.py
+```
+
+Or use the automated update script:
+
+```bash
+python scripts/auto_update_firmware.py
+```
+
+The update process:
+1. Connect your camera via USB
+2. Run the update script/example
+3. Follow the prompts to download and flash the firmware
+4. Wait for the update to complete (do not disconnect during the process)
+
+**Supported devices for OTA update:** Gemini series, Femto series, Astra series (see device documentation for specific models).
+
+---
+
+## Additional Resources
+
+- [Installation Guide](../2_installation/install_the_package.md) - Detailed installation instructions
+- [Build with UV Guide](../4_Package/build_with_uv.md) - Building from source with uv
+- [QuickStart Guide](../3_QuickStarts/QuickStart.md) - Getting started with your first application
+- [Environment Setup Guide](../2_installation/registration_script.md) - One-time device configuration
+- [GitHub Issues](https://github.com/orbbec/pyorbbecsdk/issues) - Report bugs and get community help

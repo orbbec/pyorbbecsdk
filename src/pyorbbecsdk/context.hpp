@@ -48,6 +48,10 @@ class Context {
   bool ob_force_ip_config(const std::string device_uid,
                           const OBDeviceIpAddrConfig &config);
 
+  void set_gvcp_port_scheme(OBGvcpPortScheme scheme);
+
+  OBGvcpPortScheme get_gvcp_port_scheme();
+
   static void set_logger_level(OBLogSeverity level);
 
   static void set_logger_to_console(OBLogSeverity level);

@@ -307,6 +307,31 @@ void define_device(const py::object &m) {
            })
       .def("set_ip_config",
            [](const std::shared_ptr<ob::Device> &self,
+              const OBNetIpConfigV2 &config) {
+             OB_TRY_CATCH({
+               // Try to use OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2 first (SDK v2.8.1+)
+               if (self->isPropertySupported(OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2,
+                                             OB_PERMISSION_READ_WRITE)) {
+                 self->setStructuredData(
+                     OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2,
+                     reinterpret_cast<const uint8_t *>(&config),
+                     sizeof(OBNetIpConfigV2));
+               } else {
+                 // Fall back to OB_STRUCT_DEVICE_IP_ADDR_CONFIG for older devices
+                 OBNetIpConfig legacy_config;
+                 legacy_config.dhcp = (config.flags & 0x01) ? 1 : 0;
+                 std::memcpy(legacy_config.address, config.address, 4);
+                 std::memcpy(legacy_config.mask, config.mask, 4);
+                 std::memcpy(legacy_config.gateway, config.gateway, 4);
+                 self->setStructuredData(
+                     OB_STRUCT_DEVICE_IP_ADDR_CONFIG,
+                     reinterpret_cast<const uint8_t *>(&legacy_config),
+                     sizeof(OBNetIpConfig));
+               }
+             });
+           })
+      .def("set_ip_config",
+           [](const std::shared_ptr<ob::Device> &self,
               const OBDeviceIpAddrConfig &config) {
              OB_TRY_CATCH({
                self->setStructuredData(
@@ -517,7 +542,13 @@ void define_device(const py::object &m) {
       .def("loadFrameInterleave", [](const std::shared_ptr<ob::Device> &self,
                                      const std::string &frameInterleaveName) {
         OB_TRY_CATCH({ return self->loadFrameInterleave(frameInterleaveName.c_str()); });
-      });
+      })
+
+      .def("enable_firmware_log",
+           [](const std::shared_ptr<ob::Device> &self, bool enable) {
+             OB_TRY_CATCH({ self->enableFirmwareLog(enable); });
+           },
+           "Enable or disable the device firmware log");
 }
 
 void define_device_preset_list(const py::object &m) {
@@ -644,6 +675,18 @@ void define_device_list(const py::object &m) {
             OB_TRY_CATCH({ return std::string(self->getLocalGateway(index)); });
           },
           "Get the host gateway for the specified device")
+      .def(
+          "get_local_net_interface_name",
+          [](const std::shared_ptr<ob::DeviceList> &self, int index) {
+            OB_TRY_CATCH({ return std::string(self->getLocalNetInterfaceName(index)); });
+          },
+          "Get the name of the host network interface corresponding to the device")
+      .def(
+          "get_ip_source_type",
+          [](const std::shared_ptr<ob::DeviceList> &self, int index) {
+            OB_TRY_CATCH({ return self->getIpSourceType(index); });
+          },
+          "Get the current GVCP IP configuration status of the device")
       .def("__len__",
            [](const std::shared_ptr<ob::DeviceList> &self) {
              OB_TRY_CATCH({ return self->deviceCount(); });

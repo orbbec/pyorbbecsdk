@@ -1,0 +1,711 @@
+Frames
+======
+
+All frame-related classes for video, depth, IMU, and point cloud data.
+
+Class Hierarchy
+---------------
+
+The :class:`~pyorbbecsdk.Frame` class is the base class for all frame types.
+
+.. graphviz::
+
+   digraph FrameHierarchy {
+      rankdir=TB;
+      bgcolor=transparent;
+      node [shape=box, style="filled,rounded", fillcolor="#e3f2fd", color="#2196f3", fontname="Helvetica Neue, Helvetica, Arial, sans-serif", fontsize=11];
+      edge [color="#666666", arrowsize=0.8, penwidth=1.2];
+
+      Frame [label="Frame"];
+      VideoFrame [label="VideoFrame"];
+      ColorFrame [label="ColorFrame"];
+      DepthFrame [label="DepthFrame"];
+      IRFrame [label="IRFrame"];
+      ConfidenceFrame [label="ConfidenceFrame"];
+      PointsFrame [label="PointsFrame"];
+      LiDARPointsFrame [label="LiDARPointsFrame"];
+      AccelFrame [label="AccelFrame"];
+      GyroFrame [label="GyroFrame"];
+      FrameSet [label="FrameSet"];
+
+      Frame -> VideoFrame;
+      Frame -> PointsFrame;
+      Frame -> LiDARPointsFrame;
+      Frame -> AccelFrame;
+      Frame -> GyroFrame;
+      Frame -> FrameSet;
+      VideoFrame -> ColorFrame;
+      VideoFrame -> DepthFrame;
+      VideoFrame -> IRFrame;
+      VideoFrame -> ConfidenceFrame;
+   }
+
+
+Inheritance Overview
+--------------------
+
+.. list-table:: Class Inheritance Hierarchy
+   :header-rows: 1
+   :widths: 25 25 50
+   :class: inheritance-table
+
+   * - Class
+     - Inherits From
+     - Description
+   * - :class:`~pyorbbecsdk.Frame`
+     - object
+     - Base class for all frame types
+   * - :class:`~pyorbbecsdk.VideoFrame`
+     - :class:`~pyorbbecsdk.Frame`
+     - Base class for video frames
+   * - :class:`~pyorbbecsdk.ColorFrame`
+     - :class:`~pyorbbecsdk.VideoFrame`
+     - Color image frame
+   * - :class:`~pyorbbecsdk.DepthFrame`
+     - :class:`~pyorbbecsdk.VideoFrame`
+     - Depth image frame
+   * - :class:`~pyorbbecsdk.IRFrame`
+     - :class:`~pyorbbecsdk.VideoFrame`
+     - Infrared image frame
+   * - :class:`~pyorbbecsdk.ConfidenceFrame`
+     - :class:`~pyorbbecsdk.VideoFrame`
+     - Confidence frame
+   * - :class:`~pyorbbecsdk.PointsFrame`
+     - :class:`~pyorbbecsdk.Frame`
+     - Point cloud frame
+   * - :class:`~pyorbbecsdk.LiDARPointsFrame`
+     - :class:`~pyorbbecsdk.Frame`
+     - LiDAR point cloud frame
+   * - :class:`~pyorbbecsdk.AccelFrame`
+     - :class:`~pyorbbecsdk.Frame`
+     - Accelerometer frame
+   * - :class:`~pyorbbecsdk.GyroFrame`
+     - :class:`~pyorbbecsdk.Frame`
+     - Gyroscope frame
+   * - :class:`~pyorbbecsdk.FrameSet`
+     - :class:`~pyorbbecsdk.Frame`
+     - Collection of synchronized frames
+
+
+Classes
+-------
+
+Frame
+^^^^^
+
+.. autoclass:: pyorbbecsdk.Frame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+VideoFrame
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.VideoFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ColorFrame
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ColorFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DepthFrame
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DepthFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+IRFrame
+^^^^^^^
+
+.. autoclass:: pyorbbecsdk.IRFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ConfidenceFrame
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ConfidenceFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PointsFrame
+^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.PointsFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+LiDARPointsFrame
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.LiDARPointsFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+AccelFrame
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.AccelFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+GyroFrame
+^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.GyroFrame
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+FrameSet
+^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.FrameSet
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Enumerations
+------------
+
+OBFrameType
+^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBFrameType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBFrameType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCEL_FRAME``
+        - ``<OBFrameType.ACCEL_FRAME: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``COLOR_FRAME``
+        - ``<OBFrameType.COLOR_FRAME: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``CONFIDENCE_FRAME``
+        - ``<OBFrameType.CONFIDENCE_FRAME: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``DEPTH_FRAME``
+        - ``<OBFrameType.DEPTH_FRAME: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``FRAME_SET``
+        - ``<OBFrameType.FRAME_SET: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``GYRO_FRAME``
+        - ``<OBFrameType.GYRO_FRAME: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``IR_FRAME``
+        - ``<OBFrameType.IR_FRAME: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``LEFT_COLOR_FRAME``
+        - ``<OBFrameType.LEFT_COLOR_FRAME: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``LEFT_IR_FRAME``
+        - ``<OBFrameType.LEFT_IR_FRAME: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_POINTS_FRAME``
+        - ``<OBFrameType.LIDAR_POINTS_FRAME: 12>``
+        - 12
+        - Auto-generated from C++ bindings
+      * - ``RAW_PHASE_FRAME``
+        - ``<OBFrameType.RAW_PHASE_FRAME: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_COLOR_FRAME``
+        - ``<OBFrameType.RIGHT_COLOR_FRAME: 14>``
+        - 14
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_IR_FRAME``
+        - ``<OBFrameType.RIGHT_IR_FRAME: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``TYPE_COUNT_FRAME``
+        - ``<OBFrameType.TYPE_COUNT_FRAME: 15>``
+        - 15
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN_FRAME``
+        - ``<OBFrameType.UNKNOWN_FRAME: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+      * - ``VIDEO_FRAME``
+        - ``<OBFrameType.VIDEO_FRAME: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBFrameMetadataType
+^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBFrameMetadataType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBFrameMetadataType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACTUAL_FRAME_RATE``
+        - ``<OBFrameMetadataType.ACTUAL_FRAME_RATE: 18>``
+        - 18
+        - Auto-generated from C++ bindings
+      * - ``AE_ROI_BOTTOM``
+        - ``<OBFrameMetadataType.AE_ROI_BOTTOM: 23>``
+        - 23
+        - Auto-generated from C++ bindings
+      * - ``AE_ROI_LEFT``
+        - ``<OBFrameMetadataType.AE_ROI_LEFT: 20>``
+        - 20
+        - Auto-generated from C++ bindings
+      * - ``AE_ROI_RIGHT``
+        - ``<OBFrameMetadataType.AE_ROI_RIGHT: 22>``
+        - 22
+        - Auto-generated from C++ bindings
+      * - ``AE_ROI_TOP``
+        - ``<OBFrameMetadataType.AE_ROI_TOP: 21>``
+        - 21
+        - Auto-generated from C++ bindings
+      * - ``AUTO_EXPOSURE``
+        - ``<OBFrameMetadataType.AUTO_EXPOSURE: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``AUTO_WHITE_BALANCE``
+        - ``<OBFrameMetadataType.AUTO_WHITE_BALANCE: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``BRIGHTNESS``
+        - ``<OBFrameMetadataType.BRIGHTNESS: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``CONTRAST``
+        - ``<OBFrameMetadataType.CONTRAST: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``COUNT``
+        - ``<OBFrameMetadataType.COUNT: 34>``
+        - 34
+        - Auto-generated from C++ bindings
+      * - ``EXPOSURE``
+        - ``<OBFrameMetadataType.EXPOSURE: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``EXPOSURE_PRIORITY``
+        - ``<OBFrameMetadataType.EXPOSURE_PRIORITY: 24>``
+        - 24
+        - Auto-generated from C++ bindings
+      * - ``FRAME_NUMBER``
+        - ``<OBFrameMetadataType.FRAME_NUMBER: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``FRAME_RATE``
+        - ``<OBFrameMetadataType.FRAME_RATE: 19>``
+        - 19
+        - Auto-generated from C++ bindings
+      * - ``GAIN``
+        - ``<OBFrameMetadataType.GAIN: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``GAMMA``
+        - ``<OBFrameMetadataType.GAMMA: 14>``
+        - 14
+        - Auto-generated from C++ bindings
+      * - ``GPIO_INPUT_DATA``
+        - ``<OBFrameMetadataType.GPIO_INPUT_DATA: 31>``
+        - 31
+        - Auto-generated from C++ bindings
+      * - ``HDR_SEQUENCE_INDEX``
+        - ``<OBFrameMetadataType.HDR_SEQUENCE_INDEX: 27>``
+        - 27
+        - Auto-generated from C++ bindings
+      * - ``HDR_SEQUENCE_NAME``
+        - ``<OBFrameMetadataType.HDR_SEQUENCE_NAME: 25>``
+        - 25
+        - Auto-generated from C++ bindings
+      * - ``HDR_SEQUENCE_SIZE``
+        - ``<OBFrameMetadataType.HDR_SEQUENCE_SIZE: 26>``
+        - 26
+        - Auto-generated from C++ bindings
+      * - ``HUE``
+        - ``<OBFrameMetadataType.HUE: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``LASER_POWER``
+        - ``<OBFrameMetadataType.LASER_POWER: 28>``
+        - 28
+        - Auto-generated from C++ bindings
+      * - ``LASER_POWER_LEVEL``
+        - ``<OBFrameMetadataType.LASER_POWER_LEVEL: 29>``
+        - 29
+        - Auto-generated from C++ bindings
+      * - ``LASER_STATUS``
+        - ``<OBFrameMetadataType.LASER_STATUS: 30>``
+        - 30
+        - Auto-generated from C++ bindings
+      * - ``MANUAL_WHITE_BALANCE``
+        - ``<OBFrameMetadataType.MANUAL_WHITE_BALANCE: 17>``
+        - 17
+        - Auto-generated from C++ bindings
+      * - ``POWER_LINE_FREQUENCY``
+        - ``<OBFrameMetadataType.POWER_LINE_FREQUENCY: 15>``
+        - 15
+        - Auto-generated from C++ bindings
+      * - ``SATURATION``
+        - ``<OBFrameMetadataType.SATURATION: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``SENSOR_TIMESTAMP``
+        - ``<OBFrameMetadataType.SENSOR_TIMESTAMP: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``SHARPNESS``
+        - ``<OBFrameMetadataType.SHARPNESS: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``TIMESTAMP``
+        - ``<OBFrameMetadataType.TIMESTAMP: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``WHITE_BALANCE``
+        - ``<OBFrameMetadataType.WHITE_BALANCE: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+
+OBFormat
+^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBFormat
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBFormat Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCEL``
+        - ``<OBFormat.ACCEL: 16>``
+        - 16
+        - Auto-generated from C++ bindings
+      * - ``BA81``
+        - ``<OBFormat.BA81: 30>``
+        - 30
+        - Auto-generated from C++ bindings
+      * - ``BGR``
+        - ``<OBFormat.BGR: 23>``
+        - 23
+        - Auto-generated from C++ bindings
+      * - ``BGRA``
+        - ``<OBFormat.BGRA: 25>``
+        - 25
+        - Auto-generated from C++ bindings
+      * - ``BYR2``
+        - ``<OBFormat.BYR2: 32>``
+        - 32
+        - Auto-generated from C++ bindings
+      * - ``COMPRESSED``
+        - ``<OBFormat.COMPRESSED: 26>``
+        - 26
+        - Auto-generated from C++ bindings
+      * - ``GRAY``
+        - ``<OBFormat.GRAY: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``GYRO``
+        - ``<OBFormat.GYRO: 17>``
+        - 17
+        - Auto-generated from C++ bindings
+      * - ``H264``
+        - ``<OBFormat.H264: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``H265``
+        - ``<OBFormat.H265: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``HEVC``
+        - ``<OBFormat.HEVC: 14>``
+        - 14
+        - Auto-generated from C++ bindings
+      * - ``I420``
+        - ``<OBFormat.I420: 15>``
+        - 15
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_CALIBRATION``
+        - ``<OBFormat.LIDAR_CALIBRATION: 38>``
+        - 38
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_POINT``
+        - ``<OBFormat.LIDAR_POINT: 35>``
+        - 35
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN``
+        - ``<OBFormat.LIDAR_SCAN: 37>``
+        - 37
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SPHERE_POINT``
+        - ``<OBFormat.LIDAR_SPHERE_POINT: 36>``
+        - 36
+        - Auto-generated from C++ bindings
+      * - ``MJPG``
+        - ``<OBFormat.MJPG: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``NV12``
+        - ``<OBFormat.NV12: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``NV21``
+        - ``<OBFormat.NV21: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``POINT``
+        - ``<OBFormat.POINT: 19>``
+        - 19
+        - Auto-generated from C++ bindings
+      * - ``RGB``
+        - ``<OBFormat.RGB: 22>``
+        - 22
+        - Auto-generated from C++ bindings
+      * - ``RGBA``
+        - ``<OBFormat.RGBA: 31>``
+        - 31
+        - Auto-generated from C++ bindings
+      * - ``RGB_POINT``
+        - ``<OBFormat.RGB_POINT: 20>``
+        - 20
+        - Auto-generated from C++ bindings
+      * - ``RLE``
+        - ``<OBFormat.RLE: 21>``
+        - 21
+        - Auto-generated from C++ bindings
+      * - ``RVL``
+        - ``<OBFormat.RVL: 27>``
+        - 27
+        - Auto-generated from C++ bindings
+      * - ``RW16``
+        - ``<OBFormat.RW16: 33>``
+        - 33
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN_FORMAT``
+        - ``<OBFormat.UNKNOWN_FORMAT: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+      * - ``UYVY``
+        - ``<OBFormat.UYVY: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``Y10``
+        - ``<OBFormat.Y10: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``Y11``
+        - ``<OBFormat.Y11: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``Y12``
+        - ``<OBFormat.Y12: 12>``
+        - 12
+        - Auto-generated from C++ bindings
+      * - ``Y12C4``
+        - ``<OBFormat.Y12C4: 34>``
+        - 34
+        - Auto-generated from C++ bindings
+      * - ``Y14``
+        - ``<OBFormat.Y14: 24>``
+        - 24
+        - Auto-generated from C++ bindings
+      * - ``Y16``
+        - ``<OBFormat.Y16: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``Y8``
+        - ``<OBFormat.Y8: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``YUY2``
+        - ``<OBFormat.YUY2: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``YUYV``
+        - ``<OBFormat.YUYV: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``YV12``
+        - ``<OBFormat.YV12: 29>``
+        - 29
+        - Auto-generated from C++ bindings
+      * - ``Z16``
+        - ``<OBFormat.Z16: 28>``
+        - 28
+        - Auto-generated from C++ bindings
+
+OBMediaType
+^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBMediaType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBMediaType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCEL``
+        - ``<OBMediaType.ACCEL: 16>``
+        - 16
+        - Auto-generated from C++ bindings
+      * - ``CAMERA_PARAM``
+        - ``<OBMediaType.CAMERA_PARAM: 32>``
+        - 32
+        - Auto-generated from C++ bindings
+      * - ``COLOR``
+        - ``<OBMediaType.COLOR: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``DEPTH``
+        - ``<OBMediaType.DEPTH: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``DEVICE_INFO``
+        - ``<OBMediaType.DEVICE_INFO: 64>``
+        - 64
+        - Auto-generated from C++ bindings
+      * - ``GYRO``
+        - ``<OBMediaType.GYRO: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``IR``
+        - ``<OBMediaType.IR: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``LEFT_IR``
+        - ``<OBMediaType.LEFT_IR: 256>``
+        - 256
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_IR``
+        - ``<OBMediaType.RIGHT_IR: 512>``
+        - 512
+        - Auto-generated from C++ bindings
+      * - ``STREAM_INFO``
+        - ``<OBMediaType.STREAM_INFO: 128>``
+        - 128
+        - Auto-generated from C++ bindings
+
+OBMediaState
+^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBMediaState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBMediaState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OB_MEDIA_BEGIN``
+        - ``<OBMediaState.OB_MEDIA_BEGIN: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``OB_MEDIA_END``
+        - ``<OBMediaState.OB_MEDIA_END: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``OB_MEDIA_PAUSE``
+        - ``<OBMediaState.OB_MEDIA_PAUSE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``OB_MEDIA_RESUME``
+        - ``<OBMediaState.OB_MEDIA_RESUME: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+
+OBPlaybackStatus
+^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBPlaybackStatus
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBPlaybackStatus Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``COUNT``
+        - ``<OBPlaybackStatus.COUNT: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``PAUSED``
+        - ``<OBPlaybackStatus.PAUSED: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``PLAYING``
+        - ``<OBPlaybackStatus.PLAYING: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``STOPPED``
+        - ``<OBPlaybackStatus.STOPPED: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN``
+        - ``<OBPlaybackStatus.UNKNOWN: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+Constants
+---------
+
+.. autodata:: pyorbbecsdk.UNKNOWN
+
+.. autodata:: pyorbbecsdk.PAUSED
+
+.. autodata:: pyorbbecsdk.PLAYING
+
+.. autodata:: pyorbbecsdk.STOPPED
+
+.. autodata:: pyorbbecsdk.COUNT

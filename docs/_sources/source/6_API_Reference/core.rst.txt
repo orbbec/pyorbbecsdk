@@ -1,0 +1,87 @@
+Core
+====
+
+Core classes for device management including Context, Device, Sensor and related lists.
+
+Classes
+-------
+
+Context
+^^^^^^^
+
+.. autoclass:: pyorbbecsdk.Context
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Device
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.Device
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DeviceInfo
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DeviceInfo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DeviceList
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DeviceList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DevicePresetList
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DevicePresetList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Sensor
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.Sensor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SensorList
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.SensorList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+CameraParamList
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.CameraParamList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PresetResolutionConfigList
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.PresetResolutionConfigList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OBDepthWorkModeList
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDepthWorkModeList
+   :members:
+   :undoc-members:
+   :show-inheritance:

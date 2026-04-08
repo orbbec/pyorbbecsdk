@@ -364,6 +364,45 @@ OB_EXPORT ob_camera_param ob_pipeline_get_camera_param_with_profile(ob_pipeline 
  */
 OB_EXPORT ob_calibration_param ob_pipeline_get_calibration_param(ob_pipeline *pipeline, ob_config *config, ob_error **error);
 
+/**
+ * @brief Get the current pipeline status observed during streaming.
+ *
+ * @note This function returns the accumulated status since the last call or since the pipeline was (re)started.
+ *       The status is reset after each call. It is recommended to call this when no frames have been received
+ *       for a period of time. If the status indicates a data error or no-frame condition, the SDK will also
+ *       attempt to fetch device and driver status (with throttling to avoid excessive device communication).
+ *
+ * @param[in] pipeline The pipeline object
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return ob_pipeline_status Pipeline status reflecting events observed since the previous call.
+ */
+OB_EXPORT ob_pipeline_status ob_pipeline_get_status(ob_pipeline *pipeline, ob_error **error);
+
+/**
+ * @brief Enable pipeline health monitor with periodic status polling.
+ *
+ * @note When enabled, an internal polling thread will periodically check the pipeline status (including SDK frame
+ *       drops, device error state, and driver status). If any abnormal status is detected, the callback will be
+ *       invoked. The callback is invoked from an internal thread; avoid blocking operations in the callback.
+ *
+ * @param[in] pipeline The pipeline object
+ * @param[in] callback The callback function to be invoked when abnormal status is detected
+ * @param[in] user_data User-defined data passed to the callback
+ * @param[in] interval_ms Polling interval in milliseconds (recommended: 3000-5000)
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_pipeline_enable_health_monitor(ob_pipeline *pipeline, ob_pipeline_status_callback callback, void *user_data, uint32_t interval_ms,
+                                                 ob_error **error);
+
+/**
+ * @brief Disable pipeline health monitor.
+ *
+ * @param[in] pipeline The pipeline object
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_pipeline_disable_health_monitor(ob_pipeline *pipeline, ob_error **error);
+
 // The following interfaces are deprecated and are retained here for compatibility purposes.
 #define ob_config_set_depth_scale_require ob_config_set_depth_scale_after_align_require
 

@@ -329,6 +329,15 @@ OB_EXPORT void ob_device_set_state_changed_callback(ob_device *device, ob_device
 OB_EXPORT void ob_device_enable_heartbeat(ob_device *device, bool enable, ob_error **error);
 
 /**
+ * @brief Enable or disable the device firmware log.
+ *
+ * @param[in] device The device object.
+ * @param[in] enable Whether to enable the firmware log.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_device_enable_firmware_log(ob_device *device, bool enable, ob_error **error);
+
+/**
  * @brief Send data to the device and receive data from the device.
  * @brief This is a factory and debug function, which can be used to send and receive data from the device. The data format is secret and belongs to the device
  * vendor.
@@ -700,6 +709,34 @@ OB_EXPORT uint8_t ob_device_list_get_device_local_subnet_length(const ob_device_
  * @return const char* The gateway of the host network interface associated with the device.
  */
 OB_EXPORT const char *ob_device_list_get_device_local_gateway(const ob_device_list *list, uint32_t index, ob_error **error);
+
+/**
+ * @brief Get the name of the host network interface corresponding to the device.
+ *
+ * @attention Primarily for network devices. Returns "unknown" for USB or other non-network devices.
+ *
+ * @param[in] list Device list object.
+ * @param[in] index Device index.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return const char* The host network interface name (e.g., "eth0", "en0"). Returns "unknown" for non-network devices.
+ */
+OB_EXPORT const char *ob_device_list_get_device_local_net_if_name(const ob_device_list *list, uint32_t index, ob_error **error);
+
+/**
+ * @brief Get the current GVCP IP configuration status of the device at the specified index.
+ *
+ * @attention This function is valid primarily for Ethernet Vision devices.
+ * For non-Ethernet devices (e.g., USB), it will return OB_IP_SOURCE_NONE.
+ *
+ * @param[in] list The device list object.
+ * @param[in] index The index of the device in the list.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return The active IP configuration mode (e.g., DHCP, LLA, Persistent IP).
+ * Returns OB_IP_SOURCE_NONE if the device is not a Ethernet device.
+ */
+OB_EXPORT ob_ip_source_type ob_device_list_get_device_ip_source_type(const ob_device_list *list, uint32_t index, ob_error **error);
 
 /**
  * @brief Create a device.

@@ -1,0 +1,23 @@
+Pipeline
+========
+
+Pipeline for data streaming and processing configuration.
+
+Classes
+-------
+
+Pipeline
+^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.Pipeline
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Config
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.Config
+   :members:
+   :undoc-members:
+   :show-inheritance:

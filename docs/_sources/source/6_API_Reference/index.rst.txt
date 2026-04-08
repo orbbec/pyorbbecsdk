@@ -1,0 +1,55 @@
+API Reference
+=============
+
+This section contains the complete API reference for the pyorbbecsdk Python wrapper.
+The API is organized into the following modules:
+
+.. toctree::
+   :maxdepth: 2
+
+   core
+   pipeline
+   frames
+   stream_profile
+   filters
+   record_playback
+   data_structures
+   utilities
+
+Quick Links
+-----------
+
+* :class:`~pyorbbecsdk.Context` - Entry point for device management
+* :class:`~pyorbbecsdk.Pipeline` - Data streaming and processing pipeline
+* :class:`~pyorbbecsdk.Device` - Device configuration and control
+* :class:`~pyorbbecsdk.Frame` - Base class for all frame types
+* :class:`~pyorbbecsdk.Filter` - Post-processing filters
+* :class:`~pyorbbecsdk.Config` - Pipeline configuration
+* :class:`~pyorbbecsdk.FrameSet` - Collection of synchronized frames
+
+Module Overview
+---------------
+
+Core
+    Core classes for device management including Context, Device, Sensor and related lists.
+
+Pipeline
+    Pipeline for data streaming and processing configuration.
+
+Frames
+    All frame-related classes for video, depth, IMU, and point cloud data.
+
+Stream Profile
+    Classes for configuring and working with stream profiles.
+
+Filters
+    Post-processing filters for enhancing and processing frames.
+
+Record & Playback
+    Recording and playback functionality for saving and replaying sensor data.
+
+Data Structures
+    Data structures, enumerations, and constants used throughout the SDK.
+
+Utilities
+    Utility functions for working with the pyorbbecsdk.

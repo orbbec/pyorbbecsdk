@@ -55,6 +55,13 @@ class Pipeline {
       std::shared_ptr<ob::StreamProfile> color_profile,
       OBAlignMode align_mode) const;
 
+  OBPipelineStatus get_status() const;
+
+  void enable_health_monitor(const py::function &callback,
+                             uint32_t interval_ms);
+
+  void disable_health_monitor() const;
+
  private:
   std::shared_ptr<ob::Pipeline> impl_;
   std::atomic<bool> is_started_{false};

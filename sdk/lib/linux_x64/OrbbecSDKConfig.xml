@@ -76,6 +76,9 @@
         system's capabilities and the device's speciality. -->
         <LinuxUVCBackend>Auto</LinuxUVCBackend>
 
+        <!-- GVCP port scheme: Standard = default port, SchemeB = custom port -->
+        <GVCPPortScheme>Standard</GVCPPortScheme>
+        
         <!-- Gemini305 config -->
         <Gemini305>
             <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
@@ -180,8 +183,8 @@
             </Misc>
 
             <DepthPostProcessing>
-                <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>
-                <SoftwareNoiseRemoveFilter>true</SoftwareNoiseRemoveFilter>
+                <HardwareNoiseRemoveFilter>true</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>false</SoftwareNoiseRemoveFilter>
             </DepthPostProcessing>
 
             <!-- Whether to enable heartbeat by default -->
@@ -223,6 +226,40 @@
                 <FPS>30</FPS>
                 <Format>YUYV</Format>
             </Color>
+            <LeftColor>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>800</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>YUYV</Format>
+            </LeftColor>
+            <RightColor>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>800</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>YUYV</Format>
+            </RightColor>
             <LeftIR>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>848</Width>

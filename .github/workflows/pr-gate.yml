@@ -1,0 +1,159 @@
+# =============================================================================
+# pr-gate.yml - PR Fast Quality Gate
+# Trigger: pull_request / push to main or feature branches
+# Goal: Complete L1+L2 within 30 minutes, no hardware required
+# =============================================================================
+name: PR Gate
+
+on:
+  pull_request:
+    branches: [main, master, develop, "release/**"]
+  push:
+    branches: [main, master, "feature/**", "hotfix/**"]
+  workflow_dispatch:
+    inputs:
+      python_versions:
+        description: 'Python versions to build (min/default/all)'
+        required: true
+        default: 'default'
+        type: choice
+        options:
+          - min
+          - default
+          - all
+
+concurrency:
+  group: pr-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_LINK_MODE: copy
+
+jobs:
+  # ============================================================
+  # Job 0: Dynamically generate version matrix
+  # ============================================================
+  generate-matrix:
+    name: "Generate Build Matrix"
+    runs-on: ubuntu-22.04
+    outputs:
+      linux-versions: ${{ steps.set-matrix.outputs.linux-versions }}
+    steps:
+      - name: Set version matrix
+        id: set-matrix
+        run: |
+          # Keep only Python 3.10 for Linux x64 platform
+          LINUX_VERSIONS='["3.10"]'
+
+          echo "linux-versions=$LINUX_VERSIONS" >> $GITHUB_OUTPUT
+
+          echo "Linux versions: $LINUX_VERSIONS"
+  # ============================================================
+  # Job 1: Python code format checking and auto-fixing
+  # ============================================================
+  lint-python:
+    name: "L1 | Python Lint"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install lint tools
+        run: |
+          pip install black isort flake8 --quiet
+
+      - name: Check Python formatting (black)
+        run: |
+          black --check --target-version py38 .
+
+      - name: Check Python formatting (isort)
+        run: |
+          isort --check .
+
+      - name: Run flake8
+        run: |
+          flake8 src/ --max-line-length=120 --ignore=E203,W503 \
+            --per-file-ignores="src/pyorbbecsdk/__init__.py:F403,F401"
+
+  # ============================================================
+  # Job 2: Linux Wheel build test
+  # ============================================================
+  build-linux:
+    name: "L1/L2 | Build Linux"
+    runs-on: ubuntu-22.04
+    needs: generate-matrix
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            cmake ninja-build build-essential \
+            libusb-1.0-0-dev libudev-dev
+
+      - name: Build wheel (Linux)
+        run: |
+          bash scripts/build_whl/build-whl-uv.sh ${{ matrix.python-version }} --clean
+        env:
+          UV_LINK_MODE: copy
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-linux-py${{ matrix.python-version }}-${{ github.sha }}
+          path: wheel/*.whl
+          retention-days: 7
+
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-linux-logs-py${{ matrix.python-version }}-${{ github.sha }}
+          path: logs/
+          retention-days: 7
+
+  # ============================================================
+  # Gate Summary
+  # ============================================================
+  gate-summary:
+    name: "Gate Summary"
+    runs-on: ubuntu-22.04
+    needs:
+      - generate-matrix
+      - lint-python
+      - build-linux
+    if: always()
+    steps:
+      - name: Generate summary table
+        run: |
+          echo "## PR Gate Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| lint-python        | ${{ needs.lint-python.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| build-linux        | ${{ needs.build-linux.result }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check gate result
+        run: |
+          LINT="${{ needs.lint-python.result }}"
+          LINUX="${{ needs.build-linux.result }}"
+
+          if [[ "$LINT" != "success" || "$LINUX" != "success" ]]; then
+            echo "[FAIL] Critical jobs failed."
+            exit 1
+          fi
+          echo "[PASS] PR Gate passed."

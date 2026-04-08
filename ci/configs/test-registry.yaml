@@ -1,0 +1,97 @@
+# =============================================================================
+# test-registry.yaml - Test Case Registry
+# =============================================================================
+registry:
+  # Basic tests
+  - id: TEST_BASIC_IMPORT
+    name: "Basic Import"
+    file: test/test_basic_import.py
+    markers: []
+    hardware_required: false
+
+  - id: TEST_BASIC_DEVICE
+    name: "Basic Device Operations"
+    file: test/test_basic_device.py
+    markers: [hardware]
+    hardware_required: true
+
+  - id: TEST_BASIC_CAPTURE
+    name: "Basic Frame Capture"
+    file: test/test_basic_capture.py
+    markers: [hardware]
+    hardware_required: true
+
+  # G300 series tests
+  - id: TEST_G300_DEVICE
+    name: "G300 Series Device"
+    file: test/test_g300_series_device.py
+    markers: [hardware, g300_series]
+    hardware_required: true
+
+  - id: TEST_G300_STREAMS
+    name: "G300 Series Streams"
+    file: test/test_g300_series_streams.py
+    markers: [hardware, g300_series]
+    hardware_required: true
+
+  - id: TEST_G300_CONTROLS
+    name: "G300 Series Controls"
+    file: test/test_g300_series_controls.py
+    markers: [hardware, g300_series]
+    hardware_required: true
+
+  - id: TEST_G300_CALIB
+    name: "G300 Series Calibration"
+    file: test/test_g300_series_calib.py
+    markers: [hardware, g300_series]
+    hardware_required: true
+
+  - id: TEST_G300_FILTERS
+    name: "G300 Series Filters"
+    file: test/test_g300_series_filters.py
+    markers: [hardware, g300_series]
+    hardware_required: true
+
+  - id: TEST_G300_PERFORMANCE
+    name: "G300 Series Performance"
+    file: test/test_g300_series_performance.py
+    markers: [hardware, g300_series, performance]
+    hardware_required: true
+
+  # Femto series tests
+  - id: TEST_FEMTO_DEVICE
+    name: "Femto Device"
+    file: test/test_femto_device.py
+    markers: [hardware, femto]
+    hardware_required: true
+
+  - id: TEST_FEMTO_STREAMS
+    name: "Femto Streams"
+    file: test/test_femto_streams.py
+    markers: [hardware, femto]
+    hardware_required: true
+
+  - id: TEST_FEMTO_CONTROLS
+    name: "Femto Controls"
+    file: test/test_femto_controls.py
+    markers: [hardware, femto]
+    hardware_required: true
+
+  # Other tests
+  - id: TEST_CONTEXT
+    name: "Context API"
+    file: test/test_context.py
+    markers: []
+    hardware_required: false
+
+  - id: TEST_PIPELINE
+    name: "Pipeline API"
+    file: test/test_pipeline.py
+    markers: []
+    hardware_required: false
+
+  - id: TEST_SENSOR_CONTROL
+    name: "Sensor Control"
+    file: test/test_sensor_control.py
+    markers: [hardware]
+    hardware_required: true

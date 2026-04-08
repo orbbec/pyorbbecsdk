@@ -47,4 +47,10 @@ void define_noise_removal_filter(const py::object& m);
 
 void define_decimation_filter(const py::object& m);
 
+void define_edge_noise_removal_filter(const py::object& m);
+
+void define_mgc_noise_removal_filter(const py::object& m);
+
+void define_lut_noise_removal_filter(const py::object& m);
+
 }  // namespace pyorbbecsdk

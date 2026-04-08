@@ -1,5 +1,6 @@
 import unittest
-from pyorbbecsdk import *
+
+from pyorbbecsdk import Context, Pipeline
 
 
 class PipelineTest(unittest.TestCase):
@@ -42,6 +43,6 @@ class PipelineTest(unittest.TestCase):
         print(camera_param.transform)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Start test Pipeline interface, Please make sure you have connected a device to your computer.")
     unittest.main()

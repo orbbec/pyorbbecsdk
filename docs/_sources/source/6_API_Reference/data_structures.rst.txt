@@ -1,0 +1,1166 @@
+Data Structures
+===============
+
+Data structures, enumerations, and constants used throughout the SDK.
+
+Enumerations
+------------
+
+OBLogLevel
+^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBLogLevel
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBLogLevel Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DEBUG``
+        - ``<OBLogLevel.DEBUG: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``ERROR``
+        - ``<OBLogLevel.ERROR: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``FATAL``
+        - ``<OBLogLevel.FATAL: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``INFO``
+        - ``<OBLogLevel.INFO: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``NONE``
+        - ``<OBLogLevel.NONE: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``WARNING``
+        - ``<OBLogLevel.WARNING: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+
+OBError
+^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBError
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBException
+^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBException
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBException Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCESS_DENIED``
+        - ``<OBException.ACCESS_DENIED: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``CAMERA_DISCONNECTED``
+        - ``<OBException.CAMERA_DISCONNECTED: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``DEVICE_UNAVAILABLE``
+        - ``<OBException.DEVICE_UNAVAILABLE: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``INVALID_DATA``
+        - ``<OBException.INVALID_DATA: 12>``
+        - 12
+        - Auto-generated from C++ bindings
+      * - ``INVALID_VALUE``
+        - ``<OBException.INVALID_VALUE: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``IO_ERROR``
+        - ``<OBException.IO_ERROR: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``NOT_FOUND``
+        - ``<OBException.NOT_FOUND: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``NOT_IMPLEMENTED``
+        - ``<OBException.NOT_IMPLEMENTED: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``PLATFORM``
+        - ``<OBException.PLATFORM: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``RESOURCE_BUSY``
+        - ``<OBException.RESOURCE_BUSY: 14>``
+        - 14
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN``
+        - ``<OBException.UNKNOWN: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``UNSUPPORTED_OPERATION``
+        - ``<OBException.UNSUPPORTED_OPERATION: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``WRONG_API_CALL_SEQUENCE``
+        - ``<OBException.WRONG_API_CALL_SEQUENCE: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+
+OBStatus
+^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBStatus
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBStatus Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ERROR_BUFFER_TOO_SMALL``
+        - ``<OBStatus.ERROR_BUFFER_TOO_SMALL: 103>``
+        - 103
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_ACCESS_DENIED``
+        - ``<OBStatus.ERROR_DEVICE_ACCESS_DENIED: 111>``
+        - 111
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_CONNECT_FAILED``
+        - ``<OBStatus.ERROR_DEVICE_CONNECT_FAILED: 110>``
+        - 110
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_DISCONNECTED``
+        - ``<OBStatus.ERROR_DEVICE_DISCONNECTED: 112>``
+        - 112
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_RESPONSE_ERROR``
+        - ``<OBStatus.ERROR_DEVICE_RESPONSE_ERROR: 1005>``
+        - 1005
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_RESPONSE_WARNING``
+        - ``<OBStatus.ERROR_DEVICE_RESPONSE_WARNING: 1006>``
+        - 1006
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_RESPONSE_WRONG_ID``
+        - ``<OBStatus.ERROR_DEVICE_RESPONSE_WRONG_ID: 1002>``
+        - 1002
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_UNAVAILABLE``
+        - ``<OBStatus.ERROR_DEVICE_UNAVAILABLE: 113>``
+        - 113
+        - Auto-generated from C++ bindings
+      * - ``ERROR_DEVICE_UNKNOWN``
+        - ``<OBStatus.ERROR_DEVICE_UNKNOWN: 1000>``
+        - 1000
+        - Auto-generated from C++ bindings
+      * - ``ERROR_FRAME_DATA``
+        - ``<OBStatus.ERROR_FRAME_DATA: 201>``
+        - 201
+        - Auto-generated from C++ bindings
+      * - ``ERROR_FRAME_DATA_LEN``
+        - ``<OBStatus.ERROR_FRAME_DATA_LEN: 202>``
+        - 202
+        - Auto-generated from C++ bindings
+      * - ``ERROR_FRAME_QUEUE_OVERFLOW``
+        - ``<OBStatus.ERROR_FRAME_QUEUE_OVERFLOW: 200>``
+        - 200
+        - Auto-generated from C++ bindings
+      * - ``ERROR_INVALID_DATA``
+        - ``<OBStatus.ERROR_INVALID_DATA: 101>``
+        - 101
+        - Auto-generated from C++ bindings
+      * - ``ERROR_INVALID_DATA_LEN``
+        - ``<OBStatus.ERROR_INVALID_DATA_LEN: 102>``
+        - 102
+        - Auto-generated from C++ bindings
+      * - ``ERROR_INVALID_PARAMETER``
+        - ``<OBStatus.ERROR_INVALID_PARAMETER: 100>``
+        - 100
+        - Auto-generated from C++ bindings
+      * - ``ERROR_IO_FAILURE``
+        - ``<OBStatus.ERROR_IO_FAILURE: 115>``
+        - 115
+        - Auto-generated from C++ bindings
+      * - ``ERROR_ITEM_NOT_FOUND``
+        - ``<OBStatus.ERROR_ITEM_NOT_FOUND: 114>``
+        - 114
+        - Auto-generated from C++ bindings
+      * - ``ERROR_MEMORY``
+        - ``<OBStatus.ERROR_MEMORY: 104>``
+        - 104
+        - Auto-generated from C++ bindings
+      * - ``ERROR_NOT_IMPLEMENTED``
+        - ``<OBStatus.ERROR_NOT_IMPLEMENTED: 106>``
+        - 106
+        - Auto-generated from C++ bindings
+      * - ``ERROR_NO_DEVICE``
+        - ``<OBStatus.ERROR_NO_DEVICE: 109>``
+        - 109
+        - Auto-generated from C++ bindings
+      * - ``ERROR_RESOURCE_BUSY``
+        - ``<OBStatus.ERROR_RESOURCE_BUSY: 116>``
+        - 116
+        - Auto-generated from C++ bindings
+      * - ``ERROR_UNKNOWN``
+        - ``<OBStatus.STATUS_ERROR: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``ERROR_UNSUPPORTED_OPERATION``
+        - ``<OBStatus.ERROR_UNSUPPORTED_OPERATION: 107>``
+        - 107
+        - Auto-generated from C++ bindings
+      * - ``ERROR_WAIT_TIMEOUT``
+        - ``<OBStatus.ERROR_WAIT_TIMEOUT: 105>``
+        - 105
+        - Auto-generated from C++ bindings
+      * - ``ERROR_WRONG_API_CALL_SEQUENCE``
+        - ``<OBStatus.ERROR_WRONG_API_CALL_SEQUENCE: 108>``
+        - 108
+        - Auto-generated from C++ bindings
+      * - ``STATUS_ERROR``
+        - ``<OBStatus.STATUS_ERROR: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``STATUS_OK``
+        - ``<OBStatus.STATUS_OK: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBCameraParam
+^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBCameraParam
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBCameraIntrinsic
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBCameraIntrinsic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBCameraDistortion
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBCameraDistortion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBCameraDistortionModel
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBCameraDistortionModel
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBCameraDistortionModel Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``BROWN_CONRADY``
+        - ``<OBCameraDistortionModel.BROWN_CONRADY: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``NONE``
+        - ``<OBCameraDistortionModel.NONE: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBExtrinsic
+^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBExtrinsic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBBaselineCalibrationParam
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBBaselineCalibrationParam
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBCalibrationParam
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBCalibrationParam
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBAccelIntrinsic
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBAccelIntrinsic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBGyroIntrinsic
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBGyroIntrinsic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBAccelFullScaleRange
+^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBAccelFullScaleRange
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBAccelFullScaleRange Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCEL_FS_12g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_12g: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_16g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_16g: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_24g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_24g: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_2g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_2g: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_3g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_3g: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_4g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_4g: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_6g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_6g: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_8g``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_8g: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``ACCEL_FS_UNKNOWN``
+        - ``<OBAccelFullScaleRange.ACCEL_FS_UNKNOWN: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+
+OBGyroFullScaleRange
+^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBGyroFullScaleRange
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBGyroFullScaleRange Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``FS_1000dps``
+        - ``<OBGyroFullScaleRange.FS_1000dps: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``FS_125dps``
+        - ``<OBGyroFullScaleRange.FS_125dps: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``FS_16dps``
+        - ``<OBGyroFullScaleRange.FS_16dps: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``FS_2000dps``
+        - ``<OBGyroFullScaleRange.FS_2000dps: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``FS_250dps``
+        - ``<OBGyroFullScaleRange.FS_250dps: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``FS_31dps``
+        - ``<OBGyroFullScaleRange.FS_31dps: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``FS_400dps``
+        - ``<OBGyroFullScaleRange.FS_400dps: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``FS_500dps``
+        - ``<OBGyroFullScaleRange.FS_500dps: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``FS_62dps``
+        - ``<OBGyroFullScaleRange.FS_62dps: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``FS_800dps``
+        - ``<OBGyroFullScaleRange.FS_800dps: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``FS_UNKNOWN``
+        - ``<OBGyroFullScaleRange.FS_UNKNOWN: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+
+OBAccelValue
+^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBAccelValue
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBGyroValue
+^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBGyroValue
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBFloat3D
+^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBFloat3D
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPoint2f
+^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBPoint2f
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPoint3f
+^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBPoint3f
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBRect
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBRect
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBRegionOfInterest
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBRegionOfInterest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBLiDARPoint
+^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBLiDARPoint
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBLiDARScanPoint
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBLiDARScanPoint
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBLiDARSpherePoint
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBLiDARSpherePoint
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBLiDARScanRate
+^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBLiDARScanRate
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBLiDARScanRate Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``LIDAR_SCAN_10HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_10HZ: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_15HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_15HZ: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_20HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_20HZ: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_25HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_25HZ: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_30HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_30HZ: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_40HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_40HZ: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_5HZ``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_5HZ: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SCAN_UNKNOWN``
+        - ``<OBLiDARScanRate.LIDAR_SCAN_UNKNOWN: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBColorPoint
+^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBColorPoint
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPixelType
+^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBPixelType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBPixelType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OB_PIXEL_DEPTH``
+        - ``<OBPixelType.OB_PIXEL_DEPTH: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``OB_PIXEL_DISPARITY``
+        - ``<OBPixelType.OB_PIXEL_DISPARITY: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``OB_PIXEL_RAW_PHASE``
+        - ``<OBPixelType.OB_PIXEL_RAW_PHASE: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``OB_PIXEL_TOF_DEPTH``
+        - ``<OBPixelType.OB_PIXEL_TOF_DEPTH: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``OB_PIXEL_UNKNOWN``
+        - ``<OBPixelType.OB_PIXEL_UNKNOWN: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+
+OBPowerLineFreqMode
+^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBPowerLineFreqMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBPowerLineFreqMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``FREQUENCY_50HZ``
+        - ``<OBPowerLineFreqMode.FREQUENCY_50HZ: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``FREQUENCY_60HZ``
+        - ``<OBPowerLineFreqMode.FREQUENCY_60HZ: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``FREQUENCY_CLOSE``
+        - ``<OBPowerLineFreqMode.FREQUENCY_CLOSE: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBDCPowerState
+^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDCPowerState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDCPowerState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OFF``
+        - ``<OBDCPowerState.OFF: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``ON``
+        - ``<OBDCPowerState.ON: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+
+OBUSBPowerState
+^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBUSBPowerState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBUSBPowerState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OFF``
+        - ``<OBUSBPowerState.OFF: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``POWER_5V_0A9``
+        - ``<OBUSBPowerState.POWER_5V_0A9: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``POWER_5V_1A5``
+        - ``<OBUSBPowerState.POWER_5V_1A5: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``POWER_5V_3A0``
+        - ``<OBUSBPowerState.POWER_5V_3A0: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+
+OBCommunicationType
+^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBCommunicationType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBCommunicationType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ETHERNET``
+        - ``<OBCommunicationType.ETHERNET: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``USB``
+        - ``<OBCommunicationType.USB: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBProtocolVersion
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBProtocolVersion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBCmdVersion
+^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBCmdVersion
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBCmdVersion Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``INVALID``
+        - ``<OBCmdVersion.INVALID: 65535>``
+        - 65535
+        - Auto-generated from C++ bindings
+      * - ``NONE``
+        - ``<OBCmdVersion.NONE: 65534>``
+        - 65534
+        - Auto-generated from C++ bindings
+      * - ``V0``
+        - ``<OBCmdVersion.V0: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``V1``
+        - ``<OBCmdVersion.V1: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``V2``
+        - ``<OBCmdVersion.V2: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``V3``
+        - ``<OBCmdVersion.V3: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+
+OBCoordinateSystemType
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBCoordinateSystemType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBCoordinateSystemType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``LEFT_HAND``
+        - ``<OBCoordinateSystemType.LEFT_HAND: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_HAND``
+        - ``<OBCoordinateSystemType.RIGHT_HAND: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+
+OBRotateDegreeType
+^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBRotateDegreeType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBRotateDegreeType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ROTATE_0``
+        - ``<OBRotateDegreeType.ROTATE_0: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``ROTATE_180``
+        - ``<OBRotateDegreeType.ROTATE_180: 180>``
+        - 180
+        - Auto-generated from C++ bindings
+      * - ``ROTATE_270``
+        - ``<OBRotateDegreeType.ROTATE_270: 270>``
+        - 270
+        - Auto-generated from C++ bindings
+      * - ``ROTATE_90``
+        - ``<OBRotateDegreeType.ROTATE_90: 90>``
+        - 90
+        - Auto-generated from C++ bindings
+
+OBDepthPrecisionLevel
+^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDepthPrecisionLevel
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDepthPrecisionLevel Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ONE_MM``
+        - ``<OBDepthPrecisionLevel.ONE_MM: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``ZERO_POINT_FOUR_MM``
+        - ``<OBDepthPrecisionLevel.ZERO_POINT_FOUR_MM: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``ZERO_POINT_ONE_MM``
+        - ``<OBDepthPrecisionLevel.ZERO_POINT_ONE_MM: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``ZERO_POINT_TWO_MM``
+        - ``<OBDepthPrecisionLevel.ZERO_POINT_TWO_MM: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+
+OBDepthCroppingMode
+^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDepthCroppingMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDepthCroppingMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``AUTO``
+        - ``<OBDepthCroppingMode.AUTO: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``CLOSE``
+        - ``<OBDepthCroppingMode.CLOSE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``OPEN``
+        - ``<OBDepthCroppingMode.OPEN: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+
+OBTofFilterRange
+^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBTofFilterRange
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBTofFilterRange Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``CLOSE``
+        - ``<OBTofFilterRange.CLOSE: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``DEBUG``
+        - ``<OBTofFilterRange.DEBUG: 100>``
+        - 100
+        - Auto-generated from C++ bindings
+      * - ``FAR``
+        - ``<OBTofFilterRange.FAR: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``MIDDLE``
+        - ``<OBTofFilterRange.MIDDLE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+
+OBTofExposureThresholdControl
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBTofExposureThresholdControl
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBSequenceIdItem
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBSequenceIdItem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBUpgradeState
+^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBUpgradeState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBUpgradeState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DONE``
+        - ``<OBUpgradeState.DONE: 3>``
+        - 3
+        - Upgrade completed successfully
+      * - ``DONE_REBOOT_AND_REUPDATE``
+        - ``<OBUpgradeState.DONE_REBOOT_AND_REUPDATE: 7>``
+        - 7
+        - Completed, reboot and reupdate needed
+      * - ``DONE_WITH_DUPLICATES``
+        - ``<OBUpgradeState.DONE_WITH_DUPLICATES: 6>``
+        - 6
+        - Completed with duplicate devices
+      * - ``ERR_DDR``
+        - ``<OBUpgradeState.ERR_DDR: -7>``
+        - -7
+        - Auto-generated from C++ bindings
+      * - ``ERR_ERASE``
+        - ``<OBUpgradeState.ERR_ERASE: -3>``
+        - -3
+        - Auto-generated from C++ bindings
+      * - ``ERR_FILE_READ``
+        - ``<OBUpgradeState.ERR_FILE_READ: -12>``
+        - -12
+        - Auto-generated from C++ bindings
+      * - ``ERR_FLASH_TYPE``
+        - ``<OBUpgradeState.ERR_FLASH_TYPE: -4>``
+        - -4
+        - Auto-generated from C++ bindings
+      * - ``ERR_IMAGE_SIZE``
+        - ``<OBUpgradeState.ERR_IMAGE_SIZE: -5>``
+        - -5
+        - Auto-generated from C++ bindings
+      * - ``ERR_INVALID_COUNT``
+        - ``<OBUpgradeState.ERR_INVALID_COUNT: -11>``
+        - -11
+        - Auto-generated from C++ bindings
+      * - ``ERR_MISMATCH``
+        - ``<OBUpgradeState.ERR_MISMATCH: -9>``
+        - -9
+        - Auto-generated from C++ bindings
+      * - ``ERR_OTHER``
+        - ``<OBUpgradeState.ERR_OTHER: -6>``
+        - -6
+        - Auto-generated from C++ bindings
+      * - ``ERR_PROGRAM``
+        - ``<OBUpgradeState.ERR_PROGRAM: -2>``
+        - -2
+        - Auto-generated from C++ bindings
+      * - ``ERR_TIMEOUT``
+        - ``<OBUpgradeState.ERR_TIMEOUT: -8>``
+        - -8
+        - Auto-generated from C++ bindings
+      * - ``ERR_TRANSFER``
+        - ``<OBUpgradeState.ERR_TRANSFER: -13>``
+        - -13
+        - Auto-generated from C++ bindings
+      * - ``ERR_UNSUPPORT_DEV``
+        - ``<OBUpgradeState.ERR_UNSUPPORT_DEV: -10>``
+        - -10
+        - Auto-generated from C++ bindings
+      * - ``ERR_VERIFY``
+        - ``<OBUpgradeState.ERR_VERIFY: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+      * - ``FILE_TRANSFER``
+        - ``<OBUpgradeState.FILE_TRANSFER: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``IN_PROGRESS``
+        - ``<OBUpgradeState.IN_PROGRESS: 2>``
+        - 2
+        - Upgrade in progress
+      * - ``START``
+        - ``<OBUpgradeState.START: 1>``
+        - 1
+        - Start upgrade process
+      * - ``VERIFY_IMAGE``
+        - ``<OBUpgradeState.VERIFY_IMAGE: 0>``
+        - 0
+        - Verify firmware image
+      * - ``VERIFY_SUCCESS``
+        - ``<OBUpgradeState.VERIFY_SUCCESS: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+
+OBDataTranState
+^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDataTranState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDataTranState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DONE``
+        - ``<OBDataTranState.DONE: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``ERR_BUSY``
+        - ``<OBDataTranState.ERR_BUSY: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+      * - ``ERR_OTHER``
+        - ``<OBDataTranState.ERR_OTHER: -5>``
+        - -5
+        - Auto-generated from C++ bindings
+      * - ``ERR_TRAN_FAILED``
+        - ``<OBDataTranState.ERR_TRAN_FAILED: -3>``
+        - -3
+        - Auto-generated from C++ bindings
+      * - ``ERR_UNSUPPORTED``
+        - ``<OBDataTranState.ERR_UNSUPPORTED: -2>``
+        - -2
+        - Auto-generated from C++ bindings
+      * - ``ERR_VERIFY_FAILED``
+        - ``<OBDataTranState.ERR_VERIFY_FAILED: -4>``
+        - -4
+        - Auto-generated from C++ bindings
+      * - ``STOPPED``
+        - ``<OBDataTranState.STOPPED: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``TRANSFERRING``
+        - ``<OBDataTranState.TRANSFERRING: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``VERIFYING``
+        - ``<OBDataTranState.VERIFYING: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+
+OBFileTranState
+^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBFileTranState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBFileTranState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DONE``
+        - ``<OBFileTranState.DONE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``ERR_DDR``
+        - ``<OBFileTranState.ERR_DDR: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+      * - ``ERR_MD5_ERROR``
+        - ``<OBFileTranState.ERR_MD5_ERROR: -4>``
+        - -4
+        - Auto-generated from C++ bindings
+      * - ``ERR_NOT_ENOUGH_SPACE``
+        - ``<OBFileTranState.ERR_NOT_ENOUGH_SPACE: -2>``
+        - -2
+        - Auto-generated from C++ bindings
+      * - ``ERR_PATH_NOT_WRITABLE``
+        - ``<OBFileTranState.ERR_PATH_NOT_WRITABLE: -3>``
+        - -3
+        - Auto-generated from C++ bindings
+      * - ``ERR_TIMEOUT``
+        - ``<OBFileTranState.ERR_TIMEOUT: -6>``
+        - -6
+        - Auto-generated from C++ bindings
+      * - ``ERR_WRITE_FLASH_ERROR``
+        - ``<OBFileTranState.ERR_WRITE_FLASH_ERROR: -5>``
+        - -5
+        - Auto-generated from C++ bindings
+      * - ``PREPARING``
+        - ``<OBFileTranState.PREPARING: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``TRANSFER``
+        - ``<OBFileTranState.TRANSFER: 2>``
+        - 2
+        - Auto-generated from C++ bindings

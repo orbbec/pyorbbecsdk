@@ -19,7 +19,7 @@ param (
 If (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
 {
     # The original script is modified to pass through the command-line parameter
-    $arguments = "& '" + $myinvocation.mycommand.definition + "'" + " -op " + $op
+    $arguments = "-ExecutionPolicy Bypass -Command & '" + $myinvocation.mycommand.definition + "'" + " -op " + $op
     Start-Process powershell -Verb runAs -ArgumentList $arguments
     Break
 }

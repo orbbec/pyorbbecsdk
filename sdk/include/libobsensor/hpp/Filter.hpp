@@ -1122,6 +1122,166 @@ public:
 };
 
 /**
+ * @brief EdgeNoiseRemoval filter
+ */
+class EdgeNoiseRemovalFilter : public Filter {
+public:
+    EdgeNoiseRemovalFilter(const std::string &activationKey = "") {
+        ob_error *error = nullptr;
+        auto      impl  = ob_create_private_filter("EdgeNoiseRemovalFilter", activationKey.c_str(), &error);
+        Error::handle(&error);
+        init(impl);
+    }
+
+    ~EdgeNoiseRemovalFilter() noexcept override = default;
+
+    /**
+     * @brief Get the edge noise removal filter margin x th range.
+     * @return OBUint16PropertyRange The margin x th of property range.
+     */
+    OBUint16PropertyRange getMarginXthRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "margin_x_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("margin_x_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the edge noise removal filter margin y th range.
+     * @return OBUint16PropertyRange The margin y th of property range.
+     */
+    OBUint16PropertyRange getMarginYthRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "margin_y_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("margin_y_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the edge noise removal filter limit x th range.
+     * @return OBUint16PropertyRange The limit x th of property range.
+     */
+    OBUint16PropertyRange getLimitXthRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "limit_x_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("limit_x_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the edge noise removal filter limit y th range.
+     * @return OBUint16PropertyRange The limit y th of property range.
+     */
+    OBUint16PropertyRange getLimitYthRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "limit_y_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("limit_y_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the edge noise removal filter vertical direction enable range.
+     * @return OBUint16PropertyRange The vertical direction enable of property range.
+     */
+    OBUint16PropertyRange getVerticalDirectionEnableRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "enable_vertical_direction") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("enable_vertical_direction"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the edge noise removal filter width range.
+     * @return OBUint16PropertyRange The width of property range.
+     */
+    OBUint16PropertyRange getWidthRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "width") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("width"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the edge noise removal filter height range.
+     * @return OBUint16PropertyRange The height of property range.
+     */
+    OBUint16PropertyRange getHeightRange() {
+        OBUint16PropertyRange range{};
+        const auto &          schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "height") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("height"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Set the edge noise removal filter params.
+     *
+     * @param[in] filterParams OBEdgeNoiseRemovalFilterParams.
+     */
+    void setFilterParams(OBEdgeNoiseRemovalFilterParams filterParams) {
+        setConfigValue("margin_x_th", static_cast<double>(filterParams.margin_x_th));
+        setConfigValue("margin_y_th", static_cast<double>(filterParams.margin_y_th));
+        setConfigValue("limit_x_th", static_cast<double>(filterParams.limit_x_th));
+        setConfigValue("limit_y_th", static_cast<double>(filterParams.limit_y_th));
+        setConfigValue("enable_vertical_direction", static_cast<double>(filterParams.enable_direction));
+        setConfigValue("width", static_cast<double>(filterParams.width));
+        setConfigValue("height", static_cast<double>(filterParams.height));
+    }
+
+    /**
+     * @brief Get the edge noise removal filter params.
+     *
+     * @return OBEdgeNoiseRemovalFilterParams.
+     */
+    OBEdgeNoiseRemovalFilterParams getFilterParams() {
+        OBEdgeNoiseRemovalFilterParams param{};
+        param.margin_x_th      = static_cast<uint16_t>(getConfigValue("margin_x_th"));
+        param.margin_y_th      = static_cast<uint16_t>(getConfigValue("margin_y_th"));
+        param.limit_x_th       = static_cast<uint16_t>(getConfigValue("limit_x_th"));
+        param.limit_y_th       = static_cast<uint16_t>(getConfigValue("limit_y_th"));
+        param.enable_direction = static_cast<uint16_t>(getConfigValue("enable_vertical_direction"));
+        param.width            = static_cast<uint16_t>(getConfigValue("width"));
+        param.height           = static_cast<uint16_t>(getConfigValue("height"));
+        return param;
+    }
+
+};
+
+/**
  * @brief FalsePositive filter
  */
 class FalsePositiveFilter : public Filter {
@@ -1460,6 +1620,311 @@ public:
 };
 
 /**
+ * @brief MgcNoiseRemoval filter
+ */
+class MgcNoiseRemovalFilter : public Filter {
+public:
+    MgcNoiseRemovalFilter(const std::string &activationKey = "") {
+        ob_error *error = nullptr;
+        auto      impl  = ob_create_private_filter("MgcNoiseRemovalFilter", activationKey.c_str(), &error);
+        Error::handle(&error);
+        init(impl);
+    }
+
+    ~MgcNoiseRemovalFilter() noexcept override = default;
+
+    /**
+     * @brief Set the mgc noise removal filter params.
+     * @param[in] filterParams OBMgcNoiseRemovalFilterParams.
+     */
+    void setFilterParams(OBMgcNoiseRemovalFilterParams filterParams) {
+        setConfigValue("max_width_left", static_cast<double>(filterParams.max_width_left));
+        setConfigValue("max_width_right", static_cast<double>(filterParams.max_width_right));
+        setConfigValue("max_radius", static_cast<double>(filterParams.max_radius));
+        setConfigValue("margin_x_th", static_cast<double>(filterParams.margin_x_th));
+        setConfigValue("margin_y_th", static_cast<double>(filterParams.margin_y_th));
+        setConfigValue("limit_x_th", static_cast<double>(filterParams.limit_x_th));
+        setConfigValue("limit_y_th", static_cast<double>(filterParams.limit_y_th));
+        setConfigValue("width", static_cast<double>(filterParams.width));
+        setConfigValue("height", static_cast<double>(filterParams.height));
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter params.
+     * @return OBMgcNoiseRemovalFilterParams.
+     */
+    OBMgcNoiseRemovalFilterParams getFilterParams() {
+        OBMgcNoiseRemovalFilterParams params{};
+        params.max_width_left  = static_cast<int>(getConfigValue("max_width_left"));
+        params.max_width_right = static_cast<int>(getConfigValue("max_width_right"));
+        params.max_radius      = static_cast<int>(getConfigValue("max_radius"));
+        params.margin_x_th     = static_cast<int>(getConfigValue("margin_x_th"));
+        params.margin_y_th     = static_cast<int>(getConfigValue("margin_y_th"));
+        params.limit_x_th      = static_cast<int>(getConfigValue("limit_x_th"));
+        params.limit_y_th      = static_cast<int>(getConfigValue("limit_y_th"));
+        params.width           = static_cast<uint32_t>(getConfigValue("width"));
+        params.height          = static_cast<uint32_t>(getConfigValue("height"));
+        return params;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter max_width_left range.
+     * @return OBUint16PropertyRange The max_width_left of property range.
+     */
+    OBUint16PropertyRange getMaxWidthLeftRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "max_width_left") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("max_width_left"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter max_width_right range.
+     * @return OBUint16PropertyRange The max_width_right of property range.
+     */
+    OBUint16PropertyRange getMaxWidthRightRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "max_width_right") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("max_width_right"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter max_radius range.
+     * @return OBUint16PropertyRange The max_radius of property range.
+     */
+    OBUint16PropertyRange getMaxRadiusRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "max_radius") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("max_radius"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter margin_x_th range.
+     * @return OBUint16PropertyRange The margin_x_th of property range.
+     */
+    OBUint16PropertyRange getMarginXthRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "margin_x_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("margin_x_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter margin_y_th range.
+     * @return OBUint16PropertyRange The margin_y_th of property range.
+     */
+    OBUint16PropertyRange getMarginYthRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "margin_y_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("margin_y_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter limit_x_th range.
+     * @return OBUint16PropertyRange The limit_x_th of property range.
+     */
+    OBUint16PropertyRange getLimitXthRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "limit_x_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("limit_x_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter limit_y_th range.
+     * @return OBUint16PropertyRange The limit_y_th of property range.
+     */
+    OBUint16PropertyRange getLimitYthRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "limit_y_th") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("limit_y_th"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter width range.
+     * @return OBUint16PropertyRange The width of property range.
+     */
+    OBUint16PropertyRange getWidthRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "width") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("width"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the mgc noise removal filter height range.
+     * @return OBUint16PropertyRange The height of property range.
+     */
+    OBUint16PropertyRange getHeightRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "height") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("height"));
+                break;
+            }
+        }
+        return range;
+    }
+};
+
+/**
+ * @brief LutNoiseRemoval filter
+ */
+class LutNoiseRemovalFilter : public Filter {
+public:
+    LutNoiseRemovalFilter(const std::string &activationKey = "") {
+        ob_error *error = nullptr;
+        auto      impl  = ob_create_private_filter("LutNoiseRemovalFilter", activationKey.c_str(), &error);
+        Error::handle(&error);
+        init(impl);
+    }
+
+    ~LutNoiseRemovalFilter() noexcept override = default;
+
+    /**
+     * @brief Set the lut noise removal filter params.
+     * @param[in] filterParams OBLutNoiseRemovalFilterParams.
+     */
+    void setFilterParams(OBLutNoiseRemovalFilterParams filterParams) {
+        for(int i = 0; i < 16; ++i) {
+            setConfigValue("max_lut_" + std::to_string(i), static_cast<double>(filterParams.max_lut[i]));
+        }
+        setConfigValue("min_diff", static_cast<double>(filterParams.min_diff));
+        setConfigValue("width", static_cast<double>(filterParams.width));
+        setConfigValue("height", static_cast<double>(filterParams.height));
+    }
+
+    /**
+     * @brief Get the lut noise removal filter params.
+     * @return OBLutNoiseRemovalFilterParams.
+     */
+    OBLutNoiseRemovalFilterParams getFilterParams() {
+        OBLutNoiseRemovalFilterParams params{};
+        for(int i = 0; i < 16; ++i) {
+            params.max_lut[i] = static_cast<uint16_t>(getConfigValue("max_lut_" + std::to_string(i)));
+        }
+        params.min_diff = static_cast<uint16_t>(getConfigValue("min_diff"));
+        params.width    = static_cast<uint32_t>(getConfigValue("width"));
+        params.height   = static_cast<uint32_t>(getConfigValue("height"));
+        return params;
+    }
+
+    /**
+     * @brief Get the lut noise removal filter max_lut range for a given index (0-15).
+     * @param[in] index LUT entry index in range [0, 15].
+     * @return OBUint16PropertyRange The max_lut of property range.
+     */
+    OBUint16PropertyRange getMaxLutRange(int index) {
+        OBUint16PropertyRange range{};
+        if(index < 0 || index >= 16) {
+            return range;
+        }
+        std::string name      = "max_lut_" + std::to_string(index);
+        const auto &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, name.c_str()) == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue(name));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the lut noise removal filter min_diff range.
+     * @return OBUint16PropertyRange The min_diff of property range.
+     */
+    OBUint16PropertyRange getMinDiffRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "min_diff") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("min_diff"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the lut noise removal filter width range.
+     * @return OBUint16PropertyRange The width of property range.
+     */
+    OBUint16PropertyRange getWidthRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "width") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("width"));
+                break;
+            }
+        }
+        return range;
+    }
+
+    /**
+     * @brief Get the lut noise removal filter height range.
+     * @return OBUint16PropertyRange The height of property range.
+     */
+    OBUint16PropertyRange getHeightRange() {
+        OBUint16PropertyRange range{};
+        const auto           &schemaVec = getConfigSchemaVec();
+        for(const auto &item: schemaVec) {
+            if(strcmp(item.name, "height") == 0) {
+                range = getPropertyRange<OBUint16PropertyRange>(item, getConfigValue("height"));
+                break;
+            }
+        }
+        return range;
+    }
+};
+
+/**
  * @brief Depth to disparity or disparity to depth
  */
 class DisparityTransform : public Filter {
@@ -1532,7 +1997,10 @@ inline const std::unordered_map<std::string, std::type_index> &getFilterTypeMap(
         { "HoleFillingFilter", typeid(HoleFillingFilter) },     { "NoiseRemovalFilter", typeid(NoiseRemovalFilter) },
         { "TemporalFilter", typeid(TemporalFilter) },           { "DisparityTransform", typeid(DisparityTransform) },
         { "SpatialFastFilter", typeid(SpatialFastFilter) },     { "SpatialModerateFilter", typeid(SpatialModerateFilter) },
+        { "EdgeNoiseRemovalFilter", typeid(EdgeNoiseRemovalFilter) },
         { "FalsePositiveFilter", typeid(FalsePositiveFilter) },
+        { "MgcNoiseRemovalFilter", typeid(MgcNoiseRemovalFilter) },
+        { "LutNoiseRemovalFilter", typeid(LutNoiseRemovalFilter) },
     };
     return filterTypeMap;
 }

@@ -1,0 +1,454 @@
+# Virtual Environment Installation Guide
+
+> **Virtual Environments are Recommended for Installing pyorbbecsdk**
+>
+> Modern operating systems (especially macOS and newer Linux distributions) increasingly restrict modifications to the system Python environment. Using virtual environments allows you to:
+> - Avoid permission errors and system protection mechanisms
+> - Prevent package conflicts between different projects
+> - Create reproducible dependency environments
+> - Support multiple Python versions simultaneously
+
+---
+
+## 📋 Table of Contents
+
+1. [Quick Start](#quick-start)
+2. [Using venv (Recommended for Beginners)](#1-using-venv-recommended-for-beginners)
+3. [Using pyenv (Multiple Python Versions)](#2-using-pyenv-multiple-python-versions)
+4. [Using conda (Data Science Users)](#3-using-conda-data-science-users)
+5. [Platform-Specific Notes](#platform-specific-notes)
+6. [Troubleshooting](#troubleshooting)
+
+---
+
+## 📊 Tool Selection Guide
+
+| Scenario | Recommended Tool | Reason |
+|----------|-----------------|--------|
+| Quick start, minimal configuration | **venv** | Built into Python, no installation needed |
+| Multiple projects, multiple Python versions | **pyenv + venv** | Flexible Python version management |
+| Data science, complex dependencies | **conda** | Excellent at handling non-Python dependencies |
+| CI/CD automation | **venv** | Lightweight, standard tool |
+
+---
+
+## Quick Start
+
+### Linux / macOS (venv)
+
+```bash
+# Create virtual environment
+python3 -m venv orbbec_env
+
+# Activate environment
+source orbbec_env/bin/activate
+
+# Install SDK
+pip install --upgrade pyorbbecsdk2
+
+# Verify installation
+pip show pyorbbecsdk2 | grep Version
+```
+
+### Windows (venv)
+
+```powershell
+# Create virtual environment
+python -m venv orbbec_env
+
+# Activate environment (PowerShell)
+.\orbbec_env\Scripts\Activate.ps1
+
+# Install SDK
+pip install --upgrade pyorbbecsdk2
+
+# Verify installation
+pip show pyorbbecsdk2 | findstr Version
+```
+
+---
+
+## 1. Using venv (Recommended for Beginners)
+
+`venv` is a virtual environment tool included in the Python standard library - no additional installation required.
+
+### 1.1 Check Python Version
+
+Ensure Python 3.8 or higher is installed:
+
+**Linux/macOS:**
+```bash
+python3 --version
+```
+
+**Windows:**
+```powershell
+python --version
+```
+
+### 1.2 Create Virtual Environment
+
+Create a virtual environment in your project directory:
+
+**All Platforms:**
+```bash
+# Linux/macOS/Windows universal
+python3 -m venv orbbec_env
+
+# Windows if python3 command is not available, use:
+python -m venv orbbec_env
+```
+
+> **Naming suggestion**: Use `orbbec_env` or `.venv` as the environment name
+
+### 1.3 Activate Virtual Environment
+
+**Linux/macOS:**
+```bash
+source orbbec_env/bin/activate
+```
+
+**Windows (CMD):**
+```batch
+orbbec_env\Scripts\activate.bat
+```
+
+**Windows (PowerShell):**
+```powershell
+.\orbbec_env\Scripts\Activate.ps1
+```
+
+When activated, the command prompt will display the environment name:
+```
+(orbbec_env) user@computer:~$
+```
+
+### 1.4 Install pyorbbecsdk2
+
+Install in the activated virtual environment:
+
+```bash
+pip install --upgrade pyorbbecsdk2
+```
+
+### 1.5 Verify Installation
+
+```bash
+pip show pyorbbecsdk2
+```
+
+Expected output:
+```
+Name: pyorbbecsdk2
+Version: 2.0.16
+...
+```
+
+### 1.6 Run Examples
+
+```bash
+# Test import
+python -c "import pyorbbecsdk; print('Import successful')"
+
+# Find example code location
+python -c "import pyorbbecsdk; import os; print(os.path.dirname(pyorbbecsdk.__file__))"
+```
+
+### 1.7 Deactivate Virtual Environment
+
+```bash
+deactivate
+```
+
+---
+
+## 2. Using pyenv (Multiple Python Versions)
+
+`pyenv` allows you to install and manage multiple Python versions on your system, ideal for developers who need to switch between different Python versions.
+
+### 2.1 Install pyenv
+
+**macOS (using Homebrew):**
+```bash
+brew install pyenv
+```
+
+**Linux:**
+```bash
+curl https://pyenv.run | bash
+
+# Add to shell configuration (~/.bashrc or ~/.zshrc)
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+# Reload configuration
+source ~/.bashrc
+```
+
+**Verify installation:**
+```bash
+pyenv --version
+```
+
+### 2.2 Install Python 3.10
+
+```bash
+# View installable versions
+pyenv install --list | grep "^  3.10"
+
+# Install Python 3.10.16 (example)
+pyenv install 3.10.16
+
+# Set global default version (optional)
+pyenv global 3.10.16
+```
+
+### 2.3 Set Local Python Version in Project Directory
+
+```bash
+cd your_project_directory
+pyenv local 3.10.16
+```
+
+This creates a `.python-version` file that automatically switches Python versions when entering the directory.
+
+### 2.4 Create Virtual Environment and Activate
+
+```bash
+# Create venv using pyenv's Python
+python3 -m venv orbbec_env
+
+# Activate
+source orbbec_env/bin/activate
+```
+
+### 2.5 Install pyorbbecsdk2
+
+```bash
+pip install --upgrade pyorbbecsdk2
+```
+
+### 2.6 Complete Workflow Example
+
+```bash
+# Enter project directory
+cd ~/projects/orbbec_demo
+
+# Python automatically switches to 3.10.16 (via .python-version)
+python --version  # Python 3.10.16
+
+# Activate virtual environment
+source orbbec_env/bin/activate
+
+# Run program
+python your_script.py
+
+# Exit
+deactivate
+```
+
+---
+
+## 3. Using conda (Data Science Users)
+
+`conda` is the package manager for Anaconda/Miniconda, particularly adept at handling non-Python dependencies.
+
+### 3.1 Install Miniconda
+
+**Download installer:**
+
+- **Linux:**
+  ```bash
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  bash Miniconda3-latest-Linux-x86_64.sh
+  ```
+
+- **macOS (Apple Silicon):**
+  ```bash
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+  bash Miniconda3-latest-MacOSX-arm64.sh
+  ```
+
+- **Windows:** Download and run [Miniconda3-latest-Windows-x86_64.exe](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe)
+
+### 3.2 Create conda Environment
+
+```bash
+# Create Python 3.10 environment
+conda create -n orbbec python=3.10
+
+# Activate environment
+conda activate orbbec
+```
+
+### 3.3 Install Dependencies (Optional)
+
+If your project requires other conda packages:
+```bash
+conda install numpy opencv
+```
+
+### 3.4 Install pyorbbecsdk2
+
+```bash
+pip install --upgrade pyorbbecsdk2
+```
+
+> **Note**: Even with conda, pyorbbecsdk2 must be installed via pip as it is not available in the conda repository.
+
+### 3.5 Exit Environment
+
+```bash
+conda deactivate
+```
+
+### 3.6 Remove Environment (if needed)
+
+```bash
+conda remove -n orbbec --all
+```
+
+---
+
+## Platform-Specific Notes
+
+### Linux
+
+#### Ubuntu/Debian
+
+You may need to install python3-venv before using virtual environments:
+```bash
+sudo apt-get update
+sudo apt-get install python3-venv
+```
+
+### macOS
+
+#### Xcode Command Line Tools
+
+Ensure these are installed before creating virtual environments:
+```bash
+xcode-select --install
+```
+
+#### Permission Issues
+
+Even with virtual environments, camera access still requires sudo:
+```bash
+# Correct
+sudo -E python your_script.py
+
+# Incorrect - may lack sufficient permissions
+python your_script.py
+```
+
+### Windows
+
+#### Visual C++ Redistributable
+
+Ensure Visual C++ Redistributable is installed (usually pre-installed).
+
+#### PowerShell Execution Policy
+
+If you encounter execution policy errors when activating the virtual environment:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+---
+
+## Troubleshooting
+
+### ❌ "externally-managed-environment" Error
+
+**Symptom:**
+```
+error: externally-managed-environment
+× This environment is externally managed
+╰─> To install Python packages system-wide, try apt install ...
+```
+
+**Solution:** Use a virtual environment!
+```bash
+python3 -m venv myenv
+source myenv/bin/activate
+pip install --upgrade pyorbbecsdk2
+```
+
+### ❌ "No module named 'venv'"
+
+**Symptom:**
+```
+Error: No module named 'venv'
+```
+
+**Solution:** Install the venv module
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install python3-venv
+```
+
+**CentOS/RHEL:**
+```bash
+sudo yum install python3-devel
+```
+
+### ❌ Virtual Environment Activated but Still Using System Python
+
+**Symptom:** `which python` still shows `/usr/bin/python`
+
+**Solution:** Check that the activate script executed successfully, or use the full path:
+```bash
+source ./orbbec_env/bin/activate
+which python  # Should show .../orbbec_env/bin/python
+```
+
+### ❌ pip install Shows Permission Denied
+
+**Symptom:**
+```
+PermissionError: [Errno 13] Permission denied: '.../site-packages/...'
+```
+
+**Solution:** Ensure virtual environment is activated and do not use sudo:
+```bash
+# Incorrect - do not use sudo inside virtual environment
+sudo pip install --upgrade pyorbbecsdk2
+
+# Correct - install directly in virtual environment
+pip install --upgrade pyorbbecsdk2
+```
+
+### ❌ "pyorbbec_env/bin/activate: No such file"
+
+**Symptom:** Activation command fails
+
+**Solution:**
+- Check that you are in the correct directory
+- Check that virtual environment was created successfully: `ls -la orbbec_env/bin/`
+- Windows users should ensure correct path separators and script extensions
+
+---
+
+## 📝 Best Practices
+
+1. **One environment per project**: Create separate virtual environments for each pyorbbecsdk project
+2. **Don't commit environment directory**: Add virtual environment directories to `.gitignore`:
+   ```
+   orbbec_env/
+   venv/
+   .venv/
+   __pycache__/
+   ```
+3. **Document dependencies**: Use `pip freeze > requirements.txt` to record dependencies
+4. **Document activation steps**: Include environment activation instructions in your README
+
+---
+
+## 🔗 Related Documentation
+
+- [Installing pyorbbecsdk](install_the_package.md) - Basic installation guide
+- [Building with UV](../4_Package/build_with_uv.md) - Building from source
+- [Troubleshooting FAQ](../7_FAQ/FAQ.md) - More problem solutions

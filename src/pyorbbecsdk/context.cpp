@@ -122,6 +122,16 @@ bool Context::ob_force_ip_config(const std::string device_uid,
   OB_TRY_CATCH({ return impl_->forceIp(device_uid.c_str(), config); });
 }
 
+void Context::set_gvcp_port_scheme(OBGvcpPortScheme scheme) {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ impl_->setGvcpPortScheme(scheme); });
+}
+
+OBGvcpPortScheme Context::get_gvcp_port_scheme() {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ return impl_->getGvcpPortScheme(); });
+}
+
 void define_context(py::object &m) {
   py::class_<Context>(m, "Context")
       .def(py::init<>())
@@ -173,6 +183,16 @@ void define_context(py::object &m) {
             return self.ob_force_ip_config(device_uid, config);
           },
           "Change the IP configuration")
+      .def(
+          "set_gvcp_port_scheme",
+          [](Context &self, OBGvcpPortScheme scheme) {
+            self.set_gvcp_port_scheme(scheme);
+          },
+          "Set the GVCP port scheme used for network device discovery and control")
+      .def(
+          "get_gvcp_port_scheme",
+          [](Context &self) { return self.get_gvcp_port_scheme(); },
+          "Get the current GVCP port scheme")
       .def_static("set_logger_level",
                   [](OBLogSeverity level) { Context::set_logger_level(level); })
       .def_static(

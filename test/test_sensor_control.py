@@ -1,5 +1,6 @@
 import unittest
-from pyorbbecsdk import *
+
+from pyorbbecsdk import Context, OBPermissionType, OBPropertyID, Pipeline
 
 
 class SensorControlTest(unittest.TestCase):
@@ -18,50 +19,63 @@ class SensorControlTest(unittest.TestCase):
         self.context = None
 
     def turn_off_depth_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support depth auto exposure!")
             return
         self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, False)
 
     def turn_on_depth_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support depth auto exposure!")
             return
         self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, True)
 
     def turn_off_ir_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support ir auto exposure!")
             return
         self.device.set_bool_property(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL, False)
 
     def turn_on_ir_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support ir auto exposure!")
             return
         self.device.set_bool_property(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL, True)
 
     def turn_off_color_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color auto exposure!")
             return
         self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
 
     def turn_on_color_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color auto exposure!")
             return
         self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, True)
 
     def test_get_and_set_ir_gain(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_GAIN_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_GAIN_INT, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support ir gain!")
             return
         self.turn_off_ir_auto_exposure()
@@ -77,8 +91,9 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_ir_auto_exposure()
 
     def test_get_and_set_color_gain(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_GAIN_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_GAIN_INT, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support color gain!")
             return
         self.turn_off_color_auto_exposure()
@@ -94,8 +109,9 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_color_auto_exposure()
 
     def test_get_and_set_depth_gain(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_GAIN_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_GAIN_INT, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support depth gain!")
             return
         self.turn_off_depth_auto_exposure()
@@ -111,8 +127,10 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_depth_auto_exposure()
 
     def test_get_and_set_color_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color exposure!")
             return
         self.turn_off_color_auto_exposure()
@@ -128,8 +146,9 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_color_auto_exposure()
 
     def test_get_and_set_ir_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_EXPOSURE_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_EXPOSURE_INT, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support ir exposure!")
             return
         self.turn_off_ir_auto_exposure()
@@ -145,29 +164,31 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_ir_auto_exposure()
 
     def test_get_and_set_color_auto_white_balance(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color auto white balance!")
             return
         self.turn_on_color_auto_exposure()
         curr_color_auto_white_balance = self.device.get_bool_property(
-            OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL)
+            OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL
+        )
         self.assertIsNotNone(curr_color_auto_white_balance)
         print("Current color auto white balance: ", curr_color_auto_white_balance)
         color_auto_white_balance = not curr_color_auto_white_balance
-        self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL,
-                                      color_auto_white_balance)
-        new_color_auto_white_balance = self.device.get_bool_property(
-            OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL)
+        self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL, color_auto_white_balance)
+        new_color_auto_white_balance = self.device.get_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL)
         self.assertIsNotNone(new_color_auto_white_balance)
         self.assertEqual(new_color_auto_white_balance, color_auto_white_balance)
-        self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL,
-                                      curr_color_auto_white_balance)
+        self.device.set_bool_property(
+            OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL,
+            curr_color_auto_white_balance,
+        )
         self.turn_off_color_auto_exposure()
 
     def test_get_and_set_ldp(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_LDP_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(OBPropertyID.OB_PROP_LDP_BOOL, OBPermissionType.PERMISSION_READ_WRITE):
             print("Current device not support LDP!")
             return
         curr_ldp = self.device.get_bool_property(OBPropertyID.OB_PROP_LDP_BOOL)
@@ -180,8 +201,9 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_LDP_BOOL, curr_ldp)
 
     def test_get_and_set_laser(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_LASER_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_LASER_BOOL, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support laser!")
             return
         curr_laser = self.device.get_bool_property(OBPropertyID.OB_PROP_LASER_BOOL)
@@ -195,8 +217,9 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, curr_laser)
 
     def test_get_and_set_flood(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_FLOOD_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_FLOOD_BOOL, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support flood!")
             return
         curr_flood = self.device.get_bool_property(OBPropertyID.OB_PROP_FLOOD_BOOL)
@@ -210,8 +233,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_FLOOD_BOOL, curr_flood)
 
     def test_get_and_set_soft_filter(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support soft filter!")
             return
         curr_soft_filter = self.device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL)
@@ -225,8 +250,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL, curr_soft_filter)
 
     def test_get_and_set_color_mirror(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color mirror!")
             return
         curr_color_mirror = self.device.get_bool_property(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL)
@@ -240,8 +267,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL, curr_color_mirror)
 
     def test_get_and_set_depth_mirror(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_MIRROR_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_MIRROR_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support depth mirror!")
             return
         curr_depth_mirror = self.device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_MIRROR_BOOL)
@@ -255,8 +284,9 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_MIRROR_BOOL, curr_depth_mirror)
 
     def test_get_and_set_ir_mirror(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_MIRROR_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_MIRROR_BOOL, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support ir mirror!")
             return
         curr_ir_mirror = self.device.get_bool_property(OBPropertyID.OB_PROP_IR_MIRROR_BOOL)
@@ -270,8 +300,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_IR_MIRROR_BOOL, curr_ir_mirror)
 
     def test_get_and_set_color_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color auto exposure!")
             return
         curr_color_auto_exposure = self.device.get_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL)
@@ -285,8 +317,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, curr_color_auto_exposure)
 
     def test_get_and_set_depth_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support depth auto exposure!")
             return
         curr_depth_auto_exposure = self.device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL)
@@ -300,8 +334,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, curr_depth_auto_exposure)
 
     def test_get_and_set_ir_auto_exposure(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support ir auto exposure!")
             return
         curr_ir_auto_exposure = self.device.get_bool_property(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL)
@@ -315,8 +351,9 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL, curr_ir_auto_exposure)
 
     def test_get_and_set_color_flip(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_FLIP_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_FLIP_BOOL, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support color flip!")
             return
         curr_color_flip = self.device.get_bool_property(OBPropertyID.OB_PROP_COLOR_FLIP_BOOL)
@@ -330,8 +367,9 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_COLOR_FLIP_BOOL, curr_color_flip)
 
     def test_get_and_set_depth_flip(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_DEPTH_FLIP_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_DEPTH_FLIP_BOOL, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support depth flip!")
             return
         curr_depth_flip = self.device.get_bool_property(OBPropertyID.OB_PROP_DEPTH_FLIP_BOOL)
@@ -345,8 +383,9 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_FLIP_BOOL, curr_depth_flip)
 
     def test_get_and_set_ir_flip(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_IR_FLIP_BOOL,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_IR_FLIP_BOOL, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support ir flip!")
             return
         curr_ir_flip = self.device.get_bool_property(OBPropertyID.OB_PROP_IR_FLIP_BOOL)
@@ -360,8 +399,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_bool_property(OBPropertyID.OB_PROP_IR_FLIP_BOOL, curr_ir_flip)
 
     def test_get_and_set_color_sharpness(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_SHARPNESS_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_SHARPNESS_INT,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color sharpness!")
             return
         self.turn_off_color_auto_exposure()
@@ -377,8 +418,9 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_color_auto_exposure()
 
     def test_get_and_set_color_hue(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_HUE_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_HUE_INT, OBPermissionType.PERMISSION_READ_WRITE
+        ):
             print("Current device not support color hue!")
             return
         self.turn_off_color_auto_exposure()
@@ -394,8 +436,10 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_color_auto_exposure()
 
     def test_get_and_set_color_contrast(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_CONTRAST_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_CONTRAST_INT,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color contrast!")
             return
         self.turn_off_color_auto_exposure()
@@ -411,8 +455,10 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_color_auto_exposure()
 
     def test_get_and_set_color_brightness(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_COLOR_BRIGHTNESS_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_COLOR_BRIGHTNESS_INT,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support color brightness!")
             return
         self.turn_off_color_auto_exposure()
@@ -428,8 +474,10 @@ class SensorControlTest(unittest.TestCase):
         self.turn_on_color_auto_exposure()
 
     def test_get_and_set_depth_work_mode(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_STRUCT_CURRENT_DEPTH_ALG_MODE,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_STRUCT_CURRENT_DEPTH_ALG_MODE,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support depth work mode!")
             return
         curr_depth_work_mode = self.device.get_depth_work_mode()
@@ -454,8 +502,10 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_depth_work_mode(curr_depth_work_mode)
 
     def test_get_and_set_fan_work_mode(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_PROP_FAN_WORK_MODE_INT,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_PROP_FAN_WORK_MODE_INT,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support fan work mode!")
             return
         curr_fan_work_mode = self.device.get_int_property(OBPropertyID.OB_PROP_FAN_WORK_MODE_INT)
@@ -469,6 +519,6 @@ class SensorControlTest(unittest.TestCase):
         self.device.set_int_property(OBPropertyID.OB_PROP_FAN_WORK_MODE_INT, curr_fan_work_mode)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Start test SensorControl interface, Please make sure you have connected a device to your computer.")
     unittest.main()

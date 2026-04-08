@@ -30,6 +30,9 @@ void define_properties(const py::object& m) {
              "IR flood switch")
       .value("OB_PROP_FLOOD_LEVEL_INT", OBPropertyID::OB_PROP_FLOOD_LEVEL_INT,
              "IR flood level")
+      .value("OB_PROP_TEMPERATURE_COMPENSATION_BOOL",
+             OBPropertyID::OB_PROP_TEMPERATURE_COMPENSATION_BOOL,
+             "Enable/disable temperature compensation")
       .value("OB_PROP_DEPTH_MIRROR_BOOL",
              OBPropertyID::OB_PROP_DEPTH_MIRROR_BOOL, "Depth mirror")
       .value("OB_PROP_DEPTH_FLIP_BOOL", OBPropertyID::OB_PROP_DEPTH_FLIP_BOOL,
@@ -81,6 +84,21 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL",
              OBPropertyID::OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL,
              "Anti_collusion activation status")
+      .value("OB_PROP_DEVICE_AE_REFERENCE_INT",
+             OBPropertyID::OB_PROP_DEVICE_AE_REFERENCE_INT,
+             "Device AE reference source. 0: Depth based, 1: Color based")
+      .value("OB_PROP_DEVICE_AE_STRATEGY_INT",
+             OBPropertyID::OB_PROP_DEVICE_AE_STRATEGY_INT,
+             "Device AE strategy. 0: Default, 1: Motion")
+      .value("OB_PROP_COLOR_ROI_BRIGHTNESS_INT",
+             OBPropertyID::OB_PROP_COLOR_ROI_BRIGHTNESS_INT,
+             "Color camera ROI brightness adjustment")
+      .value("OB_PROP_COLOR_PRESET_PRIORITY_INT",
+             OBPropertyID::OB_PROP_COLOR_PRESET_PRIORITY_INT,
+             "Color camera preset priority")
+      .value("OB_PROP_COLOR_ANTI_FLICKER_BOOL",
+             OBPropertyID::OB_PROP_COLOR_ANTI_FLICKER_BOOL,
+             "Color anti-flicker switch")
       .value("OB_PROP_DEPTH_PRECISION_LEVEL_INT",
              OBPropertyID::OB_PROP_DEPTH_PRECISION_LEVEL_INT,
              "he depth precision level, which may change the depth frame data "
@@ -122,6 +140,8 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_D2C_PREPROCESS_BOOL",
              OBPropertyID::OB_PROP_D2C_PREPROCESS_BOOL,
              "D2C preprocessing switch (such as RGB cropping), 0: off, 1: on")
+      .value("OB_PROP_GPM_BOOL", OBPropertyID::OB_PROP_GPM_BOOL,
+             "Enable/disable GPM function")
       .value("OB_PROP_RGB_CUSTOM_CROP_BOOL",
              OBPropertyID::OB_PROP_RGB_CUSTOM_CROP_BOOL,
              "Custom RGB cropping switch, 0 is off, 1 is on custom cropping, "
@@ -141,6 +161,11 @@ void define_properties(const py::object& m) {
              "Laser power level")
       .value("OB_PROP_LASER_ENERGY_LEVEL_INT",
              OBPropertyID::OB_PROP_LASER_ENERGY_LEVEL_INT, "Laser energy level")
+      .value("OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT",
+             OBPropertyID::OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT,
+             "Get hardware laser power actual level which real state of laser "
+             "element. OB_PROP_LASER_ENERGY_LEVEL_INT will effect this command"
+             " which it setting and changed the hardware laser energy level.")
       .value("OB_PROP_LDP_MEASURE_DISTANCE_INT",
              OBPropertyID::OB_PROP_LDP_MEASURE_DISTANCE_INT,
              "LDP's measure distance, unit: mm")
@@ -176,6 +201,24 @@ void define_properties(const py::object& m) {
              "Right IR sensor rotation, angle{0, 90, 180, 270}")
       .value("OB_PROP_DEPTH_ROTATE_INT", OBPropertyID::OB_PROP_DEPTH_ROTATE_INT,
              "Depth sensor rotation, angle{0, 90, 180, 270}")
+      .value("OB_PROP_COLOR_RIGHT_ROTATE_INT",
+             OBPropertyID::OB_PROP_COLOR_RIGHT_ROTATE_INT,
+             "Right Color sensor rotation, angle{0, 90, 180, 270}")
+      .value("OB_PROP_COLOR_RIGHT_MIRROR_BOOL",
+             OBPropertyID::OB_PROP_COLOR_RIGHT_MIRROR_BOOL,
+             "Right Color mirror")
+      .value("OB_PROP_COLOR_RIGHT_FLIP_BOOL",
+             OBPropertyID::OB_PROP_COLOR_RIGHT_FLIP_BOOL,
+             "Right Color flip")
+      .value("OB_PROP_COLOR_LEFT_ROTATE_INT",
+             OBPropertyID::OB_PROP_COLOR_LEFT_ROTATE_INT,
+             "Left Color sensor rotation, angle{0, 90, 180, 270}")
+      .value("OB_PROP_COLOR_LEFT_MIRROR_BOOL",
+             OBPropertyID::OB_PROP_COLOR_LEFT_MIRROR_BOOL,
+             "Left Color mirror")
+      .value("OB_PROP_COLOR_LEFT_FLIP_BOOL",
+             OBPropertyID::OB_PROP_COLOR_LEFT_FLIP_BOOL,
+             "Left Color flip")
       .value(
           "OB_PROP_LASER_HW_ENERGY_LEVEL_INT",
           OBPropertyID::OB_PROP_LASER_HW_ENERGY_LEVEL_INT,
@@ -193,6 +236,28 @@ void define_properties(const py::object& m) {
           "OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL",
           OBPropertyID::OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL,
           " Multi-DeviceSync synchronized signal trigger out is enable state")
+      .value("OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL",
+             OBPropertyID::OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL,
+             "Depth with confidence stream enable")
+      .value("OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL",
+             OBPropertyID::OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL,
+             "Enable or disable confidence stream filter")
+      .value("OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT",
+             OBPropertyID::OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT,
+             "Confidence stream filter threshold, range [0, 255]")
+      .value("OB_PROP_CONFIDENCE_MIRROR_BOOL",
+             OBPropertyID::OB_PROP_CONFIDENCE_MIRROR_BOOL,
+             "Confidence stream mirror enable")
+      .value("OB_PROP_CONFIDENCE_FLIP_BOOL",
+             OBPropertyID::OB_PROP_CONFIDENCE_FLIP_BOOL,
+             "Confidence stream flip enable")
+      .value("OB_PROP_CONFIDENCE_ROTATE_INT",
+             OBPropertyID::OB_PROP_CONFIDENCE_ROTATE_INT,
+             "Confidence stream rotate angle{0, 90, 180, 270}")
+      .value("OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT",
+             OBPropertyID::OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT,
+             "Intra-camera Sync Reference based on the exposure start time, "
+             "the exposure middle time, or the exposure end time.")
       .value("OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL",
              OBPropertyID::OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL,
              "Restore factory settings and factory parameters")
@@ -268,6 +333,9 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DISP_SEARCH_OFFSET_INT",
              OBPropertyID::OB_PROP_DISP_SEARCH_OFFSET_INT,
              "Disparity search range offset, range: [0, 127]")
+      .value("OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL",
+             OBPropertyID::OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL,
+             "cpu temperature calibration . true: calibrate temperature")
       .value("OB_PROP_DEVICE_REPOWER_BOOL",
              OBPropertyID::OB_PROP_DEVICE_REPOWER_BOOL,
              "Repower device (cut off power and power on again)")
@@ -310,6 +378,9 @@ void define_properties(const py::object& m) {
       .value("OB_STRUCT_RGB_CROP_ROI", OBPropertyID::OB_STRUCT_RGB_CROP_ROI)
       .value("OB_STRUCT_DEVICE_IP_ADDR_CONFIG",
              OBPropertyID::OB_STRUCT_DEVICE_IP_ADDR_CONFIG)
+      .value("OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2",
+             OBPropertyID::OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2,
+             "Device IP address configuration v2")
       .value("OB_STRUCT_CURRENT_DEPTH_ALG_MODE",
              OBPropertyID::OB_STRUCT_CURRENT_DEPTH_ALG_MODE)
       .value("OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST",
@@ -325,6 +396,12 @@ void define_properties(const py::object& m) {
       .value("OB_STRUCT_DISP_OFFSET_CONFIG",
              OBPropertyID::OB_STRUCT_DISP_OFFSET_CONFIG,
              "Disparity offset interleaving")
+      .value("OB_STRUCT_PRESET_RESOLUTION_CONFIG",
+             OBPropertyID::OB_STRUCT_PRESET_RESOLUTION_CONFIG,
+             "Preset resolution ratio configuration")
+      .value("OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM",
+             OBPropertyID::OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM,
+             "Color sensor synchronized exposure parameter structure")
       .value("OB_PROP_COLOR_AUTO_EXPOSURE_BOOL",
              OBPropertyID::OB_PROP_COLOR_AUTO_EXPOSURE_BOOL)
       .value("OB_PROP_COLOR_EXPOSURE_INT",
@@ -353,6 +430,13 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_COLOR_HUE_INT", OBPropertyID::OB_PROP_COLOR_HUE_INT)
       .value("OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT",
              OBPropertyID::OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT)
+      .value("OB_PROP_COLOR_DENOISING_LEVEL_INT",
+             OBPropertyID::OB_PROP_COLOR_DENOISING_LEVEL_INT,
+             "Color camera CCI denoising level. 0: Auto; 1-8: higher values "
+             "indicate stronger denoising.")
+      .value("OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT",
+             OBPropertyID::OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT,
+             "Depth camera priority")
       .value("OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL",
              OBPropertyID::OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL)
       .value("OB_PROP_DEPTH_EXPOSURE_INT",
@@ -399,12 +483,72 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL,
              "Right IR frame data unpacking function switch (each current will "
              "be turned on by default, support RLE/Y10/Y11/Y12/Y14 format)")
+      .value("OB_PROP_DEPTH_INDUSTRY_MODE_INT",
+             OBPropertyID::OB_PROP_DEPTH_INDUSTRY_MODE_INT,
+             "Depth Stream Industry Working Mode Settings")
+      .value("OB_PROP_NETWORK_BANDWIDTH_TYPE_INT",
+             OBPropertyID::OB_PROP_NETWORK_BANDWIDTH_TYPE_INT,
+             "Read the current network bandwidth type of the network device")
+      .value("OB_PROP_DEVICE_PERFORMANCE_MODE_INT",
+             OBPropertyID::OB_PROP_DEVICE_PERFORMANCE_MODE_INT,
+             "Switch device performance mode")
       .value("OB_RAW_DATA_CAMERA_CALIB_JSON_FILE",
              OBPropertyID::OB_RAW_DATA_CAMERA_CALIB_JSON_FILE,
              "Calibration JSON file read from device (Femto Mega, read only)")
       .value("OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT",
              OBPropertyID::OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT,
              "LiDAR: set/get tail filter level")
+      .value("OB_RAW_DATA_LIDAR_IP_ADDRESS",
+             OBPropertyID::OB_RAW_DATA_LIDAR_IP_ADDRESS,
+             "LiDAR: set/get IP address")
+      .value("OB_PROP_LIDAR_PORT_INT",
+             OBPropertyID::OB_PROP_LIDAR_PORT_INT,
+             "LiDAR: set/get port")
+      .value("OB_RAW_DATA_LIDAR_MAC_ADDRESS",
+             OBPropertyID::OB_RAW_DATA_LIDAR_MAC_ADDRESS,
+             "LiDAR: set/get MAC address")
+      .value("OB_RAW_DATA_LIDAR_SUBNET_MASK",
+             OBPropertyID::OB_RAW_DATA_LIDAR_SUBNET_MASK,
+             "LiDAR: set/get subnet mask")
+      .value("OB_PROP_LIDAR_WORK_MODE_INT",
+             OBPropertyID::OB_PROP_LIDAR_WORK_MODE_INT,
+             "LiDAR: set/get work mode")
+      .value("OB_PROP_LIDAR_APPLY_CONFIGS_INT",
+             OBPropertyID::OB_PROP_LIDAR_APPLY_CONFIGS_INT,
+             "LiDAR: apply configs")
+      .value("OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT",
+             OBPropertyID::OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT,
+             "LiDAR: set/get mems fov size")
+      .value("OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT",
+             OBPropertyID::OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT,
+             "LiDAR: set/get mems frequency")
+      .value("OB_RAW_DATA_LIDAR_PRODUCT_MODEL",
+             OBPropertyID::OB_RAW_DATA_LIDAR_PRODUCT_MODEL,
+             "LiDAR: get product model")
+      .value("OB_RAW_DATA_LIDAR_FIRMWARE_VERSION",
+             OBPropertyID::OB_RAW_DATA_LIDAR_FIRMWARE_VERSION,
+             "LiDAR: get firmware version")
+      .value("OB_RAW_DATA_LIDAR_FPGA_VERSION",
+             OBPropertyID::OB_RAW_DATA_LIDAR_FPGA_VERSION,
+             "LiDAR: get fpga version")
+      .value("OB_PROP_LIDAR_WARNING_INFO_INT",
+             OBPropertyID::OB_PROP_LIDAR_WARNING_INFO_INT,
+             "LiDAR: get warning info")
+      .value("OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT",
+             OBPropertyID::OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT,
+             "LiDAR: get realtime motor spin speed, unit:0.01rpm")
+      .value("OB_PROP_LIDAR_MCU_TEMPERATURE_INT",
+             OBPropertyID::OB_PROP_LIDAR_MCU_TEMPERATURE_INT,
+             "LiDAR: get mcu temperature, uint: 0.01degrees delsius")
+      .value("OB_PROP_LIDAR_APD_TEMPERATURE_INT",
+             OBPropertyID::OB_PROP_LIDAR_APD_TEMPERATURE_INT,
+             "LiDAR: get apd temperature, uint: 0.01degrees delsius")
+      .value("OB_PROP_LIDAR_SPECIFIC_MODE_INT",
+             OBPropertyID::OB_PROP_LIDAR_SPECIFIC_MODE_INT,
+             "LiDAR: get/set specific mode")
+      .value("OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT",
+             OBPropertyID::OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT,
+             "LiDAR: get/set repetitive scan mode")
       .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
              "depth noise removal filter")

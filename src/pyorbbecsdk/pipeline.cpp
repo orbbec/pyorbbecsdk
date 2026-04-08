@@ -112,6 +112,29 @@ OBCameraParam Pipeline::get_camera_param() const {
   OB_TRY_CATCH({ return impl_->getCameraParam(); });
 }
 
+OBPipelineStatus Pipeline::get_status() const {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ return impl_->getStatus(); });
+}
+
+void Pipeline::enable_health_monitor(const py::function &callback,
+                                     uint32_t interval_ms) {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({
+    impl_->enableHealthMonitor(
+        [callback](OBPipelineStatus status) {
+          py::gil_scoped_acquire acquire;
+          callback(status);
+        },
+        interval_ms);
+  });
+}
+
+void Pipeline::disable_health_monitor() const {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ impl_->disableHealthMonitor(); });
+}
+
 std::shared_ptr<ob::StreamProfileList> Pipeline::get_d2c_depth_profile_list(
     std::shared_ptr<ob::StreamProfile> color_profile,
     OBAlignMode align_mode) const {
@@ -172,7 +195,25 @@ void define_pipeline(py::object &m) {
              OBAlignMode align_mode) {
             return self.get_d2c_depth_profile_list(color_profile, align_mode);
           },
-          py::call_guard<py::gil_scoped_release>());
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_status",
+          [](Pipeline &self) { return self.get_status(); },
+          py::call_guard<py::gil_scoped_release>(),
+          "Get the current pipeline status observed during streaming")
+      .def(
+          "enable_health_monitor",
+          [](Pipeline &self, const py::function &callback, uint32_t interval_ms) {
+            self.enable_health_monitor(callback, interval_ms);
+          },
+          py::arg("callback"), py::arg("interval_ms") = 3000,
+          py::call_guard<py::gil_scoped_release>(),
+          "Enable pipeline health monitor with periodic status polling")
+      .def(
+          "disable_health_monitor",
+          [](Pipeline &self) { self.disable_health_monitor(); },
+          py::call_guard<py::gil_scoped_release>(),
+          "Disable pipeline health monitor");
 }
 
 void define_pipeline_config(py::object &m) {

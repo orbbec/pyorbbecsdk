@@ -1,5 +1,6 @@
 import unittest
-from pyorbbecsdk import *
+
+from pyorbbecsdk import Context, OBPermissionType, OBPropertyID
 
 
 class DeviceTest(unittest.TestCase):
@@ -39,8 +40,10 @@ class DeviceTest(unittest.TestCase):
             print(sensor)
 
     def test_get_depth_work_mode_list(self):
-        if not self.device.is_property_supported(OBPropertyID.OB_STRUCT_CURRENT_DEPTH_ALG_MODE,
-                                                 OBPermissionType.PERMISSION_READ_WRITE):
+        if not self.device.is_property_supported(
+            OBPropertyID.OB_STRUCT_CURRENT_DEPTH_ALG_MODE,
+            OBPermissionType.PERMISSION_READ_WRITE,
+        ):
             print("Current device not support depth work mode!")
             return
         current_depth_work_mode = self.device.get_depth_work_mode()
@@ -79,6 +82,6 @@ class DeviceTest(unittest.TestCase):
         print("Device temperature: ", temperature)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("Start test Device interface, Please make sure you have connected a device to your computer.")
     unittest.main()

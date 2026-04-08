@@ -1,0 +1,42 @@
+Utilities
+=========
+
+Utility functions for working with the pyorbbecsdk.
+
+Functions
+---------
+
+get_version
+^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.get_version
+
+save_point_cloud_to_ply
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.save_point_cloud_to_ply
+
+save_lidar_point_cloud_to_ply
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.save_lidar_point_cloud_to_ply
+
+transformation2dto2d
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.transformation2dto2d
+
+transformation2dto3d
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.transformation2dto3d
+
+transformation3dto2d
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.transformation3dto2d
+
+transformation3dto3d
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.transformation3dto3d

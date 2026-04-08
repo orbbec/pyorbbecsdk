@@ -1,8 +1,35 @@
+# Synced from pyproject.toml dependencies
+# Runtime dependencies for pyorbbecsdk2
+
+# Video decoding (av version depends on Python version: 12.3.0 for <3.13, 13.0.0 for >=3.13)
+av>=12.3.0
+
+# NumPy (version depends on Python version: <2.0.0 for <3.12, >=2.1.0 for >=3.12)
+numpy>=1.24.0
+
+# Computer vision
+opencv-python
+
+# Visualization
+pygame
+
+# Point cloud processing (only for Python 3.8-3.11)
+open3d==0.18.0; python_version >= "3.8" and python_version < "3.12"
+
+# Keyboard input
+pynput
+
+# macOS specific dependencies (only for Python <3.9)
+pyobjc-core==10.3.2; sys_platform == "darwin" and python_version < "3.9"
+pyobjc-framework-Quartz==10.3.2; sys_platform == "darwin" and python_version < "3.9"
+
+# Build dependencies (from build-system requires)
+setuptools>=61.0
+wheel
 pybind11==2.12.0
 pybind11-global==2.12.0
-opencv-python
-wheel
-numpy
-av # for h264 decoding
-pygame # for visualization
-pynput # for keyboard input
+
+# Development dependencies (optional)
+# auditwheel
+# pyelftools<0.30
+# pybind11-stubgen

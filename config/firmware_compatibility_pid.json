@@ -1,0 +1,60 @@
+{
+    "schema_version": "1.0",
+    "firmware_repository": "https://github.com/orbbec/OrbbecFirmware/releases",
+    "devices": [
+        {
+            "products": ["Femto Bolt"],
+            "pids": [1643],
+            "recommended_version": "1.1.3",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Femto-Bolt-Firmware/FemtoBolt_FW_v1.1.3.bin"
+        },
+        {
+            "products": ["Femto Mega"],
+            "pids": [1641, 1728],
+            "recommended_version": "1.3.1",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Femto-Mega-Firmware/FemtoMega_FW_v1.3.1.bin"
+        },
+        {
+            "products": ["Gemini 2"],
+            "pids": [1648, 2056, 2057],
+            "recommended_version": "1.4.98",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Gemini-2-Firmware/Gemini2_FW_v1.4.98.bin"
+        },
+        {
+            "products": ["Gemini 2 L"],
+            "pids": [1651],
+            "recommended_version": "1.5.2",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Gemini-2L-Firmware/Gemini2L_FW_v1.5.2.bin"
+        },
+        {
+            "products": ["Astra 2"],
+            "pids": [1632],
+            "recommended_version": "2.8.20",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Astra2-Firmware/Astra2_Release_2.8.20.bin"
+        },
+        {
+            "products": ["Gemini 330 Series"],
+            "pids": [1744, 1745, 2048, 2049, 2050, 2051, 2052, 2053, 2054, 2055, 2059, 2060, 2061, 2062, 2063, 2064, 2072, 2578, 2579, 2066, 2067, 2070, 2071],
+            "recommended_version": "1.6.00",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Gemini-330-Series-Firmware/Gemini330Series_FW_v1.6.00.bin"
+        },
+        {
+            "products": ["Gemini 435Le"],
+            "pids": [2069],
+            "recommended_version": "1.3.6",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Gemini-435Le-Firmware/Gemini435Le_FW_v1.3.6.bin"
+        },
+        {
+            "products": ["Astra Mini Pro"],
+            "pids": [1627],
+            "recommended_version": "2.0.03",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Astra-Mini-Pro/AstraMiniPro_V2.0.03.bin"
+        },
+        {
+            "products": ["Astra Mini S Pro"],
+            "pids": [1630],
+            "recommended_version": "2.0.03",
+            "download_url": "https://github.com/orbbec/OrbbecFirmware/releases/download/Astra-Mini-S-Pro/AstraMiniSPro_V2.0.03.bin"
+        }
+    ]
+}

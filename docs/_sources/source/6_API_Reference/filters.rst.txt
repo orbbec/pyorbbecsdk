@@ -1,0 +1,445 @@
+Filters
+=======
+
+Post-processing filters for enhancing and processing frames.
+
+Class Hierarchy
+---------------
+
+The :class:`~pyorbbecsdk.Filter` class is the base class for all filter types.
+
+.. graphviz::
+
+   digraph FilterHierarchyBasic {
+      rankdir=TB;
+      bgcolor=transparent;
+      node [shape=box, style="filled,rounded", fillcolor="#e3f2fd", color="#2196f3", fontname="Helvetica Neue, Helvetica, Arial, sans-serif", fontsize=11];
+      edge [color="#666666", arrowsize=0.8, penwidth=1.2];
+
+      Filter [label="Filter"];
+      AlignFilter [label="AlignFilter"];
+      DecimationFilter [label="DecimationFilter"];
+      HoleFillingFilter [label="HoleFillingFilter"];
+      NoiseRemovalFilter [label="NoiseRemovalFilter"];
+      SpatialAdvancedFilter [label="SpatialAdvancedFilter"];
+      TemporalFilter [label="TemporalFilter"];
+
+      Filter -> AlignFilter;
+      Filter -> DecimationFilter;
+      Filter -> HoleFillingFilter;
+      Filter -> NoiseRemovalFilter;
+      Filter -> SpatialAdvancedFilter;
+      Filter -> TemporalFilter;
+   }
+
+.. graphviz::
+
+   digraph FilterHierarchyAdvanced {
+      rankdir=TB;
+      bgcolor=transparent;
+      node [shape=box, style="filled,rounded", fillcolor="#e3f2fd", color="#2196f3", fontname="Helvetica Neue, Helvetica, Arial, sans-serif", fontsize=11];
+      edge [color="#666666", arrowsize=0.8, penwidth=1.2];
+
+      Filter [label="Filter"];
+      PointCloudFilter [label="PointCloudFilter"];
+      SequenceIdFilter [label="SequenceIdFilter"];
+      HDRMergeFilter [label="HDRMergeFilter"];
+      ThresholdFilter [label="ThresholdFilter"];
+      FormatConvertFilter [label="FormatConvertFilter"];
+      DisparityTransform [label="DisparityTransform"];
+
+      Filter -> PointCloudFilter;
+      Filter -> SequenceIdFilter;
+      Filter -> HDRMergeFilter;
+      Filter -> ThresholdFilter;
+      Filter -> FormatConvertFilter;
+      Filter -> DisparityTransform;
+   }
+
+
+Inheritance Overview
+--------------------
+
+.. list-table:: Class Inheritance Hierarchy
+   :header-rows: 1
+   :widths: 25 25 50
+   :class: inheritance-table
+
+   * - Class
+     - Inherits From
+     - Description
+   * - :class:`~pyorbbecsdk.Filter`
+     - object
+     - Base class for all filters
+   * - :class:`~pyorbbecsdk.AlignFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Align depth to color or vice versa
+   * - :class:`~pyorbbecsdk.DecimationFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Reduces depth scene complexity
+   * - :class:`~pyorbbecsdk.DisparityTransform`
+     - :class:`~pyorbbecsdk.Filter`
+     - Transform between disparity and depth
+   * - :class:`~pyorbbecsdk.FormatConvertFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Convert between pixel formats
+   * - :class:`~pyorbbecsdk.HDRMergeFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Merge HDR frames
+   * - :class:`~pyorbbecsdk.HoleFillingFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Fill holes in depth images
+   * - :class:`~pyorbbecsdk.NoiseRemovalFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Remove noise from depth images
+   * - :class:`~pyorbbecsdk.PointCloudFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Generate point cloud from depth
+   * - :class:`~pyorbbecsdk.SequenceIdFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Filter by sequence ID
+   * - :class:`~pyorbbecsdk.SpatialAdvancedFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Advanced spatial filtering
+   * - :class:`~pyorbbecsdk.TemporalFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Temporal noise reduction
+   * - :class:`~pyorbbecsdk.ThresholdFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Threshold-based filtering
+
+
+Classes
+-------
+
+Filter
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.Filter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+AlignFilter
+^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.AlignFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DecimationFilter
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DecimationFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DisparityTransform
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DisparityTransform
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+FormatConvertFilter
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.FormatConvertFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+HDRMergeFilter
+^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.HDRMergeFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+HoleFillingFilter
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.HoleFillingFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+NoiseRemovalFilter
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.NoiseRemovalFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PointCloudFilter
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.PointCloudFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SequenceIdFilter
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.SequenceIdFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SpatialAdvancedFilter
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.SpatialAdvancedFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+TemporalFilter
+^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.TemporalFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ThresholdFilter
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ThresholdFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Enumerations
+------------
+
+OBFilterList
+^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBFilterList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBFilterConfigSchemaItem
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBFilterConfigSchemaItem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBFilterConfigValueType
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBFilterConfigValueType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBFilterConfigValueType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``BOOLEAN``
+        - ``<OBFilterConfigValueType.BOOLEAN: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``FLOAT``
+        - ``<OBFilterConfigValueType.FLOAT: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``INT``
+        - ``<OBFilterConfigValueType.INT: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``INVALID``
+        - ``<OBFilterConfigValueType.INVALID: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+
+OBHoleFillingMode
+^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBHoleFillingMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBHoleFillingMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``FURTHEST``
+        - ``<OBHoleFillingMode.FURTHEST: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``NEAREST``
+        - ``<OBHoleFillingMode.NEAREST: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``TOP``
+        - ``<OBHoleFillingMode.TOP: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBNoiseRemovalFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBNoiseRemovalFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBEdgeNoiseRemovalType
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBEdgeNoiseRemovalType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBEdgeNoiseRemovalType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``MGA_FILTER``
+        - ``<OBEdgeNoiseRemovalType.MGA_FILTER: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``MGC_FILTER``
+        - ``<OBEdgeNoiseRemovalType.MGC_FILTER: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``MGH_FILTER``
+        - ``<OBEdgeNoiseRemovalType.MGH_FILTER: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``MG_FILTER``
+        - ``<OBEdgeNoiseRemovalType.MG_FILTER: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBEdgeNoiseRemovalFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBEdgeNoiseRemovalFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDDONoiseRemovalType
+^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDDONoiseRemovalType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDDONoiseRemovalType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``LUT``
+        - ``<OBDDONoiseRemovalType.LUT: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``OVERALL``
+        - ``<OBDDONoiseRemovalType.OVERALL: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+
+OBSpatialAdvancedFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBSpatialAdvancedFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBConvertFormat
+^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBConvertFormat
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBConvertFormat Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``BGR_TO_RGB``
+        - ``<OBConvertFormat.BGR_TO_RGB: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``I420_TO_RGB888``
+        - ``<OBConvertFormat.I420_TO_RGB888: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``MJPG_TO_BGR888``
+        - ``<OBConvertFormat.MJPG_TO_BGR888: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``MJPG_TO_BGRA``
+        - ``<OBConvertFormat.MJPG_TO_BGRA: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``MJPG_TO_I420``
+        - ``<OBConvertFormat.MJPG_TO_I420: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``MJPG_TO_NV21``
+        - ``<OBConvertFormat.MJPG_TO_NV21: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``MJPG_TO_RGB888``
+        - ``<OBConvertFormat.MJPG_TO_RGB888: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``NV12_TO_RGB888``
+        - ``<OBConvertFormat.NV12_TO_RGB888: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``NV21_TO_RGB888``
+        - ``<OBConvertFormat.NV21_TO_RGB888: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``RGB888_TO_BGR``
+        - ``<OBConvertFormat.RGB888_TO_BGR: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``UYVY_TO_RGB888``
+        - ``<OBConvertFormat.UYVY_TO_RGB888: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``YUYV_TO_RGB888``
+        - ``<OBConvertFormat.YUYV_TO_RGB888: 0>``
+        - 0
+        - Auto-generated from C++ bindings

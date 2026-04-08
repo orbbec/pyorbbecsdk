@@ -1,186 +1,427 @@
-# Linux
-## Installation
-### Online installation
-We provide **online installation packages** for Python versions **3.9** to **3.13**.
+# Installation Guide
+
+<!-- Shields.io Badges -->
+[![PyPI Version](https://img.shields.io/pypi/v/pyorbbecsdk2.svg)](https://pypi.org/project/pyorbbecsdk2/)
+[![Python Versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue.svg)](https://github.com/orbbec/pyorbbecsdk/releases)
+[![License](https://img.shields.io/github/license/orbbec/pyorbbecsdk.svg)](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://pyorbbecsdk.readthedocs.io/)
+
+> **Python Wrapper for Orbbec 3D Depth Cameras**
+> Obtain depth, color, IR streams, IMU data, point clouds, and more with Orbbec cameras.
+
+---
+
+## 📋 System Requirements
+
+| Platform | Minimum Version | Architectures | Python Versions |
+|----------|----------------|---------------|-----------------|
+| Linux    | Ubuntu 18.04+  | x86_64, ARM64 | 3.8 - 3.13      |
+| macOS    | 13.0+          | ARM64         | 3.8 - 3.13      |
+| Windows  | 10+            | x64           | 3.8 - 3.13      |
+
+### Hardware Requirements
+- Orbbec 3D depth camera (Gemini series, Astra series, Femto series, etc.)
+- USB 3.0 port 
+
+---
+
+## 📖 Detailed Installation
+
+### Prerequisites
+
+### Python Version Check
+
+Ensure Python 3.8 or higher is installed:
 
 ```bash
-pip3 install pyorbbecsdk2
+# Linux/macOS
+python3 --version
+
+# Windows
+python --version
 ```
 
-### Offline installation
-We provide **offline installation packages** for Python versions **3.8** to **3.13**.
+### Virtual Environment (Recommended)
 
-#### Prerequisites
-Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.
+Using a virtual environment is **strongly recommended** to avoid permission issues and package conflicts:
 
-check your Python version:
+```bash
+# Create virtual environment
+python3 -m venv orbbec_env
+
+# Activate (Linux/macOS)
+source orbbec_env/bin/activate
+
+# Activate (Windows)
+orbbec_env\Scripts\activate
+```
+
+**For detailed guides on:**
+- Using `venv`, `pyenv`, or `conda`
+- Platform-specific setup (Linux/macOS/Windows)
+- Troubleshooting common issues
+
+→ See [Virtual Environment Installation Guide](virtual_environment_guide.md)
+
+### Environment Setup (One-Time)
+
+Before using the SDK, run the environment setup script once per machine to configure device permissions (Linux) and register UVC metadata (Windows).
+
+**Quick Setup:**
+
+```bash
+# Option 1: From repository
+python scripts/env_setup/setup_env.py
+
+# Option 2: From installed package (v2.1.0+)
+# 1. Get pyorbbecsdk installation path
+python -c "import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))"
+# Example output: /path/to/site-packages/pyorbbecsdk
+# 2. Run setup.py(replace with the path from step 1)
+python /path/to/site-packages/pyorbbecsdk/shared/setup_env.py
+```
+
+| Platform | Action | Note |
+|----------|--------|------|
+| Linux | Installs udev rules | Requires sudo |
+| Windows | Registers UVC metadata | Auto-elevates to admin |
+| macOS | No setup needed | Works out of the box |
+
+**Check status:** `python setup_env.py --check`
+
+→ For detailed instructions and manual configuration, see [Environment Setup Guide](registration_script.md)
+
+### System-Specific Prerequisites
+
+**Linux:** No additional dependencies required for pip installation.
+
+**macOS:** No additional dependencies required for pip installation.
+
+**Windows:**
+
+- Visual C++ Redistributable (usually pre-installed)
+- For offline installation: PowerShell execution policy may need adjustment (see [Troubleshooting](#troubleshooting))
+
+---
+
+### Installation Methods
+
+### Method 1: pip install (Recommended)
+
+The easiest way to install pyorbbecsdk is from PyPI:
+
+```bash
+pip install --upgrade pyorbbecsdk2
+```
+
+**Features:**
+- Automatic dependency resolution
+- Latest stable releases
+- Works on Linux, macOS, and Windows
+
+**Available Python versions:** 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+
+### Method 2: Offline Wheel Installation
+
+For environments without internet access or specific version requirements:
+
+> **Note:** Wheel files are named `pyorbbecsdk-*.whl`, but starting from v2.0.18 they install as package `pyorbbecsdk2`.
+
+#### Step 1: Download the Wheel
+
+Download the appropriate `.whl` file from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases):
+
+| Platform | File Pattern | Example |
+|----------|--------------|---------|
+| Linux x86_64 | `pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-linux_x86_64.whl` |
+| Linux ARM64 | `pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-linux_aarch64.whl` |
+| macOS ARM64 | `pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-macosx_13_0_arm64.whl` |
+| Windows x64 | `pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-win_amd64.whl` |
+
+> **Note:** Replace `cp3X` with your Python version (e.g., `cp311` for Python 3.11).
+
+#### Step 2: Install the Wheel
+
+Navigate to the download directory and install:
+
+```bash
+python -m pip install pyorbbecsdk-2.1.0-cp311-cp311-<platform>.whl
+```
+
+Verify installation (package will be listed as `pyorbbecsdk2`):
+
+```bash
+pip show pyorbbecsdk2
+```
+
+Expected output:
+```
+Name: pyorbbecsdk2
+Version: 2.1.0
+Summary: pyorbbecsdk is a python wrapper for the OrbbecSDK
+Location: /path/to/site-packages
+```
+
+> **Note:** The wheel file name starts with `pyorbbecsdk-` (e.g., `pyorbbecsdk-2.1.0-...`), but the installed package name is `pyorbbecsdk2`. The import module remains `pyorbbecsdk`.
+
+### "Hello World" Example
+
+Create a test script to verify the installation:
+
+```python
+# test_installation.py
+import pyorbbecsdk
+
+# Check version (run: pip show pyorbbecsdk2 | grep Version)
+# or check SDK version with: pyorbbecsdk.get_version()
+
+# Initialize context and list devices
+context = pyorbbecsdk.Context()
+device_list = context.query_devices()
+device_count = device_list.get_count()
+
+print(f"✓ Found {device_count} Orbbec device(s)")
+
+if device_count > 0:
+    device = device_list.get_device_by_index(0)
+    device_info = device.get_device_info()
+    print(f"✓ Device name: {device_info.get_name()}")
+    print(f"✓ Serial number: {device_info.get_serial_number()}")
+
+print("\n✅ Installation verified successfully!")
+```
+
+Run the test:
+
+```bash
+# Linux/Windows
+python test_installation.py
+
+# macOS (requires sudo -E, see note below)
+sudo -E python test_installation.py
+```
+
+### Run an Example
+
+If you have a camera connected:
+
+```bash
+# Find the examples directory
+python -c "import pyorbbecsdk; import os; print(os.path.dirname(pyorbbecsdk.__file__))"
+
+# Run an example (Linux/Windows)
+cd /path/to/site-packages/pyorbbecsdk
+python examples/beginner/02_depth_visualization.py
+
+# macOS (requires sudo -E)
+sudo -E python examples/beginner/02_depth_visualization.py
+```
+
+> **Note for versions < 2.1.0:** If you installed an older version, you need to manually install example dependencies:
+> ```bash
+> pip install opencv-python numpy
+> ```
+
+---
+
+## 🚀 Quick Install (TL;DR)
+
+> **ℹ️ Package Name Note**
+>
+> Starting from version 2.0.18, both online (PyPI) and offline packages use the name **`pyorbbecsdk2`**.
+>
+> - PyPI: `pip install --upgrade pyorbbecsdk2`
+> - Offline wheel: `pip install pyorbbecsdk2-2.x.x-xxx.whl` → installs as `pyorbbecsdk2` (download from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases))
+>
+> **Import in code:** `import pyorbbecsdk` (module name remains unchanged)
+
+> **💡 Virtual environments are recommended**
+>
+> To avoid permission issues and package conflicts, **strongly recommended** to use a virtual environment for installation. The following commands use Python's built-in `venv`:
+>
+> **Detailed Guide** → [Virtual Environment Installation Guide](virtual_environment_guide.md)
+
+**Linux/macOS:**
+
+```bash
+# Create and activate virtual environment
+python3 -m venv orbbec_env
+source orbbec_env/bin/activate
+
+# Install SDK
+pip install --upgrade pyorbbecsdk2
+
+# Verify installation
+pip show pyorbbecsdk2 | grep Version
+```
+
+**Windows:**
+
+```powershell
+# Create and activate virtual environment
+python -m venv orbbec_env
+.\orbbec_env\Scripts\activate
+
+# Install SDK
+pip install --upgrade pyorbbecsdk2
+
+# Verify installation
+pip show pyorbbecsdk2 | findstr Version
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "No device found" (Linux)
+
+**Problem:** Camera not detected or permission denied.
+
+**Solution:** Run the environment setup script:
+
+```bash
+```bash
+# Option 1: From repository
+python scripts/env_setup/setup_env.py
+
+# Option 2: From installed package (v2.1.0+)
+# 1. Get pyorbbecsdk installation path
+python -c "import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))"
+# Example output: /path/to/site-packages/pyorbbecsdk
+# 2. Run setup.py(replace with the path from step 1)
+python /path/to/site-packages/pyorbbecsdk/shared/setup_env.py
+```
+
+Or manually install udev rules:
+
+```bash
+cd /path/to/pyorbbecsdk/scripts/env_setup
+sudo chmod +x ./install_udev_rules.sh
+sudo ./install_udev_rules.sh
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
+
+> **Note:** If you don't run the setup, you'll need to use `sudo` every time.
+
+→ See [Environment Setup Guide](registration_script.md) for details.
+
+### Permission denied (macOS)
+
+**Problem:** `Permission denied` or `Library not loaded` errors.
+
+**Solution:** Use `sudo -E` to preserve environment variables:
+
+```bash
+sudo -E python examples/beginner/02_depth_visualization.py
+```
+
+### ImportError on Windows
+
+**Problem:** `ImportError: DLL load failed` or similar.
+
+**Solutions:**
+1. Ensure you're using 64-bit Python (required)
+2. Install Visual C++ Redistributable
+3. Check that Python version matches the wheel (e.g., cp311 = Python 3.11)
+
+### Metadata/Timestamp Issues (Windows)
+
+**Problem:** Timestamps are abnormal or frame synchronization fails.
+
+**Solution:** Run the environment setup script to register UVC metadata:
+
+```bash
+python scripts/env_setup/setup_env.py
+```
+
+Or manually (PowerShell as Administrator):
+
+```powershell
+cd C:\path\to\pyorbbecsdk\scripts\env_setup
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\obsensor_metadata_win10.ps1 -op install_all
+```
+
+> **Note:** This must be run once per device/computer.
+
+→ See [Environment Setup Guide](registration_script.md) for detailed instructions.
+
+### Python Version Mismatch
+
+**Problem:** `No matching distribution found` error.
+
+**Solution:** Check your Python version matches supported versions (3.8-3.13):
 
 ```bash
 python3 --version
 ```
 
-#### Download the Appropriate .whl Package
-Download the .whl installation package that matches your local Python version from the [Python Wrapper Release](https://github.com/orbbec/pyorbbecsdk/releases)
-
-For example, if your Python version is 3.11.9, look for a .whl file that matches cp311 and your platform (e.g., Linux x86_64).
-A typical file name will look like:
+If using a version manager (pyenv, conda), ensure you're using the correct Python:
 
 ```bash
-pyorbbecsdk-2.0.13-cp311-cp311-linux_x86_64.whl
+which python3
 ```
 
-#### Install the Package
-Navigate to the directory where you downloaded the .whl file and run:
+### Offline Installation Fails
+
+**Problem:** Wheel installation fails with platform tag error.
+
+**Solution:** Ensure you download the correct wheel for your:
+- Operating system (Linux/macOS/Windows)
+- Architecture (x86_64/ARM64)
+- Python version (cp38, cp39, cp310, cp311, cp312, cp313)
+
+Check platform tags:
 
 ```bash
-python3 -m pip install pyorbbecsdk-2.0.13-cp311-cp311-linux_x86_64.whl
+python3 -c "import platform; print(platform.machine()); print(platform.system())"
 ```
 
-## Verify the Installation
-Check whether the package was installed successfully:
+### Examples Not Running
 
- - For **online installation**, use `pyorbbecsdk2`.  
- - For **offline installation**, use `pyorbbecsdk`.
+**Problem:** Examples fail with missing dependencies.
+
+**Solution:** Manually install dependencies:
 
 ```bash
-python3 -m pip show pyorbbecsdk     #or pyorbbecsdk2
+pip install opencv-python numpy
 ```
 
-If the output shows a Location: field, the package was installed successfully at that path.
-For example:
-
+For the object detection example, also install:
 ```bash
-lijie@lijie-orbbec:~$ python3 -m pip show pyorbbecsdk 
-
-Name: pyorbbecsdk
-Version: 2.0.13
-Summary: pyorbbecsdk is a python wrapper for the OrbbecSDK
-Location: /home/lijie/.local/lib/python3.11/site-packages
+pip install onnxruntime
 ```
-
-In this example, your site-packages path is:
-
-```bash
-/home/lijie/.local/lib/python3.11/site-packages
-```
-
-Inside this directory, you will find the package folder:
-
-```bash
-/home/lijie/.local/lib/python3.11/site-packages/pyorbbecsdk
-```
-
-*Notes: Regardless of whether you installed **online installation packages** (pyorbbecsdk2) or **offline installation packages** (pyorbbecsdk),the final installed package folder is always named **pyorbbecsdk**.*
-
-## Run the Example
-- Locate the site-packages path
-    Use the output from the previous step to find your_site_packages_path.
-- If you are running an example for the first time, you may need to install additional dependencies.
-Install the example dependencies:
-
-    ```bash
-    python3 -m pip install -r <your_site_packages_path>/pyorbbecsdk/examples/requirements.txt
-    ```
-
-- Run an example
-
-    ```bash
-    cd pyorbbecsdk
-    python3 examples/color.py
-    ```
 
 ---
 
-# Windows
-## Installation
-### Online installation
-We provide **online installation packages** for Python versions **3.8** to **3.13**. The installation methods are as follows:
+## 📚 Next Steps
+
+- **Quick Start:** Follow the [QuickStart Guide](../3_QuickStarts/QuickStart.md) to build your first camera application
+- **Examples:** Explore [example code](https://github.com/orbbec/pyorbbecsdk/tree/v2-main/examples) for various use cases
+- **API Reference:** Check the [API documentation](https://pyorbbecsdk.readthedocs.io/)
+- **GitHub:** Visit the [repository](https://github.com/orbbec/pyorbbecsdk) for source code and issues
+
+### Common Example Commands
 
 ```bash
-pip install pyorbbecsdk2
+# Enumerate connected devices
+python examples/advanced/04_enumerate.py
+
+# Display depth stream
+python examples/beginner/02_depth_visualization.py
+
+# Quick start (minimal example)
+python examples/quick_start.py
 ```
 
-### Offline installation
-We provide **offline installation packages** for Python versions **3.8** to **3.13**.
+> **macOS Users:** Remember to prefix commands with `sudo -E` to preserve environment variables.
 
-#### Prerequisites
-Make sure Python is installed on your local system, and that your Python version is 3.8 or higher.
+---
 
-check your Python version:
+## 📖 Additional Resources
 
-```bash
-python --version
-```
-
-#### Download the Appropriate .whl Package
-Download the .whl installation package that matches your local Python version from the [Python SDK Wrapper Release](https://github.com/orbbec/pyorbbecsdk/releases)
-
-For example, if your Python version is 3.11.9, look for a .whl file that matches cp311 and your platform (e.g., win x64).
-A typical file name will look like:
-
-```bash
-pyorbbecsdk-2.0.13-cp311-cp311-win_amd64.whl
-```
-
-#### Install the Package
-Navigate to the directory where you downloaded the .whl file and run:
-
-```bash
-python -m pip install pyorbbecsdk-2.0.13-cp311-cp311-win_amd64.whl
-```
-
-## Verify the Installation
-Check whether the package was installed successfully:
-
- - For **online installation**, use `pyorbbecsdk2`.  
- - For **offline installation**, use `pyorbbecsdk`.
-
-```bash
-python -m pip show pyorbbecsdk       #or pyorbbecsdk2
-```
-
-If the output shows a Location: field, the package was installed successfully at that path.
-For example:
-
-```bash
-C:\Users\Administrator>python -m pip show pyorbbecsdk
-
-Name: pyorbbecsdk  
-Version: 2.0.13  
-Summary: pyorbbecsdk is a python wrapper for the OrbbecSDK  
-Location: C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages
-```
-
-In this example, your site-packages path is:
-
-```bash
-C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages
-```
-
-Inside this directory, you will find the package folder:
-
-```bash
-C:\Users\Administrator\AppData\Local\Programs\Python\Python311\Lib\site-packages\pyorbbecsdk
-```
-
-*Notes: Regardless of whether you installed **online installation packages** (pyorbbecsdk2) or **offline installation packages** (pyorbbecsdk),the final installed package folder is always named **pyorbbecsdk**.*
-
-## Run the Example
-- Locate the site-packages path
-    Use the output from the previous step to find your_site_packages_path.
-- If you are running an example for the first time, you may need to install additional dependencies.
-Install the example dependencies:
-
-    ```bash
-    sudo chmod +x <your_site_packages_path>/pyorbbecsdk/shared/install_udev_rules.sh
-    sudo <your_site_packages_path>/pyorbbecsdk/shared/install_udev_rules.sh
-    sudo udevadm control --reload-rules && sudo udevadm trigger
-    python -m pip install -r <your_site_packages_path>/pyorbbecsdk/examples/requirements.txt
-    ```
-
-- Run an example
-
-    ```bash
-    cd pyorbbecsdk
-    python examples/color.py
-    ```
+- [Build from Source](../4_Package/build_with_uv.md) - Instructions for building the package from source
+- [Environment Setup Guide](registration_script.md) - One-time configuration for device permissions and metadata registration
+- [Orbbec SDK Documentation](https://www.orbbec.com/documentation/)
+- [GitHub Issues](https://github.com/orbbec/pyorbbecsdk/issues) - Report bugs and get help

@@ -82,6 +82,29 @@ OB_EXPORT void ob_enable_net_device_enumeration(ob_context *context, bool enable
 OB_EXPORT bool ob_force_ip_config(const char *macAddress, ob_net_ip_config config, ob_error **error);
 
 /**
+ * @brief Set the GVCP port scheme used for network device discovery and control.
+ *
+ * @param[in] context Pointer to the context object.
+ * @param[in] scheme Target GVCP port scheme.
+ *                   Return error if the specified scheme is invalid or unsupported.
+ * @param[out] error Pointer to an error object that will be populated if an error occurs.
+ *
+ * @note This change affects only the current session and is not persisted.
+ * @note Switching to a different scheme will force disconnection of all currently connected network devices.
+ */
+OB_EXPORT void ob_set_gvcp_port_scheme(ob_context *context, ob_gvcp_port_scheme scheme, ob_error **error);
+
+/**
+ * @brief Get the current GVCP port scheme.
+ *
+ * @param[in] context Pointer to the context object
+ * @param[out] error Pointer to an error object that will be populated if an error occurs.
+ *
+ * @return Current GVCP port scheme.
+ */
+OB_EXPORT ob_gvcp_port_scheme ob_get_gvcp_port_scheme(ob_context *context, ob_error **error);
+
+/**
  * @brief Create a network device object
  *
  * @param[in] context Pointer to the context object
@@ -110,7 +133,7 @@ OB_EXPORT ob_device *ob_create_net_device_ex(ob_context *context, const char *ad
 
 /**
  * @brief Set a device plug-in callback function
- * 
+ *
  * @deprecated This function is deprecated. Please use ob_register_device_changed_callback() instead.
  *
  * @attention The added and removed device lists returned through the callback interface need to be released manually

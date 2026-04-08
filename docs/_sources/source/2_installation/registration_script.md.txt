@@ -1,33 +1,139 @@
-# Registration script (required)
+# Environment Setup (One-Time Configuration)
 
-Before using the Orbbec SDK Python Wrapper, you must run the environment registration scripts once on each new computer to ensure that the device can be accessed properly and that metadata is handled correctly.
+Before using the Orbbec SDK Python Wrapper, you need to run the environment configuration script once on each new computer. This ensures:
+- **Linux**: Proper device access permissions via udev rules
+- **Windows**: UVC metadata registration for correct timestamps and frame synchronization
+- **macOS**: No additional configuration needed
 
-This step is only needed the first time you set up the SDK on a machine, or when the registration scripts have changed.
+This step is only required the first time you set up the SDK on a machine.
 
-First, [download the source code](https://github.com/orbbec/pyorbbecsdk/blob/v2-main) from the official GitHub repository. All required scripts are located in the scripts directory.
+---
 
-## install udev rules script (Linux)
-Please install it using the following commands:[/scripts/install_udev_rules.sh](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/scripts/install_udev_rules.sh)
+## Quick Setup (Recommended)
 
-~~~
+We provide a unified `setup_env.py` script that automatically detects your platform and performs the necessary configuration.
+
+### From Repository
+
+First, [download the source code](https://github.com/orbbec/pyorbbecsdk/blob/v2-main) from the official GitHub repository.
+
+#### Windows (PowerShell)
+
+```powershell
+cd pyorbbecsdk/scripts/env_setup
+python setup_env.py
+```
+
+The script will automatically request administrator privileges if needed.
+
+#### Linux
+
+```bash
+cd pyorbbecsdk/scripts/env_setup
+python setup_env.py
+```
+
+The script will automatically request `sudo` privileges for installing udev rules.
+
+#### macOS
+
+No setup required. The script will detect macOS and inform you that no additional configuration is needed.
+
+```bash
+cd pyorbbecsdk/scripts/env_setup
+python setup_env.py
+# Output: macOS detected. No additional environment setup required.
+```
+
+### From Installed Package
+
+If you have installed `pyorbbecsdk` via pip, you can also run the embedded setup script:
+
+```bash
+# From installed package (v2.1.0+)
+# 1. Get pyorbbecsdk installation path
+python -c "import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))"
+# Example output: /path/to/site-packages/pyorbbecsdk
+# 2. Run setup.py(replace with the path from step 1)
+python /path/to/site-packages/pyorbbecsdk/shared/setup_env.py
+```
+
+### Command Options
+
+The `setup_env.py` script supports the following options:
+
+| Option | Description |
+|--------|-------------|
+| `--check` | Check the current environment configuration status |
+| `--uninstall` | Remove the configuration (udev rules on Linux, registry entries on Windows) |
+| `-h, --help` | Show help message |
+
+Examples:
+
+```bash
+# Check if environment is properly configured
+python setup_env.py --check
+
+# Uninstall/remove configuration
+python setup_env.py --uninstall
+```
+
+---
+
+## What This Setup Does
+
+### Windows
+- Registers UVC metadata in the Windows registry to enable timestamp extraction
+- Required for proper frame synchronization and depth-color alignment
+- Must be run as Administrator
+- Needs to be re-run when connecting a new device model (the script will detect this)
+
+### Linux
+- Installs udev rules to grant user access to Orbbec USB devices
+- Prevents permission denied errors when opening devices
+- Reloads udev rules automatically after installation
+- Requires sudo privileges
+
+### macOS
+- No registry or udev configuration needed
+- Orbbec devices work out of the box on macOS
+
+---
+
+## Manual Configuration (Advanced)
+
+If you prefer to configure the environment manually, or if the automatic script fails, follow these manual steps:
+
+### Linux - Manual udev Rules Installation
+
+Install udev rules using the following commands:
+
+```bash
 cd pyorbbecsdk/scripts/env_setup
 sudo chmod +x ./install_udev_rules.sh
 sudo ./install_udev_rules.sh
 sudo udevadm control --reload-rules && udevadm trigger
-~~~
+```
 
-`Notes:` If this script is not executed, open the device will fail due to permission issues. You need to run the sample with sudo (administrator privileges).**
+**Note:** If this script is not executed, opening the device will fail due to permission issues. You would need to run samples with `sudo` (administrator privileges).
 
-## Registering Metadata Using a Script (Windows)
+### Windows - Manual Metadata Registration
 
-To get device metadata (this includes things like timestamps and other information about the video frame) through UVC protocol, users need to modify the registry and complete registration first, because Windows system has default limitations.
+To get device metadata (timestamps and other video frame information) through UVC protocol, you need to modify the registry first due to Windows system limitations.
 
-1. Connect the device and confirm that the device is online;
-2. Open PowerShell with administrator privileges, then use the `cd` command to enter the directory where the script is located;
-3. Execute the `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` command, and enter `Y` as prompted to confirm;
-   - Try to execute the `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser` command if the previous command fails in some cases;
-4. Execute `.\obsensor_metadata_win10.ps1 -op install_all` to complete the registration.
+1. Connect the device and confirm that the device is online
+2. Open PowerShell with **administrator privileges**, then use the `cd` command to enter the script directory
+3. Execute the following command and enter `Y` when prompted:
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+   - If the above fails, try:
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+   ```
+4. Execute the following to complete registration:
+   ```powershell
+   .\obsensor_metadata_win10.ps1 -op install_all
+   ```
 
-`Notes`: Users need to run this script every time a new device is connected. This process can be cumbersome and easy to forget, leading to an inability to obtain the device's metadata.
-
-`Notes:` If the metadata is not registered, the device timestamp will be abnormal, thereby affecting the SDK's internal frame synchronization functionality.
+**Note:** Users need to run this script every time a new device model is connected. If metadata is not registered, device timestamps will be abnormal, affecting the SDK's internal frame synchronization functionality.

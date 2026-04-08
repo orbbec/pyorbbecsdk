@@ -44,17 +44,20 @@ class OBError : public std::exception {
       : message_(error.getMessage()),
         type_(error.getExceptionType()),
         name_(error.getName()),
-        args_(error.getArgs()) {}
+        args_(error.getArgs()),
+        status_(error.getStatus()) {}
 
   const char *what() const noexcept override { return message_.c_str(); }
   OBExceptionType get_type() const noexcept { return type_; }
   const char *get_name() const noexcept { return name_.c_str(); }
+  OBStatus get_status() const noexcept { return status_; }
 
  private:
   std::string message_;
   OBExceptionType type_;
   std::string name_;
   std::string args_;
+  OBStatus status_;
 };
 
 void define_orbbec_error(const py::object &m);

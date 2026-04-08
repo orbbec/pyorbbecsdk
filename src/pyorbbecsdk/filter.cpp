@@ -50,9 +50,18 @@ void define_filter(const py::object& m) {
                auto out = self->process(frame);
                if (!out) {
                  return py::object(py::none());
-               }
-               if (out->is<ob::FrameSet>()) {
+               } else if (out->is<ob::FrameSet>()) {
                  return py::cast(out->as<ob::FrameSet>());
+               } else if (out->is<ob::ColorFrame>()) {
+                 return py::cast(out->as<ob::ColorFrame>());
+               } else if (out->is<ob::DepthFrame>()) {
+                 return py::cast(out->as<ob::DepthFrame>());
+               } else if (out->is<ob::IRFrame>()) {
+                 return py::cast(out->as<ob::IRFrame>());
+               } else if (out->is<ob::ConfidenceFrame>()) {
+                 return py::cast(out->as<ob::ConfidenceFrame>());
+               } else if (out->is<ob::PointsFrame>()) {
+                 return py::cast(out->as<ob::PointsFrame>());
                }
                return py::cast(out);
              });
@@ -86,6 +95,13 @@ void define_filter(const py::object& m) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ return self->getConfigValue(config_name.c_str()); });
            })
+      .def(
+          "set_config_value",
+          [](std::shared_ptr<ob::Filter>& self, const std::string& config_name,
+             double value) {
+            CHECK_NULLPTR(self);
+            OB_TRY_CATCH({ self->setConfigValue(config_name.c_str(), value); });
+          })
       .def("get_name",
            [](std::shared_ptr<ob::Filter>& self) {
              CHECK_NULLPTR(self);
@@ -104,9 +120,9 @@ void define_filter(const py::object& m) {
       .def("is_decimation_filter", &ob::Filter::is<ob::DecimationFilter>)
       .def("is_point_cloud_filter", &ob::Filter::is<ob::PointCloudFilter>)
       .def("is_format_converter", &ob::Filter::is<ob::FormatConvertFilter>)
-      .def("is_align_filter", &ob::Filter::is<ob::Align>);
-  //.def("is_edge_noise_removal_filter",
-  //     &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
+      .def("is_align_filter", &ob::Filter::is<ob::Align>)
+      .def("is_edge_noise_removal_filter",
+           &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
 }
 
 void define_point_cloud_filter(const py::object& m) {
@@ -437,6 +453,157 @@ void define_decimation_filter(const py::object& m) {
         CHECK_NULLPTR(self);
         OB_TRY_CATCH({ return self->getScaleRange(); });
       });
+}
+
+void define_edge_noise_removal_filter(const py::object& m) {
+  py::class_<ob::EdgeNoiseRemovalFilter, ob::Filter,
+             std::shared_ptr<ob::EdgeNoiseRemovalFilter>>(
+      m, "EdgeNoiseRemovalFilter")
+      .def(py::init<const std::string&>(), py::arg("activation_key") = "")
+      .def("get_margin_x_th_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMarginXthRange(); });
+           })
+      .def("get_margin_y_th_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMarginYthRange(); });
+           })
+      .def("get_limit_x_th_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getLimitXthRange(); });
+           })
+      .def("get_limit_y_th_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getLimitYthRange(); });
+           })
+      .def("get_vertical_direction_enable_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getVerticalDirectionEnableRange(); });
+           })
+      .def("get_width_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getWidthRange(); });
+           })
+      .def("get_height_range",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getHeightRange(); });
+           })
+      .def("set_filter_params",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self,
+              const OBEdgeNoiseRemovalFilterParams& params) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setFilterParams(params); });
+           });
+}
+
+// MgcNoiseRemovalFilter for SDK v2.8.1
+void define_mgc_noise_removal_filter(const py::object& m) {
+  py::class_<ob::MgcNoiseRemovalFilter, ob::Filter,
+             std::shared_ptr<ob::MgcNoiseRemovalFilter>>(
+      m, "MgcNoiseRemovalFilter")
+      .def(py::init<const std::string&>(), py::arg("activation_key") = "")
+      .def("set_filter_params",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self,
+              const OBMgcNoiseRemovalFilterParams& params) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setFilterParams(params); });
+           })
+      .def("get_filter_params",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getFilterParams(); });
+           })
+      .def("get_max_width_left_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMaxWidthLeftRange(); });
+           })
+      .def("get_max_width_right_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMaxWidthRightRange(); });
+           })
+      .def("get_max_radius_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMaxRadiusRange(); });
+           })
+      .def("get_margin_x_th_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMarginXthRange(); });
+           })
+      .def("get_margin_y_th_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMarginYthRange(); });
+           })
+      .def("get_limit_x_th_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getLimitXthRange(); });
+           })
+      .def("get_limit_y_th_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getLimitYthRange(); });
+           })
+      .def("get_width_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getWidthRange(); });
+           })
+      .def("get_height_range",
+           [](std::shared_ptr<ob::MgcNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getHeightRange(); });
+           });
+}
+
+// LutNoiseRemovalFilter for SDK v2.8.1
+void define_lut_noise_removal_filter(const py::object& m) {
+  py::class_<ob::LutNoiseRemovalFilter, ob::Filter,
+             std::shared_ptr<ob::LutNoiseRemovalFilter>>(
+      m, "LutNoiseRemovalFilter")
+      .def(py::init<const std::string&>(), py::arg("activation_key") = "")
+      .def("set_filter_params",
+           [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self,
+              const OBLutNoiseRemovalFilterParams& params) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setFilterParams(params); });
+           })
+      .def("get_filter_params",
+           [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getFilterParams(); });
+           })
+      .def("get_max_lut_range",
+           [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self, int index) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMaxLutRange(index); });
+           })
+      .def("get_min_diff_range",
+           [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMinDiffRange(); });
+           })
+      .def("get_width_range",
+           [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getWidthRange(); });
+           })
+      .def("get_height_range",
+           [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getHeightRange(); });
+           });
 }
 
 }  // namespace pyorbbecsdk

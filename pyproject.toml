@@ -1,3 +1,49 @@
-[tool.cibuildwheel]
-build = "cp39-* cp310-*"
-archs = "AMD64"   # Options: AMD64 ARM64 x86
+[project]
+name = "pyorbbecsdk2"
+version = "2.1.0"
+description = "pyorbbecsdk is a python wrapper for the OrbbecSDK"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "zhonghong", email = "zhonghong@orbbec.com" }
+]
+dependencies = [
+    "av==12.3.0; python_version < '3.13'",
+    "av==13.0.0; python_version >= '3.13'",
+    "numpy<2.0.0; python_version >= '3.8' and python_version < '3.12'",
+    "numpy>=2.1.0; python_version >= '3.12'",
+    "opencv-python",
+    "pygame",
+    "open3d==0.18.0; python_version >= '3.8' and python_version < '3.12'",
+    # pynput on macOS requires pyobjc; pyobjc 11+ requires Python 3.9+
+    "pynput; sys_platform != 'darwin'",
+    "pynput; sys_platform == 'darwin' and python_version >= '3.9'",
+    "pyobjc-core==10.3.2; sys_platform == 'darwin' and python_version < '3.9'",
+    "pyobjc-framework-Quartz==10.3.2; sys_platform == 'darwin' and python_version < '3.9'",
+    "pynput; sys_platform == 'darwin' and python_version < '3.9'",
+]
+
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+    "pybind11==2.12.0",
+    "pybind11-global==2.12.0"
+]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "auditwheel",
+    "pyelftools<0.30",
+    "pybind11-stubgen",
+]
+
+[tool.black]
+target-version = ['py38']
+line-length = 120
+
+[tool.isort]
+profile = "black"
+line_length = 120
+skip_gitignore = true

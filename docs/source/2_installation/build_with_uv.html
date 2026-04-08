@@ -1,0 +1,1788 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.4. Build from Source with UV (Recommended) &mdash; OrbbecSDK V2 Python Wrapper  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=a2eacb60" />
+
+  
+    <link rel="shortcut icon" href="../../_static/orbbec_footerlogo_3d_world.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2.5. Build from Source (Traditional CMake Method - Deprecated)" href="build_the_package.html" />
+    <link rel="prev" title="2.3. Installation Guide" href="install_the_package.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            OrbbecSDK V2 Python Wrapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1_overview/overview.html">1. Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/Introduction.html">1.1. Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/Introduction.html#support-hardware-products">1.1.1. Support Hardware Products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/Introduction.html#support-platforms">1.1.2. Support Platforms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html">1.2. Orbbec SDK Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#terms">1.2.1. Terms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#orbbec-sdk-v2-architecture-overview">1.2.2. Orbbec SDK v2 Architecture Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#sdk-concept-overview">1.2.3. SDK Concept Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#sdk-programming-model">1.2.4. SDK Programming Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="installation.html">2. Installation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="virtual_environment_guide.html">2.1. Virtual Environment Installation Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#table-of-contents">2.1.1. 📋 Table of Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#tool-selection-guide">2.1.2. 📊 Tool Selection Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#quick-start">2.1.3. Quick Start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#linux-macos-venv">2.1.3.1. Linux / macOS (venv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#windows-venv">2.1.3.2. Windows (venv)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#using-venv-recommended-for-beginners">2.1.4. 1. Using venv (Recommended for Beginners)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#check-python-version">2.1.4.1. 1.1 Check Python Version</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#create-virtual-environment">2.1.4.2. 1.2 Create Virtual Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#activate-virtual-environment">2.1.4.3. 1.3 Activate Virtual Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#install-pyorbbecsdk2">2.1.4.4. 1.4 Install pyorbbecsdk2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#verify-installation">2.1.4.5. 1.5 Verify Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#run-examples">2.1.4.6. 1.6 Run Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#deactivate-virtual-environment">2.1.4.7. 1.7 Deactivate Virtual Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#using-pyenv-multiple-python-versions">2.1.5. 2. Using pyenv (Multiple Python Versions)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#install-pyenv">2.1.5.1. 2.1 Install pyenv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#install-python-3-10">2.1.5.2. 2.2 Install Python 3.10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#set-local-python-version-in-project-directory">2.1.5.3. 2.3 Set Local Python Version in Project Directory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#create-virtual-environment-and-activate">2.1.5.4. 2.4 Create Virtual Environment and Activate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#id1">2.1.5.5. 2.5 Install pyorbbecsdk2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#complete-workflow-example">2.1.5.6. 2.6 Complete Workflow Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#using-conda-data-science-users">2.1.6. 3. Using conda (Data Science Users)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#install-miniconda">2.1.6.1. 3.1 Install Miniconda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#create-conda-environment">2.1.6.2. 3.2 Create conda Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#install-dependencies-optional">2.1.6.3. 3.3 Install Dependencies (Optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#id2">2.1.6.4. 3.4 Install pyorbbecsdk2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#exit-environment">2.1.6.5. 3.5 Exit Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#remove-environment-if-needed">2.1.6.6. 3.6 Remove Environment (if needed)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#platform-specific-notes">2.1.7. Platform-Specific Notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#linux">2.1.7.1. Linux</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="virtual_environment_guide.html#ubuntu-debian">2.1.7.1.1. Ubuntu/Debian</a></li>
+<li class="toctree-l5"><a class="reference internal" href="virtual_environment_guide.html#udev-rules">2.1.7.1.2. udev Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#macos">2.1.7.2. macOS</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="virtual_environment_guide.html#xcode-command-line-tools">2.1.7.2.1. Xcode Command Line Tools</a></li>
+<li class="toctree-l5"><a class="reference internal" href="virtual_environment_guide.html#permission-issues">2.1.7.2.2. Permission Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#windows">2.1.7.3. Windows</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="virtual_environment_guide.html#visual-c-redistributable">2.1.7.3.1. Visual C++ Redistributable</a></li>
+<li class="toctree-l5"><a class="reference internal" href="virtual_environment_guide.html#powershell-execution-policy">2.1.7.3.2. PowerShell Execution Policy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#troubleshooting">2.1.8. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#externally-managed-environment-error">2.1.8.1. ❌ “externally-managed-environment” Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#no-module-named-venv">2.1.8.2. ❌ “No module named ‘venv’”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#virtual-environment-activated-but-still-using-system-python">2.1.8.3. ❌ Virtual Environment Activated but Still Using System Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#pip-install-shows-permission-denied">2.1.8.4. ❌ pip install Shows Permission Denied</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virtual_environment_guide.html#pyorbbec-env-bin-activate-no-such-file">2.1.8.5. ❌ “pyorbbec_env/bin/activate: No such file”</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#best-practices">2.1.9. 📝 Best Practices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual_environment_guide.html#related-documentation">2.1.10. 🔗 Related Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="registration_script.html">2.2. Environment Setup (One-Time Configuration)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="registration_script.html#quick-setup-recommended">2.2.1. Quick Setup (Recommended)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#from-repository">2.2.1.1. From Repository</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="registration_script.html#windows-powershell">2.2.1.1.1. Windows (PowerShell)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="registration_script.html#linux">2.2.1.1.2. Linux</a></li>
+<li class="toctree-l5"><a class="reference internal" href="registration_script.html#macos">2.2.1.1.3. macOS</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#from-installed-package">2.2.1.2. From Installed Package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#command-options">2.2.1.3. Command Options</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="registration_script.html#what-this-setup-does">2.2.2. What This Setup Does</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#windows">2.2.2.1. Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#id1">2.2.2.2. Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#id2">2.2.2.3. macOS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="registration_script.html#manual-configuration-advanced">2.2.3. Manual Configuration (Advanced)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#linux-manual-udev-rules-installation">2.2.3.1. Linux - Manual udev Rules Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="registration_script.html#windows-manual-metadata-registration">2.2.3.2. Windows - Manual Metadata Registration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install_the_package.html">2.3. Installation Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install_the_package.html#system-requirements">2.3.1. 📋 System Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#hardware-requirements">2.3.1.1. Hardware Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="install_the_package.html#detailed-installation">2.3.2. 📖 Detailed Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#prerequisites">2.3.2.1. Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#python-version-check">2.3.2.2. Python Version Check</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#virtual-environment-recommended">2.3.2.3. Virtual Environment (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#environment-setup-one-time">2.3.2.4. Environment Setup (One-Time)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#system-specific-prerequisites">2.3.2.5. System-Specific Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#installation-methods">2.3.2.6. Installation Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#method-1-pip-install-recommended">2.3.2.7. Method 1: pip install (Recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#method-2-offline-wheel-installation">2.3.2.8. Method 2: Offline Wheel Installation</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="install_the_package.html#step-1-download-the-wheel">2.3.2.8.1. Step 1: Download the Wheel</a></li>
+<li class="toctree-l5"><a class="reference internal" href="install_the_package.html#step-2-install-the-wheel">2.3.2.8.2. Step 2: Install the Wheel</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#hello-world-example">2.3.2.9. “Hello World” Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#run-an-example">2.3.2.10. Run an Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="install_the_package.html#quick-install-tl-dr">2.3.3. 🚀 Quick Install (TL;DR)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install_the_package.html#troubleshooting">2.3.4. 🐛 Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#no-device-found-linux">2.3.4.1. “No device found” (Linux)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#permission-denied-macos">2.3.4.2. Permission denied (macOS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#importerror-on-windows">2.3.4.3. ImportError on Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#metadata-timestamp-issues-windows">2.3.4.4. Metadata/Timestamp Issues (Windows)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#python-version-mismatch">2.3.4.5. Python Version Mismatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#offline-installation-fails">2.3.4.6. Offline Installation Fails</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#examples-not-running">2.3.4.7. Examples Not Running</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="install_the_package.html#next-steps">2.3.5. 📚 Next Steps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="install_the_package.html#common-example-commands">2.3.5.1. Common Example Commands</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="install_the_package.html#additional-resources">2.3.6. 📖 Additional Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.4. Build from Source with UV (Recommended)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">2.4.1. Prerequisites</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#all-platforms">2.4.1.1. All Platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#platform-specific-requirements">2.4.1.2. Platform-Specific Requirements</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#linux">2.4.1.2.1. Linux</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#macos">2.4.1.2.2. macOS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#windows">2.4.1.2.3. Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-scripts">2.4.2. Build Scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start">2.4.3. Quick Start</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">2.4.3.1. Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">2.4.3.2. macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">2.4.3.3. Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#script-options">2.4.4. Script Options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#examples">2.4.4.1. Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#offline-build">2.4.5. Offline Build</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#preparing-for-offline-build">2.4.5.1. Preparing for Offline Build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-offline-mode-works">2.4.5.2. How Offline Mode Works</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-output">2.4.6. Build Output</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installing-the-wheel">2.4.6.1. Installing the Wheel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate-type-stubs-optional-but-recommended">2.4.6.2. Generate Type Stubs (Optional but Recommended)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-process-details">2.4.7. Build Process Details</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#key-differences-by-platform">2.4.7.1. Key Differences by Platform</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshooting">2.4.8. Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#common-issues">2.4.8.1. Common Issues</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#uv-command-not-found">2.4.8.1.1. “uv: command not found”</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#cmake-configuration-failed">2.4.8.1.2. “CMake configuration failed”</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#pybind11-not-found-offline-mode">2.4.8.1.3. “pybind11 not found” (Offline mode)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#permission-denied-on-macos">2.4.8.1.4. “Permission denied” on macOS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#build-fails-on-windows-with-visual-studio-not-found">2.4.8.1.5. Build fails on Windows with “Visual Studio not found”</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#cleaning-build-artifacts">2.4.8.2. Cleaning Build Artifacts</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-usage">2.4.9. Advanced Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#customizing-python-versions">2.4.9.1. Customizing Python Versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parallel-builds">2.4.9.2. Parallel Builds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">2.4.9.3. Environment Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-with-traditional-build">2.4.10. Comparison with Traditional Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#next-steps">2.4.11. Next Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#see-also">2.4.12. See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="build_the_package.html">2.5. Build from Source (Traditional CMake Method - Deprecated)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="build_the_package.html#environment">2.5.1. Environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#compilation-platform-requirements">2.5.1.1. Compilation Platform Requirements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#python-version">2.5.1.2. Python Version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="build_the_package.html#linux-python-sdk-compilation">2.5.2. Linux Python SDK Compilation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#install-dependencies-ubuntu">2.5.2.1. Install Dependencies (Ubuntu)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#custom-python-path-optional">2.5.2.2. Custom Python Path (Optional)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#build-the-project">2.5.2.3. Build the Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#run-the-examples">2.5.2.4. Run the Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#generate-python-stubs">2.5.2.5. Generate Python Stubs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#making-a-python-wheel">2.5.2.6. Making a Python Wheel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="build_the_package.html#windows-python-sdk-compilation">2.5.3. Windows Python SDK Compilation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#download-the-python-sdk-source-code">2.5.3.1. Download the Python SDK Source Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#install-dependencies">2.5.3.2. Install Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#configure-visual-studio-project">2.5.3.3. Configure Visual Studio Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#compile-the-python-sdk">2.5.3.4. Compile the Python SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="build_the_package.html#test-examples">2.5.3.5. Test Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../3_QuickStarts/QuickStarts.html">3. QuickStarts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html">3.1. QuickStart Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#overview">3.2. 🎯 Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#what-you-ll-learn">3.2.1. What You’ll Learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#time-to-complete">3.2.2. Time to Complete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#final-result">3.2.3. Final Result</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#prerequisites">3.3. ✅ Prerequisites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#hardware">3.3.1. Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#software">3.3.2. Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#quick-verification">3.3.3. Quick Verification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#platform-specific-notes">3.3.4. Platform-Specific Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#your-first-application-30-seconds">3.4. 🚀 Your First Application (30 Seconds)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#step-1-quick-verification-optional">3.4.1. Step 1: Quick Verification (Optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#step-2-run-quick-start-30-sec">3.4.2. Step 2: Run Quick Start (30 sec)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#step-3-see-it-in-action">3.4.3. Step 3: See It In Action</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#how-it-works">3.4.4. How It Works</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#complete-runnable-script">3.5. 📋 Complete Runnable Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#understanding-the-code">3.6. 📊 Understanding the Code</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#key-classes-and-concepts">3.6.1. Key Classes and Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#pipeline">3.6.1.1. 1. Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#frameset">3.6.1.2. 2. FrameSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#frame-processing">3.6.1.3. 3. Frame Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#data-flow-diagram">3.6.1.4. Data Flow Diagram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#when-to-use-manual-configuration">3.6.1.5. When to Use Manual Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#common-customizations">3.7. 🔧 Common Customizations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#customize-via-xml-configuration">3.7.1. Customize via XML Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#manual-configuration-when-needed">3.7.2. Manual Configuration (When Needed)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#enable-only-color-or-depth">3.7.3. Enable Only Color or Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#save-frames-to-disk">3.7.4. Save Frames to Disk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#troubleshooting">3.7.5. 🐛 Troubleshooting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#no-device-found-linux">3.7.5.1. “No device found” (Linux)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#permission-denied-macos">3.7.5.2. Permission denied (macOS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#import-error">3.7.5.3. Import Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#empty-frames">3.7.5.4. Empty Frames</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#display-issues">3.7.5.5. Display Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#metadata-timestamp-issues-windows">3.7.5.6. Metadata/Timestamp Issues (Windows)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#next-steps">3.7.6. 📚 Next Steps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#recommended-learning-path">3.7.6.1. 🗺️ Recommended Learning Path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#learn-by-example">3.7.6.2. 🎓 Learn by Example</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#level-1-beginner">3.7.6.2.1. Level 1 — Beginner ⭐</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#level-2-advanced">3.7.6.2.2. Level 2 — Advanced ⭐⭐</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#level-3-applications">3.7.6.2.3. Level 3 — Applications ⭐⭐⭐</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#specialized-lidar">3.7.6.2.4. Specialized — LiDAR ⭐⭐⭐</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#additional-resources">3.7.6.3. 🔗 Additional Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#sdk-feature-overview">3.7.7. 📝 SDK Feature Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#tips-for-success">3.7.8. 💡 Tips for Success</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../4_Application_Guide/Application_Guide.html">4. Application Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html">4.1. Create Device</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#create-pipeline">4.2. Create Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-the-sensor-list">4.3. Obtain the Sensor List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-video-data-streams">4.4. Obtain Video Data Streams</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#blocking-polling-mode-video-data-streams">4.4.1. Blocking Polling Mode (Video Data Streams)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#asynchronous-callback-mode-video-data-streams">4.4.2. Asynchronous Callback Mode (Video Data Streams)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-data-streams">4.5. Obtain Imu Data Streams</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#blocking-polling-mode-imu-data-streams">4.5.1. Blocking Polling Mode (Imu Data Streams)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#asynchronous-callback-mode-imu-data-streams">4.5.2. Asynchronous Callback Mode (Imu Data Streams)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-the-camera-intrinsic-and-extrinsic-parameters">4.6. Obtain the Camera Intrinsic and Extrinsic Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#frame-aggregate">4.7. Frame Aggregate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#d2c">4.8. D2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hardware-d2c">4.8.1. Hardware D2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-d2c">4.8.2. Software D2C</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-c2d">4.9. Software C2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-point-cloud">4.10. Depth Point Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#rgbd-point-cloud">4.11. RGBD Point Cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#noise-removeal-filter">4.12. Noise Removeal Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hardware-noise-removeal-filter">4.12.1. Hardware Noise Removeal Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-noise-removeal-filter">4.12.2. Software Noise Removeal Filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-post-processing-filters">4.13. Depth Post-Processing Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#recording-and-playback">4.14. Recording and Playback</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#recording">4.14.1. Recording</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#playback">4.14.2. Playback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#firmware-update">4.15. Firmware Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#update-preset">4.16. Update Preset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#device-disconnection-and-reconnection">4.17. Device Disconnection and Reconnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#commonly-used-interfaces">4.18. Commonly Used Interfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#device-reboot">4.18.1. Device Reboot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-the-serial-number">4.18.2. Obtain the Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-the-ip-config">4.18.3. Obtain the IP Config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-local-network-configuration">4.18.4. Obtain Local Network Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ip-configuration">4.18.5. IP Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ip-configuration-persistent">4.18.5.1. Set IP Configuration (Persistent)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#force-ip-configuration-temporary">4.18.5.2. Force IP Configuration (Temporary)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-device-temperature">4.18.6. Obtain Device Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-device-baseline">4.18.7. Obtain Device Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#stream-profile">4.18.8. Stream Profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-streamprofile">4.18.9. Obtain IMU StreamProfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-intrinsic-and-extrinsic-parameters">4.18.10. Obtain Intrinsic and Extrinsic Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-imu-intrinsic-parameters">4.18.11. Obtain IMU Intrinsic Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ldp-switch">4.18.12. LDP Switch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hdr-merge">4.18.13. HDR Merge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-ldp-measurement-value">4.18.14. Obtain LDP Measurement Value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-ldp-protection-status">4.18.15. Obtain LDP Protection Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#laser-switch">4.18.16. Laser Switch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#obtain-metadata">4.18.17. Obtain MetaData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#triggered-capture">4.18.18. Triggered Capture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-triggered-capture">4.18.18.1. Software Triggered Capture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#timed-capture">4.18.18.2. Timed Capture</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#timestamp-reset">4.18.19. Timestamp Reset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#device-time-synchronization">4.18.20. Device Time Synchronization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#d2d-disparity-to-depth">4.18.21. D2D (Disparity to depth)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#hardware-d2d">4.18.21.1. Hardware D2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#software-d2d">4.18.21.2. Software D2D</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-settings">4.18.22. Depth Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#depth-working-mode">4.18.22.1. Depth Working Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#preset-configuration">4.18.22.2. Preset Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-ae">4.18.22.3. Set Depth AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-exposure">4.18.22.4. Set Depth Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-gain">4.18.22.5. Set Depth Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-mirror">4.18.22.6. Set Depth Mirror</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-flip">4.18.22.7. Set Depth Flip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-depth-rotation">4.18.22.8. Set Depth Rotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-unit-of-depth">4.18.22.9. Set the Unit of Depth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-min-and-max-depth">4.18.22.10. Set Min and Max Depth</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#ir-parameter-settings">4.18.23. IR Parameter Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-ae">4.18.23.1. Set IR AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-exposure">4.18.23.2. Set IR Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-gain">4.18.23.3. Set IR Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-target-brightness">4.18.23.4. Set IR Target Brightness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-maximum-exposure-value">4.18.23.5. Set IR Maximum Exposure Value</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-mirror">4.18.23.6. set IR Mirror</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-flip">4.18.23.7. Set IR Flip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-ir-rotation">4.18.23.8. Set IR Rotation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#color-parameter-settings">4.18.24. Color Parameter Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-ae">4.18.24.1. Set Color AE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-exposure">4.18.24.2. Set Color Exposure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-gain">4.18.24.3. Set Color Gain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-mirror">4.18.24.4. set Color Mirror</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-flip">4.18.24.5. Set Color Flip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-rotation">4.18.24.6. Set Color Rotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-automatic-white-balance-awb">4.18.24.7. Set Color Automatic White Balance (AWB)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-white-balance-parameters">4.18.24.8. Set Color White Balance Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-color-brightness">4.18.24.9. Set the Color Brightness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-sharpness">4.18.24.10. Set Color Sharpness</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-gamma">4.18.24.11. Set Color Gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-saturation">4.18.24.12. Set Color Saturation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-hue">4.18.24.13. Set Color Hue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-auto-exposure-priority">4.18.24.14. Set Color Auto Exposure Priority</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-backlight-compensation">4.18.24.15. Set Color Backlight Compensation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-contrast">4.18.24.16. Set Color Contrast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-color-power-line-frequency">4.18.24.17. Set Color Power Line Frequency</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronization">4.18.25. Multi-Camera Synchronization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronous-hardware-connection">4.18.25.1. Multi-Camera Synchronous Hardware Connection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#multi-camera-synchronization-software-configuration">4.18.25.2. Multi-Camera Synchronization Software Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#frame-interleave">4.18.26. Frame Interleave</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#load-frame-interleave">4.18.26.1. Load Frame Interleave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#check-frame-interleave-support">4.18.26.2. Check Frame Interleave Support</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#heart-beat-control">4.18.27. Heart Beat Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#log-management">4.18.28. Log Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-log-level">4.18.28.1. Set the log level</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-log-output-to-the-console">4.18.28.2. Set the Log Output to the Console</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-log-output-to-file">4.18.28.3. Set Log Output to File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Application_Guide/ApplicationGuide.html#set-the-log-callback-output">4.18.28.4. Set the Log Callback Output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5_API_Reference/index.html">5. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/core.html">5.1. Core Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/core.html#classes">5.1.1. Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#context">5.1.1.1. Context</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.Context"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#config">5.1.1.2. Config</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#device">5.1.1.3. Device</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.Device"><code class="docutils literal notranslate"><span class="pre">Device</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#deviceinfo">5.1.1.4. DeviceInfo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.DeviceInfo"><code class="docutils literal notranslate"><span class="pre">DeviceInfo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#devicelist">5.1.1.5. DeviceList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.DeviceList"><code class="docutils literal notranslate"><span class="pre">DeviceList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#devicepresetlist">5.1.1.6. DevicePresetList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.DevicePresetList"><code class="docutils literal notranslate"><span class="pre">DevicePresetList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#sensor">5.1.1.7. Sensor</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.Sensor"><code class="docutils literal notranslate"><span class="pre">Sensor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#sensorlist">5.1.1.8. SensorList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.SensorList"><code class="docutils literal notranslate"><span class="pre">SensorList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#cameraparamlist">5.1.1.9. CameraParamList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.CameraParamList"><code class="docutils literal notranslate"><span class="pre">CameraParamList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/core.html#presetresolutionconfiglist">5.1.1.10. PresetResolutionConfigList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/core.html#pyorbbecsdk.PresetResolutionConfigList"><code class="docutils literal notranslate"><span class="pre">PresetResolutionConfigList</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/device.html">5.2. Device</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/device.html#enumerations">5.2.1. Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdevicetype">5.2.1.1. OBDeviceType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceType"><code class="docutils literal notranslate"><span class="pre">OBDeviceType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdeviceaccessmode">5.2.1.2. OBDeviceAccessMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceAccessMode"><code class="docutils literal notranslate"><span class="pre">OBDeviceAccessMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdevicedevelopmentmode">5.2.1.3. OBDeviceDevelopmentMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceDevelopmentMode"><code class="docutils literal notranslate"><span class="pre">OBDeviceDevelopmentMode</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/device.html#structures">5.2.2. Structures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdevicetemperature">5.2.2.1. OBDeviceTemperature</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceTemperature"><code class="docutils literal notranslate"><span class="pre">OBDeviceTemperature</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdeviceipaddrconfig">5.2.2.2. OBDeviceIpAddrConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceIpAddrConfig"><code class="docutils literal notranslate"><span class="pre">OBDeviceIpAddrConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdevicesyncconfig">5.2.2.3. OBDeviceSyncConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceSyncConfig"><code class="docutils literal notranslate"><span class="pre">OBDeviceSyncConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obdevicetimestampresetconfig">5.2.2.4. OBDeviceTimestampResetConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBDeviceTimestampResetConfig"><code class="docutils literal notranslate"><span class="pre">OBDeviceTimestampResetConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obmultidevicesyncconfig">5.2.2.5. OBMultiDeviceSyncConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBMultiDeviceSyncConfig"><code class="docutils literal notranslate"><span class="pre">OBMultiDeviceSyncConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/device.html#property-types">5.2.3. Property Types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obpropertyid">5.2.3.1. OBPropertyID</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBPropertyID"><code class="docutils literal notranslate"><span class="pre">OBPropertyID</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obpropertyitem">5.2.3.2. OBPropertyItem</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBPropertyItem"><code class="docutils literal notranslate"><span class="pre">OBPropertyItem</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obpropertytype">5.2.3.3. OBPropertyType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBPropertyType"><code class="docutils literal notranslate"><span class="pre">OBPropertyType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obpermissiontype">5.2.3.4. OBPermissionType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBPermissionType"><code class="docutils literal notranslate"><span class="pre">OBPermissionType</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/device.html#property-ranges">5.2.4. Property Ranges</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obintpropertyrange">5.2.4.1. OBIntPropertyRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBIntPropertyRange"><code class="docutils literal notranslate"><span class="pre">OBIntPropertyRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obfloatpropertyrange">5.2.4.2. OBFloatPropertyRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBFloatPropertyRange"><code class="docutils literal notranslate"><span class="pre">OBFloatPropertyRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obboolpropertyrange">5.2.4.3. OBBoolPropertyRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBBoolPropertyRange"><code class="docutils literal notranslate"><span class="pre">OBBoolPropertyRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obuint8propertyrange">5.2.4.4. OBUint8PropertyRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBUint8PropertyRange"><code class="docutils literal notranslate"><span class="pre">OBUint8PropertyRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/device.html#obuint16propertyrange">5.2.4.5. OBUint16PropertyRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/device.html#pyorbbecsdk.OBUint16PropertyRange"><code class="docutils literal notranslate"><span class="pre">OBUint16PropertyRange</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/pipeline.html">5.3. Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/pipeline.html#classes">5.3.1. Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/pipeline.html#id1">5.3.1.1. Pipeline</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/pipeline.html#pyorbbecsdk.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/pipeline.html#frameset">5.3.1.2. FrameSet</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/pipeline.html#pyorbbecsdk.FrameSet"><code class="docutils literal notranslate"><span class="pre">FrameSet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/pipeline.html#recorddevice">5.3.1.3. RecordDevice</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/pipeline.html#pyorbbecsdk.RecordDevice"><code class="docutils literal notranslate"><span class="pre">RecordDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/pipeline.html#playbackdevice">5.3.1.4. PlaybackDevice</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/pipeline.html#pyorbbecsdk.PlaybackDevice"><code class="docutils literal notranslate"><span class="pre">PlaybackDevice</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/frame.html">5.4. Frame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/frame.html#classes">5.4.1. Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#id1">5.4.1.1. Frame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#videoframe">5.4.1.2. VideoFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.VideoFrame"><code class="docutils literal notranslate"><span class="pre">VideoFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#colorframe">5.4.1.3. ColorFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.ColorFrame"><code class="docutils literal notranslate"><span class="pre">ColorFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#depthframe">5.4.1.4. DepthFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.DepthFrame"><code class="docutils literal notranslate"><span class="pre">DepthFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#irframe">5.4.1.5. IRFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.IRFrame"><code class="docutils literal notranslate"><span class="pre">IRFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#confidenceframe">5.4.1.6. ConfidenceFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.ConfidenceFrame"><code class="docutils literal notranslate"><span class="pre">ConfidenceFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#pointsframe">5.4.1.7. PointsFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.PointsFrame"><code class="docutils literal notranslate"><span class="pre">PointsFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#lidarpointsframe">5.4.1.8. LiDARPointsFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.LiDARPointsFrame"><code class="docutils literal notranslate"><span class="pre">LiDARPointsFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#accelframe">5.4.1.9. AccelFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.AccelFrame"><code class="docutils literal notranslate"><span class="pre">AccelFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#gyroframe">5.4.1.10. GyroFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.GyroFrame"><code class="docutils literal notranslate"><span class="pre">GyroFrame</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/frame.html#enumerations">5.4.2. Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#obframetype">5.4.2.1. OBFrameType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.OBFrameType"><code class="docutils literal notranslate"><span class="pre">OBFrameType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#obframemetadatatype">5.4.2.2. OBFrameMetadataType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.OBFrameMetadataType"><code class="docutils literal notranslate"><span class="pre">OBFrameMetadataType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#obformat">5.4.2.3. OBFormat</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.OBFormat"><code class="docutils literal notranslate"><span class="pre">OBFormat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#obmediatype">5.4.2.4. OBMediaType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.OBMediaType"><code class="docutils literal notranslate"><span class="pre">OBMediaType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#obmediastate">5.4.2.5. OBMediaState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.OBMediaState"><code class="docutils literal notranslate"><span class="pre">OBMediaState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#obplaybackstatus">5.4.2.6. OBPlaybackStatus</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.OBPlaybackStatus"><code class="docutils literal notranslate"><span class="pre">OBPlaybackStatus</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/frame.html#constants">5.4.3. Constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.PAUSED"><code class="docutils literal notranslate"><span class="pre">PAUSED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.PLAYING"><code class="docutils literal notranslate"><span class="pre">PLAYING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.STOPPED"><code class="docutils literal notranslate"><span class="pre">STOPPED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/frame.html#pyorbbecsdk.COUNT"><code class="docutils literal notranslate"><span class="pre">COUNT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/stream_profile.html">5.5. Stream Profile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/stream_profile.html#classes">5.5.1. Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#streamprofile">5.5.1.1. StreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.StreamProfile"><code class="docutils literal notranslate"><span class="pre">StreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#streamprofilelist">5.5.1.2. StreamProfileList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.StreamProfileList"><code class="docutils literal notranslate"><span class="pre">StreamProfileList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#videostreamprofile">5.5.1.3. VideoStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.VideoStreamProfile"><code class="docutils literal notranslate"><span class="pre">VideoStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#accelstreamprofile">5.5.1.4. AccelStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.AccelStreamProfile"><code class="docutils literal notranslate"><span class="pre">AccelStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#gyrostreamprofile">5.5.1.5. GyroStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.GyroStreamProfile"><code class="docutils literal notranslate"><span class="pre">GyroStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#lidarstreamprofile">5.5.1.6. LiDARStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.LiDARStreamProfile"><code class="docutils literal notranslate"><span class="pre">LiDARStreamProfile</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/stream_profile.html#enumerations">5.5.2. Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obsensortype">5.5.2.1. OBSensorType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBSensorType"><code class="docutils literal notranslate"><span class="pre">OBSensorType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obstreamtype">5.5.2.2. OBStreamType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBStreamType"><code class="docutils literal notranslate"><span class="pre">OBStreamType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obdepthworkmode">5.5.2.3. OBDepthWorkMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBDepthWorkMode"><code class="docutils literal notranslate"><span class="pre">OBDepthWorkMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obdepthworkmodelist">5.5.2.4. OBDepthWorkModeList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBDepthWorkModeList"><code class="docutils literal notranslate"><span class="pre">OBDepthWorkModeList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obdepthworkmodetag">5.5.2.5. OBDepthWorkModeTag</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBDepthWorkModeTag"><code class="docutils literal notranslate"><span class="pre">OBDepthWorkModeTag</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obpresetresolutionconfig">5.5.2.6. OBPresetResolutionConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBPresetResolutionConfig"><code class="docutils literal notranslate"><span class="pre">OBPresetResolutionConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obalignmode">5.5.2.7. OBAlignMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBAlignMode"><code class="docutils literal notranslate"><span class="pre">OBAlignMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obframeaggregateoutputmode">5.5.2.8. OBFrameAggregateOutputMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBFrameAggregateOutputMode"><code class="docutils literal notranslate"><span class="pre">OBFrameAggregateOutputMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obcompressionmode">5.5.2.9. OBCompressionMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBCompressionMode"><code class="docutils literal notranslate"><span class="pre">OBCompressionMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obcompressionparams">5.5.2.10. OBCompressionParams</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBCompressionParams"><code class="docutils literal notranslate"><span class="pre">OBCompressionParams</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obhardwaredecimationconfig">5.5.2.11. OBHardwareDecimationConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBHardwareDecimationConfig"><code class="docutils literal notranslate"><span class="pre">OBHardwareDecimationConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obhdrconfig">5.5.2.12. OBHdrConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBHdrConfig"><code class="docutils literal notranslate"><span class="pre">OBHdrConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obsyncmode">5.5.2.13. OBSyncMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBSyncMode"><code class="docutils literal notranslate"><span class="pre">OBSyncMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obmultidevicesyncmode">5.5.2.14. OBMultiDeviceSyncMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBMultiDeviceSyncMode"><code class="docutils literal notranslate"><span class="pre">OBMultiDeviceSyncMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#obgyrosamplerate">5.5.2.15. OBGyroSampleRate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.OBGyroSampleRate"><code class="docutils literal notranslate"><span class="pre">OBGyroSampleRate</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/stream_profile.html#constants">5.5.3. Constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_UNKNOWN"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_UNKNOWN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_1_5625_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_1_5625_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_3_125_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_3_125_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_6_25_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_6_25_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_12_5_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_12_5_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_25_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_25_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_50_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_50_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_100_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_100_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_200_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_200_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_400_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_400_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_500_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_500_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_1_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_1_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_2_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_2_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_4_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_4_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_8_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_8_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_16_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_16_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_32_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_32_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/stream_profile.html#pyorbbecsdk.SAMPLE_RATE_800_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_800_HZ</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/filter.html">5.6. Filter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/filter.html#classes">5.6.1. Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#id1">5.6.1.1. Filter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#alignfilter">5.6.1.2. AlignFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.AlignFilter"><code class="docutils literal notranslate"><span class="pre">AlignFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#decimationfilter">5.6.1.3. DecimationFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.DecimationFilter"><code class="docutils literal notranslate"><span class="pre">DecimationFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#holefillingfilter">5.6.1.4. HoleFillingFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.HoleFillingFilter"><code class="docutils literal notranslate"><span class="pre">HoleFillingFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#noiseremovalfilter">5.6.1.5. NoiseRemovalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.NoiseRemovalFilter"><code class="docutils literal notranslate"><span class="pre">NoiseRemovalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#spatialadvancedfilter">5.6.1.6. SpatialAdvancedFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.SpatialAdvancedFilter"><code class="docutils literal notranslate"><span class="pre">SpatialAdvancedFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#temporalfilter">5.6.1.7. TemporalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.TemporalFilter"><code class="docutils literal notranslate"><span class="pre">TemporalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#pointcloudfilter">5.6.1.8. PointCloudFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.PointCloudFilter"><code class="docutils literal notranslate"><span class="pre">PointCloudFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#sequenceidfilter">5.6.1.9. SequenceIdFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.SequenceIdFilter"><code class="docutils literal notranslate"><span class="pre">SequenceIdFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#hdrmergefilter">5.6.1.10. HDRMergeFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.HDRMergeFilter"><code class="docutils literal notranslate"><span class="pre">HDRMergeFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#thresholdfilter">5.6.1.11. ThresholdFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.ThresholdFilter"><code class="docutils literal notranslate"><span class="pre">ThresholdFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#formatconvertfilter">5.6.1.12. FormatConvertFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.FormatConvertFilter"><code class="docutils literal notranslate"><span class="pre">FormatConvertFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#disparitytransform">5.6.1.13. DisparityTransform</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.DisparityTransform"><code class="docutils literal notranslate"><span class="pre">DisparityTransform</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/filter.html#enumerations">5.6.2. Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obfilterlist">5.6.2.1. OBFilterList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBFilterList"><code class="docutils literal notranslate"><span class="pre">OBFilterList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obfilterconfigschemaitem">5.6.2.2. OBFilterConfigSchemaItem</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBFilterConfigSchemaItem"><code class="docutils literal notranslate"><span class="pre">OBFilterConfigSchemaItem</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obfilterconfigvaluetype">5.6.2.3. OBFilterConfigValueType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBFilterConfigValueType"><code class="docutils literal notranslate"><span class="pre">OBFilterConfigValueType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obholefillingmode">5.6.2.4. OBHoleFillingMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBHoleFillingMode"><code class="docutils literal notranslate"><span class="pre">OBHoleFillingMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obnoiseremovalfilterparams">5.6.2.5. OBNoiseRemovalFilterParams</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBNoiseRemovalFilterParams"><code class="docutils literal notranslate"><span class="pre">OBNoiseRemovalFilterParams</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obedgenoiseremovaltype">5.6.2.6. OBEdgeNoiseRemovalType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBEdgeNoiseRemovalType"><code class="docutils literal notranslate"><span class="pre">OBEdgeNoiseRemovalType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obedgenoiseremovalfilterparams">5.6.2.7. OBEdgeNoiseRemovalFilterParams</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBEdgeNoiseRemovalFilterParams"><code class="docutils literal notranslate"><span class="pre">OBEdgeNoiseRemovalFilterParams</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obddonoiseremovaltype">5.6.2.8. OBDDONoiseRemovalType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBDDONoiseRemovalType"><code class="docutils literal notranslate"><span class="pre">OBDDONoiseRemovalType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obspatialadvancedfilterparams">5.6.2.9. OBSpatialAdvancedFilterParams</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBSpatialAdvancedFilterParams"><code class="docutils literal notranslate"><span class="pre">OBSpatialAdvancedFilterParams</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/filter.html#obconvertformat">5.6.2.10. OBConvertFormat</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/filter.html#pyorbbecsdk.OBConvertFormat"><code class="docutils literal notranslate"><span class="pre">OBConvertFormat</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/utils.html">5.7. Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/utils.html#functions">5.7.1. Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#get-version">5.7.1.1. get_version</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.get_version"><code class="docutils literal notranslate"><span class="pre">get_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#save-point-cloud-to-ply">5.7.1.2. save_point_cloud_to_ply</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.save_point_cloud_to_ply"><code class="docutils literal notranslate"><span class="pre">save_point_cloud_to_ply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#save-lidar-point-cloud-to-ply">5.7.1.3. save_lidar_point_cloud_to_ply</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.save_lidar_point_cloud_to_ply"><code class="docutils literal notranslate"><span class="pre">save_lidar_point_cloud_to_ply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#transformation2dto2d">5.7.1.4. transformation2dto2d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.transformation2dto2d"><code class="docutils literal notranslate"><span class="pre">transformation2dto2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#transformation2dto3d">5.7.1.5. transformation2dto3d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.transformation2dto3d"><code class="docutils literal notranslate"><span class="pre">transformation2dto3d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#transformation3dto2d">5.7.1.6. transformation3dto2d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.transformation3dto2d"><code class="docutils literal notranslate"><span class="pre">transformation3dto2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#transformation3dto3d">5.7.1.7. transformation3dto3d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.transformation3dto3d"><code class="docutils literal notranslate"><span class="pre">transformation3dto3d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_API_Reference/utils.html#enumerations">5.7.2. Enumerations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obloglevel">5.7.2.1. OBLogLevel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBLogLevel"><code class="docutils literal notranslate"><span class="pre">OBLogLevel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#oberror">5.7.2.2. OBError</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBError"><code class="docutils literal notranslate"><span class="pre">OBError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obexception">5.7.2.3. OBException</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBException"><code class="docutils literal notranslate"><span class="pre">OBException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obstatus">5.7.2.4. OBStatus</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBStatus"><code class="docutils literal notranslate"><span class="pre">OBStatus</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcameraparam">5.7.2.5. OBCameraParam</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCameraParam"><code class="docutils literal notranslate"><span class="pre">OBCameraParam</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcameraintrinsic">5.7.2.6. OBCameraIntrinsic</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCameraIntrinsic"><code class="docutils literal notranslate"><span class="pre">OBCameraIntrinsic</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcameradistortion">5.7.2.7. OBCameraDistortion</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCameraDistortion"><code class="docutils literal notranslate"><span class="pre">OBCameraDistortion</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcameradistortionmodel">5.7.2.8. OBCameraDistortionModel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCameraDistortionModel"><code class="docutils literal notranslate"><span class="pre">OBCameraDistortionModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obextrinsic">5.7.2.9. OBExtrinsic</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBExtrinsic"><code class="docutils literal notranslate"><span class="pre">OBExtrinsic</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obbaselinecalibrationparam">5.7.2.10. OBBaselineCalibrationParam</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBBaselineCalibrationParam"><code class="docutils literal notranslate"><span class="pre">OBBaselineCalibrationParam</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcalibrationparam">5.7.2.11. OBCalibrationParam</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCalibrationParam"><code class="docutils literal notranslate"><span class="pre">OBCalibrationParam</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obaccelintrinsic">5.7.2.12. OBAccelIntrinsic</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBAccelIntrinsic"><code class="docutils literal notranslate"><span class="pre">OBAccelIntrinsic</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obgyrointrinsic">5.7.2.13. OBGyroIntrinsic</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBGyroIntrinsic"><code class="docutils literal notranslate"><span class="pre">OBGyroIntrinsic</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obaccelfullscalerange">5.7.2.14. OBAccelFullScaleRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBAccelFullScaleRange"><code class="docutils literal notranslate"><span class="pre">OBAccelFullScaleRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obgyrofullscalerange">5.7.2.15. OBGyroFullScaleRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBGyroFullScaleRange"><code class="docutils literal notranslate"><span class="pre">OBGyroFullScaleRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obaccelvalue">5.7.2.16. OBAccelValue</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBAccelValue"><code class="docutils literal notranslate"><span class="pre">OBAccelValue</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obgyrovalue">5.7.2.17. OBGyroValue</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBGyroValue"><code class="docutils literal notranslate"><span class="pre">OBGyroValue</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obfloat3d">5.7.2.18. OBFloat3D</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBFloat3D"><code class="docutils literal notranslate"><span class="pre">OBFloat3D</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obpoint2f">5.7.2.19. OBPoint2f</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBPoint2f"><code class="docutils literal notranslate"><span class="pre">OBPoint2f</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obpoint3f">5.7.2.20. OBPoint3f</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBPoint3f"><code class="docutils literal notranslate"><span class="pre">OBPoint3f</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obrect">5.7.2.21. OBRect</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBRect"><code class="docutils literal notranslate"><span class="pre">OBRect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obregionofinterest">5.7.2.22. OBRegionOfInterest</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBRegionOfInterest"><code class="docutils literal notranslate"><span class="pre">OBRegionOfInterest</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#oblidarpoint">5.7.2.23. OBLiDARPoint</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBLiDARPoint"><code class="docutils literal notranslate"><span class="pre">OBLiDARPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#oblidarscanpoint">5.7.2.24. OBLiDARScanPoint</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBLiDARScanPoint"><code class="docutils literal notranslate"><span class="pre">OBLiDARScanPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#oblidarspherepoint">5.7.2.25. OBLiDARSpherePoint</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBLiDARSpherePoint"><code class="docutils literal notranslate"><span class="pre">OBLiDARSpherePoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#oblidarscanrate">5.7.2.26. OBLiDARScanRate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBLiDARScanRate"><code class="docutils literal notranslate"><span class="pre">OBLiDARScanRate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcolorpoint">5.7.2.27. OBColorPoint</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBColorPoint"><code class="docutils literal notranslate"><span class="pre">OBColorPoint</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obpixeltype">5.7.2.28. OBPixelType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBPixelType"><code class="docutils literal notranslate"><span class="pre">OBPixelType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obpowerlinefreqmode">5.7.2.29. OBPowerLineFreqMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBPowerLineFreqMode"><code class="docutils literal notranslate"><span class="pre">OBPowerLineFreqMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obdcpowerstate">5.7.2.30. OBDCPowerState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBDCPowerState"><code class="docutils literal notranslate"><span class="pre">OBDCPowerState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obusbpowerstate">5.7.2.31. OBUSBPowerState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBUSBPowerState"><code class="docutils literal notranslate"><span class="pre">OBUSBPowerState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcommunicationtype">5.7.2.32. OBCommunicationType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCommunicationType"><code class="docutils literal notranslate"><span class="pre">OBCommunicationType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obprotocolversion">5.7.2.33. OBProtocolVersion</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBProtocolVersion"><code class="docutils literal notranslate"><span class="pre">OBProtocolVersion</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcmdversion">5.7.2.34. OBCmdVersion</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCmdVersion"><code class="docutils literal notranslate"><span class="pre">OBCmdVersion</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obcoordinatesystemtype">5.7.2.35. OBCoordinateSystemType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBCoordinateSystemType"><code class="docutils literal notranslate"><span class="pre">OBCoordinateSystemType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obrotatedegreetype">5.7.2.36. OBRotateDegreeType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBRotateDegreeType"><code class="docutils literal notranslate"><span class="pre">OBRotateDegreeType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obdepthprecisionlevel">5.7.2.37. OBDepthPrecisionLevel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBDepthPrecisionLevel"><code class="docutils literal notranslate"><span class="pre">OBDepthPrecisionLevel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obdepthcroppingmode">5.7.2.38. OBDepthCroppingMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBDepthCroppingMode"><code class="docutils literal notranslate"><span class="pre">OBDepthCroppingMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obtoffilterrange">5.7.2.39. OBTofFilterRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBTofFilterRange"><code class="docutils literal notranslate"><span class="pre">OBTofFilterRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obtofexposurethresholdcontrol">5.7.2.40. OBTofExposureThresholdControl</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBTofExposureThresholdControl"><code class="docutils literal notranslate"><span class="pre">OBTofExposureThresholdControl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obsequenceiditem">5.7.2.41. OBSequenceIdItem</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBSequenceIdItem"><code class="docutils literal notranslate"><span class="pre">OBSequenceIdItem</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obupgradestate">5.7.2.42. OBUpgradeState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBUpgradeState"><code class="docutils literal notranslate"><span class="pre">OBUpgradeState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obdatatranstate">5.7.2.43. OBDataTranState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBDataTranState"><code class="docutils literal notranslate"><span class="pre">OBDataTranState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../5_API_Reference/utils.html#obfiletranstate">5.7.2.44. OBFileTranState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../5_API_Reference/utils.html#pyorbbecsdk.OBFileTranState"><code class="docutils literal notranslate"><span class="pre">OBFileTranState</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/index.html#quick-links">5.8. Quick Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_API_Reference/index.html#module-overview">5.9. Module Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../6_FAQ/FAQ.html">6. FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#table-of-contents">6.1. Table of Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#installation-issues">6.2. Installation Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#no-device-found-on-linux">6.2.1. No device found on Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#permission-denied-on-macos">6.2.2. Permission denied on macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#importerror-on-windows">6.2.3. ImportError on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#python-version-mismatch">6.2.4. Python version mismatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#offline-installation-fails">6.2.5. Offline installation fails</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#package-name-confusion">6.2.6. Package name confusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#open3d-and-numpy-version-compatibility">6.2.7. Open3D and NumPy version compatibility</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#build-issues">6.3. Build Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#uv-command-not-found">6.3.1. uv command not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#cmake-configuration-failed">6.3.2. CMake configuration failed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#pybind11-not-found-in-offline-mode">6.3.3. pybind11 not found in offline mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#build-fails-on-windows-with-visual-studio-not-found">6.3.4. Build fails on Windows with Visual Studio not found</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#runtime-issues">6.4. Runtime Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#empty-frames-or-frames-is-none">6.4.1. Empty frames or frames is None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#display-issues-with-opencv">6.4.2. Display issues with OpenCV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#jetson-nano-illegal-instruction">6.4.3. Jetson Nano illegal instruction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#import-error-modulenotfounderror">6.4.4. Import Error ModuleNotFoundError</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#platform-specific-issues">6.5. Platform-Specific Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#usb-device-access-permission-error-on-linux">6.5.1. USB device access permission error on Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#metadata-or-timestamp-issues-on-windows">6.5.2. Metadata or timestamp issues on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#macos-camera-and-terminal-authorization">6.5.3. macOS camera and terminal authorization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#camera-and-streaming">6.6. Camera and Streaming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#frame-synchronization-failures">6.6.1. Frame synchronization failures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#resolution-or-fps-configuration-issues">6.6.2. Resolution or FPS configuration issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#configuration">6.7. Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#how-to-configure-or-disable-sdk-logging">6.7.1. How to configure or disable SDK logging</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#firmware">6.8. Firmware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#firmware-version-mismatch">6.8.1. Firmware version mismatch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../6_FAQ/FAQ.html#how-to-update-firmware">6.8.2. How to update firmware</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../6_FAQ/FAQ.html#additional-resources">6.9. Additional Resources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">7. License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OrbbecSDK V2 Python Wrapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="installation.html"><span class="section-number">2. </span>Installation</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2.4. </span>Build from Source with UV (Recommended)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/2_installation/build_with_uv.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-from-source-with-uv-recommended">
+<h1><span class="section-number">2.4. </span>Build from Source with UV (Recommended)<a class="headerlink" href="#build-from-source-with-uv-recommended" title="Link to this heading"></a></h1>
+<p>This guide explains how to build pyorbbecsdk wheel packages using <strong>uv</strong>, a fast Python package manager and resolver. The UV-based build system provides significant advantages over traditional pip/venv workflows:</p>
+<ul class="simple">
+<li><p><strong>Fast dependency resolution</strong>: UV resolves dependencies 10-100x faster than pip</p></li>
+<li><p><strong>Automatic Python version management</strong>: UV can install and manage multiple Python versions</p></li>
+<li><p><strong>Automatic virtual environments</strong>: UV creates and manages isolated environments automatically</p></li>
+<li><p><strong>Offline support</strong>: Build without internet access using cached dependencies</p></li>
+<li><p><strong>Cross-platform</strong>: Unified build process across Linux, macOS, and Windows</p></li>
+<li><p><strong>Reproducible builds</strong>: Consistent environment setup across different machines</p></li>
+</ul>
+<blockquote>
+<div><p><strong>💡 Prefer traditional virtual environments?</strong></p>
+<p>If you prefer using standard <code class="docutils literal notranslate"><span class="pre">venv</span></code>, <code class="docutils literal notranslate"><span class="pre">pyenv</span></code>, or <code class="docutils literal notranslate"><span class="pre">conda</span></code> instead of UV, see the <a class="reference internal" href="virtual_environment_guide.html"><span class="doc">Virtual Environment Installation Guide</span></a> for alternative setup instructions.</p>
+</div></blockquote>
+<section id="prerequisites">
+<h2><span class="section-number">2.4.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<section id="all-platforms">
+<h3><span class="section-number">2.4.1.1. </span>All Platforms<a class="headerlink" href="#all-platforms" title="Link to this heading"></a></h3>
+<ol>
+<li><p><strong>Install uv</strong>: Follow the <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">official uv installation guide</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/macOS</span>
+curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+
+<span class="c1"># Windows PowerShell</span>
+powershell<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Verify uv installation</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>--version
+</pre></div>
+</div>
+</li>
+<li><p><strong>Install CMake</strong> (3.15.0 or higher):</p>
+<ul class="simple">
+<li><p>Download from <a class="reference external" href="https://cmake.org/download/">CMake official website</a></p></li>
+<li><p>Or install via package manager</p></li>
+</ul>
+</li>
+<li><p><strong>Clone the repository</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/orbbec/pyorbbecsdk.git
+<span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
+git<span class="w"> </span>checkout<span class="w"> </span>v2-main
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="platform-specific-requirements">
+<h3><span class="section-number">2.4.1.2. </span>Platform-Specific Requirements<a class="headerlink" href="#platform-specific-requirements" title="Link to this heading"></a></h3>
+<section id="linux">
+<h4><span class="section-number">2.4.1.2.1. </span>Linux<a class="headerlink" href="#linux" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>GCC 5.4.0 or higher</p></li>
+<li><p>Python development headers</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ubuntu/Debian</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-dev<span class="w"> </span>build-essential
+
+<span class="c1"># CentOS/RHEL/Fedora</span>
+sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>python3-devel<span class="w"> </span>gcc-c++
+</pre></div>
+</div>
+</section>
+<section id="macos">
+<h4><span class="section-number">2.4.1.2.2. </span>macOS<a class="headerlink" href="#macos" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Xcode Command Line Tools</p></li>
+<li><p>Clang/Clang++ compiler</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Xcode Command Line Tools</span>
+xcode-select<span class="w"> </span>--install
+</pre></div>
+</div>
+</section>
+<section id="windows">
+<h4><span class="section-number">2.4.1.2.3. </span>Windows<a class="headerlink" href="#windows" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://visualstudio.microsoft.com/downloads/">Visual Studio 2019 or 2022</a> with C++ build tools</p></li>
+<li><p>Windows SDK</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="build-scripts">
+<h2><span class="section-number">2.4.2. </span>Build Scripts<a class="headerlink" href="#build-scripts" title="Link to this heading"></a></h2>
+<p>The project provides platform-specific UV build scripts:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Platform</th>
+<th>Script</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td><code>scripts/build_whl/build-whl-uv.sh</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>scripts/build_whl/build-whl-uv-macos.sh</code></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td><code>scripts/build_whl/build-whl-uv.ps1</code></td>
+</tr>
+</tbody>
+</table><blockquote>
+<div><p><strong>Note</strong>: These scripts are available in the <code class="docutils literal notranslate"><span class="pre">feature/uv_cli</span></code> branch. To use them, switch to that branch or copy the scripts to your working directory.</p>
+</div></blockquote>
+</section>
+<section id="quick-start">
+<h2><span class="section-number">2.4.3. </span>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3><span class="section-number">2.4.3.1. </span>Linux<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make the script executable</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-whl-uv.sh
+
+<span class="c1"># Build for Python 3.10 (default)</span>
+./scripts/build_whl/build-whl-uv.sh
+
+<span class="c1"># Build for specific Python version</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.11
+
+<span class="c1"># Build for multiple Python versions</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
+
+<span class="c1"># Build all supported versions (3.8-3.13)</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>all
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3><span class="section-number">2.4.3.2. </span>macOS<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make the script executable</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-whl-uv-macos.sh
+
+<span class="c1"># Build for Python 3.10 (default)</span>
+./scripts/build_whl/build-whl-uv-macos.sh
+
+<span class="c1"># Build for specific Python version</span>
+./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span><span class="m">3</span>.11
+
+<span class="c1"># Build for multiple Python versions</span>
+./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
+
+<span class="c1"># Build all supported versions (3.8-3.13)</span>
+./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span>all
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3><span class="section-number">2.4.3.3. </span>Windows<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># Build for Python 3.10 (default)</span>
+<span class="p">.\</span><span class="n">scripts</span><span class="p">\</span><span class="n">build_whl</span><span class="p">\</span><span class="n">build-whl-uv</span><span class="p">.</span><span class="n">ps1</span>
+
+<span class="c"># Note: The Windows script currently builds configured versions in the script</span>
+<span class="c"># Edit $PythonVersions array in the script to change target versions</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="script-options">
+<h2><span class="section-number">2.4.4. </span>Script Options<a class="headerlink" href="#script-options" title="Link to this heading"></a></h2>
+<p>All build scripts support the following command-line options:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--offline</code></td>
+<td>Enable offline mode (requires pre-cached dependencies)</td>
+</tr>
+<tr>
+<td><code>--no-clean</code></td>
+<td>Skip cleaning build directories before building</td>
+</tr>
+<tr>
+<td><code>--clean</code></td>
+<td>Clean build directories before building (default)</td>
+</tr>
+<tr>
+<td><code>--clean-only</code></td>
+<td>Only clean build artifacts, don't build</td>
+</tr>
+<tr>
+<td><code>-h, --help</code></td>
+<td>Show help message</td>
+</tr>
+</tbody>
+</table><section id="examples">
+<h3><span class="section-number">2.4.4.1. </span>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Offline build for Python 3.10</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span><span class="m">3</span>.10
+
+<span class="c1"># Clean and build all versions</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--clean<span class="w"> </span>all
+
+<span class="c1"># Only clean build artifacts</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--clean-only
+
+<span class="c1"># Build without cleaning (incremental build)</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--no-clean<span class="w"> </span><span class="m">3</span>.11
+</pre></div>
+</div>
+</section>
+</section>
+<section id="offline-build">
+<h2><span class="section-number">2.4.5. </span>Offline Build<a class="headerlink" href="#offline-build" title="Link to this heading"></a></h2>
+<p>The UV build system supports offline mode, which is useful when building on machines without internet access.</p>
+<section id="preparing-for-offline-build">
+<h3><span class="section-number">2.4.5.1. </span>Preparing for Offline Build<a class="headerlink" href="#preparing-for-offline-build" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p><strong>On a machine with internet access</strong>, prepare the offline environment:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install UV</span>
+curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+
+<span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/orbbec/pyorbbecsdk.git
+<span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
+
+<span class="c1"># Create virtual environments with pybind11 for each Python version</span>
+<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span><span class="w"> </span>--python<span class="w"> </span><span class="nv">$ver</span>
+<span class="w">    </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>--python<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span>/bin/python
+<span class="k">done</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p><strong>Copy the entire project directory</strong> (including the <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directories) to the offline machine.</p></li>
+<li><p><strong>Run the offline build</strong>:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span><span class="m">3</span>.10
+</pre></div>
+</div>
+</section>
+<section id="how-offline-mode-works">
+<h3><span class="section-number">2.4.5.2. </span>How Offline Mode Works<a class="headerlink" href="#how-offline-mode-works" title="Link to this heading"></a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">--offline</span></code> is specified:</p>
+<ul class="simple">
+<li><p>The script uses local pybind11 from the <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directories</p></li>
+<li><p>UV operates in offline mode (<code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>)</p></li>
+<li><p>No network requests are made during the build</p></li>
+</ul>
+</section>
+</section>
+<section id="build-output">
+<h2><span class="section-number">2.4.6. </span>Build Output<a class="headerlink" href="#build-output" title="Link to this heading"></a></h2>
+<p>After successful build, wheel packages are located in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>pyorbbecsdk/
+└── wheel/
+    ├── pyorbbecsdk2-2.0.XX-cp38-cp38-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp39-cp39-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp310-cp310-linux_x86_64.whl
+    └── ...
+</pre></div>
+</div>
+<section id="installing-the-wheel">
+<h3><span class="section-number">2.4.6.1. </span>Installing the Wheel<a class="headerlink" href="#installing-the-wheel" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install the wheel package</span>
+pip<span class="w"> </span>install<span class="w"> </span>wheel/pyorbbecsdk2-2.0.XX-cp310-cp310-linux_x86_64.whl
+
+<span class="c1"># Verify installation</span>
+pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Version
+</pre></div>
+</div>
+</section>
+<section id="generate-type-stubs-optional-but-recommended">
+<h3><span class="section-number">2.4.6.2. </span>Generate Type Stubs (Optional but Recommended)<a class="headerlink" href="#generate-type-stubs-optional-but-recommended" title="Link to this heading"></a></h3>
+<p>To generate <code class="docutils literal notranslate"><span class="pre">.pyi</span></code> type stub files for IDE autocomplete support:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Activate your virtual environment</span>
+<span class="nb">source</span><span class="w"> </span>orbbec_env/bin/activate<span class="w">  </span><span class="c1"># Linux/macOS</span>
+<span class="c1"># .\orbbec_env\Scripts\Activate.ps1  # Windows PowerShell</span>
+
+<span class="c1"># Install pybind11-stubgen</span>
+pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
+
+<span class="c1"># Generate pyi file</span>
+pybind11-stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>.
+
+<span class="c1"># Fix the generated pyi file</span>
+python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>pyorbbecsdk.pyi
+
+<span class="c1"># Copy the fixed pyi file to the package directory</span>
+<span class="c1"># (find the package path using pip show)</span>
+cp<span class="w"> </span>pyorbbecsdk.pyi<span class="w"> </span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))&quot;</span><span class="k">)</span>/
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-process-details">
+<h2><span class="section-number">2.4.7. </span>Build Process Details<a class="headerlink" href="#build-process-details" title="Link to this heading"></a></h2>
+<p>The build scripts perform the following steps:</p>
+<ol class="simple">
+<li><p><strong>Parse Arguments</strong>: Process command-line options and Python versions</p></li>
+<li><p><strong>Architecture Detection</strong>: Detect system architecture (x86_64, arm64)</p></li>
+<li><p><strong>Environment Setup</strong>: Configure library paths for the SDK</p></li>
+<li><p><strong>Cleanup</strong> (optional): Remove previous build artifacts</p></li>
+<li><p><strong>Per-Version Build</strong>:</p>
+<ul class="simple">
+<li><p>Resolve Python interpreter using UV</p></li>
+<li><p>Resolve pybind11 CMake directory</p></li>
+<li><p>Configure with CMake (using appropriate compiler)</p></li>
+<li><p>Build and install targets</p></li>
+<li><p>Copy runtime files (examples, config, stubs)</p></li>
+<li><p>Build wheel package using <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code></p></li>
+<li><p>Repair wheel with auditwheel (Linux only)</p></li>
+</ul>
+</li>
+<li><p><strong>Final Cleanup</strong>: Remove temporary build directories</p></li>
+</ol>
+<section id="key-differences-by-platform">
+<h3><span class="section-number">2.4.7.1. </span>Key Differences by Platform<a class="headerlink" href="#key-differences-by-platform" title="Link to this heading"></a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Linux</th>
+<th>macOS</th>
+<th>Windows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compiler</td>
+<td>GCC/G++</td>
+<td>Clang/Clang++</td>
+<td>MSVC</td>
+</tr>
+<tr>
+<td>Library Path</td>
+<td><code>LD_LIBRARY_PATH</code></td>
+<td><code>DYLD_LIBRARY_PATH</code></td>
+<td>PATH</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>x86_64, arm64</td>
+<td>arm64</td>
+<td>x64</td>
+</tr>
+<tr>
+<td>Wheel Repair</td>
+<td>auditwheel</td>
+<td>None needed</td>
+<td>None needed</td>
+</tr>
+<tr>
+<td>Deployment Target</td>
+<td>-</td>
+<td>macOS 13.0+</td>
+<td>-</td>
+</tr>
+</tbody>
+</table></section>
+</section>
+<section id="troubleshooting">
+<h2><span class="section-number">2.4.8. </span>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="common-issues">
+<h3><span class="section-number">2.4.8.1. </span>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<section id="uv-command-not-found">
+<h4><span class="section-number">2.4.8.1.1. </span>“uv: command not found”<a class="headerlink" href="#uv-command-not-found" title="Link to this heading"></a></h4>
+<p><strong>Solution</strong>: Ensure uv is installed and in your PATH:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to ~/.bashrc or ~/.zshrc</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.local/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="cmake-configuration-failed">
+<h4><span class="section-number">2.4.8.1.2. </span>“CMake configuration failed”<a class="headerlink" href="#cmake-configuration-failed" title="Link to this heading"></a></h4>
+<p><strong>Solution</strong>: Verify CMake version and Python development headers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check CMake version</span>
+cmake<span class="w"> </span>--version
+
+<span class="c1"># Install Python development headers (Linux)</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-dev
+</pre></div>
+</div>
+</section>
+<section id="pybind11-not-found-offline-mode">
+<h4><span class="section-number">2.4.8.1.3. </span>“pybind11 not found” (Offline mode)<a class="headerlink" href="#pybind11-not-found-offline-mode" title="Link to this heading"></a></h4>
+<p><strong>Solution</strong>: Ensure virtual environments are set up correctly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create venv with pybind11</span>
+uv<span class="w"> </span>venv<span class="w"> </span>venv310<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.10
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>--python<span class="w"> </span>venv310/bin/python
+</pre></div>
+</div>
+</section>
+<section id="permission-denied-on-macos">
+<h4><span class="section-number">2.4.8.1.4. </span>“Permission denied” on macOS<a class="headerlink" href="#permission-denied-on-macos" title="Link to this heading"></a></h4>
+<p><strong>Solution</strong>: Fix library permissions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-whl-uv-macos.sh
+</pre></div>
+</div>
+</section>
+<section id="build-fails-on-windows-with-visual-studio-not-found">
+<h4><span class="section-number">2.4.8.1.5. </span>Build fails on Windows with “Visual Studio not found”<a class="headerlink" href="#build-fails-on-windows-with-visual-studio-not-found" title="Link to this heading"></a></h4>
+<p><strong>Solution</strong>: Ensure Visual Studio 2019 or 2022 with C++ tools is installed, or specify the generator explicitly:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># In the PowerShell script, modify the cmake command</span>
+<span class="n">cmake</span> <span class="n">-G</span> <span class="s2">&quot;Visual Studio 17 2022&quot;</span> <span class="n">-A</span> <span class="n">x64</span> <span class="p">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cleaning-build-artifacts">
+<h3><span class="section-number">2.4.8.2. </span>Cleaning Build Artifacts<a class="headerlink" href="#cleaning-build-artifacts" title="Link to this heading"></a></h3>
+<p>If you encounter persistent build issues, perform a full clean:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using the script</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--clean-only
+
+<span class="c1"># Manual cleanup</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </span>build_*<span class="w"> </span>dist<span class="w"> </span>install<span class="w"> </span>wheel<span class="w"> </span>src/*.egg-info
+</pre></div>
+</div>
+</section>
+</section>
+<section id="advanced-usage">
+<h2><span class="section-number">2.4.9. </span>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading"></a></h2>
+<section id="customizing-python-versions">
+<h3><span class="section-number">2.4.9.1. </span>Customizing Python Versions<a class="headerlink" href="#customizing-python-versions" title="Link to this heading"></a></h3>
+<p>Edit the build script to change default Python versions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># In scripts/build_whl/build-whl-uv.sh, modify:</span>
+<span class="nv">PYTHON_VERSIONS</span><span class="o">=(</span><span class="s2">&quot;3.10&quot;</span><span class="w"> </span><span class="s2">&quot;3.11&quot;</span><span class="o">)</span><span class="w">  </span><span class="c1"># Your desired versions</span>
+</pre></div>
+</div>
+</section>
+<section id="parallel-builds">
+<h3><span class="section-number">2.4.9.2. </span>Parallel Builds<a class="headerlink" href="#parallel-builds" title="Link to this heading"></a></h3>
+<p>The scripts automatically use all available CPU cores:</p>
+<ul class="simple">
+<li><p>Linux: <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-j$(nproc)</span></code></p></li>
+<li><p>macOS: <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-j$(sysctl</span> <span class="pre">-n</span> <span class="pre">hw.ncpu)</span></code></p></li>
+<li><p>Windows: <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">--parallel</span></code></p></li>
+</ul>
+</section>
+<section id="environment-variables">
+<h3><span class="section-number">2.4.9.3. </span>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UV_LINK_MODE</code></td>
+<td>Set to <code>copy</code> for compatibility (default in scripts)</td>
+</tr>
+<tr>
+<td><code>UV_OFFLINE</code></td>
+<td>Set to <code>1</code> to enable offline mode</td>
+</tr>
+<tr>
+<td><code>MACOSX_DEPLOYMENT_TARGET</code></td>
+<td>Minimum macOS version (default: 13.0)</td>
+</tr>
+</tbody>
+</table></section>
+</section>
+<section id="comparison-with-traditional-build">
+<h2><span class="section-number">2.4.10. </span>Comparison with Traditional Build<a class="headerlink" href="#comparison-with-traditional-build" title="Link to this heading"></a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Traditional (pip/venv)</th>
+<th>UV Build</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python Installation</td>
+<td>Manual</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Dependency Resolution</td>
+<td>pip</td>
+<td>UV (faster)</td>
+</tr>
+<tr>
+<td>Virtual Environment</td>
+<td>Manual</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Offline Support</td>
+<td>Limited</td>
+<td>Full support</td>
+</tr>
+<tr>
+<td>Cross-Platform</td>
+<td>Different commands</td>
+<td>Unified scripts</td>
+</tr>
+<tr>
+<td>Build Time</td>
+<td>Slower</td>
+<td>Faster</td>
+</tr>
+</tbody>
+</table></section>
+<section id="next-steps">
+<h2><span class="section-number">2.4.11. </span>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>After building the wheel:</p>
+<ol class="simple">
+<li><p><strong>Install the wheel</strong>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">wheel/*.whl</span></code></p></li>
+<li><p><strong>Set up environment</strong>: Run <code class="docutils literal notranslate"><span class="pre">scripts/env_setup/install_udev_rules.sh</span></code> (Linux)</p></li>
+<li><p><strong>Run examples</strong>: See <code class="docutils literal notranslate"><span class="pre">examples/</span></code> directory for sample code</p></li>
+<li><p><strong>Refer to registration script</strong>: See <a class="reference internal" href="registration_script.html"><span class="doc">registration_script.md</span></a> for device setup</p></li>
+</ol>
+</section>
+<section id="see-also">
+<h2><span class="section-number">2.4.12. </span>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="install_the_package.html"><span class="doc">Install the Package</span></a> - Installing pre-built wheels</p></li>
+<li><p><a class="reference internal" href="build_the_package.html"><span class="doc">Build from Source</span></a> - Traditional CMake build method</p></li>
+<li><p><a class="reference external" href="https://docs.astral.sh/uv/">UV Documentation</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install_the_package.html" class="btn btn-neutral float-left" title="2.3. Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build_the_package.html" class="btn btn-neutral float-right" title="2.5. Build from Source (Traditional CMake Method - Deprecated)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
+      <span class="lastupdated">Last updated on 2026-03-23 16:40:48.
+      </span></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,630 @@
+Stream Profile
+==============
+
+Classes for configuring and working with stream profiles.
+
+Class Hierarchy
+---------------
+
+The :class:`~pyorbbecsdk.StreamProfile` class is the base class for related types.
+
+.. graphviz::
+
+   digraph StreamProfileHierarchy {
+      rankdir=TB;
+      bgcolor=transparent;
+      node [shape=box, style="filled,rounded", fillcolor="#e3f2fd", color="#2196f3", fontname="Helvetica Neue, Helvetica, Arial, sans-serif", fontsize=11];
+      edge [color="#666666", arrowsize=0.8, penwidth=1.2];
+
+      StreamProfile [label="StreamProfile"];
+      VideoStreamProfile [label="VideoStreamProfile"];
+      AccelStreamProfile [label="AccelStreamProfile"];
+      GyroStreamProfile [label="GyroStreamProfile"];
+      LiDARStreamProfile [label="LiDARStreamProfile"];
+      StreamProfileList [label="StreamProfileList (independent)"];
+
+      StreamProfile -> VideoStreamProfile;
+      StreamProfile -> AccelStreamProfile;
+      StreamProfile -> GyroStreamProfile;
+      StreamProfile -> LiDARStreamProfile;
+   }
+
+
+Inheritance Overview
+--------------------
+
+.. list-table:: Class Inheritance Hierarchy
+   :header-rows: 1
+   :widths: 25 25 50
+   :class: inheritance-table
+
+   * - Class
+     - Inherits From
+     - Description
+   * - :class:`~pyorbbecsdk.StreamProfile`
+     - object
+     - Base class for all stream profiles
+   * - :class:`~pyorbbecsdk.VideoStreamProfile`
+     - :class:`~pyorbbecsdk.StreamProfile`
+     - Video stream profile
+   * - :class:`~pyorbbecsdk.AccelStreamProfile`
+     - :class:`~pyorbbecsdk.StreamProfile`
+     - Accelerometer stream profile
+   * - :class:`~pyorbbecsdk.GyroStreamProfile`
+     - :class:`~pyorbbecsdk.StreamProfile`
+     - Gyroscope stream profile
+   * - :class:`~pyorbbecsdk.LiDARStreamProfile`
+     - :class:`~pyorbbecsdk.StreamProfile`
+     - LiDAR stream profile
+   * - :class:`~pyorbbecsdk.StreamProfileList`
+     - N/A
+     - Independent class - list of stream profiles
+
+
+Classes
+-------
+
+StreamProfile
+^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.StreamProfile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+VideoStreamProfile
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.VideoStreamProfile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+AccelStreamProfile
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.AccelStreamProfile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+GyroStreamProfile
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.GyroStreamProfile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+LiDARStreamProfile
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.LiDARStreamProfile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+StreamProfileList
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.StreamProfileList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Enumerations
+------------
+
+OBSensorType
+^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBSensorType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBSensorType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCEL_SENSOR``
+        - ``<OBSensorType.ACCEL_SENSOR: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``COLOR_SENSOR``
+        - ``<OBSensorType.COLOR_SENSOR: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``CONFIDENCE_SENSOR``
+        - ``<OBSensorType.CONFIDENCE_SENSOR: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``DEPTH_SENSOR``
+        - ``<OBSensorType.DEPTH_SENSOR: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``GYRO_SENSOR``
+        - ``<OBSensorType.GYRO_SENSOR: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``IR_SENSOR``
+        - ``<OBSensorType.IR_SENSOR: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``LEFT_COLOR_SENSOR``
+        - ``<OBSensorType.LEFT_COLOR_SENSOR: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``LEFT_IR_SENSOR``
+        - ``<OBSensorType.LEFT_IR_SENSOR: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_SENSOR``
+        - ``<OBSensorType.LIDAR_SENSOR: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``RAW_PHASE_SENSOR``
+        - ``<OBSensorType.RAW_PHASE_SENSOR: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_COLOR_SENSOR``
+        - ``<OBSensorType.RIGHT_COLOR_SENSOR: 12>``
+        - 12
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_IR_SENSOR``
+        - ``<OBSensorType.RIGHT_IR_SENSOR: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``TYPE_COUNT_SENSOR``
+        - ``<OBSensorType.TYPE_COUNT_SENSOR: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN_SENSOR``
+        - ``<OBSensorType.UNKNOWN_SENSOR: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBStreamType
+^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBStreamType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBStreamType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ACCEL_STREAM``
+        - ``<OBStreamType.ACCEL_STREAM: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``COLOR_STREAM``
+        - ``<OBStreamType.COLOR_STREAM: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``CONFIDENCE_STREAM``
+        - ``<OBStreamType.CONFIDENCE_STREAM: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``DEPTH_STREAM``
+        - ``<OBStreamType.DEPTH_STREAM: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``GYRO_STREAM``
+        - ``<OBStreamType.GYRO_STREAM: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``IR_STREAM``
+        - ``<OBStreamType.IR_STREAM: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``LEFT_COLOR_STREAM``
+        - ``<OBStreamType.LEFT_COLOR_STREAM: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``LEFT_IR_STREAM``
+        - ``<OBStreamType.LEFT_IR_STREAM: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``LIDAR_STREAM``
+        - ``<OBStreamType.LIDAR_STREAM: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``RAW_PHASE_STREAM``
+        - ``<OBStreamType.RAW_PHASE_STREAM: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_COLOR_STREAM``
+        - ``<OBStreamType.RIGHT_COLOR_STREAM: 12>``
+        - 12
+        - Auto-generated from C++ bindings
+      * - ``RIGHT_IR_STREAM``
+        - ``<OBStreamType.RIGHT_IR_STREAM: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``TYPE_COUNT_STREAM``
+        - ``<OBStreamType.TYPE_COUNT_STREAM: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN_STREAM``
+        - ``<OBStreamType.UNKNOWN_STREAM: -1>``
+        - -1
+        - Auto-generated from C++ bindings
+      * - ``VIDEO_STREAM``
+        - ``<OBStreamType.VIDEO_STREAM: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+OBDepthWorkMode
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDepthWorkMode
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDepthWorkModeList
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDepthWorkModeList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDepthWorkModeTag
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDepthWorkModeTag
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPresetResolutionConfig
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBPresetResolutionConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBAlignMode
+^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBAlignMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBAlignMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DISABLE``
+        - ``<OBAlignMode.DISABLE: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``HW_MODE``
+        - ``<OBAlignMode.HW_MODE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``SW_MODE``
+        - ``<OBAlignMode.SW_MODE: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+
+OBFrameAggregateOutputMode
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBFrameAggregateOutputMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBFrameAggregateOutputMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ANY_SITUATION``
+        - ``<OBFrameAggregateOutputMode.ANY_SITUATION: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``DISABLE``
+        - ``<OBFrameAggregateOutputMode.DISABLE: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+
+OBCompressionMode
+^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBCompressionMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBCompressionMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``LOSSLESS``
+        - ``<OBCompressionMode.LOSSLESS: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``LOSSY``
+        - ``<OBCompressionMode.LOSSY: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+
+OBCompressionParams
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBCompressionParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBHardwareDecimationConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBHardwareDecimationConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBHdrConfig
+^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBHdrConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBSyncMode
+^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBSyncMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBSyncMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``CLOSE``
+        - ``<OBSyncMode.CLOSE: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+      * - ``IR_IMU_SYNC``
+        - ``<OBSyncMode.IR_IMU_SYNC: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``PRIMARY``
+        - ``<OBSyncMode.PRIMARY: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``PRIMARY_IR_TRIGGER``
+        - ``<OBSyncMode.PRIMARY_IR_TRIGGER: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``PRIMARY_MCU_TRIGGER``
+        - ``<OBSyncMode.PRIMARY_MCU_TRIGGER: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``PRIMARY_SOFT_TRIGGER``
+        - ``<OBSyncMode.PRIMARY_SOFT_TRIGGER: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``SECONDARY``
+        - ``<OBSyncMode.SECONDARY: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``SECONDARY_SOFT_TRIGGER``
+        - ``<OBSyncMode.SECONDARY_SOFT_TRIGGER: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``STANDALONE``
+        - ``<OBSyncMode.STANDALONE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``UNKNOWN``
+        - ``<OBSyncMode.UNKNOWN: 255>``
+        - 255
+        - Auto-generated from C++ bindings
+
+OBMultiDeviceSyncMode
+^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBMultiDeviceSyncMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBMultiDeviceSyncMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``FREE_RUN``
+        - ``<OBMultiDeviceSyncMode.FREE_RUN: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``IR_IMU_SYNC``
+        - ``<OBMultiDeviceSyncMode.IR_IMU_SYNC: 128>``
+        - 128
+        - Auto-generated from C++ bindings
+      * - ``PRIMARY``
+        - ``<OBMultiDeviceSyncMode.PRIMARY: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``SECONDARY``
+        - ``<OBMultiDeviceSyncMode.SECONDARY: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``SECONDARY_SYNCED``
+        - ``<OBMultiDeviceSyncMode.SECONDARY_SYNCED: 16>``
+        - 16
+        - Auto-generated from C++ bindings
+      * - ``SOFTWARE_SYNCED``
+        - ``<OBMultiDeviceSyncMode.SOFTWARE_SYNCED: 256>``
+        - 256
+        - Auto-generated from C++ bindings
+      * - ``STANDALONE``
+        - ``<OBMultiDeviceSyncMode.STANDALONE: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+
+OBGyroSampleRate
+^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBGyroSampleRate
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBGyroSampleRate Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``SAMPLE_RATE_100_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_100_HZ: 7>``
+        - 7
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_12_5_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_12_5_HZ: 4>``
+        - 4
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_16_KHZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_16_KHZ: 14>``
+        - 14
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_1_5625_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_1_5625_HZ: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_1_KHZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_1_KHZ: 10>``
+        - 10
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_200_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_200_HZ: 8>``
+        - 8
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_25_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_25_HZ: 5>``
+        - 5
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_2_KHZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_2_KHZ: 11>``
+        - 11
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_32_KHZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_32_KHZ: 15>``
+        - 15
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_3_125_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_3_125_HZ: 2>``
+        - 2
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_400_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_400_HZ: 16>``
+        - 16
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_4_KHZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_4_KHZ: 12>``
+        - 12
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_500_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_500_HZ: 9>``
+        - 9
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_50_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_50_HZ: 6>``
+        - 6
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_6_25_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_6_25_HZ: 3>``
+        - 3
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_800_HZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_800_HZ: 17>``
+        - 17
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_8_KHZ``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_8_KHZ: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``SAMPLE_RATE_UNKNOWN``
+        - ``<OBGyroSampleRate.SAMPLE_RATE_UNKNOWN: 0>``
+        - 0
+        - Auto-generated from C++ bindings
+
+Constants
+---------
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_UNKNOWN
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_1_5625_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_3_125_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_6_25_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_12_5_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_25_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_50_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_100_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_200_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_400_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_500_HZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_1_KHZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_2_KHZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_4_KHZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_8_KHZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_16_KHZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_32_KHZ
+
+.. autodata:: pyorbbecsdk.SAMPLE_RATE_800_HZ

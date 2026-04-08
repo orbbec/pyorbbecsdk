@@ -550,6 +550,17 @@ public:
     }
 
     /**
+     * @brief Enable or disable the device firmware log.
+     *
+     * @param[in] enable Whether to enable the firmware log.
+     */
+    void enableFirmwareLog(bool enable) const {
+        ob_error *error = nullptr;
+        ob_device_enable_firmware_log(impl_, enable, &error);
+        Error::handle(&error);
+    }
+
+    /**
      * @brief Get the supported multi device sync mode bitmap of the device.
      * @brief For example, if the return value is 0b00001100, it means the device supports @ref OB_MULTI_DEVICE_SYNC_MODE_PRIMARY and @ref
      * OB_MULTI_DEVICE_SYNC_MODE_SECONDARY. User can check the supported mode by the code:
@@ -1349,6 +1360,38 @@ public:
         auto      gateway = ob_device_list_get_device_local_gateway(impl_, index, &error);
         Error::handle(&error);
         return gateway;
+    }
+
+    /**
+     * @brief Get the name of the host network interface corresponding to the device at the specified index.
+     *
+     * @attention Returns "unknown" for USB devices or non-network devices.
+     *
+     * @param[in] index The index of the device.
+     *
+     * @return const char* The host network interface name (e.g., "eth0", "en0").
+     */
+    const char* getLocalNetInterfaceName(uint32_t index) const {
+        ob_error *error = nullptr;
+        auto netItfName = ob_device_list_get_device_local_net_if_name(impl_, index, &error);
+        Error::handle(&error);
+        return netItfName;
+    }
+
+    /**
+     * @brief Get the current IP configuration mode of the device at the specified index.
+     *
+     * @attention Only valid for Ethernet devices, otherwise it will return OB_IP_SOURCE_NONE.
+     *
+     * @param[in] index The index of the device.
+     *
+     * @return OBCurIpConfig The active IP configuration mode (e.g. DHCP, LLA, or Persistent IP).
+     */
+    OBIpSourceType getIpSourceType(uint32_t index) const {
+        ob_error *error     = nullptr;
+        auto      ipSrcType = ob_device_list_get_device_ip_source_type(impl_, index, &error);
+        Error::handle(&error);
+        return ipSrcType;
     }
 
     /**

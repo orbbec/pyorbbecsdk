@@ -18,8 +18,8 @@ This section provides an overview of setting up the Orbbec SDK V2 Python Wrapper
     :maxdepth: 2
     :caption: This Section Covers:
 
+    virtual_environment_guide.md
     registration_script.md
     install_the_package.md
-    build_the_package.md
     
     

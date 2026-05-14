@@ -121,7 +121,7 @@ public:
      * @param[in] config The new IP configuration.
      * @return bool true if the configuration command was processed successfully, false otherwise.
      *
-     * @note This applies to all GigE Vision devices
+     * @note This applies to all GVCP devices
      */
     bool forceIp(const char *macAddress, const OBNetIpConfig &config) {
         ob_error *error = nullptr;

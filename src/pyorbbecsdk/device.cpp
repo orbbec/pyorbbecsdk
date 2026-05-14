@@ -651,6 +651,11 @@ void define_device_list(const py::object &m) {
            [](const std::shared_ptr<ob::DeviceList> &self, int index) {
              OB_TRY_CATCH({ return std::string(self->getGateway(index)); });
            })
+      .def("get_device_user_name_by_index",
+           [](const std::shared_ptr<ob::DeviceList> &self, int index) {
+             OB_TRY_CATCH({ return std::string(self->getUserName(index)); });
+           },
+           "Get the user-defined name of the device at the specified index")
       .def(
           "get_local_mac_address",
           [](const std::shared_ptr<ob::DeviceList> &self, int index) {

@@ -287,6 +287,9 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEVICE_REBOOT_DELAY_INT",
              OBPropertyID::OB_PROP_DEVICE_REBOOT_DELAY_INT,
              "Reboot device delay mode. Delay time unit: ms, range: [0, 8000).")
+      .value("OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT",
+             OBPropertyID::OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT,
+             "DHCP assign IP timeout, unit: second")
       .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
              OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL,
              "Query the status of laser overcurrent protection (read-only)")
@@ -434,6 +437,10 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_COLOR_DENOISING_LEVEL_INT,
              "Color camera CCI denoising level. 0: Auto; 1-8: higher values "
              "indicate stronger denoising.")
+      .value("OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY",
+             OBPropertyID::OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY,
+             "Indicates whether the device will go offline after applying IP "
+             "configuration. This property is a capability flag only.")
       .value("OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT",
              OBPropertyID::OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT,
              "Depth camera priority")
@@ -450,8 +457,8 @@ void define_properties(const py::object& m) {
              OBPropertyID::OB_PROP_IR_CHANNEL_DATA_SOURCE_INT)
       .value("OB_PROP_DEPTH_RM_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_RM_FILTER_BOOL)
-      .value("OB_PROP_COLOR_MAXIMAL_GAIN_INT",
-             OBPropertyID::OB_PROP_COLOR_MAXIMAL_GAIN_INT)
+      .value("OB_PROP_COLOR_AE_MAX_GAIN_INT",
+             OBPropertyID::OB_PROP_COLOR_AE_MAX_GAIN_INT)
       .value("OB_PROP_COLOR_MAXIMAL_SHUTTER_INT",
              OBPropertyID::OB_PROP_COLOR_MAXIMAL_SHUTTER_INT)
       .value("OB_PROP_IR_SHORT_EXPOSURE_BOOL",

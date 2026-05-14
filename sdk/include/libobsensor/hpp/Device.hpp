@@ -1395,6 +1395,22 @@ public:
     }
 
     /**
+     * @brief Get the user-defined name of the device at the specified index.
+     *
+     * @attention Only valid for Ethernet devices, otherwise returns "unknown".
+     *
+     * @param[in] index The index of the device.
+     *
+     * @return const char* The user-defined name string.
+     */
+    const char *getUserName(uint32_t index) const {
+        ob_error *error    = nullptr;
+        auto      userName = ob_device_list_get_device_user_name(impl_, index, &error);
+        Error::handle(&error);
+        return userName;
+    }
+
+    /**
      * @brief Get the device object at the specified index
      *
      * @attention If the device has already been acquired and created elsewhere, repeated acquisition will throw an exception

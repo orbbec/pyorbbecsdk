@@ -1074,9 +1074,21 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.disable_health_monitor">
+<span class="sig-name descname"><span class="pre">disable_health_monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Pipeline" title="pyorbbecsdk.pyorbbecsdk.Pipeline"><span class="pre">pyorbbecsdk.Pipeline</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Pipeline.disable_health_monitor" title="Link to this definition"></a></dt>
+<dd><p>Disable pipeline health monitor</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.enable_frame_sync">
 <span class="sig-name descname"><span class="pre">enable_frame_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Pipeline" title="pyorbbecsdk.pyorbbecsdk.Pipeline"><span class="pre">pyorbbecsdk.Pipeline</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Pipeline.enable_frame_sync" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.enable_health_monitor">
+<span class="sig-name descname"><span class="pre">enable_health_monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Pipeline" title="pyorbbecsdk.pyorbbecsdk.Pipeline"><span class="pre">pyorbbecsdk.Pipeline</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><span class="pre">collections.abc.Callable</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Pipeline.enable_health_monitor" title="Link to this definition"></a></dt>
+<dd><p>Enable pipeline health monitor with periodic status polling</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.get_camera_param">
@@ -1097,6 +1109,12 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.get_device">
 <span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Pipeline" title="pyorbbecsdk.pyorbbecsdk.Pipeline"><span class="pre">pyorbbecsdk.Pipeline</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="core.html#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Pipeline.get_device" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.get_status">
+<span class="sig-name descname"><span class="pre">get_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Pipeline" title="pyorbbecsdk.pyorbbecsdk.Pipeline"><span class="pre">pyorbbecsdk.Pipeline</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBPipelineStatus</span></span></span><a class="headerlink" href="#pyorbbecsdk.Pipeline.get_status" title="Link to this definition"></a></dt>
+<dd><p>Get the current pipeline status observed during streaming</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Pipeline.get_stream_profile_list">
@@ -1233,7 +1251,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-04-08 16:58:15.
+      <span class="lastupdated">Last updated on 2026-05-12 16:33:35.
       </span></p>
   </div>
 

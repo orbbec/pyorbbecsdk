@@ -22,6 +22,10 @@
         of printing logs, but some logs may be lost when the program exits abnormally; true-enable,
         false-disable (default) -->
         <Async>false</Async>
+        <!-- Log flush mode, bool type. true-periodic flush (flush on warn level, default), false-flush on every log -->
+        <PeriodicFlush>true</PeriodicFlush>
+        <!-- Log periodic flush interval in seconds, float type, default 0.5 second. Only effective when PeriodicFlush is true -->
+        <FlushIntervalSec>0.5</FlushIntervalSec>
     </Log>
 
     <Memory>
@@ -84,6 +88,10 @@
             <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
             this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
 
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
@@ -172,6 +180,10 @@
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
                 <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value:
@@ -200,7 +212,7 @@
                 <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
                 <!-- The maximum frame interval time, if this value is exceeded, it will be judged
                 that the stream is interrupted -->
-                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>848</Width>
                 <!-- High resolution is enabled by default, int type -->
@@ -217,7 +229,7 @@
                 <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
                 <!-- The maximum frame interval time, if this value is exceeded, it will be judged
                 that the stream is interrupted -->
-                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>848</Width>
                 <!-- High resolution is enabled by default, int type -->
@@ -234,7 +246,7 @@
                 <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
                 <!-- The maximum frame interval time, if this value is exceeded, it will be judged
                 that the stream is interrupted -->
-                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>1280</Width>
                 <!-- High resolution is enabled by default, int type -->
@@ -251,7 +263,7 @@
                 <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
                 <!-- The maximum frame interval time, if this value is exceeded, it will be judged
                 that the stream is interrupted -->
-                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
                 <!-- The resolution width is enabled by default, int type -->
                 <Width>1280</Width>
                 <!-- High resolution is enabled by default, int type -->
@@ -1013,6 +1025,10 @@
             this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
                 <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
@@ -1097,6 +1113,10 @@
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
                 <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
@@ -1179,6 +1199,10 @@
             <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
             this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
 
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
@@ -1264,6 +1288,10 @@
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
                 <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
@@ -1347,6 +1375,10 @@
             <!-- The default Linux UVC backend. If the LinuxUVCBackend is set to "Auto," this item
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
 
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
@@ -1512,6 +1544,10 @@
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <DepthPostProcessing>
                 <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>
                 <SoftwareNoiseRemoveFilter>true</SoftwareNoiseRemoveFilter>
@@ -1595,6 +1631,10 @@
             <!-- The default Linux UVC backend. If the LinuxUVCBackend is set to "Auto," this item
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+            
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
 
             <DepthPostProcessing>
                 <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>
@@ -1679,6 +1719,10 @@
             this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <Misc>
                 <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
                 <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
@@ -1756,7 +1800,348 @@
                 <Format>Y8</Format>
             </RightIR>
         </Gemini338>
+        <Gemini338Lg>
+            <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
+            this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
+            <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
+            <Misc>
+                <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
+                <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
+                minimum value: 100, it is recommended not to be greater than 1000 -->
+                <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
+                <!-- Global timestamp fitter queue size, default value: 100, minimum value: 20 -->
+                <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>
+            </Misc>
+
+            <DepthPostProcessing>
+                <HardwareNoiseRemoveFilter>true</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>false</SoftwareNoiseRemoveFilter>
+            </DepthPostProcessing>
+
+            <!-- Whether to enable heartbeat by default -->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+
+            <!--  Depth Filter Params -->
+            <!--
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+            -->
+            <Depth>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y16</Format>
+            </Depth>
+            <Color>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>3000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>720</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>MJPG</Format>
+            </Color>
+            <LeftIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </LeftIR>
+            <RightIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </RightIR>
+        </Gemini338Lg>
+        <!-- Gemini338Le config -->
+        <Gemini338Le>
+            <!-- Whether to enable heartbeat by default -->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+            <Misc>
+                <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
+                <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
+                minimum value: 100, it is recommended not to be greater than 1000 -->
+                <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
+                <!-- Global timestamp fitter queue size, default value: 100, minimum value: 20 -->
+                <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>
+            </Misc>
+
+            <DepthPostProcessing>
+                <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>true</SoftwareNoiseRemoveFilter>
+            </DepthPostProcessing>
+
+            <!-- Whether to enable heartbeat by default -->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+
+            <!--  Depth Filter Params -->
+            <!--
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+            -->
+            <Depth>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>2000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>640</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>400</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>15</FPS>
+                <Format>Y16</Format>
+            </Depth>
+            <Color>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>2000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>640</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>400</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>15</FPS>
+                <Format>MJPG</Format>
+            </Color>
+            <LeftIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>640</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>400</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>15</FPS>
+                <Format>Y8</Format>
+            </LeftIR>
+            <RightIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>640</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>400</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>15</FPS>
+                <Format>Y8</Format>
+            </RightIR>
+        </Gemini338Le>
+        <Gemini338L>
+            <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
+            this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
+            <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
+            <Misc>
+                <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
+                <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
+                minimum value: 100, it is recommended not to be greater than 1000 -->
+                <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
+                <!-- Global timestamp fitter queue size, default value: 100, minimum value: 20 -->
+                <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>
+            </Misc>
+
+            <DepthPostProcessing>
+                <HardwareNoiseRemoveFilter>true</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>false</SoftwareNoiseRemoveFilter>
+            </DepthPostProcessing>
+
+            <!-- Whether to enable heartbeat by default -->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+
+            <!--  Depth Filter Params -->
+            <!--
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+            -->
+            <Depth>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>2000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y16</Format>
+            </Depth>
+            <Color>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>2000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>720</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>MJPG</Format>
+            </Color>
+            <LeftIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </LeftIR>
+            <RightIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </RightIR>
+        </Gemini338L>
+        <Gemini331L>
+            <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
+            this item will determine the device's speciality. Optional values: V4L2, LibUVC -->
+            <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
+            <Misc>
+                <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
+                <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value: 1000,
+                minimum value: 100, it is recommended not to be greater than 1000 -->
+                <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
+                <!-- Global timestamp fitter queue size, default value: 100, minimum value: 20 -->
+                <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>
+            </Misc>
+
+            <DepthPostProcessing>
+                <HardwareNoiseRemoveFilter>true</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>false</SoftwareNoiseRemoveFilter>
+            </DepthPostProcessing>
+
+            <!-- Whether to enable heartbeat by default -->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+
+            <!--  Depth Filter Params -->
+            <!--
+            <DepthFilterDDOConfig>./Gemini2_v1.0.json</DepthFilterDDOConfig>
+            -->
+            <Depth>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>2000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y16</Format>
+            </Depth>
+            <Color>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>0</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>2000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>2000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>720</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>MJPG</Format>
+            </Color>
+            <LeftIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </LeftIR>
+            <RightIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>480</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </RightIR>
+        </Gemini331L>
         <!--DaBaiA config-->
         <DaBaiA>
             <!-- The default Linux UVC backend. If the LinuxUVCBackend is set to "Auto," this item
@@ -2210,6 +2595,10 @@
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
 
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
             <DepthPostProcessing>
                 <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>
                 <SoftwareNoiseRemoveFilter>true</SoftwareNoiseRemoveFilter>
@@ -2293,6 +2682,10 @@
             <!-- The default Linux UVC backend. If the LinuxUVCBackend is set to "Auto," this item
             will determine the device's speciality. Optional values: V4L2, LibUVC -->
             <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
 
             <DepthPostProcessing>
                 <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>

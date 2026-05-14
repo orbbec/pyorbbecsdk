@@ -739,6 +739,20 @@ OB_EXPORT const char *ob_device_list_get_device_local_net_if_name(const ob_devic
 OB_EXPORT ob_ip_source_type ob_device_list_get_device_ip_source_type(const ob_device_list *list, uint32_t index, ob_error **error);
 
 /**
+ * @brief Get the user-defined name of the device at the specified index.
+ *
+ * @attention This function is valid primarily for Ethernet Vision devices.
+ * For non-Ethernet devices (e.g., USB), it will return "unknown".
+ *
+ * @param[in] list The device list object.
+ * @param[in] index The index of the device in the list.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return const char* The user-defined name string. Returns "unknown" for non-Ethernet devices or if not set.
+ */
+OB_EXPORT const char *ob_device_list_get_device_user_name(const ob_device_list *list, uint32_t index, ob_error **error);
+
+/**
  * @brief Create a device.
  *
  * @attention If the device has already been acquired and created elsewhere, repeated acquisitions will return an error.

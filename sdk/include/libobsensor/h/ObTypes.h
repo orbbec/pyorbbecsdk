@@ -110,6 +110,7 @@ typedef enum {
     OB_ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE = 1004, /**< Device response has incorrect data size */
     OB_ERROR_DEVICE_RESPONSE_ERROR           = 1005, /**< Device response indicates an error */
     OB_ERROR_DEVICE_RESPONSE_WARNING         = 1006, /**< Device response indicates a warning */
+    OB_ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE = 1007, /**< Device response channel failure, unable to communicate with the device */
 
 } OBStatus,
     OBErrorCode, ob_status, ob_error_code;
@@ -2010,7 +2011,7 @@ typedef enum {
 #define END_OF_EXPOSURE OB_END_OF_EXPOSURE
 
 /**
- * @brief Device access mode for GigE network device
+ * @brief Device access mode for GVCP device
  */
 typedef enum {
     OB_DEVICE_ACCESS_DENIED    = 0,  ///< No access. This value is only used as a return value

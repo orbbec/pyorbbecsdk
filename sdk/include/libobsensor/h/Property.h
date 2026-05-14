@@ -638,6 +638,11 @@ typedef enum {
      */
     OB_PROP_DEVICE_IP_MODE_INT = 260,
 
+     /**
+     * @brief DHCP assign IP timeout, unit: second
+     */   
+    OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT = 261,
+
     /**
      * @brief Baseline calibration parameters
      */
@@ -866,9 +871,9 @@ typedef enum {
     OB_PROP_DEPTH_RM_FILTER_BOOL = 2029,
 
     /**
-     * @brief Color camera maximal gain
+     * @brief Color AE max gain
      */
-    OB_PROP_COLOR_MAXIMAL_GAIN_INT = 2030,
+    OB_PROP_COLOR_AE_MAX_GAIN_INT = 2030,
 
     /**
      * @brief Color camera shutter gain
@@ -980,6 +985,13 @@ typedef enum {
      * @note This setting has no effect when AE (Auto Exposure) is disabled.
      */
     OB_PROP_COLOR_DENOISING_LEVEL_INT = 5525,
+
+    /**
+     * @brief Indicates whether the device will go offline after applying IP configuration.
+     * This property does not represent an actual command; it is a capability flag only,
+     * used to identify whether the current device has the behavior of going offline after IP config is applied.
+     */
+    OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY = 5555,
 
     /*
      * @brief LiDAR: set/get IP address

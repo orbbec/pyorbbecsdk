@@ -34,7 +34,7 @@ from threading import Lock
 
 import cv2
 import numpy as np
-from utils import frame_to_bgr_image, is_astra_mini_device
+from utils import frame_to_bgr_image, is_astra_mini_device, is_gemini305g_device
 
 from pyorbbecsdk import OBFormat  # type: ignore
 from pyorbbecsdk import (
@@ -131,6 +131,11 @@ def setup_camera(file_path: str):
             config.enable_stream(sensor_type)
         except Exception:
             continue
+
+    if is_gemini305g_device(
+        device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()
+    ):
+        config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
     pipeline.start(config, _gui_frame_callback)
     return pipeline
@@ -420,6 +425,12 @@ def main():
                     config.enable_stream(sensor_type)
                 except Exception:
                     continue
+
+            if is_gemini305g_device(
+                device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()
+            ):
+                config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
+
             pipeline.start(config, _headless_frame_callback)
             print("Recording started (headless). Press Ctrl+C to stop and save.")
 

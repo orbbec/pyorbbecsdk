@@ -34,6 +34,16 @@ def is_astra_mini_device(vid: int, pid: int) -> bool:
     return False
 
 
+def is_gemini305_device(vid: int, pid: int) -> bool:
+    if (vid == 0x2BC5) and (pid in (0x0840, 0x0841, 0x0842, 0x0843, 0x0845)):
+        return True
+    return False
+
+
+def is_gemini305g_device(vid: int, pid: int, connection_type: str) -> bool:
+    return is_gemini305_device(vid, pid) and connection_type == "GMSL2"
+
+
 def is_lidar_device(device: Device) -> bool:
     sensor_list = device.get_sensor_list()
     count = sensor_list.get_count()

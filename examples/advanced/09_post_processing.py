@@ -23,8 +23,22 @@ from threading import Thread
 import cv2
 import numpy as np
 
-from pyorbbecsdk import OBSensorType  # type: ignore
-from pyorbbecsdk import Config, Context, OBError, OBStreamType, Pipeline
+from pyorbbecsdk import OBSensorType, OBFormat, OBStreamType  # type: ignore
+from pyorbbecsdk import Config, Context, DisparityTransform, OBError, Pipeline
+
+# Pixel formats that contain raw uncompressed 16-bit depth values.
+_RAW_DEPTH_FORMATS = {OBFormat.Y16, OBFormat.Z16, OBFormat.Y12C4}
+
+
+def _get_depth_array(depth_frame):
+    """Return a (height, width) uint16 numpy array, or None if unsupported."""
+    if depth_frame.get_format() not in _RAW_DEPTH_FORMATS:
+        return None
+    raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+    try:
+        return raw.reshape(depth_frame.get_height(), depth_frame.get_width())
+    except ValueError:
+        return None
 
 # --- Configuration Constants ---
 ESC_KEY = 27
@@ -57,8 +71,13 @@ def print_filters_info(filters):
                 print(
                     f" - {{{config_schema.name}, {config_schema.type}, {config_schema.min}, {config_schema.max}, {config_schema.step}, {config_schema.default}, {config_schema.desc}}}"
                 )
-        # By default, disable filters to allow user to enable them manually
-        filter.enable(False)
+        # Disable optional filters by default — user enables them via CLI.
+        # Keep DisparityTransform and ThresholdFilter enabled: they form the
+        # baseline pipeline that decompresses RLE-encoded depth frames and
+        # clips values to a valid range. Without them the raw RLE data cannot
+        # be interpreted as pixel values on Linux.
+        if not filter.is_disparity_transform_filter() and not filter.is_threshold_filter():
+            filter.enable(False)
 
 
 def filter_control(filter_list):
@@ -84,7 +103,13 @@ def filter_control(filter_list):
     while not quit_program:
         print("---------------------------")
         # Use strip() to clean up whitespace from user input
-        user_input = input("Enter your input (h for help): ").strip()
+        try:
+            user_input = input("Enter your input (h for help): ").strip()
+        except EOFError:
+            # stdin is not available (e.g., running non-interactively or
+            # piped input). Wait for the main thread to signal quit.
+            time.sleep(0.5)
+            continue
 
         if not user_input:
             continue
@@ -190,6 +215,7 @@ def filter_control(filter_list):
 
 def main():
     global quit_program
+    pipeline = None
     try:
         # Check if device is connected
         ctx = Context()
@@ -207,6 +233,19 @@ def main():
         sensor = device.get_sensor(OBSensorType.DEPTH_SENSOR)
         filters = sensor.get_recommended_filters()
 
+        # Separate the baseline filter (DisparityTransform) from optional filters.
+        # DisparityTransform decompresses RLE-encoded depth into raw pixel data
+        # and must always be applied. On Windows / uncompressed streams it is a
+        # near-identity transform.
+        disparity_filter = None
+        optional_filters = []
+        for f in filters:
+            if f.is_disparity_transform_filter():
+                disparity_filter = f
+                f.enable(True)  # always on
+            else:
+                optional_filters.append(f)
+
         # Show initial filters information
         print_filters_info(filters)
 
@@ -214,7 +253,8 @@ def main():
         config.enable_stream(OBStreamType.DEPTH_STREAM)
         pipeline.start(config)
 
-        # Start the background control thread for terminal input
+        # Start the background control thread for terminal input (pass full list
+        # so the user can toggle any filter, including DisparityTransform)
         control_thread = Thread(target=filter_control, args=(filters,))
         control_thread.daemon = True
         control_thread.start()
@@ -234,25 +274,37 @@ def main():
             if depth_frame is None:
                 continue
 
-            # Apply enabled filters sequentially (Filter Chain)
-            processed_frame = depth_frame
-            for f in filters:
+            # Skip compressed frames — the filter chain requires
+            # uncompressed pixel data (Y16 / Z16 / Y12C4).
+            if depth_frame.get_format() not in _RAW_DEPTH_FORMATS:
+                continue
+
+            # ---- Pre-process: decompress RLE → raw depth (baseline) ----
+            baseline_frame = disparity_filter.process(depth_frame)
+            if baseline_frame is None:
+                continue
+
+            # ---- Apply optional filters on top of the baseline ----
+            processed_frame = baseline_frame
+            for f in optional_filters:
                 if f.is_enabled():
                     processed_frame = f.process(processed_frame)
 
             if processed_frame is None:
                 continue
 
-            # --- Process Original Frame for Display ---
-            depth_data = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-            depth_data = depth_data.reshape(depth_frame.get_height(), depth_frame.get_width())
+            # --- Display Original (baseline after DisparityTransform) ---
+            depth_data = _get_depth_array(baseline_frame)
+            if depth_data is None:
+                continue
             # Normalize 16-bit depth to 8-bit for visualization
             depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
 
             # --- Process Filtered Frame for Display ---
-            processed_data = np.frombuffer(processed_frame.get_data(), dtype=np.uint16)
-            processed_data = processed_data.reshape(processed_frame.get_height(), processed_frame.get_width())
+            processed_data = _get_depth_array(processed_frame)
+            if processed_data is None:
+                continue
             processed_image = cv2.normalize(processed_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             processed_image = cv2.applyColorMap(processed_image, cv2.COLORMAP_JET)
 
@@ -281,7 +333,8 @@ def main():
     finally:
         # Cleanup: Signal threads to stop, stop the pipeline, and close windows
         quit_program = True
-        pipeline.stop()
+        if pipeline is not None:
+            pipeline.stop()
         cv2.destroyAllWindows()
 
 

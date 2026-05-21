@@ -10,6 +10,10 @@
 #  Filter chain applied:
 #    Raw Depth → [Temporal] → [Spatial] → [HoleFill] → [Threshold] → Display
 #
+#  Note: On Linux the depth stream may use RLE compression. The example
+#  checks the frame format and only processes uncompressed frames (Y16,
+#  Z16, Y12C4), mirroring the C++ SDK behaviour.
+#
 #  Keyboard controls (while window is focused):
 #    T  — toggle TemporalFilter on/off
 #    S  — toggle SpatialFilter on/off
@@ -35,14 +39,35 @@ from pyorbbecsdk import (
     Config,
     Context,
     HoleFillingFilter,
+    OBFormat,
     OBError,
     OBLogLevel,
     OBSensorType,
+    OBStreamType,
     Pipeline,
     SpatialAdvancedFilter,
     TemporalFilter,
     ThresholdFilter,
 )
+
+# Pixel formats that contain raw uncompressed 16-bit depth values.
+_RAW_DEPTH_FORMATS = {OBFormat.Y16, OBFormat.Z16, OBFormat.Y12C4}
+
+
+def _get_depth_array(depth_frame):
+    """Return a (height, width) uint16 numpy array, or None if unsupported.
+
+    On Linux the depth stream may deliver RLE-compressed frames which cannot
+    be reshaped directly.  We skip those frames, matching the C++ behaviour
+    in ``utils_opencv.cpp``.
+    """
+    if depth_frame.get_format() not in _RAW_DEPTH_FORMATS:
+        return None
+    raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+    try:
+        return raw.reshape(depth_frame.get_height(), depth_frame.get_width())
+    except ValueError:
+        return None
 
 ESC_KEY = 27
 MIN_DEPTH_MM = 100
@@ -54,8 +79,10 @@ def depth_to_colormap(depth_frame, min_mm, max_mm):
     w = depth_frame.get_width()
     h = depth_frame.get_height()
     scale = depth_frame.get_depth_scale()
-    raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-    mm = raw.reshape(h, w).astype(np.float32) * scale
+    raw = _get_depth_array(depth_frame)
+    if raw is None:
+        return None
+    mm = raw.astype(np.float32) * scale
     valid = np.where((mm >= min_mm) & (mm <= max_mm), mm, 0).astype(np.uint16)
     norm = cv2.normalize(valid, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_8U)
     return cv2.applyColorMap(norm, cv2.COLORMAP_JET)
@@ -82,8 +109,7 @@ def main():
     config = Config()
 
     try:
-        profiles = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-        config.enable_stream(profiles.get_default_video_stream_profile())
+        config.enable_stream(OBStreamType.DEPTH_STREAM)
     except OBError as e:
         print(f"ERROR: {e}")
         sys.exit(1)
@@ -119,6 +145,11 @@ def main():
             if raw_frame is None:
                 continue
 
+            # Skip compressed frames (RLE etc.) — the filter chain
+            # requires uncompressed pixel data (Y16 / Z16 / Y12C4).
+            if raw_frame.get_format() not in _RAW_DEPTH_FORMATS:
+                continue
+
             # ---- Apply filter chain ----
             filtered = raw_frame
 
@@ -144,8 +175,12 @@ def main():
 
             # ---- Build display panels ----
             raw_vis = depth_to_colormap(raw_frame, MIN_DEPTH_MM, MAX_DEPTH_MM)
+            if raw_vis is None:
+                continue
             filtered = filtered.as_depth_frame()
             flt_vis = depth_to_colormap(filtered, MIN_DEPTH_MM, MAX_DEPTH_MM)
+            if flt_vis is None:
+                continue
 
             # Active filter labels
             active = []

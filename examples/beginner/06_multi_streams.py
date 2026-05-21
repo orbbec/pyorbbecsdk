@@ -27,7 +27,7 @@ import threading
 
 import cv2
 import numpy as np
-from utils import frame_to_bgr_image, is_astra_mini_device
+from utils import frame_to_bgr_image, is_astra_mini_device, is_gemini305g_device
 
 from pyorbbecsdk import OBFormat  # type: ignore
 from pyorbbecsdk import Config, Context, OBError, OBFrameType, OBSensorType, Pipeline
@@ -100,6 +100,11 @@ def setup_camera():
             config.enable_stream(sensor_type)
         except:
             continue
+
+    if is_gemini305g_device(
+        device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()
+    ):
+        config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
     try:
         pipeline.start(config, video_frame_callback)

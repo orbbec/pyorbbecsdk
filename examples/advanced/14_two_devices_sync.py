@@ -51,7 +51,7 @@ multi_device_sync_config = {}
 # config_file_path current file path
 config_file_path = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
-    "../config/multi_device_sync_config.json",
+    "../../config/multi_device_sync_config.json",
 )
 
 

@@ -242,8 +242,9 @@ def video_frame_callback(frames):
             if state.support_dual_ir:
                 left_ir = frames.get_left_ir_frame()
                 right_ir = frames.get_right_ir_frame()
-                if left_ir and right_ir:
+                if left_ir:
                     state.cached_frames["left_ir"] = process_ir(left_ir)
+                if right_ir:
                     state.cached_frames["right_ir"] = process_ir(right_ir)
             else:
                 ir_frame = frames.get_ir_frame()

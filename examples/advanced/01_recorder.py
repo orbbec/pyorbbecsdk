@@ -263,9 +263,9 @@ def _gui_frame_callback(frames):
         if state.support_dual_ir:
             left = frames.get_left_ir_frame()
             right = frames.get_right_ir_frame()
-
-            if left and right:
+            if left:
                 state.cached_frames["left_ir"] = _process_ir(left)
+            if right:
                 state.cached_frames["right_ir"] = _process_ir(right)
         else:
             ir = frames.get_ir_frame()

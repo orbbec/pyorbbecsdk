@@ -55,7 +55,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#main-branch-v1-x">1.1.3.2. main Branch (v1.x)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#support-platforms">1.1.4. Support Platforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="OrbbecSDK_Overview.html">1.2. Orbbec SDK Overview</a><ul>
@@ -1231,41 +1230,20 @@ With the major update of the new branch v2-main in October 2024, Python Wrapper 
 <section id="supported-platforms">
 <h2><span class="section-number">1.1.2. </span>Supported Platforms<a class="headerlink" href="#supported-platforms" title="Link to this heading"></a></h2>
 <p>pyorbbecsdk supports the following operating systems and architectures:</p>
-<table border="1" class="docutils align-default">
-  <thead>
-    <tr style="background-color: #f0f0f0; text-align: left;">
-      <th>Platform</th>
-      <th>OS Version</th>
-      <th>Architecture</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Windows</strong></td>
-      <td>Windows 10+</td>
-      <td>x64</td>
-    </tr>
-    <tr>
-      <td rowspan="2"><strong>Linux</strong></td>
-      <td rowspan="2">Ubuntu 18.04 / 20.04 / 22.04</td>
-      <td>x64</td>
-    </tr>
-    <tr>
-      <td>ARM64</td>
-    </tr>
-    <tr>
-      <td><strong>macOS</strong></td>
-      <td>macOS 13.2+</td>
-      <td>Apple Silicon (M1 and later)</td>
-    </tr>
-  </tbody>
-</table><p><strong>Supported Python versions: 3.8 to 3.13</strong></p>
+<ul class="simple">
+<li><p>Windows 10 or later: x64 architectures</p></li>
+<li><p>Linux x64: tested on Ubuntu 18.04, 20.04, 22.04 and 24.04</p></li>
+<li><p>Linux ARM64: tested on  NVIDIA Jetson AGX Orin , NVIDIA Jetson Orin NX , NVIDIA Jetson Orin Nano , NVIDIA Jetson AGX Xavier , NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor</p></li>
+<li><p>macOS: tested on M2 chip, OS version 13.2</p></li>
+</ul>
+<p><strong>Supported Python versions: 3.8 to 3.13</strong></p>
 <p>Pre-built wheels are available for all platforms via <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">pyorbbecsdk2</span></code>.</p>
 </section>
 <section id="support-hardware-products">
 <h2><span class="section-number">1.1.3. </span>Support Hardware Products<a class="headerlink" href="#support-hardware-products" title="Link to this heading"></a></h2>
 <p>This document is based on the v2-main branch code, which is a Python Wrapper built on Orbbec SDK v2. It supports the following devices.
 If your device is included in this supported list, we recommend using the v2-main branch. If not, you can use the main branch instead.</p>
+<p>For firmware downloads, please visit the <a class="reference external" href="https://github.com/orbbec/OrbbecFirmware">OrbbecFirmware</a> repository.</p>
 <section id="v2-main-branch">
 <h3><span class="section-number">1.1.3.1. </span>v2-main Branch<a class="headerlink" href="#v2-main-branch" title="Link to this heading"></a></h3>
 <table border="1" class="docutils">
@@ -1300,7 +1278,7 @@ If your device is included in this supported list, we recommend using the v2-mai
 <tr>
 <td>Gemini 435Le</td>
 <td>1.2.4</td>
-<td>1.3.6</td>
+<td>1.3.19</td>
 </tr>
 <tr>
 <td>Gemini 335Le</td>
@@ -1514,14 +1492,6 @@ If your device is included in this supported list, we recommend using the v2-mai
 </tbody>
 </table></section>
 </section>
-<section id="support-platforms">
-<h2><span class="section-number">1.1.4. </span>Support Platforms<a class="headerlink" href="#support-platforms" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>Windows: Windows 10 (x64)</p></li>
-<li><p>Linux: 18.04/20.04/22.04/24.04 (x64)</p></li>
-<li><p>Arm64: Ubuntu18.04/20.04/22.04</p></li>
-</ul>
-</section>
 </section>
 
 
@@ -1536,7 +1506,7 @@ If your device is included in this supported list, we recommend using the v2-mai
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-05-22 16:14:55.
+      <span class="lastupdated">Last updated on 2026-05-28 14:11:15.
       </span></p>
   </div>
 

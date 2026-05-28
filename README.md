@@ -111,6 +111,8 @@ pip install --upgrade pyorbbecsdk2
 > 🔧 **Building from Source?**
 > See the [Build with UV Guide](https://orbbec.github.io/pyorbbecsdk/source/4_Package/build_with_uv.html) for detailed instructions.
 
+> **Note for Linux users:** PyPI does not provide pre-built wheels for Python 3.8 on Linux (x64 and ARM64). If you need Python 3.8 on Linux, download the wheel from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases) or [build from source](https://orbbec.github.io/pyorbbecsdk/source/4_Package/build_with_uv.html).
+
 **2. Setup the environment** (one-time OS-level configuration for metadata and udev rules):
 
 ```bash
@@ -158,7 +160,14 @@ See [examples/README.md](examples/README.md) for the full list with per-script d
 
 ## Supported Platforms
 
-pyorbbecsdk supports the following operating systems and architectures. Pre-built wheels are available for all platforms via `pip install --upgrade pyorbbecsdk2`.
+pyorbbecsdk supports the following operating systems and architectures:
+
+- **Windows** 10 or later: x64 architectures
+- **Linux x64**: tested on Ubuntu 18.04, 20.04, 22.04 and 24.04
+- **Linux ARM64**: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor
+- **macOS**: tested on M2 chip, OS version 13.2
+
+**Supported Python versions: 3.8 to 3.13**
 
 ### Quick Camera Evaluation
 
@@ -169,9 +178,6 @@ Want to test your camera without writing code? Download **Orbbec Viewer** — a 
 | <div align="center"><a href="https://github.com/orbbec/OrbbecSDK_v2/releases/download/v2.7.6/OrbbecViewer_v2.7.6_202602022045_20730ef_win_x64.zip" title="Download Orbbec Viewer for Windows"><img src="https://user-images.githubusercontent.com/32394882/230619282-fe2f84fb-2130-4164-a193-db2893b58272.png" width="40%" alt="Windows" /></a></div> | <div align="center"><a href="https://github.com/orbbec/OrbbecSDK_v2/releases/download/v2.7.6/OrbbecViewer_v2.7.6_202602021245_20730ef_linux_x86_64.zip" title="Download Orbbec Viewer for Linux x64"><img src="https://user-images.githubusercontent.com/32394882/230619268-bdf66472-8bf5-41e7-9efa-ca3698ff271a.png" width="40%" alt="Linux x64" /></a></div> | <div align="center"><a href="https://github.com/orbbec/OrbbecSDK_v2/releases/download/v2.7.6/OrbbecViewer_v2.7.6_202602021245_20730ef_linux_arm64.zip" title="Download Orbbec Viewer for Linux ARM64"><img src="https://user-images.githubusercontent.com/32394882/230619273-feeee52b-209b-48da-b990-06630cabe323.png" width="40%" alt="Linux ARM" /></a></div> | <div align="center"><a href="https://github.com/orbbec/OrbbecSDK_v2/releases/download/v2.7.6/OrbbecViewer_v2.7.6_202602022045_20730ef_macOS_arm64.zip" title="Download Orbbec Viewer for macOS"><img src="docs/_images/mac.png" width="40%" alt="macOS" /></a></div> |
 | :---: | :---: | :---: | :---: |
 | **Windows (x64)** | **Linux (x64)** | **Linux (ARM64)** | **macOS (ARM)** |
-| Windows 10+ | Ubuntu 18.04 / 20.04 / 22.04 | Ubuntu 18.04 / 20.04 / 22.04 | macOS 13.2+ (Apple Silicon / M1 and later) |
-
-Supported Python versions: **Python 3.8 to 3.13**
 
 ## Automated Firmware Update
 
@@ -181,7 +187,9 @@ If you encounter errors related to firmware version mismatch, please use the aut
 python scripts/auto_update_firmware.py
 ```
 
-This script will check your current device firmware version, guide you to download the correct firmware, and perform the firmware update safely.
+This script will check your current device firmware version, automatically download the correct firmware, and perform the firmware update safely.
+
+If you prefer to manually download firmware files, they are available at the [OrbbecFirmware](https://github.com/orbbec/OrbbecFirmware) repository.
 
 For detailed device support and firmware compatibility information, see [Introduction — v2-main Branch](https://orbbec.github.io/pyorbbecsdk/source/1_overview/Introduction.html#v2-main-branch).
 

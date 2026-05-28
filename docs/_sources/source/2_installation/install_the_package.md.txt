@@ -14,11 +14,14 @@
 
 ## 📋 System Requirements
 
-| Platform | Minimum Version | Architectures | Python Versions |
-|----------|----------------|---------------|-----------------|
-| Linux    | Ubuntu 18.04+  | x86_64, ARM64 | 3.8 - 3.13      |
-| macOS    | 13.0+          | ARM64         | 3.8 - 3.13      |
-| Windows  | 10+            | x64           | 3.8 - 3.13      |
+pyorbbecsdk supports the following operating systems and architectures:
+
+- Windows 10 or later: x64 architectures
+- Linux x64: tested on Ubuntu 18.04, 20.04, 22.04 and 24.04
+- Linux ARM64: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor
+- macOS: tested on M2 chip, OS version 13.2
+
+**Supported Python versions: 3.8 to 3.13**
 
 ### Hardware Requirements
 - Orbbec 3D depth camera (Gemini series, Astra series, Femto series, etc.)
@@ -121,6 +124,8 @@ pip install --upgrade pyorbbecsdk2
 - Works on Linux, macOS, and Windows
 
 **Available Python versions:** 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+
+> **Note for Linux users:** PyPI does not provide pre-built wheels for Python 3.8 on Linux (x64 and ARM64). If you need Python 3.8 on Linux, download the wheel from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases) or [build from source](../4_Package/build_with_uv.md).
 
 ### Method 2: Offline Wheel Installation
 
@@ -255,6 +260,8 @@ pip install --upgrade pyorbbecsdk2
 # Verify installation
 pip show pyorbbecsdk2 | grep Version
 ```
+
+> **Note for Linux Python 3.8 users:** PyPI does not provide Linux wheels for Python 3.8. Use Python 3.9+ or download the wheel from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases).
 
 **Windows:**
 

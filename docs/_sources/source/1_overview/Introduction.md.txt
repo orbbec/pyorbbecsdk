@@ -188,38 +188,13 @@ The Python Wrapper uses pybind11 to convert the interfaces of the Orbbec SDK int
 
 pyorbbecsdk supports the following operating systems and architectures:
 
-<table border="1" class="docutils align-default">
-  <thead>
-    <tr style="background-color: #f0f0f0; text-align: left;">
-      <th>Platform</th>
-      <th>OS Version</th>
-      <th>Architecture</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Windows</strong></td>
-      <td>Windows 10+</td>
-      <td>x64</td>
-    </tr>
-    <tr>
-      <td rowspan="2"><strong>Linux</strong></td>
-      <td rowspan="2">Ubuntu 18.04 / 20.04 / 22.04</td>
-      <td>x64</td>
-    </tr>
-    <tr>
-      <td>ARM64</td>
-    </tr>
-    <tr>
-      <td><strong>macOS</strong></td>
-      <td>macOS 13.2+</td>
-      <td>Apple Silicon (M1 and later)</td>
-    </tr>
-  </tbody>
-</table>
-
+- Windows 10 or later: x64 architectures
+- Linux x64: tested on Ubuntu 18.04, 20.04, 22.04 and 24.04
+- Linux ARM64: tested on  NVIDIA Jetson AGX Orin , NVIDIA Jetson Orin NX , NVIDIA Jetson Orin Nano , NVIDIA Jetson AGX Xavier , NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor
+- macOS: tested on M2 chip, OS version 13.2
+  
 **Supported Python versions: 3.8 to 3.13**
-
+  
 Pre-built wheels are available for all platforms via `pip install --upgrade pyorbbecsdk2`.
 
 
@@ -227,6 +202,8 @@ Pre-built wheels are available for all platforms via `pip install --upgrade pyor
 
 This document is based on the v2-main branch code, which is a Python Wrapper built on Orbbec SDK v2. It supports the following devices.
 If your device is included in this supported list, we recommend using the v2-main branch. If not, you can use the main branch instead.
+
+For firmware downloads, please visit the [OrbbecFirmware](https://github.com/orbbec/OrbbecFirmware) repository.
 
 ### v2-main Branch
 
@@ -236,7 +213,7 @@ If your device is included in this supported list, we recommend using the v2-mai
 | Gemini 305g       | 1.0.30                       | 1.0.70                           |
 | Gemini 345        | 1.7.04                       | 1.9.03                           |
 | Gemini 345Lg      | 1.7.04                       | 1.9.03                           |
-| Gemini 435Le      | 1.2.4                        | 1.3.6                            |
+| Gemini 435Le      | 1.2.4                        | 1.3.19                            |
 | Gemini 335Le      | 1.5.31                       | 1.6.00                           |
 | Gemini 330        | 1.2.20                       | 1.6.00                           |
 | Gemini 330L       | 1.2.20                       | 1.6.00                           |
@@ -288,10 +265,3 @@ the main branch supports the following devices with maintenance only:
 | Gemini            | 3018                        |
 | Astra Mini Pro    | 1007                        | 
 | Astra Mini S Pro  | 1005                        |
-
-
-## Support Platforms
-
-- Windows: Windows 10 (x64)
-- Linux: 18.04/20.04/22.04/24.04 (x64)
-- Arm64: Ubuntu18.04/20.04/22.04

@@ -55,7 +55,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../1_overview/Introduction.html#main-branch-v1-x">1.1.3.2. main Branch (v1.x)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../1_overview/Introduction.html#support-platforms">1.1.4. Support Platforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html">1.2. Orbbec SDK Overview</a><ul>
@@ -1061,36 +1060,15 @@ Obtain depth, color, IR streams, IMU data, point clouds, and more with Orbbec ca
 <hr class="docutils" />
 <section id="system-requirements">
 <h2><span class="section-number">2.3.1. </span>📋 System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h2>
-<table border="1" class="docutils">
-<thead>
-<tr>
-<th>Platform</th>
-<th>Minimum Version</th>
-<th>Architectures</th>
-<th>Python Versions</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Linux</td>
-<td>Ubuntu 18.04+</td>
-<td>x86_64, ARM64</td>
-<td>3.8 - 3.13</td>
-</tr>
-<tr>
-<td>macOS</td>
-<td>13.0+</td>
-<td>ARM64</td>
-<td>3.8 - 3.13</td>
-</tr>
-<tr>
-<td>Windows</td>
-<td>10+</td>
-<td>x64</td>
-<td>3.8 - 3.13</td>
-</tr>
-</tbody>
-</table><section id="hardware-requirements">
+<p>pyorbbecsdk supports the following operating systems and architectures:</p>
+<ul class="simple">
+<li><p>Windows 10 or later: x64 architectures</p></li>
+<li><p>Linux x64: tested on Ubuntu 18.04, 20.04, 22.04 and 24.04</p></li>
+<li><p>Linux ARM64: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor</p></li>
+<li><p>macOS: tested on M2 chip, OS version 13.2</p></li>
+</ul>
+<p><strong>Supported Python versions: 3.8 to 3.13</strong></p>
+<section id="hardware-requirements">
 <h3><span class="section-number">2.3.1.1. </span>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Orbbec 3D depth camera (Gemini series, Astra series, Femto series, etc.)</p></li>
@@ -1206,6 +1184,9 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <li><p>Works on Linux, macOS, and Windows</p></li>
 </ul>
 <p><strong>Available Python versions:</strong> 3.8, 3.9, 3.10, 3.11, 3.12, 3.13</p>
+<blockquote>
+<div><p><strong>Note for Linux users:</strong> PyPI does not provide pre-built wheels for Python 3.8 on Linux (x64 and ARM64). If you need Python 3.8 on Linux, download the wheel from <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">GitHub Releases</a> or <a class="reference internal" href="../4_Package/build_with_uv.html"><span class="doc">build from source</span></a>.</p>
+</div></blockquote>
 </section>
 <section id="method-2-offline-wheel-installation">
 <h3><span class="section-number">2.3.2.8. </span>Method 2: Offline Wheel Installation<a class="headerlink" href="#method-2-offline-wheel-installation" title="Link to this heading"></a></h3>
@@ -1357,6 +1338,9 @@ pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="
 pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Version
 </pre></div>
 </div>
+<blockquote>
+<div><p><strong>Note for Linux Python 3.8 users:</strong> PyPI does not provide Linux wheels for Python 3.8. Use Python 3.9+ or download the wheel from <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">GitHub Releases</a>.</p>
+</div></blockquote>
 <p><strong>Windows:</strong></p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># Create and activate virtual environment</span>
 <span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="n">orbbec_env</span>
@@ -1526,7 +1510,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-05-22 16:14:55.
+      <span class="lastupdated">Last updated on 2026-05-28 14:11:15.
       </span></p>
   </div>
 

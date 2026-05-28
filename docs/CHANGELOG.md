@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.1] - 2026-05-22
+
+### What's Changed
+- Updated Orbbec SDK to v2.8.6.
+- Added support for Gemini 305g.
+- Added macOS platform support.
+- Added automated UV packaging and build scripts.
+- Added GitHub Actions CI/CD workflows.
+- Improved project documentation and API reference.  
+- Refactored samples and reorganized directory structure.  
+
 ## [2.0.18] - 2026-02-13
 
 ### What's Changed

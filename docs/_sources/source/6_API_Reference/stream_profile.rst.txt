@@ -284,11 +284,26 @@ OBDepthWorkModeList
 OBDepthWorkModeTag
 ^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: pyorbbecsdk.OBDepthWorkModeTag
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :noindex:
+.. py:class:: pyorbbecsdk.OBDepthWorkModeTag
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDepthWorkModeTag Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OB_CUSTOM_DEPTH_WORK_MODE``
+        - ``<OBDepthWorkModeTag.OB_CUSTOM_DEPTH_WORK_MODE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``OB_DEVICE_DEPTH_WORK_MODE``
+        - ``<OBDepthWorkModeTag.OB_DEVICE_DEPTH_WORK_MODE: 0>``
+        - 0
+        - Auto-generated from C++ bindings
 
 OBPresetResolutionConfig
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -346,9 +361,17 @@ OBFrameAggregateOutputMode
         - ``<OBFrameAggregateOutputMode.ANY_SITUATION: 2>``
         - 2
         - Auto-generated from C++ bindings
+      * - ``COLOR_FRAME_REQUIRE``
+        - ``<OBFrameAggregateOutputMode.COLOR_FRAME_REQUIRE: 1>``
+        - 1
+        - Auto-generated from C++ bindings
       * - ``DISABLE``
         - ``<OBFrameAggregateOutputMode.DISABLE: 3>``
         - 3
+        - Auto-generated from C++ bindings
+      * - ``FULL_FRAME_REQUIRE``
+        - ``<OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE: 0>``
+        - 0
         - Auto-generated from C++ bindings
 
 OBCompressionMode
@@ -477,6 +500,10 @@ OBMultiDeviceSyncMode
         - ``<OBMultiDeviceSyncMode.FREE_RUN: 1>``
         - 1
         - Auto-generated from C++ bindings
+      * - ``HARDWARE_TRIGGERING``
+        - ``<OBMultiDeviceSyncMode.HARDWARE_TRIGGERING: 64>``
+        - 64
+        - Auto-generated from C++ bindings
       * - ``IR_IMU_SYNC``
         - ``<OBMultiDeviceSyncMode.IR_IMU_SYNC: 128>``
         - 128
@@ -496,6 +523,10 @@ OBMultiDeviceSyncMode
       * - ``SOFTWARE_SYNCED``
         - ``<OBMultiDeviceSyncMode.SOFTWARE_SYNCED: 256>``
         - 256
+        - Auto-generated from C++ bindings
+      * - ``SOFTWARE_TRIGGERING``
+        - ``<OBMultiDeviceSyncMode.SOFTWARE_TRIGGERING: 32>``
+        - 32
         - Auto-generated from C++ bindings
       * - ``STANDALONE``
         - ``<OBMultiDeviceSyncMode.STANDALONE: 2>``

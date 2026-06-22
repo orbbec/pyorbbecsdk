@@ -369,4 +369,4 @@ SAMPLE_RATE_8_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_8_K
 SAMPLE_RATE_UNKNOWN: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_UNKNOWN: 0>
 STOPPED: OBPlaybackStatus  # value = <OBPlaybackStatus.STOPPED: 3>
 UNKNOWN: OBPlaybackStatus  # value = <OBPlaybackStatus.UNKNOWN: 0>
-__version__: str = "2.1.0"
+__version__: str = "2.1.2"

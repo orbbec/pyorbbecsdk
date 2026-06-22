@@ -290,6 +290,9 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT",
              OBPropertyID::OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT,
              "DHCP assign IP timeout, unit: second")
+      .value("OB_PROP_FPS_BOOST_BOOL",
+             OBPropertyID::OB_PROP_FPS_BOOST_BOOL,
+             "Enable FPS boost in trigger mode")
       .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
              OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL,
              "Query the status of laser overcurrent protection (read-only)")

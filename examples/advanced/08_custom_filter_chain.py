@@ -39,8 +39,8 @@ from pyorbbecsdk import (
     Config,
     Context,
     HoleFillingFilter,
-    OBFormat,
     OBError,
+    OBFormat,
     OBLogLevel,
     OBSensorType,
     OBStreamType,
@@ -68,6 +68,7 @@ def _get_depth_array(depth_frame):
         return raw.reshape(depth_frame.get_height(), depth_frame.get_width())
     except ValueError:
         return None
+
 
 ESC_KEY = 27
 MIN_DEPTH_MM = 100

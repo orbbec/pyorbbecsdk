@@ -101,9 +101,7 @@ def setup_camera():
         except:
             continue
 
-    if is_gemini305g_device(
-        device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()
-    ):
+    if is_gemini305g_device(device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()):
         config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
     try:

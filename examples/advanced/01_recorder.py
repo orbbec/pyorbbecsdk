@@ -132,9 +132,7 @@ def setup_camera(file_path: str):
         except Exception:
             continue
 
-    if is_gemini305g_device(
-        device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()
-    ):
+    if is_gemini305g_device(device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()):
         config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
     pipeline.start(config, _gui_frame_callback)
@@ -426,9 +424,7 @@ def main():
                 except Exception:
                     continue
 
-            if is_gemini305g_device(
-                device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()
-            ):
+            if is_gemini305g_device(device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()):
                 config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
             pipeline.start(config, _headless_frame_callback)

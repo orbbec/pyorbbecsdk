@@ -23,8 +23,16 @@ from threading import Thread
 import cv2
 import numpy as np
 
-from pyorbbecsdk import OBSensorType, OBFormat, OBStreamType  # type: ignore
-from pyorbbecsdk import Config, Context, DisparityTransform, OBError, Pipeline
+from pyorbbecsdk import (  # type: ignore
+    Config,
+    Context,
+    DisparityTransform,
+    OBError,
+    OBFormat,
+    OBSensorType,
+    OBStreamType,
+    Pipeline,
+)
 
 # Pixel formats that contain raw uncompressed 16-bit depth values.
 _RAW_DEPTH_FORMATS = {OBFormat.Y16, OBFormat.Z16, OBFormat.Y12C4}
@@ -39,6 +47,7 @@ def _get_depth_array(depth_frame):
         return raw.reshape(depth_frame.get_height(), depth_frame.get_width())
     except ValueError:
         return None
+
 
 # --- Configuration Constants ---
 ESC_KEY = 27

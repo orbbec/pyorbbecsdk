@@ -644,6 +644,11 @@ typedef enum {
     OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT = 261,
 
     /**
+     * @brief Enable FPS boost in trigger mode
+     */
+    OB_PROP_FPS_BOOST_BOOL = 275,
+
+    /**
      * @brief Baseline calibration parameters
      */
     OB_STRUCT_BASELINE_CALIBRATION_PARAM = 1002,

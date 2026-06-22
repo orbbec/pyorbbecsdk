@@ -304,6 +304,10 @@ OBFrameMetadataType
         - ``<OBFrameMetadataType.AUTO_WHITE_BALANCE: 6>``
         - 6
         - Auto-generated from C++ bindings
+      * - ``BACKLIGHT_COMPENSATION``
+        - ``<OBFrameMetadataType.BACKLIGHT_COMPENSATION: 12>``
+        - 12
+        - Auto-generated from C++ bindings
       * - ``BRIGHTNESS``
         - ``<OBFrameMetadataType.BRIGHTNESS: 8>``
         - 8
@@ -315,6 +319,14 @@ OBFrameMetadataType
       * - ``COUNT``
         - ``<OBFrameMetadataType.COUNT: 34>``
         - 34
+        - Auto-generated from C++ bindings
+      * - ``DISPARITY_SEARCH_OFFSET``
+        - ``<OBFrameMetadataType.DISPARITY_SEARCH_OFFSET: 32>``
+        - 32
+        - Auto-generated from C++ bindings
+      * - ``DISPARITY_SEARCH_RANGE``
+        - ``<OBFrameMetadataType.DISPARITY_SEARCH_RANGE: 33>``
+        - 33
         - Auto-generated from C++ bindings
       * - ``EXPOSURE``
         - ``<OBFrameMetadataType.EXPOSURE: 4>``
@@ -371,6 +383,10 @@ OBFrameMetadataType
       * - ``LASER_STATUS``
         - ``<OBFrameMetadataType.LASER_STATUS: 30>``
         - 30
+        - Auto-generated from C++ bindings
+      * - ``LOW_LIGHT_COMPENSATION``
+        - ``<OBFrameMetadataType.LOW_LIGHT_COMPENSATION: 16>``
+        - 16
         - Auto-generated from C++ bindings
       * - ``MANUAL_WHITE_BALANCE``
         - ``<OBFrameMetadataType.MANUAL_WHITE_BALANCE: 17>``

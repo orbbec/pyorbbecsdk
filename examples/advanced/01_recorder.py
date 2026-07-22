@@ -7,6 +7,8 @@
 #    3. How to use frame callbacks with threading for smooth GUI recording
 #    4. How to pause and resume recording without stopping the pipeline
 #    5. How to run in headless mode (no display) with per-stream FPS output
+#    6. How to export a sidecar JSON preset so playback can restore the exact
+#       recording environment (sensor profiles, D2C/PC config, HDR, etc.)
 #
 #  Keyboard (GUI mode, default):
 #    S       — Pause / Resume recording
@@ -30,6 +32,7 @@ import argparse
 import math
 import threading
 import time
+from pathlib import Path
 from threading import Lock
 
 import cv2
@@ -38,11 +41,14 @@ from utils import frame_to_bgr_image, is_astra_mini_device, is_gemini305g_device
 
 from pyorbbecsdk import OBFormat  # type: ignore
 from pyorbbecsdk import (
+    ApplicationConfig,
+    ApplicationSensorConfig,
     Config,
     Context,
     OBError,
     OBFrameType,
     OBSensorType,
+    OBStreamType,
     Pipeline,
     RecordDevice,
 )
@@ -53,6 +59,8 @@ class GlobalState:
         self.frame_mutex = threading.Lock()
         self.imu_mutex = threading.Lock()
         self.recorder = None
+        self.device = None
+        self.bag_path = ""
         self.is_paused = False
         self.stop_rendering = False
         self.support_dual_ir = False
@@ -75,8 +83,8 @@ class GlobalState:
 state = GlobalState()
 
 # --- Headless mode globals ---
-_frame_mutex = Lock()
-_counts: dict = {}
+frame_mutex = Lock()
+counts: dict = {}
 
 
 # ---------------------------------------------------------------------------
@@ -84,11 +92,145 @@ _counts: dict = {}
 # ---------------------------------------------------------------------------
 
 
+def derive_json_path(bag_path: str) -> str:
+    """Derive sidecar JSON path from bag path (xxx.bag -> xxx.json)."""
+    return str(Path(bag_path).with_suffix(".json"))
+
+
+def stream_type_to_sensor_type(stream_type):
+    """Map OBStreamType (or its underlying int) to OBSensorType.
+
+    This function is robust against SDK version differences:
+    - some pyorbbecsdk wheels expose enum members as  OBStreamType.COLOR_STREAM
+    - others may expose them as  OBStreamType.COLOR
+    We therefore convert everything to int before comparing.
+    """
+    # 1. Normalise the input to an int (works for both enum members and raw ints)
+    try:
+        type_val = int(stream_type)
+    except Exception:
+        return None
+
+    # 2. Helper: safely fetch an enum value, trying several possible names
+    def _get(enum_type, *names):
+        for n in names:
+            if hasattr(enum_type, n):
+                try:
+                    return int(getattr(enum_type, n))
+                except Exception:
+                    pass
+        return None
+
+    # 3. Build the int -> OBSensorType mapping dynamically
+    mapping = {}
+    color = _get(OBStreamType, "COLOR_STREAM", "COLOR")
+    if color is not None:
+        mapping[color] = OBSensorType.COLOR_SENSOR
+
+    depth = _get(OBStreamType, "DEPTH_STREAM", "DEPTH")
+    if depth is not None:
+        mapping[depth] = OBSensorType.DEPTH_SENSOR
+
+    ir = _get(OBStreamType, "IR_STREAM", "IR")
+    if ir is not None:
+        mapping[ir] = OBSensorType.IR_SENSOR
+
+    left_ir = _get(OBStreamType, "LEFT_IR_STREAM", "LEFT_IR")
+    if left_ir is not None:
+        mapping[left_ir] = OBSensorType.LEFT_IR_SENSOR
+
+    right_ir = _get(OBStreamType, "RIGHT_IR_STREAM", "RIGHT_IR")
+    if right_ir is not None:
+        mapping[right_ir] = OBSensorType.RIGHT_IR_SENSOR
+
+    confidence = _get(OBStreamType, "CONFIDENCE_STREAM", "CONFIDENCE")
+    if confidence is not None:
+        mapping[confidence] = OBSensorType.CONFIDENCE_SENSOR
+
+    left_color = _get(OBStreamType, "LEFT_COLOR_STREAM", "LEFT_COLOR")
+    if left_color is not None:
+        mapping[left_color] = OBSensorType.LEFT_COLOR_SENSOR
+
+    right_color = _get(OBStreamType, "RIGHT_COLOR_STREAM", "RIGHT_COLOR")
+    if right_color is not None:
+        mapping[right_color] = OBSensorType.RIGHT_COLOR_SENSOR
+
+    accel = _get(OBStreamType, "ACCEL_STREAM", "ACCEL")
+    if accel is not None:
+        mapping[accel] = OBSensorType.ACCEL_SENSOR
+
+    gyro = _get(OBStreamType, "GYRO_STREAM", "GYRO")
+    if gyro is not None:
+        mapping[gyro] = OBSensorType.GYRO_SENSOR
+
+    return mapping.get(type_val)
+
+
+def export_sidecar_json(device, pipeline, bag_path: str):
+    """Export sidecar JSON alongside the .bag file to persist runtime settings.
+
+    The JSON contains ApplicationConfig (sensor profiles, D2C/PC config,
+    HDR merge, decimation) plus device-level properties.  It is loaded
+    during playback to restore the exact recording environment.
+
+    NOTE: To make the exported JSON complete, we manually build the
+    ApplicationConfig layer before calling export_settings_as_preset_json_file().
+    Otherwise only device-level properties (exposure, gain, filters, etc.)
+    are exported; the stream profiles and D2C/HDR/undistortion states are lost.
+    """
+    if device is None or not bag_path:
+        return
+    json_path = derive_json_path(bag_path)
+    try:
+        # Build ApplicationConfig from current pipeline state so that the
+        # sidecar JSON also records which streams are active and their exact
+        # StreamProfiles (resolution, format, fps).
+        app_cfg_ok = False
+        try:
+            if ApplicationConfig.is_supported(device) and pipeline:
+                app_config = ApplicationConfig.get(device)
+                app_config.reset()
+
+                cfg = pipeline.get_config()
+                profile_list = cfg.get_enabled_stream_profile_list()
+                sensor_cfgs = []
+                for i in range(len(profile_list)):
+                    profile = profile_list.get_stream_profile_by_index(i)
+                    st = profile.get_type()
+                    sensor_type = stream_type_to_sensor_type(st)
+                    if sensor_type is not None:
+                        sensor_cfg = ApplicationSensorConfig(sensor_type)
+                        sensor_cfg.enable_stream(True)
+                        sensor_cfg.set_stream_profile(profile)
+                        # Undistortion state is not tracked in this sample;
+                        # default to False.  If your app toggles undistortion,
+                        # read the state and pass it here.
+                        sensor_cfg.enable_undistortion(False)
+                        sensor_cfgs.append(sensor_cfg)
+                    else:
+                        print(f"[Sidecar] Debug: unmapped stream type {st} (int={int(st)})")
+
+                if sensor_cfgs:
+                    app_config.set_sensors(sensor_cfgs)
+                    app_cfg_ok = True
+                    print(f"[Sidecar] Built ApplicationConfig for {len(sensor_cfgs)} sensor(s).")
+        except Exception as e:
+            print(f"[Sidecar] Warning: failed to build ApplicationConfig: {e}")
+
+        device.export_settings_as_preset_json_file(json_path)
+        print(f"[Sidecar] Exported preset JSON: {json_path} (app_cfg_ok={app_cfg_ok})")
+    except Exception as e:
+        # Export failure must not affect the recording result
+        print(f"[Sidecar] Warning: failed to export preset JSON: {e}")
+
+
 def setup_camera(file_path: str):
     """Initialize device, create RecordDevice, enable all available streams."""
     pipeline = Pipeline()
     config = Config()
     device = pipeline.get_device()
+    state.device = device
+    state.bag_path = file_path
 
     try:
         device.timer_sync_with_host()
@@ -135,7 +277,7 @@ def setup_camera(file_path: str):
     if is_gemini305g_device(device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()):
         config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
-    pipeline.start(config, _gui_frame_callback)
+    pipeline.start(config, gui_frame_callback)
     return pipeline
 
 
@@ -147,7 +289,7 @@ def setup_imu():
     config = Config()
     config.enable_accel_stream()
     config.enable_gyro_stream()
-    pipeline.start(config, _imu_frame_callback)
+    pipeline.start(config, imu_frame_callback)
     return pipeline
 
 
@@ -156,13 +298,13 @@ def setup_imu():
 # ---------------------------------------------------------------------------
 
 
-def _process_color(frame):
+def process_color(frame):
     if frame is None:
         return state.cached_frames["color"]
     return frame_to_bgr_image(frame)
 
 
-def _process_depth(frame):
+def process_depth(frame):
     if frame is None:
         return state.cached_frames["depth"]
     try:
@@ -173,7 +315,7 @@ def _process_depth(frame):
         return None
 
 
-def _process_ir(ir_frame):
+def process_ir(ir_frame):
     if ir_frame is None:
         return None
     ir_data = np.asanyarray(ir_frame.get_data())
@@ -204,7 +346,7 @@ def _process_ir(ir_frame):
     return cv2.cvtColor(ir_data.astype(dtype), cv2.COLOR_GRAY2RGB)
 
 
-def _process_confidence(frame):
+def process_confidence(frame):
     if frame is None:
         return state.cached_frames["confidence"]
     try:
@@ -215,7 +357,7 @@ def _process_confidence(frame):
         return None
 
 
-def _create_imu_panel(imu_frame, title, w=480, h=240):
+def create_imu_panel(imu_frame, title, w=480, h=240):
     panel = np.zeros((h, w, 3), dtype=np.uint8)
     if not imu_frame:
         return panel
@@ -250,30 +392,30 @@ def _create_imu_panel(imu_frame, title, w=480, h=240):
 # ---------------------------------------------------------------------------
 
 
-def _gui_frame_callback(frames):
+def gui_frame_callback(frames):
     """GUI mode: cache processed images for render_frames()."""
     if frames is None:
         return
     with state.frame_mutex:
-        state.cached_frames["color"] = _process_color(frames.get_color_frame())
-        state.cached_frames["depth"] = _process_depth(frames.get_depth_frame())
+        state.cached_frames["color"] = process_color(frames.get_color_frame())
+        state.cached_frames["depth"] = process_depth(frames.get_depth_frame())
 
         if state.support_dual_ir:
             left = frames.get_left_ir_frame()
             right = frames.get_right_ir_frame()
             if left:
-                state.cached_frames["left_ir"] = _process_ir(left)
+                state.cached_frames["left_ir"] = process_ir(left)
             if right:
-                state.cached_frames["right_ir"] = _process_ir(right)
+                state.cached_frames["right_ir"] = process_ir(right)
         else:
             ir = frames.get_ir_frame()
             if ir:
-                state.cached_frames["ir"] = _process_ir(ir)
+                state.cached_frames["ir"] = process_ir(ir)
 
         conf = frames.get_confidence_frame()
         if conf:
             try:
-                state.cached_frames["confidence"] = _process_confidence(conf)
+                state.cached_frames["confidence"] = process_confidence(conf)
             except Exception:
                 pass
 
@@ -282,31 +424,31 @@ def _gui_frame_callback(frames):
             rc = frames.get_right_color_frame()
             if lc and rc:
                 try:
-                    state.cached_frames["left_color"] = _process_color(lc)
-                    state.cached_frames["right_color"] = _process_color(rc)
+                    state.cached_frames["left_color"] = process_color(lc)
+                    state.cached_frames["right_color"] = process_color(rc)
                 except Exception:
                     pass
 
 
-def _headless_frame_callback(frameset):
+def headless_frame_callback(frameset):
     """Headless mode: count frames per type for FPS display."""
-    with _frame_mutex:
+    with frame_mutex:
         for i in range(frameset.get_count()):
             f = frameset.get_frame_by_index(i)
             t = f.get_type()
-            _counts[t] = _counts.get(t, 0) + 1
+            counts[t] = counts.get(t, 0) + 1
 
 
-def _imu_frame_callback(imu_frames):
+def imu_frame_callback(imu_frames):
     if imu_frames is None:
         return
     with state.imu_mutex:
         accel = imu_frames.get_accel_frame()
         gyro = imu_frames.get_gyro_frame()
         if accel:
-            state.cached_frames["accel"] = _create_imu_panel(accel, "ACCEL")
+            state.cached_frames["accel"] = create_imu_panel(accel, "ACCEL")
         if gyro:
-            state.cached_frames["gyro"] = _create_imu_panel(gyro, "GYRO")
+            state.cached_frames["gyro"] = create_imu_panel(gyro, "GYRO")
 
 
 # ---------------------------------------------------------------------------
@@ -314,7 +456,7 @@ def _imu_frame_callback(imu_frames):
 # ---------------------------------------------------------------------------
 
 
-def _create_display(blocks, width=1280, height=720):
+def create_display(blocks, width=1280, height=720):
     if not blocks:
         return np.zeros((height, width, 3), dtype=np.uint8)
     count = len(blocks)
@@ -362,7 +504,7 @@ def render_frames():
                 break
             continue
 
-        cv2.imshow(WINDOW, _create_display(blocks, W, H))
+        cv2.imshow(WINDOW, create_display(blocks, W, H))
         key = cv2.waitKey(1) & 0xFF
         if key == ord("s"):
             state.is_paused = not state.is_paused
@@ -399,6 +541,10 @@ def main():
 
     file_path = input("Enter output filename (.bag) and press Enter to start recording: ")
 
+    # Pre-declare so the finally block is safe even if setup fails early
+    # (e.g. Pipeline() construction throws) and `pipeline` is never assigned.
+    pipeline = None
+
     try:
         if args.no_gui:
             # ---- Headless mode ----
@@ -409,6 +555,8 @@ def main():
                 device.timer_sync_with_host()
             except OBError as e:
                 print(e)
+            state.device = device
+            state.bag_path = file_path
             state.recorder = RecordDevice(device, file_path)
             device_info = device.get_device_info()
             sensor_list = device.get_sensor_list()
@@ -427,19 +575,19 @@ def main():
             if is_gemini305g_device(device_info.get_vid(), device_info.get_pid(), device_info.get_connection_type()):
                 config.disable_stream(OBSensorType.LEFT_IR_SENSOR)
 
-            pipeline.start(config, _headless_frame_callback)
+            pipeline.start(config, headless_frame_callback)
             print("Recording started (headless). Press Ctrl+C to stop and save.")
 
             last_time = time.time()
             while True:
                 time.sleep(2)
-                with _frame_mutex:
+                with frame_mutex:
                     now = time.time()
                     duration = now - last_time
-                    for ftype, cnt in _counts.items():
+                    for ftype, cnt in counts.items():
                         print(f"{ftype}: {cnt / duration:.2f} FPS", end="  ")
                     print()
-                    _counts.clear()
+                    counts.clear()
                     last_time = now
 
         else:
@@ -458,11 +606,17 @@ def main():
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        # 1. Close the bag file by releasing RecordDevice
         state.recorder = None
-        try:
+
+        # 2. Export sidecar JSON (must happen after bag is closed,
+        #    but BEFORE pipeline.stop() so we can still read the config).
+        #    This persists ApplicationConfig + device properties so that
+        #    playback can restore the exact recording environment.
+        export_sidecar_json(state.device, pipeline, state.bag_path)
+
+        if pipeline:
             pipeline.stop()
-        except (NameError, UnboundLocalError):
-            pass
         cv2.destroyAllWindows()
 
 

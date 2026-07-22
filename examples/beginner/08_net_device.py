@@ -23,7 +23,7 @@ import time
 import av
 import cv2
 import pygame
-from utils import frame_to_bgr_image
+from utils import frame_to_bgr_image, resize_to_fit
 
 from pyorbbecsdk import Config, Context, OBError, OBFormat, OBSensorType, Pipeline
 
@@ -72,8 +72,8 @@ class FrameProcessor(threading.Thread):
                 if self.latest_frame is not None:
                     color_image = decode_h26x_frame(self.decoder, self.latest_frame)
                     if color_image is not None:
-                        # Resize the image to 1080p
-                        resized_image = cv2.resize(color_image, (self.display_width, self.display_height))
+                        # Resize to fit the display, preserving aspect ratio
+                        resized_image = resize_to_fit(color_image, self.display_width, self.display_height)
                         rgb_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
                         self.processed_frame = rgb_image
                     self.latest_frame = None

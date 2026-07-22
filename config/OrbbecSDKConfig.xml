@@ -44,8 +44,8 @@
     <Pipeline>
         <Stream>
             <Depth>
-                <!-- Use default stream profile, bool type, true： use default stream profile,
-                false：use specified stream profile in the configuration file -->
+                <!-- Use default stream profile, bool type, true: use default stream profile,
+                false: use specified stream profile in the configuration file -->
                 <UseDefaultStreamProfile>true</UseDefaultStreamProfile>
             </Depth>
             <Color>
@@ -82,7 +82,13 @@
 
         <!-- GVCP port scheme: Standard = default port, SchemeB = custom port -->
         <GVCPPortScheme>Standard</GVCPPortScheme>
-        
+
+        <!-- Host-side clock type for device timestamps.
+             Options: Realtime, Monotonic.
+             Realtime: Wall clock (system_clock), epoch-based.
+             Monotonic: Monotonic clock, not tied to epoch. -->
+        <ClockSource>Realtime</ClockSource>
+
         <!-- Gemini305 config -->
         <Gemini305>
             <!-- Default backend for Linux UVC devices. If the LinuxUVCBackend is set to "Auto,"
@@ -291,6 +297,125 @@
                 <Format>Y8</Format>
             </RightIR>
         </Gemini305g>
+
+        <!-- Gemini309g config -->
+        <Gemini309g>
+            <!-- The default Linux UVC backend. If the LinuxUVCBackend is set to "Auto," this item
+            will determine the device's speciality. Optional values: V4L2, LibUVC -->
+            <LinuxUVCDefaultBackend>LibUVC</LinuxUVCDefaultBackend>
+
+            <!-- Enable auto device reboot when a fatal XU channel IO error (LIBUSB_ERROR_IO) is
+            detected on the LibUVC backend. Set to true to enable; default is false. -->
+            <LinuxUVCAutoRebootOnFault>true</LinuxUVCAutoRebootOnFault>
+
+            <Misc>
+                <GlobalTimestampFitterEnable>true</GlobalTimestampFitterEnable>
+                <!-- Global timestamp fitter refresh interval, unit: milliseconds, default value:
+                1000,
+                minimum value: 100, it is recommended not to be greater than 1000 -->
+                <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
+                <!-- Global timestamp fitter queue size, default value: 100, minimum value: 20 -->
+                <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>
+            </Misc>
+
+            <DepthPostProcessing>
+                <HardwareNoiseRemoveFilter>true</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>false</SoftwareNoiseRemoveFilter>
+            </DepthPostProcessing>
+
+            <!-- Whether to enable heartbeat by default -->
+            <DefaultHeartBeat>0</DefaultHeartBeat>
+            <!-- Whether to enable firmware upgrade foolproof by default, only internal version
+            supports -->
+            <FirmwareUpgradeFoolproof>1</FirmwareUpgradeFoolproof>
+            <Depth>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>530</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y16</Format>
+            </Depth>
+            <Color>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>530</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>YUYV</Format>
+            </Color>
+            <LeftColor>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>800</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>YUYV</Format>
+            </LeftColor>
+            <RightColor>
+                <!-- Number of retries for open stream failures, 0 means no retries -->
+                <StreamFailedRetry>1</StreamFailedRetry>
+                <!-- Open flow waits for the timeout period of the first frame of data, after which
+                the open flow will fail -->
+                <MaxStartStreamDelayMs>3000</MaxStartStreamDelayMs>
+                <!-- The maximum frame interval time, if this value is exceeded, it will be judged
+                that the stream is interrupted -->
+                <MaxFrameIntervalMs>6000</MaxFrameIntervalMs>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>1280</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>800</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>YUYV</Format>
+            </RightColor>
+            <LeftIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>530</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </LeftIR>
+            <RightIR>
+                <!-- The resolution width is enabled by default, int type -->
+                <Width>848</Width>
+                <!-- High resolution is enabled by default, int type -->
+                <Height>530</Height>
+                <!-- The frame rate of the resolution enabled by default, int type -->
+                <FPS>30</FPS>
+                <Format>Y8</Format>
+            </RightIR>
+        </Gemini309g>
+
 
         <FemtoMega>
             <!-- For Femto-Mega devices, it must be set to V4L2, LibUVC is not supported -->
@@ -1903,8 +2028,8 @@
             </Misc>
 
             <DepthPostProcessing>
-                <HardwareNoiseRemoveFilter>false</HardwareNoiseRemoveFilter>
-                <SoftwareNoiseRemoveFilter>true</SoftwareNoiseRemoveFilter>
+                <HardwareNoiseRemoveFilter>true</HardwareNoiseRemoveFilter>
+                <SoftwareNoiseRemoveFilter>false</SoftwareNoiseRemoveFilter>
             </DepthPostProcessing>
 
             <!-- Whether to enable heartbeat by default -->

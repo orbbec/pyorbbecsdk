@@ -12,10 +12,6 @@
 #  Run:
 #    python examples/advanced/09_post_processing.py
 # ******************************************************************************
-import os
-import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import sys
 import time
 from threading import Thread
@@ -35,12 +31,12 @@ from pyorbbecsdk import (  # type: ignore
 )
 
 # Pixel formats that contain raw uncompressed 16-bit depth values.
-_RAW_DEPTH_FORMATS = {OBFormat.Y16, OBFormat.Z16, OBFormat.Y12C4}
+RAW_DEPTH_FORMATS = {OBFormat.Y16, OBFormat.Z16, OBFormat.Y12C4}
 
 
-def _get_depth_array(depth_frame):
+def get_depth_array(depth_frame):
     """Return a (height, width) uint16 numpy array, or None if unsupported."""
-    if depth_frame.get_format() not in _RAW_DEPTH_FORMATS:
+    if depth_frame.get_format() not in RAW_DEPTH_FORMATS:
         return None
     raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
     try:
@@ -59,7 +55,7 @@ MAX_DEPTH = 10000  # Maximum depth value in mm
 quit_program = False
 
 
-def _has_config_schema_api(f):
+def has_config_schema_api(f):
     """Check whether get_config_schema_vec / get_config_value / set_config_value are available."""
     return hasattr(f, "get_config_schema_vec")
 
@@ -73,20 +69,26 @@ def print_filters_info(filters):
     for filter in filters:
         status = "enabled" if filter.is_enabled() else "disabled"
         print(f" - {filter.get_name()}: {status}")
-        if _has_config_schema_api(filter):
+        if has_config_schema_api(filter):
             config_schema_vec = filter.get_config_schema_vec()
             for config_schema in config_schema_vec:
                 # Print detailed schema for each parameter of the filter
                 print(
                     f" - {{{config_schema.name}, {config_schema.type}, {config_schema.min}, {config_schema.max}, {config_schema.step}, {config_schema.default}, {config_schema.desc}}}"
                 )
-        # Disable optional filters by default — user enables them via CLI.
-        # Keep DisparityTransform and ThresholdFilter enabled: they form the
-        # baseline pipeline that decompresses RLE-encoded depth frames and
-        # clips values to a valid range. Without them the raw RLE data cannot
-        # be interpreted as pixel values on Linux.
-        if not filter.is_disparity_transform_filter() and not filter.is_threshold_filter():
-            filter.enable(False)
+
+
+def disable_optional_filters(filters):
+    """Disable optional filters by default — the user enables them via CLI.
+
+    Keep DisparityTransform and ThresholdFilter enabled: they form the
+    baseline pipeline that decompresses RLE-encoded depth frames and
+    clips values to a valid range. Without them the raw RLE data cannot
+    be interpreted as pixel values on Linux.
+    """
+    for f in filters:
+        if not f.is_disparity_transform_filter() and not f.is_threshold_filter():
+            f.enable(False)
 
 
 def filter_control(filter_list):
@@ -148,7 +150,7 @@ def filter_control(filter_list):
                 break
 
         if found_filter:
-            if not _has_config_schema_api(found_filter):
+            if not has_config_schema_api(found_filter):
                 # Only on/off toggle is available without config schema API
                 if len(tokens) == 2 and tokens[1].lower() in ["on", "off"]:
                     is_on = tokens[1].lower() == "on"
@@ -255,8 +257,21 @@ def main():
             else:
                 optional_filters.append(f)
 
+        if disparity_filter is None:
+            # Some devices/firmwares do not recommend a DisparityTransform
+            # filter. On uncompressed streams (Y16/Z16/Y12C4, checked below)
+            # it is only a near-identity transform, so we fall back to using
+            # the raw depth frame directly as the baseline.
+            print(
+                "Warning: DisparityTransform filter is not available on this "
+                "device. Using raw depth frames directly as the baseline."
+            )
+
         # Show initial filters information
         print_filters_info(filters)
+
+        # Disable optional filters by default (user enables them via CLI)
+        disable_optional_filters(filters)
 
         # Enable depth stream and start the pipeline
         config.enable_stream(OBStreamType.DEPTH_STREAM)
@@ -285,11 +300,16 @@ def main():
 
             # Skip compressed frames — the filter chain requires
             # uncompressed pixel data (Y16 / Z16 / Y12C4).
-            if depth_frame.get_format() not in _RAW_DEPTH_FORMATS:
+            if depth_frame.get_format() not in RAW_DEPTH_FORMATS:
                 continue
 
             # ---- Pre-process: decompress RLE → raw depth (baseline) ----
-            baseline_frame = disparity_filter.process(depth_frame)
+            if disparity_filter is not None:
+                baseline_frame = disparity_filter.process(depth_frame)
+            else:
+                # No DisparityTransform filter on this device; the format is
+                # already uncompressed (checked above), so use the raw frame.
+                baseline_frame = depth_frame
             if baseline_frame is None:
                 continue
 
@@ -303,7 +323,7 @@ def main():
                 continue
 
             # --- Display Original (baseline after DisparityTransform) ---
-            depth_data = _get_depth_array(baseline_frame)
+            depth_data = get_depth_array(baseline_frame)
             if depth_data is None:
                 continue
             # Normalize 16-bit depth to 8-bit for visualization
@@ -311,13 +331,23 @@ def main():
             depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
 
             # --- Process Filtered Frame for Display ---
-            processed_data = _get_depth_array(processed_frame)
+            processed_data = get_depth_array(processed_frame)
             if processed_data is None:
                 continue
             processed_image = cv2.normalize(processed_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             processed_image = cv2.applyColorMap(processed_image, cv2.COLORMAP_JET)
 
             # --- Render Side-by-Side View ---
+            # The DecimationFilter downscales the frame (by the decimation
+            # scale, default 2), so the processed frame may have a different
+            # resolution than the baseline. Resize the processed image to match
+            # the original so hstack can concatenate them.
+            if processed_image.shape != depth_image.shape:
+                processed_image = cv2.resize(
+                    processed_image,
+                    (depth_image.shape[1], depth_image.shape[0]),
+                    interpolation=cv2.INTER_NEAREST,
+                )
             combined_view = np.hstack((depth_image, processed_image))
 
             # Fix for macOS: ensure array is contiguous in memory before displaying
@@ -333,7 +363,7 @@ def main():
             cv2.imshow(WINDOW_NAME, combined_view)
 
             # Listen for escape or quit keys in the UI window
-            key = cv2.waitKey(1)
+            key = cv2.waitKey(1) & 0xFF
             if key in [ord("q"), ESC_KEY]:
                 break
 

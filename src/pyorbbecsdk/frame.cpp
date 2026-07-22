@@ -183,6 +183,16 @@ void define_frame(const py::object& m) {
            [](const std::shared_ptr<ob::Frame>& self) {
              OB_TRY_CATCH({ return self->getDevice(); });
            })
+      .def("get_token",
+           [](const std::shared_ptr<ob::Frame>& self) {
+             OB_TRY_CATCH({ return self->getToken(); });
+           },
+           "Get the auth token carried by the frame")
+      .def("set_token",
+           [](const std::shared_ptr<ob::Frame>& self, uint64_t token) {
+             OB_TRY_CATCH({ self->setToken(token); });
+           },
+           py::arg("token"), "Set the auth token carried by the frame")
       .def("copy_frame_info",
            [](const std::shared_ptr<ob::Frame>& self,
               std::shared_ptr<const ob::Frame> srcFrame) {
@@ -244,7 +254,60 @@ void define_frame(const py::object& m) {
               << " system_timestamp=" << self->systemTimeStamp() << ">";
           return oss.str();
         });
-      });
+      })
+      // --- FrameFactory static methods ---
+      .def_static(
+          "create_frame",
+          [](OBFrameType frameType, OBFormat format, uint32_t dataSize) {
+            OB_TRY_CATCH(
+                { return ob::FrameFactory::createFrame(frameType, format, dataSize); });
+          },
+          py::arg("frame_type"), py::arg("format"), py::arg("data_size"),
+          "Create a Frame object of a specific type with a given format and data size")
+      .def_static(
+          "create_video_frame",
+          [](OBFrameType frameType, OBFormat format, uint32_t width, uint32_t height,
+             uint32_t stride) {
+            OB_TRY_CATCH({
+              return ob::FrameFactory::createVideoFrame(frameType, format, width, height,
+                                                        stride);
+            });
+          },
+          py::arg("frame_type"), py::arg("format"), py::arg("width"), py::arg("height"),
+          py::arg("stride") = 0,
+          "Create a VideoFrame with a given format, width, height, and stride")
+      .def_static(
+          "create_frame_from_other_frame",
+          [](std::shared_ptr<const ob::Frame> otherFrame, bool shouldCopyData) {
+            OB_TRY_CATCH({
+              return ob::FrameFactory::createFrameFromOtherFrame(otherFrame,
+                                                                 shouldCopyData);
+            });
+          },
+          py::arg("other_frame"), py::arg("should_copy_data") = true,
+          "Clone a frame object from another frame, with optional data copy")
+      .def_static(
+          "create_frame_from_stream_profile",
+          [](std::shared_ptr<const ob::StreamProfile> profile) {
+            OB_TRY_CATCH(
+                { return ob::FrameFactory::createFrameFromStreamProfile(profile); });
+          },
+          py::arg("profile"),
+          "Create a frame from a stream profile")
+      .def_static(
+          "create_frame_set",
+          []() { OB_TRY_CATCH({ return ob::FrameFactory::createFrameSet(); }); },
+          "Create a new empty FrameSet object")
+      // --- FrameHelper static methods ---
+      .def_static(
+          "set_frame_device_timestamp_us",
+          [](std::shared_ptr<ob::Frame> frame, uint64_t deviceTimestampUs) {
+            OB_TRY_CATCH({
+              ob::FrameHelper::setFrameDeviceTimestampUs(frame, deviceTimestampUs);
+            });
+          },
+          py::arg("frame"), py::arg("device_timestamp_us"),
+          "Set the device timestamp of the frame in microseconds");
 }
 
 void define_video_frame(const py::object& m) {

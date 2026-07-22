@@ -122,7 +122,21 @@ void define_filter(const py::object& m) {
       .def("is_format_converter", &ob::Filter::is<ob::FormatConvertFilter>)
       .def("is_align_filter", &ob::Filter::is<ob::Align>)
       .def("is_edge_noise_removal_filter",
-           &ob::Filter::is<ob::EdgeNoiseRemovalFilter>);
+           &ob::Filter::is<ob::EdgeNoiseRemovalFilter>)
+      .def("is_undistortion_filter",
+           &ob::Filter::is<ob::UnDistortionFilter>)
+      .def("is_mgc_noise_removal_filter",
+           &ob::Filter::is<ob::MgcNoiseRemovalFilter>)
+      .def("is_lut_noise_removal_filter",
+           &ob::Filter::is<ob::LutNoiseRemovalFilter>)
+      .def("is_enhanced_depth_filter",
+           &ob::Filter::is<ob::EnhancedDepthFilter>)
+      .def("is_spatial_fast_filter",
+           &ob::Filter::is<ob::SpatialFastFilter>)
+      .def("is_spatial_moderate_filter",
+           &ob::Filter::is<ob::SpatialModerateFilter>)
+      .def("is_false_positive_filter",
+           &ob::Filter::is<ob::FalsePositiveFilter>);
 }
 
 void define_point_cloud_filter(const py::object& m) {
@@ -161,6 +175,17 @@ void define_point_cloud_filter(const py::object& m) {
            [](std::shared_ptr<ob::PointCloudFilter>& self, float scale) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ self->setPositionDataScaled(scale); });
+           })
+      .def("set_coordinate_data_scaled",
+           [](std::shared_ptr<ob::PointCloudFilter>& self, float scale) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setCoordinateDataScaled(scale); });
+           })
+      .def("set_coordinate_system",
+           [](std::shared_ptr<ob::PointCloudFilter>& self,
+              OBCoordinateSystemType system) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setCoordinateSystem(system); });
            })
       .def("set_color_data_normalization",
            [](std::shared_ptr<ob::PointCloudFilter>& self, bool state) {
@@ -350,7 +375,18 @@ void define_align_filter(const py::object& m) {
       .def("get_align_to_stream_type", [](std::shared_ptr<ob::Align>& self) {
         CHECK_NULLPTR(self);
         OB_TRY_CATCH({ return self->getAlignToStreamType(); });
-      });
+      })
+      .def("set_match_target_resolution",
+           [](std::shared_ptr<ob::Align>& self, bool enable) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setMatchTargetResolution(enable); });
+           })
+      .def("set_align_to_stream_profile",
+           [](std::shared_ptr<ob::Align>& self,
+              std::shared_ptr<const ob::StreamProfile> profile) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setAlignToStreamProfile(profile); });
+           });
 }
 
 void define_threshold_filter(const py::object& m) {
@@ -500,6 +536,11 @@ void define_edge_noise_removal_filter(const py::object& m) {
               const OBEdgeNoiseRemovalFilterParams& params) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ self->setFilterParams(params); });
+           })
+      .def("get_filter_params",
+           [](std::shared_ptr<ob::EdgeNoiseRemovalFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getFilterParams(); });
            });
 }
 
@@ -603,6 +644,344 @@ void define_lut_noise_removal_filter(const py::object& m) {
            [](std::shared_ptr<ob::LutNoiseRemovalFilter>& self) {
              CHECK_NULLPTR(self);
              OB_TRY_CATCH({ return self->getHeightRange(); });
+           });
+}
+
+// UnDistortionFilter for SDK v2.9.0
+void define_undistortion_filter(const py::object& m) {
+  py::class_<ob::UnDistortionFilter, ob::Filter,
+             std::shared_ptr<ob::UnDistortionFilter>>(
+      m, "UnDistortionFilter")
+      .def(py::init<OBStreamType>(), py::arg("stream_type") = OB_STREAM_COLOR)
+      .def("set_stream_type",
+           [](std::shared_ptr<ob::UnDistortionFilter>& self,
+              OBStreamType stream_type) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setStreamType(stream_type); });
+           })
+      .def("get_stream_type",
+           [](std::shared_ptr<ob::UnDistortionFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getStreamType(); });
+           })
+      .def("set_new_camera_matrix",
+           [](std::shared_ptr<ob::UnDistortionFilter>& self,
+              const OBCameraIntrinsic& depth_intrinsic) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setNewCameraMatrix(depth_intrinsic); });
+           })
+      .def("clear_new_camera_matrix",
+           [](std::shared_ptr<ob::UnDistortionFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->clearNewCameraMatrix(); });
+           });
+}
+
+// EnhancedDepthFilter for SDK v2.9.3
+// Enhanced depth filter that requires a device for activation. Constructed with
+// a device (bound to it) and an optional inference model path.
+void define_enhanced_depth_filter(const py::object& m) {
+  py::class_<ob::EnhancedDepthFilter, ob::Filter,
+             std::shared_ptr<ob::EnhancedDepthFilter>>(
+      m, "EnhancedDepthFilter")
+      .def(py::init<std::shared_ptr<ob::Device>, const std::string &>(),
+           py::arg("device"), py::arg("model_path") = "")
+      .def_static(
+          "get_supported_resolutions",
+          []() {
+            // Return a list of (width, height) tuples to avoid exposing a
+            // std::pair caster at the Python boundary.
+            const auto &res =
+                ob::EnhancedDepthFilter::getSupportedResolutions();
+            py::list lst;
+            for (const auto &p : res) {
+              lst.append(py::make_tuple(p.first, p.second));
+            }
+            return lst;
+          },
+          "Get the list of supported {width, height} pairs for the "
+          "constrained (aligned-to) stream")
+      .def_static(
+          "get_supported_formats",
+          [](OBStreamType stream_type) {
+            const auto fmts =
+                ob::EnhancedDepthFilter::getSupportedFormats(stream_type);
+            py::list lst;
+            for (auto f : fmts) {
+              lst.append(f);
+            }
+            return lst;
+          },
+          py::arg("stream_type"),
+          "Get the list of supported frame formats for the given stream "
+          "type (color: RGB; depth: Y10/Y11/Y12/Y14/Y16/Z16). Empty for "
+          "unsupported stream types")
+      .def_static(
+          "is_supported_resolution",
+          [](OBStreamType source_stream_type, OBStreamType align_to_stream_type,
+             uint32_t width, uint32_t height) {
+            return ob::EnhancedDepthFilter::isSupportedResolution(
+                source_stream_type, align_to_stream_type, width, height);
+          },
+          py::arg("source_stream_type"), py::arg("align_to_stream_type"),
+          py::arg("width"), py::arg("height"),
+          "Check whether a resolution is supported for the given stream "
+          "alignment pair")
+      .def_static(
+          "is_supported_format",
+          [](OBStreamType stream_type, OBFormat format) {
+            return ob::EnhancedDepthFilter::isSupportedFormat(stream_type,
+                                                              format);
+          },
+          py::arg("stream_type"), py::arg("format"),
+          "Check whether a frame format is supported for the given stream "
+          "type")
+      .def("set_resolution",
+           [](std::shared_ptr<ob::EnhancedDepthFilter>& self, uint32_t width,
+              uint32_t height) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setResolution(width, height); });
+           },
+           py::arg("width"), py::arg("height"),
+           "Set the working resolution of the enhanced depth filter")
+      .def("get_current_width",
+           [](std::shared_ptr<ob::EnhancedDepthFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getCurrentWidth(); });
+           },
+           "Get the current configured frame width")
+      .def("get_current_height",
+           [](std::shared_ptr<ob::EnhancedDepthFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getCurrentHeight(); });
+           },
+           "Get the current configured frame height")
+      .def("set_confidence_threshold",
+           [](std::shared_ptr<ob::EnhancedDepthFilter>& self, uint32_t value) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setConfidenceThreshold(value); });
+           },
+           py::arg("value"), "Set the confidence threshold for depth values")
+      .def("get_confidence_threshold_range",
+           [](std::shared_ptr<ob::EnhancedDepthFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getConfidenceThresholdRange(); });
+           },
+           "Get the property range of the confidence threshold");
+}
+
+void define_filter_factory(const py::object& m) {
+  py::class_<ob::FilterFactory>(m, "FilterFactory")
+      .def_static("create_filter",
+                  [](const std::string& name) {
+                    OB_TRY_CATCH({ return ob::FilterFactory::createFilter(name); });
+                  },
+                  py::arg("name"), "Create a filter by name")
+      .def_static("create_private_filter",
+                  [](const std::string& name, const std::string& activation_key) {
+                    OB_TRY_CATCH({
+                      return ob::FilterFactory::createPrivateFilter(name,
+                                                                   activation_key);
+                    });
+                  },
+                  py::arg("name"), py::arg("activation_key") = "",
+                  "Create a private filter by name and activation key")
+      .def_static("get_filter_vendor_specific_code",
+                  [](const std::string& name) {
+                    OB_TRY_CATCH({
+                      return ob::FilterFactory::getFilterVendorSpecificCode(name);
+                    });
+                  },
+                  py::arg("name"),
+                  "Get the vendor specific code of a filter by name");
+}
+
+void define_spatial_fast_filter(const py::object& m) {
+  py::class_<ob::SpatialFastFilter, ob::Filter,
+             std::shared_ptr<ob::SpatialFastFilter>>(m, "SpatialFastFilter")
+      .def(py::init<const std::string&>(), py::arg("activation_key") = "")
+      .def("get_radius_range",
+           [](std::shared_ptr<ob::SpatialFastFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getRadiusRange(); });
+           })
+      .def("get_filter_params",
+           [](std::shared_ptr<ob::SpatialFastFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getFilterParams(); });
+           })
+      .def("set_filter_params",
+           [](std::shared_ptr<ob::SpatialFastFilter>& self,
+              const OBSpatialFastFilterParams& params) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setFilterParams(params); });
+           });
+}
+
+void define_spatial_moderate_filter(const py::object& m) {
+  py::class_<ob::SpatialModerateFilter, ob::Filter,
+             std::shared_ptr<ob::SpatialModerateFilter>>(
+      m, "SpatialModerateFilter")
+      .def(py::init<const std::string&>(), py::arg("activation_key") = "")
+      .def("get_magnitude_range",
+           [](std::shared_ptr<ob::SpatialModerateFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getMagnitudeRange(); });
+           })
+      .def("get_radius_range",
+           [](std::shared_ptr<ob::SpatialModerateFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getRadiusRange(); });
+           })
+      .def("get_disp_diff_range",
+           [](std::shared_ptr<ob::SpatialModerateFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getDispDiffRange(); });
+           })
+      .def("get_filter_params",
+           [](std::shared_ptr<ob::SpatialModerateFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getFilterParams(); });
+           })
+      .def("set_filter_params",
+           [](std::shared_ptr<ob::SpatialModerateFilter>& self,
+              const OBSpatialModerateFilterParams& params) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ self->setFilterParams(params); });
+           });
+}
+
+void define_false_positive_filter(const py::object& m) {
+  py::class_<ob::FalsePositiveFilter, ob::Filter,
+             std::shared_ptr<ob::FalsePositiveFilter>>(m, "FalsePositiveFilter")
+      .def(py::init<const std::string&>(), py::arg("activation_key") = "")
+      // fpEdgeBleed group
+      .def("get_fp_edge_bleed_filter_enable_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpEdgeBleedFilterEnableRange(); });
+           })
+      // fpebfROI group
+      .def("get_fpebf_roi_min_x_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpebfROIMinXRatioRange(); });
+           })
+      .def("get_fpebf_roi_max_x_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpebfROIMaxXRatioRange(); });
+           })
+      .def("get_fpebf_roi_min_y_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpebfROIMinYRatioRange(); });
+           })
+      .def("get_fpebf_roi_max_y_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpebfROIMaxYRatioRange(); });
+           })
+      .def("get_fpebf_min_bleed_length_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpebfMinBleedLengthRange(); });
+           })
+      // fpTextureSparsity group
+      .def("get_fp_texture_sparsity_filter_enable_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfpTextureSparsityFilterEnableRange(); });
+           })
+      // fptsfROI group
+      .def("get_fptsf_roi_min_x_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfptsfROIMinXRatioRange(); });
+           })
+      .def("get_fptsf_roi_max_x_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfptsfROIMaxXRatioRange(); });
+           })
+      .def("get_fptsf_roi_min_y_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfptsfROIMinYRatioRange(); });
+           })
+      .def("get_fptsf_roi_max_y_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfptsfROIMaxYRatioRange(); });
+           })
+      .def("get_fptsf_max_noise_level_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfptsfMaxNoiseLevelRange(); });
+           })
+      .def("get_fptsf_max_speckle_size_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfptsfMaxSpeckleSizeRange(); });
+           })
+      // fpPatternAmbiguity group
+      .def("get_fp_pattern_ambiguity_filter_enable_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({
+              return self->getfpPatternAmbiguityFilterEnableRange();
+            });
+           })
+      // fppafROI group
+      .def("get_fppaf_roi_min_x_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafROIMinXRatioRange(); });
+           })
+      .def("get_fppaf_roi_max_x_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafROIMaxXRatioRange(); });
+           })
+      .def("get_fppaf_roi_min_y_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafROIMinYRatioRange(); });
+           })
+      .def("get_fppaf_roi_max_y_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafROIMaxYRatioRange(); });
+           })
+      .def("get_fppaf_max_noise_level_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafMaxNoiseLevelRange(); });
+           })
+      .def("get_fppaf_max_speckle_size_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafMaxSpeckleSizeRange(); });
+           })
+      .def("get_fppaf_max_width_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafMaxWidthRatioRange(); });
+           })
+      .def("get_fppaf_max_height_ratio_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafMaxHeightRatioRange(); });
+           })
+      .def("get_fppaf_tolerance_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafToleranceRange(); });
+           })
+      .def("get_fppaf_score_range",
+           [](std::shared_ptr<ob::FalsePositiveFilter>& self) {
+             CHECK_NULLPTR(self);
+             OB_TRY_CATCH({ return self->getfppafScoreRange(); });
            });
 }
 

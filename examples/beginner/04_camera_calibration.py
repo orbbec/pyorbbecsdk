@@ -30,7 +30,7 @@ import sys
 
 import numpy as np
 
-from pyorbbecsdk import Config, Context, OBError, OBLogLevel, OBSensorType, Pipeline
+from pyorbbecsdk import Config, Context, OBError, OBSensorType, Pipeline
 
 
 def _print_intrinsic(label: str, intr) -> None:
@@ -70,9 +70,6 @@ def main():
     if device_list.get_count() == 0:
         print("Device Not Found! Please connect an Orbbec camera and try again.")
         return
-
-    # Suppress SDK info messages; set DEBUG for diagnostics
-    ctx.set_logger_level(OBLogLevel.WARNING)
 
     # --- Step 1: Create pipeline and enable both depth and color streams ---
     #   Calibration parameters are retrieved from OBCameraParam, which

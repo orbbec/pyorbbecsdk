@@ -23,6 +23,7 @@ void define_orbbec_error(const py::object &m) {
       .def("what", &OBError::what)
       .def("get_type", &OBError::get_type)
       .def("get_name", &OBError::get_name)
+      .def("get_args", &OBError::get_args)
       .def("get_status", &OBError::get_status);
 }
 }  // namespace pyorbbecsdk

@@ -19,6 +19,7 @@
 #include <libobsensor/ObSensor.hpp>
 #include <string>
 
+#include "application_config.hpp"
 #include "context.hpp"
 #include "device.hpp"
 #include "error.hpp"
@@ -205,6 +206,12 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
     return std::to_string(major) + "." + std::to_string(minor) + "." +
            std::to_string(patch);
   });
+  m.def("get_version_major", &ob::Version::getMajor);
+  m.def("get_version_minor", &ob::Version::getMinor);
+  m.def("get_version_patch", &ob::Version::getPatch);
+  m.def("get_version_stage", []() {
+    return std::string(ob::Version::getStageVersion());
+  });
   // test set extensions
   auto extensions_path = get_extensions_path();
   if (!extensions_path.empty()) {
@@ -213,6 +220,9 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   }
   // types
   pyorbbecsdk::define_orbbec_types(m);
+
+  // type helper
+  pyorbbecsdk::define_type_helper(m);
 
   // stream_profile
   pyorbbecsdk::define_stream_profile(m);
@@ -229,11 +239,20 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   // device
   pyorbbecsdk::define_device_info(m);
   pyorbbecsdk::define_device_preset_list(m);
+  pyorbbecsdk::define_color_preset_list(m);
   pyorbbecsdk::define_depth_work_mode_list(m);
   pyorbbecsdk::define_preset_resolution_config_list(m);
   pyorbbecsdk::define_camera_list(m);
   pyorbbecsdk::define_device(m);
   pyorbbecsdk::define_device_list(m);
+  pyorbbecsdk::define_device_frame_interleave_list(m);
+
+  // application config
+  pyorbbecsdk::define_application_sensor_config(m);
+  pyorbbecsdk::define_application_point_cloud_config(m);
+  pyorbbecsdk::define_application_hdr_merge_config(m);
+  pyorbbecsdk::define_application_dev_decimation_config(m);
+  pyorbbecsdk::define_application_config(m);
 
   // frame
   pyorbbecsdk::define_frame(m);
@@ -265,7 +284,13 @@ PYBIND11_MODULE(pyorbbecsdk, m) {
   pyorbbecsdk::define_edge_noise_removal_filter(m);
   pyorbbecsdk::define_mgc_noise_removal_filter(m);
   pyorbbecsdk::define_lut_noise_removal_filter(m);
+  pyorbbecsdk::define_undistortion_filter(m);
+  pyorbbecsdk::define_enhanced_depth_filter(m);
   pyorbbecsdk::define_filter_list(m);
+  pyorbbecsdk::define_filter_factory(m);
+  pyorbbecsdk::define_spatial_fast_filter(m);
+  pyorbbecsdk::define_spatial_moderate_filter(m);
+  pyorbbecsdk::define_false_positive_filter(m);
 
   // context
   pyorbbecsdk::define_context(m);
@@ -297,6 +322,12 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
     return std::to_string(major) + "." + std::to_string(minor) + "." +
            std::to_string(patch);
   });
+  m.def("get_version_major", &ob::Version::getMajor);
+  m.def("get_version_minor", &ob::Version::getMinor);
+  m.def("get_version_patch", &ob::Version::getPatch);
+  m.def("get_version_stage", []() {
+    return std::string(ob::Version::getStageVersion());
+  });
   // test set extensions
   auto extensions_path = get_extensions_path();
   if (!extensions_path.empty()) {
@@ -305,6 +336,9 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   }
   // types
   pyorbbecsdk::define_orbbec_types(m);
+
+  // type helper
+  pyorbbecsdk::define_type_helper(m);
 
   // stream_profile
   pyorbbecsdk::define_stream_profile(m);
@@ -321,11 +355,20 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   // device
   pyorbbecsdk::define_device_info(m);
   pyorbbecsdk::define_device_preset_list(m);
+  pyorbbecsdk::define_color_preset_list(m);
   pyorbbecsdk::define_depth_work_mode_list(m);
   pyorbbecsdk::define_preset_resolution_config_list(m);
   pyorbbecsdk::define_camera_list(m);
   pyorbbecsdk::define_device(m);
   pyorbbecsdk::define_device_list(m);
+  pyorbbecsdk::define_device_frame_interleave_list(m);
+
+  // application config
+  pyorbbecsdk::define_application_sensor_config(m);
+  pyorbbecsdk::define_application_point_cloud_config(m);
+  pyorbbecsdk::define_application_hdr_merge_config(m);
+  pyorbbecsdk::define_application_dev_decimation_config(m);
+  pyorbbecsdk::define_application_config(m);
 
   // frame
   pyorbbecsdk::define_frame(m);
@@ -357,7 +400,13 @@ PYBIND11_MODULE(pyorbbecsdk2, m) {
   pyorbbecsdk::define_edge_noise_removal_filter(m);
   pyorbbecsdk::define_mgc_noise_removal_filter(m);
   pyorbbecsdk::define_lut_noise_removal_filter(m);
+  pyorbbecsdk::define_undistortion_filter(m);
+  pyorbbecsdk::define_enhanced_depth_filter(m);
   pyorbbecsdk::define_filter_list(m);
+  pyorbbecsdk::define_filter_factory(m);
+  pyorbbecsdk::define_spatial_fast_filter(m);
+  pyorbbecsdk::define_spatial_moderate_filter(m);
+  pyorbbecsdk::define_false_positive_filter(m);
 
   // context
   pyorbbecsdk::define_context(m);

@@ -1190,6 +1190,11 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.StreamProfile.is_lidar_stream_profile">
+<span class="sig-name descname"><span class="pre">is_lidar_stream_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.StreamProfile" title="pyorbbecsdk.pyorbbecsdk.StreamProfile"><span class="pre">pyorbbecsdk.StreamProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.StreamProfile.is_lidar_stream_profile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.StreamProfile.is_video_stream_profile">
 <span class="sig-name descname"><span class="pre">is_video_stream_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.StreamProfile" title="pyorbbecsdk.pyorbbecsdk.StreamProfile"><span class="pre">pyorbbecsdk.StreamProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.StreamProfile.is_video_stream_profile" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1236,6 +1241,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.VideoStreamProfile.get_width">
 <span class="sig-name descname"><span class="pre">get_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.VideoStreamProfile" title="pyorbbecsdk.pyorbbecsdk.VideoStreamProfile"><span class="pre">pyorbbecsdk.VideoStreamProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.VideoStreamProfile.get_width" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.VideoStreamProfile.set_distortion">
+<span class="sig-name descname"><span class="pre">set_distortion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.VideoStreamProfile" title="pyorbbecsdk.pyorbbecsdk.VideoStreamProfile"><span class="pre">pyorbbecsdk.VideoStreamProfile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraDistortion</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.VideoStreamProfile.set_distortion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.VideoStreamProfile.set_intrinsic">
+<span class="sig-name descname"><span class="pre">set_intrinsic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.VideoStreamProfile" title="pyorbbecsdk.pyorbbecsdk.VideoStreamProfile"><span class="pre">pyorbbecsdk.VideoStreamProfile</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraIntrinsic</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.VideoStreamProfile.set_intrinsic" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1714,17 +1729,22 @@
 <td><p>Value</p></td>
 <td><p>Description</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DISABLE</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C2D_SW_MODE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBAlignMode.C2D_SW_MODE:</span> <span class="pre">3&gt;</span></code></p></td>
+<td><p>3</p></td>
+<td><p>Auto-generated from C++ bindings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DISABLE</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBAlignMode.DISABLE:</span> <span class="pre">0&gt;</span></code></p></td>
 <td><p>0</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">HW_MODE</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">HW_MODE</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBAlignMode.HW_MODE:</span> <span class="pre">1&gt;</span></code></p></td>
 <td><p>1</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SW_MODE</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SW_MODE</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBAlignMode.SW_MODE:</span> <span class="pre">2&gt;</span></code></p></td>
 <td><p>2</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
@@ -2616,7 +2636,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-06-19 13:54:54.
+      <span class="lastupdated">Last updated on 2026-07-21 10:08:42.
       </span></p>
   </div>
 

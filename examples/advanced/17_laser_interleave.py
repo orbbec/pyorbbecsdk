@@ -21,6 +21,7 @@ import threading
 
 import cv2
 import numpy as np
+from utils import resize_to_fit
 
 from pyorbbecsdk import OBFormat  # type: ignore
 from pyorbbecsdk import (
@@ -174,16 +175,16 @@ def create_display(frames, width=1280, height=720):
     h, w = height // 2, width // 2
 
     if "depth" in frames and frames["depth"] is not None:
-        display[0:h, 0:w] = cv2.resize(frames["depth"], (w, h))
+        display[0:h, 0:w] = resize_to_fit(frames["depth"], w, h)
 
     if "ir" in frames and frames["ir"] is not None:
-        display[0:h, w:] = cv2.resize(frames["ir"], (w, h))
+        display[0:h, w:] = resize_to_fit(frames["ir"], w, h)
 
     if "left_ir" in frames and frames["left_ir"] is not None:
-        display[0:h, w:] = cv2.resize(frames["left_ir"], (w, h))
+        display[0:h, w:] = resize_to_fit(frames["left_ir"], w, h)
 
     if "right_ir" in frames and frames["right_ir"] is not None:
-        display[h:, 0:w] = cv2.resize(frames["right_ir"], (w, h))
+        display[h:, 0:w] = resize_to_fit(frames["right_ir"], w, h)
 
     return display
 

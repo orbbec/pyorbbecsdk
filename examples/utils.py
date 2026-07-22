@@ -44,6 +44,11 @@ def is_gemini305g_device(vid: int, pid: int, connection_type: str) -> bool:
     return is_gemini305_device(vid, pid) and connection_type == "GMSL2"
 
 
+def is_dabai_a_series_device(vid: int, pid: int) -> bool:
+    """Check if the device is a Dabai A series device."""
+    return vid == 0x2BC5 and pid in (0x0A12, 0x0A13, 0x0812, 0x0813)
+
+
 def is_lidar_device(device: Device) -> bool:
     sensor_list = device.get_sensor_list()
     count = sensor_list.get_count()
@@ -157,3 +162,26 @@ def frame_to_bgr_image(frame: VideoFrame) -> Union[Optional[np.array], Any]:
         print("Unsupported color format: {}".format(color_format))
         return None
     return image
+
+
+def resize_to_fit(img: np.ndarray, target_w: int, target_h: int) -> np.ndarray:
+    """
+    Resize ``img`` to fit within ``(target_w, target_h)`` while preserving its
+    aspect ratio, then center it on a black canvas so the returned image is
+    exactly ``target_w x target_h``.
+
+    Use this instead of ``cv2.resize(img, (target_w, target_h))`` when filling a
+    fixed-size display cell, to avoid stretching the source frame.
+    """
+    h, w = img.shape[:2]
+    scale = min(target_w / w, target_h / h)
+    nw, nh = int(w * scale), int(h * scale)
+    resized = cv2.resize(img, (nw, nh))
+    if img.ndim == 2:
+        canvas = np.zeros((target_h, target_w), dtype=img.dtype)
+    else:
+        c = img.shape[2]
+        canvas = np.zeros((target_h, target_w, c), dtype=img.dtype)
+    dx, dy = (target_w - nw) // 2, (target_h - nh) // 2
+    canvas[dy : dy + nh, dx : dx + nw] = resized
+    return canvas

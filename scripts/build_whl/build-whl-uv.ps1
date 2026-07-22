@@ -63,7 +63,9 @@ param(
 
     [switch]$CleanOnly,
 
-    [switch]$Yes
+    [switch]$Yes,
+
+    [switch]$NoSync
 )
 
 $ErrorActionPreference = "Stop"
@@ -75,6 +77,10 @@ $ErrorActionPreference = "Stop"
 $script:CleanupFailed = @()
 $script:CleanupSkipped = @()
 $script:AutoConfirm = $Yes.IsPresent
+
+# Per-version venv directories created by THIS run (for final cleanup).
+# Only these are removed at the end; pre-existing venv<ver> dirs are left alone.
+$script:CreatedVenvs = @()
 
 # ============================================================
 # Configuration
@@ -123,6 +129,9 @@ foreach ($v in $Version) {
         "--yes" {
             $Yes = $true
         }
+        "--no-sync" {
+            $NoSync = $true
+        }
         "3.*" {
             $PYTHON_VERSIONS += $v
         }
@@ -136,6 +145,10 @@ foreach ($v in $Version) {
         }
     }
 }
+
+# NO_SYNC must be computed after parsing, since --no-sync can be passed as a
+# positional arg (handled in the switch above) or as the -NoSync switch.
+$NO_SYNC = $NoSync.IsPresent
 
 # Default to 3.10 if no versions specified
 if ($PYTHON_VERSIONS.Count -eq 0) {
@@ -158,6 +171,9 @@ Options:
   -Clean          Clean build directories before building (default)
   -CleanOnly      Only clean, don't build
   -Yes            Auto-confirm all cleanup prompts (non-interactive)
+  -NoSync         Use the currently activated virtual environment instead of
+                  recreating venv<ver> and running uv sync. Requires an active
+                  venv (VIRTUAL_ENV must be set); pybind11 is used as-is.
   -?, -Help       Show this help message
 
 Arguments:
@@ -411,33 +427,108 @@ To manually install, run:
     return $pythonExe
 }
 
+# Get the venv path for a Python version (e.g. "3.10" -> venv310)
+function Get-VenvPath {
+    param([string]$PyVer)
+    $venvSuffix = $PyVer.Replace(".", "")
+    return Join-Path $ROOT_DIR "venv$venvSuffix"
+}
+
+# Get the python executable inside the per-version venv
+function Get-VenvPython {
+    param([string]$PyVer)
+    return Join-Path (Get-VenvPath $PyVer) "Scripts\python.exe"
+}
+
+# Recreate the per-version venv (delete + uv venv) for reproducible automated builds
+function New-PerVersionVenv {
+    param([string]$PyVer)
+
+    $venvDir = Get-VenvPath $PyVer
+    $venvPython = Get-VenvPython $PyVer
+
+    Write-Host "  Recreating venv for Python $PyVer..."
+    Remove-DirectorySafe -Path $venvDir -Name "venv for $PyVer" | Out-Null
+    New-Item -ItemType Directory -Force (Split-Path -Parent $venvDir) | Out-Null
+
+    uv venv $venvDir --python $PyVer
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Failed to create venv for Python $PyVer"
+        exit 1
+    }
+
+    if (-not (Test-Path $venvPython)) {
+        Write-Error "venv for Python $PyVer created but python not found at $venvPython"
+        exit 1
+    }
+
+    # Track this venv so final cleanup removes only what this run created.
+    $script:CreatedVenvs += $venvDir
+
+    return $venvDir
+}
+
+# Validate that a virtual environment is activated (for --no-sync mode).
+# Returns the python executable path of the active venv, or exits on error.
+function Get-ActiveVenvPython {
+    if (-not $env:VIRTUAL_ENV) {
+        Write-Error @"
+--no-sync requires an activated virtual environment.
+Please activate a venv first, e.g.:
+  . .\venv310\Scripts\Activate.ps1
+then re-run.
+"@
+        exit 1
+    }
+
+    $candidates = @(
+        (Join-Path $env:VIRTUAL_ENV "Scripts\python.exe"),
+        (Join-Path $env:VIRTUAL_ENV "bin\python")
+    )
+    foreach ($py in $candidates) {
+        if (Test-Path $py) {
+            return $py
+        }
+    }
+
+    Write-Error "No python executable found in activated venv '$($env:VIRTUAL_ENV)'."
+    exit 1
+}
+
+# Get pybind11 CMake dir from the currently activated venv (--no-sync mode).
+# Uses the active venv's pybind11 as-is; does not install or pin a version.
+function Get-ActivePybind11Dir {
+    $py = Get-ActiveVenvPython
+    $output = & $py -c "import pybind11; print(pybind11.get_cmake_dir())"
+    if ($LASTEXITCODE -ne 0 -or -not $output) {
+        Write-Error "Failed to resolve pybind11 CMake directory from active venv (is pybind11 installed there?)"
+        exit 1
+    }
+    return $output.Trim()
+}
+
 function Get-Pybind11Dir {
     param([string]$PyVer)
 
-    if ($OFFLINE_MODE) {
-        # Offline mode: use local venv pybind11
-        $venvSuffix = $PyVer.Replace(".", "")
-        $venvPybind11 = Join-Path $ROOT_DIR (Join-Path "venv$venvSuffix" (Join-Path "share" (Join-Path "cmake" "pybind11")))
+    # pybind11 is installed into the per-version venv with a pinned version
+    # (matches pyproject.toml [build-system].requires). This keeps the CMake
+    # compile environment identical to the packaging environment.
+    $venvPython = Get-VenvPython $PyVer
 
-        if (Test-Path $venvPybind11) {
-            return $venvPybind11
-        } else {
-            Write-Error @"
-Offline mode requires pybind11 in local venv
-Expected path: $venvPybind11
-
-To set up offline environment, run:
-  uv venv venv$venvSuffix --python $PyVer
-  uv pip install pybind11 -e . --python venv$venvSuffix\Scripts\python.exe
-  (or use 'uv pip install pybind11' in the venv)
-"@
-            exit 1
-        }
-    } else {
-        # Online mode: use uv run --with pybind11
-        $output = uv run --python $PyVer --with pybind11 python -c "import pybind11; print(pybind11.get_cmake_dir())"
-        return $output.Trim()
+    Write-Host "  Installing pybind11==2.12.0 into venv for Python $PyVer..."
+    uv pip install pybind11==2.12.0 --python $venvPython
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Failed to install pybind11 into venv for Python $PyVer"
+        exit 1
     }
+
+    $output = & $venvPython -c "import pybind11; print(pybind11.get_cmake_dir())"
+    if ($LASTEXITCODE -ne 0 -or -not $output) {
+        Write-Error "Failed to resolve pybind11 CMake directory from venv python"
+        exit 1
+    }
+
+    return $output.Trim()
 }
 
 function Get-VSGenerator {
@@ -521,22 +612,46 @@ function Invoke-BuildVersion {
         New-Item -ItemType Directory -Force $SHARED_DST_DIR | Out-Null
     }
 
-    # Resolve Python interpreter (auto-install if needed)
-    Write-Host "Resolving Python interpreter..."
-    $PYTHON_EXE = Install-PythonVersion -PyVer $PyVer
-    Write-Host "Using Python: $PYTHON_EXE"
+    # In --no-sync mode, use the currently activated venv as-is (no recreate,
+    # no pinned pybind11, no uv sync). Otherwise recreate the per-version venv
+    # for reproducible automated builds.
+    if ($NO_SYNC) {
+        Write-Host "  --no-sync: using activated venv (no venv recreation, no uv sync)"
+        $VENV_PYTHON = Get-ActiveVenvPython
+        $VENV_DIR = Split-Path -Parent (Split-Path -Parent $VENV_PYTHON)
+        Write-Host "  Using active venv Python: $VENV_PYTHON"
 
-    # Resolve pybind11 CMake directory
-    Write-Host "Resolving pybind11 CMake directory..."
-    $PYBIND11_DIR = Get-Pybind11Dir $PyVer
-    Write-Host "pybind11_DIR=$PYBIND11_DIR"
+        # Resolve pybind11 from the active venv (use as-is, not pinned)
+        Write-Host "Resolving pybind11 CMake directory from active venv..."
+        $PYBIND11_DIR = Get-ActivePybind11Dir
+        Write-Host "pybind11_DIR=$PYBIND11_DIR"
+    } else {
+        # Recreate the per-version venv (delete + uv venv) for reproducible builds.
+        # Ensures no stale packages from previous runs leak into the build.
+        $VENV_DIR = New-PerVersionVenv -PyVer $PyVer
+
+        # Resolve Python interpreter (auto-install if needed)
+        Write-Host "Resolving Python interpreter..."
+        $PYTHON_EXE = Install-PythonVersion -PyVer $PyVer
+        Write-Host "Using Python: $PYTHON_EXE"
+
+        # Use the per-version venv python for CMake, so pybind11 (installed into the
+        # venv) and the Python headers/libs are from the same interpreter.
+        $VENV_PYTHON = Get-VenvPython $PyVer
+        Write-Host "Using venv Python for build: $VENV_PYTHON"
+
+        # Resolve pybind11 CMake directory (installs pinned pybind11 into the venv)
+        Write-Host "Resolving pybind11 CMake directory..."
+        $PYBIND11_DIR = Get-Pybind11Dir $PyVer
+        Write-Host "pybind11_DIR=$PYBIND11_DIR"
+    }
 
     # CMake configure & build
     Push-Location $BUILD_DIR
 
     try {
         # Get Python root directory for CMake (force specific Python version)
-        $pythonRoot = Split-Path -Parent (Split-Path -Parent $PYTHON_EXE)
+        $pythonRoot = Split-Path -Parent (Split-Path -Parent $VENV_PYTHON)
 
         # Detect installed Visual Studio
         $VSGenerator = Get-VSGenerator
@@ -546,7 +661,7 @@ function Invoke-BuildVersion {
             cmake `
                 -DCMAKE_BUILD_TYPE=Release `
                 -DCMAKE_PREFIX_PATH="$pythonRoot" `
-                -DPython3_EXECUTABLE="$PYTHON_EXE" `
+                -DPython3_EXECUTABLE="$VENV_PYTHON" `
                 -DPython3_ROOT_DIR="$pythonRoot" `
                 -DPython3_FIND_STRATEGY=LOCATION `
                 -Dpybind11_DIR="$PYBIND11_DIR" `
@@ -557,7 +672,7 @@ function Invoke-BuildVersion {
             cmake -G $VSGenerator -A x64 `
                 -DCMAKE_BUILD_TYPE=Release `
                 -DCMAKE_PREFIX_PATH="$pythonRoot" `
-                -DPython3_EXECUTABLE="$PYTHON_EXE" `
+                -DPython3_EXECUTABLE="$VENV_PYTHON" `
                 -DPython3_ROOT_DIR="$pythonRoot" `
                 -DPython3_FIND_STRATEGY=LOCATION `
                 -Dpybind11_DIR="$PYBIND11_DIR" `
@@ -627,11 +742,44 @@ function Invoke-BuildVersion {
         Write-Host "  Warning: stubs directory not found at $STUBS_DIR"
     }
 
-    # Build wheel via uv
+    # Sync runtime dependencies + project into the per-version venv.
+    # CMake has already produced install/lib, so the editable install of
+    # pyorbbecsdk2 (which copies install/lib) will succeed.
+    # In --no-sync mode this step is skipped; the active venv is used as-is.
+    if ($NO_SYNC) {
+        Write-Host "  --no-sync: skipping uv sync (using active venv as-is)"
+    } else {
+        Write-Host "Syncing dependencies via uv sync into $VENV_DIR..."
+        Push-Location $ROOT_DIR
+        try {
+            $env:UV_PROJECT_ENVIRONMENT = $VENV_DIR
+            # --no-install-project: install dependencies only. Installing the
+            # project editable would run setup.py build_ext, whose output dir
+            # resolves to src/pyorbbecsdk/ and pollutes the source tree.
+            uv sync --no-install-project --python $PyVer
+            if ($LASTEXITCODE -ne 0) {
+                throw "uv sync failed (Python $PyVer)"
+            }
+            Remove-Item Env:UV_PROJECT_ENVIRONMENT -ErrorAction SilentlyContinue
+        }
+        finally {
+            Pop-Location
+        }
+    }
+
+    # Build wheel via uv. Point --python at the venv's python executable so
+    # the wheel is tagged for the correct CPython version. Using a bare version
+    # number would re-resolve a system interpreter, and omitting it lets the
+    # build backend pick the project .venv (which may be a different Python).
     Write-Host "Building wheel..."
     Push-Location $ROOT_DIR
     try {
-        uv build --wheel --python $PyVer --link-mode copy
+        $env:UV_PROJECT_ENVIRONMENT = $VENV_DIR
+        uv build --wheel --python "$VENV_PYTHON" --link-mode copy
+        if ($LASTEXITCODE -ne 0) {
+            throw "uv build failed (Python $PyVer)"
+        }
+        Remove-Item Env:UV_PROJECT_ENVIRONMENT -ErrorAction SilentlyContinue
     }
     finally {
         Pop-Location
@@ -658,9 +806,16 @@ function Invoke-FinalCleanup {
 
     $dirsToRemove = @(
         @{ Path = (Join-Path $ROOT_DIR "build"); Name = "build directory" },
-        @{ Path = (Join-Path $ROOT_DIR "install"); Name = "install directory" },
         @{ Path = (Join-Path $ROOT_DIR "dist"); Name = "dist directory" }
     )
+
+    # In --no-sync mode we use the user's activated venv, so keep install/
+    # (the compiled C++ artifacts) for them to inspect/use. Otherwise remove it.
+    if ($NO_SYNC) {
+        Write-Host "  --no-sync: keeping install directory for the active venv build"
+    } else {
+        $dirsToRemove += @{ Path = (Join-Path $ROOT_DIR "install"); Name = "install directory" }
+    }
 
     foreach ($dir in $dirsToRemove) {
         Remove-DirectorySafe -Path $dir.Path -Name $dir.Name | Out-Null
@@ -673,6 +828,18 @@ function Invoke-FinalCleanup {
             ForEach-Object {
                 Remove-DirectorySafe -Path $_.FullName -Name "$($_.Name)" | Out-Null
             }
+
+        # Remove __pycache__ dirs left under src/ by the build
+        Get-ChildItem -Path $srcDir -Directory -Filter "__pycache__" -Recurse -ErrorAction SilentlyContinue |
+            ForEach-Object {
+                Remove-Item -Recurse -Force $_.FullName -ErrorAction SilentlyContinue
+            }
+    }
+
+    # Remove only the per-version venv dirs THIS run created. Pre-existing
+    # venv<ver> dirs (e.g. from an earlier manual setup) are left untouched.
+    foreach ($venvDir in $script:CreatedVenvs) {
+        Remove-DirectorySafe -Path $venvDir -Name (Split-Path -Leaf $venvDir) | Out-Null
     }
 }
 

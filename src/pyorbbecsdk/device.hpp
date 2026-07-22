@@ -35,4 +35,8 @@ void define_device(const py::object &m);
 void define_device_list(const py::object &m);
 
 void define_device_preset_list(const py::object &m);
+
+void define_color_preset_list(const py::object &m);
+
+void define_device_frame_interleave_list(const py::object &m);
 }  // namespace pyorbbecsdk

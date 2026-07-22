@@ -287,12 +287,27 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEVICE_REBOOT_DELAY_INT",
              OBPropertyID::OB_PROP_DEVICE_REBOOT_DELAY_INT,
              "Reboot device delay mode. Delay time unit: ms, range: [0, 8000).")
+      .value("OB_PROP_DEVICE_IP_MODE_INT",
+             OBPropertyID::OB_PROP_DEVICE_IP_MODE_INT,
+             "Device IP mode configuration (AMR/Industrial)")
       .value("OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT",
              OBPropertyID::OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT,
              "DHCP assign IP timeout, unit: second")
+      .value("OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT",
+             OBPropertyID::OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT,
+             "USB sync I/O voltage level")
+      .value("OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT",
+             OBPropertyID::OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT,
+             "Get the current disparity search range mode value (read only)")
+      .value("OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT",
+             OBPropertyID::OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT,
+             "Get the current disparity search offset value (read only)")
       .value("OB_PROP_FPS_BOOST_BOOL",
              OBPropertyID::OB_PROP_FPS_BOOST_BOOL,
              "Enable FPS boost in trigger mode")
+      .value("OB_PROP_MJPEG_QUALITY_INT",
+             OBPropertyID::OB_PROP_MJPEG_QUALITY_INT,
+             "MJPEG encoding quality factor")
       .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
              OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL,
              "Query the status of laser overcurrent protection (read-only)")
@@ -562,6 +577,12 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL",
              OBPropertyID::OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL,
              "depth noise removal filter")
+      .value("OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL",
+             OBPropertyID::OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL,
+             "depth outliers filter switch")
+      .value("OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT",
+             OBPropertyID::OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT,
+             "depth outliers filter search range mode")
       .value("OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL",
              OBPropertyID::OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL,
              "soft trigger auto capture enable, use in "

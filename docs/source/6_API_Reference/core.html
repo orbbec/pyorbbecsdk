@@ -1092,9 +1092,21 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Context.free_idle_memory">
+<span class="sig-name descname"><span class="pre">free_idle_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.free_idle_memory" title="Link to this definition"></a></dt>
+<dd><p>Free idle memory from the internal frame memory pool</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Context.get_gvcp_port_scheme">
 <span class="sig-name descname"><span class="pre">get_gvcp_port_scheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBGvcpPortScheme</span></span></span><a class="headerlink" href="#pyorbbecsdk.Context.get_gvcp_port_scheme" title="Link to this definition"></a></dt>
 <dd><p>Get the current GVCP port scheme</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Context.get_timestamp_clock_type">
+<span class="sig-name descname"><span class="pre">get_timestamp_clock_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBClockType</span></span></span><a class="headerlink" href="#pyorbbecsdk.Context.get_timestamp_clock_type" title="Link to this definition"></a></dt>
+<dd><p>Get the current host-side timestamp clock type for the context</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1123,6 +1135,12 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.Context.set_device_changed_callback">
 <span class="sig-name descname"><span class="pre">set_device_changed_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><span class="pre">collections.abc.Callable</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.set_device_changed_callback" title="Link to this definition"></a></dt>
 <dd><p>Set device changed callback, callback will be called when device changed</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Context.set_extensions_directory">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_extensions_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.set_extensions_directory" title="Link to this definition"></a></dt>
+<dd><p>Set the extensions directory for loading extension modules</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1161,6 +1179,24 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Context.set_timestamp_clock_type">
+<span class="sig-name descname"><span class="pre">set_timestamp_clock_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">clock_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBClockType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.set_timestamp_clock_type" title="Link to this definition"></a></dt>
+<dd><p>Set the host-side timestamp clock type for the current context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Context.set_uvc_backend_type">
+<span class="sig-name descname"><span class="pre">set_uvc_backend_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBUvcBackendType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.set_uvc_backend_type" title="Link to this definition"></a></dt>
+<dd><p>Set the UVC backend type (Linux only: LIBUVC or V4L2)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Context.sync_device_hardware_pps_time">
+<span class="sig-name descname"><span class="pre">sync_device_hardware_pps_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_pps_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.sync_device_hardware_pps_time" title="Link to this definition"></a></dt>
+<dd><p>Synchronize the device time (synchronize hardwarePPS time to all created devices)</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Context.unregister_device_changed_callback">
 <span class="sig-name descname"><span class="pre">unregister_device_changed_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Context" title="pyorbbecsdk.pyorbbecsdk.Context"><span class="pre">pyorbbecsdk.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Context.unregister_device_changed_callback" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1180,9 +1216,21 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.clear_license_info">
+<span class="sig-name descname"><span class="pre">clear_license_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.clear_license_info" title="Link to this definition"></a></dt>
+<dd><p>Clear license information stored on the device</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.enable_firmware_log">
 <span class="sig-name descname"><span class="pre">enable_firmware_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.enable_firmware_log" title="Link to this definition"></a></dt>
 <dd><p>Enable or disable the device firmware log</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.enable_global_timestamp">
+<span class="sig-name descname"><span class="pre">enable_global_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.enable_global_timestamp" title="Link to this definition"></a></dt>
+<dd><p>Enable or disable global timestamp</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1191,9 +1239,21 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.export_settings_as_preset_json_data">
+<span class="sig-name descname"><span class="pre">export_settings_as_preset_json_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">preset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.14)"><span class="pre">bytes</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.export_settings_as_preset_json_data" title="Link to this definition"></a></dt>
+<dd><p>Export current device settings as a preset JSON data blob</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.export_settings_as_preset_json_file">
 <span class="sig-name descname"><span class="pre">export_settings_as_preset_json_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.export_settings_as_preset_json_file" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_available_frame_interleave_list">
+<span class="sig-name descname"><span class="pre">get_available_frame_interleave_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ob::DeviceFrameInterleaveList</span></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_available_frame_interleave_list" title="Link to this definition"></a></dt>
+<dd><p>Get the list of available frame interleave modes</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.get_available_preset_list">
@@ -1226,6 +1286,28 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_color_preset_list">
+<span class="sig-name descname"><span class="pre">get_color_preset_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.ColorPresetList</span></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_color_preset_list" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_current_color_preset_name">
+<span class="sig-name descname"><span class="pre">get_current_color_preset_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_current_color_preset_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_current_depth_mode_name">
+<span class="sig-name descname"><span class="pre">get_current_depth_mode_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_current_depth_mode_name" title="Link to this definition"></a></dt>
+<dd><p>Get the current depth work mode name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_current_frame_interleave_name">
+<span class="sig-name descname"><span class="pre">get_current_frame_interleave_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_current_frame_interleave_name" title="Link to this definition"></a></dt>
+<dd><p>Get current frame interleave name</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.get_current_preset_name">
 <span class="sig-name descname"><span class="pre">get_current_preset_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_current_preset_name" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1249,6 +1331,12 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.get_device_state">
 <span class="sig-name descname"><span class="pre">get_device_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_device_state" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_extension_info">
+<span class="sig-name descname"><span class="pre">get_extension_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">info_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_extension_info" title="Link to this definition"></a></dt>
+<dd><p>Get extension info by key</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.get_float_property">
@@ -1291,6 +1379,12 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.get_supported_multi_device_sync_mode_bitmap">
+<span class="sig-name descname"><span class="pre">get_supported_multi_device_sync_mode_bitmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_supported_multi_device_sync_mode_bitmap" title="Link to this definition"></a></dt>
+<dd><p>Get the supported multi-device sync mode bitmap</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.get_supported_property">
 <span class="sig-name descname"><span class="pre">get_supported_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">OBPropertyItem</span></span></span><a class="headerlink" href="#pyorbbecsdk.Device.get_supported_property" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1309,6 +1403,35 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.isFrameInterleaveSupported">
 <span class="sig-name descname"><span class="pre">isFrameInterleaveSupported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.isFrameInterleaveSupported" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.is_color_preset_supported">
+<span class="sig-name descname"><span class="pre">is_color_preset_supported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.is_color_preset_supported" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.is_extension_info_exist">
+<span class="sig-name descname"><span class="pre">is_extension_info_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">info_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.is_extension_info_exist" title="Link to this definition"></a></dt>
+<dd><p>Check if extension info exists</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.is_firmware_log_enabled">
+<span class="sig-name descname"><span class="pre">is_firmware_log_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.is_firmware_log_enabled" title="Link to this definition"></a></dt>
+<dd><p>Check whether the device firmware log is enabled</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.is_global_timestamp_supported">
+<span class="sig-name descname"><span class="pre">is_global_timestamp_supported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.is_global_timestamp_supported" title="Link to this definition"></a></dt>
+<dd><p>Check if global timestamp is supported</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.is_license_authorization_supported">
+<span class="sig-name descname"><span class="pre">is_license_authorization_supported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.is_license_authorization_supported" title="Link to this definition"></a></dt>
+<dd><p>Check whether the device supports license authorization</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.is_property_supported">
@@ -1341,9 +1464,21 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.read_license_info">
+<span class="sig-name descname"><span class="pre">read_license_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.read_license_info" title="Link to this definition"></a></dt>
+<dd><p>Read signed device license information as SDK license_info JSON string</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.reboot">
-<span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.reboot" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">reboot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyorbbecsdk.Device.reboot" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>reboot(self: pyorbbecsdk.pyorbbecsdk.Device) -&gt; None</p></li>
+<li><p>reboot(self: pyorbbecsdk.pyorbbecsdk.Device, delay_ms: typing.SupportsInt | typing.SupportsIndex = 0) -&gt; None</p></li>
+</ol>
+<p>Reboot the device with optional delay</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.set_bool_property">
@@ -1406,6 +1541,17 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.switch_color_preset">
+<span class="sig-name descname"><span class="pre">switch_color_preset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.switch_color_preset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.sync_hardware_pps_time">
+<span class="sig-name descname"><span class="pre">sync_hardware_pps_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_pps_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.sync_hardware_pps_time" title="Link to this definition"></a></dt>
+<dd><p>Synchronize the device time (synchronize hardwarePPS time to device)</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.timer_reset">
 <span class="sig-name descname"><span class="pre">timer_reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.timer_reset" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1435,6 +1581,18 @@
 <span class="sig-name descname"><span class="pre">update_optional_depth_presets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><span class="pre">collections.abc.Callable</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.update_optional_depth_presets" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.update_optional_depth_presets_from_data">
+<span class="sig-name descname"><span class="pre">update_optional_depth_presets_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><span class="pre">collections.abc.Callable</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.update_optional_depth_presets_from_data" title="Link to this definition"></a></dt>
+<dd><p>Update the device optional depth presets from preset data blocks loaded in memory (a list of bytes objects)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Device.write_license_info">
+<span class="sig-name descname"><span class="pre">write_license_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">license_info</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Device.write_license_info" title="Link to this definition"></a></dt>
+<dd><p>Write signed device license information (SDK license_info JSON string)</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -1448,6 +1606,12 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.DeviceInfo.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyorbbecsdk.DeviceInfo.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.DeviceInfo.get_asic_name">
+<span class="sig-name descname"><span class="pre">get_asic_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.DeviceInfo" title="pyorbbecsdk.pyorbbecsdk.DeviceInfo"><span class="pre">pyorbbecsdk.DeviceInfo</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.DeviceInfo.get_asic_name" title="Link to this definition"></a></dt>
+<dd><p>Get the ASIC name of the device</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.DeviceInfo.get_connection_type">
@@ -1646,6 +1810,18 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.DeviceList.get_local_subnet_length">
 <span class="sig-name descname"><span class="pre">get_local_subnet_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.DeviceList" title="pyorbbecsdk.pyorbbecsdk.DeviceList"><span class="pre">pyorbbecsdk.DeviceList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.DeviceList.get_local_subnet_length" title="Link to this definition"></a></dt>
 <dd><p>Get the host subnet length for the specified device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.DeviceList.query_device_access_state">
+<span class="sig-name descname"><span class="pre">query_device_access_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.DeviceList" title="pyorbbecsdk.pyorbbecsdk.DeviceList"><span class="pre">pyorbbecsdk.DeviceList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBDeviceAccessState</span></span></span><a class="headerlink" href="#pyorbbecsdk.DeviceList.query_device_access_state" title="Link to this definition"></a></dt>
+<dd><p>Query the current device access state (GVCP CCP) without opening the device. Blocks on the network; prefer calling off the UI thread</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.DeviceList.query_device_access_state_by_serial_number">
+<span class="sig-name descname"><span class="pre">query_device_access_state_by_serial_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.DeviceList" title="pyorbbecsdk.pyorbbecsdk.DeviceList"><span class="pre">pyorbbecsdk.DeviceList</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBDeviceAccessState</span></span></span><a class="headerlink" href="#pyorbbecsdk.DeviceList.query_device_access_state_by_serial_number" title="Link to this definition"></a></dt>
+<dd><p>Query the current device access state (GVCP CCP) by serial number without opening the device. Blocks on the network; prefer calling off the UI thread</p>
 </dd></dl>
 
 </dd></dl>
@@ -1851,7 +2027,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-06-19 13:54:54.
+      <span class="lastupdated">Last updated on 2026-07-21 10:08:42.
       </span></p>
   </div>
 

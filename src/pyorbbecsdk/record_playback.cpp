@@ -41,7 +41,8 @@ void define_record(py::object &m) {
 void define_playback(py::object &m) {
   py::class_<ob::PlaybackDevice, ob::Device,
              std::shared_ptr<ob::PlaybackDevice>>(m, "PlaybackDevice")
-      .def(py::init<const std::string &>(), py::arg("file"))
+      .def(py::init<const std::string &, const std::string &>(),
+           py::arg("file"), py::arg("preset_path") = "")
       .def(
           "pause", [](ob::PlaybackDevice &self) {
             OB_TRY_CATCH({ self.pause(); });

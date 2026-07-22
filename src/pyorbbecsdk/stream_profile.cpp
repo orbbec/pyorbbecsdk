@@ -42,6 +42,10 @@ void define_stream_profile(const py::object &m) {
            [](const std::shared_ptr<ob::StreamProfile> &self) {
              OB_TRY_CATCH({ return self->is<ob::GyroStreamProfile>(); });
            })
+      .def("is_lidar_stream_profile",
+           [](const std::shared_ptr<ob::StreamProfile> &self) {
+             OB_TRY_CATCH({ return self->is<ob::LiDARStreamProfile>(); });
+           })
       .def("as_video_stream_profile",
            [](std::shared_ptr<ob::StreamProfile> &self)
                -> std::shared_ptr<ob::VideoStreamProfile> {
@@ -129,6 +133,16 @@ void define_video_stream_profile(const py::object &m) {
       .def("get_decimation_config",
            [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
              OB_TRY_CATCH({ return self->getDecimationConfig(); });
+           })
+      .def("set_intrinsic",
+           [](const std::shared_ptr<ob::VideoStreamProfile> &self,
+              const OBCameraIntrinsic &intrinsic) {
+             OB_TRY_CATCH({ self->setIntrinsic(intrinsic); });
+           })
+      .def("set_distortion",
+           [](const std::shared_ptr<ob::VideoStreamProfile> &self,
+              const OBCameraDistortion &distortion) {
+             OB_TRY_CATCH({ self->setDistortion(distortion); });
            })
       .def("__repr__", [](const std::shared_ptr<ob::VideoStreamProfile> &self) {
         OB_TRY_CATCH({

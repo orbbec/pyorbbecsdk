@@ -69,6 +69,28 @@ public:
     }
 
     /**
+     * @brief Convert OBIMUSampleRate to its numeric frequency value in Hz.
+     *
+     * @param[in] type OBIMUSampleRate type.
+     *
+     * @return IMU sample rate value in Hz.
+     */
+    static float convertOBIMUSampleRateTypeToValue(const OBIMUSampleRate &type) {
+        return ob_imu_rate_type_to_value(type);
+    }
+
+    /**
+     * @brief Convert a numeric IMU sample rate value in Hz to OBIMUSampleRate.
+     *
+     * @param[in] value IMU sample rate value in Hz.
+     *
+     * @return Matching OBIMUSampleRate.
+     */
+    static OBIMUSampleRate convertOBIMUSampleRateValueToType(float value) {
+        return ob_imu_rate_value_to_type(value);
+    }
+
+    /**
      * @brief Convert OBGyroFullScaleRange to " string " type and then return.
      *
      * @param[in] type OBGyroFullScaleRange type.
@@ -120,6 +142,50 @@ public:
      */
     static OBStreamType convertSensorTypeToStreamType(OBSensorType type) {
         return ob_sensor_type_to_stream_type(type);
+    }
+
+    /**
+     * @brief Convert OBStreamType to OBSensorType and then return.
+     *
+     * @param[in] type OBStreamType type.
+     *
+     * @return OBSensorType type.
+     */
+    static OBSensorType convertStreamTypeToSensorType(OBStreamType type) {
+        return ob_stream_type_to_sensor_type(type);
+    }
+
+    /**
+     * @brief Convert OBStreamType to OBFrameType and then return.
+     *
+     * @param[in] type OBStreamType type.
+     *
+     * @return OBFrameType type.
+     */
+    static OBFrameType convertStreamTypeToFrameType(OBStreamType type) {
+        return ob_stream_type_to_frame_type(type);
+    }
+
+    /**
+     * @brief Convert OBFrameType to OBStreamType and then return.
+     *
+     * @param[in] type OBFrameType type.
+     *
+     * @return OBStreamType type.
+     */
+    static OBStreamType convertFrameTypeToStreamType(OBFrameType type) {
+        return ob_frame_type_to_stream_type(type);
+    }
+
+    /**
+     * @brief Convert OBFrameType to OBSensorType and then return.
+     *
+     * @param[in] type OBFrameType type.
+     *
+     * @return OBSensorType type.
+     */
+    static OBSensorType convertFrameTypeToSensorType(OBFrameType type) {
+        return ob_frame_type_to_sensor_type(type);
     }
 
     /**

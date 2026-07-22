@@ -357,6 +357,9 @@ def main():
     align_filter = AlignFilter(align_to_stream=OBStreamType.COLOR_STREAM)
     print("[Camera] Pipeline started.  Press ESC or Q to quit.\n")
 
+    # Create a resizable window for the object detection visualization
+    cv2.namedWindow("YOLOv5 + Orbbec Depth", cv2.WINDOW_NORMAL)
+
     prev_time = time.time()
     try:
         while True:

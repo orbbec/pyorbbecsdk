@@ -33,10 +33,18 @@ OFFLINE_MODE=false
 CLEAN_BUILD=true
 CLEAN_ONLY=false
 AUTO_CONFIRM=false
+NO_SYNC=false
+
+# manylinux version to use for the wheel tag (default: 2_27)
+MANYLINUX_VERSION="${MANYLINUX_VERSION:-2.27}"
 
 # Cleanup tracking arrays
 CLEANUP_FAILED=()
 CLEANUP_SKIPPED=()
+
+# Per-version venv directories created by THIS run (for final cleanup).
+# Only these are removed at the end; pre-existing venv<ver> dirs are left alone.
+CREATED_VENVS=()
 
 # Directory paths
 WHEEL_DIR="$ROOT_DIR/wheel"
@@ -61,7 +69,13 @@ Options:
   --clean         Clean build directories before building (default)
   --clean-only    Only clean, don't build
   --yes, -y       Auto-confirm all cleanup prompts (non-interactive)
+  --no-sync       Use the currently activated virtual environment instead of
+                  recreating venv<ver> and running uv sync. Requires an active
+                  venv (VIRTUAL_ENV must be set); pybind11 is used as-is.
   -h, --help      Show this help message
+
+Environment:
+  MANYLINUX_VERSION  manylinux version for wheel tag (default: 2.27, use "2.27" for manylinux_2_27)
 
 Arguments:
   VERSION         Python version (e.g., 3.10, 3.11) or 'all' for 3.8-3.13
@@ -103,6 +117,10 @@ parse_args() {
                 ;;
             --yes|-y)
                 AUTO_CONFIRM=true
+                shift
+                ;;
+            --no-sync)
+                NO_SYNC=true
                 shift
                 ;;
             -h|--help)
@@ -321,31 +339,87 @@ install_python_version() {
 # Get pybind11 directory
 # ============================================================
 
+# Get the per-version venv path (e.g. "3.10" -> $ROOT_DIR/venv310)
+get_venv_path() {
+    echo "$ROOT_DIR/venv$(echo "$1" | tr -d '.')"
+}
+
+# Get the python executable inside the per-version venv
+get_venv_python() {
+    echo "$(get_venv_path "$1")/bin/python"
+}
+
+# Validate that a virtual environment is activated (for --no-sync mode).
+# Returns the python executable path of the active venv, or exits on error.
+active_venv_python() {
+    if [ -z "${VIRTUAL_ENV:-}" ]; then
+        echo "Error: --no-sync requires an activated virtual environment." >&2
+        echo "  Please activate a venv first, e.g. 'source venv310/bin/activate' or" >&2
+        echo "  'uv venv .venv && .venv/Scripts/activate' (Windows), then re-run." >&2
+        exit 1
+    fi
+
+    local py
+    if [ -x "$VIRTUAL_ENV/bin/python" ]; then
+        py="$VIRTUAL_ENV/bin/python"
+    elif [ -x "$VIRTUAL_ENV/Scripts/python.exe" ]; then
+        py="$VIRTUAL_ENV/Scripts/python.exe"
+    else
+        echo "Error: No python executable found in activated venv '$VIRTUAL_ENV'." >&2
+        exit 1
+    fi
+
+    echo "$py"
+}
+
+# Get pybind11 CMake dir from the currently activated venv (--no-sync mode).
+# Uses the active venv's pybind11 as-is; does not install or pin a version.
+active_pybind11_dir() {
+    local py
+    py="$(active_venv_python)"
+    "$py" -c "import pybind11; print(pybind11.get_cmake_dir())"
+}
+
+# Recreate the per-version venv (delete + uv venv) for reproducible automated builds
+create_version_venv() {
+    local PYVER="$1"
+    local VENV_DIR
+    VENV_DIR="$(get_venv_path "$PYVER")"
+
+    echo "  Recreating venv for Python $PYVER..." >&2
+    rm -rf "$VENV_DIR"
+    mkdir -p "$(dirname "$VENV_DIR")"
+
+    uv venv "$VENV_DIR" --python "$PYVER" >&2
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to create venv for Python $PYVER" >&2
+        exit 1
+    fi
+
+    if [ ! -x "$(get_venv_python "$PYVER")" ]; then
+        echo "Error: venv for Python $PYVER created but python not found" >&2
+        exit 1
+    fi
+
+    echo "$VENV_DIR"
+}
+
 get_pybind11_dir() {
     local PYVER="$1"
+    local VENV_PYTHON
+    VENV_PYTHON="$(get_venv_python "$PYVER")"
 
-    if [ "${OFFLINE_MODE:-false}" = true ]; then
-        # Offline mode: use local venv pybind11
-        local VENV_PYBIND11="$ROOT_DIR/venv$(echo "$PYVER" | tr -d '.')/share/cmake/pybind11"
-        if [ -d "$VENV_PYBIND11" ]; then
-            echo "$VENV_PYBIND11"
-        else
-            echo "Error: Offline mode requires pybind11 in local venv" >&2
-            echo "Expected path: $VENV_PYBIND11" >&2
-            echo "" >&2
-            echo "To set up offline environment, run:" >&2
-            echo "  uv venv venv$(echo "$PYVER" | tr -d '.') --python $PYVER" >&2
-            echo "  uv pip install pybind11 -e . --python venv$(echo "$PYVER" | tr -d '.')/bin/python" >&2
-            echo "  (or use 'uv pip install pybind11' in the venv)" >&2
-            exit 1
-        fi
-    else
-        # Online mode: use uv run --with pybind11
-        uv run --python "$PYVER" --with pybind11 python - <<'EOF'
-import pybind11
-print(pybind11.get_cmake_dir())
-EOF
+    # Install pinned pybind11 into the per-version venv (matches pyproject.toml
+    # [build-system].requires) so the CMake compile environment matches the
+    # packaging environment.
+    echo "  Installing pybind11==2.12.0 into venv for Python $PYVER..." >&2
+    uv pip install pybind11==2.12.0 --python "$VENV_PYTHON" >&2
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to install pybind11 into venv for Python $PYVER" >&2
+        exit 1
     fi
+
+    "$VENV_PYTHON" -c "import pybind11; print(pybind11.get_cmake_dir())"
 }
 
 # ============================================================
@@ -370,29 +444,57 @@ build_version() {
         mkdir -p "$SHARED_DST_DIR"
     fi
 
-    # Resolve Python interpreter (auto-install if needed)
-    echo "Resolving Python interpreter..."
-    local PYTHON_EXE
-    PYTHON_EXE="$(install_python_version "$PYVER")"
-    echo "Using Python: $PYTHON_EXE"
+    # In --no-sync mode, use the currently activated venv as-is (no recreate,
+    # no pinned pybind11, no uv sync). Otherwise recreate the per-version venv
+    # for reproducible automated builds.
+    local VENV_DIR VENV_PYTHON PYBIND11_DIR
+    if [ "$NO_SYNC" = "true" ]; then
+        echo "  --no-sync: using activated venv (no venv recreation, no uv sync)"
+        VENV_PYTHON="$(active_venv_python)"
+        VENV_DIR="$(dirname "$(dirname "$VENV_PYTHON")")"
+        echo "  Using active venv Python: $VENV_PYTHON"
 
-    # Resolve pybind11 CMake directory
-    echo "Resolving pybind11 CMake directory..."
-    local PYBIND11_DIR
-    PYBIND11_DIR="$(get_pybind11_dir "$PYVER")"
-    echo "pybind11_DIR=$PYBIND11_DIR"
+        # Resolve pybind11 from the active venv (use as-is, not pinned)
+        echo "Resolving pybind11 CMake directory from active venv..."
+        PYBIND11_DIR="$(active_pybind11_dir)"
+        echo "pybind11_DIR=$PYBIND11_DIR"
+    else
+        # Recreate the per-version venv (delete + uv venv) for reproducible builds.
+        # Ensures no stale packages from previous runs leak into the build.
+        VENV_DIR="$(create_version_venv "$PYVER")"
+        # Track this venv so final_cleanup removes only what this run created.
+        # NOTE: must record here (parent shell), not inside create_version_venv,
+        # because $() runs the function in a subshell and the append would be lost.
+        CREATED_VENVS+=("$VENV_DIR")
+
+        # Resolve Python interpreter (auto-install if needed)
+        echo "Resolving Python interpreter..."
+        local PYTHON_EXE
+        PYTHON_EXE="$(install_python_version "$PYVER")"
+        echo "Using Python: $PYTHON_EXE"
+
+        # Use the per-version venv python for CMake, so pybind11 (installed into the
+        # venv) and the Python headers/libs come from the same interpreter.
+        VENV_PYTHON="$(get_venv_python "$PYVER")"
+        echo "Using venv Python for build: $VENV_PYTHON"
+
+        # Resolve pybind11 CMake directory (installs pinned pybind11 into the venv)
+        echo "Resolving pybind11 CMake directory..."
+        PYBIND11_DIR="$(get_pybind11_dir "$PYVER")"
+        echo "pybind11_DIR=$PYBIND11_DIR"
+    fi
 
     # CMake configure & build (using gcc for Linux)
     pushd "$BUILD_DIR" >/dev/null
 
     # Get Python paths for CMake (force specific Python version)
     local PYTHON_ROOT
-    PYTHON_ROOT="$(dirname "$(dirname "$PYTHON_EXE")")"
+    PYTHON_ROOT="$(dirname "$(dirname "$VENV_PYTHON")")"
 
     cmake .. \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_PREFIX_PATH="$PYTHON_ROOT" \
-        -DPython3_EXECUTABLE="$PYTHON_EXE" \
+        -DPython3_EXECUTABLE="$VENV_PYTHON" \
         -DPython3_ROOT_DIR="$PYTHON_ROOT" \
         -DPython3_FIND_STRATEGY=LOCATION \
         -DPython3_FIND_REGISTRY=NEVER \
@@ -444,15 +546,43 @@ build_version() {
         echo "  Warning: stubs directory not found at $STUBS_DIR"
     fi
 
-    # Build wheel via uv
+    # Sync runtime dependencies + project into the per-version venv.
+    # CMake has already produced install/lib, so the editable install of
+    # pyorbbecsdk2 (which copies install/lib) will succeed.
+    # In --no-sync mode this step is skipped; the active venv is used as-is.
+    if [ "$NO_SYNC" = "true" ]; then
+        echo "  --no-sync: skipping uv sync (using active venv as-is)"
+    else
+        echo "Syncing dependencies via uv sync into $VENV_DIR..."
+        # --no-install-project: install dependencies only. Installing the
+        # project editable would run setup.py build_ext, whose output dir
+        # resolves to src/pyorbbecsdk/ and pollutes the source tree.
+        UV_PROJECT_ENVIRONMENT="$VENV_DIR" uv sync --no-install-project --python "$PYVER" >&2
+        if [ $? -ne 0 ]; then
+            echo "Error: uv sync failed (Python $PYVER)" >&2
+            exit 1
+        fi
+    fi
+
+    # Build wheel via uv. Point --python at the venv's python executable so the
+    # wheel is tagged for the correct CPython version. In normal mode $VENV_PYTHON
+    # is venv<ver>/bin/python; in --no-sync mode it is the activated venv python.
+    # A bare version number would re-resolve a system interpreter, and omitting
+    # it lets the build backend pick the project .venv (wrong Python).
     echo "Building wheel..."
-    uv build --wheel --python "$PYVER" --link-mode copy
+    UV_PROJECT_ENVIRONMENT="$VENV_DIR" uv build --wheel --python "$VENV_PYTHON" --link-mode copy
+    if [ $? -ne 0 ]; then
+        echo "Error: uv build failed (Python $PYVER)" >&2
+        exit 1
+    fi
 
     # auditwheel (skip py38 if needed)
     if [ -d "$ROOT_DIR/dist" ]; then
         if [[ "$PYVER" != "3.8" ]]; then
             echo "Repairing wheel with auditwheel..."
-            uv run --python "$PYVER" --with auditwheel auditwheel repair "$ROOT_DIR"/dist/*.whl \
+            # --no-project: run auditwheel in an isolated env without linking the
+            # current project (which would editable-install it and pollute src/).
+            uv run --no-project --python "$PYVER" --with auditwheel auditwheel repair "."/dist/*.whl \
                 --exclude libEGL* \
                 --exclude libGLES* \
                 --exclude libGL* \
@@ -462,8 +592,24 @@ build_version() {
                 --exclude libob_*.so \
                 --exclude libfirmwareupdater.so \
                 --exclude libob_frame_processor.so \
+                --exclude libnvinfer.so.10 \
+                --exclude libnvinfer_plugin.so.10 \
+                --exclude libnvonnxparser.so.10 \
+                --exclude libcudart.so.* \
+                --exclude libcudart_* \
                 -w "$ROOT_DIR/dist/"
         fi
+
+        # Force-retag the manylinux platform tag after build.
+        # auditwheel may produce tags like manylinux_2_31_x86_64 or manylinux_2_28_x86_64
+        # depending on the system's glibc version. Force-rewrite it to the specified
+        # manylinux version (default 2.27) to match the target compatibility.
+        local plat_tag
+        plat_tag="manylinux_${MANYLINUX_VERSION}_${ARCH}"
+        plat_tag="${plat_tag//./_}"  # Replace dots with underscores for manylinux tag format
+        echo "Force-retagging wheel platform tag to $plat_tag..."
+        ( cd "$ROOT_DIR/dist" && \
+          uv run --no-project --with wheel wheel tags --platform-tag "$plat_tag" --remove *.whl )
 
         cp "$ROOT_DIR"/dist/*.whl "$WHEEL_DIR/"
         rm -rf "$ROOT_DIR/dist"
@@ -510,14 +656,33 @@ final_cleanup() {
     done
 
     remove_directory_safe "$ROOT_DIR/build" "build directory" || true
-    remove_directory_safe "$ROOT_DIR/install" "install directory" || true
     remove_directory_safe "$ROOT_DIR/dist" "dist directory" || true
+
+    # In --no-sync mode we use the user's activated venv, so keep install/
+    # (the compiled C++ artifacts) for them to inspect/use. Otherwise remove it.
+    if [ "$NO_SYNC" = "true" ]; then
+        echo "  --no-sync: keeping install directory for the active venv build"
+    else
+        remove_directory_safe "$ROOT_DIR/install" "install directory" || true
+    fi
 
     # Remove egg-info directories
     find "$ROOT_DIR/src" -name "*.egg-info" -type d -print0 2>/dev/null | \
         while IFS= read -r -d '' dir; do
             remove_directory_safe "$dir" "$(basename "$dir")" || true
         done
+
+    # Remove __pycache__ dirs left under src/ by the build
+    find "$ROOT_DIR/src" -name "__pycache__" -type d -print0 2>/dev/null | \
+        while IFS= read -r -d '' dir; do
+            rm -rf "$dir" 2>/dev/null || true
+        done
+
+    # Remove only the per-version venv dirs THIS run created. Pre-existing
+    # venv<ver> dirs (e.g. from an earlier manual setup) are left untouched.
+    for venv_dir in "${CREATED_VENVS[@]}"; do
+        remove_directory_safe "$venv_dir" "$(basename "$venv_dir")" || true
+    done
 }
 
 # Show cleanup report

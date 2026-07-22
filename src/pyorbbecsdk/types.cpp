@@ -15,6 +15,7 @@
  *******************************************************************************/
 #include "types.hpp"
 
+#include "error.hpp"
 #include "utils.hpp"
 namespace pyorbbecsdk {
 
@@ -23,7 +24,8 @@ void define_orbbec_types(const py::object &m) {
       .value("PERMISSION_DENY", OB_PERMISSION_DENY)
       .value("PERMISSION_READ", OB_PERMISSION_READ)
       .value("PERMISSION_WRITE", OB_PERMISSION_WRITE)
-      .value("PERMISSION_READ_WRITE", OB_PERMISSION_READ_WRITE);
+      .value("PERMISSION_READ_WRITE", OB_PERMISSION_READ_WRITE)
+      .value("PERMISSION_ANY", OB_PERMISSION_ANY);
 
   py::enum_<OBStatus>(m, "OBStatus")
       .value("STATUS_OK", OB_STATUS_OK)
@@ -81,7 +83,14 @@ void define_orbbec_types(const py::object &m) {
       .value("DEVICE_UNAVAILABLE", OB_EXCEPTION_TYPE_DEVICE_UNAVAILABLE)
       .value("INVALID_DATA", OB_EXCEPTION_TYPE_INVALID_DATA)
       .value("NOT_FOUND", OB_EXCEPTION_TYPE_NOT_FOUND)
-      .value("RESOURCE_BUSY", OB_EXCEPTION_TYPE_RESOURCE_BUSY);
+      .value("RESOURCE_BUSY", OB_EXCEPTION_TYPE_RESOURCE_BUSY)
+      .value(
+          "LICENSE_VERIFY_FAILED",
+          OB_EXCEPTION_TYPE_LICENSE_VERIFY_FAILED,
+          "License verification failed, the device/feature license is "
+          "missing, invalid or expired")
+      .value("STD_EXCEPTION", OB_EXCEPTION_STD_EXCEPTION)
+      .value("TYPE_MEMORY", OB_EXCEPTION_TYPE_MEMORY);
 
   py::enum_<OBSensorType>(m, "OBSensorType")
       .value("UNKNOWN_SENSOR", OB_SENSOR_UNKNOWN)
@@ -410,6 +419,7 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("k6", &OBCameraDistortion::k6)
       .def_readwrite("p1", &OBCameraDistortion::p1)
       .def_readwrite("p2", &OBCameraDistortion::p2)
+      .def_readwrite("model", &OBCameraDistortion::model)
       .def("__repr__", [](const OBCameraDistortion &a) {
         return "<OBCameraDistortion k1=" + std::to_string(a.k1) +
                " k2=" + std::to_string(a.k2) + " k3=" + std::to_string(a.k3) +
@@ -422,7 +432,9 @@ void define_orbbec_types(const py::object &m) {
       .value("NONE", OB_DISTORTION_NONE)
       .value("MODIFIED_BROWN_CONRADY", OB_DISTORTION_MODIFIED_BROWN_CONRADY)
       .value("INVERSE_BROWN_CONRADY", OB_DISTORTION_INVERSE_BROWN_CONRADY)
-      .value("BROWN_CONRADY", OB_DISTORTION_BROWN_CONRADY);
+      .value("BROWN_CONRADY", OB_DISTORTION_BROWN_CONRADY)
+      .value("BROWN_CONRADY_K6", OB_DISTORTION_BROWN_CONRADY_K6)
+      .value("KANNALA_BRANDT4", OB_DISTORTION_KANNALA_BRANDT4);
 
   py::class_<OBD2CTransform>(m, "OBExtrinsic")
       .def(py::init<>())
@@ -474,6 +486,7 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("rgb_intrinsic", &OBCameraParam::rgbIntrinsic)
       .def_readwrite("rgb_distortion", &OBCameraParam::rgbDistortion)
       .def_readwrite("transform", &OBCameraParam::transform)
+      .def_readwrite("is_mirrored", &OBCameraParam::isMirrored)
       .def("__repr__", [](const OBCameraParam &a) {
         std::ostringstream oss;
         oss << "<OBCameraParam depth_intrinsic < fx=" << a.depthIntrinsic.fx
@@ -521,7 +534,8 @@ void define_orbbec_types(const py::object &m) {
   py::enum_<OBAlignMode>(m, "OBAlignMode")
       .value("DISABLE", OBAlignMode::ALIGN_DISABLE)
       .value("HW_MODE", OBAlignMode::ALIGN_D2C_HW_MODE)
-      .value("SW_MODE", OBAlignMode::ALIGN_D2C_SW_MODE);
+      .value("SW_MODE", OBAlignMode::ALIGN_D2C_SW_MODE)
+      .value("C2D_SW_MODE", OBAlignMode::ALIGN_C2D_SW_MODE);
 
   py::class_<OBRect>(m, "OBRect")
       .def(py::init<>())
@@ -542,7 +556,17 @@ void define_orbbec_types(const py::object &m) {
       .value("MJPG_TO_BGR888", OBConvertFormat::FORMAT_MJPG_TO_BGR888)
       .value("MJPG_TO_BGRA", OBConvertFormat::FORMAT_MJPG_TO_BGRA)
       .value("UYVY_TO_RGB888", OBConvertFormat::FORMAT_UYVY_TO_RGB888)
-      .value("BGR_TO_RGB", OBConvertFormat::FORMAT_BGR_TO_RGB);
+      .value("BGR_TO_RGB", OBConvertFormat::FORMAT_BGR_TO_RGB)
+      .value("MJPG_TO_NV12", OBConvertFormat::FORMAT_MJPG_TO_NV12)
+      .value("YUYV_TO_BGR", OBConvertFormat::FORMAT_YUYV_TO_BGR)
+      .value("YUYV_TO_RGBA", OBConvertFormat::FORMAT_YUYV_TO_RGBA)
+      .value("YUYV_TO_BGRA", OBConvertFormat::FORMAT_YUYV_TO_BGRA)
+      .value("YUYV_TO_Y16", OBConvertFormat::FORMAT_YUYV_TO_Y16)
+      .value("YUYV_TO_Y8", OBConvertFormat::FORMAT_YUYV_TO_Y8)
+      .value("RGBA_TO_RGB", OBConvertFormat::FORMAT_RGBA_TO_RGB)
+      .value("BGRA_TO_BGR", OBConvertFormat::FORMAT_BGRA_TO_BGR)
+      .value("Y16_TO_RGB", OBConvertFormat::FORMAT_Y16_TO_RGB)
+      .value("Y8_TO_RGB", OBConvertFormat::FORMAT_Y8_TO_RGB);
 
   py::enum_<OBGyroSampleRate>(m, "OBGyroSampleRate")
       .value("SAMPLE_RATE_UNKNOWN", OBGyroSampleRate::OB_SAMPLE_RATE_UNKNOWN)
@@ -649,6 +673,7 @@ void define_orbbec_types(const py::object &m) {
       .value("OPEN", OBDepthCroppingMode::DEPTH_CROPPING_MODE_OPEN);
 
   py::enum_<OBDeviceType>(m, "OBDeviceType")
+      .value("UNKNOWN", OBDeviceType::OB_DEVICE_TYPE_UNKNOWN)
       .value("LIGHT_MONOCULAR",
              OBDeviceType::OB_STRUCTURED_LIGHT_MONOCULAR_CAMERA)
       .value("LIGHT_BINOCULAR",
@@ -665,7 +690,8 @@ void define_orbbec_types(const py::object &m) {
       .value("DEVICE_INFO", OBMediaType::OB_MEDIA_DEVICE_INFO)
       .value("STREAM_INFO", OBMediaType::OB_MEDIA_STREAM_INFO)
       .value("LEFT_IR", OBMediaType::OB_MEDIA_IR_LEFT_STREAM)
-      .value("RIGHT_IR", OBMediaType::OB_MEDIA_IR_RIGHT_STREAM);
+      .value("RIGHT_IR", OBMediaType::OB_MEDIA_IR_RIGHT_STREAM)
+      .value("ALL", OBMediaType::OB_MEDIA_ALL);
 
   py::enum_<OBMediaState>(m, "OBMediaState")
       .value("OB_MEDIA_BEGIN", OBMediaState::OB_MEDIA_BEGIN)
@@ -678,7 +704,10 @@ void define_orbbec_types(const py::object &m) {
       .value("ZERO_POINT_EIGHT_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM8)
       .value("ZERO_POINT_FOUR_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM4)
       .value("ZERO_POINT_TWO_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM2)
-      .value("ZERO_POINT_ONE_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM1);
+      .value("ZERO_POINT_ONE_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM1)
+      .value("ZERO_POINT_FIVE_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM5)
+      .value("ZERO_POINT_ZERO_FIVE_MM", OBDepthPrecisionLevel::OB_PRECISION_0MM05)
+      .value("UNKNOWN", OBDepthPrecisionLevel::OB_PRECISION_UNKNOWN);
 
   py::enum_<OBTofFilterRange>(m, "OBTofFilterRange")
       .value("CLOSE", OBTofFilterRange::OB_TOF_FILTER_RANGE_CLOSE)
@@ -856,6 +885,28 @@ void define_orbbec_types(const py::object &m) {
                ", alpha=" + std::to_string(params.alpha) +
                ", disp_diff=" + std::to_string(params.disp_diff) +
                ", radius=" + std::to_string(params.radius) + ">";
+      });
+
+  // SpatialFastFilterParams for SDK v2.9.3
+  py::class_<OBSpatialFastFilterParams>(m, "OBSpatialFastFilterParams")
+      .def(py::init<>())
+      .def_readwrite("radius", &OBSpatialFastFilterParams::radius)
+      .def("__repr__", [](const OBSpatialFastFilterParams &params) {
+        return "<OBSpatialFastFilterParams radius=" +
+               std::to_string(params.radius) + ">";
+      });
+
+  // SpatialModerateFilterParams for SDK v2.9.3
+  py::class_<OBSpatialModerateFilterParams>(m, "OBSpatialModerateFilterParams")
+      .def(py::init<>())
+      .def_readwrite("radius", &OBSpatialModerateFilterParams::radius)
+      .def_readwrite("magnitude", &OBSpatialModerateFilterParams::magnitude)
+      .def_readwrite("disp_diff", &OBSpatialModerateFilterParams::disp_diff)
+      .def("__repr__", [](const OBSpatialModerateFilterParams &params) {
+        return "<OBSpatialModerateFilterParams radius=" +
+               std::to_string(params.radius) +
+               ", magnitude=" + std::to_string(params.magnitude) +
+               ", disp_diff=" + std::to_string(params.disp_diff) + ">";
       });
 
   py::enum_<OBEdgeNoiseRemovalType>(m, "OBEdgeNoiseRemovalType")
@@ -1164,7 +1215,9 @@ void define_orbbec_types(const py::object &m) {
       .def(py::init<>())
       .def_readwrite("enable", &OBDeviceTimestampResetConfig::enable)
       .def_readwrite("timestamp_reset_delay_us",
-                     &OBDeviceTimestampResetConfig::timestamp_reset_delay_us);
+                     &OBDeviceTimestampResetConfig::timestamp_reset_delay_us)
+      .def_readwrite("timestamp_reset_signal_output_enable",
+                     &OBDeviceTimestampResetConfig::timestamp_reset_signal_output_enable);
 
   py::class_<OBBaselineCalibrationParam>(m, "OBBaselineCalibrationParam")
       .def(py::init<>())
@@ -1365,12 +1418,43 @@ void define_orbbec_types(const py::object &m) {
       .value("OB_DEVICE_DEFAULT_ACCESS",
              OBDeviceAccessMode::OB_DEVICE_DEFAULT_ACCESS);
 
+  // OBDeviceAccessState for SDK v2.9.3
+  // Device access state queried from GVCP CCP without opening the device.
+  py::enum_<OBDeviceAccessState>(m, "OBDeviceAccessState")
+      .value("OB_DEVICE_ACCESS_STATE_UNKNOWN",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_UNKNOWN,
+             "The access state cannot be determined")
+      .value("OB_DEVICE_ACCESS_STATE_UNSUPPORTED",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_UNSUPPORTED,
+             "The device or current build does not support access-state query")
+      .value("OB_DEVICE_ACCESS_STATE_AVAILABLE",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_AVAILABLE,
+             "The device is available for control access")
+      .value("OB_DEVICE_ACCESS_STATE_CONTROLLED",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_CONTROLLED,
+             "The device has a controller; monitor access may still be "
+             "available")
+      .value("OB_DEVICE_ACCESS_STATE_EXCLUSIVE",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_EXCLUSIVE,
+             "The device is held exclusively and cannot be accessed")
+      .value("OB_DEVICE_ACCESS_STATE_UNREACHABLE",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_UNREACHABLE,
+             "The device did not respond or the network path is unreachable")
+      .value("OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED",
+             OBDeviceAccessState::OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED,
+             "The device supports CCP, but the firmware version is too old");
+
   // OBIpSourceType for SDK v2.8.1
   py::enum_<OBIpSourceType>(m, "OBIpSourceType")
       .value("NONE", OB_IP_SOURCE_NONE)
       .value("LLA", OB_IP_SOURCE_LLA)
       .value("DHCP", OB_IP_SOURCE_DHCP)
       .value("PERSISTENT", OB_IP_SOURCE_PERSISTENT);
+
+  // OBClockType for SDK v2.9.0
+  py::enum_<OBClockType>(m, "OBClockType")
+      .value("REALTIME", OB_CLOCK_TYPE_REALTIME)
+      .value("MONOTONIC", OB_CLOCK_TYPE_MONOTONIC);
 
   // New enums and structs for SDK v2.8.1
   py::enum_<OBGvcpPortScheme>(m, "OBGvcpPortScheme")
@@ -1396,5 +1480,70 @@ void define_orbbec_types(const py::object &m) {
                " dev_status=" + std::to_string(s.devStatus) +
                " drv_status=" + std::to_string(s.drvStatus) + ">";
       });
+
+  // CameraPerformanceMode for SDK v2.9.0
+  py::enum_<OBCameraPerformanceMode>(m, "OBCameraPerformanceMode")
+      .value("ADAPTIVE", ADAPTIVE_PERFORMANCE_MODE)
+      .value("HIGH", HIGH_PERFORMANCE_MODE);
+
+  // ColorPreset for SDK v2.9.0
+  py::enum_<OBColorPreset>(m, "OBColorPreset")
+      .value("DEFAULT", OB_DEFAULT)
+      .value("WARM_BIASED_AWB", OB_WARM_BIASED_AWB);
+
+  // UvcBackendType for SDK v2.9.0
+  py::enum_<OBUvcBackendType>(m, "OBUvcBackendType")
+      .value("AUTO", OB_UVC_BACKEND_TYPE_AUTO)
+      .value("LIBUVC", OB_UVC_BACKEND_TYPE_LIBUVC)
+      .value("V4L2", OB_UVC_BACKEND_TYPE_V4L2)
+      .value("MSMF", OB_UVC_BACKEND_TYPE_MSMF);
+
+  // IntraCameraSyncReference for SDK v2.9.0
+  py::enum_<OBIntraCameraSyncReference>(m, "OBIntraCameraSyncReference")
+      .value("START_OF_EXPOSURE", OB_START_OF_EXPOSURE)
+      .value("MIDDLE_OF_EXPOSURE", OB_MIDDLE_OF_EXPOSURE)
+      .value("END_OF_EXPOSURE", OB_END_OF_EXPOSURE);
+}
+void define_type_helper(py::module &m) {
+  m.def("convert_format_to_string", &ob::TypeHelper::convertOBFormatTypeToString);
+  m.def("convert_frame_type_to_string", &ob::TypeHelper::convertOBFrameTypeToString);
+  m.def("convert_stream_type_to_string", &ob::TypeHelper::convertOBStreamTypeToString);
+  m.def("convert_sensor_type_to_string", &ob::TypeHelper::convertOBSensorTypeToString);
+  m.def("convert_imu_sample_rate_to_string",
+        &ob::TypeHelper::convertOBIMUSampleRateTypeToString);
+  m.def("convert_imu_sample_rate_to_value",
+        &ob::TypeHelper::convertOBIMUSampleRateTypeToValue);
+  m.def("convert_imu_sample_rate_value_to_type",
+        &ob::TypeHelper::convertOBIMUSampleRateValueToType);
+  m.def("convert_gyro_full_scale_range_to_string",
+        &ob::TypeHelper::convertOBGyroFullScaleRangeTypeToString);
+  m.def("convert_accel_full_scale_range_to_string",
+        &ob::TypeHelper::convertOBAccelFullScaleRangeTypeToString);
+  m.def("convert_lidar_scan_rate_to_string",
+        &ob::TypeHelper::convertOBLiDARScanRateTypeToString);
+  m.def("convert_frame_metadata_type_to_string",
+        &ob::TypeHelper::convertOBFrameMetadataTypeToString);
+  m.def("convert_sensor_type_to_stream_type",
+        &ob::TypeHelper::convertSensorTypeToStreamType);
+  m.def("convert_stream_type_to_sensor_type",
+        &ob::TypeHelper::convertStreamTypeToSensorType);
+  m.def("convert_stream_type_to_frame_type",
+        &ob::TypeHelper::convertStreamTypeToFrameType);
+  // ob_frame_type_to_stream_type is not exported from the SDK dylib (missing
+  // OB_EXPORT in TypeHelper.h), so implement it via frame->sensor->stream.
+  m.def("convert_frame_type_to_stream_type", [](OBFrameType type) {
+    try {
+      OBSensorType sensor = ob_frame_type_to_sensor_type(type);
+      return ob_sensor_type_to_stream_type(sensor);
+    } catch (const ob::Error &error) {
+      throw pyorbbecsdk::OBError(error);
+    } catch (const std::exception &e) {
+      throw py::value_error(e.what());
+    }
+  });
+  m.def("convert_frame_type_to_sensor_type",
+        &ob::TypeHelper::convertFrameTypeToSensorType);
+  m.def("is_video_sensor_type", &ob::TypeHelper::isVideoSensorType);
+  m.def("is_video_stream_type", &ob::TypeHelper::isVideoStreamType);
 }
 }  // namespace pyorbbecsdk

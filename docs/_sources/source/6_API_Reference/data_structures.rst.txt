@@ -94,6 +94,10 @@ OBException
         - ``<OBException.IO_ERROR: 7>``
         - 7
         - Auto-generated from C++ bindings
+      * - ``LICENSE_VERIFY_FAILED``
+        - ``<OBException.LICENSE_VERIFY_FAILED: 15>``
+        - 15
+        - Auto-generated from C++ bindings
       * - ``NOT_FOUND``
         - ``<OBException.NOT_FOUND: 13>``
         - 13
@@ -109,6 +113,14 @@ OBException
       * - ``RESOURCE_BUSY``
         - ``<OBException.RESOURCE_BUSY: 14>``
         - 14
+        - Auto-generated from C++ bindings
+      * - ``STD_EXCEPTION``
+        - ``<OBException.STD_EXCEPTION: 1>``
+        - 1
+        - Auto-generated from C++ bindings
+      * - ``TYPE_MEMORY``
+        - ``<OBException.TYPE_MEMORY: 8>``
+        - 8
         - Auto-generated from C++ bindings
       * - ``UNKNOWN``
         - ``<OBException.UNKNOWN: 0>``
@@ -486,6 +498,14 @@ OBPropertyID
         - ``<OBPropertyID.OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL: 199>``
         - 199
         - Auto-generated from C++ bindings
+      * - ``OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT``
+        - ``<OBPropertyID.OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT: 272>``
+        - 272
+        - Auto-generated from C++ bindings
+      * - ``OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT``
+        - ``<OBPropertyID.OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT: 271>``
+        - 271
+        - Auto-generated from C++ bindings
       * - ``OB_PROP_D2C_PREPROCESS_BOOL``
         - ``<OBPropertyID.OB_PROP_D2C_PREPROCESS_BOOL: 91>``
         - 91
@@ -562,6 +582,14 @@ OBPropertyID
         - ``<OBPropertyID.OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: 41>``
         - 41
         - Auto-generated from C++ bindings
+      * - ``OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL``
+        - ``<OBPropertyID.OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL: 25>``
+        - 25
+        - Auto-generated from C++ bindings
+      * - ``OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT``
+        - ``<OBPropertyID.OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT: 26>``
+        - 26
+        - Auto-generated from C++ bindings
       * - ``OB_PROP_DEPTH_POSTFILTER_BOOL``
         - ``<OBPropertyID.OB_PROP_DEPTH_POSTFILTER_BOOL: 16>``
         - 16
@@ -609,6 +637,10 @@ OBPropertyID
       * - ``OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL``
         - ``<OBPropertyID.OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL: 133>``
         - 133
+        - Auto-generated from C++ bindings
+      * - ``OB_PROP_DEVICE_IP_MODE_INT``
+        - ``<OBPropertyID.OB_PROP_DEVICE_IP_MODE_INT: 260>``
+        - 260
         - Auto-generated from C++ bindings
       * - ``OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY``
         - ``<OBPropertyID.OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY: 5555>``
@@ -902,6 +934,10 @@ OBPropertyID
         - ``<OBPropertyID.OB_PROP_MIN_DEPTH_INT: 22>``
         - 22
         - Auto-generated from C++ bindings
+      * - ``OB_PROP_MJPEG_QUALITY_INT``
+        - ``<OBPropertyID.OB_PROP_MJPEG_QUALITY_INT: 277>``
+        - 277
+        - Auto-generated from C++ bindings
       * - ``OB_PROP_NETWORK_BANDWIDTH_TYPE_INT``
         - ``<OBPropertyID.OB_PROP_NETWORK_BANDWIDTH_TYPE_INT: 3027>``
         - 3027
@@ -1001,6 +1037,10 @@ OBPropertyID
       * - ``OB_PROP_USB_POWER_STATE_INT``
         - ``<OBPropertyID.OB_PROP_USB_POWER_STATE_INT: 121>``
         - 121
+        - Auto-generated from C++ bindings
+      * - ``OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT``
+        - ``<OBPropertyID.OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT: 270>``
+        - 270
         - Auto-generated from C++ bindings
       * - ``OB_PROP_WATCHDOG_BOOL``
         - ``<OBPropertyID.OB_PROP_WATCHDOG_BOOL: 87>``
@@ -1157,9 +1197,17 @@ OBCameraDistortionModel
         - ``<OBCameraDistortionModel.BROWN_CONRADY: 3>``
         - 3
         - Auto-generated from C++ bindings
+      * - ``BROWN_CONRADY_K6``
+        - ``<OBCameraDistortionModel.BROWN_CONRADY_K6: 4>``
+        - 4
+        - Auto-generated from C++ bindings
       * - ``INVERSE_BROWN_CONRADY``
         - ``<OBCameraDistortionModel.INVERSE_BROWN_CONRADY: 2>``
         - 2
+        - Auto-generated from C++ bindings
+      * - ``KANNALA_BRANDT4``
+        - ``<OBCameraDistortionModel.KANNALA_BRANDT4: 5>``
+        - 5
         - Auto-generated from C++ bindings
       * - ``MODIFIED_BROWN_CONRADY``
         - ``<OBCameraDistortionModel.MODIFIED_BROWN_CONRADY: 1>``
@@ -1742,9 +1790,17 @@ OBDepthPrecisionLevel
         - ``<OBDepthPrecisionLevel.ONE_MM: 0>``
         - 0
         - Auto-generated from C++ bindings
+      * - ``UNKNOWN``
+        - ``<OBDepthPrecisionLevel.UNKNOWN: 7>``
+        - 7
+        - Auto-generated from C++ bindings
       * - ``ZERO_POINT_EIGHT_MM``
         - ``<OBDepthPrecisionLevel.ZERO_POINT_EIGHT_MM: 1>``
         - 1
+        - Auto-generated from C++ bindings
+      * - ``ZERO_POINT_FIVE_MM``
+        - ``<OBDepthPrecisionLevel.ZERO_POINT_FIVE_MM: 5>``
+        - 5
         - Auto-generated from C++ bindings
       * - ``ZERO_POINT_FOUR_MM``
         - ``<OBDepthPrecisionLevel.ZERO_POINT_FOUR_MM: 2>``
@@ -1757,6 +1813,10 @@ OBDepthPrecisionLevel
       * - ``ZERO_POINT_TWO_MM``
         - ``<OBDepthPrecisionLevel.ZERO_POINT_TWO_MM: 4>``
         - 4
+        - Auto-generated from C++ bindings
+      * - ``ZERO_POINT_ZERO_FIVE_MM``
+        - ``<OBDepthPrecisionLevel.ZERO_POINT_ZERO_FIVE_MM: 6>``
+        - 6
         - Auto-generated from C++ bindings
 
 OBDepthCroppingMode

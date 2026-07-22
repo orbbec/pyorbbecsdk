@@ -70,10 +70,19 @@ public:
 
 class PlaybackDevice : public Device {
 public:
-    explicit PlaybackDevice(const std::string &file) : Device(nullptr) {
+    /**
+     * @brief Constructs a PlaybackDevice for playing back recorded device data.
+     * @param[in] file Path to the playback file.
+     * @param[in] presetPath Path to a preset JSON file to load after device creation. If empty, no preset is loaded.
+     */
+    explicit PlaybackDevice(const std::string &file, const std::string &presetPath = "") : Device(nullptr) {
         ob_error *error = nullptr;
         impl_           = ob_create_playback_device(file.c_str(), &error);
         Error::handle(&error);
+
+        if(!presetPath.empty()) {
+            loadPresetFromJsonFile(presetPath.c_str());
+        }
     }
 
     virtual ~PlaybackDevice() noexcept override = default;

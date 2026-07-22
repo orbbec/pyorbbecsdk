@@ -70,6 +70,9 @@ def main():
     # Start the pipeline with the specific configuration
     pipeline.start(config)
 
+    # Create a resizable window for the confidence visualization
+    cv2.namedWindow("Confidence", cv2.WINDOW_NORMAL)
+
     while True:
         try:
             # Wait for a new set of frames (timeout set to 100ms)

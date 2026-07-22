@@ -50,6 +50,7 @@ class OBError : public std::exception {
   const char *what() const noexcept override { return message_.c_str(); }
   OBExceptionType get_type() const noexcept { return type_; }
   const char *get_name() const noexcept { return name_.c_str(); }
+  const char *get_args() const noexcept { return args_.c_str(); }
   OBStatus get_status() const noexcept { return status_; }
 
  private:

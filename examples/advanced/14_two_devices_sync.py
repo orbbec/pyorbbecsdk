@@ -22,7 +22,7 @@ from typing import List
 
 import cv2
 import numpy as np
-from utils import frame_to_bgr_image
+from utils import frame_to_bgr_image, resize_to_fit
 
 from pyorbbecsdk import OBError  # type: ignore
 from pyorbbecsdk import (
@@ -97,6 +97,11 @@ def rendering_frames():
     global curr_device_cnt
     global stop_rendering
     global serial_number_list
+
+    # Create resizable windows for each connected device
+    for i in range(curr_device_cnt):
+        cv2.namedWindow(f"Device {i}", cv2.WINDOW_NORMAL)
+
     while not stop_rendering:
         for i in range(curr_device_cnt):
             color_frame = None
@@ -143,15 +148,15 @@ def rendering_frames():
                 depth_image = cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
 
             if color_image is not None and depth_image is not None:
-                window_size = (color_width // 2, color_height // 2)
-                color_image = cv2.resize(color_image, window_size)
-                depth_image = cv2.resize(depth_image, window_size)
+                cell_w, cell_h = color_width // 2, color_height // 2
+                color_image = resize_to_fit(color_image, cell_w, cell_h)
+                depth_image = resize_to_fit(depth_image, cell_w, cell_h)
                 image = np.hstack((color_image, depth_image))
             elif depth_image is not None and not has_color_sensor[i]:
                 image = depth_image
             else:
                 continue
-            cv2.imshow("Device {}".format(i), image)
+            cv2.imshow(f"Device {i}", image)
             key = cv2.waitKey(1)
             if key == ord("q") or key == ESC_KEY:
                 return

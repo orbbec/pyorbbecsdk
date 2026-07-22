@@ -54,6 +54,7 @@ link_directories(${ORBBEC_LIBS})
 # Python extension module
 pybind11_add_module(${PROJECT_NAME}
   src/pyorbbecsdk/pyorbbecsdk.cpp
+  src/pyorbbecsdk/application_config.cpp
   src/pyorbbecsdk/context.cpp
   src/pyorbbecsdk/device.cpp
   src/pyorbbecsdk/error.cpp

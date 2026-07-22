@@ -53,4 +53,16 @@ void define_mgc_noise_removal_filter(const py::object& m);
 
 void define_lut_noise_removal_filter(const py::object& m);
 
+void define_undistortion_filter(const py::object& m);
+
+void define_enhanced_depth_filter(const py::object& m);
+
+void define_filter_factory(const py::object& m);
+
+void define_spatial_fast_filter(const py::object& m);
+
+void define_spatial_moderate_filter(const py::object& m);
+
+void define_false_positive_filter(const py::object& m);
+
 }  // namespace pyorbbecsdk

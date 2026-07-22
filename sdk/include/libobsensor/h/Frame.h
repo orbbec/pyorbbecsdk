@@ -398,6 +398,35 @@ OB_EXPORT ob_sensor *ob_frame_get_sensor(const ob_frame *frame, ob_error **error
 OB_EXPORT ob_device *ob_frame_get_device(const ob_frame *frame, ob_error **error);
 
 /**
+ * @brief Get the auth token carried by the frame.
+ *
+ * @param[in] frame Frame object.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return uint64_t The auth token value.
+ */
+OB_EXPORT uint64_t ob_frame_get_token(const ob_frame *frame, ob_error **error);
+
+/**
+ * @brief Set the auth token carried by the frame.
+ *
+ * @param[in] frame Frame object.
+ * @param[in] token The auth token value.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_frame_set_token(ob_frame *frame, uint64_t token, ob_error **error);
+
+/**
+ * @brief Get the device information attached to the frame.
+ *
+ * @param[in] frame Frame object.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return ob_device_info* Return the attached device information, or NULL if not available.
+ */
+OB_EXPORT ob_device_info *ob_frame_get_device_info(const ob_frame *frame, ob_error **error);
+
+/**
  * @brief Get video frame width
  *
  * @param[in] frame Frame object

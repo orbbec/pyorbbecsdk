@@ -47,7 +47,7 @@
 
 import cv2
 import numpy as np
-from utils import frame_to_bgr_image
+from utils import frame_to_bgr_image, resize_to_fit
 
 from pyorbbecsdk import OBError, OBFormat, Pipeline  # type: ignore
 
@@ -160,8 +160,8 @@ def main():
             depth_image = render_depth_3d(depth_mm)
 
             half_w = WINDOW_WIDTH // 2
-            color_resized = cv2.resize(color_image, (half_w, WINDOW_HEIGHT))
-            depth_resized = cv2.resize(depth_image, (half_w, WINDOW_HEIGHT))
+            color_resized = resize_to_fit(color_image, half_w, WINDOW_HEIGHT)
+            depth_resized = resize_to_fit(depth_image, half_w, WINDOW_HEIGHT)
             combined = np.hstack((color_resized, depth_resized))
 
             cv2.imshow(WINDOW_NAME, combined)

@@ -41,7 +41,6 @@ from pyorbbecsdk import (
     HoleFillingFilter,
     OBError,
     OBFormat,
-    OBLogLevel,
     OBSensorType,
     OBStreamType,
     Pipeline,
@@ -104,8 +103,6 @@ def main():
         print("Device Not Found! Please connect an Orbbec camera and try again.")
         return
 
-    ctx.set_logger_level(OBLogLevel.WARNING)
-
     pipeline = Pipeline()
     config = Config()
 
@@ -137,6 +134,9 @@ def main():
     print("  q/ESC = quit\n")
 
     try:
+        # Create a resizable window for the filter chain visualization
+        cv2.namedWindow("Filter Chain  |  T/S/H/+/- keys", cv2.WINDOW_NORMAL)
+
         while True:
             frame_set = pipeline.wait_for_frames(1000)
             if frame_set is None:

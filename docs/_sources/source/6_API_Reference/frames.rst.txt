@@ -608,6 +608,10 @@ OBMediaType
         - ``<OBMediaType.ACCEL: 16>``
         - 16
         - Auto-generated from C++ bindings
+      * - ``ALL``
+        - ``<OBMediaType.ALL: 1023>``
+        - 1023
+        - Auto-generated from C++ bindings
       * - ``CAMERA_PARAM``
         - ``<OBMediaType.CAMERA_PARAM: 32>``
         - 32

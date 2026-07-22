@@ -24,4 +24,6 @@ namespace py = pybind11;
 namespace pyorbbecsdk {
 
 void define_orbbec_types(const py::object& m);
+
+void define_type_helper(py::module& m);
 }

@@ -36,7 +36,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import cv2
 import numpy as np
-from utils import frame_to_bgr_image
+from utils import frame_to_bgr_image, is_dabai_a_series_device
 
 from pyorbbecsdk import OBAlignMode  # type: ignore
 from pyorbbecsdk import (
@@ -48,6 +48,7 @@ from pyorbbecsdk import (
     OBSensorType,
     OBStreamType,
     Pipeline,
+    UnDistortionFilter,
 )
 
 # --- Configuration Constants ---
@@ -128,6 +129,7 @@ def main():
     # ------------------------------------------------------------------
     # Stream setup — differs between SW and HW mode
     # ------------------------------------------------------------------
+    color_undistort = None  # may be set to a filter after start (Dabai A only)
     if args.hw:
         # ---- Hardware D2C mode ----
         try:
@@ -143,6 +145,9 @@ def main():
         enable_hw_d2c = True
         alpha = 0.5
         alpha_step = 0.1
+
+        # Color undistortion for Dabai A series (HW D2C mode only)
+        hw_d2c_undist_configured = False
 
         print("\n========== Hardware D2C Align ==========")
         print("T       : Enable / Disable HW D2C")
@@ -186,6 +191,16 @@ def main():
         print(f"Pipeline start error: {e}")
         return
 
+    # -- Color undistortion for Dabai A series --
+    # After start so the device pipeline is ready; checked by VID/PID.
+    try:
+        dev_info = pipeline.get_device().get_device_info()
+        if is_dabai_a_series_device(dev_info.get_vid(), dev_info.get_pid()):
+            color_undistort = UnDistortionFilter(OBStreamType.COLOR_STREAM)
+            print("Dabai A series detected: enabled color undistortion")
+    except Exception as e:
+        print(f"Color undistortion setup warning: {e}")
+
     # ------------------------------------------------------------------
     # Frame loop
     # ------------------------------------------------------------------
@@ -195,13 +210,33 @@ def main():
             if not frames:
                 continue
 
+            # -- Color undistortion (HW D2C mode, Dabai A only) --
+            if args.hw and color_undistort and enable_hw_d2c:
+                if not hw_d2c_undist_configured:
+                    raw_depth = frames.get_depth_frame()
+                    if raw_depth:
+                        prof = raw_depth.get_stream_profile()
+                        intrinsic = prof.get_intrinsic()
+                        color_undistort.set_new_camera_matrix(intrinsic)
+                        hw_d2c_undist_configured = True
+                if hw_d2c_undist_configured:
+                    result = color_undistort.process(frames)
+                    if result:
+                        frames = result
+
             color_frame = frames.get_color_frame()
             depth_frame = frames.get_depth_frame()
             if not color_frame or not depth_frame:
                 continue
 
-            # -- Software alignment (SW mode only) --
+            # -- Color undistortion & alignment (SW mode) --
             if not args.hw:
+                # Undistort Dabai A color first (before alignment)
+                if color_undistort:
+                    frames = color_undistort.process(frames)
+                    if not frames:
+                        continue
+
                 frames = align_filter.process(frames)
                 if not frames:
                     continue
@@ -270,6 +305,7 @@ def main():
                 if key in (ord("t"), ord("T")):
                     enable_hw_d2c = not enable_hw_d2c
                     switch_hw_d2c(pipeline, config, enable_hw_d2c)
+                    hw_d2c_undist_configured = False
                 elif key in (ord("+"), ord("=")):
                     alpha = min(1.0, alpha + alpha_step)
                     print(f"Alpha: {alpha:.2f}")

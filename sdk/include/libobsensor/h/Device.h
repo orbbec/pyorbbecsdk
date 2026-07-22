@@ -164,6 +164,76 @@ OB_EXPORT void ob_device_set_structured_data(ob_device *device, ob_property_id p
 OB_EXPORT void ob_device_get_structured_data(ob_device *device, ob_property_id property_id, uint8_t *data, uint32_t *data_size, ob_error **error);
 
 /**
+ * @brief Check whether the device supports license authorization.
+ *
+ * This function only reports whether the device provides the license authorization
+ * capability. It does not read or validate the license information.
+ *
+ * @param[in] device The device object.
+ * @param[out] error Log error messages.
+ * @return true if the device supports license authorization, false otherwise.
+ */
+OB_EXPORT bool ob_device_is_license_authorization_supported(const ob_device *device, ob_error **error);
+
+/**
+ * @brief Write signed device license information.
+ *
+ * The license_info_json is a UTF-8 JSON string with the following structure. All
+ * binary fields are lowercase hex strings without a "0x" prefix and with a fixed
+ * length. Before writing, the SDK reads the currently connected device and compares
+ * it against "devInfo" to prevent writing a license to the wrong device; it does NOT
+ * verify the signature or recompute deviceHash (signature and device-binding checks
+ * are performed by the consumer/filter at runtime).
+ *
+ *   {
+ *     "formatVersion": 1,                 // license_info envelope version
+ *     "devInfo": {                        // plaintext, NOT signed; used only to
+ *       "deviceSn": "SN123456789",        //   guard against mis-writing to the
+ *       "vid": "2BC5",                    //   wrong device. vid/pid are 4-char
+ *       "pid": "0660"                     //   uppercase hex.
+ *     },
+ *     "licenseInfo": {                    // signed authorization credential
+ *       "schemaVersion": 1,               // credential schema version
+ *       "keyVersion": 1,                  // 16-bit signing public key id
+ *       "featureFlags": "0000000000000001",// 8 bytes, 16-char lowercase hex
+ *       "expireDate": 4294967295,         // YYYYMMDD; 0xFFFFFFFF = permanent
+ *       "deviceHash": "00112233445566778899aabbccddeeff",        // 16 bytes, 32-char hex
+ *       "signature": "...",               // ECDSA P-256 r||s, 64 bytes, 128-char hex
+ *       "vendorLicense": "..."            // third-party vendor blob, lowercase hex (235 bytes)
+ *     }
+ *   }
+ *
+ * @param[in] device The device object.
+ * @param[in] license_info_json The SDK license_info JSON string described above.
+ * @param[in] license_info_json_size The byte size of license_info_json, excluding any trailing null terminator.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_device_write_license_info(ob_device *device, const char *license_info_json, uint32_t license_info_json_size, ob_error **error);
+
+/**
+ * @brief Read signed device license information as SDK license_info JSON.
+ *
+ * @param[in] device The device object.
+ * @param[out] license_info_json The output buffer for SDK license_info JSON, null-terminated on success.
+ * @param[in] license_info_json_size Size of the output buffer in bytes. Must be large enough to hold the JSON string and a trailing null terminator; 512
+ * bytes is sufficient for the current schema.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_device_read_license_info(const ob_device *device, char *license_info_json, uint32_t license_info_json_size, ob_error **error);
+
+/**
+ * @brief Clear license information stored on the device.
+ *
+ * Erases the device license storage area so that the device returns to the
+ * "no license" state. Intended for internal repair, re-activation or debugging
+ * builds and should be gated by caller-side confirmation.
+ *
+ * @param[in] device The device object.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_device_clear_license_info(ob_device *device, ob_error **error);
+
+/**
  * @brief Get raw data of a device property.
  *
  * @param[in] device The device object.
@@ -287,6 +357,19 @@ OB_EXPORT void ob_device_update_optional_depth_presets(ob_device *device, const 
                                                        ob_device_fw_update_callback callback, void *user_data, ob_error **error);
 
 /**
+ * @brief Update the device optional depth presets from data loaded in memory.
+ *
+ * @param[in] device The device object.
+ * @param[in] data_list A list of preset data blocks, each holding a data pointer and its size.
+ * @param[in] count The number of the preset data blocks.
+ * @param[in] callback The preset upgrade progress callback.
+ * @param[in] user_data User-defined data that will be returned in the callback.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_device_update_optional_depth_presets_from_data(ob_device *device, const ob_data_view *data_list, uint8_t count,
+                                                                 ob_device_fw_update_callback callback, void *user_data, ob_error **error);
+
+/**
  * @brief Device reboot
  * @attention The device will be disconnected and reconnected. After the device is disconnected, the interface access to the device handle may be abnormal.
  * Please use the ob_delete_device interface to delete the handle directly. After the device is reconnected, it can be obtained again.
@@ -336,6 +419,27 @@ OB_EXPORT void ob_device_enable_heartbeat(ob_device *device, bool enable, ob_err
  * @param[out] error Pointer to an error object that will be set if an error occurs.
  */
 OB_EXPORT void ob_device_enable_firmware_log(ob_device *device, bool enable, ob_error **error);
+
+/**
+ * @brief Check whether the device firmware log is enabled.
+ *
+ * @param[in] device The device object.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return bool Whether the firmware log is enabled.
+ */
+OB_EXPORT bool ob_device_is_firmware_log_enabled(ob_device *device, ob_error **error);
+
+/**
+ * @brief Synchronize the device time (synchronize hardwarePPS time to device)
+ *
+ * @param[in] device The device object.
+ * @param[in] hardware_pps_time unit: ms.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return bool Whether the synchronisation is successful.
+ */
+OB_EXPORT bool ob_device_sync_hardware_pps_time(ob_device *device, uint64_t hardware_pps_time, ob_error **error);
 
 /**
  * @brief Send data to the device and receive data from the device.
@@ -415,7 +519,7 @@ OB_EXPORT const char *ob_device_info_get_uid(const ob_device_info *info, ob_erro
  *
  * @param[in] info Device Information
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return const char* return device serial number
  */
 OB_EXPORT const char *ob_device_info_get_serial_number(const ob_device_info *info, ob_error **error);
@@ -425,7 +529,7 @@ OB_EXPORT const char *ob_device_info_get_serial_number(const ob_device_info *inf
  *
  * @param[in] info Device Information
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return int return the firmware version number
  */
 OB_EXPORT const char *ob_device_info_get_firmware_version(const ob_device_info *info, ob_error **error);
@@ -447,7 +551,7 @@ OB_EXPORT const char *ob_device_info_get_connection_type(const ob_device_info *i
  *
  * @param[in] info Device Information
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return const char* The IP address, such as "192.168.1.10"
  */
 OB_EXPORT const char *ob_device_info_get_ip_address(const ob_device_info *info, ob_error **error);
@@ -509,7 +613,7 @@ OB_EXPORT const char *ob_device_get_extension_info(const ob_device *device, cons
  *
  * @param[in] info Device Information
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return const char* The minimum SDK version number supported by the device
  */
 OB_EXPORT const char *ob_device_info_get_supported_min_sdk_version(const ob_device_info *info, ob_error **error);
@@ -519,7 +623,7 @@ OB_EXPORT const char *ob_device_info_get_supported_min_sdk_version(const ob_devi
  *
  * @param[in] info Device Information
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return const char* The ASIC name
  */
 OB_EXPORT const char *ob_device_info_get_asicName(const ob_device_info *info, ob_error **error);
@@ -529,7 +633,7 @@ OB_EXPORT const char *ob_device_info_get_asicName(const ob_device_info *info, ob
  *
  * @param[in] info Device Information
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return ob_device_type The device type
  */
 OB_EXPORT ob_device_type ob_device_info_get_device_type(const ob_device_info *info, ob_error **error);
@@ -547,7 +651,7 @@ OB_EXPORT void ob_delete_device_list(ob_device_list *list, ob_error **error);
  *
  * @param[in] list Device list object
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return uint32_t return the number of devices
  */
 OB_EXPORT uint32_t ob_device_list_get_count(const ob_device_list *list, ob_error **error);
@@ -558,7 +662,7 @@ OB_EXPORT uint32_t ob_device_list_get_count(const ob_device_list *list, ob_error
  * @param[in] list Device list object
  * @param[in] index Device index
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return const char* return device name
  */
 OB_EXPORT const char *ob_device_list_get_device_name(const ob_device_list *list, uint32_t index, ob_error **error);
@@ -569,7 +673,7 @@ OB_EXPORT const char *ob_device_list_get_device_name(const ob_device_list *list,
  * @param[in] list Device list object
  * @param[in] index Device index
  * @param[out] error Pointer to an error object that will be set if an error occurs.
- * 
+ *
  * @return int return the device pid
  */
 OB_EXPORT int ob_device_list_get_device_pid(const ob_device_list *list, uint32_t index, ob_error **error);
@@ -751,6 +855,46 @@ OB_EXPORT ob_ip_source_type ob_device_list_get_device_ip_source_type(const ob_de
  * @return const char* The user-defined name string. Returns "unknown" for non-Ethernet devices or if not set.
  */
 OB_EXPORT const char *ob_device_list_get_device_user_name(const ob_device_list *list, uint32_t index, ob_error **error);
+
+/**
+ * @brief Query the current device access state without opening the device.
+ *
+ * @attention This is a non-invasive GVCP CCP query for supported Ethernet devices. It reports device-side CCP state, not the owner process or host.
+ * For non-Ethernet devices or Ethernet devices without CCP support, it returns OB_DEVICE_ACCESS_STATE_UNSUPPORTED.
+ * CONTROLLED means monitor access may still be available, while default/control access may still fail.
+ * This call is synchronous and blocks while waiting for the device's GVCP response over the network; querying an unreachable device blocks until the
+ * underlying retry logic gives up, so prefer calling it off the UI thread when querying multiple devices.
+ * The returned state reflects the device access state only at the moment of the query and does not guarantee that a subsequent access (such as creating or
+ * opening the device) will succeed, as another client may change the state in between.
+ *
+ * @param[in] list Device list object.
+ * @param[in] index The index of the device.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return The current access state of the device.
+ */
+OB_EXPORT ob_device_access_state ob_device_list_query_device_access_state(const ob_device_list *list, uint32_t index, ob_error **error);
+
+/**
+ * @brief Query the current device access state by serial number without opening the device.
+ *
+ * @attention This is a non-invasive GVCP CCP query for supported Ethernet devices. It reports device-side CCP state, not the owner process or host.
+ * For non-Ethernet devices or Ethernet devices without CCP support, it returns OB_DEVICE_ACCESS_STATE_UNSUPPORTED.
+ * CONTROLLED means monitor access may still be available, while default/control access may still fail.
+ * This call is synchronous and blocks while waiting for the device's GVCP response over the network; querying an unreachable device blocks until the
+ * underlying retry logic gives up, so prefer calling it off the UI thread when querying multiple devices.
+ * The returned state reflects the device access state only at the moment of the query and does not guarantee that a subsequent access (such as creating or
+ * opening the device) will succeed, as another client may change the state in between.
+ * If no device in the list matches the given serial number, an error is set via the error parameter.
+ *
+ * @param[in] list Device list object.
+ * @param[in] serial_number The serial number of the device.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return The current access state of the device.
+ */
+OB_EXPORT ob_device_access_state ob_device_list_query_device_access_state_by_serial_number(const ob_device_list *list, const char *serial_number,
+                                                                                           ob_error **error);
 
 /**
  * @brief Create a device.

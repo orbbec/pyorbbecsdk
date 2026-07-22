@@ -132,6 +132,35 @@ OBGvcpPortScheme Context::get_gvcp_port_scheme() {
   OB_TRY_CATCH({ return impl_->getGvcpPortScheme(); });
 }
 
+void Context::sync_device_hardware_pps_time(uint64_t hardware_pps_time) {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ impl_->syncDeviceHardwarePPSTime(hardware_pps_time); });
+}
+
+void Context::set_timestamp_clock_type(OBClockType clock_type) {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ impl_->setTimestampClockType(clock_type); });
+}
+
+void Context::free_idle_memory() {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ impl_->freeIdleMemory(); });
+}
+
+void Context::set_uvc_backend_type(OBUvcBackendType type) {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ impl_->setUvcBackendType(type); });
+}
+
+void Context::set_extensions_directory(const std::string &path) {
+  ob::Context::setExtensionsDirectory(path.c_str());
+}
+
+OBClockType Context::get_timestamp_clock_type() {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({ return impl_->getTimestampClockType(); });
+}
+
 void define_context(py::object &m) {
   py::class_<Context>(m, "Context")
       .def(py::init<>())
@@ -193,6 +222,25 @@ void define_context(py::object &m) {
           "get_gvcp_port_scheme",
           [](Context &self) { return self.get_gvcp_port_scheme(); },
           "Get the current GVCP port scheme")
+      .def(
+          "sync_device_hardware_pps_time",
+          [](Context &self, uint64_t hardware_pps_time) {
+            self.sync_device_hardware_pps_time(hardware_pps_time);
+          },
+          py::arg("hardware_pps_time"),
+          "Synchronize the device time (synchronize hardwarePPS time to all "
+          "created devices)")
+      .def(
+          "set_timestamp_clock_type",
+          [](Context &self, OBClockType clock_type) {
+            self.set_timestamp_clock_type(clock_type);
+          },
+          py::arg("clock_type"),
+          "Set the host-side timestamp clock type for the current context")
+      .def(
+          "get_timestamp_clock_type",
+          [](Context &self) { return self.get_timestamp_clock_type(); },
+          "Get the current host-side timestamp clock type for the context")
       .def_static("set_logger_level",
                   [](OBLogSeverity level) { Context::set_logger_level(level); })
       .def_static(
@@ -223,6 +271,21 @@ void define_context(py::object &m) {
                      const std::string &func, int line) {
                     Context::log_external_message(level, module, message, file,
                                                   func, line);
-                  });
+                  })
+      .def("free_idle_memory",
+           [](Context &self) { self.free_idle_memory(); },
+           "Free idle memory from the internal frame memory pool")
+      .def("set_uvc_backend_type",
+           [](Context &self, OBUvcBackendType type) {
+             self.set_uvc_backend_type(type);
+           },
+           py::arg("type"),
+           "Set the UVC backend type (Linux only: LIBUVC or V4L2)")
+      .def_static("set_extensions_directory",
+                  [](const std::string &path) {
+                    Context::set_extensions_directory(path);
+                  },
+                  py::arg("path"),
+                  "Set the extensions directory for loading extension modules");
 }
 }  // namespace pyorbbecsdk

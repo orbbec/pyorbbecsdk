@@ -7,7 +7,7 @@
 #    3. Visualize the merged depth output with extended dynamic range
 #    4. Compare HDR depth quality against standard single-exposure depth
 #
-#  Device requirement: Gemini 330 series
+#  Device requirement: devices with Frame Interleave HDR mode or OB_STRUCT_DEPTH_HDR_CONFIG property
 #
 #  Run:
 #    python examples/advanced/10_hdr.py
@@ -16,10 +16,10 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-import sys
 
 import cv2
 import numpy as np
+from utils import resize_to_fit
 
 from pyorbbecsdk import HDRMergeFilter  # type: ignore
 from pyorbbecsdk import (
@@ -83,7 +83,7 @@ def enhance_contrast(image, clip_limit=3.0, tile_grid_size=(8, 8)):
         return clahe.apply(image)
 
 
-def main(argv):
+def main():
     # Check if device is connected
     ctx = Context()
     device_list = ctx.query_devices()
@@ -92,13 +92,6 @@ def main(argv):
         return
 
     pipeline = Pipeline()
-    device = pipeline.get_device()
-    is_support_hdr = device.is_property_supported(
-        OBPropertyID.OB_STRUCT_DEPTH_HDR_CONFIG, OBPermissionType.PERMISSION_READ_WRITE
-    )
-    if is_support_hdr == False:
-        print("Current default device does not support HDR merge")
-        return
     config = Config()
 
     try:
@@ -119,32 +112,38 @@ def main(argv):
         print(e)
         return
 
-    try:
-        pipeline.enable_frame_sync()
-    except Exception as e:
-        print(e)
+    # Configure HDR BEFORE pipeline.start() to ensure alternating
+    # exposure is active when streaming begins.
+    device = pipeline.get_device()
+
+    if device.isFrameInterleaveSupported():
+        # Disable auto exposure first; auto exposure would override
+        # the interleave exposure values and prevent HDR from working.
+        try:
+            device.set_bool_property(OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL, False)
+        except Exception:
+            pass
+        device.loadFrameInterleave("Depth from HDR")
+        device.set_bool_property(OBPropertyID.OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL, True)
+    elif device.is_property_supported(OBPropertyID.OB_STRUCT_DEPTH_HDR_CONFIG, OBPermissionType.PERMISSION_READ_WRITE):
+        hdr_config = OBHdrConfig()
+        hdr_config.enable = True
+        hdr_config.exposure_1 = 7500
+        hdr_config.gain_1 = 24
+        hdr_config.exposure_2 = 100
+        hdr_config.gain_2 = 16
+        device.set_hdr_config(hdr_config)
+    else:
+        print("Current default device does not support HDR merge")
+        return
+
+    hdr_filter = HDRMergeFilter()
 
     try:
         pipeline.start(config)
     except Exception as e:
         print(e)
         return
-
-    device = pipeline.get_device()
-
-    if device.isFrameInterleaveSupported():
-        device.loadFrameInterleave("Depth from HDR")
-        device.set_bool_property(OBPropertyID.OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL, True)
-    else:
-        config = OBHdrConfig()
-        config.enable = True
-        config.exposure_1 = 7500
-        config.gain_1 = 24
-        config.exposure_2 = 100
-        config.gain_2 = 16
-        device.set_hdr_config(config)
-
-    hdr_filter = HDRMergeFilter()
 
     # Create window for visualization
     cv2.namedWindow("HDR Merge Viewer", cv2.WINDOW_NORMAL)
@@ -184,11 +183,12 @@ def main(argv):
             ir_right_image = enhance_contrast(ir_right_image, clip_limit=4.0)
             merged_depth_image = enhance_contrast(merged_depth_image, clip_limit=4.0)
 
-            # Ensure all images have the same dimensions for display
+            # Fit all images into a common cell (depth's resolution) for the
+            # 2x2 grid, preserving each one's aspect ratio with black borders.
             h, w = depth_image.shape[:2]
-            ir_left_image = cv2.resize(ir_left_image, (w, h))
-            ir_right_image = cv2.resize(ir_right_image, (w, h))
-            merged_depth_image = cv2.resize(merged_depth_image, (w, h))
+            ir_left_image = resize_to_fit(ir_left_image, w, h)
+            ir_right_image = resize_to_fit(ir_right_image, w, h)
+            merged_depth_image = resize_to_fit(merged_depth_image, w, h)
 
             # Add text annotations to images
             ir_left_image = add_text_to_image(ir_left_image, "Left IR (HDR)", (10, 30))
@@ -202,7 +202,7 @@ def main(argv):
             display_image = np.vstack((top_row, bottom_row))
 
             cv2.imshow("HDR Merge Viewer", display_image)
-            key = cv2.waitKey(1)
+            key = cv2.waitKey(1) & 0xFF
             if key == ord("q") or key == ESC_KEY:
                 break
 
@@ -248,4 +248,4 @@ def create_ir_image(ir_frame):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()

@@ -21,29 +21,12 @@
 from pyorbbecsdk import (  # type: ignore  # compiled extension; stubs in stubs/pyorbbecsdk.pyi
     Context,
     OBError,
-    OBLogLevel,
     OBSensorType,
     Pipeline,
 )
 
 # ---------------------------------------------------------------------------
-# Step 1: Configure SDK logging
-#   set_logger_to_console() controls what appears in the terminal.
-#   set_logger_to_file()    writes the same (or more verbose) log to disk.
-#   Log levels (quietest → most verbose):
-#     NONE  ERROR  WARNING  INFO  DEBUG
-#   Tip: use DEBUG while diagnosing issues; use WARNING for normal use.
-# ---------------------------------------------------------------------------
-Context.set_logger_to_console(OBLogLevel.WARNING)  # terminal: WARNING+  # type: ignore[name-defined]
-
-# Optionally write a full DEBUG log to a file (uncomment if needed):
-# import os
-# log_dir = "Log/Custom/"
-# os.makedirs(log_dir, exist_ok=True)
-# Context.set_logger_to_file(OBLogLevel.DEBUG, log_dir)
-
-# ---------------------------------------------------------------------------
-# Step 2: Create a Context
+# Step 1: Create a Context
 #   The Context is the entry point to the SDK. It manages device discovery.
 #   One Context is usually enough for the entire program.
 # ---------------------------------------------------------------------------

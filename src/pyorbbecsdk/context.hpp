@@ -52,6 +52,18 @@ class Context {
 
   OBGvcpPortScheme get_gvcp_port_scheme();
 
+  void sync_device_hardware_pps_time(uint64_t hardware_pps_time);
+
+  void set_timestamp_clock_type(OBClockType clock_type);
+
+  OBClockType get_timestamp_clock_type();
+
+  void free_idle_memory();
+
+  void set_uvc_backend_type(OBUvcBackendType type);
+
+  static void set_extensions_directory(const std::string &path);
+
   static void set_logger_level(OBLogSeverity level);
 
   static void set_logger_to_console(OBLogSeverity level);

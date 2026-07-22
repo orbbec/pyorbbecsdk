@@ -124,6 +124,32 @@ public:
     }
 
     /**
+     * @brief Get the auth token carried by the frame.
+     *
+     * @return uint64_t The auth token value.
+     */
+    uint64_t getToken() const {
+        ob_error *error = nullptr;
+        auto      token = ob_frame_get_token(impl_, &error);
+        Error::handle(&error);
+
+        return token;
+    }
+
+    /**
+     * @brief Set the auth token carried by the frame.
+     *
+     * @param token The auth token value.
+     */
+    void setToken(uint64_t token) {
+        ob_error *error       = nullptr;
+        auto      unConstImpl = const_cast<ob_frame *>(impl_);
+
+        ob_frame_set_token(unConstImpl, token, &error);
+        Error::handle(&error);
+    }
+
+    /**
      * @brief Get frame data
      *
      * @return const uint8_t * The frame data pointer.

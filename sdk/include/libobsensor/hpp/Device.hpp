@@ -27,6 +27,7 @@ namespace ob {
 class DeviceInfo;
 class SensorList;
 class DevicePresetList;
+class ColorPresetList;
 class OBDepthWorkModeList;
 class CameraParamList;
 class DeviceFrameInterleaveList;
@@ -302,6 +303,51 @@ public:
     }
 
     /**
+     * @brief Check whether the device supports license authorization.
+     *
+     * @return true if the device supports license authorization, false otherwise.
+     */
+    bool isLicenseAuthorizationSupported() const {
+        ob_error *error = nullptr;
+        auto      res   = ob_device_is_license_authorization_supported(impl_, &error);
+        Error::handle(&error);
+        return res;
+    }
+
+    /**
+     * @brief Write signed device license information.
+     *
+     * @param[in] licenseInfo SDK license_info JSON string
+     */
+    void writeLicenseInfo(const std::string &licenseInfo) const {
+        ob_error *error = nullptr;
+        ob_device_write_license_info(impl_, licenseInfo.c_str(), static_cast<uint32_t>(licenseInfo.size()), &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Clear license information stored on the device.
+     */
+    void clearLicenseInfo() const {
+        ob_error *error = nullptr;
+        ob_device_clear_license_info(impl_, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Read signed device license information as SDK license_info JSON.
+     *
+     * @return std::string SDK license_info JSON string
+     */
+    std::string readLicenseInfo() const {
+        ob_error *error     = nullptr;
+        char      buf[4096] = {};
+        ob_device_read_license_info(impl_, buf, sizeof(buf), &error);
+        Error::handle(&error);
+        return std::string(buf);
+    }
+
+    /**
      * @brief Set the customer data type of a device property
      *
      * @param[in] data The data to set
@@ -392,6 +438,8 @@ public:
     /**
      * @brief Update the device firmware
      *
+     * @attention Only one firmware/preset update may run per device at a time
+     *
      * @param[in] filePath Firmware path
      * @param[in] callback Firmware Update progress and status callback
      * @param[in] async Whether to execute asynchronously
@@ -405,6 +453,8 @@ public:
 
     /**
      * @brief Update the device firmware from data
+     *
+     * @attention Only one firmware/preset update may run per device at a time
      *
      * @param[in] firmwareData Firmware data
      * @param[in] firmwareDataSize Firmware data size
@@ -421,6 +471,8 @@ public:
     /**
      * @brief Update the device optional depth presets
      *
+     * @attention Only one firmware/preset update may run per device at a time
+     *
      * @param[in] filePathList A list(2D array) of preset file paths, each up to OB_PATH_MAX characters.
      * @param[in] pathCount The number of the preset file paths.
      * @param[in] callback Preset update progress and status callback
@@ -429,6 +481,27 @@ public:
         ob_error *error   = nullptr;
         fwUpdateCallback_ = callback;
         ob_device_update_optional_depth_presets(impl_, filePathList, pathCount, &Device::firmwareUpdateCallback, this, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Update the device optional depth presets from data loaded in memory
+     *
+     * @attention Only one firmware/preset update may run per device at a time
+     *
+     * @param[in] dataList A list of preset data blocks, each holding the raw bytes of one preset.
+     * @param[in] callback Preset update progress and status callback
+     */
+    void updateOptionalDepthPresets(const std::vector<std::vector<uint8_t>> &dataList, DeviceFwUpdateCallback callback) {
+        ob_error                      *error = nullptr;
+        std::vector<OBDataView> presets;
+        presets.reserve(dataList.size());
+        for(const auto &data: dataList) {
+            presets.push_back({data.data(), static_cast<uint32_t>(data.size())});
+        }
+        fwUpdateCallback_ = callback;
+        auto count        = static_cast<uint8_t>(presets.size());
+        ob_device_update_optional_depth_presets_from_data(impl_, presets.data(), count, &Device::firmwareUpdateCallback, this, &error);
         Error::handle(&error);
     }
 
@@ -512,6 +585,53 @@ public:
     }
 
     /**
+     * @brief Check if the device supports color preset.
+     *
+     * @return bool Returns true if the device supports color preset.
+     */
+    bool isColorPresetSupported() const {
+        ob_error *error  = nullptr;
+        auto      result = ob_device_is_color_preset_supported(impl_, &error);
+        Error::handle(&error);
+        return result;
+    }
+
+    /**
+     * @brief Get the current color preset name.
+     *
+     * @return const char* The current color preset name.
+     */
+    const char *getCurrentColorPresetName() const {
+        ob_error   *error = nullptr;
+        const char *name  = ob_device_get_current_color_preset_name(impl_, &error);
+        Error::handle(&error);
+        return name;
+    }
+
+    /**
+     * @brief Switch the color preset by name.
+     *
+     * @param[in] presetName The color preset name.
+     */
+    void switchColorPreset(const char *presetName) const {
+        ob_error *error = nullptr;
+        ob_device_switch_color_preset(impl_, presetName, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Get the available color preset list.
+     *
+     * @return std::shared_ptr<ColorPresetList> The color preset list.
+     */
+    std::shared_ptr<ColorPresetList> getColorPresetList() const {
+        ob_error *error = nullptr;
+        auto      list  = ob_device_get_color_preset_list(impl_, &error);
+        Error::handle(&error);
+        return std::make_shared<ColorPresetList>(list);
+    }
+
+    /**
      * @brief Device restart
      * @attention The device will be disconnected and reconnected. After the device is disconnected, the access to the Device object interface may be abnormal.
      * Please delete the object directly and obtain it again after the device is reconnected.
@@ -533,6 +653,18 @@ public:
     void reboot(uint32_t delayMs) const {
         setIntProperty(OB_PROP_DEVICE_REBOOT_DELAY_INT, delayMs);
         reboot();
+    }
+
+    /**
+     * @brief synchronization the device time (synchronize hardwarePPS time to device)
+     * @param[in] hardwarePPSTime unit:ms
+     * @return Whether the synchronisation is successful
+     */
+    bool syncDeviceHardwarePPSTime(uint64_t hardwarePPSTime) const {
+        ob_error *error   = nullptr;
+        bool      success = ob_device_sync_hardware_pps_time(impl_, hardwarePPSTime, &error);
+        Error::handle(&error);
+        return success;
     }
 
     /**
@@ -558,6 +690,18 @@ public:
         ob_error *error = nullptr;
         ob_device_enable_firmware_log(impl_, enable, &error);
         Error::handle(&error);
+    }
+
+    /**
+     * @brief Check whether the device firmware log is enabled.
+     *
+     * @return bool Whether the firmware log is enabled.
+     */
+    bool isFirmwareLogEnabled() const {
+        ob_error *error  = nullptr;
+        bool      enable = ob_device_is_firmware_log_enabled(impl_, &error);
+        Error::handle(&error);
+        return enable;
     }
 
     /**
@@ -837,6 +981,24 @@ public:
         ob_error *error = nullptr;
         ob_device_load_frame_interleave(impl_, frameInterleaveName, &error);
         Error::handle(&error);
+    }
+
+    /**
+     *
+     * @brief Get current frame interleave name.
+     *
+     * @param[in] device The device object.
+     * @param[out] error Pointer to an error object that will be set if an error occurs.
+     *
+     * @return const char* return the current frame interleave name.
+     *         Returns an empty string ("") if no interleave is loaded.
+     *         Returns nullptr if an error occurs.
+     */
+    OB_EXPORT const char *getCurrentFrameInterleaveName() const {
+        ob_error *error = nullptr;
+        auto      name  = ob_device_get_current_frame_interleave_name(impl_, &error);
+        Error::handle(&error);
+        return name;
     }
 
     /**
@@ -1371,9 +1533,9 @@ public:
      *
      * @return const char* The host network interface name (e.g., "eth0", "en0").
      */
-    const char* getLocalNetInterfaceName(uint32_t index) const {
-        ob_error *error = nullptr;
-        auto netItfName = ob_device_list_get_device_local_net_if_name(impl_, index, &error);
+    const char *getLocalNetInterfaceName(uint32_t index) const {
+        ob_error *error      = nullptr;
+        auto      netItfName = ob_device_list_get_device_local_net_if_name(impl_, index, &error);
         Error::handle(&error);
         return netItfName;
     }
@@ -1408,6 +1570,49 @@ public:
         auto      userName = ob_device_list_get_device_user_name(impl_, index, &error);
         Error::handle(&error);
         return userName;
+    }
+
+    /**
+     * @brief Query the current device access state without opening the device.
+     *
+     * @attention This is a non-invasive GVCP CCP query for supported Ethernet devices. It reports device-side CCP state, not the owner process or host.
+     * CONTROLLED means monitor access may still be available, while default/control access may still fail.
+     * This call is synchronous and blocks while waiting for the device's GVCP response over the network; querying an unreachable device blocks until the
+     * underlying retry logic gives up, so prefer calling it off the UI thread when querying multiple devices.
+     * The returned state reflects the device access state only at the moment of the query and does not guarantee that a subsequent access (such as creating
+     * or opening the device) will succeed, as another client may change the state in between.
+     *
+     * @param[in] index The index of the device.
+     *
+     * @return OBDeviceAccessState The current access state of the device.
+     */
+    OBDeviceAccessState queryDeviceAccessState(uint32_t index) const {
+        ob_error *error = nullptr;
+        auto      state = ob_device_list_query_device_access_state(impl_, index, &error);
+        Error::handle(&error);
+        return state;
+    }
+
+    /**
+     * @brief Query the current device access state by serial number without opening the device.
+     *
+     * @attention This is a non-invasive GVCP CCP query for supported Ethernet devices. It reports device-side CCP state, not the owner process or host.
+     * CONTROLLED means monitor access may still be available, while default/control access may still fail.
+     * This call is synchronous and blocks while waiting for the device's GVCP response over the network; querying an unreachable device blocks until the
+     * underlying retry logic gives up, so prefer calling it off the UI thread when querying multiple devices.
+     * The returned state reflects the device access state only at the moment of the query and does not guarantee that a subsequent access (such as creating
+     * or opening the device) will succeed, as another client may change the state in between.
+     * If no device in the list matches the given serial number, this throws an ob::Error.
+     *
+     * @param[in] serialNumber The serial number of the device.
+     *
+     * @return OBDeviceAccessState The current access state of the device.
+     */
+    OBDeviceAccessState queryDeviceAccessStateBySN(const char *serialNumber) const {
+        ob_error *error = nullptr;
+        auto      state = ob_device_list_query_device_access_state_by_serial_number(impl_, serialNumber, &error);
+        Error::handle(&error);
+        return state;
     }
 
     /**
@@ -1621,6 +1826,36 @@ public:
     // The following interfaces are deprecated and are retained here for compatibility purposes.
     uint32_t count() {
         return getCount();
+    }
+};
+
+/**
+ * @brief Class representing a list of color presets
+ */
+class ColorPresetList {
+private:
+    ob_color_preset_list *impl_ = nullptr;
+
+public:
+    explicit ColorPresetList(ob_color_preset_list *impl) : impl_(impl) {}
+    ~ColorPresetList() noexcept {
+        ob_error *error = nullptr;
+        ob_delete_color_preset_list(impl_, &error);
+        Error::handle(&error, false);
+    }
+
+    uint32_t getCount() const {
+        ob_error *error = nullptr;
+        auto      count = ob_color_preset_list_get_count(impl_, &error);
+        Error::handle(&error);
+        return count;
+    }
+
+    const char *getName(uint32_t index) const {
+        ob_error   *error = nullptr;
+        const char *name  = ob_color_preset_list_get_name(impl_, index, &error);
+        Error::handle(&error);
+        return name;
     }
 };
 

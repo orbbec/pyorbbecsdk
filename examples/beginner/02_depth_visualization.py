@@ -28,7 +28,7 @@ import sys
 import cv2
 import numpy as np
 
-from pyorbbecsdk import Config, Context, OBError, OBLogLevel, OBSensorType, Pipeline
+from pyorbbecsdk import Config, Context, OBError, OBSensorType, Pipeline
 
 # ---------------------------------------------------------------------------
 # Configuration — adjust these for your scene
@@ -188,9 +188,6 @@ def main():
         print("Device Not Found! Please connect an Orbbec camera and try again.")
         return
 
-    # Suppress SDK info messages; set DEBUG for diagnostics
-    ctx.set_logger_level(OBLogLevel.WARNING)
-
     # --- Step 1: Create pipeline and configure depth stream ---
     pipeline = Pipeline()
 
@@ -209,6 +206,9 @@ def main():
     print("Press 'M' to toggle 2D/3D, 'C' to change colormap, 'Q' or ESC to quit.\n")
 
     try:
+        # Create a resizable window for the depth visualization
+        cv2.namedWindow(WINDOW_TITLE, cv2.WINDOW_NORMAL)
+
         while True:
             # --- Step 2: Wait for the next frame set (up to 1 second) ---
             frame_set = pipeline.wait_for_frames(1000)

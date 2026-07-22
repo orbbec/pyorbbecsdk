@@ -57,6 +57,16 @@ OB_EXPORT const char *ob_filter_get_vendor_specific_code(const char *name, ob_er
 OB_EXPORT ob_filter *ob_create_private_filter(const char *name, const char *activation_key, ob_error **error);
 
 /**
+ * @brief Activate a private filter object with a specific device.
+ *
+ * @param[in] filter The private filter object.
+ * @param[in] device The device to associate with the activation.
+ * @param[in] options Optional extensible activation options (may be NULL). See @ref ob_priv_filter_activate_options.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_filter_activate_private_ex(ob_filter *filter, ob_device *device, const ob_priv_filter_activate_options *options, ob_error **error);
+
+/**
  * @brief Delete the filter.
  *
  * @param[in] filter The filter object to be deleted.

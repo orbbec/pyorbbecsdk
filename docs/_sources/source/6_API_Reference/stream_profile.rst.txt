@@ -329,6 +329,10 @@ OBAlignMode
         - C++ Binding Object
         - Value
         - Description
+      * - ``C2D_SW_MODE``
+        - ``<OBAlignMode.C2D_SW_MODE: 3>``
+        - 3
+        - Auto-generated from C++ bindings
       * - ``DISABLE``
         - ``<OBAlignMode.DISABLE: 0>``
         - 0

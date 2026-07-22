@@ -395,6 +395,10 @@ OBConvertFormat
         - C++ Binding Object
         - Value
         - Description
+      * - ``BGRA_TO_BGR``
+        - ``<OBConvertFormat.BGRA_TO_BGR: 19>``
+        - 19
+        - Auto-generated from C++ bindings
       * - ``BGR_TO_RGB``
         - ``<OBConvertFormat.BGR_TO_RGB: 11>``
         - 11
@@ -414,6 +418,10 @@ OBConvertFormat
       * - ``MJPG_TO_I420``
         - ``<OBConvertFormat.MJPG_TO_I420: 4>``
         - 4
+        - Auto-generated from C++ bindings
+      * - ``MJPG_TO_NV12``
+        - ``<OBConvertFormat.MJPG_TO_NV12: 12>``
+        - 12
         - Auto-generated from C++ bindings
       * - ``MJPG_TO_NV21``
         - ``<OBConvertFormat.MJPG_TO_NV21: 6>``
@@ -435,11 +443,43 @@ OBConvertFormat
         - ``<OBConvertFormat.RGB888_TO_BGR: 5>``
         - 5
         - Auto-generated from C++ bindings
+      * - ``RGBA_TO_RGB``
+        - ``<OBConvertFormat.RGBA_TO_RGB: 18>``
+        - 18
+        - Auto-generated from C++ bindings
       * - ``UYVY_TO_RGB888``
         - ``<OBConvertFormat.UYVY_TO_RGB888: 10>``
         - 10
         - Auto-generated from C++ bindings
+      * - ``Y16_TO_RGB``
+        - ``<OBConvertFormat.Y16_TO_RGB: 20>``
+        - 20
+        - Auto-generated from C++ bindings
+      * - ``Y8_TO_RGB``
+        - ``<OBConvertFormat.Y8_TO_RGB: 21>``
+        - 21
+        - Auto-generated from C++ bindings
+      * - ``YUYV_TO_BGR``
+        - ``<OBConvertFormat.YUYV_TO_BGR: 13>``
+        - 13
+        - Auto-generated from C++ bindings
+      * - ``YUYV_TO_BGRA``
+        - ``<OBConvertFormat.YUYV_TO_BGRA: 15>``
+        - 15
+        - Auto-generated from C++ bindings
       * - ``YUYV_TO_RGB888``
         - ``<OBConvertFormat.YUYV_TO_RGB888: 0>``
         - 0
+        - Auto-generated from C++ bindings
+      * - ``YUYV_TO_RGBA``
+        - ``<OBConvertFormat.YUYV_TO_RGBA: 14>``
+        - 14
+        - Auto-generated from C++ bindings
+      * - ``YUYV_TO_Y16``
+        - ``<OBConvertFormat.YUYV_TO_Y16: 16>``
+        - 16
+        - Auto-generated from C++ bindings
+      * - ``YUYV_TO_Y8``
+        - ``<OBConvertFormat.YUYV_TO_Y8: 17>``
+        - 17
         - Auto-generated from C++ bindings

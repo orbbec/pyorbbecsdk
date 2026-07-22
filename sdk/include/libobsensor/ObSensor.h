@@ -21,3 +21,4 @@
 #include <libobsensor/h/Version.h>
 #include <libobsensor/h/TypeHelper.h>
 #include <libobsensor/h/RecordPlayback.h>
+#include <libobsensor/h/ApplicationConfig.h>

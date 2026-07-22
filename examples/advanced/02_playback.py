@@ -6,6 +6,12 @@
 #    2. How to retrieve and display all recorded streams (color, depth, IR, IMU)
 #    3. How to monitor OBPlaybackStatus and auto-loop when the file ends
 #    4. How to display a dynamic multi-stream grid from the recorded data
+#    5. How to auto-detect and load the sidecar JSON preset so that playback
+#       restores the original recording environment (properties, profiles, etc.)
+#    6. How to re-apply the recommended (post-processing) filters — such as
+#       hole-filling, spatial and temporal filtering — that the SDK's Pipeline
+#       callback mode does not apply automatically.  This mirrors what
+#       OpenOrbbecViewer does in its FrameFilterManager.
 #
 #  Keyboard: Q/ESC to quit
 #
@@ -21,6 +27,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import threading
 import time
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -47,6 +54,13 @@ class GlobalState:
         self.exited = False
         self.playback_status = None
         self.enabled_sensor_types = []
+        # Recommended (post-processing) filters keyed by sensor type.
+        # Populated from the device after the sidecar preset is loaded; the
+        # frame callback applies the enabled ones so that the playback image
+        # matches what was recorded (hole-filling, spatial, temporal, ...).
+        self.enabled_filters = {}
+        # Undistortion state per sensor type, read from ApplicationConfig.
+        self.undistortion_map = {}
         # cached frames for better visualization
         self.cached_frames = {
             "color": None,
@@ -68,36 +82,188 @@ config = None
 playback = None
 
 
+def derive_json_path(bag_path: str) -> str:
+    """Derive sidecar JSON path from bag path (xxx.bag -> xxx.json)."""
+    return str(Path(bag_path).with_suffix(".json"))
+
+
+def collect_enabled_filters(device, undistortion_map=None):
+    """Collect enabled recommended filters per sensor type.
+
+    The SDK's Pipeline callback mode does NOT automatically apply the
+    recommended (post-processing) filters that loadPresetFromJsonFile()
+    configures.  OpenOrbbecViewer applies them manually via its
+    FrameFilterManager; we do the equivalent here by grabbing the enabled
+    filters from each sensor after the preset is loaded, so the frame
+    callback can chain them with filter.process().
+
+    In addition, UnDistortionFilter is NOT included in get_recommended_filters().
+    If ApplicationConfig recorded that undistortion was enabled, we manually
+    create an UnDistortionFilter and place it at the FRONT of the chain
+    (same order as Viewer FrameFilterManager::process()).
+    """
+    enabled = {}
+    if undistortion_map is None:
+        undistortion_map = {}
+    try:
+        sensor_list = device.get_sensor_list()
+        for i in range(len(sensor_list)):
+            sensor = sensor_list[i]
+            stype = sensor.get_type()
+            try:
+                filters = sensor.get_recommended_filters()
+            except Exception:
+                filters = []
+
+            chain = []
+
+            # UnDistortionFilter runs FIRST (same order as Viewer)
+            if undistortion_map.get(stype, False):
+                try:
+                    # Determine target stream type for undistortion.
+                    # For depth sensor we undistort the depth stream;
+                    # for color sensor we undistort the color stream.
+                    target_stream = ob.OBStreamType.DEPTH_STREAM
+                    if stype == ob.OBSensorType.COLOR_SENSOR:
+                        target_stream = ob.OBStreamType.COLOR_STREAM
+                    undist = ob.UnDistortionFilter(target_stream)
+                    undist.enable(True)
+                    chain.append(undist)
+                except Exception:
+                    pass
+
+            # Append other recommended filters (temporal, spatial, hole-filling, ...)
+            for f in filters:
+                if safe_is_enabled(f):
+                    chain.append(f)
+
+            if chain:
+                enabled[stype] = chain
+    except Exception as e:
+        print(f"[Filters] Failed to collect recommended filters: {e}")
+    return enabled
+
+
+def safe_is_enabled(f) -> bool:
+    try:
+        return bool(f.is_enabled())
+    except Exception:
+        return False
+
+
+def apply_filter_chain(frame, filters):
+    """Run a frame through a list of filters, returning the processed frame."""
+    out = frame
+    for f in filters:
+        try:
+            processed = f.process(out)
+            if processed is not None:
+                out = processed
+        except Exception:
+            # Skip a filter that fails on a given frame rather than dropping it
+            continue
+    return out
+
+
+def load_sidecar_json(device, bag_path: str) -> bool:
+    """Load sidecar JSON preset if it exists.
+
+    CRITICAL: This must be called BEFORE creating Pipeline(playback_device),
+    because some properties (e.g. depth hole-filling filter) need to be
+    written into the device before the internal pipeline/filter-chain is
+    initialized.  Loading JSON after Pipeline() creation may leave the
+    properties at device level but not propagate to the actual frame
+    processing path.
+
+    Restoration order (as recommended by SDK docs / OpenOrbbecViewer):
+      1. load_preset_from_json_file()  -> device-level properties
+      2. ApplicationConfig (handled internally by the SDK during step 1)
+      3. create Pipeline + Config
+      4. start streams
+
+    Any failure is silently ignored so playback never blocks the user.
+    """
+    json_path = derive_json_path(bag_path)
+    if not Path(json_path).exists():
+        print("[Sidecar] No preset JSON found, playing back with default settings.")
+        return False
+
+    try:
+        device.load_preset_from_json_file(json_path)
+        print(f"[Sidecar] Loaded preset JSON: {json_path}")
+        return True
+    except Exception as e:
+        print(f"[Sidecar] Warning: failed to load preset JSON: {e}")
+        return False
+
+
 def setup_camera(playback_device):
     """Setup camera and stream configuration"""
     global pipeline, config
     pipeline = Pipeline(playback_device)
     config = Config()
+
+    # Use the device object returned by the pipeline for all subsequent
+    # sensor queries.  This is safer than calling methods directly on the
+    # raw PlaybackDevice, because the pipeline initialisation may perform
+    # additional setup that some SDK versions expect before get_sensor_list()
+    # is invoked.
     device = pipeline.get_device()
 
-    # Try to enable all possible sensors
-    sensors = [
-        OBSensorType.COLOR_SENSOR,
-        OBSensorType.DEPTH_SENSOR,
-        OBSensorType.IR_SENSOR,
-        OBSensorType.LEFT_IR_SENSOR,
-        OBSensorType.RIGHT_IR_SENSOR,
-        OBSensorType.CONFIDENCE_SENSOR,
-        OBSensorType.LEFT_COLOR_SENSOR,
-        OBSensorType.RIGHT_COLOR_SENSOR,
-        OBSensorType.ACCEL_SENSOR,
-        OBSensorType.GYRO_SENSOR,
-    ]
+    # ------------------------------------------------------------------
+    # 1. Try to restore exact stream configuration from ApplicationConfig.
+    #    This matches OpenOrbbecViewer's loadPlaybackPreset() logic:
+    #    loadPresetFromJsonFile() restores device properties + filter configs,
+    #    then ApplicationConfig tells us WHICH streams were active and WHICH
+    #    StreamProfiles were used (resolution / format / fps).
+    # ------------------------------------------------------------------
+    use_app_config = False
+    state.undistortion_map = {}
+    try:
+        if ob.ApplicationConfig.is_supported(device):
+            app_config = ob.ApplicationConfig.get(device)
+            sensors_cfg = app_config.sensors()
+            for sensor_cfg in sensors_cfg:
+                if sensor_cfg.is_stream_enabled() and sensor_cfg.stream_profile():
+                    config.enable_stream(sensor_cfg.stream_profile())
+                    stype = sensor_cfg.sensor_type()
+                    state.enabled_sensor_types.append(stype)
+                    state.undistortion_map[stype] = sensor_cfg.is_undistortion_enabled()
+            use_app_config = True
+            print("[AppConfig] Restored stream configuration from sidecar JSON.")
+    except Exception as e:
+        print(f"[AppConfig] Warning: failed to apply ApplicationConfig: {e}")
 
-    sensor_list = playback_device.get_sensor_list()
-    for sensor in range(len(sensor_list)):
-        try:
-            sensor_type = sensor_list[sensor].get_type()
-            if sensor_type in sensors:
-                config.enable_stream(sensor_type)
-                state.enabled_sensor_types.append(sensor_type)
-        except:
-            continue
+    # ------------------------------------------------------------------
+    # 2. Fallback: enable all recorded sensors (original sample behaviour).
+    #    Used when no sidecar JSON exists, ApplicationConfig is unsupported /
+    #    malformed, or the restored config enables no streams at all (e.g. a
+    #    bag recorded without a sidecar preset on an ApplicationConfig-capable
+    #    device, where the default config reports every sensor as disabled).
+    # ------------------------------------------------------------------
+    if not use_app_config or not state.enabled_sensor_types:
+        sensors = [
+            ob.OBSensorType.COLOR_SENSOR,
+            ob.OBSensorType.DEPTH_SENSOR,
+            ob.OBSensorType.IR_SENSOR,
+            ob.OBSensorType.LEFT_IR_SENSOR,
+            ob.OBSensorType.RIGHT_IR_SENSOR,
+            ob.OBSensorType.CONFIDENCE_SENSOR,
+            ob.OBSensorType.LEFT_COLOR_SENSOR,
+            ob.OBSensorType.RIGHT_COLOR_SENSOR,
+            ob.OBSensorType.ACCEL_SENSOR,
+            ob.OBSensorType.GYRO_SENSOR,
+        ]
+
+        sensor_list = device.get_sensor_list()
+        for i in range(len(sensor_list)):
+            try:
+                sensor_type = sensor_list[i].get_type()
+                if sensor_type in sensors:
+                    config.enable_stream(sensor_type)
+                    state.enabled_sensor_types.append(sensor_type)
+            except Exception:
+                continue
 
     # Set frame aggregate output mode if available - reduces latency
     try:
@@ -177,6 +343,31 @@ def process_confidence(frame):
         return None
 
 
+def resize_keep_aspect_ratio(img, target_w, target_h):
+    """Resize image while keeping aspect ratio, pad with black borders if needed."""
+    if img is None or img.size == 0:
+        return np.zeros((target_h, target_w, 3), dtype=np.uint8)
+
+    h, w = img.shape[:2]
+    h_scale = target_w / w
+    v_scale = target_h / h
+    scale = min(h_scale, v_scale)
+    new_w = int(w * scale)
+    new_h = int(h * scale)
+
+    resized = cv2.resize(img, (new_w, new_h))
+
+    if new_w == target_w and new_h == target_h:
+        return resized
+
+    # Pad to target size (centered)
+    padded = np.zeros((target_h, target_w, 3), dtype=np.uint8)
+    y_offset = (target_h - new_h) // 2
+    x_offset = (target_w - new_w) // 2
+    padded[y_offset : y_offset + new_h, x_offset : x_offset + new_w] = resized
+    return padded
+
+
 def create_single_imu_panel(imu_frame, title, w=480, h=240):
     """Create a panel displaying IMU data - pre-render to reduce UI overhead"""
     p = np.zeros((h, w, 3), dtype=np.uint8)
@@ -220,8 +411,15 @@ def video_frame_callback(frames):
             state.cached_frames["color"] = process_color(color_frame)
 
         # Process depth image
+        # NOTE: The SDK's Pipeline callback mode does NOT automatically apply
+        # the recommended (post-processing) filters configured by the sidecar
+        # preset (hole-filling, spatial, temporal, ...).  We apply them here
+        # so the playback image matches the recorded one.
         depth_frame = frames.get_depth_frame()
         if depth_frame:
+            depth_filters = state.enabled_filters.get(OBSensorType.DEPTH_SENSOR)
+            if depth_filters:
+                depth_frame = apply_filter_chain(depth_frame, depth_filters)
             state.cached_frames["depth"] = process_depth(depth_frame)
 
         # Process left IR
@@ -244,7 +442,7 @@ def video_frame_callback(frames):
         if confidence:
             try:
                 state.cached_frames["confidence"] = process_confidence(confidence)
-            except:
+            except Exception:
                 pass
 
         # Process left color
@@ -252,7 +450,7 @@ def video_frame_callback(frames):
         if left_color:
             try:
                 state.cached_frames["left_color"] = process_color(left_color)
-            except:
+            except Exception:
                 pass
 
         # Process right color
@@ -260,7 +458,7 @@ def video_frame_callback(frames):
         if right_color:
             try:
                 state.cached_frames["right_color"] = process_color(right_color)
-            except:
+            except Exception:
                 pass
 
         # Process IMU data - pre-render as images
@@ -291,8 +489,19 @@ def replay_monitor():
             print("Replay again")
             try:
                 pipeline.stop()
-            except:
+            except Exception:
                 pass
+
+            # Reset all filters before replay to avoid temporal state leakage.
+            # TemporalFilter keeps an internal history; without reset the new
+            # playback would be polluted by frames from the previous loop.
+            for stype, flist in state.enabled_filters.items():
+                for f in flist:
+                    try:
+                        f.reset()
+                    except Exception:
+                        pass
+
             time.sleep(1.0)
 
             if state.exited:
@@ -380,10 +589,9 @@ def create_display(width=1280, height=720):
         y_start = row * cell_h
         if frame is not None:
             if total_elements == 1:
-                resized = cv2.resize(frame, (width, height))
-                display = resized
+                display = resize_keep_aspect_ratio(frame, width, height)
             else:
-                resized = cv2.resize(frame, (cell_w, cell_h))
+                resized = resize_keep_aspect_ratio(frame, cell_w, cell_h)
                 display[y_start : y_start + cell_h, x_start : x_start + cell_w] = resized
 
     # Render IMU panels
@@ -394,9 +602,9 @@ def create_display(width=1280, height=720):
         x_start = col * cell_w
         y_start = row * cell_h
         if total_elements == 1:
-            display = cv2.resize(img, (width, height))
+            display = resize_keep_aspect_ratio(img, width, height)
         else:
-            resized = cv2.resize(img, (cell_w, cell_h))
+            resized = resize_keep_aspect_ratio(img, cell_w, cell_h)
             display[y_start : y_start + cell_h, x_start : x_start + cell_w] = resized
 
     return display
@@ -432,8 +640,36 @@ def main():
         # Initialize playback
         playback = PlaybackDevice(file_path)
 
-        # Setup camera
+        # ------------------------------------------------------------------
+        # Sidecar JSON loading  (must happen BEFORE Pipeline creation)
+        # ------------------------------------------------------------------
+        # Load the sidecar preset while the device is still "clean" and
+        # before Pipeline() initializes the internal filter-chain.  This
+        # guarantees that properties such as hole-filling, mirror, flip,
+        # exposure, gain, etc. are active before any frame processing
+        # structures are built.
+        preset_loaded = load_sidecar_json(playback, file_path)
+
+        # Setup camera. This creates the Pipeline and restores the stream
+        # configuration (including the per-sensor undistortion state) from
+        # ApplicationConfig, so it must run BEFORE we collect the enabled
+        # filters below (which rely on state.undistortion_map being filled).
         pipeline, config = setup_camera(playback)
+
+        # Collect the recommended (post-processing) filters whose enable
+        # state was just restored by the preset.  The SDK's Pipeline
+        # callback mode does not apply them automatically, so we replay
+        # them in the frame callback (see video_frame_callback).
+        if preset_loaded:
+            state.enabled_filters = collect_enabled_filters(playback, state.undistortion_map)
+            for stype, flist in state.enabled_filters.items():
+                names = []
+                for f in flist:
+                    try:
+                        names.append(f.get_name())
+                    except Exception:
+                        names.append("?")
+                print(f"[Filters] {stype}: applying {names}")
 
         # Set playback status callback
         playback.set_playback_status_change_callback(on_playback_status_change)
@@ -463,7 +699,7 @@ def main():
         try:
             if pipeline:
                 pipeline.stop()
-        except:
+        except Exception:
             pass
 
         # Cleanup

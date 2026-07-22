@@ -42,7 +42,6 @@ from pyorbbecsdk import (
     Config,
     Context,
     OBError,
-    OBLogLevel,
     OBSensorType,
     OBStreamType,
     Pipeline,
@@ -176,9 +175,7 @@ def _draw_overlay(canvas: np.ndarray) -> np.ndarray:
 def main():
     global _depth_mm, _cam_param, _segments
 
-    # Suppress SDK info messages
     ctx = Context()
-    ctx.set_logger_level(OBLogLevel.WARNING)
 
     # --- Step 1: Start pipeline with color + depth ---
     pipeline = Pipeline()

@@ -1222,6 +1222,36 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.create_frame">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBFormat" title="pyorbbecsdk.OBFormat"><span class="pre">pyorbbecsdk.OBFormat</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.create_frame" title="Link to this definition"></a></dt>
+<dd><p>Create a Frame object of a specific type with a given format and data size</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.create_frame_from_other_frame">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_frame_from_other_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">should_copy_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.create_frame_from_other_frame" title="Link to this definition"></a></dt>
+<dd><p>Clone a frame object from another frame, with optional data copy</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.create_frame_from_stream_profile">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_frame_from_stream_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.StreamProfile" title="pyorbbecsdk.pyorbbecsdk.StreamProfile"><span class="pre">pyorbbecsdk.StreamProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.create_frame_from_stream_profile" title="Link to this definition"></a></dt>
+<dd><p>Create a frame from a stream profile</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.create_frame_set">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_frame_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ob::FrameSet</span></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.create_frame_set" title="Link to this definition"></a></dt>
+<dd><p>Create a new empty FrameSet object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.create_video_frame">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_video_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBFormat" title="pyorbbecsdk.OBFormat"><span class="pre">pyorbbecsdk.OBFormat</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ob::VideoFrame</span></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.create_video_frame" title="Link to this definition"></a></dt>
+<dd><p>Create a VideoFrame with a given format, width, height, and stride</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Frame.get_data">
 <span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.uint8</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.get_data" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1293,6 +1323,12 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.get_token">
+<span class="sig-name descname"><span class="pre">get_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.get_token" title="Link to this definition"></a></dt>
+<dd><p>Get the auth token carried by the frame</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Frame.get_type">
 <span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.get_type" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1303,6 +1339,12 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.set_frame_device_timestamp_us">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_frame_device_timestamp_us</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_timestamp_us</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.set_frame_device_timestamp_us" title="Link to this definition"></a></dt>
+<dd><p>Set the device timestamp of the frame in microseconds</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Frame.set_stream_profile">
 <span class="sig-name descname"><span class="pre">set_stream_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.StreamProfile" title="pyorbbecsdk.pyorbbecsdk.StreamProfile"><span class="pre">pyorbbecsdk.StreamProfile</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.set_stream_profile" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1311,6 +1353,12 @@
 <dt class="sig sig-object py" id="pyorbbecsdk.Frame.set_system_timestamp_us">
 <span class="sig-name descname"><span class="pre">set_system_timestamp_us</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.set_system_timestamp_us" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyorbbecsdk.Frame.set_token">
+<span class="sig-name descname"><span class="pre">set_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Frame" title="pyorbbecsdk.pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsIndex" title="(in Python v3.14)"><span class="pre">SupportsIndex</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.Frame.set_token" title="Link to this definition"></a></dt>
+<dd><p>Set the auth token carried by the frame</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Frame.update_data">
@@ -2248,47 +2296,52 @@
 <td><p>16</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CAMERA_PARAM</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ALL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.ALL:</span> <span class="pre">1023&gt;</span></code></p></td>
+<td><p>1023</p></td>
+<td><p>Auto-generated from C++ bindings</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CAMERA_PARAM</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.CAMERA_PARAM:</span> <span class="pre">32&gt;</span></code></p></td>
 <td><p>32</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">COLOR</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">COLOR</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.COLOR:</span> <span class="pre">1&gt;</span></code></p></td>
 <td><p>1</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DEPTH</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.DEPTH:</span> <span class="pre">2&gt;</span></code></p></td>
 <td><p>2</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DEVICE_INFO</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DEVICE_INFO</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.DEVICE_INFO:</span> <span class="pre">64&gt;</span></code></p></td>
 <td><p>64</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GYRO</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GYRO</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.GYRO:</span> <span class="pre">8&gt;</span></code></p></td>
 <td><p>8</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IR</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">IR</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.IR:</span> <span class="pre">4&gt;</span></code></p></td>
 <td><p>4</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LEFT_IR</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LEFT_IR</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.LEFT_IR:</span> <span class="pre">256&gt;</span></code></p></td>
 <td><p>256</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RIGHT_IR</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RIGHT_IR</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.RIGHT_IR:</span> <span class="pre">512&gt;</span></code></p></td>
 <td><p>512</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">STREAM_INFO</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">STREAM_INFO</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;OBMediaType.STREAM_INFO:</span> <span class="pre">128&gt;</span></code></p></td>
 <td><p>128</p></td>
 <td><p>Auto-generated from C++ bindings</p></td>
@@ -2466,7 +2519,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-06-19 13:54:54.
+      <span class="lastupdated">Last updated on 2026-07-21 10:08:42.
       </span></p>
   </div>
 

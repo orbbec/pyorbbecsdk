@@ -100,6 +100,16 @@ typedef enum {
     OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL = 24,
 
     /**
+     * @brief Depth outliers filter switch
+     */
+    OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL = 25,
+
+    /**
+     * @brief Depth outliers filter search range mode
+     */
+    OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT = 26,
+
+    /**
      * @brief LDP status
      */
     OB_PROP_LDP_STATUS_BOOL = 32,
@@ -638,15 +648,39 @@ typedef enum {
      */
     OB_PROP_DEVICE_IP_MODE_INT = 260,
 
-     /**
+    /**
      * @brief DHCP assign IP timeout, unit: second
-     */   
+     */
     OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT = 261,
+
+    /**
+     * @brief USB sync I/O voltage level
+     */
+    OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT = 270,
+
+    /**
+     * @brief Get the current disparity search range mode value
+     *
+     * @attention read only
+     */
+    OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT = 271,
+
+    /**
+     * @brief Get the current disparity search offset value
+     *
+     * @attention read only
+     */
+    OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT = 272,
 
     /**
      * @brief Enable FPS boost in trigger mode
      */
     OB_PROP_FPS_BOOST_BOOL = 275,
+
+    /**
+     * @brief MJPEG encoding quality factor
+     */
+    OB_PROP_MJPEG_QUALITY_INT = 277,
 
     /**
      * @brief Baseline calibration parameters

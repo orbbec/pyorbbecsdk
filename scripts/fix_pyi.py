@@ -89,9 +89,18 @@ def print_isort_install_hint():
 def fix_pyi_content(content: str) -> str:
     """Fix return type issues in pyi file content"""
 
-    # 1. Fix typing_extensions.Buffer import issue
+    # 1. Fix typing.Annotated -> typing_extensions.Annotated (Python 3.8 compat)
+    # pybind11_stubgen generates typing.Annotated for fixed-size array fields,
+    # but typing.Annotated was only added in Python 3.9.
+    if "typing.Annotated" in content:
+        content = content.replace("typing.Annotated", "typing_extensions.Annotated")
+
+    # 2. Fix typing_extensions import issue
     # pybind11_stubgen generates typing_extensions.Buffer but doesn't add the import
-    if "typing_extensions.Buffer" in content and "import typing_extensions" not in content:
+    # Also needed for typing_extensions.Annotated (after replacement above)
+    if (
+        "typing_extensions.Buffer" in content or "typing_extensions.Annotated" in content
+    ) and "import typing_extensions" not in content:
         # Add typing_extensions import at the beginning of the file
         # Find the position of the last import statement
         import_pattern = r"^(import .+|from .+ import .+)$"
@@ -114,52 +123,44 @@ def fix_pyi_content(content: str) -> str:
             lines.insert(insert_pos, "import typing_extensions")
             content = "\n".join(lines)
 
-    # 2. Fix enum type default parameter values
+    # 3. Fix enum type default parameter values
     # pybind11_stubgen cannot parse C++ enum default values, generates ... as placeholder
     # Use line-level replacement to match the entire function signature line
     ENUM_DEFAULTS = [
-        # Config class methods - enable_accel_stream (two parameters need to be fixed)
+        # OBAccelFullScaleRange default (enable_accel_stream)
         (
-            r"(def enable_accel_stream\(self, full_scale_range: OBAccelFullScaleRange) = \.\.\., (sample_rate: OBGyroSampleRate) = \.\.\.",
-            r"\1 = OBAccelFullScaleRange.ACCEL_FS_UNKNOWN, \2 = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN",
+            r"(full_scale_range: OBAccelFullScaleRange) = \.\.\.",
+            r"\1 = OBAccelFullScaleRange.ACCEL_FS_UNKNOWN",
         ),
-        # Config class methods - enable_gyro_stream
+        # OBGyroFullScaleRange default (enable_gyro_stream)
         (
-            r"(def enable_gyro_stream\(self, full_scale_range: OBGyroFullScaleRange) = \.\.\., (sample_rate: OBGyroSampleRate) = \.\.\.",
-            r"\1 = OBGyroFullScaleRange.FS_UNKNOWN, \2 = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN",
+            r"(full_scale_range: OBGyroFullScaleRange) = \.\.\.",
+            r"\1 = OBGyroFullScaleRange.FS_UNKNOWN",
         ),
-        # Config class methods - enable_lidar_stream
+        # OBGyroSampleRate default (shared by enable_accel_stream / enable_gyro_stream)
         (
-            r"(def enable_lidar_stream\(self, scan_rate: OBLiDARScanRate) = \.\.\., (format: OBFormat) = \.\.\.",
-            r"\1 = OBLiDARScanRate.LIDAR_SCAN_UNKNOWN, \2 = OBFormat.UNKNOWN_FORMAT",
+            r"(sample_rate: OBGyroSampleRate) = \.\.\.",
+            r"\1 = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN",
         ),
-        # Config class methods - enable_video_stream
+        # OBFormat default (enable_video_stream, get_video_stream_profile, etc.)
         (
-            r"(def enable_video_stream\(.*format: OBFormat) = \.\.\.",
+            r"(format: OBFormat) = \.\.\.",
             r"\1 = OBFormat.UNKNOWN_FORMAT",
         ),
-        # Context class methods
+        # OBDeviceAccessMode default (create_net_device, get_device_by_index, etc.)
         (
-            r"(def create_net_device\(.*access_mode: OBDeviceAccessMode) = \.\.\.",
+            r"(access_mode: OBDeviceAccessMode) = \.\.\.",
             r"\1 = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS",
         ),
-        # DeviceList class methods
+        # OBLiDARScanRate default (enable_lidar_stream)
         (
-            r"(def get_device_by_index\(.*access_mode: OBDeviceAccessMode) = \.\.\.",
-            r"\1 = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS",
+            r"(scan_rate: OBLiDARScanRate) = \.\.\.",
+            r"\1 = OBLiDARScanRate.LIDAR_SCAN_UNKNOWN",
         ),
+        # OBStreamType default (UnDistortionFilter.__init__)
         (
-            r"(def get_device_by_serial_number\(.*access_mode: OBDeviceAccessMode) = \.\.\.",
-            r"\1 = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS",
-        ),
-        (
-            r"(def get_device_by_uid\(.*access_mode: OBDeviceAccessMode) = \.\.\.",
-            r"\1 = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS",
-        ),
-        # StreamProfileList class methods
-        (
-            r"(def get_video_stream_profile\(.*format: OBFormat) = \.\.\.",
-            r"\1 = OBFormat.UNKNOWN_FORMAT",
+            r"(stream_type: OBStreamType) = \.\.\.",
+            r"\1 = OBStreamType.COLOR_STREAM",
         ),
     ]
 
@@ -215,6 +216,29 @@ def fix_pyi_content(content: str) -> str:
     content = re.sub(
         r"(class Sensor[^{]*?\n)(.*?)(def get_recommended_filters\(self\) -> list\[\.\.\.\]:)",
         r"\1\2def get_recommended_filters(self) -> list[Filter]:",
+        content,
+        flags=re.DOTALL,
+    )
+
+    # Fix return types for new methods added in v2.9.3 binding sync
+    # Device.get_available_frame_interleave_list() -> DeviceFrameInterleaveList
+    content = re.sub(
+        r"(class Device[^{]*?\n)(.*?)(def get_available_frame_interleave_list\(self\) -> \.\.\.:)",
+        r"\1\2def get_available_frame_interleave_list(self) -> DeviceFrameInterleaveList:",
+        content,
+        flags=re.DOTALL,
+    )
+    # Frame.create_frame_set() -> FrameSet (static method)
+    content = re.sub(
+        r"(def create_frame_set\(\) -> \.\.\.:)",
+        r"def create_frame_set() -> FrameSet:",
+        content,
+    )
+    # Frame.create_video_frame(...) -> VideoFrame (static method, multi-line signature)
+    # The signature spans multiple lines ending with ") -> ...:"
+    content = re.sub(
+        r"(def create_video_frame\([^)]*\)[^)]*?) -> \.\.\.:",
+        r"\1 -> VideoFrame:",
         content,
         flags=re.DOTALL,
     )

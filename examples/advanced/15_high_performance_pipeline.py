@@ -18,13 +18,7 @@
 #  Run:
 #    python examples/advanced/15_high_performance_pipeline.py
 # ******************************************************************************
-import os
-import sys
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-
 import collections
-import sys
 import threading
 import time
 
@@ -36,7 +30,6 @@ from pyorbbecsdk import (
     Context,
     FrameSet,
     OBError,
-    OBLogLevel,
     OBSensorType,
     Pipeline,
 )
@@ -116,8 +109,6 @@ def main():
         print("Device Not Found! Please connect an Orbbec camera and try again.")
         return
 
-    ctx.set_logger_level(OBLogLevel.WARNING)
-
     pipeline = Pipeline()
     config = Config()
     depth_q = FrameQueue()
@@ -157,6 +148,9 @@ def main():
     print("Press 'q' or ESC to quit.\n")
 
     try:
+        # Create a resizable window for the pipeline visualization
+        cv2.namedWindow("High-Performance Pipeline  |  Press 'q' to quit", cv2.WINDOW_NORMAL)
+
         while True:
             t0 = time.perf_counter()
 
@@ -178,16 +172,25 @@ def main():
 
             # Process depth
             if depth_frame is not None:
-                w = depth_frame.get_width()
-                h = depth_frame.get_height()
-                scale = depth_frame.get_depth_scale()
-                raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
-                depth_mm = raw.reshape(h, w).astype(np.float32) * scale
-                clipped = np.where((depth_mm >= MIN_DEPTH_MM) & (depth_mm <= MAX_DEPTH_MM), depth_mm, 0).astype(
-                    np.uint16
-                )
-                norm = cv2.normalize(clipped, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_8U)
-                panels.append(cv2.applyColorMap(norm, cv2.COLORMAP_JET))
+                # Depth frames are normally raw 16-bit pixel data, but a
+                # malformed frame (e.g. after a sensor timestamp anomaly) can
+                # deliver a buffer whose size is not a multiple of 2 bytes, or
+                # that does not match the profile. Skip such frames instead of
+                # crashing the viewer.
+                try:
+                    w = depth_frame.get_width()
+                    h = depth_frame.get_height()
+                    scale = depth_frame.get_depth_scale()
+                    raw = np.frombuffer(depth_frame.get_data(), dtype=np.uint16)
+                    depth_mm = raw.reshape(h, w).astype(np.float32) * scale
+                    clipped = np.where((depth_mm >= MIN_DEPTH_MM) & (depth_mm <= MAX_DEPTH_MM), depth_mm, 0).astype(
+                        np.uint16
+                    )
+                    norm = cv2.normalize(clipped, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_8U)
+                    panels.append(cv2.applyColorMap(norm, cv2.COLORMAP_JET))
+                except ValueError:
+                    # Buffer size / reshape mismatch -> skip this depth frame
+                    pass
 
             if not panels:
                 time.sleep(0.005)
@@ -197,6 +200,15 @@ def main():
             process_ms = (time.perf_counter() - t0) * 1000
 
             # Stack panels and add stats overlay with white text and black outline for readability
+            # Color and depth default profiles usually differ in resolution
+            # (e.g. 1280x720 color vs 640x400 depth), so np.hstack would fail.
+            # Normalize all panels to the tallest one, preserving aspect ratio.
+            if len(panels) > 1:
+                target_h = max(p.shape[0] for p in panels)
+                panels = [
+                    p if p.shape[0] == target_h else cv2.resize(p, (int(p.shape[1] * target_h / p.shape[0]), target_h))
+                    for p in panels
+                ]
             display = np.hstack(panels)
             stats = (
                 f"Camera: {camera_fps.fps:.1f} fps  "
@@ -218,7 +230,7 @@ def main():
             )
 
             cv2.imshow("High-Performance Pipeline  |  Press 'q' to quit", display)
-            if cv2.waitKey(1) in (ord("q"), ESC_KEY):
+            if cv2.waitKey(1) & 0xFF in (ord("q"), ESC_KEY):
                 break
 
     finally:

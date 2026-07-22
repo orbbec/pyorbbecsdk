@@ -121,7 +121,12 @@ jobs:
       - name: Build wheel (self-hosted Linux via docker)
         if: matrix.runner_labels
         run: |
+          EXTRA_DOCKER_ARGS=""
+          if [[ "${{ matrix.arch }}" == "arm64" ]]; then
+            EXTRA_DOCKER_ARGS="-e UV_PYTHON_PREFERENCE=only-system"
+          fi
           docker run --rm --net=host \
+            $EXTRA_DOCKER_ARGS \
             -v "$(pwd):/workspace" \
             -w /workspace \
             --entrypoint bash \

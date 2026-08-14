@@ -4,6 +4,55 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.2] - 2026-08-11
+
+### What's Changed
+- Updated Orbbec SDK to v2.9.3.
+- Added support for importing/exporting parameters in Record & Playback samples.
+- Added ApplicationConfig, new depth filters and extended device/context interfaces.
+- Improved samples by making all rendering windows resizable.
+- Improved sensor configuration display in Enumeration samples.
+- Fixed rendering aspect ratio in samples to prevent image distortion.
+
+## Key New APIs
+
+**Application Config** for Gemini 330 series devices:
+  - `ApplicationConfig.is_supported(device)`, `ApplicationConfig.get(device)`, `ApplicationConfig.get_by_preset(device,
+  preset_name)`
+  - `ApplicationSensorConfig(sensor_type)`, `ApplicationPointCloudConfig()`, `ApplicationHDRMergeConfig()`,
+  `ApplicationDevDecimationConfig()`
+
+  **Color Preset**:
+  - `Device.is_color_preset_supported()`, `Device.get_current_color_preset_name()`, `Device.switch_color_preset(name)`,
+  `Device.get_color_preset_list()`
+  - Applications should use these APIs to query and switch Color Presets. Direct access to
+  `OB_PROP_COLOR_PRESET_PRIORITY_INT` (ID 255) is not recommended because the property will become internal in a future
+  release.
+
+  **Timestamp clock source and hardware PPS time synchronization** for DaBai series devices:
+  - `Context.set_timestamp_clock_type(clock_type)`, `Context.sync_device_hardware_pps_time(hardware_pps_time)`,
+  `Device.sync_hardware_pps_time(hardware_pps_time)`
+
+  **Network-device CCP state queries** for Gemini 335Le and Gemini 435Le:
+  - `DeviceList.query_device_access_state(index)`,
+  `DeviceList.query_device_access_state_by_serial_number(serial_number)`
+
+  **Firmware-log state queries**:
+  - `Device.is_firmware_log_enabled()`
+
+  **New depth filters**:
+  - `UnDistortionFilter(stream_type)` — undistortion filter for video streams
+  - `EnhancedDepthFilter(device, model_path)` — depth enhancement filter requiring device activation
+  - `SpatialFastFilter(activation_key)`, `SpatialModerateFilter(activation_key)`,
+  `FalsePositiveFilter(activation_key)` — advanced noise removal filters
+  - `FilterFactory.create_filter(name)`, `FilterFactory.create_private_filter(name, activation_key)` — create filters
+  by name at runtime
+
+  **Frame factory** (static methods on `Frame`):
+  - `Frame.create_frame(frame_type, format, data_size)`, `Frame.create_video_frame(...)`,
+  - `Frame.create_frame_from_other_frame(...)`, `Frame.create_frame_from_stream_profile(profile)`, 
+  - `Frame.create_frame_set()`, `Frame.set_frame_device_timestamp_us(frame, timestamp_us)`
+
 ## [2.1.1] - 2026-05-22
 
 ### What's Changed

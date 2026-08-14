@@ -44,6 +44,11 @@ SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="0840", MODE:="066
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="0841", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_305"
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="0842", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_305g"
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="0843", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_301g"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="081a", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_338Lg"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="081b", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_338Le"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="081c", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_338L"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="081d", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_331L"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="2bc5", ATTRS{idProduct}=="0845", MODE:="0666",  OWNER:="root", GROUP:="video", SYMLINK+="Gemini_309g"
 
 # OpenNI Modules
 SUBSYSTEM=="usb", ATTR{idProduct}=="0400", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video", SYMLINK+="astra_bootloader"

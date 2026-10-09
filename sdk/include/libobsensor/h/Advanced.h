@@ -102,6 +102,16 @@ OB_EXPORT void ob_delete_depth_work_mode_list(ob_depth_work_mode_list *work_mode
 OB_EXPORT const char *ob_device_get_current_preset_name(const ob_device *device, ob_error **error);
 
 /**
+ * @brief Get the version of the current depth work mode.
+ *
+ * @param[in] device The device object.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return const char* The version string, e.g. "1.2.3". Empty string when the device does not
+ *         support versioned modes.
+ */
+OB_EXPORT const char *ob_device_get_current_preset_depth_work_mode_version(const ob_device *device, ob_error **error);
+/**
  * @brief Get the available preset list.
  * @attention After loading the preset, the settings in the preset will set to the device immediately. Therefore, it is recommended to re-read the device
  * settings to update the user program temporarily.
@@ -112,6 +122,17 @@ OB_EXPORT const char *ob_device_get_current_preset_name(const ob_device *device,
  * @param[out] error Pointer to an error object that will be set if an error occurs.
  */
 OB_EXPORT void ob_device_load_preset(ob_device *device, const char *preset_name, ob_error **error);
+
+/**
+ * @brief Load the preset by preset name and the target depth work mode version.
+ *        When multiple presets share the same name, the version selects the exact one.
+ *
+ * @param[in] device The device object.
+ * @param[in] preset_name The preset name. The name should be one of the preset names returned by @ref ob_device_get_available_preset_list.
+ * @param[in] version The target depth work mode version string, e.g. "1.2.3". Must not be empty.
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ */
+OB_EXPORT void ob_device_load_preset_by_depth_work_mode_version(ob_device *device, const char *preset_name, const char *version, ob_error **error);
 
 /**
  * @brief Load preset from json string.
@@ -216,6 +237,18 @@ OB_EXPORT const char *ob_device_preset_list_get_name(const ob_device_preset_list
  * @return Whether the preset list has the preset. If true, the preset list has the preset. If false, the preset list does not have the preset.
  */
 OB_EXPORT bool ob_device_preset_list_has_preset(const ob_device_preset_list *preset_list, const char *preset_name, ob_error **error);
+
+/**
+ * @brief Get the target depth work mode version of the preset at the specified index.
+ *
+ * @param[in] preset_list Data structure containing a list of presets
+ * @param[in] index Index of the target preset
+ * @param[out] error Pointer to an error object that will be set if an error occurs.
+ *
+ * @return const char* The version string of the depth work mode, e.g. "1.2.3". Empty string when the
+ *         device does not support versioned modes.
+ */
+OB_EXPORT const char *ob_device_preset_list_get_depth_work_mode_version(const ob_device_preset_list *preset_list, uint32_t index, ob_error **error);
 
 /**
  * @brief Check if the device supports the frame interleave feature.

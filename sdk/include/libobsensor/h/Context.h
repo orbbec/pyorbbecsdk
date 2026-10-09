@@ -81,6 +81,20 @@ OB_EXPORT void ob_enable_net_device_enumeration(ob_context *context, bool enable
 OB_EXPORT bool ob_force_ip_config(const char *macAddress, ob_net_ip_config config, ob_error **error);
 
 /**
+ * @brief Send an Action Command to GVCP devices.
+ *
+ * @param[in] deviceKey     Device key to match.
+ * @param[in] groupKey      Group key to match against the camera's Action blocks.
+ * @param[in] groupMask     Group mask, bitwise-ANDed with each Action block's mask.
+ * @param[in] destIp        Destination IPv4 address. NULL or "255.255.255.255" uses broadcast.
+ * @param[in] scheduledTime PTP absolute timestamp. 0 = immediate trigger, non-zero = scheduled.
+ * @param[out] error        Pointer to an error object that will be populated if an error occurs.
+ *
+ * @return bool true on success. Fire-and-forget; does not wait for camera ACK.
+ */
+OB_EXPORT bool ob_send_action_command(uint32_t deviceKey, uint32_t groupKey, uint32_t groupMask, const char *destIp, uint64_t scheduledTime, ob_error **error);
+
+/**
  * @brief Set the GVCP port scheme used for network device discovery and control.
  *
  * @param[in] context Pointer to the context object.

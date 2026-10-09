@@ -308,6 +308,32 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_MJPEG_QUALITY_INT",
              OBPropertyID::OB_PROP_MJPEG_QUALITY_INT,
              "MJPEG encoding quality factor")
+      .value("OB_PROP_COLOR_AE_AWB_STATUS_INT",
+             OBPropertyID::OB_PROP_COLOR_AE_AWB_STATUS_INT,
+             "Color AE/AWB status, 0: converging, 1: dual convergence")
+      .value("OB_PROP_COLOR_AE_AWB_STAT_INT",
+             OBPropertyID::OB_PROP_COLOR_AE_AWB_STAT_INT,
+             "Alias of OB_PROP_COLOR_AE_AWB_STATUS_INT")
+      .value("OB_PROP_ACTION_SIGNAL_COUNT_INT",
+             OBPropertyID::OB_PROP_ACTION_SIGNAL_COUNT_INT,
+             "Number of Action Signal blocks supported by the device")
+      .value("OB_PROP_ACTION_DEVICE_KEY_INT",
+             OBPropertyID::OB_PROP_ACTION_DEVICE_KEY_INT,
+             "Action Device Key, shared across all Action Commands")
+      .value("OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT",
+             OBPropertyID::OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT,
+             "Maximum number of scheduled Action Commands that can be queued "
+             "by the device")
+      .value("OB_PROP_ACTION_SELECTOR_INT",
+             OBPropertyID::OB_PROP_ACTION_SELECTOR_INT,
+             "Action Signal selector, 0..N-1; subsequent selector-scoped "
+             "reads/writes target the selected block")
+      .value("OB_PROP_ACTION_GROUP_KEY_INT",
+             OBPropertyID::OB_PROP_ACTION_GROUP_KEY_INT,
+             "Action Group Key for the currently selected block")
+      .value("OB_PROP_ACTION_GROUP_MASK_INT",
+             OBPropertyID::OB_PROP_ACTION_GROUP_MASK_INT,
+             "Action Group Mask for the currently selected block")
       .value("OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL",
              OBPropertyID::OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL,
              "Query the status of laser overcurrent protection (read-only)")
@@ -402,6 +428,9 @@ void define_properties(const py::object& m) {
       .value("OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2",
              OBPropertyID::OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2,
              "Device IP address configuration v2")
+      .value("OB_STRUCT_COLOR_AWB_GAIN",
+             OBPropertyID::OB_STRUCT_COLOR_AWB_GAIN,
+             "Color AWB gain parameters")
       .value("OB_STRUCT_CURRENT_DEPTH_ALG_MODE",
              OBPropertyID::OB_STRUCT_CURRENT_DEPTH_ALG_MODE)
       .value("OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST",
@@ -462,6 +491,9 @@ void define_properties(const py::object& m) {
       .value("OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT",
              OBPropertyID::OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT,
              "Depth camera priority")
+      .value("OB_PROP_COLOR_WB_CTRL_INT",
+             OBPropertyID::OB_PROP_COLOR_WB_CTRL_INT,
+             "Color camera WB control")
       .value("OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL",
              OBPropertyID::OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL)
       .value("OB_PROP_DEPTH_EXPOSURE_INT",

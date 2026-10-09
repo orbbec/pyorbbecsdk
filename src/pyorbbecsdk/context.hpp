@@ -48,6 +48,11 @@ class Context {
   bool ob_force_ip_config(const std::string device_uid,
                           const OBDeviceIpAddrConfig &config);
 
+  bool send_action_command(uint32_t device_key, uint32_t group_key,
+                           uint32_t group_mask,
+                           const std::string &dest_ip = "255.255.255.255",
+                           uint64_t scheduled_time = 0);
+
   void set_gvcp_port_scheme(OBGvcpPortScheme scheme);
 
   OBGvcpPortScheme get_gvcp_port_scheme();

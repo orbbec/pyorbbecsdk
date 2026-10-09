@@ -560,25 +560,11 @@ build_version() {
         exit 1
     fi
 
-    # Force-retag the platform tag after build.
-    # setuptools 83+ derives the macOS tag from the bundled binaries'
-    # LC_BUILD_VERSION *SDK* version (26.x, because OrbbecSDK is built with
-    # the macOS 26 SDK), inflating the tag to macosx_26_0. Force-rewrite it
-    # to macOS 13 so the wheel installs on macOS 13+.
-    # To change the target version, edit WHEEL_MINOS below.
+    # Copy the wheel produced by the build into the wheel directory.
+    # No platform-tag rewriting: the macOS tag now comes straight from the
+    # build (the bundled SDK dylibs no longer inflate it), so the wheel is
+    # shipped exactly as built.
     if [ -d "$ROOT_DIR/dist" ]; then
-        local wheel_minos="${WHEEL_MINOS:-13.0}"
-        local tag_major="${wheel_minos%%.*}"
-        local plat_tag
-        if [ "$tag_major" -ge 11 ]; then
-            plat_tag="macosx_${tag_major}_0_${ARCH}"
-        else
-            local tag_minor="${wheel_minos#*.}"; tag_minor="${tag_minor%%.*}"
-            plat_tag="macosx_${tag_major}_${tag_minor}_${ARCH}"
-        fi
-        echo "Force-retagging wheel platform tag to $plat_tag..."
-        ( cd "$ROOT_DIR/dist" && \
-          uv run --no-project --with wheel wheel tags --platform-tag "$plat_tag" --remove *.whl )
         cp "$ROOT_DIR"/dist/*.whl "$WHEEL_DIR/"
         rm -rf "$ROOT_DIR/dist"
     fi

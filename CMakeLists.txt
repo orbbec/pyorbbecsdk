@@ -172,19 +172,32 @@ elseif (WIN32)
             PATTERN "*.xml")
 endif ()
 
-# 3. Examples
+# 3. License files shipped with the OrbbecSDK binary distribution.
+#    Installed under pyorbbecsdk/licenses/ (verbatim copy of sdk/LICENSE.txt and
+#    sdk/licenses/ from the OrbbecSDK release archive) so that the wheel carries
+#    the OrbbecSDK license and the bundled third-party notices.
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/sdk/LICENSE.txt)
+  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/sdk/LICENSE.txt
+          DESTINATION ${PY_PACKAGE_DIR}/licenses)
+endif ()
+if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/sdk/licenses)
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/sdk/licenses/
+          DESTINATION ${PY_PACKAGE_DIR}/licenses)
+endif ()
+
+# 4. Examples
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/examples)
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/examples
           DESTINATION ${PY_PACKAGE_DIR})
 endif ()
 
-# 4. Config files
+# 5. Config files
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/config)
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/config
           DESTINATION ${PY_PACKAGE_DIR})
 endif ()
 
-# 5. env_setup scripts
+# 6. env_setup scripts
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/scripts/env_setup)
   if (WIN32)
     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/scripts/env_setup/
@@ -203,7 +216,7 @@ if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/scripts/env_setup)
   endif ()
 endif ()
 
-# 6. Extension directory 
+# 7. Extension directory 
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/extension)
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/extension
           DESTINATION ${PY_PACKAGE_DIR})

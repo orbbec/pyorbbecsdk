@@ -435,11 +435,30 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return safe_str(self->getCurrentPresetName()); });
            })
+      .def("get_current_preset_depth_work_mode_version",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({
+               return safe_str(self->getCurrentPresetDepthWorkModeVersion());
+             });
+           },
+           "Get the version of the current depth work mode, e.g. \"1.2.3\". "
+           "Empty string when the device does not support versioned modes")
       .def("load_preset",
            [](const std::shared_ptr<ob::Device> &self,
               const std::string &preset_name) {
              OB_TRY_CATCH({ return self->loadPreset(preset_name.c_str()); });
-           })
+           },
+           py::arg("preset_name"))
+      .def("load_preset",
+           [](const std::shared_ptr<ob::Device> &self,
+              const std::string &preset_name, const std::string &version) {
+             OB_TRY_CATCH({
+               return self->loadPreset(preset_name.c_str(), version.c_str());
+             });
+           },
+           py::arg("preset_name"), py::arg("version"),
+           "Load the preset by preset name and the target depth work mode "
+           "version, e.g. \"1.2.3\"")
       .def("get_available_preset_list",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getAvailablePresetList(); });
@@ -613,6 +632,19 @@ void define_device(const py::object &m) {
              OB_TRY_CATCH({ return self->isFirmwareLogEnabled(); });
            },
            "Check whether the device firmware log is enabled")
+      .def("set_monitor_poll_interval",
+           [](const std::shared_ptr<ob::Device> &self, uint32_t interval_ms) {
+             OB_TRY_CATCH({ self->setMonitorPollInterval(interval_ms); });
+           },
+           py::arg("interval_ms"),
+           "Set the device monitor polling interval for heartbeat and firmware "
+           "log retrieval, in milliseconds (valid range [1000, 10000], values "
+           "outside are clamped)")
+      .def("get_monitor_poll_interval",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({ return self->getMonitorPollInterval(); });
+           },
+           "Get the device monitor polling interval in milliseconds")
       .def("is_license_authorization_supported",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->isLicenseAuthorizationSupported(); });
@@ -725,6 +757,17 @@ void define_device_preset_list(const py::object &m) {
            [](const std::shared_ptr<ob::DevicePresetList> &self, int index) {
              OB_TRY_CATCH({ return safe_str(self->getName(index)); });
            })
+      .def("get_depth_work_mode_version",
+           [](const std::shared_ptr<ob::DevicePresetList> &self,
+              uint32_t index) {
+             OB_TRY_CATCH({
+               return safe_str(self->getDepthWorkModeVersion(index));
+             });
+           },
+           py::arg("index"),
+           "Get the depth work mode version of the preset at the specified "
+           "index, e.g. \"1.2.3\". Empty string when the device does not "
+           "support versioned modes")
       .def(
           "has_preset",
           [](const std::shared_ptr<ob::DevicePresetList> &self,

@@ -4956,6 +4956,78 @@ class TestBindingSyncStubsImport:
 
 
 # =============================================================================
+# SDK v2.10.6 Additions
+# =============================================================================
+
+
+@pytest.mark.static
+class TestV2106PropertyAdditions:
+    """Test new OBPropertyID values added in SDK v2.10.6."""
+
+    EXPECTED_VALUES = {
+        "OB_PROP_COLOR_AE_AWB_STATUS_INT": 287,
+        "OB_PROP_COLOR_AE_AWB_STAT_INT": 287,
+        "OB_PROP_ACTION_SIGNAL_COUNT_INT": 296,
+        "OB_PROP_ACTION_DEVICE_KEY_INT": 297,
+        "OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT": 298,
+        "OB_PROP_ACTION_SELECTOR_INT": 299,
+        "OB_PROP_ACTION_GROUP_KEY_INT": 300,
+        "OB_PROP_ACTION_GROUP_MASK_INT": 301,
+        "OB_STRUCT_COLOR_AWB_GAIN": 1097,
+        "OB_PROP_COLOR_WB_CTRL_INT": 2053,
+    }
+
+    def test_all_values_exist(self):
+        for name in self.EXPECTED_VALUES:
+            assert hasattr(sdk.OBPropertyID, name), f"Missing OBPropertyID value: {name}"
+
+    def test_value_integers_match(self):
+        for name, expected in self.EXPECTED_VALUES.items():
+            actual = int(getattr(sdk.OBPropertyID, name))
+            assert actual == expected, f"{name}: expected {expected}, got {actual}"
+
+
+@pytest.mark.static
+class TestV2106TypeAdditions:
+    """Test new types added in SDK v2.10.6."""
+
+    def test_group_actions_sync_mode(self):
+        assert hasattr(sdk.OBMultiDeviceSyncMode, "GROUP_ACTIONS")
+        assert int(sdk.OBMultiDeviceSyncMode.GROUP_ACTIONS) == 512
+
+    def test_awb_gain_params(self):
+        assert hasattr(sdk, "OBAwbGainParams")
+        params = sdk.OBAwbGainParams()
+        params.r_gain, params.b_gain, params.g_gain = 1, 2, 3
+        assert (params.r_gain, params.b_gain, params.g_gain) == (1, 2, 3)
+
+
+@pytest.mark.static
+class TestV2106ContextMethodAdditions:
+    """Test Context methods added in SDK v2.10.6."""
+
+    def test_send_action_command_exists(self):
+        assert_method_exists(sdk.Context, "send_action_command")
+
+
+@pytest.mark.static
+class TestV2106DeviceMethodAdditions:
+    """Test Device methods added in SDK v2.10.6."""
+
+    def test_monitor_poll_interval_methods_exist(self):
+        assert_method_exists(sdk.Device, "set_monitor_poll_interval")
+        assert_method_exists(sdk.Device, "get_monitor_poll_interval")
+
+    def test_preset_depth_work_mode_version_methods_exist(self):
+        assert_method_exists(sdk.Device, "get_current_preset_depth_work_mode_version")
+        assert_method_exists(sdk.DevicePresetList, "get_depth_work_mode_version")
+
+    def test_load_preset_accepts_version(self):
+        doc = sdk.Device.load_preset.__doc__ or ""
+        assert "version" in doc, "load_preset has no version parameter"
+
+
+# =============================================================================
 # Test Suite Entry Point
 # =============================================================================
 

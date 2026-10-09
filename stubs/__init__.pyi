@@ -51,6 +51,7 @@ from pyorbbecsdk.pyorbbecsdk import OBAccelValue as OBFloat3D
 from pyorbbecsdk.pyorbbecsdk import OBAccelValue as OBGyroValue
 from pyorbbecsdk.pyorbbecsdk import (
     OBAlignMode,
+    OBAwbGainParams,
     OBBaselineCalibrationParam,
     OBBoolPropertyRange,
     OBCalibrationParam,
@@ -255,6 +256,7 @@ __all__: list[str] = [
     "OBAccelSampleRate",
     "OBAccelValue",
     "OBAlignMode",
+    "OBAwbGainParams",
     "OBBaselineCalibrationParam",
     "OBBoolPropertyRange",
     "OBCalibrationParam",

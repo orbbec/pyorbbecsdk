@@ -177,8 +177,12 @@ public:
      * @return std::shared_ptr< Frame > The processed frame.
      */
     virtual std::shared_ptr<Frame> process(std::shared_ptr<const Frame> frame) const {
+        const ob_frame *frameImpl = nullptr;
+        if(frame) {
+            frameImpl = frame->getImpl();
+        }
         ob_error *error  = nullptr;
-        auto      result = ob_filter_process(impl_, frame->getImpl(), &error);
+        auto      result = ob_filter_process(impl_, frameImpl, &error);
         Error::handle(&error);
         if(!result) {
             return nullptr;
@@ -192,8 +196,12 @@ public:
      * @param[in] frame The pending frame. The processing result is returned by the callback function.
      */
     virtual void pushFrame(std::shared_ptr<Frame> frame) const {
+        const ob_frame *frameImpl = nullptr;
+        if(frame) {
+            frameImpl = frame->getImpl();
+        }
         ob_error *error = nullptr;
-        ob_filter_push_frame(impl_, frame->getImpl(), &error);
+        ob_filter_push_frame(impl_, frameImpl, &error);
         Error::handle(&error);
     }
 

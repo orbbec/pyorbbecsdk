@@ -122,6 +122,17 @@ bool Context::ob_force_ip_config(const std::string device_uid,
   OB_TRY_CATCH({ return impl_->forceIp(device_uid.c_str(), config); });
 }
 
+bool Context::send_action_command(uint32_t device_key, uint32_t group_key,
+                                  uint32_t group_mask,
+                                  const std::string &dest_ip,
+                                  uint64_t scheduled_time) {
+  CHECK_NULLPTR(impl_);
+  OB_TRY_CATCH({
+    return impl_->sendActionCommand(device_key, group_key, group_mask,
+                                    dest_ip.c_str(), scheduled_time);
+  });
+}
+
 void Context::set_gvcp_port_scheme(OBGvcpPortScheme scheme) {
   CHECK_NULLPTR(impl_);
   OB_TRY_CATCH({ impl_->setGvcpPortScheme(scheme); });
@@ -212,6 +223,18 @@ void define_context(py::object &m) {
             return self.ob_force_ip_config(device_uid, config);
           },
           "Change the IP configuration")
+      .def(
+          "send_action_command",
+          [](Context &self, uint32_t device_key, uint32_t group_key,
+             uint32_t group_mask, const std::string &dest_ip,
+             uint64_t scheduled_time) {
+            return self.send_action_command(device_key, group_key, group_mask,
+                                            dest_ip, scheduled_time);
+          },
+          py::arg("device_key"), py::arg("group_key"), py::arg("group_mask"),
+          py::arg("dest_ip") = "255.255.255.255",
+          py::arg("scheduled_time") = 0,
+          "Send an Action Command to GVCP devices")
       .def(
           "set_gvcp_port_scheme",
           [](Context &self, OBGvcpPortScheme scheme) {

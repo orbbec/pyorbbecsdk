@@ -669,7 +669,9 @@ public:
 
     /**
      * @brief Enable or disable the device heartbeat.
-     * @brief After enable the device heartbeat, the sdk will start a thread to send heartbeat signal to the device error every 3 seconds.
+     *
+     * When enabled, the SDK sends heartbeat signals at the device monitor polling interval. The default interval is 3000 ms and can be adjusted with
+     * setMonitorPollInterval. If the device does not support heartbeat, an exception is thrown.
      *
      * @attention If the device does not receive the heartbeat signal for a long time, it will be disconnected and rebooted.
      *
@@ -682,7 +684,7 @@ public:
     }
 
     /**
-     * @brief Enable or disable the device firmware log.
+     * @brief Enable or disable the device firmware log. If the device does not support firmware log, an exception is thrown.
      *
      * @param[in] enable Whether to enable the firmware log.
      */
@@ -702,6 +704,31 @@ public:
         bool      enable = ob_device_is_firmware_log_enabled(impl_, &error);
         Error::handle(&error);
         return enable;
+    }
+
+    /**
+     * @brief Set the device monitor polling interval.
+     *
+     * @param[in] intervalMs The polling interval for device heartbeat and firmware log retrieval, in milliseconds. The valid range is [1000, 10000];
+     * values outside this range are clamped to the nearest bound. If the device does not support device monitor polling, an exception is thrown.
+     */
+    void setMonitorPollInterval(uint32_t intervalMs) const {
+        ob_error *error = nullptr;
+        ob_device_set_monitor_poll_interval(impl_, intervalMs, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Get the device monitor polling interval.
+     *
+     * @return uint32_t The device monitor polling interval in milliseconds.
+     * @throws Error If the device does not support device monitor polling.
+     */
+    uint32_t getMonitorPollInterval() const {
+        ob_error *error      = nullptr;
+        auto      intervalMs = ob_device_get_monitor_poll_interval(impl_, &error);
+        Error::handle(&error);
+        return intervalMs;
     }
 
     /**
@@ -851,6 +878,31 @@ public:
         ob_error *error = nullptr;
         ob_device_load_preset(impl_, presetName, &error);
         Error::handle(&error);
+    }
+
+    /**
+     * @brief load the preset by preset name and the target depth work mode version.
+     *        The version is forwarded to the depth work mode switch when loading the preset.
+     * @param[in] presetName The preset name to set. The name should be one of the preset names returned by @ref getAvailablePresetList.
+     * @param[in] version The target depth work mode version string, e.g. "1.2.3". Must not be empty.
+     */
+    void loadPreset(const char *presetName, const char *version) const {
+        ob_error *error = nullptr;
+        ob_device_load_preset_by_depth_work_mode_version(impl_, presetName, version, &error);
+        Error::handle(&error);
+    }
+
+    /**
+     * @brief Get the version of the current depth work mode.
+     *
+     * @return const char* The version string, e.g. "1.2.3". Empty string when the device
+     *         does not support versioned modes.
+     */
+    const char *getCurrentPresetDepthWorkModeVersion() const {
+        ob_error   *error   = nullptr;
+        const char *version = ob_device_get_current_preset_depth_work_mode_version(impl_, &error);
+        Error::handle(&error);
+        return version;
     }
 
     /**
@@ -1807,6 +1859,21 @@ public:
         const char *name  = ob_device_preset_list_get_name(impl_, index, &error);
         Error::handle(&error);
         return name;
+    }
+
+    /**
+     * @brief Get the depth work mode version of the preset at the specified index
+     *
+     * @param[in] index the index of the device preset
+     *
+     * @return const char* the version string of the depth work mode, e.g. "1.2.3". Empty string
+     *         when the device does not support versioned modes.
+     */
+    const char *getDepthWorkModeVersion(uint32_t index) {
+        ob_error   *error   = nullptr;
+        const char *version = ob_device_preset_list_get_depth_work_mode_version(impl_, index, &error);
+        Error::handle(&error);
+        return version;
     }
 
     /**

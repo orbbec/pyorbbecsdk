@@ -1195,7 +1195,10 @@ void define_orbbec_types(const py::object &m) {
       .value("IR_IMU_SYNC",
              OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_IR_IMU_SYNC)
       .value("SOFTWARE_SYNCED",
-             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_SYNCED);
+             OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_SOFTWARE_SYNCED)
+      .value(
+          "GROUP_ACTIONS",
+          OBMultiDeviceSyncMode::OB_MULTI_DEVICE_SYNC_MODE_GROUP_ACTIONS);
 
   py::class_<OBMultiDeviceSyncConfig>(m, "OBMultiDeviceSyncConfig")
       .def(py::init<>())
@@ -1223,6 +1226,12 @@ void define_orbbec_types(const py::object &m) {
       .def(py::init<>())
       .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline)
       .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd);
+
+  py::class_<OBAwbGainParams>(m, "OBAwbGainParams")
+      .def(py::init<>())
+      .def_readwrite("r_gain", &OBAwbGainParams::rGain)
+      .def_readwrite("b_gain", &OBAwbGainParams::bGain)
+      .def_readwrite("g_gain", &OBAwbGainParams::gGain);
 
   py::class_<OBHdrConfig>(m, "OBHdrConfig")
       .def(py::init<>())

@@ -158,6 +158,24 @@ public:
     }
 
     /**
+     * @brief Send an Action Command to GVCP devices.
+     *
+     * @param deviceKey     Device key to match.
+     * @param groupKey      Group key to match.
+     * @param groupMask     Group mask, bitwise-ANDed with Action block masks.
+     * @param destIp        Destination IPv4 address. Defaults to "255.255.255.255" for broadcast.
+     * @param scheduledTime PTP timestamp. 0 = immediate, non-zero = scheduled.
+     *
+     * @return bool true on success.
+     */
+    bool sendActionCommand(uint32_t deviceKey, uint32_t groupKey, uint32_t groupMask, const char *destIp = "255.255.255.255", uint64_t scheduledTime = 0) {
+        ob_error *error = nullptr;
+        bool      ok    = ob_send_action_command(deviceKey, groupKey, groupMask, destIp, scheduledTime, &error);
+        Error::handle(&error);
+        return ok;
+    }
+
+    /**
      * @brief Set the GVCP port scheme used for network device discovery and control.
      *
      * @param[in] scheme Target GVCP port scheme.

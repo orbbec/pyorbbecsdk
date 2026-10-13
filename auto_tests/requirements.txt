@@ -1,0 +1,5 @@
+# Test dependencies for auto_tests (C++-parity suite).
+#
+# The SDK itself is NOT installed from here - install a prebuilt
+# pyorbbecsdk2 wheel into the target interpreter first.
+pytest>=7.4

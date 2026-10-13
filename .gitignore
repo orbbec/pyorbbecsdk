@@ -197,6 +197,15 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# auto_tests: runner scratch space and generated artifacts
+# --basetemp is resolved against the rootdir, so the scratch directory lands at
+# the repository root rather than inside auto_tests/.
+.pytest_tmp/
+auto_tests/.pytest_tmp/
+auto_tests/.pytest_cache/
+# Also catches date-stamped result directories (test-results_YYYYMMDD).
+auto_tests/test-results*/
+
 # Translations
 *.mo
 *.pot

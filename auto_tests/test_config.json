@@ -1,0 +1,47 @@
+{
+  "suites": {
+    "unit": true,
+    "hw": true,
+    "scenario": true,
+    "perf": true,
+    "destructive": false
+  },
+  "destructive": {
+    "enabled": false
+  },
+  "device": {
+    "serial": ""
+  },
+  "network": {
+    "enabled": false,
+    "ip": "",
+    "mac": "",
+    "originalIp": "",
+    "mask": "",
+    "gateway": ""
+  },
+  "resource": {
+    "bagPaths": [],
+    "firmwarePath": "",
+    "depthPresetPath": "",
+    "hdr": {
+      "width": 0,
+      "height": 0,
+      "exposure0": 0,
+      "exposure1": 0,
+      "depth0Path": "",
+      "depth1Path": "",
+      "ir0Path": "",
+      "ir1Path": ""
+    }
+  },
+  "performance": {
+    "durationSeconds": 60,
+    "cpuThreads": 4,
+    "ioThreads": 2
+  },
+  "threadSafety": {
+    "durationSeconds": 10,
+    "threadCount": 4
+  }
+}

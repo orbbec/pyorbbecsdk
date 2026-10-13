@@ -11,6 +11,116 @@ get_version
 
 .. autofunction:: pyorbbecsdk.get_version
 
+get_version_major
+^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.get_version_major
+
+get_version_minor
+^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.get_version_minor
+
+get_version_patch
+^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.get_version_patch
+
+get_version_stage
+^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.get_version_stage
+
+is_video_sensor_type
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.is_video_sensor_type
+
+is_video_stream_type
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.is_video_stream_type
+
+convert_format_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_format_to_string
+
+convert_frame_type_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_frame_type_to_string
+
+convert_frame_type_to_sensor_type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_frame_type_to_sensor_type
+
+convert_frame_type_to_stream_type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_frame_type_to_stream_type
+
+convert_frame_metadata_type_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_frame_metadata_type_to_string
+
+convert_sensor_type_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_sensor_type_to_string
+
+convert_sensor_type_to_stream_type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_sensor_type_to_stream_type
+
+convert_stream_type_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_stream_type_to_string
+
+convert_stream_type_to_sensor_type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_stream_type_to_sensor_type
+
+convert_stream_type_to_frame_type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_stream_type_to_frame_type
+
+convert_accel_full_scale_range_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_accel_full_scale_range_to_string
+
+convert_gyro_full_scale_range_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_gyro_full_scale_range_to_string
+
+convert_imu_sample_rate_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_imu_sample_rate_to_string
+
+convert_imu_sample_rate_to_value
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_imu_sample_rate_to_value
+
+convert_imu_sample_rate_value_to_type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_imu_sample_rate_value_to_type
+
+convert_lidar_scan_rate_to_string
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: pyorbbecsdk.convert_lidar_scan_rate_to_string
+
 save_point_cloud_to_ply
 ^^^^^^^^^^^^^^^^^^^^^^^
 

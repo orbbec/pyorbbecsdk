@@ -503,39 +503,43 @@ OBMultiDeviceSyncMode
       * - ``FREE_RUN``
         - ``<OBMultiDeviceSyncMode.FREE_RUN: 1>``
         - 1
-        - Auto-generated from C++ bindings
+        - Free-run mode, devices do not synchronize with each other
+      * - ``GROUP_ACTIONS``
+        - ``<OBMultiDeviceSyncMode.GROUP_ACTIONS: 512>``
+        - 512
+        - Group actions mode, devices are controlled by Action Commands (GigE Vision)
       * - ``HARDWARE_TRIGGERING``
         - ``<OBMultiDeviceSyncMode.HARDWARE_TRIGGERING: 64>``
         - 64
-        - Auto-generated from C++ bindings
+        - Hardware triggered mode
       * - ``IR_IMU_SYNC``
         - ``<OBMultiDeviceSyncMode.IR_IMU_SYNC: 128>``
         - 128
-        - Auto-generated from C++ bindings
+        - IR and IMU synchronized mode
       * - ``PRIMARY``
         - ``<OBMultiDeviceSyncMode.PRIMARY: 4>``
         - 4
-        - Auto-generated from C++ bindings
+        - Primary device, outputs the trigger signal
       * - ``SECONDARY``
         - ``<OBMultiDeviceSyncMode.SECONDARY: 8>``
         - 8
-        - Auto-generated from C++ bindings
+        - Secondary device, receives the trigger signal
       * - ``SECONDARY_SYNCED``
         - ``<OBMultiDeviceSyncMode.SECONDARY_SYNCED: 16>``
         - 16
-        - Auto-generated from C++ bindings
+        - Secondary device synchronized to the primary device
       * - ``SOFTWARE_SYNCED``
         - ``<OBMultiDeviceSyncMode.SOFTWARE_SYNCED: 256>``
         - 256
-        - Auto-generated from C++ bindings
+        - Software synchronized mode
       * - ``SOFTWARE_TRIGGERING``
         - ``<OBMultiDeviceSyncMode.SOFTWARE_TRIGGERING: 32>``
         - 32
-        - Auto-generated from C++ bindings
+        - Software triggered mode
       * - ``STANDALONE``
         - ``<OBMultiDeviceSyncMode.STANDALONE: 2>``
         - 2
-        - Auto-generated from C++ bindings
+        - Standalone mode, device works independently
 
 OBGyroSampleRate
 ^^^^^^^^^^^^^^^^

@@ -47,6 +47,14 @@ The :class:`~pyorbbecsdk.Filter` class is the base class for all filter types.
       ThresholdFilter [label="ThresholdFilter"];
       FormatConvertFilter [label="FormatConvertFilter"];
       DisparityTransform [label="DisparityTransform"];
+      EdgeNoiseRemovalFilter [label="EdgeNoiseRemovalFilter"];
+      EnhancedDepthFilter [label="EnhancedDepthFilter"];
+      FalsePositiveFilter [label="FalsePositiveFilter"];
+      LutNoiseRemovalFilter [label="LutNoiseRemovalFilter"];
+      MgcNoiseRemovalFilter [label="MgcNoiseRemovalFilter"];
+      SpatialFastFilter [label="SpatialFastFilter"];
+      SpatialModerateFilter [label="SpatialModerateFilter"];
+      UnDistortionFilter [label="UnDistortionFilter"];
 
       Filter -> PointCloudFilter;
       Filter -> SequenceIdFilter;
@@ -54,6 +62,14 @@ The :class:`~pyorbbecsdk.Filter` class is the base class for all filter types.
       Filter -> ThresholdFilter;
       Filter -> FormatConvertFilter;
       Filter -> DisparityTransform;
+      Filter -> EdgeNoiseRemovalFilter;
+      Filter -> EnhancedDepthFilter;
+      Filter -> FalsePositiveFilter;
+      Filter -> LutNoiseRemovalFilter;
+      Filter -> MgcNoiseRemovalFilter;
+      Filter -> SpatialFastFilter;
+      Filter -> SpatialModerateFilter;
+      Filter -> UnDistortionFilter;
    }
 
 
@@ -80,6 +96,15 @@ Inheritance Overview
    * - :class:`~pyorbbecsdk.DisparityTransform`
      - :class:`~pyorbbecsdk.Filter`
      - Transform between disparity and depth
+   * - :class:`~pyorbbecsdk.EdgeNoiseRemovalFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Remove edge noise from depth frames
+   * - :class:`~pyorbbecsdk.EnhancedDepthFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Enhanced depth filtering for color/depth streams
+   * - :class:`~pyorbbecsdk.FalsePositiveFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Remove false positive depth pixels
    * - :class:`~pyorbbecsdk.FormatConvertFilter`
      - :class:`~pyorbbecsdk.Filter`
      - Convert between pixel formats
@@ -89,6 +114,12 @@ Inheritance Overview
    * - :class:`~pyorbbecsdk.HoleFillingFilter`
      - :class:`~pyorbbecsdk.Filter`
      - Fill holes in depth images
+   * - :class:`~pyorbbecsdk.LutNoiseRemovalFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - LUT-based noise removal
+   * - :class:`~pyorbbecsdk.MgcNoiseRemovalFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Multi-level guided-consistency noise removal
    * - :class:`~pyorbbecsdk.NoiseRemovalFilter`
      - :class:`~pyorbbecsdk.Filter`
      - Remove noise from depth images
@@ -101,12 +132,24 @@ Inheritance Overview
    * - :class:`~pyorbbecsdk.SpatialAdvancedFilter`
      - :class:`~pyorbbecsdk.Filter`
      - Advanced spatial filtering
+   * - :class:`~pyorbbecsdk.SpatialFastFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Fast spatial filtering
+   * - :class:`~pyorbbecsdk.SpatialModerateFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Moderate spatial filtering
    * - :class:`~pyorbbecsdk.TemporalFilter`
      - :class:`~pyorbbecsdk.Filter`
      - Temporal noise reduction
    * - :class:`~pyorbbecsdk.ThresholdFilter`
      - :class:`~pyorbbecsdk.Filter`
      - Threshold-based filtering
+   * - :class:`~pyorbbecsdk.UnDistortionFilter`
+     - :class:`~pyorbbecsdk.Filter`
+     - Remove lens distortion from frames
+   * - :class:`~pyorbbecsdk.FilterFactory`
+     - N/A
+     - Independent class - create filters by name
 
 
 Classes
@@ -212,6 +255,78 @@ ThresholdFilter
 ^^^^^^^^^^^^^^^
 
 .. autoclass:: pyorbbecsdk.ThresholdFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+EdgeNoiseRemovalFilter
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.EdgeNoiseRemovalFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+EnhancedDepthFilter
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.EnhancedDepthFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+FalsePositiveFilter
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.FalsePositiveFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+LutNoiseRemovalFilter
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.LutNoiseRemovalFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+MgcNoiseRemovalFilter
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.MgcNoiseRemovalFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SpatialFastFilter
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.SpatialFastFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SpatialModerateFilter
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.SpatialModerateFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+UnDistortionFilter
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.UnDistortionFilter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+FilterFactory
+^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.FilterFactory
    :members:
    :undoc-members:
    :show-inheritance:
@@ -375,6 +490,42 @@ OBSpatialAdvancedFilterParams
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autoclass:: pyorbbecsdk.OBSpatialAdvancedFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBLutNoiseRemovalFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBLutNoiseRemovalFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBMgcNoiseRemovalFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBMgcNoiseRemovalFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBSpatialFastFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBSpatialFastFilterParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBSpatialModerateFilterParams
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBSpatialModerateFilterParams
    :members:
    :undoc-members:
    :show-inheritance:

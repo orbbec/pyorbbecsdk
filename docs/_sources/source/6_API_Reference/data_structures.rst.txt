@@ -302,6 +302,30 @@ OBPropertyID
         - ``<OBPropertyID.OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL: 223>``
         - 223
         - Auto-generated from C++ bindings
+      * - ``OB_PROP_ACTION_DEVICE_KEY_INT``
+        - ``<OBPropertyID.OB_PROP_ACTION_DEVICE_KEY_INT: 297>``
+        - 297
+        - Action Device Key, shared across all Action Commands
+      * - ``OB_PROP_ACTION_GROUP_KEY_INT``
+        - ``<OBPropertyID.OB_PROP_ACTION_GROUP_KEY_INT: 300>``
+        - 300
+        - Action Group Key for the currently selected block
+      * - ``OB_PROP_ACTION_GROUP_MASK_INT``
+        - ``<OBPropertyID.OB_PROP_ACTION_GROUP_MASK_INT: 301>``
+        - 301
+        - Action Group Mask for the currently selected block
+      * - ``OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT``
+        - ``<OBPropertyID.OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT: 298>``
+        - 298
+        - Maximum number of scheduled Action Commands that can be queued by the device
+      * - ``OB_PROP_ACTION_SELECTOR_INT``
+        - ``<OBPropertyID.OB_PROP_ACTION_SELECTOR_INT: 299>``
+        - 299
+        - Action Signal selector, 0..N-1; subsequent selector-scoped reads/writes target the selected block
+      * - ``OB_PROP_ACTION_SIGNAL_COUNT_INT``
+        - ``<OBPropertyID.OB_PROP_ACTION_SIGNAL_COUNT_INT: 296>``
+        - 296
+        - Number of Action Signal blocks supported by the device
       * - ``OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL``
         - ``<OBPropertyID.OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL: 64>``
         - 64
@@ -338,6 +362,14 @@ OBPropertyID
         - ``<OBPropertyID.OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL: 195>``
         - 195
         - Auto-generated from C++ bindings
+      * - ``OB_PROP_COLOR_AE_AWB_STATUS_INT``
+        - ``<OBPropertyID.OB_PROP_COLOR_AE_AWB_STATUS_INT: 287>``
+        - 287
+        - Color AE/AWB status, 0: converging, 1: dual convergence
+      * - ``OB_PROP_COLOR_AE_AWB_STAT_INT``
+        - ``<OBPropertyID.OB_PROP_COLOR_AE_AWB_STATUS_INT: 287>``
+        - 287
+        - Alias of OB_PROP_COLOR_AE_AWB_STATUS_INT
       * - ``OB_PROP_COLOR_AE_MAX_EXPOSURE_INT``
         - ``<OBPropertyID.OB_PROP_COLOR_AE_MAX_EXPOSURE_INT: 189>``
         - 189
@@ -470,6 +502,10 @@ OBPropertyID
         - ``<OBPropertyID.OB_PROP_COLOR_SHUTTER_INT: 2007>``
         - 2007
         - Auto-generated from C++ bindings
+      * - ``OB_PROP_COLOR_WB_CTRL_INT``
+        - ``<OBPropertyID.OB_PROP_COLOR_WB_CTRL_INT: 2053>``
+        - 2053
+        - Color camera white balance control
       * - ``OB_PROP_COLOR_WHITE_BALANCE_INT``
         - ``<OBPropertyID.OB_PROP_COLOR_WHITE_BALANCE_INT: 2004>``
         - 2004
@@ -1086,6 +1122,10 @@ OBPropertyID
         - ``<OBPropertyID.OB_STRUCT_COLOR_AE_ROI: 1060>``
         - 1060
         - Auto-generated from C++ bindings
+      * - ``OB_STRUCT_COLOR_AWB_GAIN``
+        - ``<OBPropertyID.OB_STRUCT_COLOR_AWB_GAIN: 1097>``
+        - 1097
+        - Color AWB gain parameters
       * - ``OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM``
         - ``<OBPropertyID.OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: 1077>``
         - 1077
@@ -2100,3 +2140,566 @@ OBFileTranState
         - ``<OBFileTranState.TRANSFER: 2>``
         - 2
         - Auto-generated from C++ bindings
+
+OBAwbGainParams
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBAwbGainParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPropertyItem
+^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBPropertyItem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPropertyType
+^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBPropertyType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBPropertyType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OB_BOOL_PROPERTY``
+        - ``<OBPropertyType.OB_BOOL_PROPERTY: 0>``
+        - 0
+        - Boolean property
+      * - ``OB_FLOAT_PROPERTY``
+        - ``<OBPropertyType.OB_FLOAT_PROPERTY: 2>``
+        - 2
+        - Float property
+      * - ``OB_INT_PROPERTY``
+        - ``<OBPropertyType.OB_INT_PROPERTY: 1>``
+        - 1
+        - Integer property
+      * - ``OB_STRUCT_PROPERTY``
+        - ``<OBPropertyType.OB_STRUCT_PROPERTY: 3>``
+        - 3
+        - Struct property
+
+OBFloatPropertyRange
+^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBFloatPropertyRange
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBIntPropertyRange
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBIntPropertyRange
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBUint8PropertyRange
+^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBUint8PropertyRange
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBUint16PropertyRange
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBUint16PropertyRange
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBBoolPropertyRange
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBBoolPropertyRange
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBErrorDetails
+^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBErrorDetails
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBPipelineStatus
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBPipelineStatus
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDeviceIpAddrConfig
+^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDeviceIpAddrConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBNetIpConfigV2
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBNetIpConfigV2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDeviceSyncConfig
+^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDeviceSyncConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBMultiDeviceSyncConfig
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBMultiDeviceSyncConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDeviceTemperature
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDeviceTemperature
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBDeviceTimestampResetConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDeviceTimestampResetConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :noindex:
+
+OBClockType
+^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBClockType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBClockType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``MONOTONIC``
+        - ``<OBClockType.MONOTONIC: 1>``
+        - 1
+        - Monotonic clock
+      * - ``REALTIME``
+        - ``<OBClockType.REALTIME: 0>``
+        - 0
+        - Real-time clock
+
+OBDeviceType
+^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDeviceType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDeviceType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``LIGHT_BINOCULAR``
+        - ``<OBDeviceType.LIGHT_BINOCULAR: 1>``
+        - 1
+        - Binocular structured light device
+      * - ``LIGHT_MONOCULAR``
+        - ``<OBDeviceType.LIGHT_MONOCULAR: 0>``
+        - 0
+        - Monocular structured light device
+      * - ``TIME_OF_FLIGHT``
+        - ``<OBDeviceType.TIME_OF_FLIGHT: 2>``
+        - 2
+        - Time-of-flight device
+      * - ``UNKNOWN``
+        - ``<OBDeviceType.UNKNOWN: -1>``
+        - -1
+        - Unknown device type
+
+OBDeviceAccessMode
+^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDeviceAccessMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDeviceAccessMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OB_DEVICE_ACCESS_DENIED``
+        - ``<OBDeviceAccessMode.OB_DEVICE_ACCESS_DENIED: 0>``
+        - 0
+        - Access denied
+      * - ``OB_DEVICE_CONTROL_ACCESS``
+        - ``<OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS: 2>``
+        - 2
+        - Control access
+      * - ``OB_DEVICE_DEFAULT_ACCESS``
+        - ``<OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS: 4>``
+        - 4
+        - Default access
+      * - ``OB_DEVICE_EXCLUSIVE_ACCESS``
+        - ``<OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS: 1>``
+        - 1
+        - Exclusive access
+      * - ``OB_DEVICE_MONITOR_ACCESS``
+        - ``<OBDeviceAccessMode.OB_DEVICE_MONITOR_ACCESS: 3>``
+        - 3
+        - Monitor (read-only) access
+
+OBDeviceAccessState
+^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDeviceAccessState
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDeviceAccessState Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``OB_DEVICE_ACCESS_STATE_AVAILABLE``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_AVAILABLE: 2>``
+        - 2
+        - The device is available for control access
+      * - ``OB_DEVICE_ACCESS_STATE_CONTROLLED``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_CONTROLLED: 3>``
+        - 3
+        - The device has a controller; monitor access may still be available
+      * - ``OB_DEVICE_ACCESS_STATE_EXCLUSIVE``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_EXCLUSIVE: 4>``
+        - 4
+        - The device is held exclusively and cannot be accessed
+      * - ``OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED: 6>``
+        - 6
+        - The device supports CCP, but the firmware version is too old
+      * - ``OB_DEVICE_ACCESS_STATE_UNKNOWN``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNKNOWN: 0>``
+        - 0
+        - The access state cannot be determined
+      * - ``OB_DEVICE_ACCESS_STATE_UNREACHABLE``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNREACHABLE: 5>``
+        - 5
+        - The device did not respond or the network path is unreachable
+      * - ``OB_DEVICE_ACCESS_STATE_UNSUPPORTED``
+        - ``<OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNSUPPORTED: 1>``
+        - 1
+        - The device or current build does not support access-state query
+
+OBDeviceDevelopmentMode
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBDeviceDevelopmentMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBDeviceDevelopmentMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DEVELOPMENT``
+        - ``<OBDeviceDevelopmentMode.DEVELOPMENT: 1>``
+        - 1
+        - Development mode, exposes developer-only interfaces
+      * - ``NORMAL``
+        - ``<OBDeviceDevelopmentMode.NORMAL: 0>``
+        - 0
+        - Normal mode
+
+OBPermissionType
+^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBPermissionType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBPermissionType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``PERMISSION_ANY``
+        - ``<OBPermissionType.PERMISSION_ANY: 255>``
+        - 255
+        - Any permission
+      * - ``PERMISSION_DENY``
+        - ``<OBPermissionType.PERMISSION_DENY: 0>``
+        - 0
+        - No permission
+      * - ``PERMISSION_READ``
+        - ``<OBPermissionType.PERMISSION_READ: 1>``
+        - 1
+        - Read permission
+      * - ``PERMISSION_READ_WRITE``
+        - ``<OBPermissionType.PERMISSION_READ_WRITE: 3>``
+        - 3
+        - Read and write permission
+      * - ``PERMISSION_WRITE``
+        - ``<OBPermissionType.PERMISSION_WRITE: 2>``
+        - 2
+        - Write permission
+
+OBCameraPerformanceMode
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBCameraPerformanceMode
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBCameraPerformanceMode Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``ADAPTIVE``
+        - ``<OBCameraPerformanceMode.ADAPTIVE: 0>``
+        - 0
+        - Adaptive performance mode
+      * - ``HIGH``
+        - ``<OBCameraPerformanceMode.HIGH: 1>``
+        - 1
+        - High performance mode
+
+OBColorPreset
+^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBColorPreset
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBColorPreset Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DEFAULT``
+        - ``<OBColorPreset.DEFAULT: 0>``
+        - 0
+        - Default color preset
+      * - ``WARM_BIASED_AWB``
+        - ``<OBColorPreset.WARM_BIASED_AWB: 1>``
+        - 1
+        - Color preset biased to a warm white balance
+
+OBGvcpPortScheme
+^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBGvcpPortScheme
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBGvcpPortScheme Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``B``
+        - ``<OBGvcpPortScheme.B: 1>``
+        - 1
+        - Alternative (B) GVCP port scheme
+      * - ``STANDARD``
+        - ``<OBGvcpPortScheme.STANDARD: 0>``
+        - 0
+        - Standard GVCP port scheme
+
+OBIntraCameraSyncReference
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBIntraCameraSyncReference
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBIntraCameraSyncReference Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``END_OF_EXPOSURE``
+        - ``<OBIntraCameraSyncReference.END_OF_EXPOSURE: 2>``
+        - 2
+        - Synchronize to the end of exposure
+      * - ``MIDDLE_OF_EXPOSURE``
+        - ``<OBIntraCameraSyncReference.MIDDLE_OF_EXPOSURE: 1>``
+        - 1
+        - Synchronize to the middle of exposure
+      * - ``START_OF_EXPOSURE``
+        - ``<OBIntraCameraSyncReference.START_OF_EXPOSURE: 0>``
+        - 0
+        - Synchronize to the start of exposure
+
+OBIpSourceType
+^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBIpSourceType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBIpSourceType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DHCP``
+        - ``<OBIpSourceType.DHCP: 2>``
+        - 2
+        - Address assigned by DHCP
+      * - ``LLA``
+        - ``<OBIpSourceType.LLA: 1>``
+        - 1
+        - Link-local address
+      * - ``NONE``
+        - ``<OBIpSourceType.NONE: 0>``
+        - 0
+        - No IP address source
+      * - ``PERSISTENT``
+        - ``<OBIpSourceType.PERSISTENT: 3>``
+        - 3
+        - Persistent (static) address
+
+OBPipelineIssue
+^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBPipelineIssue
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBPipelineIssue Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``DRIVER``
+        - ``<OBPipelineIssue.DRIVER: 2>``
+        - 2
+        - Issue reported by the driver
+      * - ``FW``
+        - ``<OBPipelineIssue.FW: 4>``
+        - 4
+        - Issue reported by the firmware
+      * - ``HW``
+        - ``<OBPipelineIssue.HW: 8>``
+        - 8
+        - Issue reported by the hardware
+      * - ``NONE``
+        - ``<OBPipelineIssue.NONE: 0>``
+        - 0
+        - No issue
+      * - ``SDK``
+        - ``<OBPipelineIssue.SDK: 1>``
+        - 1
+        - Issue reported by the SDK
+
+OBUvcBackendType
+^^^^^^^^^^^^^^^^
+
+.. py:class:: pyorbbecsdk.OBUvcBackendType
+
+   Bases: :class:`pybind11_object`
+
+   .. list-table:: OBUvcBackendType Members
+      :widths: 25 35 15 25
+      :class: enum-table
+
+      * - Name
+        - C++ Binding Object
+        - Value
+        - Description
+      * - ``AUTO``
+        - ``<OBUvcBackendType.AUTO: 0>``
+        - 0
+        - Automatically select the UVC backend
+      * - ``LIBUVC``
+        - ``<OBUvcBackendType.LIBUVC: 1>``
+        - 1
+        - libuvc backend
+      * - ``MSMF``
+        - ``<OBUvcBackendType.MSMF: 3>``
+        - 3
+        - Media Foundation backend (Windows)
+      * - ``V4L2``
+        - ``<OBUvcBackendType.V4L2: 2>``
+        - 2
+        - V4L2 backend (Linux)

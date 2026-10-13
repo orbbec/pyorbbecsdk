@@ -562,8 +562,8 @@ profiles = pipeline.get_stream_profile_list(OBSensorType.COLOR_SENSOR)
 
 # List all available profiles
 for i in range(profiles.get_count()):
-    profile = profiles.get_profile(i)
-    print(f"{profile.width()}x{profile.height()} @ {profile.fps()}fps")
+    profile = profiles.get_stream_profile_by_index(i).as_video_stream_profile()
+    print(f"{profile.get_width()}x{profile.get_height()} @ {profile.get_fps()}fps")
 
 # Try specific profile with fallback
 try:

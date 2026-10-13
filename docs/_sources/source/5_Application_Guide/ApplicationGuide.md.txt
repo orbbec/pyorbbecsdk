@@ -1416,6 +1416,25 @@ preset_name = preset_list[index]
 device.load_preset(preset_name)
 ```
 
+Some devices (for example the Gemini 330 series) can carry more than one depth work mode version
+for a preset. In that case pass the target version together with the preset name, and query the
+version of the preset currently in use with `get_current_preset_depth_work_mode_version()`.
+An empty version string means the device does not support versioned depth work modes.
+
+```python
+from pyorbbecsdk import *
+pipeline = Pipeline()
+device = pipeline.get_device()
+
+preset_list = device.get_available_preset_list()
+preset_name = preset_list.get_name_by_index(index)
+# Version of the depth work mode bundled with this preset, e.g. "1.2.3"
+version = preset_list.get_depth_work_mode_version(index)
+# Load the preset with that specific depth work mode version
+device.load_preset(preset_name, version)
+print(device.get_current_preset_depth_work_mode_version())
+```
+
 ### Set Depth AE
 
 Set the Depth for automatic exposure.Set Depth AE is equivalent to set IR AE.

@@ -85,3 +85,59 @@ OBDepthWorkModeList
    :members:
    :undoc-members:
    :show-inheritance:
+
+ColorPresetList
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ColorPresetList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DeviceFrameInterleaveList
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DeviceFrameInterleaveList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationConfig
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationSensorConfig
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationSensorConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationDevDecimationConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationDevDecimationConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationHDRMergeConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationHDRMergeConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationPointCloudConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationPointCloudConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:

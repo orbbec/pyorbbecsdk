@@ -8,7 +8,7 @@
     Build pyorbbecsdk wheel packages for specified Python versions using uv.
 
 .PARAMETER Version
-    Python version(s) to build (e.g., "3.10", "3.11"). Use "all" for 3.8-3.13.
+    Python version(s) to build (e.g., "3.10", "3.11"). Use "all" for 3.8-3.14.
 
 .PARAMETER Offline
     Offline mode, skip network downloads (requires local pybind11 in venv).
@@ -35,7 +35,7 @@
 
 .EXAMPLE
     .\build-whl-uv.ps1 all
-    # Build all supported versions (3.8-3.13)
+    # Build all supported versions (3.8-3.14)
 
 .EXAMPLE
     .\build-whl-uv.ps1 3.10 -Offline
@@ -112,7 +112,7 @@ $PYTHON_VERSIONS = @()
 foreach ($v in $Version) {
     switch -Wildcard ($v) {
         "all" {
-            $PYTHON_VERSIONS = @("3.8", "3.9", "3.10", "3.11", "3.12", "3.13")
+            $PYTHON_VERSIONS = @("3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14")
         }
         "--clean" {
             $Clean = $true
@@ -177,12 +177,12 @@ Options:
   -?, -Help       Show this help message
 
 Arguments:
-  VERSION         Python version (e.g., 3.10, 3.11) or 'all' for 3.8-3.13
+  VERSION         Python version (e.g., 3.10, 3.11) or 'all' for 3.8-3.14
 
 Examples:
   $(Split-Path -Leaf $PSCommandPath) 3.10              # Build Python 3.10
   $(Split-Path -Leaf $PSCommandPath) 3.8, 3.9, 3.10    # Build multiple versions
-  $(Split-Path -Leaf $PSCommandPath) all               # Build all versions (3.8-3.13)
+  $(Split-Path -Leaf $PSCommandPath) all               # Build all versions (3.8-3.14)
   $(Split-Path -Leaf $PSCommandPath) 3.10 -Offline     # Offline build
   $(Split-Path -Leaf $PSCommandPath) -CleanOnly        # Clean only, don't build
   $(Split-Path -Leaf $PSCommandPath) all -Yes          # Auto-confirm cleanups
@@ -515,8 +515,9 @@ function Get-Pybind11Dir {
     # compile environment identical to the packaging environment.
     $venvPython = Get-VenvPython $PyVer
 
-    Write-Host "  Installing pybind11==2.12.0 into venv for Python $PyVer..."
-    uv pip install pybind11==2.12.0 --python $venvPython
+    # pybind11 2.12.0 predates Python 3.14; 3.14+ needs pybind11 >= 3.0 (keep in sync with pyproject.toml)
+    Write-Host "  Installing pybind11 (2.12.0 for <3.14, >=3.0.1 for 3.14+) into venv for Python $PyVer..."
+    uv pip install "pybind11==2.12.0; python_version < '3.14'" "pybind11>=3.0.1,<4; python_version >= '3.14'" --python $venvPython
     if ($LASTEXITCODE -ne 0) {
         Write-Error "Failed to install pybind11 into venv for Python $PyVer"
         exit 1

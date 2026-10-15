@@ -108,7 +108,7 @@ UV is a fast Python package manager that provides 10-100x faster dependency reso
 chmod +x scripts/build_whl/build-whl-uv.sh
 ./scripts/build_whl/build-whl-uv.sh  # Build for Python 3.10 (default)
 ./scripts/build_whl/build-whl-uv.sh 3.11  # Build for Python 3.11
-./scripts/build_whl/build-whl-uv.sh all   # Build all supported versions (3.8-3.13)
+./scripts/build_whl/build-whl-uv.sh all   # Build all supported versions (3.8-3.14)
 
 # macOS
 chmod +x scripts/build_whl/build-whl-uv-macos.sh

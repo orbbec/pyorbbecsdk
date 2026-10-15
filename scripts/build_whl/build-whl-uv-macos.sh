@@ -73,12 +73,12 @@ Options:
   -h, --help      Show this help message
 
 Arguments:
-  VERSION         Python version (e.g., 3.10, 3.11) or 'all' for 3.8-3.13
+  VERSION         Python version (e.g., 3.10, 3.11) or 'all' for 3.8-3.14
 
 Examples:
   $(basename "$0") 3.10                    # Build Python 3.10
   $(basename "$0") 3.8 3.9 3.10            # Build multiple versions
-  $(basename "$0") all                     # Build all versions (3.8-3.13)
+  $(basename "$0") all                     # Build all versions (3.8-3.14)
   $(basename "$0") --offline 3.10          # Offline build
   $(basename "$0") --clean all             # Clean and build all versions
   $(basename "$0") --clean-only            # Clean only, don't build
@@ -123,8 +123,8 @@ parse_args() {
                 exit 0
                 ;;
             all)
-                # Build all supported Python versions (3.8-3.13)
-                PYTHON_VERSIONS=("3.8" "3.9" "3.10" "3.11" "3.12" "3.13")
+                # Build all supported Python versions (3.8-3.14)
+                PYTHON_VERSIONS=("3.8" "3.9" "3.10" "3.11" "3.12" "3.13" "3.14")
                 shift
                 ;;
             3.*)
@@ -386,8 +386,9 @@ get_pybind11_dir() {
     # Install pinned pybind11 into the per-version venv (matches pyproject.toml
     # [build-system].requires) so the CMake compile environment matches the
     # packaging environment.
-    echo "  Installing pybind11==2.12.0 into venv for Python $PYVER..." >&2
-    uv pip install pybind11==2.12.0 --python "$VENV_PYTHON" >&2
+    # pybind11 2.12.0 predates Python 3.14; 3.14+ needs pybind11 >= 3.0 (keep in sync with pyproject.toml)
+    echo "  Installing pybind11 (2.12.0 for <3.14, >=3.0.1 for 3.14+) into venv for Python $PYVER..." >&2
+    uv pip install "pybind11==2.12.0; python_version < '3.14'" "pybind11>=3.0.1,<4; python_version >= '3.14'" --python "$VENV_PYTHON" >&2
     if [ $? -ne 0 ]; then
         echo "Error: Failed to install pybind11 into venv for Python $PYVER" >&2
         exit 1

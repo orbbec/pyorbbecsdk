@@ -167,7 +167,7 @@ pyorbbecsdk supports the following operating systems and architectures:
 - **Linux ARM64**: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor
 - **macOS**: tested on M2 chip, OS version 13.2
 
-**Supported Python versions: 3.8 to 3.13**
+**Supported Python versions: 3.8 to 3.14**
 
 ### Quick Camera Evaluation
 

@@ -18,7 +18,6 @@ import time
 
 import numpy as np
 import pytest
-
 from conftest import ob, require_method
 
 pytestmark = pytest.mark.unit
@@ -120,17 +119,13 @@ def test_TC_CPP_10_13_frameset_push_frame():
 
 
 def test_TC_CPP_12_01_create_frame_and_video_frame():
-    frame = ob.Frame.create_frame(
-        ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, DEPTH_FRAME_BYTES
-    )
+    frame = ob.Frame.create_frame(ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, DEPTH_FRAME_BYTES)
     assert frame is not None
     assert frame.get_type() == ob.OBFrameType.DEPTH_FRAME
     assert frame.get_format() == ob.OBFormat.Y16
     assert frame.get_data_size() == DEPTH_FRAME_BYTES
 
-    video = ob.Frame.create_video_frame(
-        ob.OBFrameType.COLOR_FRAME, ob.OBFormat.RGB, 640, 480
-    )
+    video = ob.Frame.create_video_frame(ob.OBFrameType.COLOR_FRAME, ob.OBFormat.RGB, 640, 480)
     assert video is not None
     assert video.get_type() == ob.OBFrameType.COLOR_FRAME
     assert video.get_format() == ob.OBFormat.RGB
@@ -173,9 +168,7 @@ def test_TC_CPP_11_06_update_metadata_c_api():
     require_method(ob.Frame, "update_metadata")
     require_method(ob.VideoFrame, "get_metadata")
 
-    frame = ob.Frame.create_video_frame(
-        ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, 640, 480
-    )
+    frame = ob.Frame.create_video_frame(ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, 640, 480)
     metadata = bytearray(range(64))
     frame.update_metadata(metadata)
 
@@ -293,9 +286,7 @@ def test_TC_CPP_20_02_2d_depth_to_3d():
 
 def test_TC_CPP_20_03_3d_to_2d():
     point = ob.OBPoint3f(0.0, 0.0, 1000.0)
-    result = ob.transformation3dto2d(
-        point, _camera_intrinsic(), ob.OBCameraDistortion(), _identity_extrinsic()
-    )
+    result = ob.transformation3dto2d(point, _camera_intrinsic(), ob.OBCameraDistortion(), _identity_extrinsic())
     assert (result.x, result.y) == pytest.approx((320.0, 240.0), abs=1.0)
 
 
@@ -363,9 +354,7 @@ def test_TC_CPP_23_02_log_to_file(tmp_path):
     ctx = ob.Context()
     ctx.set_logger_to_file(ob.OBLogLevel.INFO, str(log_dir))
     try:
-        ob.Context.log_external_message(
-            ob.OBLogLevel.INFO, "NOHW", "FILE_MARKER", __file__, __name__, 1
-        )
+        ob.Context.log_external_message(ob.OBLogLevel.INFO, "NOHW", "FILE_MARKER", __file__, __name__, 1)
 
         log_path = log_dir / "OrbbecSDK.log.txt"
         deadline = time.monotonic() + 5
@@ -403,9 +392,7 @@ def test_TC_CPP_23_04_log_callback():
     ctx.set_logger_level(ob.OBLogLevel.DEBUG)
     ctx.set_logger_to_callback(ob.OBLogLevel.DEBUG, callback)
     try:
-        ob.Context.log_external_message(
-            ob.OBLogLevel.DEBUG, "NOHW", "CALLBACK_MARKER", __file__, __name__, 1
-        )
+        ob.Context.log_external_message(ob.OBLogLevel.DEBUG, "NOHW", "CALLBACK_MARKER", __file__, __name__, 1)
 
         deadline = time.monotonic() + 2
         while not messages and time.monotonic() < deadline:
@@ -426,9 +413,7 @@ def test_TC_CPP_23_05_external_message():
     ctx.set_logger_level(ob.OBLogLevel.INFO)
     ctx.set_logger_to_callback(ob.OBLogLevel.INFO, lambda level, msg: messages.append(msg))
     try:
-        ob.Context.log_external_message(
-            ob.OBLogLevel.INFO, "NOHW", "NOHW_TEST_MARKER", __file__, __name__, 1
-        )
+        ob.Context.log_external_message(ob.OBLogLevel.INFO, "NOHW", "NOHW_TEST_MARKER", __file__, __name__, 1)
 
         deadline = time.monotonic() + 2
         while not any("NOHW_TEST_MARKER" in str(m) for m in messages):
@@ -471,15 +456,11 @@ def test_TC_CPP_24_02_invalid_value_exception():
     """
     for width, height in ((-1, -1), (640, -1), (1 << 40, 1), (1, 1 << 40)):
         with pytest.raises(Exception):
-            ob.Frame.create_video_frame(
-                ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, width, height
-            )
+            ob.Frame.create_video_frame(ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, width, height)
 
     # A zero extent is accepted by this build; record that rather than pretend
     # it fails, so a future change of behaviour is visible.
-    empty = ob.Frame.create_video_frame(
-        ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, 0, 0
-    )
+    empty = ob.Frame.create_video_frame(ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, 0, 0)
     assert empty.get_data_size() == 0
 
 

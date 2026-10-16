@@ -35,10 +35,7 @@ pytestmark = pytest.mark.unit
 def test_suite_markers_match_cpp_labels():
     assert set(run_tests.SUITE_MARKERS) == {"unit", "hw", "scenario", "perf", "destructive"}
     # Reboot cases are excluded from the shared process and run isolated.
-    assert (
-        run_tests.SUITE_MARKERS["hw"]
-        == "hardware and not destructive and not network and not reboot"
-    )
+    assert run_tests.SUITE_MARKERS["hw"] == "hardware and not destructive and not network and not reboot"
 
 
 def test_enabled_suites_from_shipped_config():
@@ -66,9 +63,10 @@ def test_unparsable_config_is_an_env_error(tmp_path):
 
 def test_all_suites_disabled_yields_no_marker():
     config = {"suites": dict.fromkeys(run_tests.SUITE_MARKERS, False)}
-    assert run_tests.build_marker_expressions(
-        [name for name in run_tests.SUITE_MARKERS if config["suites"][name]], False
-    ) == []
+    assert (
+        run_tests.build_marker_expressions([name for name in run_tests.SUITE_MARKERS if config["suites"][name]], False)
+        == []
+    )
 
 
 def test_marker_expressions_shape():
@@ -87,9 +85,7 @@ def test_marker_expressions_shape():
 
 def test_network_opt_in_ignores_placeholder_ip(tmp_path, monkeypatch):
     config = tmp_path / "test_config.json"
-    config.write_text(
-        json.dumps({"network": {"enabled": False, "ip": "192.168.1.10"}}), encoding="utf-8"
-    )
+    config.write_text(json.dumps({"network": {"enabled": False, "ip": "192.168.1.10"}}), encoding="utf-8")
     monkeypatch.delenv("OB_ENABLE_NETWORK_TESTS", raising=False)
     assert run_tests.network_tests_enabled(config) is False
 
@@ -128,13 +124,9 @@ def test_cli_list_suites(monkeypatch, tmp_path, capsys):
 
 def test_cli_no_suite_enabled_returns_zero_without_running(tmp_path, capsys):
     config = tmp_path / "test_config.json"
-    config.write_text(
-        json.dumps({"suites": dict.fromkeys(run_tests.SUITE_MARKERS, False)}), encoding="utf-8"
-    )
+    config.write_text(json.dumps({"suites": dict.fromkeys(run_tests.SUITE_MARKERS, False)}), encoding="utf-8")
     results = tmp_path / "out"
-    rc = run_tests.main(
-        ["--config", str(config), "--results-dir", str(results), "--skip-health"]
-    )
+    rc = run_tests.main(["--config", str(config), "--results-dir", str(results), "--skip-health"])
     assert rc == run_tests.EXIT_OK
     log = (results / "run-all.log").read_text(encoding="utf-8")
     assert "no suite enabled" in log
@@ -378,9 +370,7 @@ def _decorator_names(node: ast.FunctionDef) -> list[str]:
 def _module_level_marks(tree: ast.Module) -> set[str]:
     marks = set()
     for node in tree.body:
-        if isinstance(node, ast.Assign) and any(
-            isinstance(t, ast.Name) and t.id == "pytestmark" for t in node.targets
-        ):
+        if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "pytestmark" for t in node.targets):
             value = node.value
             elements = value.elts if isinstance(value, (ast.List, ast.Tuple)) else [value]
             for element in elements:
@@ -425,11 +415,7 @@ def test_destructive_manifest_matches_marks():
     """
     _require_ported_modules()
     marks = _collect_marks()
-    marked = {
-        _destructive.case_id_of(f"{name}")
-        for name, m in marks.items()
-        if "destructive" in m
-    }
+    marked = {_destructive.case_id_of(f"{name}") for name, m in marks.items() if "destructive" in m}
     listed = set(_destructive.DESTRUCTIVE_TEST_IDS)
     assert marked == listed, (
         "destructive manifest drift\n"
@@ -441,9 +427,7 @@ def test_destructive_manifest_matches_marks():
 def test_reboot_manifest_matches_marks():
     _require_ported_modules()
     marks = _collect_marks()
-    marked = {
-        _destructive.case_id_of(name) for name, m in marks.items() if "reboot" in m
-    }
+    marked = {_destructive.case_id_of(name) for name, m in marks.items() if "reboot" in m}
     # TC_CPP_06_09 is both destructive and a reboot case, so it appears in both
     # manifests; the reboot list is a subset of everything carrying the mark.
     assert set(_destructive.REBOOT_TEST_IDS) <= marked
@@ -454,8 +438,7 @@ def test_case_id_extraction():
     assert _destructive.case_id_of("test_unit_cpp.py::test_TC_CPP_01_01_x") == "TC_CPP_01_01_x"
     assert (
         _destructive.case_id_of(
-            "test_playback_cpp.py::test_TC_CPP_18_playback_parameterized"
-            "[None-TC_CPP_18_10_playback_device_info]"
+            "test_playback_cpp.py::test_TC_CPP_18_playback_parameterized" "[None-TC_CPP_18_10_playback_device_info]"
         )
         == "TC_CPP_18_10_playback_device_info"
     )

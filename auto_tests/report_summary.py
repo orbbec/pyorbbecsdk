@@ -67,9 +67,7 @@ def collect(junit_xml):
         name = case.get("name") or ""
         status, node = _case_status(case)
 
-        row = modules.setdefault(
-            classname, {"passed": 0, "failed": 0, "errors": 0, "skipped": 0, "time": 0.0}
-        )
+        row = modules.setdefault(classname, {"passed": 0, "failed": 0, "errors": 0, "skipped": 0, "time": 0.0})
         row[status] += 1
         try:
             row["time"] += float(case.get("time") or 0)

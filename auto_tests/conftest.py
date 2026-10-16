@@ -187,14 +187,10 @@ def _write_junit(target):
             if record["outcome"] == "skipped":
                 ElementTree.SubElement(node, "skipped", {"message": record["message"][:200]})
             elif record["outcome"] == "failed":
-                failure = ElementTree.SubElement(
-                    node, "failure", {"message": record["message"][:200]}
-                )
+                failure = ElementTree.SubElement(node, "failure", {"message": record["message"][:200]})
                 failure.text = record["message"]
             elif record["outcome"] == "error":
-                error = ElementTree.SubElement(
-                    node, "error", {"message": record["message"][:200]}
-                )
+                error = ElementTree.SubElement(node, "error", {"message": record["message"][:200]})
                 error.text = record["message"]
 
         root = ElementTree.Element("testsuites")
@@ -274,9 +270,7 @@ def pytest_runtest_call(item):
         yield
     except KeyboardInterrupt:
         if timed_out.is_set():
-            pytest.fail(
-                f"case exceeded OB_TEST_CASE_TIMEOUT={_CASE_TIMEOUT_SECONDS}s"
-            )
+            pytest.fail(f"case exceeded OB_TEST_CASE_TIMEOUT={_CASE_TIMEOUT_SECONDS}s")
         raise
     finally:
         timer.cancel()
@@ -488,11 +482,7 @@ def reboot_and_reconnect(ctx, device, serial=None, timeout_seconds=90):
         try:
             devices = ctx.query_devices()
             if devices is not None and devices.get_count() > 0:
-                candidate = (
-                    devices.get_device_by_serial_number(serial)
-                    if serial
-                    else devices.get_device_by_index(0)
-                )
+                candidate = devices.get_device_by_serial_number(serial) if serial else devices.get_device_by_index(0)
                 if candidate is not None and candidate.get_device_info() is not None:
                     return candidate
         except Exception:

@@ -13,7 +13,6 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-
 from conftest import ob
 
 #: These mirror `tests/frame_test`, `pipeline_status_test`, `total_test`,
@@ -26,9 +25,7 @@ pytestmark = pytest.mark.standalone
 
 def test_frame_test():
     """Port of tests/frame_test: create a frame, then configure a filter."""
-    frame = ob.Frame.create_video_frame(
-        ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, 640, 480
-    )
+    frame = ob.Frame.create_video_frame(ob.OBFrameType.DEPTH_FRAME, ob.OBFormat.Y16, 640, 480)
     assert frame is not None
     assert frame.get_data_size() > 0
     assert frame.get_data_pointer() is not None
@@ -108,9 +105,7 @@ def test_total_test(device, device_info):
         assert video.get_format() != ob.OBFormat.UNKNOWN_FORMAT
 
     received = []
-    color.start(
-        profiles.get_default_video_stream_profile(), lambda frame: received.append(frame)
-    )
+    color.start(profiles.get_default_video_stream_profile(), lambda frame: received.append(frame))
     try:
         deadline = time.monotonic() + 5
         while not received and time.monotonic() < deadline:
@@ -163,15 +158,11 @@ def test_hdr_test_requires_raw_inputs(test_config):
         with_ir[index] = depth0[index] if ir0[index] else depth1[index]
     with_ir.tofile(str(paths["depth0Path"].with_name(paths["depth0Path"].stem + "_withir.raw")))
 
-    assert paths["depth0Path"].with_name(
-        paths["depth0Path"].stem + "_depthonly.raw"
-    ).is_file()
+    assert paths["depth0Path"].with_name(paths["depth0Path"].stem + "_depthonly.raw").is_file()
     assert paths["depth0Path"].with_name(paths["depth0Path"].stem + "_withir.raw").is_file()
     # Silence unused warnings while keeping both buffers meaningful.
     assert int(with_ir.sum()) >= 0 and int(ir1.sum()) >= 0
 
 
 def test_align_test_requires_calibration_inputs():
-    pytest.skip(
-        "Python binding lacks internal AlignImpl calibration initialization required by align_test"
-    )
+    pytest.skip("Python binding lacks internal AlignImpl calibration initialization required by align_test")

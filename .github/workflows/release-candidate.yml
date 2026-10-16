@@ -18,7 +18,7 @@ on:
         default: ""
         type: string
       python_versions:
-        description: "Python versions to build (min/default/all)"
+        description: "Python versions to build (min/default/all/custom)"
         required: true
         default: "all"
         type: choice
@@ -26,6 +26,12 @@ on:
           - min
           - default
           - all
+          - custom
+      custom_python_versions:
+        description: "Only used when python_versions=custom, e.g. 3.14 or 3.10,3.14"
+        required: false
+        default: "3.14"
+        type: string
       platform:
         description: "Platform to build (linux-x64/linux-arm64/macos/windows-x64/all)"
         required: true
@@ -56,18 +62,35 @@ jobs:
         run: |
           VERSION_MODE="${{ github.event.inputs.python_versions || 'all' }}"
           PLATFORM="${{ github.event.inputs.platform || 'all' }}"
+          CUSTOM_VERSIONS="${{ github.event.inputs.custom_python_versions || '' }}"
           echo "Version mode: $VERSION_MODE"
           echo "Platform: $PLATFORM"
+          echo "Custom versions: ${CUSTOM_VERSIONS:-<none>}"
 
           case "$VERSION_MODE" in
             min)
               VERSIONS=("3.10")
               ;;
             default)
-              VERSIONS=("3.10" "3.11" "3.12")
+              VERSIONS=("3.10" "3.11" "3.12" "3.14")
+              ;;
+            custom)
+              # Custom mode: build only the user-specified version(s),
+              # e.g. "3.14" or "3.10,3.14" (comma and/or whitespace separated).
+              CUSTOM_TRIMMED="$(echo "$CUSTOM_VERSIONS" | tr -d '[:space:]')"
+              if [[ -z "$CUSTOM_TRIMMED" ]]; then
+                echo "::error::python_versions=custom requires a non-empty custom_python_versions, e.g. '3.14' or '3.10,3.14'."
+                exit 1
+              fi
+              if [[ ! "$CUSTOM_TRIMMED" =~ ^[0-9]+\.[0-9]+(,[0-9]+\.[0-9]+)*$ ]]; then
+                echo "::error::Invalid custom_python_versions '$CUSTOM_VERSIONS'. Expected X.Y entries separated by commas, e.g. '3.14' or '3.10,3.14'."
+                exit 1
+              fi
+              IFS=',' read -r -a VERSIONS <<< "$CUSTOM_TRIMMED"
+              echo "Custom build versions: ${VERSIONS[*]}"
               ;;
             all|*)
-              VERSIONS=("3.8" "3.9" "3.10" "3.11" "3.12" "3.13")
+              VERSIONS=("3.8" "3.9" "3.10" "3.11" "3.12" "3.13" "3.14")
               ;;
           esac
 
@@ -75,14 +98,22 @@ jobs:
           FIRST=true
 
           for pyver in "${VERSIONS[@]}"; do
+            # Select the self-hosted Linux docker image per Python version:
+            #   - Python 3.14 -> python-build-env:python314 (image ships 3.14)
+            #   - other versions -> python-build-env:latest
+            DOCKER_IMAGE="python-build-env:latest"
+            if [[ "$pyver" == "3.14" ]]; then
+              DOCKER_IMAGE="python-build-env:python314"
+            fi
+
             if [[ "$PLATFORM" == "all" || "$PLATFORM" == "linux-x64" ]]; then
               if [ "$FIRST" = true ]; then FIRST=false; else MATRIX+=","; fi
-              MATRIX+='{"os":"self-hosted","runner_labels":["self-hosted","X64","Linux","python-release"],"os_name":"linux-x64","python-version":"'$pyver'","arch":"x64","build_script":"bash scripts/build_whl/build-whl-uv.sh","label":"Linux-x64-Python-'$pyver'"}'
+              MATRIX+='{"os":"self-hosted","runner_labels":["self-hosted","X64","Linux","python-release"],"os_name":"linux-x64","python-version":"'$pyver'","arch":"x64","docker_image":"'$DOCKER_IMAGE'","build_script":"bash scripts/build_whl/build-whl-uv.sh","label":"Linux-x64-Python-'$pyver'"}'
             fi
 
             if [[ "$PLATFORM" == "all" || "$PLATFORM" == "linux-arm64" ]]; then
               if [ "$FIRST" = true ]; then FIRST=false; else MATRIX+=","; fi
-              MATRIX+='{"os":"self-hosted","runner_labels":["self-hosted","ARM64","Linux","python-release"],"os_name":"linux-arm64","python-version":"'$pyver'","arch":"arm64","build_script":"bash scripts/build_whl/build-whl-uv.sh","label":"Linux-arm64-Python-'$pyver'"}'
+              MATRIX+='{"os":"self-hosted","runner_labels":["self-hosted","ARM64","Linux","python-release"],"os_name":"linux-arm64","python-version":"'$pyver'","arch":"arm64","docker_image":"'$DOCKER_IMAGE'","build_script":"bash scripts/build_whl/build-whl-uv.sh","label":"Linux-arm64-Python-'$pyver'"}'
             fi
 
             if [[ "$PLATFORM" == "all" || "$PLATFORM" == "windows-x64" ]]; then
@@ -97,6 +128,11 @@ jobs:
           done
 
           MATRIX+="]"
+
+          if [ "$FIRST" = true ]; then
+            echo "::error::No matrix entries generated for python_versions='$VERSION_MODE' and platform='$PLATFORM'."
+            exit 1
+          fi
 
           echo "matrix-include=$MATRIX" >> $GITHUB_OUTPUT
           echo "Matrix: $MATRIX"
@@ -130,7 +166,7 @@ jobs:
             -v "$(pwd):/workspace" \
             -w /workspace \
             --entrypoint bash \
-            python-build-env:latest \
+            ${{ matrix.docker_image }} \
             -c "bash scripts/build_whl/build-whl-uv.sh --yes ${{ matrix.python-version }} \
             && chown -R $(id -u):$(id -g) /workspace"
 

@@ -14,7 +14,6 @@ import threading
 import time
 
 import pytest
-
 from conftest import first_profile, ob
 
 pytestmark = pytest.mark.performance
@@ -67,8 +66,7 @@ def _run_streaming_test(device, seconds):
     """Port PerfStreamTest::runStreamingTest and its FrameRecord accounting."""
     pipeline = ob.Pipeline(device)
     lock = threading.Lock()
-    records = {name: {"count": 0, "indexes": [], "meta_indexes": []}
-               for name in ("depth", "color", "ir")}
+    records = {name: {"count": 0, "indexes": [], "meta_indexes": []} for name in ("depth", "color", "ir")}
 
     frame_types = {
         ob.OBFrameType.DEPTH_FRAME: "depth",
@@ -87,9 +85,7 @@ def _run_streaming_test(device, seconds):
             record["count"] += 1
             record["indexes"].append(frame.get_index())
             if frame.has_metadata(ob.OBFrameMetadataType.FRAME_NUMBER):
-                record["meta_indexes"].append(
-                    frame.get_metadata_value(ob.OBFrameMetadataType.FRAME_NUMBER)
-                )
+                record["meta_indexes"].append(frame.get_metadata_value(ob.OBFrameMetadataType.FRAME_NUMBER))
 
     def callback(frameset):
         for index in range(frameset.get_count()):
@@ -112,9 +108,9 @@ def _run_streaming_test(device, seconds):
 
 
 def _assert_drop_rates(records, max_rate):
-    assert any(record["count"] for _, record in records.items()), (
-        "No frames received during the performance test window"
-    )
+    assert any(
+        record["count"] for _, record in records.items()
+    ), "No frames received during the performance test window"
 
     for name, record in records.items():
         if not record["count"]:
@@ -131,9 +127,7 @@ def _assert_drop_rates(records, max_rate):
             drops = max(0, span + 1 - received)
             rate = drops / (span + 1)
             label = "SDK index" if key == "indexes" else "metadata index"
-            assert rate <= max_rate, (
-                f"{name} {label} drop rate {rate:.2%} exceeds {max_rate:.0%}"
-            )
+            assert rate <= max_rate, f"{name} {label} drop rate {rate:.2%} exceeds {max_rate:.0%}"
 
 
 def test_TC_PERF_01_frame_drop_detection(device, test_config):
@@ -145,10 +139,7 @@ def test_TC_PERF_01_frame_drop_detection(device, test_config):
 def test_TC_PERF_02_frame_drop_under_cpu_stress(device, test_config):
     config = _performance_config(test_config)
     stop = threading.Event()
-    workers = [
-        threading.Thread(target=_burn_cpu, args=(stop,), daemon=True)
-        for _ in range(config["cpu_threads"])
-    ]
+    workers = [threading.Thread(target=_burn_cpu, args=(stop,), daemon=True) for _ in range(config["cpu_threads"])]
     for worker in workers:
         worker.start()
     try:
@@ -171,10 +162,7 @@ def test_TC_PERF_03_frame_drop_under_io_stress(device, test_config, tmp_path):
             path.write_bytes(payload)
             path.read_bytes()
 
-    workers = [
-        threading.Thread(target=stress_io, args=(index,), daemon=True)
-        for index in range(config["io_threads"])
-    ]
+    workers = [threading.Thread(target=stress_io, args=(index,), daemon=True) for index in range(config["io_threads"])]
     for worker in workers:
         worker.start()
     try:
@@ -204,9 +192,7 @@ def test_TC_TS_01_concurrent_pipeline_start_stop(device, test_config):
             except Exception as exc:  # noqa: BLE001
                 errors.append(exc)
 
-    workers = [
-        threading.Thread(target=worker, daemon=True) for _ in range(config["threads"])
-    ]
+    workers = [threading.Thread(target=worker, daemon=True) for _ in range(config["threads"])]
     for item in workers:
         item.start()
     try:
@@ -310,9 +296,7 @@ def test_TC_TS_03_concurrent_pipeline_create_destroy(device, test_config):
         with lock:
             iterations.append(local)
 
-    workers = [
-        threading.Thread(target=worker, daemon=True) for _ in range(config["threads"])
-    ]
+    workers = [threading.Thread(target=worker, daemon=True) for _ in range(config["threads"])]
     for item in workers:
         item.start()
     try:

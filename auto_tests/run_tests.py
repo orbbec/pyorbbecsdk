@@ -271,8 +271,7 @@ def main(argv=None):
 
     if importlib.util.find_spec("pytest") is None:
         print(
-            "[ERROR] pytest is not installed; run: "
-            "python -m pip install -r auto_tests/requirements.txt",
+            "[ERROR] pytest is not installed; run: " "python -m pip install -r auto_tests/requirements.txt",
             file=sys.stderr,
         )
         return EXIT_ENV_ERROR
@@ -451,11 +450,7 @@ def main(argv=None):
         # ~165 s for 186 cases with zero hangs.
         # Verification probes are not part of any suite; they only run when
         # selected explicitly, so they must not consume a module slot.
-        modules = [
-            path
-            for path in sorted(here.glob("test_*.py"))
-            if path.name != "test_watchdog_probe.py"
-        ]
+        modules = [path for path in sorted(here.glob("test_*.py")) if path.name != "test_watchdog_probe.py"]
         emit(f"Modules: {len(modules)} process(es)")
         emit()
 

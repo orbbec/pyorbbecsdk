@@ -11,7 +11,6 @@ import math
 
 import numpy as np
 import pytest
-
 from conftest import first_profile, ob, require_method, wait_for_frameset_with_retry
 
 pytestmark = pytest.mark.hardware
@@ -63,9 +62,7 @@ def test_TC_CPP_24_05_device_property_exception(device):
 
 
 def test_TC_CPP_25_01_intrinsic_extrinsic(device):
-    require_method(
-        ob.Pipeline, "get_calibration_param", reason="not exposed by this pyorbbecsdk build"
-    )
+    require_method(ob.Pipeline, "get_calibration_param", reason="not exposed by this pyorbbecsdk build")
 
     pipeline = ob.Pipeline(device)
     config = ob.Config()

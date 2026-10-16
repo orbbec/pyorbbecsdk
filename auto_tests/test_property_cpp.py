@@ -10,7 +10,6 @@ from __future__ import annotations
 import struct
 
 import pytest
-
 from conftest import ob, require_method
 
 pytestmark = pytest.mark.hardware
@@ -98,12 +97,8 @@ def test_TC_CPP_14_04_float_property_range(device):
 
 
 def test_TC_CPP_14_05_structured_data(device):
-    require_method(
-        ob.Device, "get_structured_data", reason="not exposed by this pyorbbecsdk build"
-    )
-    require_method(
-        ob.Device, "set_structured_data", reason="not exposed by this pyorbbecsdk build"
-    )
+    require_method(ob.Device, "get_structured_data", reason="not exposed by this pyorbbecsdk build")
+    require_method(ob.Device, "set_structured_data", reason="not exposed by this pyorbbecsdk build")
 
     prop = ob.OBPropertyID.OB_STRUCT_DEPTH_AE_ROI
     if not _supported(device, prop, READ_WRITE):
@@ -120,9 +115,7 @@ def test_TC_CPP_14_05_structured_data(device):
 
 
 def test_TC_CPP_14_06_raw_data(device):
-    require_method(
-        ob.Device, "get_structured_data", reason="not exposed by this pyorbbecsdk build"
-    )
+    require_method(ob.Device, "get_structured_data", reason="not exposed by this pyorbbecsdk build")
     candidates = []
     for index in range(device.get_support_property_count()):
         item = device.get_supported_property(index)

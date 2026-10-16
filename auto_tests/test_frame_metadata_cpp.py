@@ -11,7 +11,6 @@ import time
 
 import numpy as np
 import pytest
-
 from conftest import first_profile, make_filter, ob, wait_for_frameset_with_retry
 
 pytestmark = pytest.mark.hardware

@@ -9,11 +9,15 @@ authors = [
 ]
 dependencies = [
     "av==12.3.0; python_version < '3.13'",
-    "av==13.0.0; python_version >= '3.13'",
+    "av==13.0.0; python_version >= '3.13' and python_version < '3.14'",
+    # Python 3.14+: no upper bound, install the latest av release
+    "av; python_version >= '3.14'",
     "numpy<2.0.0; python_version >= '3.8' and python_version < '3.12'",
     "numpy>=2.1.0; python_version >= '3.12'",
     "opencv-python",
-    "pygame",
+    # pygame ships no 3.14 wheels; use its drop-in fork pygame-ce on 3.14+
+    "pygame; python_version >= '3.8' and python_version < '3.14'",
+    "pygame-ce; python_version >= '3.14'",
     "open3d==0.18.0; python_version >= '3.8' and python_version < '3.12'",
     # pynput on macOS requires pyobjc; pyobjc 11+ requires Python 3.9+
     "pynput; sys_platform != 'darwin'",

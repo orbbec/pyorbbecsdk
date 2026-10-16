@@ -29,9 +29,7 @@ DESTRUCTIVE_TEST_IDS: tuple[str, ...] = (
 #: the shared pytest process corrupts the SDK heap for any later case (observed
 #: as STATUS_HEAP_CORRUPTION on the next ``Pipeline()``), which CTest avoids by
 #: giving every case its own process.
-REBOOT_TEST_IDS: tuple[str, ...] = (
-    "TC_CPP_21_06_reboot",
-)
+REBOOT_TEST_IDS: tuple[str, ...] = ("TC_CPP_21_06_reboot",)
 
 DESTRUCTIVE_SET = frozenset(DESTRUCTIVE_TEST_IDS)
 REBOOT_SET = frozenset(REBOOT_TEST_IDS)

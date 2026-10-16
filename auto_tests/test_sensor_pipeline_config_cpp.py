@@ -9,7 +9,6 @@ from __future__ import annotations
 import time
 
 import pytest
-
 from conftest import (
     first_profile,
     ob,
@@ -199,9 +198,7 @@ def test_TC_CPP_07_01_depth_color_profiles(device):
 
 
 def test_TC_CPP_07_02_video_profile_filter(device):
-    profiles = device.get_sensor(
-        ob.OBSensorType.DEPTH_SENSOR
-    ).get_stream_profile_list()
+    profiles = device.get_sensor(ob.OBSensorType.DEPTH_SENSOR).get_stream_profile_list()
     assert profiles.get_count() > 0
 
     reference = profiles.get_stream_profile_by_index(0).as_video_stream_profile()
@@ -402,9 +399,7 @@ def test_TC_CPP_08_10_camera_param(pipeline):
 def test_TC_CPP_08_11_calibration_param(device):
     from conftest import require_method
 
-    require_method(
-        ob.Pipeline, "get_calibration_param", reason="not exposed by this pyorbbecsdk build"
-    )
+    require_method(ob.Pipeline, "get_calibration_param", reason="not exposed by this pyorbbecsdk build")
 
     pipeline = ob.Pipeline(device)
     config = ob.Config()
@@ -459,14 +454,10 @@ def test_TC_CPP_09_03_enable_imu_stream(pipeline, device):
     # not the stream profile itself.
     config = ob.Config()
     if accel is not None:
-        profile = accel.get_stream_profile_list().get_stream_profile_by_index(
-            0
-        ).as_accel_stream_profile()
+        profile = accel.get_stream_profile_list().get_stream_profile_by_index(0).as_accel_stream_profile()
         config.enable_accel_stream(profile.get_full_scale_range(), profile.get_sample_rate())
     if gyro is not None:
-        profile = gyro.get_stream_profile_list().get_stream_profile_by_index(
-            0
-        ).as_gyro_stream_profile()
+        profile = gyro.get_stream_profile_list().get_stream_profile_by_index(0).as_gyro_stream_profile()
         config.enable_gyro_stream(profile.get_full_scale_range(), profile.get_sample_rate())
 
     frames = []

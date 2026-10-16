@@ -17,7 +17,6 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-
 from conftest import ob
 
 pytestmark = pytest.mark.unit
@@ -374,9 +373,7 @@ def test_TC_CPP_18_playback_parameterized(bag_path, case_id):
         assert intrinsic.fx > 0
 
     elif case_id == "TC_CPP_18_32_playback_depth_distortion":
-        distortion = _video_profile(
-            playback, ob.OBSensorType.DEPTH_SENSOR
-        ).get_distortion()
+        distortion = _video_profile(playback, ob.OBSensorType.DEPTH_SENSOR).get_distortion()
         for value in (
             distortion.k1,
             distortion.k2,
@@ -394,9 +391,7 @@ def test_TC_CPP_18_playback_parameterized(bag_path, case_id):
         color = playback.get_sensor_list().get_sensor_by_type(ob.OBSensorType.COLOR_SENSOR)
         if color is None:
             pytest.skip("playback bag has no colour sensor")
-        extrinsic = profile.get_extrinsic_to(
-            color.get_stream_profile_list().get_stream_profile_by_index(0)
-        )
+        extrinsic = profile.get_extrinsic_to(color.get_stream_profile_list().get_stream_profile_by_index(0))
         rotation = np.asarray(extrinsic.rot, dtype=float).reshape(3, 3)
         assert np.all(np.isfinite(rotation))
         assert np.allclose(rotation @ rotation.T, np.eye(3), atol=0.05)
@@ -419,9 +414,7 @@ def test_TC_CPP_18_playback_parameterized(bag_path, case_id):
         extrinsic = ob.OBExtrinsic()
         extrinsic.rot = np.eye(3, dtype=np.float32)
         extrinsic.transform = np.zeros(3, dtype=np.float32)
-        result = ob.transformation2dto3d(
-            ob.OBPoint2f(intrinsic.cx, intrinsic.cy), 1000.0, intrinsic, extrinsic
-        )
+        result = ob.transformation2dto3d(ob.OBPoint2f(intrinsic.cx, intrinsic.cy), 1000.0, intrinsic, extrinsic)
         assert math.isfinite(float(result.x))
         assert math.isfinite(float(result.y))
         assert math.isfinite(float(result.z))
@@ -482,11 +475,7 @@ def _run_filter_case(playback, bag_path, case_id):
         return
 
     if case_id == "TC_CPP_18_46_playback_filter_chain":
-        chain = [
-            created
-            for created in (make_filter(name) for name in _REQUIRED_FILTERS)
-            if created is not None
-        ]
+        chain = [created for created in (make_filter(name) for name in _REQUIRED_FILTERS) if created is not None]
         assert chain
         result = depth
         for filter_ in chain:

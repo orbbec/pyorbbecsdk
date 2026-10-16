@@ -12,7 +12,6 @@ from __future__ import annotations
 import time
 
 import pytest
-
 from conftest import first_profile, make_filter, ob, wait_for_frameset_with_retry
 
 pytestmark = pytest.mark.hardware
@@ -83,9 +82,7 @@ def test_TC_CPP_13_09_align_filter(device):
         config = ob.Config()
         config.enable_stream(first_profile(pipeline, ob.OBSensorType.DEPTH_SENSOR))
         config.enable_stream(first_profile(pipeline, ob.OBSensorType.COLOR_SENSOR))
-        config.set_frame_aggregate_output_mode(
-            ob.OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE
-        )
+        config.set_frame_aggregate_output_mode(ob.OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE)
         pipeline.start(config)
 
         frames = []
@@ -146,9 +143,7 @@ def test_TC_CPP_13_11_hdr_merge(device):
     hdr = make_filter("HDRMerge")
     sequence = make_filter("SequenceIdFilter")
     if hdr is None or sequence is None:
-        pytest.skip(
-            "HDRMergeFilter or SequenceIdFilter not available: private filter library not activated"
-        )
+        pytest.skip("HDRMergeFilter or SequenceIdFilter not available: private filter library not activated")
 
     result = hdr.process(_depth(device))
     assert result is not None

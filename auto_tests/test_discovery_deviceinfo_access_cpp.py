@@ -18,7 +18,6 @@ import re
 import time
 
 import pytest
-
 from conftest import (
     first_profile,
     ob,
@@ -40,9 +39,7 @@ def _network_config(test_config, require_mac=True):
     config = test_config.get("network", {})
     enabled = bool(config.get("enabled", False)) or os.environ.get("OB_ENABLE_NETWORK_TESTS") == "1"
     if not enabled:
-        pytest.skip(
-            "network tests disabled; set network.enabled=true or OB_ENABLE_NETWORK_TESTS=1"
-        )
+        pytest.skip("network tests disabled; set network.enabled=true or OB_ENABLE_NETWORK_TESTS=1")
     if not config.get("ip"):
         pytest.skip("network.ip must be set in config")
     if require_mac and not config.get("mac"):
@@ -109,10 +106,7 @@ def test_TC_CPP_02_02_net_device_enum_toggle(context, test_config):
     time.sleep(2)
     devices = context.query_devices()
     assert devices.get_count() > 0
-    assert any(
-        devices.get_device_ip_address_by_index(index)
-        for index in range(devices.get_count())
-    )
+    assert any(devices.get_device_ip_address_by_index(index) for index in range(devices.get_count()))
 
     # Second pass: toggle off then on again, matching the C++ sequence.
     context.enable_net_device_enumeration(False)
@@ -120,10 +114,7 @@ def test_TC_CPP_02_02_net_device_enum_toggle(context, test_config):
     time.sleep(2)
     devices = context.query_devices()
     assert devices.get_count() > 0
-    assert any(
-        devices.get_device_ip_address_by_index(index)
-        for index in range(devices.get_count())
-    )
+    assert any(devices.get_device_ip_address_by_index(index) for index in range(devices.get_count()))
 
 
 @pytest.mark.network
@@ -172,17 +163,13 @@ def test_TC_CPP_02_04_force_ip(context, test_config):
         try:
             ipaddress.ip_address(original_ip)
             time.sleep(3)
-            context.create_net_device(
-                original_ip, 8090, ob.OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS
-            )
+            context.create_net_device(original_ip, 8090, ob.OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS)
         except Exception:  # noqa: BLE001
             pass
 
     time.sleep(5)
     try:
-        net_device = context.create_net_device(
-            ip, 8090, ob.OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS
-        )
+        net_device = context.create_net_device(ip, 8090, ob.OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS)
     except Exception as exc:  # noqa: BLE001
         pytest.skip(f"Device unreachable on new IP {ip}: {exc}")
 
@@ -372,41 +359,28 @@ def test_TC_CPP_05_02_exclusive_access(device):
     serial = device.get_device_info().get_serial_number()
     devices = ob.Context().query_devices()
 
-    first = devices.get_device_by_serial_number(
-        serial, ob.OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS
-    )
+    first = devices.get_device_by_serial_number(serial, ob.OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS)
     assert first is not None
 
     # A second exclusive handle may succeed or be refused; both are C++ semantics.
     second = None
     try:
-        second = devices.get_device_by_serial_number(
-            serial, ob.OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS
-        )
+        second = devices.get_device_by_serial_number(serial, ob.OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS)
     except Exception:  # noqa: BLE001
         second = None
 
     del first, second
 
     # Once the first handle is released, exclusive access must work again.
-    assert (
-        devices.get_device_by_serial_number(
-            serial, ob.OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS
-        )
-        is not None
-    )
+    assert devices.get_device_by_serial_number(serial, ob.OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS) is not None
 
 
 def test_TC_CPP_05_03_shared_access(device):
     serial = device.get_device_info().get_serial_number()
     devices = ob.Context().query_devices()
 
-    first = devices.get_device_by_serial_number(
-        serial, ob.OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS
-    )
-    second = devices.get_device_by_serial_number(
-        serial, ob.OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS
-    )
+    first = devices.get_device_by_serial_number(serial, ob.OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS)
+    second = devices.get_device_by_serial_number(serial, ob.OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS)
 
     first_info, second_info = first.get_device_info(), second.get_device_info()
     assert (first_info.get_serial_number(), first_info.get_name(), first_info.get_firmware_version()) == (
@@ -423,9 +397,7 @@ def test_TC_CPP_05_03_shared_access(device):
 def test_TC_CPP_05_04_control_only_access(context, test_config):
     devices = context.query_devices()
     serial = devices.get_device_serial_number_by_index(0)
-    device = devices.get_device_by_serial_number(
-        serial, ob.OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS
-    )
+    device = devices.get_device_by_serial_number(serial, ob.OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS)
     assert device.get_device_info().get_name()
 
     prop = ob.OBPropertyID.OB_PROP_LASER_BOOL

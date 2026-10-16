@@ -17,7 +17,6 @@ import time
 from pathlib import Path
 
 import pytest
-
 from conftest import (
     first_profile,
     ob,
@@ -173,9 +172,7 @@ def test_TC_CPP_19_02_freerun_standalone(device):
 
         config.mode = ob.OBMultiDeviceSyncMode.STANDALONE
         device.set_multi_device_sync_config(config)
-        assert (
-            device.get_multi_device_sync_config().mode == ob.OBMultiDeviceSyncMode.STANDALONE
-        )
+        assert device.get_multi_device_sync_config().mode == ob.OBMultiDeviceSyncMode.STANDALONE
     finally:
         _restore_sync_config(device, original)
 
@@ -201,10 +198,7 @@ def test_TC_CPP_19_03_primary_secondary(device, test_config):
         primary.trigger_out_enable = True
         primary.frames_per_trigger = 1
         device_a.set_multi_device_sync_config(primary)
-        assert (
-            device_a.get_multi_device_sync_config().mode
-            == ob.OBMultiDeviceSyncMode.PRIMARY
-        )
+        assert device_a.get_multi_device_sync_config().mode == ob.OBMultiDeviceSyncMode.PRIMARY
 
         secondary = ob.OBMultiDeviceSyncConfig()
         secondary.mode = ob.OBMultiDeviceSyncMode.SECONDARY
@@ -326,9 +320,7 @@ def test_TC_CPP_20_05_save_ply(device, tmp_path):
         config = ob.Config()
         config.enable_stream(first_profile(pipeline, ob.OBSensorType.DEPTH_SENSOR))
         config.enable_stream(first_profile(pipeline, ob.OBSensorType.COLOR_SENSOR))
-        config.set_frame_aggregate_output_mode(
-            ob.OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE
-        )
+        config.set_frame_aggregate_output_mode(ob.OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE)
         pipeline.start(config)
 
         for _ in range(5):
@@ -437,9 +429,7 @@ def test_TC_CPP_21_06_reboot(test_config):
         context.unregister_device_changed_callback(callback_id)
 
     devices = context.query_devices()
-    assert devices.get_device_by_serial_number(serial) is not None, (
-        f"Device SN {serial} not found after reboot"
-    )
+    assert devices.get_device_by_serial_number(serial) is not None, f"Device SN {serial} not found after reboot"
 
 
 @pytest.mark.destructive

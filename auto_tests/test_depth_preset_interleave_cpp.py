@@ -8,7 +8,6 @@ matching the C++ guard/RAII behaviour.
 from __future__ import annotations
 
 import pytest
-
 from conftest import first_profile, ob
 
 pytestmark = pytest.mark.hardware
@@ -122,12 +121,8 @@ def test_TC_CPP_15_05_profile_change_after_switch(device):
         stream_profiles = sensor.get_stream_profile_list()
         return [
             (
-                stream_profiles.get_stream_profile_by_index(index)
-                .as_video_stream_profile()
-                .get_width(),
-                stream_profiles.get_stream_profile_by_index(index)
-                .as_video_stream_profile()
-                .get_height(),
+                stream_profiles.get_stream_profile_by_index(index).as_video_stream_profile().get_width(),
+                stream_profiles.get_stream_profile_by_index(index).as_video_stream_profile().get_height(),
             )
             for index in range(stream_profiles.get_count())
         ]
@@ -208,9 +203,7 @@ def test_TC_CPP_16_05_preset_changes_properties(device):
     original = device.get_current_preset_name()
     first_name = device.get_current_preset_name()
     second_name = next(
-        name
-        for index in range(presets.get_count())
-        if (name := presets.get_name_by_index(index)) != first_name
+        name for index in range(presets.get_count()) if (name := presets.get_name_by_index(index)) != first_name
     )
 
     try:
@@ -242,9 +235,7 @@ def test_TC_CPP_17_02_load_interleave(device):
 
     current = device.get_current_frame_interleave_name()
     if not current:
-        pytest.skip(
-            "Device did not report a current interleave name; refusing to leave hardware state changed"
-        )
+        pytest.skip("Device did not report a current interleave name; refusing to leave hardware state changed")
 
     try:
         device.loadFrameInterleave(modes.get_name(0))
@@ -264,9 +255,7 @@ def test_TC_CPP_17_03_interleave_stream(device):
 
     current = device.get_current_frame_interleave_name()
     if not current:
-        pytest.skip(
-            "Device did not report a current interleave name; refusing to leave hardware state changed"
-        )
+        pytest.skip("Device did not report a current interleave name; refusing to leave hardware state changed")
 
     pipeline = ob.Pipeline(device)
     try:
@@ -276,9 +265,7 @@ def test_TC_CPP_17_03_interleave_stream(device):
         config.enable_stream(first_profile(pipeline, ob.OBSensorType.DEPTH_SENSOR))
         pipeline.start(config)
 
-        received = sum(
-            1 for _ in range(5) if pipeline.wait_for_frames(1000) is not None
-        )
+        received = sum(1 for _ in range(5) if pipeline.wait_for_frames(1000) is not None)
         assert received, "Interleave stream produced no frames"
     finally:
         try:

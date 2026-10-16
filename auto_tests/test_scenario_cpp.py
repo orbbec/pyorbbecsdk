@@ -19,7 +19,6 @@ import warnings
 from pathlib import Path
 
 import pytest
-
 from conftest import ob, open_test_device, wait_for_frameset_with_retry
 
 pytestmark = pytest.mark.scenario
@@ -36,9 +35,7 @@ def _log_path():
 def _mark():
     """Emit a marker into the SDK log so phases can be delimited."""
     sentinel = f"FLUSH_SENTINEL_{time.monotonic_ns()}"
-    ob.Context.log_external_message(
-        ob.OBLogLevel.INFO, "TEST_FLUSH", sentinel, __file__, __name__, 0
-    )
+    ob.Context.log_external_message(ob.OBLogLevel.INFO, "TEST_FLUSH", sentinel, __file__, __name__, 0)
     return sentinel
 
 
@@ -66,9 +63,7 @@ def _read_log(start_offset, stop_sentinel=None, timeout=10.0):
 
 
 def _strip_markers(text):
-    return "\n".join(
-        line for line in text.splitlines() if "FLUSH_SENTINEL_" not in line
-    )
+    return "\n".join(line for line in text.splitlines() if "FLUSH_SENTINEL_" not in line)
 
 
 def _phase_has_logs(phase, text):
@@ -114,8 +109,7 @@ def test_TC_SCENARIO_01_full_lifecycle_log_completeness(test_config):
     if not text.strip():
         pytest.skip(f"SDK file log is empty: {path}")
     _phase_has_logs("Phase 1 (Context init)", text)
-    _contains("Phase 2", r"query|device list|Name:|PID:", text,
-              "Expected device enumeration keywords in logs")
+    _contains("Phase 2", r"query|device list|Name:|PID:", text, "Expected device enumeration keywords in logs")
 
     # ---- Phase 3: stream start ----
     marker = _mark()
@@ -129,12 +123,21 @@ def test_TC_SCENARIO_01_full_lifecycle_log_completeness(test_config):
 
     text, offset = _read_log(offset, stop_sentinel=marker)
     _phase_has_logs("Phase 3 (Stream start)", text)
-    _balanced("Phase 3", r"Try to start streams!", r"Start streams done!", text,
-              "stream start logs must contain a begin/end pair")
-    _ordered("Phase 3", r"Try to start stream:.*Depth", r"STREAMING@Depth", text,
-             "depth stream logs must show start intent followed by streaming state")
-    _contains("Phase 3", r"Pipeline start done!", text,
-              "Expected pipeline completion log")
+    _balanced(
+        "Phase 3",
+        r"Try to start streams!",
+        r"Start streams done!",
+        text,
+        "stream start logs must contain a begin/end pair",
+    )
+    _ordered(
+        "Phase 3",
+        r"Try to start stream:.*Depth",
+        r"STREAMING@Depth",
+        text,
+        "depth stream logs must show start intent followed by streaming state",
+    )
+    _contains("Phase 3", r"Pipeline start done!", text, "Expected pipeline completion log")
 
     # ---- Phase 4: filters ----
     marker = _mark()
@@ -155,23 +158,37 @@ def test_TC_SCENARIO_01_full_lifecycle_log_completeness(test_config):
     text, offset = _read_log(offset, stop_sentinel=marker)
     _phase_has_logs("Phase 4 (Filter)", text)
     for name, _ in created:
-        lines = "\n".join(
-            line for line in text.splitlines() if re.search(rf"Filter {name}", line, re.I)
+        lines = "\n".join(line for line in text.splitlines() if re.search(rf"Filter {name}", line, re.I))
+        _balanced(
+            "Phase 4",
+            rf"Filter {name} created",
+            rf"Filter {name} destroyed",
+            lines,
+            "should have matched creation/destruction logs",
         )
-        _balanced("Phase 4", rf"Filter {name} created", rf"Filter {name} destroyed", lines,
-                  "should have matched creation/destruction logs")
-        _ordered("Phase 4", rf"Filter {name} created", rf"Filter {name} destroyed", lines,
-                 "lifecycle logs must be ordered")
+        _ordered(
+            "Phase 4", rf"Filter {name} created", rf"Filter {name} destroyed", lines, "lifecycle logs must be ordered"
+        )
 
     # ---- Phase 5: stream stop ----
     marker = _mark()
     pipeline.stop()
     text, offset = _read_log(offset, stop_sentinel=marker)
     _phase_has_logs("Phase 5 (Stream stop)", text)
-    _balanced("Phase 5", r"Try to stop streams!", r"Stop streams done!", text,
-              "stream stop logs must contain a begin/end pair")
-    _balanced("Phase 5", r"Try to stop pipeline!", r"Stop pipeline done!", text,
-              "pipeline stop logs must contain a begin/end pair")
+    _balanced(
+        "Phase 5",
+        r"Try to stop streams!",
+        r"Stop streams done!",
+        text,
+        "stream stop logs must contain a begin/end pair",
+    )
+    _balanced(
+        "Phase 5",
+        r"Try to stop pipeline!",
+        r"Stop pipeline done!",
+        text,
+        "pipeline stop logs must contain a begin/end pair",
+    )
 
     # ---- Phase 6/7 + 8: reboot, offline, online ----
     removed_seen = []
@@ -205,20 +222,21 @@ def test_TC_SCENARIO_01_full_lifecycle_log_completeness(test_config):
 
     text, offset = _read_log(offset, stop_sentinel=marker)
     _phase_has_logs("Phase 6/7 (Reboot + offline)", text)
-    _contains("Phase 6/7", r"removed|device removed", text,
-              "Expected device removal logs")
-    _ordered("Phase 6-8", r"removed", r"added", text,
-             "reboot lifecycle logs must show device removal before device re-addition")
+    _contains("Phase 6/7", r"removed|device removed", text, "Expected device removal logs")
+    _ordered(
+        "Phase 6-8",
+        r"removed",
+        r"added",
+        text,
+        "reboot lifecycle logs must show device removal before device re-addition",
+    )
 
     devices = context.query_devices()
-    assert devices.get_device_by_serial_number(serial) is not None, (
-        f"Device SN {serial} not found after reboot"
-    )
+    assert devices.get_device_by_serial_number(serial) is not None, f"Device SN {serial} not found after reboot"
 
     # ---- Phase 9: teardown ----
     marker = _mark()
     del pipeline
     text, offset = _read_log(offset, stop_sentinel=marker)
     _phase_has_logs("Phase 9 (Teardown)", text)
-    _contains("Phase 9", r"destroyed|fittingLoop exit|disabled|exit", text,
-              "Expected teardown logs")
+    _contains("Phase 9", r"destroyed|fittingLoop exit|disabled|exit", text, "Expected teardown logs")

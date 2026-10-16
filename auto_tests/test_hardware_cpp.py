@@ -8,7 +8,6 @@ remaining TC_CPP_02..05 cases (network, access modes, destructive) live in
 from __future__ import annotations
 
 import pytest
-
 from conftest import ob
 
 pytestmark = pytest.mark.hardware

@@ -4828,9 +4828,7 @@ class OBPropertyID:
         OBPropertyID
     ]  # value = <OBPropertyID.OB_PROP_COLOR_SHARPNESS_INT: 2006>
     OB_PROP_COLOR_SHUTTER_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_SHUTTER_INT: 2007>
-    OB_PROP_COLOR_WB_CTRL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_WB_CTRL_INT: 2053>
+    OB_PROP_COLOR_WB_CTRL_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_WB_CTRL_INT: 2053>
     OB_PROP_COLOR_WHITE_BALANCE_INT: typing.ClassVar[
         OBPropertyID
     ]  # value = <OBPropertyID.OB_PROP_COLOR_WHITE_BALANCE_INT: 2004>
@@ -5215,9 +5213,7 @@ class OBPropertyID:
         OBPropertyID
     ]  # value = <OBPropertyID.OB_STRUCT_BASELINE_CALIBRATION_PARAM: 1002>
     OB_STRUCT_COLOR_AE_ROI: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_COLOR_AE_ROI: 1060>
-    OB_STRUCT_COLOR_AWB_GAIN: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_COLOR_AWB_GAIN: 1097>
+    OB_STRUCT_COLOR_AWB_GAIN: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_COLOR_AWB_GAIN: 1097>
     OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: typing.ClassVar[
         OBPropertyID
     ]  # value = <OBPropertyID.OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: 1077>

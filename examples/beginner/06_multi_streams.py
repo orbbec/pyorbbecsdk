@@ -32,6 +32,12 @@ from utils import frame_to_bgr_image, is_astra_mini_device, is_gemini305g_device
 from pyorbbecsdk import OBFormat  # type: ignore
 from pyorbbecsdk import Config, Context, OBError, OBFrameType, OBSensorType, Pipeline
 
+# ---------------------------------------------------------------------------
+# Configuration — adjust these for your scene
+# ---------------------------------------------------------------------------
+MIN_DEPTH_MM = 100  # Clip depth closer than this (mm)
+MAX_DEPTH_MM = 5000  # Clip depth farther than this (mm)
+
 
 class GlobalState:
     def __init__(self):
@@ -138,16 +144,30 @@ def process_color(frame):
 
 
 def process_depth(frame):
-    """Process depth image"""
+    """Convert a raw depth frame to a color-mapped BGR image.
+
+    Colors are mapped over the fixed range [MIN_DEPTH_MM, MAX_DEPTH_MM] instead
+    of each frame's own min/max, so a given distance keeps the same color and
+    the image does not flicker when the farthest pixel changes.
+    """
     if frame is None:
         return state.cached_frames["depth"]
     try:
-        depth_data = np.frombuffer(frame.get_data(), dtype=np.uint16)
-        depth_data = depth_data.reshape(frame.get_height(), frame.get_width())
-        depth_image = cv2.normalize(depth_data, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-        return cv2.applyColorMap(depth_image, cv2.COLORMAP_JET)
+        width = frame.get_width()
+        height = frame.get_height()
+        scale = frame.get_depth_scale()  # e.g. 1.0 -> 1 unit = 1 mm
+        raw = np.frombuffer(frame.get_data(), dtype=np.uint16)
+        depth_mm = raw.reshape(height, width).astype(np.float32) * scale
+
+        # Invalid (0) and out-of-range pixels go to the dark end of the colormap
+        in_range = (depth_mm >= MIN_DEPTH_MM) & (depth_mm <= MAX_DEPTH_MM)
+        depth_norm = np.where(in_range, (depth_mm - MIN_DEPTH_MM) / (MAX_DEPTH_MM - MIN_DEPTH_MM), 0.0)
+        depth_8bit = (np.clip(depth_norm, 0.0, 1.0) * 255).astype(np.uint8)
+        return cv2.applyColorMap(depth_8bit, cv2.COLORMAP_JET)
     except ValueError:
-        return None
+        # Buffer size / reshape mismatch: keep the last good frame instead of
+        # dropping the panel, which would reflow the whole grid.
+        return state.cached_frames["depth"]
 
 
 def process_ir(ir_frame):

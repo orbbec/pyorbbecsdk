@@ -130,7 +130,7 @@ The `-E` flag preserves your Python environment variables, ensuring your virtual
 
 **Solution:**
 
-Check your Python version matches supported versions (3.8-3.13):
+Check your Python version matches supported versions (3.8-3.14):
 
 ```bash
 python3 --version
@@ -142,7 +142,7 @@ If using a version manager (pyenv, conda), ensure you're using the correct Pytho
 which python3
 ```
 
-Supported Python versions: **3.8, 3.9, 3.10, 3.11, 3.12, 3.13**
+Supported Python versions: **3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14**
 
 ---
 
@@ -155,7 +155,7 @@ Supported Python versions: **3.8, 3.9, 3.10, 3.11, 3.12, 3.13**
 Ensure you download the correct wheel for your:
 - Operating system (Linux/macOS/Windows)
 - Architecture (x86_64/ARM64)
-- Python version (cp38, cp39, cp310, cp311, cp312, cp313)
+- Python version (cp38, cp39, cp310, cp311, cp312, cp313, cp314)
 
 Check platform tags:
 
@@ -291,7 +291,7 @@ Ensure virtual environments are set up correctly before copying to the offline m
 
 ```bash
 # On a machine with internet access, prepare the offline environment:
-for ver in 3.8 3.9 3.10 3.11 3.12 3.13; do
+for ver in 3.8 3.9 3.10 3.11 3.12 3.13 3.14; do
     uv venv venv${ver//./} --python $ver
     uv pip install pybind11 -e . --python venv${ver//./}/bin/python
 done

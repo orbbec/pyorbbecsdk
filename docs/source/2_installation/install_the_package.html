@@ -1283,7 +1283,7 @@
   <section id="installation-guide">
 <h1><span class="section-number">2.3. </span>Installation Guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h1>
 <!-- Shields.io Badges --><p><a class="reference external" href="https://pypi.org/project/pyorbbecsdk2/"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/pyorbbecsdk2.svg" /></a>
-<a class="reference external" href="https://www.python.org/"><img alt="Python Versions" src="https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue" /></a>
+<a class="reference external" href="https://www.python.org/"><img alt="Python Versions" src="https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue" /></a>
 <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases"><img alt="Platform" src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue.svg" /></a>
 <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/orbbec/pyorbbecsdk.svg" /></a>
 <a class="reference external" href="https://pyorbbecsdk.readthedocs.io/"><img alt="Documentation" src="https://img.shields.io/badge/docs-latest-brightgreen.svg" /></a></p>
@@ -1301,7 +1301,7 @@ Obtain depth, color, IR streams, IMU data, point clouds, and more with Orbbec ca
 <li><p>Linux ARM64: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor</p></li>
 <li><p>macOS: tested on M2 chip, OS version 13.2</p></li>
 </ul>
-<p><strong>Supported Python versions: 3.8 to 3.13</strong></p>
+<p><strong>Supported Python versions: 3.8 to 3.14</strong></p>
 <section id="hardware-requirements">
 <h3><span class="section-number">2.3.1.1. </span>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -1318,7 +1318,7 @@ Obtain depth, color, IR streams, IMU data, point clouds, and more with Orbbec ca
 </section>
 <section id="python-version-check">
 <h3><span class="section-number">2.3.2.2. </span>Python Version Check<a class="headerlink" href="#python-version-check" title="Link to this heading"></a></h3>
-<p>Ensure Python 3.8 or higher is installed:</p>
+<p>Ensure a supported Python version (3.8 to 3.14) is installed:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/macOS</span>
 python3<span class="w"> </span>--version
 
@@ -1417,9 +1417,9 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <li><p>Latest stable releases</p></li>
 <li><p>Works on Linux, macOS, and Windows</p></li>
 </ul>
-<p><strong>Available Python versions:</strong> 3.8, 3.9, 3.10, 3.11, 3.12, 3.13</p>
+<p><strong>Available Python versions:</strong> 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14</p>
 <blockquote>
-<div><p><strong>Note for Linux users:</strong> PyPI does not provide pre-built wheels for Python 3.8 on Linux (x64 and ARM64). If you need Python 3.8 on Linux, download the wheel from <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">GitHub Releases</a> or <a class="reference internal" href="../4_Package/build_with_uv.html"><span class="doc">build from source</span></a>.</p>
+<div><p><strong>Note:</strong> PyPI provides pre-built wheels for every supported Python version. Python 3.8 is now supported for online installation on all platforms, including Linux x64 and ARM64, so no manual wheel download is required.</p>
 </div></blockquote>
 </section>
 <section id="method-2-offline-wheel-installation">
@@ -1573,7 +1573,7 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 </pre></div>
 </div>
 <blockquote>
-<div><p><strong>Note for Linux Python 3.8 users:</strong> PyPI does not provide Linux wheels for Python 3.8. Use Python 3.9+ or download the wheel from <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/releases">GitHub Releases</a>.</p>
+<div><p><strong>Note:</strong> Python 3.8 is supported for online installation on all platforms, including Linux x64 and ARM64.</p>
 </div></blockquote>
 <p><strong>Windows:</strong></p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># Create and activate virtual environment</span>
@@ -1658,7 +1658,7 @@ sudo<span class="w"> </span>udevadm<span class="w"> </span>control<span class="w
 <section id="python-version-mismatch">
 <h3><span class="section-number">2.3.4.5. </span>Python Version Mismatch<a class="headerlink" href="#python-version-mismatch" title="Link to this heading"></a></h3>
 <p><strong>Problem:</strong> <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">matching</span> <span class="pre">distribution</span> <span class="pre">found</span></code> error.</p>
-<p><strong>Solution:</strong> Check your Python version matches supported versions (3.8-3.13):</p>
+<p><strong>Solution:</strong> Check your Python version matches supported versions (3.8-3.14):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>--version
 </pre></div>
 </div>
@@ -1674,7 +1674,7 @@ sudo<span class="w"> </span>udevadm<span class="w"> </span>control<span class="w
 <ul class="simple">
 <li><p>Operating system (Linux/macOS/Windows)</p></li>
 <li><p>Architecture (x86_64/ARM64)</p></li>
-<li><p>Python version (cp38, cp39, cp310, cp311, cp312, cp313)</p></li>
+<li><p>Python version (cp38, cp39, cp310, cp311, cp312, cp313, cp314)</p></li>
 </ul>
 <p>Check platform tags:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import platform; print(platform.machine()); print(platform.system())&quot;</span>
@@ -1744,7 +1744,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-10-09 11:20:18.
+      <span class="lastupdated">Last updated on 2026-10-23 09:48:27.
       </span></p>
   </div>
 

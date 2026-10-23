@@ -1421,7 +1421,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <h3><span class="section-number">7.2.4. </span>Python version mismatch<a class="headerlink" href="#python-version-mismatch" title="Link to this heading"></a></h3>
 <p><strong>Question:</strong> I get <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">matching</span> <span class="pre">distribution</span> <span class="pre">found</span></code> error when installing.</p>
 <p><strong>Solution:</strong></p>
-<p>Check your Python version matches supported versions (3.8-3.13):</p>
+<p>Check your Python version matches supported versions (3.8-3.14):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>--version
 </pre></div>
 </div>
@@ -1429,7 +1429,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>python3
 </pre></div>
 </div>
-<p>Supported Python versions: <strong>3.8, 3.9, 3.10, 3.11, 3.12, 3.13</strong></p>
+<p>Supported Python versions: <strong>3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14</strong></p>
 </section>
 <hr class="docutils" />
 <section id="offline-installation-fails">
@@ -1440,7 +1440,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <ul class="simple">
 <li><p>Operating system (Linux/macOS/Windows)</p></li>
 <li><p>Architecture (x86_64/ARM64)</p></li>
-<li><p>Python version (cp38, cp39, cp310, cp311, cp312, cp313)</p></li>
+<li><p>Python version (cp38, cp39, cp310, cp311, cp312, cp313, cp314)</p></li>
 </ul>
 <p>Check platform tags:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For Linux/macOS</span>
@@ -1556,7 +1556,7 @@ sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> <
 <p><strong>Solution:</strong></p>
 <p>Ensure virtual environments are set up correctly before copying to the offline machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On a machine with internet access, prepare the offline environment:</span>
-<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="w"> </span><span class="m">3</span>.14<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span><span class="w"> </span>--python<span class="w"> </span><span class="nv">$ver</span>
 <span class="w">    </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>--python<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span>/bin/python
 <span class="k">done</span>
@@ -1960,7 +1960,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-10-09 11:20:18.
+      <span class="lastupdated">Last updated on 2026-10-23 09:48:27.
       </span></p>
   </div>
 

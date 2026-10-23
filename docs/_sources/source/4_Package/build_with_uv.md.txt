@@ -144,7 +144,7 @@ chmod +x scripts/build_whl/build-whl-uv.sh
 # Build for multiple Python versions
 ./scripts/build_whl/build-whl-uv.sh 3.9 3.10 3.11
 
-# Build all supported versions (3.8-3.13)
+# Build all supported versions (3.8-3.14)
 ./scripts/build_whl/build-whl-uv.sh all
 ```
 
@@ -163,7 +163,7 @@ chmod +x scripts/build_whl/build-whl-uv-macos.sh
 # Build for multiple Python versions
 ./scripts/build_whl/build-whl-uv-macos.sh 3.9 3.10 3.11
 
-# Build all supported versions (3.8-3.13)
+# Build all supported versions (3.8-3.14)
 ./scripts/build_whl/build-whl-uv-macos.sh all
 ```
 
@@ -222,7 +222,7 @@ git clone https://github.com/orbbec/pyorbbecsdk.git
 cd pyorbbecsdk
 
 # Create virtual environments with pybind11 for each Python version
-for ver in 3.8 3.9 3.10 3.11 3.12 3.13; do
+for ver in 3.8 3.9 3.10 3.11 3.12 3.13 3.14; do
     uv venv venv${ver//./} --python $ver
     uv pip install pybind11 -e . --python venv${ver//./}/bin/python
 done
@@ -253,6 +253,8 @@ pyorbbecsdk/
     ├── pyorbbecsdk2-2.0.XX-cp38-cp38-linux_x86_64.whl
     ├── pyorbbecsdk2-2.0.XX-cp39-cp39-linux_x86_64.whl
     ├── pyorbbecsdk2-2.0.XX-cp310-cp310-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp313-cp313-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp314-cp314-linux_x86_64.whl
     └── ...
 ```
 

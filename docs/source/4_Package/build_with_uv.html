@@ -1463,7 +1463,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <span class="c1"># Build for multiple Python versions</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
 
-<span class="c1"># Build all supported versions (3.8-3.13)</span>
+<span class="c1"># Build all supported versions (3.8-3.14)</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>all
 </pre></div>
 </div>
@@ -1482,7 +1482,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <span class="c1"># Build for multiple Python versions</span>
 ./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
 
-<span class="c1"># Build all supported versions (3.8-3.13)</span>
+<span class="c1"># Build all supported versions (3.8-3.14)</span>
 ./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span>all
 </pre></div>
 </div>
@@ -1563,7 +1563,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/orbbe
 <span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
 
 <span class="c1"># Create virtual environments with pybind11 for each Python version</span>
-<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="w"> </span><span class="m">3</span>.14<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">    </span>uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span><span class="w"> </span>--python<span class="w"> </span><span class="nv">$ver</span>
 <span class="w">    </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>--python<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span>/bin/python
 <span class="k">done</span>
@@ -1595,6 +1595,8 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/orbbe
     ├── pyorbbecsdk2-2.0.XX-cp38-cp38-linux_x86_64.whl
     ├── pyorbbecsdk2-2.0.XX-cp39-cp39-linux_x86_64.whl
     ├── pyorbbecsdk2-2.0.XX-cp310-cp310-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp313-cp313-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp314-cp314-linux_x86_64.whl
     └── ...
 </pre></div>
 </div>
@@ -1876,7 +1878,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-10-09 11:20:18.
+      <span class="lastupdated">Last updated on 2026-10-23 09:48:27.
       </span></p>
   </div>
 

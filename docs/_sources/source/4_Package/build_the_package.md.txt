@@ -13,7 +13,7 @@ Before you start: Normally, installing with the provided .whl package is suffici
 
 ### Python Version
 
-- Python 3.8 and above
+- Python 3.8 to 3.14
 
 ## Linux Python SDK Compilation
 

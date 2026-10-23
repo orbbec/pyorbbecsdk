@@ -24,7 +24,7 @@
 <p align="center">
   <a href="https://github.com/orbbec/pyorbbecsdk/actions/workflows/build.yaml"><img src="https://img.shields.io/badge/build-GitHub%20Actions-blue?logo=github" alt="Build"></a>
   <a href="https://pypi.org/project/pyorbbecsdk2/"><img src="https://img.shields.io/pypi/v/pyorbbecsdk2" alt="PyPI"></a>
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue" alt="Python"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue" alt="Python"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"></a>
 </p>
 
@@ -79,7 +79,7 @@ For detailed branch comparison and device support matrix, see [Introduction - De
 - 📐 **Camera calibration data** — Access intrinsics, distortion coefficients, and extrinsic transforms.
 - ⚡ **Real-time performance** — Backed by native C++ performance via pybind11.
 - 🌐 **Network cameras** — Connect to Femto Mega / Gemini 2 XL over Ethernet.
-- 📦 **Pre-built wheels** — No compilation required for Windows x64, Linux x64, and ARM64.
+- 📦 **Pre-built wheels** — No compilation required on Windows x64, Linux x64/ARM64, and macOS (Apple Silicon).
 
 ## Getting started
 
@@ -111,7 +111,9 @@ pip install --upgrade pyorbbecsdk2
 > 🔧 **Building from Source?**
 > See the [Build with UV Guide](https://orbbec.github.io/pyorbbecsdk/source/4_Package/build_with_uv.html) for detailed instructions.
 
-> **Note for Linux users:** PyPI does not provide pre-built wheels for Python 3.8 on Linux (x64 and ARM64). If you need Python 3.8 on Linux, download the wheel from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases) or [build from source](https://orbbec.github.io/pyorbbecsdk/source/4_Package/build_with_uv.html).
+> **Note:** PyPI provides pre-built wheels for every supported Python version (3.8–3.14) on Windows x64, Linux x64/ARM64, and macOS (Apple Silicon). Python 3.8 on Linux is now supported for online installation, so no manual wheel download is required.
+>
+> Python 3.14 is fully supported on all platforms. On 3.14 the package automatically uses `pygame-ce` and the latest `av` release; `open3d` is installed only on Python 3.8–3.11.
 
 **2. Setup the environment** (one-time OS-level configuration for metadata and udev rules):
 
@@ -167,7 +169,9 @@ pyorbbecsdk supports the following operating systems and architectures:
 - **Linux ARM64**: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor
 - **macOS**: tested on M2 chip, OS version 13.2
 
-**Supported Python versions: 3.8 to 3.13**
+**Supported Python versions: 3.8 to 3.14**
+
+Pre-built wheels for every supported Python version are published to PyPI for Windows x64, Linux x64/ARM64, and macOS (Apple Silicon), so `pip install --upgrade pyorbbecsdk2` works out of the box on Python 3.8 (including Linux) through Python 3.14.
 
 ### Quick Camera Evaluation
 

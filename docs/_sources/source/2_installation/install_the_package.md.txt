@@ -2,7 +2,7 @@
 
 <!-- Shields.io Badges -->
 [![PyPI Version](https://img.shields.io/pypi/v/pyorbbecsdk2.svg)](https://pypi.org/project/pyorbbecsdk2/)
-[![Python Versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
+[![Python Versions](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue.svg)](https://github.com/orbbec/pyorbbecsdk/releases)
 [![License](https://img.shields.io/github/license/orbbec/pyorbbecsdk.svg)](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://pyorbbecsdk.readthedocs.io/)
@@ -21,7 +21,7 @@ pyorbbecsdk supports the following operating systems and architectures:
 - Linux ARM64: tested on NVIDIA Jetson AGX Orin, NVIDIA Jetson Orin NX, NVIDIA Jetson Orin Nano, NVIDIA Jetson AGX Xavier, NVIDIA Jetson Xavier NX, NVIDIA Jetson Thor
 - macOS: tested on M2 chip, OS version 13.2
 
-**Supported Python versions: 3.8 to 3.13**
+**Supported Python versions: 3.8 to 3.14**
 
 ### Hardware Requirements
 - Orbbec 3D depth camera (Gemini series, Astra series, Femto series, etc.)
@@ -35,7 +35,7 @@ pyorbbecsdk supports the following operating systems and architectures:
 
 ### Python Version Check
 
-Ensure Python 3.8 or higher is installed:
+Ensure a supported Python version (3.8 to 3.14) is installed:
 
 ```bash
 # Linux/macOS
@@ -123,9 +123,9 @@ pip install --upgrade pyorbbecsdk2
 - Latest stable releases
 - Works on Linux, macOS, and Windows
 
-**Available Python versions:** 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+**Available Python versions:** 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
 
-> **Note for Linux users:** PyPI does not provide pre-built wheels for Python 3.8 on Linux (x64 and ARM64). If you need Python 3.8 on Linux, download the wheel from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases) or [build from source](../4_Package/build_with_uv.md).
+> **Note:** PyPI provides pre-built wheels for every supported Python version. Python 3.8 is now supported for online installation on all platforms, including Linux x64 and ARM64, so no manual wheel download is required.
 
 ### Method 2: Offline Wheel Installation
 
@@ -261,7 +261,7 @@ pip install --upgrade pyorbbecsdk2
 pip show pyorbbecsdk2 | grep Version
 ```
 
-> **Note for Linux Python 3.8 users:** PyPI does not provide Linux wheels for Python 3.8. Use Python 3.9+ or download the wheel from [GitHub Releases](https://github.com/orbbec/pyorbbecsdk/releases).
+> **Note:** Python 3.8 is supported for online installation on all platforms, including Linux x64 and ARM64.
 
 **Windows:**
 
@@ -358,7 +358,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 **Problem:** `No matching distribution found` error.
 
-**Solution:** Check your Python version matches supported versions (3.8-3.13):
+**Solution:** Check your Python version matches supported versions (3.8-3.14):
 
 ```bash
 python3 --version
@@ -377,7 +377,7 @@ which python3
 **Solution:** Ensure you download the correct wheel for your:
 - Operating system (Linux/macOS/Windows)
 - Architecture (x86_64/ARM64)
-- Python version (cp38, cp39, cp310, cp311, cp312, cp313)
+- Python version (cp38, cp39, cp310, cp311, cp312, cp313, cp314)
 
 Check platform tags:
 

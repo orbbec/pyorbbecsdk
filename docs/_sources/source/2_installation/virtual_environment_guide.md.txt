@@ -74,7 +74,7 @@ pip show pyorbbecsdk2 | findstr Version
 
 ### 1.1 Check Python Version
 
-Ensure Python 3.8 or higher is installed:
+Ensure a supported Python version (3.8 to 3.14) is installed:
 
 **Linux/macOS:**
 ```bash

@@ -70,7 +70,7 @@ v1.x used the proprietary OpenNI protocol.
 
 #### Developer Experience
 - Comprehensive type stubs (`stubs/pyorbbecsdk.pyi`, 3600+ lines) for full IDE autocompletion
-- Pre-built wheels for Windows x64, Linux x64, and Linux ARM64 (Python 3.8–3.13)
+- Pre-built wheels for Windows x64, Linux x64/ARM64, and macOS (Python 3.8–3.14)
 - Beginner example series (`examples/beginner/`):
   - `01_hello_camera.py` — device discovery and info display
   - `02_depth_visualization.py` — depth streaming with OpenCV colormap
@@ -95,7 +95,7 @@ v1.x used the proprietary OpenNI protocol.
 
 ### Supported Python Versions
 
-Python 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+Python 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
 
 ### Supported Devices
 

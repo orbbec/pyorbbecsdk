@@ -4663,6 +4663,12 @@ class TestBindingSyncDeviceMethodAdditions:
     def test_update_firmware_from_data(self):
         assert_method_exists(sdk.Device, "update_firmware_from_data")
 
+    @pytest.mark.parametrize("name", [
+        "send_and_receive_data", "write_customer_data", "read_customer_data",
+    ])
+    def test_binary_data_methods(self, name):
+        assert_method_exists(sdk.Device, name)
+
     def test_export_settings_as_preset_json_data(self):
         assert_method_exists(sdk.Device, "export_settings_as_preset_json_data")
 

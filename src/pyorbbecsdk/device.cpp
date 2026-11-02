@@ -17,8 +17,11 @@
 #include "structured_data.hpp"
 
 #include <limits>
+#include <memory>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "error.hpp"
@@ -28,6 +31,18 @@ namespace pyorbbecsdk {
 inline std::string safe_str(const char *ptr) {
   return ptr ? std::string(ptr) : std::string();
 }
+
+static std::string binary_payload(const py::bytes &data) {
+  auto payload = data.cast<std::string>();
+  if (payload.size() > std::numeric_limits<uint32_t>::max()) {
+    throw py::value_error("data exceeds the SDK uint32_t size limit");
+  }
+  return payload;
+}
+
+// Device.h documents a maximum customer-data length of 65532 bytes.
+// readCustomerData has an OUT-only length, so allocate the full maximum.
+static constexpr uint32_t customer_data_capacity = 65532;
 
 // The SDK copies the entire result before writing dataSize; it does not use
 // dataSize as a capacity and does not support a null-buffer size query.
@@ -287,6 +302,94 @@ void define_preset_resolution_config_list(const py::object &m) {
 
 void define_device(const py::object &m) {
   py::class_<ob::Device, std::shared_ptr<ob::Device>>(m, "Device")
+      .def("send_and_receive_data",
+           [](const std::shared_ptr<ob::Device> &self, py::bytes data,
+              uint32_t receive_capacity) {
+             const auto payload = binary_payload(data);
+             if (receive_capacity == 0) {
+               throw py::value_error("receive_capacity must be positive");
+             }
+             std::vector<uint8_t> received(receive_capacity);
+             uint32_t received_size = receive_capacity;
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->sendAndReceiveData(
+                   reinterpret_cast<const uint8_t *>(payload.data()),
+                   static_cast<uint32_t>(payload.size()), received.data(),
+                   &received_size);
+             });
+             if (received_size > receive_capacity) {
+               throw std::runtime_error(
+                   "SDK returned a length larger than receive_capacity");
+             }
+             return py::bytes(reinterpret_cast<const char *>(received.data()),
+                              received_size);
+           }, py::arg("data").noconvert(), py::arg("receive_capacity"),
+           "Send SDK protocol bytes and return the actual response bytes.")
+      .def("write_customer_data",
+           [](const std::shared_ptr<ob::Device> &self, py::bytes data) {
+             const auto payload = binary_payload(data);
+             if (payload.size() > customer_data_capacity) {
+               throw py::value_error("customer data cannot exceed 65532 bytes");
+             }
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->writeCustomerData(payload.data(),
+                                       static_cast<uint32_t>(payload.size()));
+             });
+           }, py::arg("data").noconvert())
+      .def("read_customer_data",
+           [](const std::shared_ptr<ob::Device> &self) {
+             std::vector<uint8_t> data(customer_data_capacity);
+             uint32_t size = customer_data_capacity;
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->readCustomerData(data.data(), &size);
+             });
+             if (size > data.size()) {
+               throw std::runtime_error(
+                   "SDK returned customer data exceeding 65532 bytes");
+             }
+             return py::bytes(reinterpret_cast<const char *>(data.data()), size);
+           })
+      .def("update_firmware_from_data",
+           [](const std::shared_ptr<ob::Device> &self, py::bytes data,
+              const py::function &callback, bool async_update) {
+             auto payload = std::make_shared<std::string>(binary_payload(data));
+             if (payload->empty()) {
+               throw py::value_error("firmware data must not be empty");
+             }
+             // The SDK stores/copies the C++ callback. Its copies must not
+             // change Python reference counts without the GIL, and its final
+             // destruction may occur on an SDK thread.
+             auto python_callback = std::shared_ptr<py::function>(
+                 new py::function(callback), [](py::function *function) {
+                   py::gil_scoped_acquire acquire;
+                   delete function;
+                 });
+             ob::Device::DeviceFwUpdateCallback progress =
+                 [python_callback, payload](OBFwUpdateState state,
+                                            const char *message,
+                                            uint8_t percent) {
+                   py::gil_scoped_acquire acquire;
+                   try {
+                     (*python_callback)(state, safe_str(message), percent);
+                   } catch (py::error_already_set &error) {
+                     // Never unwind a Python exception through SDK workers.
+                     error.discard_as_unraisable("firmware update callback");
+                   }
+                 };
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->updateFirmwareFromData(
+                   reinterpret_cast<const uint8_t *>(payload->data()),
+                   static_cast<uint32_t>(payload->size()), std::move(progress),
+                   async_update);
+             });
+           }, py::arg("data").noconvert(), py::arg("callback"),
+           py::arg("async_update") = true,
+           "Update from firmware bytes. Keep Device alive until completion. "
+           "Callback exceptions are reported via sys.unraisablehook.")
       .def("get_device_info",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDeviceInfo(); });

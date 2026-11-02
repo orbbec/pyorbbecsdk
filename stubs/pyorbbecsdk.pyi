@@ -849,6 +849,12 @@ class Device:
         """Read a fixed public SDK layout; unknown/variable layouts raise ValueError."""
     def set_structured_data(self, property_id: OBPropertyID, data: bytes) -> None:
         """Set non-empty bytes matching the SDK's native struct layout."""
+    def send_and_receive_data(self, data: bytes, receive_capacity: int) -> bytes:
+        """Send SDK protocol bytes; capacity is positive and fits uint32_t."""
+    def write_customer_data(self, data: bytes) -> None:
+        """Write customer data (at most 65532 bytes); requires device support."""
+    def read_customer_data(self) -> bytes:
+        """Read customer data using the SDK's documented maximum buffer size."""
     def set_hdr_config(self, arg0: OBHdrConfig) -> None: ...
     def set_int_property(self, arg0: OBPropertyID, arg1: typing.SupportsInt | typing.SupportsIndex) -> None: ...
     @typing.overload
@@ -876,6 +882,16 @@ class Device:
     def update_firmware(
         self, file_path: str, callback: collections.abc.Callable, async_update: bool = True
     ) -> None: ...
+    def update_firmware_from_data(
+        self,
+        data: bytes,
+        callback: collections.abc.Callable[[OBUpgradeState, str, int], None],
+        async_update: bool = True,
+    ) -> None:
+        """Update firmware from non-empty bytes. Keep Device alive until completion.
+
+        Callback exceptions are reported via sys.unraisablehook.
+        """
     def update_optional_depth_presets(self, file_path_list: list, callback: collections.abc.Callable) -> None: ...
     def update_optional_depth_presets_from_data(self, data_list: list, callback: collections.abc.Callable) -> None:
         """

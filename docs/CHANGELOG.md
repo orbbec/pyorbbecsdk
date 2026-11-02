@@ -4,6 +4,47 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.3] - 2026-10-30
+
+### What's Changed
+- Updated Orbbec SDK to v2.10.6.
+- Added Action Command support for GVCP network devices, together with the new `GROUP_ACTIONS` multi-device sync mode.
+- Added versioned depth work mode presets, so presets sharing the same name can be told apart by version.
+- Added configuration of the firmware heartbeat and firmware-log polling interval.
+- Added AWB status/gain properties and the `OBAwbGainParams` struct, plus the Action Signal property set.
+- Added Python 3.14 build and packaging support.
+- Added a pytest port of the C++ test suite under `auto_tests`.
+- Fixed depth flicker in the multi-stream sample.
+- Bundled the Orbbec SDK license (`sdk/LICENSE.txt`) and all third-party license files into the wheel.
+- Improved documentation and API reference.
+
+## Key New APIs
+
+**Action Command** for GVCP network devices (multi-unit trigger):
+  - `Context.send_action_command(device_key, group_key, group_mask, dest_ip="255.255.255.255", scheduled_time=0)`
+  - `OBMultiDeviceSyncMode.GROUP_ACTIONS`
+  - Action Signal properties: `OB_PROP_ACTION_SIGNAL_COUNT_INT` (296), `OB_PROP_ACTION_DEVICE_KEY_INT` (297),
+  `OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT` (298), `OB_PROP_ACTION_SELECTOR_INT` (299),
+  `OB_PROP_ACTION_GROUP_KEY_INT` (300), `OB_PROP_ACTION_GROUP_MASK_INT` (301)
+
+  **Versioned depth work mode presets**:
+  - `Device.get_current_preset_depth_work_mode_version()`, `DevicePresetList.get_depth_work_mode_version(index)` —
+  return the version string (e.g. `"1.2.3"`), or an empty string when the device does not support versioned modes.
+  - `Device.load_preset(preset_name, version)` — overload of `load_preset(preset_name)` for loading a specific version.
+
+  **Firmware monitor polling interval**:
+  - `Device.set_monitor_poll_interval(interval_ms)`, `Device.get_monitor_poll_interval()` — heartbeat and firmware-log
+  polling interval in milliseconds; default 3000 ms, valid range [1000, 10000], out-of-range values are clamped.
+
+  **Color AE / AWB**:
+  - `OBAwbGainParams` (`r_gain`, `g_gain`, `b_gain`), `OB_STRUCT_COLOR_AWB_GAIN` (1097)
+  - `OB_PROP_COLOR_AE_AWB_STATUS_INT` (287), alias `OB_PROP_COLOR_AE_AWB_STAT_INT`
+  - `OB_PROP_COLOR_WB_CTRL_INT` (2053)
+
+  **Python 3.14**:
+  - Pre-built wheels for Python 3.8–3.14 on Windows x64, Linux x64/ARM64, and macOS (Apple Silicon).
+  - On Python 3.14 the package uses `pygame-ce` and the latest `av` release; `open3d` is installed on Python 3.8–3.11 only.
+
 ## [2.1.2] - 2026-08-11
 
 ### What's Changed

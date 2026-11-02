@@ -15,7 +15,10 @@
  *******************************************************************************/
 #include "device.hpp"
 
+#include <limits>
 #include <sstream>
+#include <string>
+#include <vector>
 
 #include "error.hpp"
 
@@ -23,6 +26,57 @@ namespace pyorbbecsdk {
 
 inline std::string safe_str(const char *ptr) {
   return ptr ? std::string(ptr) : std::string();
+}
+
+// The SDK copies the entire result before writing dataSize; it does not use
+// dataSize as a capacity and does not support a null-buffer size query.
+// Only call it when a fixed public payload layout is known in advance.
+static uint32_t structured_data_size(OBPropertyID property_id) {
+  switch (property_id) {
+    case OB_STRUCT_BASELINE_CALIBRATION_PARAM:
+      return sizeof(OBBaselineCalibrationParam);
+    case OB_STRUCT_DEVICE_TEMPERATURE:
+      return sizeof(OBDeviceTemperature);
+    case OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL:
+      return sizeof(OBTofExposureThresholdControl);
+    case OB_STRUCT_DEVICE_SERIAL_NUMBER:
+      return sizeof(OBDeviceSerialNumber);
+    case OB_STRUCT_DEVICE_IP_ADDR_CONFIG:
+    case OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD:
+      return sizeof(OBDeviceIpAddrConfig);
+    case OB_STRUCT_DEPTH_HDR_CONFIG:
+      return sizeof(OBHdrConfig);
+    case OB_STRUCT_COLOR_AE_ROI:
+    case OB_STRUCT_DEPTH_AE_ROI:
+      return sizeof(OBRegionOfInterest);
+    case OB_STRUCT_DISP_OFFSET_CONFIG:
+      return sizeof(OBDispOffsetConfig);
+    case OB_STRUCT_PRESET_RESOLUTION_CONFIG:
+      return sizeof(OBPresetResolutionConfig);
+    case OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2:
+      return sizeof(OBNetIpConfigV2);
+    case OB_STRUCT_COLOR_AWB_GAIN:
+      return sizeof(OBAwbGainParams);
+    default:
+      throw py::value_error(
+          "get_structured_data has no fixed public payload layout for this "
+          "property; the SDK cannot safely query an unknown result size");
+  }
+}
+
+static py::bytes get_structured_data(
+    const std::shared_ptr<ob::Device> &device, OBPropertyID property_id) {
+  const uint32_t expected_size = structured_data_size(property_id);
+  std::vector<uint8_t> data(expected_size);
+  uint32_t size = expected_size;
+  OB_TRY_CATCH({
+    device->getStructuredData(property_id, data.data(), &size);
+  });
+  // Detect an ABI mismatch; this is not a substitute for SDK capacity checks.
+  if (size != expected_size) {
+    throw py::value_error("unexpected structured data size for the public SDK layout");
+  }
+  return py::bytes(reinterpret_cast<const char *>(data.data()), size);
 }
 
 void define_device_info(const py::object &m) {
@@ -306,6 +360,48 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDepthWorkModeList(); });
            })
+      .def("get_structured_data", &get_structured_data,
+           py::arg("property_id"),
+           "Read bytes for a property with a known fixed public SDK layout. "
+           "Unknown or variable-size layouts raise ValueError before SDK access; "
+           "unsupported/unreadable device properties raise OBError.")
+      .def("set_structured_data",
+           [](const std::shared_ptr<ob::Device> &self,
+              OBPropertyID property_id, py::bytes payload) {
+             // Keep an owned binary copy alive throughout the SDK call.
+             const std::string data = payload;
+             if (data.empty()) {
+               throw py::value_error("structured data must not be empty");
+             }
+             if (data.size() > std::numeric_limits<uint32_t>::max()) {
+               throw py::value_error("structured data exceeds uint32_t size");
+             }
+             OB_TRY_CATCH({
+               self->setStructuredData(
+                   property_id,
+                   reinterpret_cast<const uint8_t *>(data.data()),
+                   static_cast<uint32_t>(data.size()));
+             });
+           },
+           py::arg("property_id"), py::arg("data").noconvert(),
+           "Set a structured property from non-empty bytes in the SDK's native "
+           "struct layout. The byte length is inferred; property/type matching "
+           "and serialization are the caller's responsibility.")
+      .def("get_hdr_config",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({
+               OBHdrConfig config{};
+               uint32_t size = sizeof(config);
+               self->getStructuredData(
+                   OB_STRUCT_DEPTH_HDR_CONFIG,
+                   reinterpret_cast<uint8_t *>(&config), &size);
+               if (size != sizeof(config)) {
+                 throw py::value_error("unexpected OBHdrConfig data size");
+               }
+               return config;
+             });
+           },
+           "Read the fixed-size HDR configuration as OBHdrConfig.")
       .def("set_hdr_config",
            [](const std::shared_ptr<ob::Device> &self,
               const OBHdrConfig &config) {

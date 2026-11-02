@@ -15,6 +15,9 @@
  *******************************************************************************/
 #include "types.hpp"
 
+#include <cstring>
+#include <string>
+
 #include "error.hpp"
 #include "utils.hpp"
 namespace pyorbbecsdk {
@@ -1226,6 +1229,48 @@ void define_orbbec_types(const py::object &m) {
       .def(py::init<>())
       .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline)
       .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd);
+
+  py::class_<OBDeviceSerialNumber>(m, "OBDeviceSerialNumber")
+      .def(py::init([]() { return OBDeviceSerialNumber{}; }))
+      .def_property(
+          "number_str",
+          [](const OBDeviceSerialNumber &serial) {
+            // The SDK field may occupy all 16 bytes without a terminator.
+            size_t length = 0;
+            while (length < sizeof(serial.numberStr) &&
+                   serial.numberStr[length] != '\0') {
+              ++length;
+            }
+            return std::string(serial.numberStr, length);
+          },
+          [](OBDeviceSerialNumber &serial, const std::string &value) {
+            if (value.size() > sizeof(serial.numberStr)) {
+              throw py::value_error("number_str must fit in 16 UTF-8 bytes");
+            }
+            if (value.find('\0') != std::string::npos) {
+              throw py::value_error("number_str must not contain NUL bytes");
+            }
+            std::memset(serial.numberStr, 0, sizeof(serial.numberStr));
+            std::memcpy(serial.numberStr, value.data(), value.size());
+          },
+          "SDK numberStr field; at most 16 UTF-8 bytes, without embedded NUL.")
+      .def("to_bytes", [](const OBDeviceSerialNumber &serial) {
+        return py::bytes(reinterpret_cast<const char *>(&serial),
+                         sizeof(serial));
+      }, "Copy the native SDK struct layout into bytes.");
+  // OBSerialNumber is a typedef of the same C++ type, not a separate class.
+  m.attr("OBSerialNumber") = m.attr("OBDeviceSerialNumber");
+
+  py::class_<OBDispOffsetConfig>(m, "OBDispOffsetConfig")
+      .def(py::init([]() { return OBDispOffsetConfig{}; }))
+      .def_readwrite("enable", &OBDispOffsetConfig::enable)
+      .def_readwrite("offset0", &OBDispOffsetConfig::offset0)
+      .def_readwrite("offset1", &OBDispOffsetConfig::offset1)
+      .def_readwrite("reserved", &OBDispOffsetConfig::reserved)
+      .def("to_bytes", [](const OBDispOffsetConfig &config) {
+        return py::bytes(reinterpret_cast<const char *>(&config),
+                         sizeof(config));
+      }, "Copy the native SDK struct layout into bytes, including reserved.");
 
   py::class_<OBAwbGainParams>(m, "OBAwbGainParams")
       .def(py::init<>())

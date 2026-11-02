@@ -3,6 +3,14 @@ from __future__ import annotations
 from importlib.metadata import version
 
 from pyorbbecsdk.pyorbbecsdk import (
+    OBDepthWorkMode_Internal,
+    OBNetIpConfig,
+    OBDeviceErrorCode,
+    OBImuPresetList,
+    OBVersionInfo,
+    OBDepthWorkModeInternal,
+    OBDeviceErrorState,
+    OBDeviceTime,
     AccelFrame,
     AccelStreamProfile,
     AlignFilter,
@@ -213,6 +221,14 @@ from pyorbbecsdk.pyorbbecsdk import (
 from . import pyorbbecsdk
 
 __all__: list[str] = [
+    "OBDepthWorkMode_Internal",
+    "OBNetIpConfig",
+    "OBDeviceErrorCode",
+    "OBImuPresetList",
+    "OBVersionInfo",
+    "OBDepthWorkModeInternal",
+    "OBDeviceErrorState",
+    "OBDeviceTime",
     "AccelFrame",
     "AccelStreamProfile",
     "AlignFilter",

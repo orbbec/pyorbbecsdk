@@ -14,6 +14,7 @@
  * limitations under the License.
  *******************************************************************************/
 #include "device.hpp"
+#include "structured_data.hpp"
 
 #include <limits>
 #include <sstream>
@@ -33,6 +34,17 @@ inline std::string safe_str(const char *ptr) {
 // Only call it when a fixed public payload layout is known in advance.
 static uint32_t structured_data_size(OBPropertyID property_id) {
   switch (property_id) {
+    case static_cast<OBPropertyID>(structured::VERSION):
+      return sizeof(structured::VersionInfo);
+    case OB_STRUCT_DEVICE_TIME:
+      return sizeof(structured::DeviceTime);
+    case OB_STRUCT_ASIC_SERIAL_NUMBER:
+      return sizeof(OBDeviceSerialNumber);
+    case static_cast<OBPropertyID>(structured::GYRO_ODR):
+    case static_cast<OBPropertyID>(structured::ACCEL_ODR):
+    case static_cast<OBPropertyID>(structured::GYRO_FULL_SCALE):
+    case static_cast<OBPropertyID>(structured::ACCEL_FULL_SCALE):
+      return sizeof(structured::ImuPresetList);
     case OB_STRUCT_BASELINE_CALIBRATION_PARAM:
       return sizeof(OBBaselineCalibrationParam);
     case OB_STRUCT_DEVICE_TEMPERATURE:
@@ -46,6 +58,8 @@ static uint32_t structured_data_size(OBPropertyID property_id) {
       return sizeof(OBDeviceIpAddrConfig);
     case OB_STRUCT_DEPTH_HDR_CONFIG:
       return sizeof(OBHdrConfig);
+    case OB_STRUCT_RGB_CROP_ROI:
+      return sizeof(OBRect);
     case OB_STRUCT_COLOR_AE_ROI:
     case OB_STRUCT_DEPTH_AE_ROI:
       return sizeof(OBRegionOfInterest);
@@ -66,6 +80,23 @@ static uint32_t structured_data_size(OBPropertyID property_id) {
 
 static py::bytes get_structured_data(
     const std::shared_ptr<ob::Device> &device, OBPropertyID property_id) {
+  // These properties require SDK protocol selection/conversion. Return public
+  // SDK struct bytes, not a guessed firmware packet (which may include padding).
+  OB_TRY_CATCH({
+    if (property_id == OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG) {
+      return structured::to_bytes(device->getMultiDeviceSyncConfig());
+    }
+    if (property_id == OB_STRUCT_CURRENT_DEPTH_ALG_MODE) {
+      return structured::to_bytes(device->getCurrentDepthWorkMode());
+    }
+    if (static_cast<uint32_t>(property_id) == structured::DEVICE_ERROR_STATE) {
+      // Preserve SDK errors (Device::getDeviceState currently omits handle()).
+      ob_error *error = nullptr;
+      const auto state = ob_device_get_device_state(device->getImpl(), &error);
+      ob::Error::handle(&error);
+      return structured::to_bytes(structured::DeviceErrorState{state});
+    }
+  });
   const uint32_t expected_size = structured_data_size(property_id);
   std::vector<uint8_t> data(expected_size);
   uint32_t size = expected_size;
@@ -362,7 +393,8 @@ void define_device(const py::object &m) {
            })
       .def("get_structured_data", &get_structured_data,
            py::arg("property_id"),
-           "Read bytes for a property with a known fixed public SDK layout. "
+           "Read bytes for a property with a known SDK layout. Sync config and "
+           "depth work mode use public SDK structs via dedicated SDK methods. "
            "Unknown or variable-size layouts raise ValueError before SDK access; "
            "unsupported/unreadable device properties raise OBError.")
       .def("set_structured_data",
@@ -377,6 +409,24 @@ void define_device(const py::object &m) {
                throw py::value_error("structured data exceeds uint32_t size");
              }
              OB_TRY_CATCH({
+               if (property_id == OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG) {
+                 self->setMultiDeviceSyncConfig(
+                     structured::from_bytes<OBMultiDeviceSyncConfig>(payload));
+                 return;
+               }
+               if (property_id == OB_STRUCT_CURRENT_DEPTH_ALG_MODE) {
+                 const auto mode = structured::from_bytes<OBDepthWorkMode>(payload);
+                 if (structured::read_text(mode.name).size() == sizeof(mode.name)) {
+                   throw py::value_error("depth work mode name must be NUL-terminated");
+                 }
+                 if (self->switchDepthWorkMode(mode) != OB_STATUS_OK) {
+                   throw py::value_error("SDK failed to switch depth work mode");
+                 }
+                 return;
+               }
+               if (static_cast<uint32_t>(property_id) == structured::DEVICE_ERROR_STATE) {
+                 throw py::value_error("device error state is read-only");
+               }
                self->setStructuredData(
                    property_id,
                    reinterpret_cast<const uint8_t *>(data.data()),

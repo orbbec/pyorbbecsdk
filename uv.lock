@@ -3638,9 +3638,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "av", marker = "python_full_version < '3.13'", specifier = "==12.3.0" },
-    { name = "av", marker = "python_full_version == '3.13.*'", specifier = "==13.0.0" },
-    { name = "av", marker = "python_full_version >= '3.14'" },
+    { name = "av", specifier = ">=12.3.0" },
     { name = "numpy", marker = "python_full_version >= '3.8' and python_full_version < '3.12'", specifier = "<2.0.0" },
     { name = "numpy", marker = "python_full_version >= '3.12'", specifier = ">=2.1.0" },
     { name = "open3d", marker = "python_full_version >= '3.8' and python_full_version < '3.12'", specifier = "==0.18.0" },

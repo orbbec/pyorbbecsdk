@@ -1,7 +1,7 @@
 # Synced from pyproject.toml dependencies
 # Runtime dependencies for pyorbbecsdk2
 
-# Video decoding (av version depends on Python version: 12.3.0 for <3.13, 13.0.0 for >=3.13)
+# Video decoding
 av>=12.3.0
 
 # NumPy (version depends on Python version: <2.0.0 for <3.12, >=2.1.0 for >=3.12)

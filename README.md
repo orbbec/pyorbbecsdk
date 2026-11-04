@@ -93,6 +93,16 @@ To get started:
 pip install --upgrade pyorbbecsdk2
 ```
 
+The base install includes NumPy for the SDK's array interfaces. To run the Python
+examples, install their optional dependencies as well:
+
+```bash
+pip install --upgrade "pyorbbecsdk2[examples]"
+```
+
+The `examples` extra retains the dependency version constraints previously used
+by the default installation, including the Python-specific NumPy ranges.
+
 > 💡 **Recommended: Use Virtual Environment**
 >
 > Modern systems (e.g., macOS, Ubuntu 24.04+) restrict pip installations to the system Python. Using a virtual environment avoids permission errors:
@@ -113,7 +123,7 @@ pip install --upgrade pyorbbecsdk2
 
 > **Note:** PyPI provides pre-built wheels for every supported Python version (3.8–3.14) on Windows x64, Linux x64/ARM64, and macOS (Apple Silicon). Python 3.8 on Linux is now supported for online installation, so no manual wheel download is required.
 >
-> Python 3.14 is fully supported on all platforms. On 3.14 the package automatically uses `pygame-ce` and the latest `av` release; `open3d` is installed only on Python 3.8–3.11.
+> Python 3.14 is fully supported on all platforms. With the `examples` extra, Python 3.14 uses `pygame-ce` and the latest `av` release; `open3d` is available only on Python 3.8–3.11.
 
 **2. Setup the environment** (one-time OS-level configuration for metadata and udev rules):
 

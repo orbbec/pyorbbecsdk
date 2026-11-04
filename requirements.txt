@@ -1,22 +1,26 @@
-# Synced from pyproject.toml dependencies
-# Runtime dependencies for pyorbbecsdk2
+# Dependencies for running the examples and preparing the build environment.
+# For package installation, prefer: pip install "pyorbbecsdk2[examples]"
+
+# NumPy ranges retained for the example suite
+numpy<2.0.0; python_version >= "3.8" and python_version < "3.12"
+numpy>=2.1.0; python_version >= "3.12"
 
 # Video decoding (av version depends on Python version: 12.3.0 for <3.13, 13.0.0 for >=3.13)
-av>=12.3.0
-
-# NumPy (version depends on Python version: <2.0.0 for <3.12, >=2.1.0 for >=3.12)
-numpy>=1.24.0
+av==12.3.0; python_version < "3.13"
+av==13.0.0; python_version >= "3.13" and python_version < "3.14"
+av; python_version >= "3.14"
 
 # Computer vision
 opencv-python
 
 # Visualization
-pygame
+pygame; python_version >= "3.8" and python_version < "3.14"
+pygame-ce; python_version >= "3.14"
 
 # Point cloud processing (only for Python 3.8-3.11)
 open3d==0.18.0; python_version >= "3.8" and python_version < "3.12"
 
-# Keyboard input
+# Keyboard input dependencies
 pynput
 
 # macOS specific dependencies (only for Python <3.9)

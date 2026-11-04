@@ -21,9 +21,12 @@ Once it works, follow the **Learning Path** below.
 
 1. Install pyorbbecsdk:
    ```bash
-   pip install pyorbbecsdk2
-   pip install -r examples/requirements.txt
+   pip install "pyorbbecsdk2[examples]"
    ```
+
+   This installs NumPy and the optional dependencies used across the example
+   suite, retaining the dependency version constraints previously used by the
+   default installation.
 
 2. **One-time OS setup:**
 

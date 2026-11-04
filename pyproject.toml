@@ -8,12 +8,19 @@ authors = [
     { name = "zhonghong", email = "zhonghong@orbbec.com" }
 ]
 dependencies = [
+    "numpy",
+]
+
+[project.optional-dependencies]
+examples = [
+    # Keep the tested NumPy ranges for the examples, especially Open3D 0.18.
+    "numpy<2.0.0; python_version >= '3.8' and python_version < '3.12'",
+    "numpy>=2.1.0; python_version >= '3.12'",
+    # H.264 / HEVC network stream decoding
     "av==12.3.0; python_version < '3.13'",
     "av==13.0.0; python_version >= '3.13' and python_version < '3.14'",
     # Python 3.14+: no upper bound, install the latest av release
     "av; python_version >= '3.14'",
-    "numpy<2.0.0; python_version >= '3.8' and python_version < '3.12'",
-    "numpy>=2.1.0; python_version >= '3.12'",
     "opencv-python",
     # pygame ships no 3.14 wheels; use its drop-in fork pygame-ce on 3.14+
     "pygame; python_version >= '3.8' and python_version < '3.14'",

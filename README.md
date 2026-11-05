@@ -32,6 +32,13 @@
 
 > **Branch note:** This is the `v2-main` branch (SDK v2.x). For the legacy v1.x branch, see [main](https://github.com/orbbec/pyorbbecsdk/tree/main). The differences between SDK v1.x and v2.x are described in the [OrbbecSDK_v2 README](https://github.com/orbbec/OrbbecSDK_v2).
 
+> **Important — installation change:** Example dependencies are now optional.
+> `pip install "pyorbbecsdk2"` installs only the core SDK and NumPy.
+> **To run the examples, use `pip install --upgrade "pyorbbecsdk2[examples]"`.**
+> Existing users can run the same command to add the example dependencies to an
+> installed SDK. The `examples` extra retains the previous default dependency
+> constraints, including the Python-specific NumPy ranges.
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -87,21 +94,32 @@ The pyorbbecsdk contains all the libraries that power your camera along with too
 
 To get started:
 
-**1. Install the package** via PyPI (recommended) or from GitHub Release:
-
-```bash
-pip install --upgrade pyorbbecsdk2
-```
-
-The base install includes NumPy for the SDK's array interfaces. To run the Python
-examples, install their optional dependencies as well:
+**1. Install the SDK with example dependencies** via PyPI (recommended for getting started):
 
 ```bash
 pip install --upgrade "pyorbbecsdk2[examples]"
 ```
 
+If you only need the core SDK and NumPy for your own application:
+
+```bash
+pip install --upgrade "pyorbbecsdk2"
+```
+
 The `examples` extra retains the dependency version constraints previously used
 by the default installation, including the Python-specific NumPy ranges.
+
+For a downloaded wheel in the current directory, append the extra to the filename
+(replace the filename with the wheel matching your Python version and platform):
+
+```bash
+pip install "pyorbbecsdk2-2.1.4-cp310-cp310-macosx_11_0_arm64.whl[examples]"
+```
+
+> **Always double-quote the entire argument, including `[examples]`.** On macOS,
+> zsh treats unquoted square brackets as filename patterns and may stop with
+> `zsh: no matches found` before pip or uv runs. Quoting also preserves paths
+> containing spaces. This applies to both package names and local wheel paths.
 
 > 💡 **Recommended: Use Virtual Environment**
 >
@@ -113,8 +131,8 @@ by the default installation, including the Python-specific NumPy ranges.
 > source orbbec_env/bin/activate  # Linux/macOS
 > # .\orbbec_env\Scripts\Activate.ps1  # Windows PowerShell
 >
-> # Install SDK in virtual environment
-> pip install --upgrade pyorbbecsdk2
+> # Install SDK and example dependencies in virtual environment
+> pip install --upgrade "pyorbbecsdk2[examples]"
 > ```
 > See [Virtual Environment Guide](https://orbbec.github.io/pyorbbecsdk/source/2_installation/virtual_environment_guide.html) for more options (venv, pyenv, conda).
 
@@ -181,7 +199,7 @@ pyorbbecsdk supports the following operating systems and architectures:
 
 **Supported Python versions: 3.8 to 3.14**
 
-Pre-built wheels for every supported Python version are published to PyPI for Windows x64, Linux x64/ARM64, and macOS (Apple Silicon), so `pip install --upgrade pyorbbecsdk2` works out of the box on Python 3.8 (including Linux) through Python 3.14.
+Pre-built wheels for every supported Python version are published to PyPI for Windows x64, Linux x64/ARM64, and macOS (Apple Silicon), so `pip install --upgrade "pyorbbecsdk2"` works out of the box on Python 3.8 (including Linux) through Python 3.14.
 
 ### Quick Camera Evaluation
 

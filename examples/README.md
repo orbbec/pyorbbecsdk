@@ -2,13 +2,21 @@
 
 A curated collection of examples organized by difficulty — from connecting your first camera to building complete depth-sensing applications.
 
+> **Important — installation change:** Example dependencies are now optional.
+> A plain `pip install "pyorbbecsdk2"` installs only the core SDK and NumPy.
+> Before running these examples, install or update with
+> `pip install --upgrade "pyorbbecsdk2[examples]"`, even if the SDK is already installed.
+> **Keep the entire package or wheel argument in double quotes**, including
+> `[examples]`, to avoid zsh's `no matches found` error and preserve spaces in paths.
+
 ---
 
 ## Quick Start 
 
-Connect your camera, then run:
+Install the example dependencies, connect your camera, then run from the repository root:
 
 ```bash
+pip install --upgrade "pyorbbecsdk2[examples]"
 python examples/quick_start.py
 ```
 

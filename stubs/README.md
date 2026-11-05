@@ -188,17 +188,32 @@ else:
 
 ## Generating Stubs
 
-To regenerate stubs from the compiled module:
+From the repository root, activate the environment containing the newly built
+module. Stub generation inspects that installed module, so rebuild/install it
+first when the C++ bindings change.
 
 ```bash
 # Install pybind11-stubgen
 pip install pybind11-stubgen
 
-# Generate stubs
-pybind11-stubgen pyorbbecsdk -o .
+# Generate both package and extension stubs into a separate directory
+python -m pybind11_stubgen pyorbbecsdk -o generated_stubs
 
-# Fix the generated stubs (if needed)
-python scripts/fix_pyi.py pyorbbecsdk.pyi
+# Always repair the generated annotations before copying them into the package
+python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/pyorbbecsdk.pyi stubs/pyorbbecsdk.pyi
+python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/__init__.pyi stubs/__init__.pyi
+```
+
+The repair script supports Python 3.8+, uses only the standard library, and can
+be run repeatedly. It repairs NumPy array types and writable array properties,
+numeric input protocols, nullable return values, firmware callbacks, sequence
+arguments, enum defaults, and binding-specific return types. Black and isort are
+used for formatting when installed; neither is required for the repairs.
+
+Run the hardware-free regression tests with:
+
+```bash
+python -m unittest discover -s scripts/tests -v
 ```
 
 ## Files

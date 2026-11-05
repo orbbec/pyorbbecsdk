@@ -4,7 +4,6 @@ OrbbecSDK python binding
 
 from __future__ import annotations
 
-import collections.abc
 import typing
 
 import numpy
@@ -12,14 +11,6 @@ import numpy.typing
 import typing_extensions
 
 __all__: list[str] = [
-    "OBNetIpConfig",
-    "OBDepthWorkMode_Internal",
-    "OBDeviceErrorCode",
-    "OBImuPresetList",
-    "OBVersionInfo",
-    "OBDepthWorkModeInternal",
-    "OBDeviceErrorState",
-    "OBDeviceTime",
     "AccelFrame",
     "AccelStreamProfile",
     "AlignFilter",
@@ -90,15 +81,20 @@ __all__: list[str] = [
     "OBDepthCroppingMode",
     "OBDepthPrecisionLevel",
     "OBDepthWorkMode",
+    "OBDepthWorkModeInternal",
     "OBDepthWorkModeList",
     "OBDepthWorkModeTag",
+    "OBDepthWorkMode_Internal",
     "OBDeviceAccessMode",
     "OBDeviceAccessState",
     "OBDeviceDevelopmentMode",
+    "OBDeviceErrorCode",
+    "OBDeviceErrorState",
     "OBDeviceIpAddrConfig",
     "OBDeviceSerialNumber",
     "OBDeviceSyncConfig",
     "OBDeviceTemperature",
+    "OBDeviceTime",
     "OBDeviceTimestampResetConfig",
     "OBDeviceType",
     "OBDispOffsetConfig",
@@ -126,6 +122,7 @@ __all__: list[str] = [
     "OBHardwareDecimationConfig",
     "OBHdrConfig",
     "OBHoleFillingMode",
+    "OBImuPresetList",
     "OBIntPropertyRange",
     "OBIntraCameraSyncReference",
     "OBIpSourceType",
@@ -140,6 +137,7 @@ __all__: list[str] = [
     "OBMgcNoiseRemovalFilterParams",
     "OBMultiDeviceSyncConfig",
     "OBMultiDeviceSyncMode",
+    "OBNetIpConfig",
     "OBNetIpConfigV2",
     "OBNoiseRemovalFilterParams",
     "OBPermissionType",
@@ -174,6 +172,7 @@ __all__: list[str] = [
     "OBUint8PropertyRange",
     "OBUpgradeState",
     "OBUvcBackendType",
+    "OBVersionInfo",
     "PAUSED",
     "PLAYING",
     "Pipeline",
@@ -246,13 +245,3814 @@ __all__: list[str] = [
     "transformation3dto3d",
 ]
 
-class AccelFrame(Frame):
+class OBDeviceErrorCode:
+    """
+    Members:
+
+      DEVICE_ERROR_RGB_SENSOR
+
+      DEVICE_ERROR_IRL_SENSOR
+
+      DEVICE_ERROR_IRR_SENSOR
+
+      DEVICE_ERROR_IMU_SENSOR
+
+      DEVICE_ERROR_LASER_MODULE
+
+      DEVICE_ERROR_FLOOD_MODULE
+
+      DEVICE_ERROR_LDP_SENSOR
+
+      DEVICE_ERROR_M_ADC_CHIP
+
+      DEVICE_ERROR_S_ADC_CHIP
+
+      DEVICE_ERROR_EEPROM_SENSOR
+
+      DEVICE_ERROR_CFG_PARAM
+
+      DEVICE_ERROR_CALIB_PARAM
+
+      DEVICE_ERROR_TEC_FUN
+
+      DEVICE_ERROR_MCU_FUN
+
+      DEVICE_ERROR_DSP_MODULE
+
+      DEVICE_ERROR_OVER_LOAD
+
+      DEVICE_ERROR_ISP_MODULE
+
+      DEVICE_ERROR_TRB_EXHAUSTION
+
+      DEVICE_ERROR_OVF_MODULE
+
+      DEVICE_ERROR_RGB_STREAM
+
+      DEVICE_ERROR_IRL_STREAM
+
+      DEVICE_ERROR_IRR_STREAM
+
+      DEVICE_ERROR_DEP_STREAM
+
+      DEVICE_ERROR_IRL_SNS_STREAM
+
+      DEVICE_ERROR_IRR_SNS_STREAM
+
+      DEVICE_WARNING_PERMISSION
+
+      DEVICE_WARNING_IR_TEMPERATURE
+
+      DEVICE_WARNING_RGB_TEMPERATURE
+
+      DEVICE_WARNING_LASER_TEMPERATURE
+
+      DEVICE_WARNING_CPU_TEMPERATURE
+
+      DEVICE_WARNING_RES_MISMATCH
+
+      DEVICE_WARNING_FPS_MISMATCH
+
+      DEVICE_WARNING_D2C_UNSPPOURT
+
+      DEVICE_WARNING_USB_LOG
+
+      DEVICE_WARNING_LOG_OVERFLOW
+    """
+
+    DEVICE_ERROR_CALIB_PARAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_CFG_PARAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_DEP_STREAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_DSP_MODULE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_EEPROM_SENSOR: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_FLOOD_MODULE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IMU_SENSOR: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IRL_SENSOR: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IRL_SNS_STREAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IRL_STREAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IRR_SENSOR: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IRR_SNS_STREAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_IRR_STREAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_ISP_MODULE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_LASER_MODULE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_LDP_SENSOR: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_MCU_FUN: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_M_ADC_CHIP: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_OVER_LOAD: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_OVF_MODULE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_RGB_SENSOR: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_RGB_STREAM: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_S_ADC_CHIP: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_TEC_FUN: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_ERROR_TRB_EXHAUSTION: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_CPU_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_D2C_UNSPPOURT: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_FPS_MISMATCH: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_IR_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_LASER_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_LOG_OVERFLOW: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_PERMISSION: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_RES_MISMATCH: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_RGB_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
+    DEVICE_WARNING_USB_LOG: typing.ClassVar[OBDeviceErrorCode]
+    __members__: typing.ClassVar[dict[str, OBDeviceErrorCode]]
+    def __and__(self, other: typing.Any) -> typing.Any: ...
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __ge__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __gt__(self, other: typing.Any) -> bool: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __invert__(self) -> typing.Any: ...
+    def __le__(self, other: typing.Any) -> bool: ...
+    def __lt__(self, other: typing.Any) -> bool: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __or__(self, other: typing.Any) -> typing.Any: ...
+    def __rand__(self, other: typing.Any) -> typing.Any: ...
     def __repr__(self) -> str: ...
-    def get_temperature(self) -> float: ...
-    def get_value(self) -> OBAccelValue: ...
-    def get_x(self) -> float: ...
-    def get_y(self) -> float: ...
-    def get_z(self) -> float: ...
+    def __ror__(self, other: typing.Any) -> typing.Any: ...
+    def __rxor__(self, other: typing.Any) -> typing.Any: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    def __xor__(self, other: typing.Any) -> typing.Any: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDeviceTime:
+    @property
+    def rtt(self) -> int: ...
+    @rtt.setter
+    def rtt(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def time(self) -> int: ...
+    @time.setter
+    def time(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDeviceTime:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBDeviceErrorState:
+    @property
+    def error_code(self) -> int: ...
+    @error_code.setter
+    def error_code(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDeviceErrorState:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBVersionInfo:
+    depth_chip: str
+    device_name: str
+    @property
+    def device_type(self) -> int: ...
+    @device_type.setter
+    def device_type(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    firmware_version: str
+    hardware_version: str
+    reserved: bytes
+    sdk_version: str
+    serial_number: str
+    sub_system_version: str
+    system_chip: str
+    @staticmethod
+    def from_bytes(data: bytes) -> OBVersionInfo:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBDepthWorkModeInternal:
+    checksum: bytes
+    name: str
+    @property
+    def option_code(self) -> int: ...
+    @option_code.setter
+    def option_code(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDepthWorkModeInternal:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBImuPresetList:
+    @staticmethod
+    def from_bytes(data: bytes) -> OBImuPresetList:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+    @property
+    def count(self) -> int: ...
+    @property
+    def values(self) -> list[int]: ...
+    @values.setter
+    def values(self, arg1: typing.Sequence[int]) -> None: ...
+
+class OBPermissionType:
+    """
+    Members:
+
+      PERMISSION_DENY
+
+      PERMISSION_READ
+
+      PERMISSION_WRITE
+
+      PERMISSION_READ_WRITE
+
+      PERMISSION_ANY
+    """
+
+    PERMISSION_ANY: typing.ClassVar[OBPermissionType]
+    PERMISSION_DENY: typing.ClassVar[OBPermissionType]
+    PERMISSION_READ: typing.ClassVar[OBPermissionType]
+    PERMISSION_READ_WRITE: typing.ClassVar[OBPermissionType]
+    PERMISSION_WRITE: typing.ClassVar[OBPermissionType]
+    __members__: typing.ClassVar[dict[str, OBPermissionType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBStatus:
+    """
+    Members:
+
+      STATUS_OK
+
+      STATUS_ERROR
+
+      ERROR_UNKNOWN
+
+      ERROR_INVALID_PARAMETER
+
+      ERROR_INVALID_DATA
+
+      ERROR_INVALID_DATA_LEN
+
+      ERROR_BUFFER_TOO_SMALL
+
+      ERROR_MEMORY
+
+      ERROR_WAIT_TIMEOUT
+
+      ERROR_NOT_IMPLEMENTED
+
+      ERROR_UNSUPPORTED_OPERATION
+
+      ERROR_WRONG_API_CALL_SEQUENCE
+
+      ERROR_NO_DEVICE
+
+      ERROR_DEVICE_CONNECT_FAILED
+
+      ERROR_DEVICE_ACCESS_DENIED
+
+      ERROR_DEVICE_DISCONNECTED
+
+      ERROR_DEVICE_UNAVAILABLE
+
+      ERROR_ITEM_NOT_FOUND
+
+      ERROR_IO_FAILURE
+
+      ERROR_RESOURCE_BUSY
+
+      ERROR_FRAME_QUEUE_OVERFLOW
+
+      ERROR_FRAME_DATA
+
+      ERROR_FRAME_DATA_LEN
+
+      ERROR_DEVICE_UNKNOWN
+
+      ERROR_DEVICE_RESPONSE_BAD_MAGIC
+
+      ERROR_DEVICE_RESPONSE_WRONG_ID
+
+      ERROR_DEVICE_RESPONSE_WRONG_OPCODE
+
+      ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE
+
+      ERROR_DEVICE_RESPONSE_ERROR
+
+      ERROR_DEVICE_RESPONSE_WARNING
+
+      ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE
+    """
+
+    ERROR_BUFFER_TOO_SMALL: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_ACCESS_DENIED: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_CONNECT_FAILED: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_DISCONNECTED: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_BAD_MAGIC: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_ERROR: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_WARNING: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_WRONG_ID: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_RESPONSE_WRONG_OPCODE: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_UNAVAILABLE: typing.ClassVar[OBStatus]
+    ERROR_DEVICE_UNKNOWN: typing.ClassVar[OBStatus]
+    ERROR_FRAME_DATA: typing.ClassVar[OBStatus]
+    ERROR_FRAME_DATA_LEN: typing.ClassVar[OBStatus]
+    ERROR_FRAME_QUEUE_OVERFLOW: typing.ClassVar[OBStatus]
+    ERROR_INVALID_DATA: typing.ClassVar[OBStatus]
+    ERROR_INVALID_DATA_LEN: typing.ClassVar[OBStatus]
+    ERROR_INVALID_PARAMETER: typing.ClassVar[OBStatus]
+    ERROR_IO_FAILURE: typing.ClassVar[OBStatus]
+    ERROR_ITEM_NOT_FOUND: typing.ClassVar[OBStatus]
+    ERROR_MEMORY: typing.ClassVar[OBStatus]
+    ERROR_NOT_IMPLEMENTED: typing.ClassVar[OBStatus]
+    ERROR_NO_DEVICE: typing.ClassVar[OBStatus]
+    ERROR_RESOURCE_BUSY: typing.ClassVar[OBStatus]
+    ERROR_UNKNOWN: typing.ClassVar[OBStatus]
+    ERROR_UNSUPPORTED_OPERATION: typing.ClassVar[OBStatus]
+    ERROR_WAIT_TIMEOUT: typing.ClassVar[OBStatus]
+    ERROR_WRONG_API_CALL_SEQUENCE: typing.ClassVar[OBStatus]
+    STATUS_ERROR: typing.ClassVar[OBStatus]
+    STATUS_OK: typing.ClassVar[OBStatus]
+    __members__: typing.ClassVar[dict[str, OBStatus]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBLogLevel:
+    """
+    Members:
+
+      DEBUG
+
+      INFO
+
+      WARNING
+
+      ERROR
+
+      FATAL
+
+      NONE
+    """
+
+    DEBUG: typing.ClassVar[OBLogLevel]
+    ERROR: typing.ClassVar[OBLogLevel]
+    FATAL: typing.ClassVar[OBLogLevel]
+    INFO: typing.ClassVar[OBLogLevel]
+    NONE: typing.ClassVar[OBLogLevel]
+    WARNING: typing.ClassVar[OBLogLevel]
+    __members__: typing.ClassVar[dict[str, OBLogLevel]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBException:
+    """
+    Members:
+
+      UNKNOWN
+
+      CAMERA_DISCONNECTED
+
+      PLATFORM
+
+      INVALID_VALUE
+
+      WRONG_API_CALL_SEQUENCE
+
+      NOT_IMPLEMENTED
+
+      IO_ERROR
+
+      UNSUPPORTED_OPERATION
+
+      ACCESS_DENIED
+
+      DEVICE_UNAVAILABLE
+
+      INVALID_DATA
+
+      NOT_FOUND
+
+      RESOURCE_BUSY
+
+      LICENSE_VERIFY_FAILED : License verification failed, the device/feature license is missing, invalid or expired
+
+      STD_EXCEPTION
+
+      TYPE_MEMORY
+    """
+
+    ACCESS_DENIED: typing.ClassVar[OBException]
+    CAMERA_DISCONNECTED: typing.ClassVar[OBException]
+    DEVICE_UNAVAILABLE: typing.ClassVar[OBException]
+    INVALID_DATA: typing.ClassVar[OBException]
+    INVALID_VALUE: typing.ClassVar[OBException]
+    IO_ERROR: typing.ClassVar[OBException]
+    LICENSE_VERIFY_FAILED: typing.ClassVar[OBException]
+    NOT_FOUND: typing.ClassVar[OBException]
+    NOT_IMPLEMENTED: typing.ClassVar[OBException]
+    PLATFORM: typing.ClassVar[OBException]
+    RESOURCE_BUSY: typing.ClassVar[OBException]
+    STD_EXCEPTION: typing.ClassVar[OBException]
+    TYPE_MEMORY: typing.ClassVar[OBException]
+    UNKNOWN: typing.ClassVar[OBException]
+    UNSUPPORTED_OPERATION: typing.ClassVar[OBException]
+    WRONG_API_CALL_SEQUENCE: typing.ClassVar[OBException]
+    __members__: typing.ClassVar[dict[str, OBException]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBSensorType:
+    """
+    Members:
+
+      UNKNOWN_SENSOR
+
+      IR_SENSOR
+
+      COLOR_SENSOR
+
+      DEPTH_SENSOR
+
+      ACCEL_SENSOR
+
+      GYRO_SENSOR
+
+      LEFT_IR_SENSOR
+
+      RIGHT_IR_SENSOR
+
+      RAW_PHASE_SENSOR
+
+      CONFIDENCE_SENSOR
+
+      LIDAR_SENSOR
+
+      LEFT_COLOR_SENSOR
+
+      RIGHT_COLOR_SENSOR
+
+      TYPE_COUNT_SENSOR
+    """
+
+    ACCEL_SENSOR: typing.ClassVar[OBSensorType]
+    COLOR_SENSOR: typing.ClassVar[OBSensorType]
+    CONFIDENCE_SENSOR: typing.ClassVar[OBSensorType]
+    DEPTH_SENSOR: typing.ClassVar[OBSensorType]
+    GYRO_SENSOR: typing.ClassVar[OBSensorType]
+    IR_SENSOR: typing.ClassVar[OBSensorType]
+    LEFT_COLOR_SENSOR: typing.ClassVar[OBSensorType]
+    LEFT_IR_SENSOR: typing.ClassVar[OBSensorType]
+    LIDAR_SENSOR: typing.ClassVar[OBSensorType]
+    RAW_PHASE_SENSOR: typing.ClassVar[OBSensorType]
+    RIGHT_COLOR_SENSOR: typing.ClassVar[OBSensorType]
+    RIGHT_IR_SENSOR: typing.ClassVar[OBSensorType]
+    TYPE_COUNT_SENSOR: typing.ClassVar[OBSensorType]
+    UNKNOWN_SENSOR: typing.ClassVar[OBSensorType]
+    __members__: typing.ClassVar[dict[str, OBSensorType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBStreamType:
+    """
+    Members:
+
+      UNKNOWN_STREAM
+
+      VIDEO_STREAM
+
+      IR_STREAM
+
+      COLOR_STREAM
+
+      DEPTH_STREAM
+
+      ACCEL_STREAM
+
+      GYRO_STREAM
+
+      LEFT_IR_STREAM
+
+      RIGHT_IR_STREAM
+
+      RAW_PHASE_STREAM
+
+      CONFIDENCE_STREAM
+
+      LIDAR_STREAM
+
+      LEFT_COLOR_STREAM
+
+      RIGHT_COLOR_STREAM
+
+      TYPE_COUNT_STREAM
+    """
+
+    ACCEL_STREAM: typing.ClassVar[OBStreamType]
+    COLOR_STREAM: typing.ClassVar[OBStreamType]
+    CONFIDENCE_STREAM: typing.ClassVar[OBStreamType]
+    DEPTH_STREAM: typing.ClassVar[OBStreamType]
+    GYRO_STREAM: typing.ClassVar[OBStreamType]
+    IR_STREAM: typing.ClassVar[OBStreamType]
+    LEFT_COLOR_STREAM: typing.ClassVar[OBStreamType]
+    LEFT_IR_STREAM: typing.ClassVar[OBStreamType]
+    LIDAR_STREAM: typing.ClassVar[OBStreamType]
+    RAW_PHASE_STREAM: typing.ClassVar[OBStreamType]
+    RIGHT_COLOR_STREAM: typing.ClassVar[OBStreamType]
+    RIGHT_IR_STREAM: typing.ClassVar[OBStreamType]
+    TYPE_COUNT_STREAM: typing.ClassVar[OBStreamType]
+    UNKNOWN_STREAM: typing.ClassVar[OBStreamType]
+    VIDEO_STREAM: typing.ClassVar[OBStreamType]
+    __members__: typing.ClassVar[dict[str, OBStreamType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBFrameType:
+    """
+    Members:
+
+      UNKNOWN_FRAME
+
+      VIDEO_FRAME
+
+      IR_FRAME
+
+      COLOR_FRAME
+
+      DEPTH_FRAME
+
+      ACCEL_FRAME
+
+      GYRO_FRAME
+
+      LEFT_IR_FRAME
+
+      RIGHT_IR_FRAME
+
+      FRAME_SET
+
+      RAW_PHASE_FRAME
+
+      CONFIDENCE_FRAME
+
+      LIDAR_POINTS_FRAME
+
+      LEFT_COLOR_FRAME
+
+      RIGHT_COLOR_FRAME
+
+      TYPE_COUNT_FRAME
+    """
+
+    ACCEL_FRAME: typing.ClassVar[OBFrameType]
+    COLOR_FRAME: typing.ClassVar[OBFrameType]
+    CONFIDENCE_FRAME: typing.ClassVar[OBFrameType]
+    DEPTH_FRAME: typing.ClassVar[OBFrameType]
+    FRAME_SET: typing.ClassVar[OBFrameType]
+    GYRO_FRAME: typing.ClassVar[OBFrameType]
+    IR_FRAME: typing.ClassVar[OBFrameType]
+    LEFT_COLOR_FRAME: typing.ClassVar[OBFrameType]
+    LEFT_IR_FRAME: typing.ClassVar[OBFrameType]
+    LIDAR_POINTS_FRAME: typing.ClassVar[OBFrameType]
+    RAW_PHASE_FRAME: typing.ClassVar[OBFrameType]
+    RIGHT_COLOR_FRAME: typing.ClassVar[OBFrameType]
+    RIGHT_IR_FRAME: typing.ClassVar[OBFrameType]
+    TYPE_COUNT_FRAME: typing.ClassVar[OBFrameType]
+    UNKNOWN_FRAME: typing.ClassVar[OBFrameType]
+    VIDEO_FRAME: typing.ClassVar[OBFrameType]
+    __members__: typing.ClassVar[dict[str, OBFrameType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPixelType:
+    """
+    Members:
+
+      OB_PIXEL_UNKNOWN
+
+      OB_PIXEL_DEPTH
+
+      OB_PIXEL_DISPARITY
+
+      OB_PIXEL_RAW_PHASE
+
+      OB_PIXEL_TOF_DEPTH
+    """
+
+    OB_PIXEL_DEPTH: typing.ClassVar[OBPixelType]
+    OB_PIXEL_DISPARITY: typing.ClassVar[OBPixelType]
+    OB_PIXEL_RAW_PHASE: typing.ClassVar[OBPixelType]
+    OB_PIXEL_TOF_DEPTH: typing.ClassVar[OBPixelType]
+    OB_PIXEL_UNKNOWN: typing.ClassVar[OBPixelType]
+    __members__: typing.ClassVar[dict[str, OBPixelType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBFormat:
+    """
+    Members:
+
+      UNKNOWN_FORMAT
+
+      YUYV
+
+      YUY2
+
+      UYVY
+
+      NV12
+
+      NV21
+
+      MJPG
+
+      H264
+
+      H265
+
+      Y16
+
+      Y8
+
+      Y10
+
+      Y11
+
+      Y12
+
+      GRAY
+
+      HEVC
+
+      I420
+
+      ACCEL
+
+      GYRO
+
+      POINT
+
+      RGB_POINT
+
+      RLE
+
+      RGB
+
+      BGR
+
+      Y14
+
+      BGRA
+
+      COMPRESSED
+
+      RVL
+
+      Z16
+
+      YV12
+
+      BA81
+
+      RGBA
+
+      BYR2
+
+      RW16
+
+      Y12C4
+
+      LIDAR_POINT
+
+      LIDAR_SPHERE_POINT
+
+      LIDAR_SCAN
+
+      LIDAR_CALIBRATION
+    """
+
+    ACCEL: typing.ClassVar[OBFormat]
+    BA81: typing.ClassVar[OBFormat]
+    BGR: typing.ClassVar[OBFormat]
+    BGRA: typing.ClassVar[OBFormat]
+    BYR2: typing.ClassVar[OBFormat]
+    COMPRESSED: typing.ClassVar[OBFormat]
+    GRAY: typing.ClassVar[OBFormat]
+    GYRO: typing.ClassVar[OBFormat]
+    H264: typing.ClassVar[OBFormat]
+    H265: typing.ClassVar[OBFormat]
+    HEVC: typing.ClassVar[OBFormat]
+    I420: typing.ClassVar[OBFormat]
+    LIDAR_CALIBRATION: typing.ClassVar[OBFormat]
+    LIDAR_POINT: typing.ClassVar[OBFormat]
+    LIDAR_SCAN: typing.ClassVar[OBFormat]
+    LIDAR_SPHERE_POINT: typing.ClassVar[OBFormat]
+    MJPG: typing.ClassVar[OBFormat]
+    NV12: typing.ClassVar[OBFormat]
+    NV21: typing.ClassVar[OBFormat]
+    POINT: typing.ClassVar[OBFormat]
+    RGB: typing.ClassVar[OBFormat]
+    RGBA: typing.ClassVar[OBFormat]
+    RGB_POINT: typing.ClassVar[OBFormat]
+    RLE: typing.ClassVar[OBFormat]
+    RVL: typing.ClassVar[OBFormat]
+    RW16: typing.ClassVar[OBFormat]
+    UNKNOWN_FORMAT: typing.ClassVar[OBFormat]
+    UYVY: typing.ClassVar[OBFormat]
+    Y10: typing.ClassVar[OBFormat]
+    Y11: typing.ClassVar[OBFormat]
+    Y12: typing.ClassVar[OBFormat]
+    Y12C4: typing.ClassVar[OBFormat]
+    Y14: typing.ClassVar[OBFormat]
+    Y16: typing.ClassVar[OBFormat]
+    Y8: typing.ClassVar[OBFormat]
+    YUY2: typing.ClassVar[OBFormat]
+    YUYV: typing.ClassVar[OBFormat]
+    YV12: typing.ClassVar[OBFormat]
+    Z16: typing.ClassVar[OBFormat]
+    __members__: typing.ClassVar[dict[str, OBFormat]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBUpgradeState:
+    """
+    Members:
+
+      DONE_REBOOT_AND_REUPDATE
+
+      DONE_WITH_DUPLICATES
+
+      VERIFY_SUCCESS
+
+      FILE_TRANSFER
+
+      DONE
+
+      IN_PROGRESS
+
+      START
+
+      VERIFY_IMAGE
+
+      ERR_VERIFY
+
+      ERR_PROGRAM
+
+      ERR_ERASE
+
+      ERR_FLASH_TYPE
+
+      ERR_IMAGE_SIZE
+
+      ERR_OTHER
+
+      ERR_DDR
+
+      ERR_TIMEOUT
+
+      ERR_MISMATCH
+
+      ERR_UNSUPPORT_DEV
+
+      ERR_INVALID_COUNT
+
+      ERR_FILE_READ
+
+      ERR_TRANSFER
+    """
+
+    DONE: typing.ClassVar[OBUpgradeState]
+    DONE_REBOOT_AND_REUPDATE: typing.ClassVar[OBUpgradeState]
+    DONE_WITH_DUPLICATES: typing.ClassVar[OBUpgradeState]
+    ERR_DDR: typing.ClassVar[OBUpgradeState]
+    ERR_ERASE: typing.ClassVar[OBUpgradeState]
+    ERR_FILE_READ: typing.ClassVar[OBUpgradeState]
+    ERR_FLASH_TYPE: typing.ClassVar[OBUpgradeState]
+    ERR_IMAGE_SIZE: typing.ClassVar[OBUpgradeState]
+    ERR_INVALID_COUNT: typing.ClassVar[OBUpgradeState]
+    ERR_MISMATCH: typing.ClassVar[OBUpgradeState]
+    ERR_OTHER: typing.ClassVar[OBUpgradeState]
+    ERR_PROGRAM: typing.ClassVar[OBUpgradeState]
+    ERR_TIMEOUT: typing.ClassVar[OBUpgradeState]
+    ERR_TRANSFER: typing.ClassVar[OBUpgradeState]
+    ERR_UNSUPPORT_DEV: typing.ClassVar[OBUpgradeState]
+    ERR_VERIFY: typing.ClassVar[OBUpgradeState]
+    FILE_TRANSFER: typing.ClassVar[OBUpgradeState]
+    IN_PROGRESS: typing.ClassVar[OBUpgradeState]
+    START: typing.ClassVar[OBUpgradeState]
+    VERIFY_IMAGE: typing.ClassVar[OBUpgradeState]
+    VERIFY_SUCCESS: typing.ClassVar[OBUpgradeState]
+    __members__: typing.ClassVar[dict[str, OBUpgradeState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBFileTranState:
+    """
+    Members:
+
+      TRANSFER
+
+      DONE
+
+      PREPARING
+
+      ERR_DDR
+
+      ERR_NOT_ENOUGH_SPACE
+
+      ERR_PATH_NOT_WRITABLE
+
+      ERR_MD5_ERROR
+
+      ERR_WRITE_FLASH_ERROR
+
+      ERR_TIMEOUT
+    """
+
+    DONE: typing.ClassVar[OBFileTranState]
+    ERR_DDR: typing.ClassVar[OBFileTranState]
+    ERR_MD5_ERROR: typing.ClassVar[OBFileTranState]
+    ERR_NOT_ENOUGH_SPACE: typing.ClassVar[OBFileTranState]
+    ERR_PATH_NOT_WRITABLE: typing.ClassVar[OBFileTranState]
+    ERR_TIMEOUT: typing.ClassVar[OBFileTranState]
+    ERR_WRITE_FLASH_ERROR: typing.ClassVar[OBFileTranState]
+    PREPARING: typing.ClassVar[OBFileTranState]
+    TRANSFER: typing.ClassVar[OBFileTranState]
+    __members__: typing.ClassVar[dict[str, OBFileTranState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDataTranState:
+    """
+    Members:
+
+      STOPPED
+
+      DONE
+
+      VERIFYING
+
+      TRANSFERRING
+
+      ERR_BUSY
+
+      ERR_UNSUPPORTED
+
+      ERR_TRAN_FAILED
+
+      ERR_VERIFY_FAILED
+
+      ERR_OTHER
+    """
+
+    DONE: typing.ClassVar[OBDataTranState]
+    ERR_BUSY: typing.ClassVar[OBDataTranState]
+    ERR_OTHER: typing.ClassVar[OBDataTranState]
+    ERR_TRAN_FAILED: typing.ClassVar[OBDataTranState]
+    ERR_UNSUPPORTED: typing.ClassVar[OBDataTranState]
+    ERR_VERIFY_FAILED: typing.ClassVar[OBDataTranState]
+    STOPPED: typing.ClassVar[OBDataTranState]
+    TRANSFERRING: typing.ClassVar[OBDataTranState]
+    VERIFYING: typing.ClassVar[OBDataTranState]
+    __members__: typing.ClassVar[dict[str, OBDataTranState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBIntPropertyRange:
+    @property
+    def current(self) -> int: ...
+    @current.setter
+    def current(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def default_value(self) -> int: ...
+    @default_value.setter
+    def default_value(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max(self) -> int: ...
+    @max.setter
+    def max(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def min(self) -> int: ...
+    @min.setter
+    def min(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def step(self) -> int: ...
+    @step.setter
+    def step(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBFloatPropertyRange:
+    @property
+    def current(self) -> float: ...
+    @current.setter
+    def current(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def default_value(self) -> float: ...
+    @default_value.setter
+    def default_value(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def max(self) -> float: ...
+    @max.setter
+    def max(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def min(self) -> float: ...
+    @min.setter
+    def min(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def step(self) -> float: ...
+    @step.setter
+    def step(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBUint16PropertyRange:
+    @property
+    def current(self) -> int: ...
+    @current.setter
+    def current(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def default_value(self) -> int: ...
+    @default_value.setter
+    def default_value(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max(self) -> int: ...
+    @max.setter
+    def max(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def min(self) -> int: ...
+    @min.setter
+    def min(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def step(self) -> int: ...
+    @step.setter
+    def step(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBUint8PropertyRange:
+    @property
+    def current(self) -> int: ...
+    @current.setter
+    def current(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def default_value(self) -> int: ...
+    @default_value.setter
+    def default_value(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max(self) -> int: ...
+    @max.setter
+    def max(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def min(self) -> int: ...
+    @min.setter
+    def min(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def step(self) -> int: ...
+    @step.setter
+    def step(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBBoolPropertyRange:
+    cur: bool
+    default_value: bool
+    max: bool
+    min: bool
+    step: bool
+    def __init__(self) -> None: ...
+
+class OBCameraIntrinsic:
+    @property
+    def cx(self) -> float: ...
+    @cx.setter
+    def cx(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def cy(self) -> float: ...
+    @cy.setter
+    def cy(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def fx(self) -> float: ...
+    @fx.setter
+    def fx(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def fy(self) -> float: ...
+    @fy.setter
+    def fy(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def height(self) -> int: ...
+    @height.setter
+    def height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @width.setter
+    def width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBAccelIntrinsic:
+    @property
+    def bias(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @bias.setter
+    def bias(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    @property
+    def gravity(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @gravity.setter
+    def gravity(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    @property
+    def noise_density(self) -> float: ...
+    @noise_density.setter
+    def noise_density(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def random_walk(self) -> float: ...
+    @random_walk.setter
+    def random_walk(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def reference_temp(self) -> float: ...
+    @reference_temp.setter
+    def reference_temp(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def scale_misalignment(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @scale_misalignment.setter
+    def scale_misalignment(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    @property
+    def temp_slope(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @temp_slope.setter
+    def temp_slope(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBGyroIntrinsic:
+    @property
+    def bias(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @bias.setter
+    def bias(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    @property
+    def noise_density(self) -> float: ...
+    @noise_density.setter
+    def noise_density(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def random_walk(self) -> float: ...
+    @random_walk.setter
+    def random_walk(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def reference_temp(self) -> float: ...
+    @reference_temp.setter
+    def reference_temp(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def scale_misalignment(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @scale_misalignment.setter
+    def scale_misalignment(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    @property
+    def temp_slope(self) -> numpy.typing.NDArray[numpy.float64]: ...
+    @temp_slope.setter
+    def temp_slope(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBCameraDistortion:
+    @property
+    def k1(self) -> float: ...
+    @k1.setter
+    def k1(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def k2(self) -> float: ...
+    @k2.setter
+    def k2(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def k3(self) -> float: ...
+    @k3.setter
+    def k3(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def k4(self) -> float: ...
+    @k4.setter
+    def k4(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def k5(self) -> float: ...
+    @k5.setter
+    def k5(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def k6(self) -> float: ...
+    @k6.setter
+    def k6(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    model: OBCameraDistortionModel
+    @property
+    def p1(self) -> float: ...
+    @p1.setter
+    def p1(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def p2(self) -> float: ...
+    @p2.setter
+    def p2(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBCameraDistortionModel:
+    """
+    Members:
+
+      NONE
+
+      MODIFIED_BROWN_CONRADY
+
+      INVERSE_BROWN_CONRADY
+
+      BROWN_CONRADY
+
+      BROWN_CONRADY_K6
+
+      KANNALA_BRANDT4
+    """
+
+    BROWN_CONRADY: typing.ClassVar[OBCameraDistortionModel]
+    BROWN_CONRADY_K6: typing.ClassVar[OBCameraDistortionModel]
+    INVERSE_BROWN_CONRADY: typing.ClassVar[OBCameraDistortionModel]
+    KANNALA_BRANDT4: typing.ClassVar[OBCameraDistortionModel]
+    MODIFIED_BROWN_CONRADY: typing.ClassVar[OBCameraDistortionModel]
+    NONE: typing.ClassVar[OBCameraDistortionModel]
+    __members__: typing.ClassVar[dict[str, OBCameraDistortionModel]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBExtrinsic:
+    @property
+    def rot(self) -> numpy.typing.NDArray[numpy.float32]: ...
+    @rot.setter
+    def rot(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float32]) -> None: ...
+    @property
+    def transform(self) -> numpy.typing.NDArray[numpy.float32]: ...
+    @transform.setter
+    def transform(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float32]) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBCameraParam:
+    depth_distortion: OBCameraDistortion
+    depth_intrinsic: OBCameraIntrinsic
+    is_mirrored: bool
+    rgb_distortion: OBCameraDistortion
+    rgb_intrinsic: OBCameraIntrinsic
+    transform: OBExtrinsic
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBPresetResolutionConfig:
+    @property
+    def depth_decimation_factor(self) -> int: ...
+    @depth_decimation_factor.setter
+    def depth_decimation_factor(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def height(self) -> int: ...
+    @height.setter
+    def height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def ir_decimation_factor(self) -> int: ...
+    @ir_decimation_factor.setter
+    def ir_decimation_factor(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @width.setter
+    def width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBPresetResolutionConfig:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBAlignMode:
+    """
+    Members:
+
+      DISABLE
+
+      HW_MODE
+
+      SW_MODE
+
+      C2D_SW_MODE
+    """
+
+    C2D_SW_MODE: typing.ClassVar[OBAlignMode]
+    DISABLE: typing.ClassVar[OBAlignMode]
+    HW_MODE: typing.ClassVar[OBAlignMode]
+    SW_MODE: typing.ClassVar[OBAlignMode]
+    __members__: typing.ClassVar[dict[str, OBAlignMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBRect:
+    @property
+    def height(self) -> int: ...
+    @height.setter
+    def height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @width.setter
+    def width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def x(self) -> int: ...
+    @x.setter
+    def x(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def y(self) -> int: ...
+    @y.setter
+    def y(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBRect:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBConvertFormat:
+    """
+    Members:
+
+      YUYV_TO_RGB888
+
+      I420_TO_RGB888
+
+      NV21_TO_RGB888
+
+      NV12_TO_RGB888
+
+      MJPG_TO_I420
+
+      RGB888_TO_BGR
+
+      MJPG_TO_NV21
+
+      MJPG_TO_RGB888
+
+      MJPG_TO_BGR888
+
+      MJPG_TO_BGRA
+
+      UYVY_TO_RGB888
+
+      BGR_TO_RGB
+
+      MJPG_TO_NV12
+
+      YUYV_TO_BGR
+
+      YUYV_TO_RGBA
+
+      YUYV_TO_BGRA
+
+      YUYV_TO_Y16
+
+      YUYV_TO_Y8
+
+      RGBA_TO_RGB
+
+      BGRA_TO_BGR
+
+      Y16_TO_RGB
+
+      Y8_TO_RGB
+    """
+
+    BGRA_TO_BGR: typing.ClassVar[OBConvertFormat]
+    BGR_TO_RGB: typing.ClassVar[OBConvertFormat]
+    I420_TO_RGB888: typing.ClassVar[OBConvertFormat]
+    MJPG_TO_BGR888: typing.ClassVar[OBConvertFormat]
+    MJPG_TO_BGRA: typing.ClassVar[OBConvertFormat]
+    MJPG_TO_I420: typing.ClassVar[OBConvertFormat]
+    MJPG_TO_NV12: typing.ClassVar[OBConvertFormat]
+    MJPG_TO_NV21: typing.ClassVar[OBConvertFormat]
+    MJPG_TO_RGB888: typing.ClassVar[OBConvertFormat]
+    NV12_TO_RGB888: typing.ClassVar[OBConvertFormat]
+    NV21_TO_RGB888: typing.ClassVar[OBConvertFormat]
+    RGB888_TO_BGR: typing.ClassVar[OBConvertFormat]
+    RGBA_TO_RGB: typing.ClassVar[OBConvertFormat]
+    UYVY_TO_RGB888: typing.ClassVar[OBConvertFormat]
+    Y16_TO_RGB: typing.ClassVar[OBConvertFormat]
+    Y8_TO_RGB: typing.ClassVar[OBConvertFormat]
+    YUYV_TO_BGR: typing.ClassVar[OBConvertFormat]
+    YUYV_TO_BGRA: typing.ClassVar[OBConvertFormat]
+    YUYV_TO_RGB888: typing.ClassVar[OBConvertFormat]
+    YUYV_TO_RGBA: typing.ClassVar[OBConvertFormat]
+    YUYV_TO_Y16: typing.ClassVar[OBConvertFormat]
+    YUYV_TO_Y8: typing.ClassVar[OBConvertFormat]
+    __members__: typing.ClassVar[dict[str, OBConvertFormat]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBGyroSampleRate:
+    """
+    Members:
+
+      SAMPLE_RATE_UNKNOWN
+
+      SAMPLE_RATE_1_5625_HZ
+
+      SAMPLE_RATE_3_125_HZ
+
+      SAMPLE_RATE_6_25_HZ
+
+      SAMPLE_RATE_12_5_HZ
+
+      SAMPLE_RATE_25_HZ
+
+      SAMPLE_RATE_50_HZ
+
+      SAMPLE_RATE_100_HZ
+
+      SAMPLE_RATE_200_HZ
+
+      SAMPLE_RATE_500_HZ
+
+      SAMPLE_RATE_1_KHZ
+
+      SAMPLE_RATE_2_KHZ
+
+      SAMPLE_RATE_4_KHZ
+
+      SAMPLE_RATE_8_KHZ
+
+      SAMPLE_RATE_16_KHZ
+
+      SAMPLE_RATE_32_KHZ
+
+      SAMPLE_RATE_400_HZ
+
+      SAMPLE_RATE_800_HZ
+    """
+
+    SAMPLE_RATE_100_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_12_5_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_16_KHZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_1_5625_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_1_KHZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_200_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_25_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_2_KHZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_32_KHZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_3_125_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_400_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_4_KHZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_500_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_50_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_6_25_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_800_HZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_8_KHZ: typing.ClassVar[OBGyroSampleRate]
+    SAMPLE_RATE_UNKNOWN: typing.ClassVar[OBGyroSampleRate]
+    __members__: typing.ClassVar[dict[str, OBGyroSampleRate]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBGyroFullScaleRange:
+    """
+    Members:
+
+      FS_UNKNOWN
+
+      FS_16dps
+
+      FS_31dps
+
+      FS_62dps
+
+      FS_125dps
+
+      FS_250dps
+
+      FS_500dps
+
+      FS_1000dps
+
+      FS_2000dps
+
+      FS_400dps
+
+      FS_800dps
+    """
+
+    FS_1000dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_125dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_16dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_2000dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_250dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_31dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_400dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_500dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_62dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_800dps: typing.ClassVar[OBGyroFullScaleRange]
+    FS_UNKNOWN: typing.ClassVar[OBGyroFullScaleRange]
+    __members__: typing.ClassVar[dict[str, OBGyroFullScaleRange]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBAccelFullScaleRange:
+    """
+    Members:
+
+      ACCEL_FS_UNKNOWN
+
+      ACCEL_FS_2g
+
+      ACCEL_FS_4g
+
+      ACCEL_FS_8g
+
+      ACCEL_FS_16g
+
+      ACCEL_FS_3g
+
+      ACCEL_FS_6g
+
+      ACCEL_FS_12g
+
+      ACCEL_FS_24g
+    """
+
+    ACCEL_FS_12g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_16g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_24g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_2g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_3g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_4g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_6g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_8g: typing.ClassVar[OBAccelFullScaleRange]
+    ACCEL_FS_UNKNOWN: typing.ClassVar[OBAccelFullScaleRange]
+    __members__: typing.ClassVar[dict[str, OBAccelFullScaleRange]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBAccelValue:
+    @property
+    def x(self) -> float: ...
+    @x.setter
+    def x(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def y(self) -> float: ...
+    @y.setter
+    def y(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def z(self) -> float: ...
+    @z.setter
+    def z(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBLiDARScanRate:
+    """
+    Members:
+
+      LIDAR_SCAN_UNKNOWN
+
+      LIDAR_SCAN_5HZ
+
+      LIDAR_SCAN_10HZ
+
+      LIDAR_SCAN_15HZ
+
+      LIDAR_SCAN_20HZ
+
+      LIDAR_SCAN_25HZ
+
+      LIDAR_SCAN_30HZ
+
+      LIDAR_SCAN_40HZ
+    """
+
+    LIDAR_SCAN_10HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_15HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_20HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_25HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_30HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_40HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_5HZ: typing.ClassVar[OBLiDARScanRate]
+    LIDAR_SCAN_UNKNOWN: typing.ClassVar[OBLiDARScanRate]
+    __members__: typing.ClassVar[dict[str, OBLiDARScanRate]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDeviceTemperature:
+    @property
+    def chip_bottom_temperature(self) -> float: ...
+    @chip_bottom_temperature.setter
+    def chip_bottom_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def chip_top_temperature(self) -> float: ...
+    @chip_top_temperature.setter
+    def chip_top_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def cpu_temperature(self) -> float: ...
+    @cpu_temperature.setter
+    def cpu_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def imu_temperature(self) -> float: ...
+    @imu_temperature.setter
+    def imu_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def ir_left_temperature(self) -> float: ...
+    @ir_left_temperature.setter
+    def ir_left_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def ir_right_temperature(self) -> float: ...
+    @ir_right_temperature.setter
+    def ir_right_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def ir_temperature(self) -> float: ...
+    @ir_temperature.setter
+    def ir_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def laser_temperature(self) -> float: ...
+    @laser_temperature.setter
+    def laser_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def main_board_temperature(self) -> float: ...
+    @main_board_temperature.setter
+    def main_board_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def rgb_temperature(self) -> float: ...
+    @rgb_temperature.setter
+    def rgb_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def tec_temperature(self) -> float: ...
+    @tec_temperature.setter
+    def tec_temperature(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDeviceTemperature:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBDepthCroppingMode:
+    """
+    Members:
+
+      AUTO
+
+      CLOSE
+
+      OPEN
+    """
+
+    AUTO: typing.ClassVar[OBDepthCroppingMode]
+    CLOSE: typing.ClassVar[OBDepthCroppingMode]
+    OPEN: typing.ClassVar[OBDepthCroppingMode]
+    __members__: typing.ClassVar[dict[str, OBDepthCroppingMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDeviceType:
+    """
+    Members:
+
+      UNKNOWN
+
+      LIGHT_MONOCULAR
+
+      LIGHT_BINOCULAR
+
+      TIME_OF_FLIGHT
+    """
+
+    LIGHT_BINOCULAR: typing.ClassVar[OBDeviceType]
+    LIGHT_MONOCULAR: typing.ClassVar[OBDeviceType]
+    TIME_OF_FLIGHT: typing.ClassVar[OBDeviceType]
+    UNKNOWN: typing.ClassVar[OBDeviceType]
+    __members__: typing.ClassVar[dict[str, OBDeviceType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBMediaType:
+    """
+    Members:
+
+      DEPTH
+
+      COLOR
+
+      IR
+
+      GYRO
+
+      ACCEL
+
+      CAMERA_PARAM
+
+      DEVICE_INFO
+
+      STREAM_INFO
+
+      LEFT_IR
+
+      RIGHT_IR
+
+      ALL
+    """
+
+    ACCEL: typing.ClassVar[OBMediaType]
+    ALL: typing.ClassVar[OBMediaType]
+    CAMERA_PARAM: typing.ClassVar[OBMediaType]
+    COLOR: typing.ClassVar[OBMediaType]
+    DEPTH: typing.ClassVar[OBMediaType]
+    DEVICE_INFO: typing.ClassVar[OBMediaType]
+    GYRO: typing.ClassVar[OBMediaType]
+    IR: typing.ClassVar[OBMediaType]
+    LEFT_IR: typing.ClassVar[OBMediaType]
+    RIGHT_IR: typing.ClassVar[OBMediaType]
+    STREAM_INFO: typing.ClassVar[OBMediaType]
+    __members__: typing.ClassVar[dict[str, OBMediaType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBMediaState:
+    """
+    Members:
+
+      OB_MEDIA_BEGIN
+
+      OB_MEDIA_PAUSE
+
+      OB_MEDIA_RESUME
+
+      OB_MEDIA_END
+    """
+
+    OB_MEDIA_BEGIN: typing.ClassVar[OBMediaState]
+    OB_MEDIA_END: typing.ClassVar[OBMediaState]
+    OB_MEDIA_PAUSE: typing.ClassVar[OBMediaState]
+    OB_MEDIA_RESUME: typing.ClassVar[OBMediaState]
+    __members__: typing.ClassVar[dict[str, OBMediaState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDepthPrecisionLevel:
+    """
+    Members:
+
+      ONE_MM
+
+      ZERO_POINT_EIGHT_MM
+
+      ZERO_POINT_FOUR_MM
+
+      ZERO_POINT_TWO_MM
+
+      ZERO_POINT_ONE_MM
+
+      ZERO_POINT_FIVE_MM
+
+      ZERO_POINT_ZERO_FIVE_MM
+
+      UNKNOWN
+    """
+
+    ONE_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    UNKNOWN: typing.ClassVar[OBDepthPrecisionLevel]
+    ZERO_POINT_EIGHT_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    ZERO_POINT_FIVE_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    ZERO_POINT_FOUR_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    ZERO_POINT_ONE_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    ZERO_POINT_TWO_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    ZERO_POINT_ZERO_FIVE_MM: typing.ClassVar[OBDepthPrecisionLevel]
+    __members__: typing.ClassVar[dict[str, OBDepthPrecisionLevel]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBTofFilterRange:
+    """
+    Members:
+
+      CLOSE
+
+      MIDDLE
+
+      FAR
+
+      DEBUG
+    """
+
+    CLOSE: typing.ClassVar[OBTofFilterRange]
+    DEBUG: typing.ClassVar[OBTofFilterRange]
+    FAR: typing.ClassVar[OBTofFilterRange]
+    MIDDLE: typing.ClassVar[OBTofFilterRange]
+    __members__: typing.ClassVar[dict[str, OBTofFilterRange]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPoint3f:
+    @property
+    def x(self) -> float: ...
+    @x.setter
+    def x(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def y(self) -> float: ...
+    @y.setter
+    def y(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def z(self) -> float: ...
+    @z.setter
+    def z(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def get_sizeof() -> int: ...
+    @typing.overload
+    def __init__(self) -> None: ...
+    @typing.overload
+    def __init__(
+        self,
+        arg0: typing.SupportsFloat | typing.SupportsIndex,
+        arg1: typing.SupportsFloat | typing.SupportsIndex,
+        arg2: typing.SupportsFloat | typing.SupportsIndex,
+    ) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBColorPoint:
+    @property
+    def b(self) -> int: ...
+    @b.setter
+    def b(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def g(self) -> int: ...
+    @g.setter
+    def g(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def r(self) -> int: ...
+    @r.setter
+    def r(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def x(self) -> float: ...
+    @x.setter
+    def x(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def y(self) -> float: ...
+    @y.setter
+    def y(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def z(self) -> float: ...
+    @z.setter
+    def z(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def get_sizeof() -> int: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBLiDARScanPoint:
+    @property
+    def angle(self) -> float: ...
+    @angle.setter
+    def angle(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def distance(self) -> float: ...
+    @distance.setter
+    def distance(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def intensity(self) -> int: ...
+    @intensity.setter
+    def intensity(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBLiDARPoint:
+    @property
+    def reflectivity(self) -> int: ...
+    @reflectivity.setter
+    def reflectivity(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def tag(self) -> int: ...
+    @tag.setter
+    def tag(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def x(self) -> float: ...
+    @x.setter
+    def x(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def y(self) -> float: ...
+    @y.setter
+    def y(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def z(self) -> float: ...
+    @z.setter
+    def z(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBLiDARSpherePoint:
+    @property
+    def distance(self) -> float: ...
+    @distance.setter
+    def distance(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def phi(self) -> float: ...
+    @phi.setter
+    def phi(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def reflectivity(self) -> int: ...
+    @reflectivity.setter
+    def reflectivity(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def tag(self) -> int: ...
+    @tag.setter
+    def tag(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def theta(self) -> float: ...
+    @theta.setter
+    def theta(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBCompressionMode:
+    """
+    Members:
+
+      LOSSLESS
+
+      LOSSY
+    """
+
+    LOSSLESS: typing.ClassVar[OBCompressionMode]
+    LOSSY: typing.ClassVar[OBCompressionMode]
+    __members__: typing.ClassVar[dict[str, OBCompressionMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBCompressionParams:
+    @property
+    def threshold(self) -> int: ...
+    @threshold.setter
+    def threshold(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBTofExposureThresholdControl:
+    @property
+    def lower(self) -> int: ...
+    @lower.setter
+    def lower(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def upper(self) -> int: ...
+    @upper.setter
+    def upper(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBTofExposureThresholdControl:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBSyncMode:
+    """
+    Members:
+
+      CLOSE
+
+      STANDALONE
+
+      PRIMARY
+
+      SECONDARY
+
+      PRIMARY_MCU_TRIGGER
+
+      PRIMARY_IR_TRIGGER
+
+      PRIMARY_SOFT_TRIGGER
+
+      SECONDARY_SOFT_TRIGGER
+
+      IR_IMU_SYNC
+
+      UNKNOWN
+    """
+
+    CLOSE: typing.ClassVar[OBSyncMode]
+    IR_IMU_SYNC: typing.ClassVar[OBSyncMode]
+    PRIMARY: typing.ClassVar[OBSyncMode]
+    PRIMARY_IR_TRIGGER: typing.ClassVar[OBSyncMode]
+    PRIMARY_MCU_TRIGGER: typing.ClassVar[OBSyncMode]
+    PRIMARY_SOFT_TRIGGER: typing.ClassVar[OBSyncMode]
+    SECONDARY: typing.ClassVar[OBSyncMode]
+    SECONDARY_SOFT_TRIGGER: typing.ClassVar[OBSyncMode]
+    STANDALONE: typing.ClassVar[OBSyncMode]
+    UNKNOWN: typing.ClassVar[OBSyncMode]
+    __members__: typing.ClassVar[dict[str, OBSyncMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPowerLineFreqMode:
+    """
+    Members:
+
+      FREQUENCY_50HZ
+
+      FREQUENCY_60HZ
+
+      FREQUENCY_CLOSE
+    """
+
+    FREQUENCY_50HZ: typing.ClassVar[OBPowerLineFreqMode]
+    FREQUENCY_60HZ: typing.ClassVar[OBPowerLineFreqMode]
+    FREQUENCY_CLOSE: typing.ClassVar[OBPowerLineFreqMode]
+    __members__: typing.ClassVar[dict[str, OBPowerLineFreqMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDeviceSyncConfig:
+    @property
+    def device_index(self) -> int: ...
+    @device_index.setter
+    def device_index(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def device_trigger_signal_out_delay(self) -> int: ...
+    @device_trigger_signal_out_delay.setter
+    def device_trigger_signal_out_delay(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def device_trigger_signal_out_polarity(self) -> int: ...
+    @device_trigger_signal_out_polarity.setter
+    def device_trigger_signal_out_polarity(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def ir_trigger_signal_delay(self) -> int: ...
+    @ir_trigger_signal_delay.setter
+    def ir_trigger_signal_delay(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def mcu_trigger_frequency(self) -> int: ...
+    @mcu_trigger_frequency.setter
+    def mcu_trigger_frequency(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    mode: OBSyncMode
+    @property
+    def rgb_trigger_signal_delay(self) -> int: ...
+    @rgb_trigger_signal_delay.setter
+    def rgb_trigger_signal_delay(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDeviceSyncConfig:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBDepthWorkModeTag:
+    """
+    Members:
+
+      OB_DEVICE_DEPTH_WORK_MODE
+
+      OB_CUSTOM_DEPTH_WORK_MODE
+    """
+
+    OB_CUSTOM_DEPTH_WORK_MODE: typing.ClassVar[OBDepthWorkModeTag]
+    OB_DEVICE_DEPTH_WORK_MODE: typing.ClassVar[OBDepthWorkModeTag]
+    __members__: typing.ClassVar[dict[str, OBDepthWorkModeTag]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDepthWorkMode:
+    __hash__: typing.ClassVar[None] = None  # type: ignore[assignment]
+    @property
+    def checksum(self) -> numpy.typing.NDArray[numpy.uint8]: ...
+    @checksum.setter
+    def checksum(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.uint8]) -> None: ...
+    name: str
+    tag: OBDepthWorkModeTag
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDepthWorkMode:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __eq__(self, arg0: object) -> bool: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBSequenceIdItem:
+    name: str
+    @property
+    def sequence_select_id(self) -> int: ...
+    @sequence_select_id.setter
+    def sequence_select_id(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBHoleFillingMode:
+    """
+    Members:
+
+      TOP
+
+      NEAREST
+
+      FURTHEST
+    """
+
+    FURTHEST: typing.ClassVar[OBHoleFillingMode]
+    NEAREST: typing.ClassVar[OBHoleFillingMode]
+    TOP: typing.ClassVar[OBHoleFillingMode]
+    __members__: typing.ClassVar[dict[str, OBHoleFillingMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBSpatialAdvancedFilterParams:
+    @property
+    def alpha(self) -> float: ...
+    @alpha.setter
+    def alpha(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def disp_diff(self) -> int: ...
+    @disp_diff.setter
+    def disp_diff(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def magnitude(self) -> int: ...
+    @magnitude.setter
+    def magnitude(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def radius(self) -> int: ...
+    @radius.setter
+    def radius(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBSpatialFastFilterParams:
+    @property
+    def radius(self) -> int: ...
+    @radius.setter
+    def radius(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBSpatialModerateFilterParams:
+    @property
+    def disp_diff(self) -> int: ...
+    @disp_diff.setter
+    def disp_diff(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def magnitude(self) -> int: ...
+    @magnitude.setter
+    def magnitude(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def radius(self) -> int: ...
+    @radius.setter
+    def radius(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBEdgeNoiseRemovalType:
+    """
+    Members:
+
+      MG_FILTER
+
+      MGH_FILTER
+
+      MGA_FILTER
+
+      MGC_FILTER
+    """
+
+    MGA_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]
+    MGC_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]
+    MGH_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]
+    MG_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]
+    __members__: typing.ClassVar[dict[str, OBEdgeNoiseRemovalType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBEdgeNoiseRemovalFilterParams:
+    enable_direction: bool
+    @property
+    def height(self) -> int: ...
+    @height.setter
+    def height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def limit_x_th(self) -> int: ...
+    @limit_x_th.setter
+    def limit_x_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def limit_y_th(self) -> int: ...
+    @limit_y_th.setter
+    def limit_y_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def margin_x_th(self) -> int: ...
+    @margin_x_th.setter
+    def margin_x_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def margin_y_th(self) -> int: ...
+    @margin_y_th.setter
+    def margin_y_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @width.setter
+    def width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBMgcNoiseRemovalFilterParams:
+    @property
+    def height(self) -> int: ...
+    @height.setter
+    def height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def limit_x_th(self) -> int: ...
+    @limit_x_th.setter
+    def limit_x_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def limit_y_th(self) -> int: ...
+    @limit_y_th.setter
+    def limit_y_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def margin_x_th(self) -> int: ...
+    @margin_x_th.setter
+    def margin_x_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def margin_y_th(self) -> int: ...
+    @margin_y_th.setter
+    def margin_y_th(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max_radius(self) -> int: ...
+    @max_radius.setter
+    def max_radius(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max_width_left(self) -> int: ...
+    @max_width_left.setter
+    def max_width_left(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max_width_right(self) -> int: ...
+    @max_width_right.setter
+    def max_width_right(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @width.setter
+    def width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBLutNoiseRemovalFilterParams:
+    @property
+    def height(self) -> int: ...
+    @height.setter
+    def height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max_lut(self) -> numpy.typing.NDArray[numpy.uint16]: ...
+    @max_lut.setter
+    def max_lut(self, value: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.uint16]) -> None: ...
+    @property
+    def min_diff(self) -> int: ...
+    @min_diff.setter
+    def min_diff(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @width.setter
+    def width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBDDONoiseRemovalType:
+    """
+    Members:
+
+      LUT
+
+      OVERALL
+    """
+
+    LUT: typing.ClassVar[OBDDONoiseRemovalType]
+    OVERALL: typing.ClassVar[OBDDONoiseRemovalType]
+    __members__: typing.ClassVar[dict[str, OBDDONoiseRemovalType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBNoiseRemovalFilterParams:
+    @property
+    def disp_diff(self) -> int: ...
+    @disp_diff.setter
+    def disp_diff(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def max_size(self) -> int: ...
+    @max_size.setter
+    def max_size(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    type: OBDDONoiseRemovalType
+    def __init__(self) -> None: ...
+
+class OBDeviceIpAddrConfig:
+    address: str
+    @property
+    def dhcp(self) -> int: ...
+    @dhcp.setter
+    def dhcp(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    gateway: str
+    netmask: str
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDeviceIpAddrConfig:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBNetIpConfigV2:
+    address: str
+    @property
+    def flags(self) -> int: ...
+    @flags.setter
+    def flags(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    gateway: str
+    netmask: str
+    @staticmethod
+    def from_bytes(data: bytes) -> OBNetIpConfigV2:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBCommunicationType:
+    """
+    Members:
+
+      USB
+
+      ETHERNET
+    """
+
+    ETHERNET: typing.ClassVar[OBCommunicationType]
+    USB: typing.ClassVar[OBCommunicationType]
+    __members__: typing.ClassVar[dict[str, OBCommunicationType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBUSBPowerState:
+    """
+    Members:
+
+      OFF
+
+      POWER_5V_0A9
+
+      POWER_5V_1A5
+
+      POWER_5V_3A0
+    """
+
+    OFF: typing.ClassVar[OBUSBPowerState]
+    POWER_5V_0A9: typing.ClassVar[OBUSBPowerState]
+    POWER_5V_1A5: typing.ClassVar[OBUSBPowerState]
+    POWER_5V_3A0: typing.ClassVar[OBUSBPowerState]
+    __members__: typing.ClassVar[dict[str, OBUSBPowerState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDCPowerState:
+    """
+    Members:
+
+      OFF
+
+      ON
+    """
+
+    OFF: typing.ClassVar[OBDCPowerState]
+    ON: typing.ClassVar[OBDCPowerState]
+    __members__: typing.ClassVar[dict[str, OBDCPowerState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBRotateDegreeType:
+    """
+    Members:
+
+      ROTATE_0
+
+      ROTATE_90
+
+      ROTATE_180
+
+      ROTATE_270
+    """
+
+    ROTATE_0: typing.ClassVar[OBRotateDegreeType]
+    ROTATE_180: typing.ClassVar[OBRotateDegreeType]
+    ROTATE_270: typing.ClassVar[OBRotateDegreeType]
+    ROTATE_90: typing.ClassVar[OBRotateDegreeType]
+    __members__: typing.ClassVar[dict[str, OBRotateDegreeType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBProtocolVersion:
+    @property
+    def major(self) -> int: ...
+    @major.setter
+    def major(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def minor(self) -> int: ...
+    @minor.setter
+    def minor(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def patch(self) -> int: ...
+    @patch.setter
+    def patch(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBCmdVersion:
+    """
+    Members:
+
+      V0
+
+      V1
+
+      V2
+
+      V3
+
+      NONE
+
+      INVALID
+    """
+
+    INVALID: typing.ClassVar[OBCmdVersion]
+    NONE: typing.ClassVar[OBCmdVersion]
+    V0: typing.ClassVar[OBCmdVersion]
+    V1: typing.ClassVar[OBCmdVersion]
+    V2: typing.ClassVar[OBCmdVersion]
+    V3: typing.ClassVar[OBCmdVersion]
+    __members__: typing.ClassVar[dict[str, OBCmdVersion]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBFrameAggregateOutputMode:
+    """
+    Members:
+
+      FULL_FRAME_REQUIRE
+
+      COLOR_FRAME_REQUIRE
+
+      ANY_SITUATION
+
+      DISABLE
+    """
+
+    ANY_SITUATION: typing.ClassVar[OBFrameAggregateOutputMode]
+    COLOR_FRAME_REQUIRE: typing.ClassVar[OBFrameAggregateOutputMode]
+    DISABLE: typing.ClassVar[OBFrameAggregateOutputMode]
+    FULL_FRAME_REQUIRE: typing.ClassVar[OBFrameAggregateOutputMode]
+    __members__: typing.ClassVar[dict[str, OBFrameAggregateOutputMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBCoordinateSystemType:
+    """
+    Members:
+
+      LEFT_HAND
+
+      RIGHT_HAND
+    """
+
+    LEFT_HAND: typing.ClassVar[OBCoordinateSystemType]
+    RIGHT_HAND: typing.ClassVar[OBCoordinateSystemType]
+    __members__: typing.ClassVar[dict[str, OBCoordinateSystemType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDeviceDevelopmentMode:
+    """
+    Members:
+
+      NORMAL
+
+      DEVELOPMENT
+    """
+
+    DEVELOPMENT: typing.ClassVar[OBDeviceDevelopmentMode]
+    NORMAL: typing.ClassVar[OBDeviceDevelopmentMode]
+    __members__: typing.ClassVar[dict[str, OBDeviceDevelopmentMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBMultiDeviceSyncMode:
+    """
+    Members:
+
+      FREE_RUN
+
+      STANDALONE
+
+      PRIMARY
+
+      SECONDARY
+
+      SECONDARY_SYNCED
+
+      SOFTWARE_TRIGGERING
+
+      HARDWARE_TRIGGERING
+
+      IR_IMU_SYNC
+
+      SOFTWARE_SYNCED
+
+      GROUP_ACTIONS
+    """
+
+    FREE_RUN: typing.ClassVar[OBMultiDeviceSyncMode]
+    GROUP_ACTIONS: typing.ClassVar[OBMultiDeviceSyncMode]
+    HARDWARE_TRIGGERING: typing.ClassVar[OBMultiDeviceSyncMode]
+    IR_IMU_SYNC: typing.ClassVar[OBMultiDeviceSyncMode]
+    PRIMARY: typing.ClassVar[OBMultiDeviceSyncMode]
+    SECONDARY: typing.ClassVar[OBMultiDeviceSyncMode]
+    SECONDARY_SYNCED: typing.ClassVar[OBMultiDeviceSyncMode]
+    SOFTWARE_SYNCED: typing.ClassVar[OBMultiDeviceSyncMode]
+    SOFTWARE_TRIGGERING: typing.ClassVar[OBMultiDeviceSyncMode]
+    STANDALONE: typing.ClassVar[OBMultiDeviceSyncMode]
+    __members__: typing.ClassVar[dict[str, OBMultiDeviceSyncMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBMultiDeviceSyncConfig:
+    @property
+    def color_delay_us(self) -> int: ...
+    @color_delay_us.setter
+    def color_delay_us(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def depth_delay_us(self) -> int: ...
+    @depth_delay_us.setter
+    def depth_delay_us(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def frames_per_trigger(self) -> int: ...
+    @frames_per_trigger.setter
+    def frames_per_trigger(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    mode: OBMultiDeviceSyncMode
+    @property
+    def trigger_out_delay_us(self) -> int: ...
+    @trigger_out_delay_us.setter
+    def trigger_out_delay_us(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    trigger_out_enable: bool
+    @property
+    def trigger_to_image_delay_us(self) -> int: ...
+    @trigger_to_image_delay_us.setter
+    def trigger_to_image_delay_us(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBMultiDeviceSyncConfig:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBDeviceTimestampResetConfig:
+    enable: bool
+    @property
+    def timestamp_reset_delay_us(self) -> int: ...
+    @timestamp_reset_delay_us.setter
+    def timestamp_reset_delay_us(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    timestamp_reset_signal_output_enable: bool
+    def __init__(self) -> None: ...
+
+class OBBaselineCalibrationParam:
+    @property
+    def baseline(self) -> float: ...
+    @baseline.setter
+    def baseline(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def zpd(self) -> float: ...
+    @zpd.setter
+    def zpd(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBBaselineCalibrationParam:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBDeviceSerialNumber:
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDeviceSerialNumber:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+    @property
+    def number_str(self) -> str:
+        """
+        SDK numberStr field; at most 16 UTF-8 bytes, without embedded NUL.
+        """
+
+    @number_str.setter
+    def number_str(self, arg1: str) -> None: ...
+
+class OBDispOffsetConfig:
+    @property
+    def enable(self) -> int: ...
+    @enable.setter
+    def enable(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def offset0(self) -> int: ...
+    @offset0.setter
+    def offset0(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def offset1(self) -> int: ...
+    @offset1.setter
+    def offset1(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def reserved(self) -> int: ...
+    @reserved.setter
+    def reserved(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBDispOffsetConfig:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBAwbGainParams:
+    @property
+    def b_gain(self) -> int: ...
+    @b_gain.setter
+    def b_gain(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def g_gain(self) -> int: ...
+    @g_gain.setter
+    def g_gain(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def r_gain(self) -> int: ...
+    @r_gain.setter
+    def r_gain(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBAwbGainParams:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBHdrConfig:
+    @property
+    def enable(self) -> int: ...
+    @enable.setter
+    def enable(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def exposure_1(self) -> int: ...
+    @exposure_1.setter
+    def exposure_1(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def exposure_2(self) -> int: ...
+    @exposure_2.setter
+    def exposure_2(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def gain_1(self) -> int: ...
+    @gain_1.setter
+    def gain_1(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def gain_2(self) -> int: ...
+    @gain_2.setter
+    def gain_2(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def sequence_name(self) -> int: ...
+    @sequence_name.setter
+    def sequence_name(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBHdrConfig:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBRegionOfInterest:
+    @property
+    def x0_left(self) -> int: ...
+    @x0_left.setter
+    def x0_left(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def x1_right(self) -> int: ...
+    @x1_right.setter
+    def x1_right(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def y0_top(self) -> int: ...
+    @y0_top.setter
+    def y0_top(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def y1_bottom(self) -> int: ...
+    @y1_bottom.setter
+    def y1_bottom(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @staticmethod
+    def from_bytes(data: bytes) -> OBRegionOfInterest:
+        """
+        Decode an exact-size native packed SDK payload.
+        """
+
+    def __init__(self) -> None: ...
+    def to_bytes(self) -> bytes:
+        """
+        Copy the native packed SDK layout.
+        """
+
+class OBFilterConfigValueType:
+    """
+    Members:
+
+      INVALID
+
+      INT
+
+      FLOAT
+
+      BOOLEAN
+    """
+
+    BOOLEAN: typing.ClassVar[OBFilterConfigValueType]
+    FLOAT: typing.ClassVar[OBFilterConfigValueType]
+    INT: typing.ClassVar[OBFilterConfigValueType]
+    INVALID: typing.ClassVar[OBFilterConfigValueType]
+    __members__: typing.ClassVar[dict[str, OBFilterConfigValueType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBFilterConfigSchemaItem:
+    @property
+    def default(self) -> float: ...
+    @default.setter
+    def default(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def max(self) -> float: ...
+    @max.setter
+    def max(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def min(self) -> float: ...
+    @min.setter
+    def min(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def step(self) -> float: ...
+    @step.setter
+    def step(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    type: OBFilterConfigValueType
+    def __init__(self) -> None: ...
+    @property
+    def desc(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+
+class OBHardwareDecimationConfig:
+    @property
+    def factor(self) -> int: ...
+    @factor.setter
+    def factor(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def origin_height(self) -> int: ...
+    @origin_height.setter
+    def origin_height(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def origin_width(self) -> int: ...
+    @origin_width.setter
+    def origin_width(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+
+class OBPlaybackStatus:
+    """
+    Members:
+
+      UNKNOWN
+
+      PLAYING
+
+      PAUSED
+
+      STOPPED
+
+      COUNT
+    """
+
+    COUNT: typing.ClassVar[OBPlaybackStatus]
+    PAUSED: typing.ClassVar[OBPlaybackStatus]
+    PLAYING: typing.ClassVar[OBPlaybackStatus]
+    STOPPED: typing.ClassVar[OBPlaybackStatus]
+    UNKNOWN: typing.ClassVar[OBPlaybackStatus]
+    __members__: typing.ClassVar[dict[str, OBPlaybackStatus]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBFrameMetadataType:
+    """
+    Members:
+
+      TIMESTAMP
+
+      SENSOR_TIMESTAMP
+
+      FRAME_NUMBER
+
+      AUTO_EXPOSURE
+
+      EXPOSURE
+
+      GAIN
+
+      AUTO_WHITE_BALANCE
+
+      WHITE_BALANCE
+
+      BRIGHTNESS
+
+      CONTRAST
+
+      SATURATION
+
+      SHARPNESS
+
+      BACKLIGHT_COMPENSATION
+
+      HUE
+
+      GAMMA
+
+      POWER_LINE_FREQUENCY
+
+      LOW_LIGHT_COMPENSATION
+
+      MANUAL_WHITE_BALANCE
+
+      ACTUAL_FRAME_RATE
+
+      FRAME_RATE
+
+      AE_ROI_LEFT
+
+      AE_ROI_TOP
+
+      AE_ROI_RIGHT
+
+      AE_ROI_BOTTOM
+
+      EXPOSURE_PRIORITY
+
+      HDR_SEQUENCE_NAME
+
+      HDR_SEQUENCE_SIZE
+
+      HDR_SEQUENCE_INDEX
+
+      LASER_POWER
+
+      LASER_POWER_LEVEL
+
+      LASER_STATUS
+
+      GPIO_INPUT_DATA
+
+      DISPARITY_SEARCH_OFFSET
+
+      DISPARITY_SEARCH_RANGE
+
+      COUNT
+    """
+
+    ACTUAL_FRAME_RATE: typing.ClassVar[OBFrameMetadataType]
+    AE_ROI_BOTTOM: typing.ClassVar[OBFrameMetadataType]
+    AE_ROI_LEFT: typing.ClassVar[OBFrameMetadataType]
+    AE_ROI_RIGHT: typing.ClassVar[OBFrameMetadataType]
+    AE_ROI_TOP: typing.ClassVar[OBFrameMetadataType]
+    AUTO_EXPOSURE: typing.ClassVar[OBFrameMetadataType]
+    AUTO_WHITE_BALANCE: typing.ClassVar[OBFrameMetadataType]
+    BACKLIGHT_COMPENSATION: typing.ClassVar[OBFrameMetadataType]
+    BRIGHTNESS: typing.ClassVar[OBFrameMetadataType]
+    CONTRAST: typing.ClassVar[OBFrameMetadataType]
+    COUNT: typing.ClassVar[OBFrameMetadataType]
+    DISPARITY_SEARCH_OFFSET: typing.ClassVar[OBFrameMetadataType]
+    DISPARITY_SEARCH_RANGE: typing.ClassVar[OBFrameMetadataType]
+    EXPOSURE: typing.ClassVar[OBFrameMetadataType]
+    EXPOSURE_PRIORITY: typing.ClassVar[OBFrameMetadataType]
+    FRAME_NUMBER: typing.ClassVar[OBFrameMetadataType]
+    FRAME_RATE: typing.ClassVar[OBFrameMetadataType]
+    GAIN: typing.ClassVar[OBFrameMetadataType]
+    GAMMA: typing.ClassVar[OBFrameMetadataType]
+    GPIO_INPUT_DATA: typing.ClassVar[OBFrameMetadataType]
+    HDR_SEQUENCE_INDEX: typing.ClassVar[OBFrameMetadataType]
+    HDR_SEQUENCE_NAME: typing.ClassVar[OBFrameMetadataType]
+    HDR_SEQUENCE_SIZE: typing.ClassVar[OBFrameMetadataType]
+    HUE: typing.ClassVar[OBFrameMetadataType]
+    LASER_POWER: typing.ClassVar[OBFrameMetadataType]
+    LASER_POWER_LEVEL: typing.ClassVar[OBFrameMetadataType]
+    LASER_STATUS: typing.ClassVar[OBFrameMetadataType]
+    LOW_LIGHT_COMPENSATION: typing.ClassVar[OBFrameMetadataType]
+    MANUAL_WHITE_BALANCE: typing.ClassVar[OBFrameMetadataType]
+    POWER_LINE_FREQUENCY: typing.ClassVar[OBFrameMetadataType]
+    SATURATION: typing.ClassVar[OBFrameMetadataType]
+    SENSOR_TIMESTAMP: typing.ClassVar[OBFrameMetadataType]
+    SHARPNESS: typing.ClassVar[OBFrameMetadataType]
+    TIMESTAMP: typing.ClassVar[OBFrameMetadataType]
+    WHITE_BALANCE: typing.ClassVar[OBFrameMetadataType]
+    __members__: typing.ClassVar[dict[str, OBFrameMetadataType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPoint2f:
+    @property
+    def x(self) -> float: ...
+    @x.setter
+    def x(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @property
+    def y(self) -> float: ...
+    @y.setter
+    def y(self, value: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @typing.overload
+    def __init__(self) -> None: ...
+    @typing.overload
+    def __init__(
+        self, arg0: typing.SupportsFloat | typing.SupportsIndex, arg1: typing.SupportsFloat | typing.SupportsIndex
+    ) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBCalibrationParam:
+    def __init__(self) -> None: ...
+    def get_distortion(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraDistortion: ...
+    def get_extrinsic(
+        self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: typing.SupportsInt | typing.SupportsIndex
+    ) -> OBExtrinsic: ...
+    def get_intrinsic(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraIntrinsic: ...
+    def set_distortion(self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: OBCameraDistortion) -> None: ...
+    def set_extrinsic(
+        self,
+        arg0: typing.SupportsInt | typing.SupportsIndex,
+        arg1: typing.SupportsInt | typing.SupportsIndex,
+        arg2: OBExtrinsic,
+    ) -> None: ...
+    def set_intrinsic(self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: OBCameraIntrinsic) -> None: ...
+
+class OBDeviceAccessMode:
+    """
+    Members:
+
+      OB_DEVICE_ACCESS_DENIED
+
+      OB_DEVICE_EXCLUSIVE_ACCESS
+
+      OB_DEVICE_CONTROL_ACCESS
+
+      OB_DEVICE_MONITOR_ACCESS
+
+      OB_DEVICE_DEFAULT_ACCESS
+    """
+
+    OB_DEVICE_ACCESS_DENIED: typing.ClassVar[OBDeviceAccessMode]
+    OB_DEVICE_CONTROL_ACCESS: typing.ClassVar[OBDeviceAccessMode]
+    OB_DEVICE_DEFAULT_ACCESS: typing.ClassVar[OBDeviceAccessMode]
+    OB_DEVICE_EXCLUSIVE_ACCESS: typing.ClassVar[OBDeviceAccessMode]
+    OB_DEVICE_MONITOR_ACCESS: typing.ClassVar[OBDeviceAccessMode]
+    __members__: typing.ClassVar[dict[str, OBDeviceAccessMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBDeviceAccessState:
+    """
+    Members:
+
+      OB_DEVICE_ACCESS_STATE_UNKNOWN : The access state cannot be determined
+
+      OB_DEVICE_ACCESS_STATE_UNSUPPORTED : The device or current build does not support access-state query
+
+      OB_DEVICE_ACCESS_STATE_AVAILABLE : The device is available for control access
+
+      OB_DEVICE_ACCESS_STATE_CONTROLLED : The device has a controller; monitor access may still be available
+
+      OB_DEVICE_ACCESS_STATE_EXCLUSIVE : The device is held exclusively and cannot be accessed
+
+      OB_DEVICE_ACCESS_STATE_UNREACHABLE : The device did not respond or the network path is unreachable
+
+      OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED : The device supports CCP, but the firmware version is too old
+    """
+
+    OB_DEVICE_ACCESS_STATE_AVAILABLE: typing.ClassVar[OBDeviceAccessState]
+    OB_DEVICE_ACCESS_STATE_CONTROLLED: typing.ClassVar[OBDeviceAccessState]
+    OB_DEVICE_ACCESS_STATE_EXCLUSIVE: typing.ClassVar[OBDeviceAccessState]
+    OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED: typing.ClassVar[OBDeviceAccessState]
+    OB_DEVICE_ACCESS_STATE_UNKNOWN: typing.ClassVar[OBDeviceAccessState]
+    OB_DEVICE_ACCESS_STATE_UNREACHABLE: typing.ClassVar[OBDeviceAccessState]
+    OB_DEVICE_ACCESS_STATE_UNSUPPORTED: typing.ClassVar[OBDeviceAccessState]
+    __members__: typing.ClassVar[dict[str, OBDeviceAccessState]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBIpSourceType:
+    """
+    Members:
+
+      NONE
+
+      LLA
+
+      DHCP
+
+      PERSISTENT
+    """
+
+    DHCP: typing.ClassVar[OBIpSourceType]
+    LLA: typing.ClassVar[OBIpSourceType]
+    NONE: typing.ClassVar[OBIpSourceType]
+    PERSISTENT: typing.ClassVar[OBIpSourceType]
+    __members__: typing.ClassVar[dict[str, OBIpSourceType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBClockType:
+    """
+    Members:
+
+      REALTIME
+
+      MONOTONIC
+    """
+
+    MONOTONIC: typing.ClassVar[OBClockType]
+    REALTIME: typing.ClassVar[OBClockType]
+    __members__: typing.ClassVar[dict[str, OBClockType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBGvcpPortScheme:
+    """
+    Members:
+
+      STANDARD
+
+      B
+    """
+
+    B: typing.ClassVar[OBGvcpPortScheme]
+    STANDARD: typing.ClassVar[OBGvcpPortScheme]
+    __members__: typing.ClassVar[dict[str, OBGvcpPortScheme]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPipelineIssue:
+    """
+    Members:
+
+      NONE
+
+      SDK
+
+      DRIVER
+
+      FW
+
+      HW
+    """
+
+    DRIVER: typing.ClassVar[OBPipelineIssue]
+    FW: typing.ClassVar[OBPipelineIssue]
+    HW: typing.ClassVar[OBPipelineIssue]
+    NONE: typing.ClassVar[OBPipelineIssue]
+    SDK: typing.ClassVar[OBPipelineIssue]
+    __members__: typing.ClassVar[dict[str, OBPipelineIssue]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPipelineStatus:
+    @property
+    def dev_status(self) -> int: ...
+    @dev_status.setter
+    def dev_status(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @property
+    def drv_status(self) -> int: ...
+    @drv_status.setter
+    def drv_status(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    issue: OBPipelineIssue
+    @property
+    def sdk_status(self) -> int: ...
+    @sdk_status.setter
+    def sdk_status(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self) -> None: ...
+    def __repr__(self) -> str: ...
+
+class OBCameraPerformanceMode:
+    """
+    Members:
+
+      ADAPTIVE
+
+      HIGH
+    """
+
+    ADAPTIVE: typing.ClassVar[OBCameraPerformanceMode]
+    HIGH: typing.ClassVar[OBCameraPerformanceMode]
+    __members__: typing.ClassVar[dict[str, OBCameraPerformanceMode]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBColorPreset:
+    """
+    Members:
+
+      DEFAULT
+
+      WARM_BIASED_AWB
+    """
+
+    DEFAULT: typing.ClassVar[OBColorPreset]
+    WARM_BIASED_AWB: typing.ClassVar[OBColorPreset]
+    __members__: typing.ClassVar[dict[str, OBColorPreset]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBUvcBackendType:
+    """
+    Members:
+
+      AUTO
+
+      LIBUVC
+
+      V4L2
+
+      MSMF
+    """
+
+    AUTO: typing.ClassVar[OBUvcBackendType]
+    LIBUVC: typing.ClassVar[OBUvcBackendType]
+    MSMF: typing.ClassVar[OBUvcBackendType]
+    V4L2: typing.ClassVar[OBUvcBackendType]
+    __members__: typing.ClassVar[dict[str, OBUvcBackendType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBIntraCameraSyncReference:
+    """
+    Members:
+
+      START_OF_EXPOSURE
+
+      MIDDLE_OF_EXPOSURE
+
+      END_OF_EXPOSURE
+    """
+
+    END_OF_EXPOSURE: typing.ClassVar[OBIntraCameraSyncReference]
+    MIDDLE_OF_EXPOSURE: typing.ClassVar[OBIntraCameraSyncReference]
+    START_OF_EXPOSURE: typing.ClassVar[OBIntraCameraSyncReference]
+    __members__: typing.ClassVar[dict[str, OBIntraCameraSyncReference]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class StreamProfile:
+    def as_accel_stream_profile(self) -> AccelStreamProfile: ...
+    def as_gyro_stream_profile(self) -> GyroStreamProfile: ...
+    def as_lidar_stream_profile(self) -> LiDARStreamProfile: ...
+    def as_video_stream_profile(self) -> VideoStreamProfile: ...
+    @typing.overload
+    def bind_extrinsic_to(self, arg0: StreamProfile, arg1: OBExtrinsic) -> None: ...
+    @typing.overload
+    def bind_extrinsic_to(self, arg0: OBStreamType, arg1: OBExtrinsic) -> None: ...
+    def get_extrinsic_to(self, arg0: StreamProfile) -> OBExtrinsic: ...
+    def get_format(self) -> OBFormat: ...
+    def get_type(self) -> OBStreamType: ...
+    def is_accel_stream_profile(self) -> bool: ...
+    def is_gyro_stream_profile(self) -> bool: ...
+    def is_lidar_stream_profile(self) -> bool: ...
+    def is_video_stream_profile(self) -> bool: ...
+
+class VideoStreamProfile(StreamProfile):
+    def __repr__(self) -> str: ...
+    def get_decimation_config(self) -> OBHardwareDecimationConfig: ...
+    def get_distortion(self) -> OBCameraDistortion: ...
+    def get_fps(self) -> int: ...
+    def get_height(self) -> int: ...
+    def get_intrinsic(self) -> OBCameraIntrinsic: ...
+    def get_width(self) -> int: ...
+    def set_distortion(self, arg0: OBCameraDistortion) -> None: ...
+    def set_intrinsic(self, arg0: OBCameraIntrinsic) -> None: ...
 
 class AccelStreamProfile(StreamProfile):
     def __repr__(self) -> str: ...
@@ -260,123 +4060,502 @@ class AccelStreamProfile(StreamProfile):
     def get_intrinsic(self) -> OBAccelIntrinsic: ...
     def get_sample_rate(self) -> OBGyroSampleRate: ...
 
-class AlignFilter(Filter):
-    def __init__(self, align_to_stream: OBStreamType) -> None: ...
-    def get_align_to_stream_type(self) -> OBStreamType: ...
-    def set_align_to_stream_profile(self, arg0: StreamProfile) -> None: ...
-    def set_match_target_resolution(self, arg0: bool) -> None: ...
+class GyroStreamProfile(StreamProfile):
+    def __repr__(self) -> str: ...
+    def get_full_scale_range(self) -> OBGyroFullScaleRange: ...
+    def get_intrinsic(self) -> OBGyroIntrinsic: ...
+    def get_sample_rate(self) -> OBGyroSampleRate: ...
 
-class ApplicationConfig:
-    @staticmethod
-    def get(device: Device) -> ApplicationConfig:
-        """
-        Get the application runtime configuration cache for the device
-        """
+class LiDARStreamProfile(StreamProfile):
+    def get_scan_rate(self) -> OBLiDARScanRate: ...
 
-    @staticmethod
-    def get_by_preset(device: Device, preset_name: str) -> ApplicationConfig:
-        """
-        Get the application config carried by an externally imported preset, by preset name. Returns None for built-in presets or presets that carry no application config
-        """
+class StreamProfileList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> StreamProfile: ...
+    def __len__(self) -> int: ...
+    def get_accel_stream_profile(self, arg0: OBAccelFullScaleRange, arg1: OBGyroSampleRate) -> AccelStreamProfile: ...
+    def get_count(self) -> int: ...
+    def get_default_video_stream_profile(self) -> VideoStreamProfile: ...
+    def get_gyro_stream_profile(self, arg0: OBGyroFullScaleRange, arg1: OBGyroSampleRate) -> GyroStreamProfile: ...
+    def get_lidar_stream_profile(self, arg0: OBLiDARScanRate, arg1: OBFormat) -> LiDARStreamProfile: ...
+    def get_stream_profile_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> StreamProfile: ...
+    @typing.overload
+    def get_video_stream_profile(
+        self,
+        width: typing.SupportsInt | typing.SupportsIndex = 0,
+        height: typing.SupportsInt | typing.SupportsIndex = 0,
+        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
+        fps: typing.SupportsInt | typing.SupportsIndex = 0,
+    ) -> VideoStreamProfile: ...
+    @typing.overload
+    def get_video_stream_profile(
+        self,
+        decimation_config: OBHardwareDecimationConfig,
+        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
+        fps: typing.SupportsInt | typing.SupportsIndex = 0,
+    ) -> VideoStreamProfile: ...
 
-    @staticmethod
-    def is_supported(device: Device) -> bool:
-        """
-        Check whether the device supports application runtime configuration import/export
-        """
+class Sensor:
+    def __repr__(self) -> str: ...
+    def get_recommended_filters(self) -> list[Filter]: ...
+    def get_stream_profile_list(self) -> StreamProfileList: ...
+    def get_type(self) -> OBSensorType: ...
+    def start(self, arg0: StreamProfile, arg1: typing.Callable) -> None: ...
+    def stop(self) -> None: ...
+    def switch_profile(self, arg0: StreamProfile) -> None: ...
 
-    def device_decimation(self) -> ApplicationDevDecimationConfig:
-        """
-        Get the device decimation configuration
-        """
+class SensorList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Sensor: ...
+    def __len__(self) -> int: ...
+    def get_count(self) -> int: ...
+    def get_sensor_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Sensor: ...
+    def get_sensor_by_type(self, arg0: OBSensorType) -> Sensor: ...
+    def get_type_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBSensorType: ...
 
-    def hdr_merge(self) -> ApplicationHDRMergeConfig:
+class DeviceInfo:
+    def __repr__(self) -> str: ...
+    def get_asic_name(self) -> str:
         """
-        Get the HDR merge configuration
-        """
-
-    def point_cloud(self) -> ApplicationPointCloudConfig:
-        """
-        Get the point cloud configuration
-        """
-
-    def reset(self) -> None:
-        """
-        Reset the application configuration to default values
-        """
-
-    def sensors(self) -> list[ApplicationSensorConfig]:
-        """
-        Get the list of sensor configurations
-        """
-
-    def set_device_decimation(self, config: ApplicationDevDecimationConfig) -> None:
-        """
-        Set the device decimation configuration
-        """
-
-    def set_hdr_merge(self, config: ApplicationHDRMergeConfig) -> None:
-        """
-        Set the HDR merge configuration
+        Get the ASIC name of the device
         """
 
-    def set_point_cloud(self, config: ApplicationPointCloudConfig) -> None:
+    def get_connection_type(self) -> str:
         """
-        Set the point cloud configuration
-        """
-
-    def set_sensor(self, sensor: ApplicationSensorConfig) -> None:
-        """
-        Set a single sensor configuration
+        Get the connection type of the device
         """
 
-    def set_sensors(self, sensors: collections.abc.Sequence[ApplicationSensorConfig]) -> None:
+    def get_device_gateway(self) -> str:
         """
-        Set the list of sensor configurations
-        """
-
-class ApplicationDevDecimationConfig:
-    def __init__(self) -> None: ...
-    def enable(self, enabled: bool) -> None:
-        """
-        Enable or disable device-level decimation
+        Get device gateway
         """
 
-    def is_enabled(self) -> bool:
+    def get_device_ip_address(self) -> str:
         """
-        Check if device-level decimation is enabled
-        """
-
-    def preset_resolution_config(self) -> OBPresetResolutionConfig:
-        """
-        Get the preset resolution configuration
+        Get device ip address
         """
 
-    def set_preset_resolution_config(self, config: OBPresetResolutionConfig) -> None:
+    def get_device_subnet_mask(self) -> str:
         """
-        Set the preset resolution configuration
-        """
-
-class ApplicationHDRMergeConfig:
-    def __init__(self) -> None: ...
-    def enable(self, enabled: bool) -> None:
-        """
-        Enable or disable HDR merge
+        Get device subnet mask
         """
 
-    def enable_ir(self, enabled: bool) -> None:
+    def get_device_type(self) -> OBDeviceType:
         """
-        Enable or disable IR for HDR merge
-        """
-
-    def is_enabled(self) -> bool:
-        """
-        Check if HDR merge is enabled
+        Get the device type
         """
 
-    def is_ir_enabled(self) -> bool:
+    def get_firmware_version(self) -> str:
         """
-        Check if IR is enabled for HDR merge
+        Get the version number of the firmware
+        """
+
+    def get_hardware_version(self) -> str:
+        """
+        Get the version number of the hardware
+        """
+
+    def get_name(self) -> str:
+        """
+        Get device name
+        """
+
+    def get_pid(self) -> int:
+        """
+        Get device pid
+        """
+
+    def get_serial_number(self) -> str:
+        """
+        Get the serial number of the device
+        """
+
+    def get_supported_min_sdk_version(self) -> str:
+        """
+        Get the minimum version number of the SDK supported by the device
+        """
+
+    def get_uid(self) -> str:
+        """
+        Get system assigned uid for distinguishing between different devices
+        """
+
+    def get_vid(self) -> int:
+        """
+        Get device vid
+        """
+
+class DevicePresetList:
+    def __contains__(self, arg0: str) -> bool: ...
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def __len__(self) -> int: ...
+    def get_count(self) -> int: ...
+    def get_depth_work_mode_version(self, index: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Get the depth work mode version of the preset at the specified index, e.g. "1.2.3". Empty string when the device does not support versioned modes
+        """
+
+    def get_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def has_preset(self, arg0: str) -> bool: ...
+
+class ColorPresetList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def __len__(self) -> int: ...
+    def get_count(self) -> int: ...
+    def get_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+
+class OBDepthWorkModeList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBDepthWorkMode: ...
+    def __len__(self) -> int: ...
+    def get_count(self) -> int:
+        """
+        Get the number of OBDepthWorkMode objects in the list
+        """
+
+    def get_depth_work_mode_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBDepthWorkMode:
+        """
+        Get the OBDepthWorkMode object at the specified index
+        """
+
+class PresetResolutionConfigList:
+    def get_count(self) -> int:
+        """
+        Get the number of device preset resolution ratio in the list
+        """
+
+    def get_preset_resolution_ratio_config(
+        self, arg0: typing.SupportsInt | typing.SupportsIndex
+    ) -> OBPresetResolutionConfig:
+        """
+        Get the device preset resolution ratio at the specified index
+        """
+
+class CameraParamList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraParam: ...
+    def __len__(self) -> int: ...
+    def get_camera_param(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraParam:
+        """
+        Get the camera parameters for the specified index
+        """
+
+    def get_count(self) -> int:
+        """
+        Get the number of devices in the list
+        """
+
+class Device:
+    __hash__: typing.ClassVar[None] = None  # type: ignore[assignment]
+    def __eq__(self, arg0: object) -> bool: ...
+    def clear_license_info(self) -> None:
+        """
+        Clear license information stored on the device
+        """
+
+    def enable_firmware_log(self, arg0: bool) -> None:
+        """
+        Enable or disable the device firmware log
+        """
+
+    def enable_global_timestamp(self, enable: bool) -> None:
+        """
+        Enable or disable global timestamp
+        """
+
+    def enable_heart_beat(self, arg0: bool) -> None: ...
+    def export_settings_as_preset_json_data(self, preset_name: str) -> bytes:
+        """
+        Export current device settings as a preset JSON data blob
+        """
+
+    def export_settings_as_preset_json_file(self, arg0: str) -> None: ...
+    def get_available_frame_interleave_list(self) -> DeviceFrameInterleaveList:
+        """
+        Get the list of available frame interleave modes
+        """
+
+    def get_available_preset_list(self) -> DevicePresetList: ...
+    def get_available_preset_resolution_config_list(self) -> PresetResolutionConfigList: ...
+    def get_baseline(self) -> OBBaselineCalibrationParam: ...
+    def get_bool_property(self, arg0: OBPropertyID) -> bool: ...
+    def get_bool_property_range(self, arg0: OBPropertyID) -> OBBoolPropertyRange: ...
+    def get_calibration_camera_param_list(self) -> CameraParamList: ...
+    def get_color_preset_list(self) -> ColorPresetList: ...
+    def get_current_color_preset_name(self) -> str: ...
+    def get_current_depth_mode_name(self) -> str:
+        """
+        Get the current depth work mode name
+        """
+
+    def get_current_frame_interleave_name(self) -> str:
+        """
+        Get current frame interleave name
+        """
+
+    def get_current_preset_depth_work_mode_version(self) -> str:
+        """
+        Get the version of the current depth work mode, e.g. "1.2.3". Empty string when the device does not support versioned modes
+        """
+
+    def get_current_preset_name(self) -> str: ...
+    def get_depth_work_mode(self) -> OBDepthWorkMode: ...
+    def get_depth_work_mode_list(self) -> OBDepthWorkModeList: ...
+    def get_device_info(self) -> DeviceInfo: ...
+    def get_device_state(self) -> int: ...
+    def get_extension_info(self, info_key: str) -> str:
+        """
+        Get extension info by key
+        """
+
+    def get_float_property(self, arg0: OBPropertyID) -> float: ...
+    def get_float_property_range(self, arg0: OBPropertyID) -> OBFloatPropertyRange: ...
+    def get_hdr_config(self) -> OBHdrConfig:
+        """
+        Read the fixed-size HDR configuration as OBHdrConfig.
+        """
+
+    def get_int_property(self, arg0: OBPropertyID) -> int: ...
+    def get_int_property_range(self, arg0: OBPropertyID) -> OBIntPropertyRange: ...
+    def get_monitor_poll_interval(self) -> int:
+        """
+        Get the device monitor polling interval in milliseconds
+        """
+
+    def get_multi_device_sync_config(self) -> OBMultiDeviceSyncConfig: ...
+    def get_sensor(self, arg0: OBSensorType) -> Sensor: ...
+    def get_sensor_list(self) -> SensorList: ...
+    def get_structured_data(self, property_id: OBPropertyID) -> bytes:
+        """
+        Read bytes for a property with a known SDK layout. Sync config and depth work mode use public SDK structs via dedicated SDK methods. Unknown or variable-size layouts raise ValueError before SDK access; unsupported/unreadable device properties raise OBError.
+        """
+
+    def get_support_property_count(self) -> int: ...
+    def get_supported_multi_device_sync_mode_bitmap(self) -> int:
+        """
+        Get the supported multi-device sync mode bitmap
+        """
+
+    def get_supported_property(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBPropertyItem: ...
+    def get_temperature(self) -> OBDeviceTemperature: ...
+    def get_timestamp_reset_config(self) -> OBDeviceTimestampResetConfig: ...
+    def isFrameInterleaveSupported(self) -> bool: ...
+    def is_color_preset_supported(self) -> bool: ...
+    def is_extension_info_exist(self, info_key: str) -> bool:
+        """
+        Check if extension info exists
+        """
+
+    def is_firmware_log_enabled(self) -> bool:
+        """
+        Check whether the device firmware log is enabled
+        """
+
+    def is_global_timestamp_supported(self) -> bool:
+        """
+        Check if global timestamp is supported
+        """
+
+    def is_license_authorization_supported(self) -> bool:
+        """
+        Check whether the device supports license authorization
+        """
+
+    def is_property_supported(self, arg0: OBPropertyID, arg1: OBPermissionType) -> bool: ...
+    def loadFrameInterleave(self, arg0: str) -> None: ...
+    def load_depth_filter_config(self, arg0: str) -> None: ...
+    @typing.overload
+    def load_preset(self, preset_name: str) -> None: ...
+    @typing.overload
+    def load_preset(self, preset_name: str, version: str) -> None:
+        """
+        Load the preset by preset name and the target depth work mode version, e.g. "1.2.3"
+        """
+
+    def load_preset_from_json_data(self, arg0: str, arg1: str) -> None: ...
+    def load_preset_from_json_file(self, arg0: str) -> None: ...
+    def read_customer_data(self) -> bytes: ...
+    def read_license_info(self) -> str:
+        """
+        Read signed device license information as SDK license_info JSON string
+        """
+
+    @typing.overload
+    def reboot(self) -> None: ...
+    @typing.overload
+    def reboot(self, delay_ms: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        """
+        Reboot the device with optional delay
+        """
+
+    def send_and_receive_data(self, data: bytes, receive_capacity: typing.SupportsInt | typing.SupportsIndex) -> bytes:
+        """
+        Send SDK protocol bytes and return the actual response bytes.
+        """
+
+    def set_bool_property(self, arg0: OBPropertyID, arg1: bool) -> None: ...
+    @typing.overload
+    def set_depth_work_mode(self, arg0: OBDepthWorkMode) -> OBStatus: ...
+    @typing.overload
+    def set_depth_work_mode(self, arg0: str) -> OBStatus: ...
+    def set_device_state_changed_callback(self, arg0: typing.Callable) -> None: ...
+    def set_float_property(self, arg0: OBPropertyID, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def set_hdr_config(self, arg0: OBHdrConfig) -> None: ...
+    def set_int_property(self, arg0: OBPropertyID, arg1: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @typing.overload
+    def set_ip_config(self, arg0: OBNetIpConfigV2) -> None: ...
+    @typing.overload
+    def set_ip_config(self, arg0: OBDeviceIpAddrConfig) -> None: ...
+    def set_monitor_poll_interval(self, interval_ms: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Set the device monitor polling interval for heartbeat and firmware log retrieval, in milliseconds (valid range [1000, 10000], values outside are clamped)
+        """
+
+    def set_multi_device_sync_config(self, arg0: OBMultiDeviceSyncConfig) -> None: ...
+    def set_preset_resolution_config(self, arg0: OBPresetResolutionConfig) -> None: ...
+    def set_structured_data(self, property_id: OBPropertyID, data: bytes) -> None:
+        """
+        Set a structured property from non-empty bytes in the SDK's native struct layout. The byte length is inferred; property/type matching and serialization are the caller's responsibility.
+        """
+
+    def set_timestamp_reset_config(self, arg0: OBDeviceTimestampResetConfig) -> None: ...
+    def switch_color_preset(self, arg0: str) -> None: ...
+    def sync_hardware_pps_time(self, hardware_pps_time: typing.SupportsInt | typing.SupportsIndex) -> bool:
+        """
+        Synchronize the device time (synchronize hardwarePPS time to device)
+        """
+
+    def timer_reset(self) -> None: ...
+    def timer_sync_with_host(self) -> None: ...
+    def timestamp_reset(self) -> None: ...
+    def trigger_capture(self) -> None: ...
+    def update_firmware(self, file_path: str, callback: typing.Callable, async_update: bool = True) -> None: ...
+    def update_firmware_from_data(
+        self, data: bytes, callback: typing.Callable[[OBUpgradeState, str, int], None], async_update: bool = True
+    ) -> None:
+        """
+        Update from firmware bytes. Keep Device alive until completion. Callback exceptions are reported via sys.unraisablehook.
+        """
+
+    def update_optional_depth_presets(self, file_path_list: list, callback: typing.Callable) -> None: ...
+    def update_optional_depth_presets_from_data(self, data_list: list, callback: typing.Callable) -> None:
+        """
+        Update the device optional depth presets from preset data blocks loaded in memory (a list of bytes objects)
+        """
+
+    def write_customer_data(self, data: bytes) -> None: ...
+    def write_license_info(self, license_info: str) -> None:
+        """
+        Write signed device license information (SDK license_info JSON string)
+        """
+
+class DeviceList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Device: ...
+    def __len__(self) -> int: ...
+    def get_count(self) -> int: ...
+    def get_device_by_index(
+        self,
+        index: typing.SupportsInt | typing.SupportsIndex,
+        access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS,
+    ) -> Device: ...
+    def get_device_by_serial_number(
+        self, serial_number: str, access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS
+    ) -> Device: ...
+    def get_device_by_uid(
+        self, uid: str, access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS
+    ) -> Device: ...
+    def get_device_connection_type_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_gateway_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_ip_address_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_pid_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> int: ...
+    def get_device_serial_number_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_subnet_mask_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_uid_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def get_device_user_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Get the user-defined name of the device at the specified index
+        """
+
+    def get_device_vid_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> int: ...
+    def get_ip_source_type(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBIpSourceType:
+        """
+        Get the current GVCP IP configuration status of the device
+        """
+
+    def get_local_gateway(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Get the host gateway for the specified device
+        """
+
+    def get_local_ip(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Get the host Ip address for the specified device
+        """
+
+    def get_local_mac_address(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Get the host Mac address for the specified device
+        """
+
+    def get_local_net_interface_name(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Get the name of the host network interface corresponding to the device
+        """
+
+    def get_local_subnet_length(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> int:
+        """
+        Get the host subnet length for the specified device
+        """
+
+    def query_device_access_state(self, index: typing.SupportsInt | typing.SupportsIndex) -> OBDeviceAccessState:
+        """
+        Query the current device access state (GVCP CCP) without opening the device. Blocks on the network; prefer calling off the UI thread
+        """
+
+    def query_device_access_state_by_serial_number(self, serial_number: str) -> OBDeviceAccessState:
+        """
+        Query the current device access state (GVCP CCP) by serial number without opening the device. Blocks on the network; prefer calling off the UI thread
+        """
+
+class DeviceFrameInterleaveList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def __len__(self) -> int: ...
+    def get_count(self) -> int: ...
+    def get_name(self, index: typing.SupportsInt | typing.SupportsIndex) -> str: ...
+    def has_frame_interleave(self, name: str) -> bool: ...
+
+class ApplicationSensorConfig:
+    def __init__(self, sensor_type: OBSensorType) -> None: ...
+    def enable_stream(self, enabled: bool) -> None:
+        """
+        Enable or disable the stream
+        """
+
+    def enable_undistortion(self, enabled: bool) -> None:
+        """
+        Enable or disable undistortion
+        """
+
+    def is_stream_enabled(self) -> bool:
+        """
+        Check if the stream is enabled
+        """
+
+    def is_undistortion_enabled(self) -> bool:
+        """
+        Check if undistortion is enabled
+        """
+
+    def sensor_type(self) -> OBSensorType:
+        """
+        Get the sensor type
+        """
+
+    def set_stream_profile(self, profile: StreamProfile) -> None:
+        """
+        Set the stream profile
+        """
+
+    def stream_profile(self) -> typing.Optional[StreamProfile]:
+        """
+        Get the stream profile
         """
 
 class ApplicationPointCloudConfig:
@@ -451,775 +4630,117 @@ class ApplicationPointCloudConfig:
         Set the point cloud output format
         """
 
-class ApplicationSensorConfig:
-    def __init__(self, sensor_type: OBSensorType) -> None: ...
-    def enable_stream(self, enabled: bool) -> None:
-        """
-        Enable or disable the stream
-        """
-
-    def enable_undistortion(self, enabled: bool) -> None:
-        """
-        Enable or disable undistortion
-        """
-
-    def is_stream_enabled(self) -> bool:
-        """
-        Check if the stream is enabled
-        """
-
-    def is_undistortion_enabled(self) -> bool:
-        """
-        Check if undistortion is enabled
-        """
-
-    def sensor_type(self) -> OBSensorType:
-        """
-        Get the sensor type
-        """
-
-    def set_stream_profile(self, profile: StreamProfile) -> None:
-        """
-        Set the stream profile
-        """
-
-    def stream_profile(self) -> StreamProfile:
-        """
-        Get the stream profile
-        """
-
-class CameraParamList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraParam: ...
-    def __len__(self) -> int: ...
-    def get_camera_param(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraParam:
-        """
-        Get the camera parameters for the specified index
-        """
-
-    def get_count(self) -> int:
-        """
-        Get the number of devices in the list
-        """
-
-class ColorFrame(VideoFrame):
-    pass
-
-class ColorPresetList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def __len__(self) -> int: ...
-    def get_count(self) -> int: ...
-    def get_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-
-class ConfidenceFrame(VideoFrame):
-    pass
-
-class Config:
+class ApplicationHDRMergeConfig:
     def __init__(self) -> None: ...
-    def disable_all_stream(self) -> None: ...
-    @typing.overload
-    def disable_stream(self, arg0: OBStreamType) -> None: ...
-    @typing.overload
-    def disable_stream(self, arg0: OBSensorType) -> None: ...
-    def enable_accel_stream(
-        self,
-        full_scale_range: OBAccelFullScaleRange = OBAccelFullScaleRange.ACCEL_FS_UNKNOWN,
-        sample_rate: OBGyroSampleRate = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN,
-    ) -> None: ...
-    def enable_all_stream(self) -> None: ...
-    def enable_gyro_stream(
-        self,
-        full_scale_range: OBGyroFullScaleRange = OBGyroFullScaleRange.FS_UNKNOWN,
-        sample_rate: OBGyroSampleRate = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN,
-    ) -> None: ...
-    def enable_lidar_stream(
-        self,
-        scan_rate: OBLiDARScanRate = OBLiDARScanRate.LIDAR_SCAN_UNKNOWN,
-        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
-    ) -> None: ...
-    @typing.overload
-    def enable_stream(self, arg0: StreamProfile) -> None: ...
-    @typing.overload
-    def enable_stream(self, arg0: OBStreamType) -> None: ...
-    @typing.overload
-    def enable_stream(self, arg0: OBSensorType) -> None: ...
-    @typing.overload
-    def enable_video_stream(
-        self,
-        stream_type: OBStreamType,
-        width: typing.SupportsInt | typing.SupportsIndex = 0,
-        height: typing.SupportsInt | typing.SupportsIndex = 0,
-        fps: typing.SupportsInt | typing.SupportsIndex = 0,
-        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
-    ) -> None: ...
-    @typing.overload
-    def enable_video_stream(
-        self,
-        sensor_type: OBSensorType,
-        width: typing.SupportsInt | typing.SupportsIndex = 0,
-        height: typing.SupportsInt | typing.SupportsIndex = 0,
-        fps: typing.SupportsInt | typing.SupportsIndex = 0,
-        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
-    ) -> None: ...
-    @typing.overload
-    def enable_video_stream(
-        self,
-        sensor_type: OBSensorType,
-        decimation_config: OBHardwareDecimationConfig,
-        fps: typing.SupportsInt | typing.SupportsIndex = 0,
-        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
-    ) -> None: ...
-    def get_enabled_stream_profile_list(self) -> StreamProfileList: ...
-    def set_align_mode(self, arg0: OBAlignMode) -> None: ...
-    def set_depth_scale_require(self, arg0: bool) -> None: ...
-    def set_frame_aggregate_output_mode(self, arg0: OBFrameAggregateOutputMode) -> None: ...
-
-class Context:
-    @staticmethod
-    def log_external_message(
-        arg0: OBLogLevel, arg1: str, arg2: str, arg3: str, arg4: str, arg5: typing.SupportsInt | typing.SupportsIndex
-    ) -> None: ...
-    @staticmethod
-    def set_extensions_directory(path: str) -> None:
+    def enable(self, enabled: bool) -> None:
         """
-        Set the extensions directory for loading extension modules
+        Enable or disable HDR merge
         """
 
-    @staticmethod
-    def set_logger_file_name(arg0: str) -> None:
+    def enable_ir(self, enabled: bool) -> None:
         """
-        Set logger file name
-        """
-
-    @staticmethod
-    def set_logger_level(arg0: OBLogLevel) -> None: ...
-    @staticmethod
-    def set_logger_to_callback(arg0: OBLogLevel, arg1: collections.abc.Callable) -> None:
-        """
-        Set logger to callback
+        Enable or disable IR for HDR merge
         """
 
-    @staticmethod
-    def set_logger_to_console(arg0: OBLogLevel) -> None:
+    def is_enabled(self) -> bool:
         """
-        Set logger to console
-        """
-
-    @staticmethod
-    def set_logger_to_file(arg0: OBLogLevel, arg1: str) -> None:
-        """
-        Set logger to file
+        Check if HDR merge is enabled
         """
 
-    @typing.overload
+    def is_ir_enabled(self) -> bool:
+        """
+        Check if IR is enabled for HDR merge
+        """
+
+class ApplicationDevDecimationConfig:
     def __init__(self) -> None: ...
-    @typing.overload
-    def __init__(self, arg0: str) -> None: ...
-    def create_net_device(
-        self,
-        address: str,
-        port: typing.SupportsInt | typing.SupportsIndex,
-        access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS,
-    ) -> Device:
+    def enable(self, enabled: bool) -> None:
         """
-        Create net device
+        Enable or disable device-level decimation
         """
 
-    def enable_multi_device_sync(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+    def is_enabled(self) -> bool:
         """
-        Activates the multi-device synchronization function to synchronize the clock of the created device (the device needs to support this function).repeat_interval: The synchronization time interval (unit: ms; if repeatInterval=0, it means that it will only be synchronized once and will not be executed regularly).
+        Check if device-level decimation is enabled
         """
 
-    def enable_net_device_enumeration(self, arg0: bool) -> None: ...
-    def free_idle_memory(self) -> None:
+    def preset_resolution_config(self) -> OBPresetResolutionConfig:
         """
-        Free idle memory from the internal frame memory pool
+        Get the preset resolution configuration
         """
 
-    def get_gvcp_port_scheme(self) -> OBGvcpPortScheme:
+    def set_preset_resolution_config(self, config: OBPresetResolutionConfig) -> None:
         """
-        Get the current GVCP port scheme
+        Set the preset resolution configuration
         """
 
-    def get_timestamp_clock_type(self) -> OBClockType:
-        """
-        Get the current host-side timestamp clock type for the context
-        """
-
-    def ob_force_ip_config(self, arg0: str, arg1: OBDeviceIpAddrConfig) -> bool:
-        """
-        Change the IP configuration
-        """
-
-    def query_devices(self) -> DeviceList:
-        """
-        Query devices
-        """
-
-    def register_device_changed_callback(self, arg0: collections.abc.Callable) -> int: ...
-    def send_action_command(
-        self,
-        device_key: typing.SupportsInt | typing.SupportsIndex,
-        group_key: typing.SupportsInt | typing.SupportsIndex,
-        group_mask: typing.SupportsInt | typing.SupportsIndex,
-        dest_ip: str = "255.255.255.255",
-        scheduled_time: typing.SupportsInt | typing.SupportsIndex = 0,
-    ) -> bool:
-        """
-        Send an Action Command to GVCP devices
-        """
-
-    def set_device_changed_callback(self, arg0: collections.abc.Callable) -> None:
-        """
-        Set device changed callback, callback will be called when device changed
-        """
-
-    def set_gvcp_port_scheme(self, arg0: OBGvcpPortScheme) -> None:
-        """
-        Set the GVCP port scheme used for network device discovery and control
-        """
-
-    def set_timestamp_clock_type(self, clock_type: OBClockType) -> None:
-        """
-        Set the host-side timestamp clock type for the current context
-        """
-
-    def set_uvc_backend_type(self, type: OBUvcBackendType) -> None:
-        """
-        Set the UVC backend type (Linux only: LIBUVC or V4L2)
-        """
-
-    def sync_device_hardware_pps_time(self, hardware_pps_time: typing.SupportsInt | typing.SupportsIndex) -> None:
-        """
-        Synchronize the device time (synchronize hardwarePPS time to all created devices)
-        """
-
-    def unregister_device_changed_callback(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class DecimationFilter(Filter):
-    def __init__(self) -> None: ...
-    def get_scale_range(self) -> OBUint8PropertyRange: ...
-    def get_scale_value(self) -> int: ...
-    def set_scale_value(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class DepthFrame(VideoFrame):
-    def get_depth_scale(self) -> float: ...
-    def set_value_scale(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class Device:
-    __hash__: typing.ClassVar[None] = None
-    def __eq__(self, arg0: Device) -> bool: ...
-    def clear_license_info(self) -> None:
-        """
-        Clear license information stored on the device
-        """
-
-    def enable_firmware_log(self, arg0: bool) -> None:
-        """
-        Enable or disable the device firmware log
-        """
-
-    def enable_global_timestamp(self, enable: bool) -> None:
-        """
-        Enable or disable global timestamp
-        """
-
-    def enable_heart_beat(self, arg0: bool) -> None: ...
-    def export_settings_as_preset_json_data(self, preset_name: str) -> bytes:
-        """
-        Export current device settings as a preset JSON data blob
-        """
-
-    def export_settings_as_preset_json_file(self, arg0: str) -> None: ...
-    def get_available_frame_interleave_list(self) -> DeviceFrameInterleaveList:
-        """
-        Get the list of available frame interleave modes
-        """
-
-    def get_available_preset_list(self) -> DevicePresetList: ...
-    def get_available_preset_resolution_config_list(self) -> PresetResolutionConfigList: ...
-    def get_baseline(self) -> OBBaselineCalibrationParam: ...
-    def get_bool_property(self, arg0: OBPropertyID) -> bool: ...
-    def get_bool_property_range(self, arg0: OBPropertyID) -> OBBoolPropertyRange: ...
-    def get_calibration_camera_param_list(self) -> CameraParamList: ...
-    def get_color_preset_list(self) -> ColorPresetList: ...
-    def get_current_color_preset_name(self) -> str: ...
-    def get_current_depth_mode_name(self) -> str:
-        """
-        Get the current depth work mode name
-        """
-
-    def get_current_frame_interleave_name(self) -> str:
-        """
-        Get current frame interleave name
-        """
-
-    def get_current_preset_depth_work_mode_version(self) -> str:
-        """
-        Get the version of the current depth work mode, e.g. "1.2.3". Empty string when the device does not support versioned modes
-        """
-
-    def get_current_preset_name(self) -> str: ...
-    def get_depth_work_mode(self) -> OBDepthWorkMode: ...
-    def get_depth_work_mode_list(self) -> OBDepthWorkModeList: ...
-    def get_device_info(self) -> DeviceInfo: ...
-    def get_device_state(self) -> int: ...
-    def get_extension_info(self, info_key: str) -> str:
-        """
-        Get extension info by key
-        """
-
-    def get_float_property(self, arg0: OBPropertyID) -> float: ...
-    def get_float_property_range(self, arg0: OBPropertyID) -> OBFloatPropertyRange: ...
-    def get_int_property(self, arg0: OBPropertyID) -> int: ...
-    def get_int_property_range(self, arg0: OBPropertyID) -> OBIntPropertyRange: ...
-    def get_monitor_poll_interval(self) -> int:
-        """
-        Get the device monitor polling interval in milliseconds
-        """
-
-    def get_multi_device_sync_config(self) -> OBMultiDeviceSyncConfig: ...
-    def get_sensor(self, arg0: OBSensorType) -> Sensor: ...
-    def get_sensor_list(self) -> SensorList: ...
-    def get_support_property_count(self) -> int: ...
-    def get_supported_multi_device_sync_mode_bitmap(self) -> int:
-        """
-        Get the supported multi-device sync mode bitmap
-        """
-
-    def get_supported_property(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBPropertyItem: ...
-    def get_temperature(self) -> OBDeviceTemperature: ...
-    def get_timestamp_reset_config(self) -> OBDeviceTimestampResetConfig: ...
-    def isFrameInterleaveSupported(self) -> bool: ...
-    def is_color_preset_supported(self) -> bool: ...
-    def is_extension_info_exist(self, info_key: str) -> bool:
-        """
-        Check if extension info exists
-        """
-
-    def is_firmware_log_enabled(self) -> bool:
-        """
-        Check whether the device firmware log is enabled
-        """
-
-    def is_global_timestamp_supported(self) -> bool:
-        """
-        Check if global timestamp is supported
-        """
-
-    def is_license_authorization_supported(self) -> bool:
-        """
-        Check whether the device supports license authorization
-        """
-
-    def is_property_supported(self, arg0: OBPropertyID, arg1: OBPermissionType) -> bool: ...
-    def loadFrameInterleave(self, arg0: str) -> None: ...
-    def load_depth_filter_config(self, arg0: str) -> None: ...
-    @typing.overload
-    def load_preset(self, preset_name: str) -> None: ...
-    @typing.overload
-    def load_preset(self, preset_name: str, version: str) -> None:
-        """
-        Load the preset by preset name and the target depth work mode version, e.g. "1.2.3"
-        """
-
-    def load_preset_from_json_data(self, arg0: str, arg1: str) -> None: ...
-    def load_preset_from_json_file(self, arg0: str) -> None: ...
-    def read_license_info(self) -> str:
-        """
-        Read signed device license information as SDK license_info JSON string
-        """
-
-    @typing.overload
-    def reboot(self) -> None: ...
-    @typing.overload
-    def reboot(self, delay_ms: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
-        """
-        Reboot the device with optional delay
-        """
-
-    def set_bool_property(self, arg0: OBPropertyID, arg1: bool) -> None: ...
-    @typing.overload
-    def set_depth_work_mode(self, arg0: OBDepthWorkMode) -> OBStatus: ...
-    @typing.overload
-    def set_depth_work_mode(self, arg0: str) -> OBStatus: ...
-    def set_device_state_changed_callback(self, arg0: collections.abc.Callable) -> None: ...
-    def set_float_property(self, arg0: OBPropertyID, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    def get_hdr_config(self) -> OBHdrConfig: ...
-    def get_structured_data(self, property_id: OBPropertyID) -> bytes:
-        """Read a fixed public SDK layout; unknown/variable layouts raise ValueError."""
-    def set_structured_data(self, property_id: OBPropertyID, data: bytes) -> None:
-        """Set non-empty bytes matching the SDK's native struct layout."""
-    def send_and_receive_data(self, data: bytes, receive_capacity: int) -> bytes:
-        """Send SDK protocol bytes; capacity is positive and fits uint32_t."""
-    def write_customer_data(self, data: bytes) -> None:
-        """Write customer data (at most 65532 bytes); requires device support."""
-    def read_customer_data(self) -> bytes:
-        """Read customer data using the SDK's documented maximum buffer size."""
-    def set_hdr_config(self, arg0: OBHdrConfig) -> None: ...
-    def set_int_property(self, arg0: OBPropertyID, arg1: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @typing.overload
-    def set_ip_config(self, arg0: OBNetIpConfigV2) -> None: ...
-    @typing.overload
-    def set_ip_config(self, arg0: OBDeviceIpAddrConfig) -> None: ...
-    def set_monitor_poll_interval(self, interval_ms: typing.SupportsInt | typing.SupportsIndex) -> None:
-        """
-        Set the device monitor polling interval for heartbeat and firmware log retrieval, in milliseconds (valid range [1000, 10000], values outside are clamped)
-        """
-
-    def set_multi_device_sync_config(self, arg0: OBMultiDeviceSyncConfig) -> None: ...
-    def set_preset_resolution_config(self, arg0: OBPresetResolutionConfig) -> None: ...
-    def set_timestamp_reset_config(self, arg0: OBDeviceTimestampResetConfig) -> None: ...
-    def switch_color_preset(self, arg0: str) -> None: ...
-    def sync_hardware_pps_time(self, hardware_pps_time: typing.SupportsInt | typing.SupportsIndex) -> bool:
-        """
-        Synchronize the device time (synchronize hardwarePPS time to device)
-        """
-
-    def timer_reset(self) -> None: ...
-    def timer_sync_with_host(self) -> None: ...
-    def timestamp_reset(self) -> None: ...
-    def trigger_capture(self) -> None: ...
-    def update_firmware(
-        self, file_path: str, callback: collections.abc.Callable, async_update: bool = True
-    ) -> None: ...
-    def update_firmware_from_data(
-        self,
-        data: bytes,
-        callback: collections.abc.Callable[[OBUpgradeState, str, int], None],
-        async_update: bool = True,
-    ) -> None:
-        """Update firmware from non-empty bytes. Keep Device alive until completion.
-
-        Callback exceptions are reported via sys.unraisablehook.
-        """
-    def update_optional_depth_presets(self, file_path_list: list, callback: collections.abc.Callable) -> None: ...
-    def update_optional_depth_presets_from_data(self, data_list: list, callback: collections.abc.Callable) -> None:
-        """
-        Update the device optional depth presets from preset data blocks loaded in memory (a list of bytes objects)
-        """
-
-    def write_license_info(self, license_info: str) -> None:
-        """
-        Write signed device license information (SDK license_info JSON string)
-        """
-
-class DeviceFrameInterleaveList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def __len__(self) -> int: ...
-    def get_count(self) -> int: ...
-    def get_name(self, index: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def has_frame_interleave(self, name: str) -> bool: ...
-
-class DeviceInfo:
-    def __repr__(self) -> str: ...
-    def get_asic_name(self) -> str:
-        """
-        Get the ASIC name of the device
-        """
-
-    def get_connection_type(self) -> str:
-        """
-        Get the connection type of the device
-        """
-
-    def get_device_gateway(self) -> str:
-        """
-        Get device gateway
-        """
-
-    def get_device_ip_address(self) -> str:
-        """
-        Get device ip address
-        """
-
-    def get_device_subnet_mask(self) -> str:
-        """
-        Get device subnet mask
-        """
-
-    def get_device_type(self) -> OBDeviceType:
-        """
-        Get the device type
-        """
-
-    def get_firmware_version(self) -> str:
-        """
-        Get the version number of the firmware
-        """
-
-    def get_hardware_version(self) -> str:
-        """
-        Get the version number of the hardware
-        """
-
-    def get_name(self) -> str:
-        """
-        Get device name
-        """
-
-    def get_pid(self) -> int:
-        """
-        Get device pid
-        """
-
-    def get_serial_number(self) -> str:
-        """
-        Get the serial number of the device
-        """
-
-    def get_supported_min_sdk_version(self) -> str:
-        """
-        Get the minimum version number of the SDK supported by the device
-        """
-
-    def get_uid(self) -> str:
-        """
-        Get system assigned uid for distinguishing between different devices
-        """
-
-    def get_vid(self) -> int:
-        """
-        Get device vid
-        """
-
-class DeviceList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Device: ...
-    def __len__(self) -> int: ...
-    def get_count(self) -> int: ...
-    def get_device_by_index(
-        self,
-        index: typing.SupportsInt | typing.SupportsIndex,
-        access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS,
-    ) -> Device: ...
-    def get_device_by_serial_number(
-        self, serial_number: str, access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS
-    ) -> Device: ...
-    def get_device_by_uid(
-        self, uid: str, access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS
-    ) -> Device: ...
-    def get_device_connection_type_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_gateway_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_ip_address_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_pid_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> int: ...
-    def get_device_serial_number_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_subnet_mask_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_uid_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def get_device_user_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        Get the user-defined name of the device at the specified index
-        """
-
-    def get_device_vid_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> int: ...
-    def get_ip_source_type(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBIpSourceType:
-        """
-        Get the current GVCP IP configuration status of the device
-        """
-
-    def get_local_gateway(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        Get the host gateway for the specified device
-        """
-
-    def get_local_ip(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        Get the host Ip address for the specified device
-        """
-
-    def get_local_mac_address(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        Get the host Mac address for the specified device
-        """
-
-    def get_local_net_interface_name(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        Get the name of the host network interface corresponding to the device
-        """
-
-    def get_local_subnet_length(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> int:
-        """
-        Get the host subnet length for the specified device
-        """
-
-    def query_device_access_state(self, index: typing.SupportsInt | typing.SupportsIndex) -> OBDeviceAccessState:
-        """
-        Query the current device access state (GVCP CCP) without opening the device. Blocks on the network; prefer calling off the UI thread
-        """
-
-    def query_device_access_state_by_serial_number(self, serial_number: str) -> OBDeviceAccessState:
-        """
-        Query the current device access state (GVCP CCP) by serial number without opening the device. Blocks on the network; prefer calling off the UI thread
-        """
-
-class DevicePresetList:
-    def __contains__(self, arg0: str) -> bool: ...
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def __len__(self) -> int: ...
-    def get_count(self) -> int: ...
-    def get_depth_work_mode_version(self, index: typing.SupportsInt | typing.SupportsIndex) -> str:
-        """
-        Get the depth work mode version of the preset at the specified index, e.g. "1.2.3". Empty string when the device does not support versioned modes
-        """
-
-    def get_name_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> str: ...
-    def has_preset(self, arg0: str) -> bool: ...
-
-class DisparityTransform(Filter):
-    def __init__(self, activationKey: str = "") -> None: ...
-
-class EdgeNoiseRemovalFilter(Filter):
-    def __init__(self, activation_key: str = "") -> None: ...
-    def get_filter_params(self) -> OBEdgeNoiseRemovalFilterParams: ...
-    def get_height_range(self) -> OBUint16PropertyRange: ...
-    def get_limit_x_th_range(self) -> OBUint16PropertyRange: ...
-    def get_limit_y_th_range(self) -> OBUint16PropertyRange: ...
-    def get_margin_x_th_range(self) -> OBUint16PropertyRange: ...
-    def get_margin_y_th_range(self) -> OBUint16PropertyRange: ...
-    def get_vertical_direction_enable_range(self) -> OBUint16PropertyRange: ...
-    def get_width_range(self) -> OBUint16PropertyRange: ...
-    def set_filter_params(self, arg0: OBEdgeNoiseRemovalFilterParams) -> None: ...
-
-class EnhancedDepthFilter(Filter):
+class ApplicationConfig:
     @staticmethod
-    def get_supported_formats(stream_type: OBStreamType) -> list:
+    def get(device: Device) -> ApplicationConfig:
         """
-        Get the list of supported frame formats for the given stream type (color: RGB; depth: Y10/Y11/Y12/Y14/Y16/Z16). Empty for unsupported stream types
+        Get the application runtime configuration cache for the device
         """
 
     @staticmethod
-    def get_supported_resolutions() -> list:
+    def get_by_preset(device: Device, preset_name: str) -> typing.Optional[ApplicationConfig]:
         """
-        Get the list of supported {width, height} pairs for the constrained (aligned-to) stream
-        """
-
-    @staticmethod
-    def is_supported_format(stream_type: OBStreamType, format: OBFormat) -> bool:
-        """
-        Check whether a frame format is supported for the given stream type
+        Get the application config carried by an externally imported preset, by preset name. Returns None for built-in presets or presets that carry no application config
         """
 
     @staticmethod
-    def is_supported_resolution(
-        source_stream_type: OBStreamType,
-        align_to_stream_type: OBStreamType,
-        width: typing.SupportsInt | typing.SupportsIndex,
-        height: typing.SupportsInt | typing.SupportsIndex,
-    ) -> bool:
+    def is_supported(device: Device) -> bool:
         """
-        Check whether a resolution is supported for the given stream alignment pair
+        Check whether the device supports application runtime configuration import/export
         """
 
-    def __init__(self, device: Device, model_path: str = "") -> None: ...
-    def get_confidence_threshold_range(self) -> OBIntPropertyRange:
+    def device_decimation(self) -> ApplicationDevDecimationConfig:
         """
-        Get the property range of the confidence threshold
-        """
-
-    def get_current_height(self) -> int:
-        """
-        Get the current configured frame height
+        Get the device decimation configuration
         """
 
-    def get_current_width(self) -> int:
+    def hdr_merge(self) -> ApplicationHDRMergeConfig:
         """
-        Get the current configured frame width
-        """
-
-    def set_confidence_threshold(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
-        """
-        Set the confidence threshold for depth values
+        Get the HDR merge configuration
         """
 
-    def set_resolution(
-        self, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex
-    ) -> None:
+    def point_cloud(self) -> ApplicationPointCloudConfig:
         """
-        Set the working resolution of the enhanced depth filter
+        Get the point cloud configuration
         """
 
-class FalsePositiveFilter(Filter):
-    def __init__(self, activation_key: str = "") -> None: ...
-    def get_fp_edge_bleed_filter_enable_range(self) -> OBUint8PropertyRange: ...
-    def get_fp_pattern_ambiguity_filter_enable_range(self) -> OBUint8PropertyRange: ...
-    def get_fp_texture_sparsity_filter_enable_range(self) -> OBUint8PropertyRange: ...
-    def get_fpebf_min_bleed_length_range(self) -> OBUint16PropertyRange: ...
-    def get_fpebf_roi_max_x_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fpebf_roi_max_y_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fpebf_roi_min_x_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fpebf_roi_min_y_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_max_height_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_max_noise_level_range(self) -> OBUint16PropertyRange: ...
-    def get_fppaf_max_speckle_size_range(self) -> OBUint16PropertyRange: ...
-    def get_fppaf_max_width_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_roi_max_x_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_roi_max_y_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_roi_min_x_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_roi_min_y_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fppaf_score_range(self) -> OBUint16PropertyRange: ...
-    def get_fppaf_tolerance_range(self) -> OBFloatPropertyRange: ...
-    def get_fptsf_max_noise_level_range(self) -> OBUint16PropertyRange: ...
-    def get_fptsf_max_speckle_size_range(self) -> OBUint16PropertyRange: ...
-    def get_fptsf_roi_max_x_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fptsf_roi_max_y_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fptsf_roi_min_x_ratio_range(self) -> OBFloatPropertyRange: ...
-    def get_fptsf_roi_min_y_ratio_range(self) -> OBFloatPropertyRange: ...
-
-class Filter:
-    def enable(self, arg0: bool) -> None: ...
-    def get_config_schema_vec(self) -> list[OBFilterConfigSchemaItem]: ...
-    def get_config_value(self, arg0: str) -> float: ...
-    def get_name(self) -> str: ...
-    def is_align_filter(self) -> bool: ...
-    def is_decimation_filter(self) -> bool: ...
-    def is_disparity_transform_filter(self) -> bool: ...
-    def is_edge_noise_removal_filter(self) -> bool: ...
-    def is_enabled(self) -> bool: ...
-    def is_enhanced_depth_filter(self) -> bool: ...
-    def is_false_positive_filter(self) -> bool: ...
-    def is_format_converter(self) -> bool: ...
-    def is_hdr_merge_filter(self) -> bool: ...
-    def is_hole_filling_filter(self) -> bool: ...
-    def is_lut_noise_removal_filter(self) -> bool: ...
-    def is_mgc_noise_removal_filter(self) -> bool: ...
-    def is_noise_removal_filter(self) -> bool: ...
-    def is_point_cloud_filter(self) -> bool: ...
-    def is_sequence_id_filter(self) -> bool: ...
-    def is_spatial_advanced_filter(self) -> bool: ...
-    def is_spatial_fast_filter(self) -> bool: ...
-    def is_spatial_moderate_filter(self) -> bool: ...
-    def is_temporal_filter(self) -> bool: ...
-    def is_threshold_filter(self) -> bool: ...
-    def is_undistortion_filter(self) -> bool: ...
-    def process(self, arg0: Frame) -> typing.Any: ...
-    def push_frame(self, arg0: Frame) -> None: ...
-    def reset(self) -> None: ...
-    def set_callback(self, arg0: collections.abc.Callable) -> None: ...
-    def set_config_value(self, arg0: str, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class FilterFactory:
-    @staticmethod
-    def create_filter(name: str) -> Filter:
+    def reset(self) -> None:
         """
-        Create a filter by name
+        Reset the application configuration to default values
         """
 
-    @staticmethod
-    def create_private_filter(name: str, activation_key: str = "") -> Filter:
+    def sensors(self) -> list[ApplicationSensorConfig]:
         """
-        Create a private filter by name and activation key
-        """
-
-    @staticmethod
-    def get_filter_vendor_specific_code(name: str) -> str:
-        """
-        Get the vendor specific code of a filter by name
+        Get the list of sensor configurations
         """
 
-class FormatConvertFilter(Filter):
-    def __init__(self) -> None: ...
-    def set_format_convert_format(self, arg0: OBConvertFormat) -> None:
+    def set_device_decimation(self, config: ApplicationDevDecimationConfig) -> None:
         """
-        Set the format to convert to
+        Set the device decimation configuration
+        """
+
+    def set_hdr_merge(self, config: ApplicationHDRMergeConfig) -> None:
+        """
+        Set the HDR merge configuration
+        """
+
+    def set_point_cloud(self, config: ApplicationPointCloudConfig) -> None:
+        """
+        Set the point cloud configuration
+        """
+
+    def set_sensor(self, sensor: ApplicationSensorConfig) -> None:
+        """
+        Set a single sensor configuration
+        """
+
+    def set_sensors(self, sensors: typing.Sequence[ApplicationSensorConfig]) -> None:
+        """
+        Set the list of sensor configurations
         """
 
 class Frame:
@@ -1320,28 +4841,47 @@ class Frame:
     def update_data(self, arg0: typing_extensions.Buffer) -> None: ...
     def update_metadata(self, arg0: typing_extensions.Buffer) -> None: ...
 
-class FrameSet(Frame):
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Frame: ...
-    def __len__(self) -> int: ...
+class VideoFrame(Frame):
     def __repr__(self) -> str: ...
-    def get_accel_frame(self) -> AccelFrame: ...
-    def get_color_frame(self) -> ColorFrame: ...
-    def get_confidence_frame(self) -> ConfidenceFrame: ...
-    def get_count(self) -> int: ...
-    def get_depth_frame(self) -> DepthFrame: ...
-    def get_frame(self, arg0: OBFrameType) -> Frame: ...
-    def get_frame_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Frame: ...
-    def get_frame_by_type(self, arg0: OBFrameType) -> Frame: ...
-    def get_frame_count(self) -> int: ...
-    def get_gyro_frame(self) -> GyroFrame: ...
-    def get_ir_frame(self) -> IRFrame: ...
-    def get_left_color_frame(self) -> ColorFrame: ...
-    def get_left_ir_frame(self) -> IRFrame: ...
-    def get_lidar_points_frame(self) -> LiDARPointsFrame: ...
-    def get_points_frame(self) -> PointsFrame: ...
-    def get_right_color_frame(self) -> ColorFrame: ...
-    def get_right_ir_frame(self) -> IRFrame: ...
-    def push_frame(self, arg0: Frame) -> None: ...
+    def as_color_frame(self) -> ColorFrame: ...
+    def as_confidence_frame(self) -> ConfidenceFrame: ...
+    def as_depth_frame(self) -> DepthFrame: ...
+    def as_ir_frame(self) -> IRFrame: ...
+    def as_points_frame(self) -> PointsFrame: ...
+    def get_height(self) -> int: ...
+    def get_metadata(self) -> numpy.typing.NDArray[numpy.uint8]: ...
+    def get_metadata_size(self) -> int: ...
+    def get_pixel_available_bit_size(self) -> int: ...
+    def get_pixel_type(self) -> OBPixelType: ...
+    def get_width(self) -> int: ...
+    def set_pixel_available_bit_size(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def set_pixel_type(self, arg0: OBPixelType) -> None: ...
+
+class ColorFrame(VideoFrame):
+    pass
+
+class DepthFrame(VideoFrame):
+    def get_depth_scale(self) -> float: ...
+    def set_value_scale(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+
+class IRFrame(VideoFrame):
+    pass
+
+class ConfidenceFrame(VideoFrame):
+    pass
+
+class PointsFrame(Frame):
+    def get_height(self) -> int: ...
+    def get_position_value_scale(self) -> float: ...
+    def get_width(self) -> int: ...
+
+class AccelFrame(Frame):
+    def __repr__(self) -> str: ...
+    def get_temperature(self) -> float: ...
+    def get_value(self) -> OBAccelValue: ...
+    def get_x(self) -> float: ...
+    def get_y(self) -> float: ...
+    def get_z(self) -> float: ...
 
 class GyroFrame(Frame):
     def __repr__(self) -> str: ...
@@ -1351,14 +4891,83 @@ class GyroFrame(Frame):
     def get_y(self) -> float: ...
     def get_z(self) -> float: ...
 
-class GyroStreamProfile(StreamProfile):
-    def __repr__(self) -> str: ...
-    def get_full_scale_range(self) -> OBGyroFullScaleRange: ...
-    def get_intrinsic(self) -> OBGyroIntrinsic: ...
-    def get_sample_rate(self) -> OBGyroSampleRate: ...
+class LiDARPointsFrame(Frame):
+    pass
 
-class HDRMergeFilter(Filter):
+class FrameSet(Frame):
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> typing.Optional[Frame]: ...
+    def __len__(self) -> int: ...
+    def __repr__(self) -> str: ...
+    def get_accel_frame(self) -> typing.Optional[AccelFrame]: ...
+    def get_color_frame(self) -> typing.Optional[ColorFrame]: ...
+    def get_confidence_frame(self) -> typing.Optional[ConfidenceFrame]: ...
+    def get_count(self) -> int: ...
+    def get_depth_frame(self) -> typing.Optional[DepthFrame]: ...
+    def get_frame(self, arg0: OBFrameType) -> typing.Optional[Frame]: ...
+    def get_frame_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> typing.Optional[Frame]: ...
+    def get_frame_by_type(self, arg0: OBFrameType) -> typing.Optional[Frame]: ...
+    def get_frame_count(self) -> int: ...
+    def get_gyro_frame(self) -> typing.Optional[GyroFrame]: ...
+    def get_ir_frame(self) -> typing.Optional[IRFrame]: ...
+    def get_left_color_frame(self) -> typing.Optional[ColorFrame]: ...
+    def get_left_ir_frame(self) -> typing.Optional[IRFrame]: ...
+    def get_lidar_points_frame(self) -> typing.Optional[LiDARPointsFrame]: ...
+    def get_points_frame(self) -> typing.Optional[PointsFrame]: ...
+    def get_right_color_frame(self) -> typing.Optional[ColorFrame]: ...
+    def get_right_ir_frame(self) -> typing.Optional[IRFrame]: ...
+    def push_frame(self, arg0: Frame) -> None: ...
+
+class Filter:
+    def enable(self, arg0: bool) -> None: ...
+    def get_config_schema_vec(self) -> list[OBFilterConfigSchemaItem]: ...
+    def get_config_value(self, arg0: str) -> float: ...
+    def get_name(self) -> str: ...
+    def is_align_filter(self) -> bool: ...
+    def is_decimation_filter(self) -> bool: ...
+    def is_disparity_transform_filter(self) -> bool: ...
+    def is_edge_noise_removal_filter(self) -> bool: ...
+    def is_enabled(self) -> bool: ...
+    def is_enhanced_depth_filter(self) -> bool: ...
+    def is_false_positive_filter(self) -> bool: ...
+    def is_format_converter(self) -> bool: ...
+    def is_hdr_merge_filter(self) -> bool: ...
+    def is_hole_filling_filter(self) -> bool: ...
+    def is_lut_noise_removal_filter(self) -> bool: ...
+    def is_mgc_noise_removal_filter(self) -> bool: ...
+    def is_noise_removal_filter(self) -> bool: ...
+    def is_point_cloud_filter(self) -> bool: ...
+    def is_sequence_id_filter(self) -> bool: ...
+    def is_spatial_advanced_filter(self) -> bool: ...
+    def is_spatial_fast_filter(self) -> bool: ...
+    def is_spatial_moderate_filter(self) -> bool: ...
+    def is_temporal_filter(self) -> bool: ...
+    def is_threshold_filter(self) -> bool: ...
+    def is_undistortion_filter(self) -> bool: ...
+    def process(self, arg0: Frame) -> typing.Optional[Frame]: ...
+    def push_frame(self, arg0: Frame) -> None: ...
+    def reset(self) -> None: ...
+    def set_callback(self, arg0: typing.Callable) -> None: ...
+    def set_config_value(self, arg0: str, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+
+class PointCloudFilter(Filter):
     def __init__(self) -> None: ...
+    def calculate(self, arg0: Frame) -> numpy.typing.NDArray[numpy.float32]: ...
+    def get_decimation_factor_range(self) -> OBIntPropertyRange: ...
+    def set_camera_param(self, arg0: OBCameraParam) -> None: ...
+    def set_color_data_normalization(self, arg0: bool) -> None: ...
+    def set_coordinate_data_scaled(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def set_coordinate_system(self, arg0: OBCoordinateSystemType) -> None: ...
+    def set_create_point_format(self, arg0: OBFormat) -> None: ...
+    def set_decimation_factor(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def set_frame_align_state(self, arg0: bool) -> None: ...
+    def set_position_data_scaled(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+
+class FormatConvertFilter(Filter):
+    def __init__(self) -> None: ...
+    def set_format_convert_format(self, arg0: OBConvertFormat) -> None:
+        """
+        Set the format to convert to
+        """
 
 class HoleFillingFilter(Filter):
     def __init__(self) -> None: ...
@@ -1368,23 +4977,89 @@ class HoleFillingFilter(Filter):
         Set the filling mode
         """
 
-class IRFrame(VideoFrame):
-    pass
+class TemporalFilter(Filter):
+    def __init__(self) -> None: ...
+    def get_diff_scale_range(self) -> OBFloatPropertyRange:
+        """
+        get diff scale range
+        """
 
-class LiDARPointsFrame(Frame):
-    pass
+    def get_weight_range(self) -> OBFloatPropertyRange:
+        """
+        get weight range
+        """
 
-class LiDARStreamProfile(StreamProfile):
-    def get_scan_rate(self) -> OBLiDARScanRate: ...
+    def set_diff_scale(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        set diff scale
+        """
 
-class LutNoiseRemovalFilter(Filter):
+    def set_weight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+
+class SpatialAdvancedFilter(Filter):
+    def __init__(self) -> None: ...
+    def get_alpha_range(self) -> OBFloatPropertyRange:
+        """
+        get alpha range
+        """
+
+    def get_disp_diff_range(self) -> OBUint16PropertyRange: ...
+    def get_filter_params(self) -> OBSpatialAdvancedFilterParams: ...
+    def get_magnitude_range(self) -> OBIntPropertyRange: ...
+    def get_radius_range(self) -> OBUint16PropertyRange: ...
+    def set_filter_params(self, arg0: OBSpatialAdvancedFilterParams) -> None: ...
+
+class DisparityTransform(Filter):
+    def __init__(self, activationKey: str = "") -> None: ...
+
+class HDRMergeFilter(Filter):
+    def __init__(self) -> None: ...
+
+class AlignFilter(Filter):
+    def __init__(self, align_to_stream: OBStreamType) -> None: ...
+    def get_align_to_stream_type(self) -> OBStreamType: ...
+    def set_align_to_stream_profile(self, arg0: StreamProfile) -> None: ...
+    def set_match_target_resolution(self, arg0: bool) -> None: ...
+
+class ThresholdFilter(Filter):
+    def __init__(self) -> None: ...
+    def get_max_range(self) -> OBIntPropertyRange: ...
+    def get_min_range(self) -> OBIntPropertyRange: ...
+    def set_value_range(
+        self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: typing.SupportsInt | typing.SupportsIndex
+    ) -> bool: ...
+
+class SequenceIdFilter(Filter):
+    def __init__(self) -> None: ...
+    def get_select_sequence_id(self) -> int: ...
+    def get_sequence_id_list(self) -> list: ...
+    def get_sequence_id_list_size(self) -> int: ...
+    def select_sequence_id(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+
+class NoiseRemovalFilter(Filter):
+    def __init__(self) -> None: ...
+    def get_disp_diff_range(self) -> OBUint16PropertyRange: ...
+    def get_filter_params(self) -> OBNoiseRemovalFilterParams: ...
+    def get_max_size_range(self) -> OBUint16PropertyRange: ...
+    def set_filter_params(self, arg0: OBNoiseRemovalFilterParams) -> None: ...
+
+class DecimationFilter(Filter):
+    def __init__(self) -> None: ...
+    def get_scale_range(self) -> OBUint8PropertyRange: ...
+    def get_scale_value(self) -> int: ...
+    def set_scale_value(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+
+class EdgeNoiseRemovalFilter(Filter):
     def __init__(self, activation_key: str = "") -> None: ...
-    def get_filter_params(self) -> OBLutNoiseRemovalFilterParams: ...
+    def get_filter_params(self) -> OBEdgeNoiseRemovalFilterParams: ...
     def get_height_range(self) -> OBUint16PropertyRange: ...
-    def get_max_lut_range(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBUint16PropertyRange: ...
-    def get_min_diff_range(self) -> OBUint16PropertyRange: ...
+    def get_limit_x_th_range(self) -> OBUint16PropertyRange: ...
+    def get_limit_y_th_range(self) -> OBUint16PropertyRange: ...
+    def get_margin_x_th_range(self) -> OBUint16PropertyRange: ...
+    def get_margin_y_th_range(self) -> OBUint16PropertyRange: ...
+    def get_vertical_direction_enable_range(self) -> OBUint16PropertyRange: ...
     def get_width_range(self) -> OBUint16PropertyRange: ...
-    def set_filter_params(self, arg0: OBLutNoiseRemovalFilterParams) -> None: ...
+    def set_filter_params(self, arg0: OBEdgeNoiseRemovalFilterParams) -> None: ...
 
 class MgcNoiseRemovalFilter(Filter):
     def __init__(self, activation_key: str = "") -> None: ...
@@ -1400,1286 +5075,267 @@ class MgcNoiseRemovalFilter(Filter):
     def get_width_range(self) -> OBUint16PropertyRange: ...
     def set_filter_params(self, arg0: OBMgcNoiseRemovalFilterParams) -> None: ...
 
-class NoiseRemovalFilter(Filter):
-    def __init__(self) -> None: ...
-    def get_disp_diff_range(self) -> OBUint16PropertyRange: ...
-    def get_filter_params(self) -> OBNoiseRemovalFilterParams: ...
-    def get_max_size_range(self) -> OBUint16PropertyRange: ...
-    def set_filter_params(self, arg0: OBNoiseRemovalFilterParams) -> None: ...
+class LutNoiseRemovalFilter(Filter):
+    def __init__(self, activation_key: str = "") -> None: ...
+    def get_filter_params(self) -> OBLutNoiseRemovalFilterParams: ...
+    def get_height_range(self) -> OBUint16PropertyRange: ...
+    def get_max_lut_range(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBUint16PropertyRange: ...
+    def get_min_diff_range(self) -> OBUint16PropertyRange: ...
+    def get_width_range(self) -> OBUint16PropertyRange: ...
+    def set_filter_params(self, arg0: OBLutNoiseRemovalFilterParams) -> None: ...
 
-class OBAccelFullScaleRange:
-    """
-    Members:
+class UnDistortionFilter(Filter):
+    def __init__(self, stream_type: OBStreamType = OBStreamType.COLOR_STREAM) -> None: ...
+    def clear_new_camera_matrix(self) -> None: ...
+    def get_stream_type(self) -> OBStreamType: ...
+    def set_new_camera_matrix(self, arg0: OBCameraIntrinsic) -> None: ...
+    def set_stream_type(self, arg0: OBStreamType) -> None: ...
 
-      ACCEL_FS_UNKNOWN
-
-      ACCEL_FS_2g
-
-      ACCEL_FS_4g
-
-      ACCEL_FS_8g
-
-      ACCEL_FS_16g
-
-      ACCEL_FS_3g
-
-      ACCEL_FS_6g
-
-      ACCEL_FS_12g
-
-      ACCEL_FS_24g
-    """
-
-    ACCEL_FS_12g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_12g: 7>
-    ACCEL_FS_16g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_16g: 4>
-    ACCEL_FS_24g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_24g: 8>
-    ACCEL_FS_2g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_2g: 1>
-    ACCEL_FS_3g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_3g: 5>
-    ACCEL_FS_4g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_4g: 2>
-    ACCEL_FS_6g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_6g: 6>
-    ACCEL_FS_8g: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_8g: 3>
-    ACCEL_FS_UNKNOWN: typing.ClassVar[OBAccelFullScaleRange]  # value = <OBAccelFullScaleRange.ACCEL_FS_UNKNOWN: -1>
-    __members__: typing.ClassVar[
-        dict[str, OBAccelFullScaleRange]
-    ]  # value = {'ACCEL_FS_UNKNOWN': <OBAccelFullScaleRange.ACCEL_FS_UNKNOWN: -1>, 'ACCEL_FS_2g': <OBAccelFullScaleRange.ACCEL_FS_2g: 1>, 'ACCEL_FS_4g': <OBAccelFullScaleRange.ACCEL_FS_4g: 2>, 'ACCEL_FS_8g': <OBAccelFullScaleRange.ACCEL_FS_8g: 3>, 'ACCEL_FS_16g': <OBAccelFullScaleRange.ACCEL_FS_16g: 4>, 'ACCEL_FS_3g': <OBAccelFullScaleRange.ACCEL_FS_3g: 5>, 'ACCEL_FS_6g': <OBAccelFullScaleRange.ACCEL_FS_6g: 6>, 'ACCEL_FS_12g': <OBAccelFullScaleRange.ACCEL_FS_12g: 7>, 'ACCEL_FS_24g': <OBAccelFullScaleRange.ACCEL_FS_24g: 8>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBAccelIntrinsic:
-    def __init__(self) -> None: ...
-    @property
-    def bias(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @bias.setter
-    def bias(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-    @property
-    def gravity(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @gravity.setter
-    def gravity(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-    @property
-    def noise_density(self) -> float: ...
-    @noise_density.setter
-    def noise_density(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def random_walk(self) -> float: ...
-    @random_walk.setter
-    def random_walk(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def reference_temp(self) -> float: ...
-    @reference_temp.setter
-    def reference_temp(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def scale_misalignment(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @scale_misalignment.setter
-    def scale_misalignment(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-    @property
-    def temp_slope(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @temp_slope.setter
-    def temp_slope(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-
-class OBAccelValue:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def x(self) -> float: ...
-    @x.setter
-    def x(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def y(self) -> float: ...
-    @y.setter
-    def y(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def z(self) -> float: ...
-    @z.setter
-    def z(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBAlignMode:
-    """
-    Members:
-
-      DISABLE
-
-      HW_MODE
-
-      SW_MODE
-
-      C2D_SW_MODE
-    """
-
-    C2D_SW_MODE: typing.ClassVar[OBAlignMode]  # value = <OBAlignMode.C2D_SW_MODE: 3>
-    DISABLE: typing.ClassVar[OBAlignMode]  # value = <OBAlignMode.DISABLE: 0>
-    HW_MODE: typing.ClassVar[OBAlignMode]  # value = <OBAlignMode.HW_MODE: 1>
-    SW_MODE: typing.ClassVar[OBAlignMode]  # value = <OBAlignMode.SW_MODE: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBAlignMode]
-    ]  # value = {'DISABLE': <OBAlignMode.DISABLE: 0>, 'HW_MODE': <OBAlignMode.HW_MODE: 1>, 'SW_MODE': <OBAlignMode.SW_MODE: 2>, 'C2D_SW_MODE': <OBAlignMode.C2D_SW_MODE: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBAwbGainParams:
+class EnhancedDepthFilter(Filter):
     @staticmethod
-    def from_bytes(data: bytes) -> OBAwbGainParams: ...
-    def to_bytes(self) -> bytes: ...
-    def __init__(self) -> None: ...
-    @property
-    def b_gain(self) -> int: ...
-    @b_gain.setter
-    def b_gain(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def g_gain(self) -> int: ...
-    @g_gain.setter
-    def g_gain(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def r_gain(self) -> int: ...
-    @r_gain.setter
-    def r_gain(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def get_supported_formats(stream_type: OBStreamType) -> list:
+        """
+        Get the list of supported frame formats for the given stream type (color: RGB; depth: Y10/Y11/Y12/Y14/Y16/Z16). Empty for unsupported stream types
+        """
 
-class OBBaselineCalibrationParam:
     @staticmethod
-    def from_bytes(data: bytes) -> OBBaselineCalibrationParam: ...
-    def to_bytes(self) -> bytes: ...
-    def __init__(self) -> None: ...
-    @property
-    def baseline(self) -> float: ...
-    @baseline.setter
-    def baseline(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def zpd(self) -> float: ...
-    @zpd.setter
-    def zpd(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def get_supported_resolutions() -> list:
+        """
+        Get the list of supported {width, height} pairs for the constrained (aligned-to) stream
+        """
 
-class OBBoolPropertyRange:
-    cur: bool
-    default_value: bool
-    max: bool
-    min: bool
-    step: bool
-    def __init__(self) -> None: ...
-
-class OBCalibrationParam:
-    def __init__(self) -> None: ...
-    def get_distortion(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraDistortion: ...
-    def get_extrinsic(
-        self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: typing.SupportsInt | typing.SupportsIndex
-    ) -> OBExtrinsic: ...
-    def get_intrinsic(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBCameraIntrinsic: ...
-    def set_distortion(self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: OBCameraDistortion) -> None: ...
-    def set_extrinsic(
-        self,
-        arg0: typing.SupportsInt | typing.SupportsIndex,
-        arg1: typing.SupportsInt | typing.SupportsIndex,
-        arg2: OBExtrinsic,
-    ) -> None: ...
-    def set_intrinsic(self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: OBCameraIntrinsic) -> None: ...
-
-class OBCameraDistortion:
-    model: OBCameraDistortionModel
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def k1(self) -> float: ...
-    @k1.setter
-    def k1(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def k2(self) -> float: ...
-    @k2.setter
-    def k2(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def k3(self) -> float: ...
-    @k3.setter
-    def k3(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def k4(self) -> float: ...
-    @k4.setter
-    def k4(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def k5(self) -> float: ...
-    @k5.setter
-    def k5(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def k6(self) -> float: ...
-    @k6.setter
-    def k6(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def p1(self) -> float: ...
-    @p1.setter
-    def p1(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def p2(self) -> float: ...
-    @p2.setter
-    def p2(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBCameraDistortionModel:
-    """
-    Members:
-
-      NONE
-
-      MODIFIED_BROWN_CONRADY
-
-      INVERSE_BROWN_CONRADY
-
-      BROWN_CONRADY
-
-      BROWN_CONRADY_K6
-
-      KANNALA_BRANDT4
-    """
-
-    BROWN_CONRADY: typing.ClassVar[OBCameraDistortionModel]  # value = <OBCameraDistortionModel.BROWN_CONRADY: 3>
-    BROWN_CONRADY_K6: typing.ClassVar[OBCameraDistortionModel]  # value = <OBCameraDistortionModel.BROWN_CONRADY_K6: 4>
-    INVERSE_BROWN_CONRADY: typing.ClassVar[
-        OBCameraDistortionModel
-    ]  # value = <OBCameraDistortionModel.INVERSE_BROWN_CONRADY: 2>
-    KANNALA_BRANDT4: typing.ClassVar[OBCameraDistortionModel]  # value = <OBCameraDistortionModel.KANNALA_BRANDT4: 5>
-    MODIFIED_BROWN_CONRADY: typing.ClassVar[
-        OBCameraDistortionModel
-    ]  # value = <OBCameraDistortionModel.MODIFIED_BROWN_CONRADY: 1>
-    NONE: typing.ClassVar[OBCameraDistortionModel]  # value = <OBCameraDistortionModel.NONE: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBCameraDistortionModel]
-    ]  # value = {'NONE': <OBCameraDistortionModel.NONE: 0>, 'MODIFIED_BROWN_CONRADY': <OBCameraDistortionModel.MODIFIED_BROWN_CONRADY: 1>, 'INVERSE_BROWN_CONRADY': <OBCameraDistortionModel.INVERSE_BROWN_CONRADY: 2>, 'BROWN_CONRADY': <OBCameraDistortionModel.BROWN_CONRADY: 3>, 'BROWN_CONRADY_K6': <OBCameraDistortionModel.BROWN_CONRADY_K6: 4>, 'KANNALA_BRANDT4': <OBCameraDistortionModel.KANNALA_BRANDT4: 5>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBCameraIntrinsic:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def cx(self) -> float: ...
-    @cx.setter
-    def cx(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def cy(self) -> float: ...
-    @cy.setter
-    def cy(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def fx(self) -> float: ...
-    @fx.setter
-    def fx(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def fy(self) -> float: ...
-    @fy.setter
-    def fy(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def height(self) -> int: ...
-    @height.setter
-    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def width(self) -> int: ...
-    @width.setter
-    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBCameraParam:
-    depth_distortion: OBCameraDistortion
-    depth_intrinsic: OBCameraIntrinsic
-    is_mirrored: bool
-    rgb_distortion: OBCameraDistortion
-    rgb_intrinsic: OBCameraIntrinsic
-    transform: OBExtrinsic
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-
-class OBCameraPerformanceMode:
-    """
-    Members:
-
-      ADAPTIVE
-
-      HIGH
-    """
-
-    ADAPTIVE: typing.ClassVar[OBCameraPerformanceMode]  # value = <OBCameraPerformanceMode.ADAPTIVE: 0>
-    HIGH: typing.ClassVar[OBCameraPerformanceMode]  # value = <OBCameraPerformanceMode.HIGH: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBCameraPerformanceMode]
-    ]  # value = {'ADAPTIVE': <OBCameraPerformanceMode.ADAPTIVE: 0>, 'HIGH': <OBCameraPerformanceMode.HIGH: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBClockType:
-    """
-    Members:
-
-      REALTIME
-
-      MONOTONIC
-    """
-
-    MONOTONIC: typing.ClassVar[OBClockType]  # value = <OBClockType.MONOTONIC: 1>
-    REALTIME: typing.ClassVar[OBClockType]  # value = <OBClockType.REALTIME: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBClockType]
-    ]  # value = {'REALTIME': <OBClockType.REALTIME: 0>, 'MONOTONIC': <OBClockType.MONOTONIC: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBCmdVersion:
-    """
-    Members:
-
-      V0
-
-      V1
-
-      V2
-
-      V3
-
-      NONE
-
-      INVALID
-    """
-
-    INVALID: typing.ClassVar[OBCmdVersion]  # value = <OBCmdVersion.INVALID: 65535>
-    NONE: typing.ClassVar[OBCmdVersion]  # value = <OBCmdVersion.NONE: 65534>
-    V0: typing.ClassVar[OBCmdVersion]  # value = <OBCmdVersion.V0: 0>
-    V1: typing.ClassVar[OBCmdVersion]  # value = <OBCmdVersion.V1: 1>
-    V2: typing.ClassVar[OBCmdVersion]  # value = <OBCmdVersion.V2: 2>
-    V3: typing.ClassVar[OBCmdVersion]  # value = <OBCmdVersion.V3: 3>
-    __members__: typing.ClassVar[
-        dict[str, OBCmdVersion]
-    ]  # value = {'V0': <OBCmdVersion.V0: 0>, 'V1': <OBCmdVersion.V1: 1>, 'V2': <OBCmdVersion.V2: 2>, 'V3': <OBCmdVersion.V3: 3>, 'NONE': <OBCmdVersion.NONE: 65534>, 'INVALID': <OBCmdVersion.INVALID: 65535>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBColorPoint:
     @staticmethod
-    def get_sizeof() -> int: ...
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def b(self) -> int: ...
-    @b.setter
-    def b(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def g(self) -> int: ...
-    @g.setter
-    def g(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def r(self) -> int: ...
-    @r.setter
-    def r(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def x(self) -> float: ...
-    @x.setter
-    def x(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def y(self) -> float: ...
-    @y.setter
-    def y(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def z(self) -> float: ...
-    @z.setter
-    def z(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def is_supported_format(stream_type: OBStreamType, format: OBFormat) -> bool:
+        """
+        Check whether a frame format is supported for the given stream type
+        """
 
-class OBColorPreset:
-    """
-    Members:
-
-      DEFAULT
-
-      WARM_BIASED_AWB
-    """
-
-    DEFAULT: typing.ClassVar[OBColorPreset]  # value = <OBColorPreset.DEFAULT: 0>
-    WARM_BIASED_AWB: typing.ClassVar[OBColorPreset]  # value = <OBColorPreset.WARM_BIASED_AWB: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBColorPreset]
-    ]  # value = {'DEFAULT': <OBColorPreset.DEFAULT: 0>, 'WARM_BIASED_AWB': <OBColorPreset.WARM_BIASED_AWB: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBCommunicationType:
-    """
-    Members:
-
-      USB
-
-      ETHERNET
-    """
-
-    ETHERNET: typing.ClassVar[OBCommunicationType]  # value = <OBCommunicationType.ETHERNET: 1>
-    USB: typing.ClassVar[OBCommunicationType]  # value = <OBCommunicationType.USB: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBCommunicationType]
-    ]  # value = {'USB': <OBCommunicationType.USB: 0>, 'ETHERNET': <OBCommunicationType.ETHERNET: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBCompressionMode:
-    """
-    Members:
-
-      LOSSLESS
-
-      LOSSY
-    """
-
-    LOSSLESS: typing.ClassVar[OBCompressionMode]  # value = <OBCompressionMode.LOSSLESS: 0>
-    LOSSY: typing.ClassVar[OBCompressionMode]  # value = <OBCompressionMode.LOSSY: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBCompressionMode]
-    ]  # value = {'LOSSLESS': <OBCompressionMode.LOSSLESS: 0>, 'LOSSY': <OBCompressionMode.LOSSY: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBCompressionParams:
-    def __init__(self) -> None: ...
-    @property
-    def threshold(self) -> int: ...
-    @threshold.setter
-    def threshold(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBConvertFormat:
-    """
-    Members:
-
-      YUYV_TO_RGB888
-
-      I420_TO_RGB888
-
-      NV21_TO_RGB888
-
-      NV12_TO_RGB888
-
-      MJPG_TO_I420
-
-      RGB888_TO_BGR
-
-      MJPG_TO_NV21
-
-      MJPG_TO_RGB888
-
-      MJPG_TO_BGR888
-
-      MJPG_TO_BGRA
-
-      UYVY_TO_RGB888
-
-      BGR_TO_RGB
-
-      MJPG_TO_NV12
-
-      YUYV_TO_BGR
-
-      YUYV_TO_RGBA
-
-      YUYV_TO_BGRA
-
-      YUYV_TO_Y16
-
-      YUYV_TO_Y8
-
-      RGBA_TO_RGB
-
-      BGRA_TO_BGR
-
-      Y16_TO_RGB
-
-      Y8_TO_RGB
-    """
-
-    BGRA_TO_BGR: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.BGRA_TO_BGR: 19>
-    BGR_TO_RGB: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.BGR_TO_RGB: 11>
-    I420_TO_RGB888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.I420_TO_RGB888: 1>
-    MJPG_TO_BGR888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.MJPG_TO_BGR888: 8>
-    MJPG_TO_BGRA: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.MJPG_TO_BGRA: 9>
-    MJPG_TO_I420: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.MJPG_TO_I420: 4>
-    MJPG_TO_NV12: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.MJPG_TO_NV12: 12>
-    MJPG_TO_NV21: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.MJPG_TO_NV21: 6>
-    MJPG_TO_RGB888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.MJPG_TO_RGB888: 7>
-    NV12_TO_RGB888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.NV12_TO_RGB888: 3>
-    NV21_TO_RGB888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.NV21_TO_RGB888: 2>
-    RGB888_TO_BGR: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.RGB888_TO_BGR: 5>
-    RGBA_TO_RGB: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.RGBA_TO_RGB: 18>
-    UYVY_TO_RGB888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.UYVY_TO_RGB888: 10>
-    Y16_TO_RGB: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.Y16_TO_RGB: 20>
-    Y8_TO_RGB: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.Y8_TO_RGB: 21>
-    YUYV_TO_BGR: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.YUYV_TO_BGR: 13>
-    YUYV_TO_BGRA: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.YUYV_TO_BGRA: 15>
-    YUYV_TO_RGB888: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.YUYV_TO_RGB888: 0>
-    YUYV_TO_RGBA: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.YUYV_TO_RGBA: 14>
-    YUYV_TO_Y16: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.YUYV_TO_Y16: 16>
-    YUYV_TO_Y8: typing.ClassVar[OBConvertFormat]  # value = <OBConvertFormat.YUYV_TO_Y8: 17>
-    __members__: typing.ClassVar[
-        dict[str, OBConvertFormat]
-    ]  # value = {'YUYV_TO_RGB888': <OBConvertFormat.YUYV_TO_RGB888: 0>, 'I420_TO_RGB888': <OBConvertFormat.I420_TO_RGB888: 1>, 'NV21_TO_RGB888': <OBConvertFormat.NV21_TO_RGB888: 2>, 'NV12_TO_RGB888': <OBConvertFormat.NV12_TO_RGB888: 3>, 'MJPG_TO_I420': <OBConvertFormat.MJPG_TO_I420: 4>, 'RGB888_TO_BGR': <OBConvertFormat.RGB888_TO_BGR: 5>, 'MJPG_TO_NV21': <OBConvertFormat.MJPG_TO_NV21: 6>, 'MJPG_TO_RGB888': <OBConvertFormat.MJPG_TO_RGB888: 7>, 'MJPG_TO_BGR888': <OBConvertFormat.MJPG_TO_BGR888: 8>, 'MJPG_TO_BGRA': <OBConvertFormat.MJPG_TO_BGRA: 9>, 'UYVY_TO_RGB888': <OBConvertFormat.UYVY_TO_RGB888: 10>, 'BGR_TO_RGB': <OBConvertFormat.BGR_TO_RGB: 11>, 'MJPG_TO_NV12': <OBConvertFormat.MJPG_TO_NV12: 12>, 'YUYV_TO_BGR': <OBConvertFormat.YUYV_TO_BGR: 13>, 'YUYV_TO_RGBA': <OBConvertFormat.YUYV_TO_RGBA: 14>, 'YUYV_TO_BGRA': <OBConvertFormat.YUYV_TO_BGRA: 15>, 'YUYV_TO_Y16': <OBConvertFormat.YUYV_TO_Y16: 16>, 'YUYV_TO_Y8': <OBConvertFormat.YUYV_TO_Y8: 17>, 'RGBA_TO_RGB': <OBConvertFormat.RGBA_TO_RGB: 18>, 'BGRA_TO_BGR': <OBConvertFormat.BGRA_TO_BGR: 19>, 'Y16_TO_RGB': <OBConvertFormat.Y16_TO_RGB: 20>, 'Y8_TO_RGB': <OBConvertFormat.Y8_TO_RGB: 21>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBCoordinateSystemType:
-    """
-    Members:
-
-      LEFT_HAND
-
-      RIGHT_HAND
-    """
-
-    LEFT_HAND: typing.ClassVar[OBCoordinateSystemType]  # value = <OBCoordinateSystemType.LEFT_HAND: 0>
-    RIGHT_HAND: typing.ClassVar[OBCoordinateSystemType]  # value = <OBCoordinateSystemType.RIGHT_HAND: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBCoordinateSystemType]
-    ]  # value = {'LEFT_HAND': <OBCoordinateSystemType.LEFT_HAND: 0>, 'RIGHT_HAND': <OBCoordinateSystemType.RIGHT_HAND: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDCPowerState:
-    """
-    Members:
-
-      OFF
-
-      ON
-    """
-
-    OFF: typing.ClassVar[OBDCPowerState]  # value = <OBDCPowerState.OFF: 0>
-    ON: typing.ClassVar[OBDCPowerState]  # value = <OBDCPowerState.ON: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBDCPowerState]
-    ]  # value = {'OFF': <OBDCPowerState.OFF: 0>, 'ON': <OBDCPowerState.ON: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDDONoiseRemovalType:
-    """
-    Members:
-
-      LUT
-
-      OVERALL
-    """
-
-    LUT: typing.ClassVar[OBDDONoiseRemovalType]  # value = <OBDDONoiseRemovalType.LUT: 0>
-    OVERALL: typing.ClassVar[OBDDONoiseRemovalType]  # value = <OBDDONoiseRemovalType.OVERALL: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBDDONoiseRemovalType]
-    ]  # value = {'LUT': <OBDDONoiseRemovalType.LUT: 0>, 'OVERALL': <OBDDONoiseRemovalType.OVERALL: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDataTranState:
-    """
-    Members:
-
-      STOPPED
-
-      DONE
-
-      VERIFYING
-
-      TRANSFERRING
-
-      ERR_BUSY
-
-      ERR_UNSUPPORTED
-
-      ERR_TRAN_FAILED
-
-      ERR_VERIFY_FAILED
-
-      ERR_OTHER
-    """
-
-    DONE: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.DONE: 2>
-    ERR_BUSY: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.ERR_BUSY: -1>
-    ERR_OTHER: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.ERR_OTHER: -5>
-    ERR_TRAN_FAILED: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.ERR_TRAN_FAILED: -3>
-    ERR_UNSUPPORTED: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.ERR_UNSUPPORTED: -2>
-    ERR_VERIFY_FAILED: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.ERR_VERIFY_FAILED: -4>
-    STOPPED: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.STOPPED: 3>
-    TRANSFERRING: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.TRANSFERRING: 0>
-    VERIFYING: typing.ClassVar[OBDataTranState]  # value = <OBDataTranState.VERIFYING: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBDataTranState]
-    ]  # value = {'STOPPED': <OBDataTranState.STOPPED: 3>, 'DONE': <OBDataTranState.DONE: 2>, 'VERIFYING': <OBDataTranState.VERIFYING: 1>, 'TRANSFERRING': <OBDataTranState.TRANSFERRING: 0>, 'ERR_BUSY': <OBDataTranState.ERR_BUSY: -1>, 'ERR_UNSUPPORTED': <OBDataTranState.ERR_UNSUPPORTED: -2>, 'ERR_TRAN_FAILED': <OBDataTranState.ERR_TRAN_FAILED: -3>, 'ERR_VERIFY_FAILED': <OBDataTranState.ERR_VERIFY_FAILED: -4>, 'ERR_OTHER': <OBDataTranState.ERR_OTHER: -5>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDepthCroppingMode:
-    """
-    Members:
-
-      AUTO
-
-      CLOSE
-
-      OPEN
-    """
-
-    AUTO: typing.ClassVar[OBDepthCroppingMode]  # value = <OBDepthCroppingMode.AUTO: 0>
-    CLOSE: typing.ClassVar[OBDepthCroppingMode]  # value = <OBDepthCroppingMode.CLOSE: 1>
-    OPEN: typing.ClassVar[OBDepthCroppingMode]  # value = <OBDepthCroppingMode.OPEN: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBDepthCroppingMode]
-    ]  # value = {'AUTO': <OBDepthCroppingMode.AUTO: 0>, 'CLOSE': <OBDepthCroppingMode.CLOSE: 1>, 'OPEN': <OBDepthCroppingMode.OPEN: 2>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDepthPrecisionLevel:
-    """
-    Members:
-
-      ONE_MM
-
-      ZERO_POINT_EIGHT_MM
-
-      ZERO_POINT_FOUR_MM
-
-      ZERO_POINT_TWO_MM
-
-      ZERO_POINT_ONE_MM
-
-      ZERO_POINT_FIVE_MM
-
-      ZERO_POINT_ZERO_FIVE_MM
-
-      UNKNOWN
-    """
-
-    ONE_MM: typing.ClassVar[OBDepthPrecisionLevel]  # value = <OBDepthPrecisionLevel.ONE_MM: 0>
-    UNKNOWN: typing.ClassVar[OBDepthPrecisionLevel]  # value = <OBDepthPrecisionLevel.UNKNOWN: 7>
-    ZERO_POINT_EIGHT_MM: typing.ClassVar[
-        OBDepthPrecisionLevel
-    ]  # value = <OBDepthPrecisionLevel.ZERO_POINT_EIGHT_MM: 1>
-    ZERO_POINT_FIVE_MM: typing.ClassVar[OBDepthPrecisionLevel]  # value = <OBDepthPrecisionLevel.ZERO_POINT_FIVE_MM: 5>
-    ZERO_POINT_FOUR_MM: typing.ClassVar[OBDepthPrecisionLevel]  # value = <OBDepthPrecisionLevel.ZERO_POINT_FOUR_MM: 2>
-    ZERO_POINT_ONE_MM: typing.ClassVar[OBDepthPrecisionLevel]  # value = <OBDepthPrecisionLevel.ZERO_POINT_ONE_MM: 3>
-    ZERO_POINT_TWO_MM: typing.ClassVar[OBDepthPrecisionLevel]  # value = <OBDepthPrecisionLevel.ZERO_POINT_TWO_MM: 4>
-    ZERO_POINT_ZERO_FIVE_MM: typing.ClassVar[
-        OBDepthPrecisionLevel
-    ]  # value = <OBDepthPrecisionLevel.ZERO_POINT_ZERO_FIVE_MM: 6>
-    __members__: typing.ClassVar[
-        dict[str, OBDepthPrecisionLevel]
-    ]  # value = {'ONE_MM': <OBDepthPrecisionLevel.ONE_MM: 0>, 'ZERO_POINT_EIGHT_MM': <OBDepthPrecisionLevel.ZERO_POINT_EIGHT_MM: 1>, 'ZERO_POINT_FOUR_MM': <OBDepthPrecisionLevel.ZERO_POINT_FOUR_MM: 2>, 'ZERO_POINT_TWO_MM': <OBDepthPrecisionLevel.ZERO_POINT_TWO_MM: 4>, 'ZERO_POINT_ONE_MM': <OBDepthPrecisionLevel.ZERO_POINT_ONE_MM: 3>, 'ZERO_POINT_FIVE_MM': <OBDepthPrecisionLevel.ZERO_POINT_FIVE_MM: 5>, 'ZERO_POINT_ZERO_FIVE_MM': <OBDepthPrecisionLevel.ZERO_POINT_ZERO_FIVE_MM: 6>, 'UNKNOWN': <OBDepthPrecisionLevel.UNKNOWN: 7>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDepthWorkMode:
     @staticmethod
-    def from_bytes(data: bytes) -> OBDepthWorkMode: ...
-    def to_bytes(self) -> bytes: ...
-    __hash__: typing.ClassVar[None] = None
-    name: str
-    tag: OBDepthWorkModeTag
-    def __eq__(self, arg0: OBDepthWorkMode) -> bool: ...
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def checksum(self) -> numpy.typing.NDArray[numpy.uint8]: ...
-    @checksum.setter
-    def checksum(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.uint8]) -> None: ...
+    def is_supported_resolution(
+        source_stream_type: OBStreamType,
+        align_to_stream_type: OBStreamType,
+        width: typing.SupportsInt | typing.SupportsIndex,
+        height: typing.SupportsInt | typing.SupportsIndex,
+    ) -> bool:
+        """
+        Check whether a resolution is supported for the given stream alignment pair
+        """
 
-class OBDepthWorkModeList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBDepthWorkMode: ...
+    def __init__(self, device: Device, model_path: str = "") -> None: ...
+    def get_confidence_threshold_range(self) -> OBIntPropertyRange:
+        """
+        Get the property range of the confidence threshold
+        """
+
+    def get_current_height(self) -> int:
+        """
+        Get the current configured frame height
+        """
+
+    def get_current_width(self) -> int:
+        """
+        Get the current configured frame width
+        """
+
+    def set_confidence_threshold(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Set the confidence threshold for depth values
+        """
+
+    def set_resolution(
+        self, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex
+    ) -> None:
+        """
+        Set the working resolution of the enhanced depth filter
+        """
+
+class OBFilterList:
+    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Filter: ...
     def __len__(self) -> int: ...
-    def get_count(self) -> int:
+    def get_count(self) -> int: ...
+    def get_filter(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Filter: ...
+
+class FilterFactory:
+    @staticmethod
+    def create_filter(name: str) -> Filter:
         """
-        Get the number of OBDepthWorkMode objects in the list
+        Create a filter by name
         """
 
-    def get_depth_work_mode_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBDepthWorkMode:
+    @staticmethod
+    def create_private_filter(name: str, activation_key: str = "") -> Filter:
         """
-        Get the OBDepthWorkMode object at the specified index
+        Create a private filter by name and activation key
         """
 
-class OBDepthWorkModeTag:
-    """
-    Members:
-
-      OB_DEVICE_DEPTH_WORK_MODE
-
-      OB_CUSTOM_DEPTH_WORK_MODE
-    """
-
-    OB_CUSTOM_DEPTH_WORK_MODE: typing.ClassVar[
-        OBDepthWorkModeTag
-    ]  # value = <OBDepthWorkModeTag.OB_CUSTOM_DEPTH_WORK_MODE: 1>
-    OB_DEVICE_DEPTH_WORK_MODE: typing.ClassVar[
-        OBDepthWorkModeTag
-    ]  # value = <OBDepthWorkModeTag.OB_DEVICE_DEPTH_WORK_MODE: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBDepthWorkModeTag]
-    ]  # value = {'OB_DEVICE_DEPTH_WORK_MODE': <OBDepthWorkModeTag.OB_DEVICE_DEPTH_WORK_MODE: 0>, 'OB_CUSTOM_DEPTH_WORK_MODE': <OBDepthWorkModeTag.OB_CUSTOM_DEPTH_WORK_MODE: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDeviceAccessMode:
-    """
-    Members:
-
-      OB_DEVICE_ACCESS_DENIED
-
-      OB_DEVICE_EXCLUSIVE_ACCESS
-
-      OB_DEVICE_CONTROL_ACCESS
-
-      OB_DEVICE_MONITOR_ACCESS
-
-      OB_DEVICE_DEFAULT_ACCESS
-    """
-
-    OB_DEVICE_ACCESS_DENIED: typing.ClassVar[
-        OBDeviceAccessMode
-    ]  # value = <OBDeviceAccessMode.OB_DEVICE_ACCESS_DENIED: 0>
-    OB_DEVICE_CONTROL_ACCESS: typing.ClassVar[
-        OBDeviceAccessMode
-    ]  # value = <OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS: 2>
-    OB_DEVICE_DEFAULT_ACCESS: typing.ClassVar[
-        OBDeviceAccessMode
-    ]  # value = <OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS: 4>
-    OB_DEVICE_EXCLUSIVE_ACCESS: typing.ClassVar[
-        OBDeviceAccessMode
-    ]  # value = <OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS: 1>
-    OB_DEVICE_MONITOR_ACCESS: typing.ClassVar[
-        OBDeviceAccessMode
-    ]  # value = <OBDeviceAccessMode.OB_DEVICE_MONITOR_ACCESS: 3>
-    __members__: typing.ClassVar[
-        dict[str, OBDeviceAccessMode]
-    ]  # value = {'OB_DEVICE_ACCESS_DENIED': <OBDeviceAccessMode.OB_DEVICE_ACCESS_DENIED: 0>, 'OB_DEVICE_EXCLUSIVE_ACCESS': <OBDeviceAccessMode.OB_DEVICE_EXCLUSIVE_ACCESS: 1>, 'OB_DEVICE_CONTROL_ACCESS': <OBDeviceAccessMode.OB_DEVICE_CONTROL_ACCESS: 2>, 'OB_DEVICE_MONITOR_ACCESS': <OBDeviceAccessMode.OB_DEVICE_MONITOR_ACCESS: 3>, 'OB_DEVICE_DEFAULT_ACCESS': <OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS: 4>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDeviceAccessState:
-    """
-    Members:
-
-      OB_DEVICE_ACCESS_STATE_UNKNOWN : The access state cannot be determined
-
-      OB_DEVICE_ACCESS_STATE_UNSUPPORTED : The device or current build does not support access-state query
-
-      OB_DEVICE_ACCESS_STATE_AVAILABLE : The device is available for control access
-
-      OB_DEVICE_ACCESS_STATE_CONTROLLED : The device has a controller; monitor access may still be available
-
-      OB_DEVICE_ACCESS_STATE_EXCLUSIVE : The device is held exclusively and cannot be accessed
-
-      OB_DEVICE_ACCESS_STATE_UNREACHABLE : The device did not respond or the network path is unreachable
-
-      OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED : The device supports CCP, but the firmware version is too old
-    """
-
-    OB_DEVICE_ACCESS_STATE_AVAILABLE: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_AVAILABLE: 2>
-    OB_DEVICE_ACCESS_STATE_CONTROLLED: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_CONTROLLED: 3>
-    OB_DEVICE_ACCESS_STATE_EXCLUSIVE: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_EXCLUSIVE: 4>
-    OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED: 6>
-    OB_DEVICE_ACCESS_STATE_UNKNOWN: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNKNOWN: 0>
-    OB_DEVICE_ACCESS_STATE_UNREACHABLE: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNREACHABLE: 5>
-    OB_DEVICE_ACCESS_STATE_UNSUPPORTED: typing.ClassVar[
-        OBDeviceAccessState
-    ]  # value = <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNSUPPORTED: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBDeviceAccessState]
-    ]  # value = {'OB_DEVICE_ACCESS_STATE_UNKNOWN': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNKNOWN: 0>, 'OB_DEVICE_ACCESS_STATE_UNSUPPORTED': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNSUPPORTED: 1>, 'OB_DEVICE_ACCESS_STATE_AVAILABLE': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_AVAILABLE: 2>, 'OB_DEVICE_ACCESS_STATE_CONTROLLED': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_CONTROLLED: 3>, 'OB_DEVICE_ACCESS_STATE_EXCLUSIVE': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_EXCLUSIVE: 4>, 'OB_DEVICE_ACCESS_STATE_UNREACHABLE': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_UNREACHABLE: 5>, 'OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED': <OBDeviceAccessState.OB_DEVICE_ACCESS_STATE_FW_NOT_SUPPORTED: 6>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDeviceDevelopmentMode:
-    """
-    Members:
-
-      NORMAL
-
-      DEVELOPMENT
-    """
-
-    DEVELOPMENT: typing.ClassVar[OBDeviceDevelopmentMode]  # value = <OBDeviceDevelopmentMode.DEVELOPMENT: 1>
-    NORMAL: typing.ClassVar[OBDeviceDevelopmentMode]  # value = <OBDeviceDevelopmentMode.NORMAL: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBDeviceDevelopmentMode]
-    ]  # value = {'NORMAL': <OBDeviceDevelopmentMode.NORMAL: 0>, 'DEVELOPMENT': <OBDeviceDevelopmentMode.DEVELOPMENT: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBDeviceIpAddrConfig:
     @staticmethod
-    def from_bytes(data: bytes) -> OBDeviceIpAddrConfig: ...
-    def to_bytes(self) -> bytes: ...
-    address: str
-    gateway: str
-    netmask: str
-    def __init__(self) -> None: ...
-    @property
-    def dhcp(self) -> int: ...
-    @dhcp.setter
-    def dhcp(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def get_filter_vendor_specific_code(name: str) -> str:
+        """
+        Get the vendor specific code of a filter by name
+        """
 
-class OBDeviceSerialNumber:
+class SpatialFastFilter(Filter):
+    def __init__(self, activation_key: str = "") -> None: ...
+    def get_filter_params(self) -> OBSpatialFastFilterParams: ...
+    def get_radius_range(self) -> OBIntPropertyRange: ...
+    def set_filter_params(self, arg0: OBSpatialFastFilterParams) -> None: ...
+
+class SpatialModerateFilter(Filter):
+    def __init__(self, activation_key: str = "") -> None: ...
+    def get_disp_diff_range(self) -> OBIntPropertyRange: ...
+    def get_filter_params(self) -> OBSpatialModerateFilterParams: ...
+    def get_magnitude_range(self) -> OBIntPropertyRange: ...
+    def get_radius_range(self) -> OBIntPropertyRange: ...
+    def set_filter_params(self, arg0: OBSpatialModerateFilterParams) -> None: ...
+
+class FalsePositiveFilter(Filter):
+    def __init__(self, activation_key: str = "") -> None: ...
+    def get_fp_edge_bleed_filter_enable_range(self) -> OBUint8PropertyRange: ...
+    def get_fp_pattern_ambiguity_filter_enable_range(self) -> OBUint8PropertyRange: ...
+    def get_fp_texture_sparsity_filter_enable_range(self) -> OBUint8PropertyRange: ...
+    def get_fpebf_min_bleed_length_range(self) -> OBUint16PropertyRange: ...
+    def get_fpebf_roi_max_x_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fpebf_roi_max_y_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fpebf_roi_min_x_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fpebf_roi_min_y_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_max_height_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_max_noise_level_range(self) -> OBUint16PropertyRange: ...
+    def get_fppaf_max_speckle_size_range(self) -> OBUint16PropertyRange: ...
+    def get_fppaf_max_width_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_roi_max_x_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_roi_max_y_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_roi_min_x_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_roi_min_y_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fppaf_score_range(self) -> OBUint16PropertyRange: ...
+    def get_fppaf_tolerance_range(self) -> OBFloatPropertyRange: ...
+    def get_fptsf_max_noise_level_range(self) -> OBUint16PropertyRange: ...
+    def get_fptsf_max_speckle_size_range(self) -> OBUint16PropertyRange: ...
+    def get_fptsf_roi_max_x_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fptsf_roi_max_y_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fptsf_roi_min_x_ratio_range(self) -> OBFloatPropertyRange: ...
+    def get_fptsf_roi_min_y_ratio_range(self) -> OBFloatPropertyRange: ...
+
+class Context:
     @staticmethod
-    def from_bytes(data: bytes) -> OBDeviceSerialNumber: ...
-    """SDK char numberStr[16], exposed as bounded UTF-8 text."""
-    def __init__(self) -> None: ...
-    @property
-    def number_str(self) -> str: ...
-    @number_str.setter
-    def number_str(self, value: str) -> None: ...
-    def to_bytes(self) -> bytes: ...
-
-OBSerialNumber = OBDeviceSerialNumber
-
-class OBDispOffsetConfig:
+    def log_external_message(
+        arg0: OBLogLevel, arg1: str, arg2: str, arg3: str, arg4: str, arg5: typing.SupportsInt | typing.SupportsIndex
+    ) -> None: ...
     @staticmethod
-    def from_bytes(data: bytes) -> OBDispOffsetConfig: ...
-    def __init__(self) -> None: ...
-    @property
-    def enable(self) -> int: ...
-    @enable.setter
-    def enable(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def offset0(self) -> int: ...
-    @offset0.setter
-    def offset0(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def offset1(self) -> int: ...
-    @offset1.setter
-    def offset1(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def reserved(self) -> int: ...
-    @reserved.setter
-    def reserved(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def to_bytes(self) -> bytes: ...
+    def set_extensions_directory(path: str) -> None:
+        """
+        Set the extensions directory for loading extension modules
+        """
 
-class OBDeviceSyncConfig:
     @staticmethod
-    def from_bytes(data: bytes) -> OBDeviceSyncConfig: ...
-    def to_bytes(self) -> bytes: ...
-    mode: OBSyncMode
-    def __init__(self) -> None: ...
-    @property
-    def device_index(self) -> int: ...
-    @device_index.setter
-    def device_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def device_trigger_signal_out_delay(self) -> int: ...
-    @device_trigger_signal_out_delay.setter
-    def device_trigger_signal_out_delay(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def device_trigger_signal_out_polarity(self) -> int: ...
-    @device_trigger_signal_out_polarity.setter
-    def device_trigger_signal_out_polarity(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def ir_trigger_signal_delay(self) -> int: ...
-    @ir_trigger_signal_delay.setter
-    def ir_trigger_signal_delay(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def mcu_trigger_frequency(self) -> int: ...
-    @mcu_trigger_frequency.setter
-    def mcu_trigger_frequency(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def rgb_trigger_signal_delay(self) -> int: ...
-    @rgb_trigger_signal_delay.setter
-    def rgb_trigger_signal_delay(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def set_logger_file_name(arg0: str) -> None:
+        """
+        Set logger file name
+        """
 
-class OBDeviceTemperature:
     @staticmethod
-    def from_bytes(data: bytes) -> OBDeviceTemperature: ...
-    def to_bytes(self) -> bytes: ...
+    def set_logger_level(arg0: OBLogLevel) -> None: ...
+    @staticmethod
+    def set_logger_to_callback(arg0: OBLogLevel, arg1: typing.Callable) -> None:
+        """
+        Set logger to callback
+        """
+
+    @staticmethod
+    def set_logger_to_console(arg0: OBLogLevel) -> None:
+        """
+        Set logger to console
+        """
+
+    @staticmethod
+    def set_logger_to_file(arg0: OBLogLevel, arg1: str) -> None:
+        """
+        Set logger to file
+        """
+
+    @typing.overload
     def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def chip_bottom_temperature(self) -> float: ...
-    @chip_bottom_temperature.setter
-    def chip_bottom_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def chip_top_temperature(self) -> float: ...
-    @chip_top_temperature.setter
-    def chip_top_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def cpu_temperature(self) -> float: ...
-    @cpu_temperature.setter
-    def cpu_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def imu_temperature(self) -> float: ...
-    @imu_temperature.setter
-    def imu_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def ir_left_temperature(self) -> float: ...
-    @ir_left_temperature.setter
-    def ir_left_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def ir_right_temperature(self) -> float: ...
-    @ir_right_temperature.setter
-    def ir_right_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def ir_temperature(self) -> float: ...
-    @ir_temperature.setter
-    def ir_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def laser_temperature(self) -> float: ...
-    @laser_temperature.setter
-    def laser_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def main_board_temperature(self) -> float: ...
-    @main_board_temperature.setter
-    def main_board_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def rgb_temperature(self) -> float: ...
-    @rgb_temperature.setter
-    def rgb_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def tec_temperature(self) -> float: ...
-    @tec_temperature.setter
-    def tec_temperature(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    @typing.overload
+    def __init__(self, arg0: str) -> None: ...
+    def create_net_device(
+        self,
+        address: str,
+        port: typing.SupportsInt | typing.SupportsIndex,
+        access_mode: OBDeviceAccessMode = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS,
+    ) -> Device:
+        """
+        Create net device
+        """
 
-class OBDeviceTimestampResetConfig:
-    enable: bool
-    timestamp_reset_signal_output_enable: bool
-    def __init__(self) -> None: ...
-    @property
-    def timestamp_reset_delay_us(self) -> int: ...
-    @timestamp_reset_delay_us.setter
-    def timestamp_reset_delay_us(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def enable_multi_device_sync(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Activates the multi-device synchronization function to synchronize the clock of the created device (the device needs to support this function).repeat_interval: The synchronization time interval (unit: ms; if repeatInterval=0, it means that it will only be synchronized once and will not be executed regularly).
+        """
 
-class OBDeviceType:
-    """
-    Members:
+    def enable_net_device_enumeration(self, arg0: bool) -> None: ...
+    def free_idle_memory(self) -> None:
+        """
+        Free idle memory from the internal frame memory pool
+        """
 
-      UNKNOWN
+    def get_gvcp_port_scheme(self) -> OBGvcpPortScheme:
+        """
+        Get the current GVCP port scheme
+        """
 
-      LIGHT_MONOCULAR
+    def get_timestamp_clock_type(self) -> OBClockType:
+        """
+        Get the current host-side timestamp clock type for the context
+        """
 
-      LIGHT_BINOCULAR
+    def ob_force_ip_config(self, arg0: str, arg1: OBDeviceIpAddrConfig) -> bool:
+        """
+        Change the IP configuration
+        """
 
-      TIME_OF_FLIGHT
-    """
+    def query_devices(self) -> DeviceList:
+        """
+        Query devices
+        """
 
-    LIGHT_BINOCULAR: typing.ClassVar[OBDeviceType]  # value = <OBDeviceType.LIGHT_BINOCULAR: 1>
-    LIGHT_MONOCULAR: typing.ClassVar[OBDeviceType]  # value = <OBDeviceType.LIGHT_MONOCULAR: 0>
-    TIME_OF_FLIGHT: typing.ClassVar[OBDeviceType]  # value = <OBDeviceType.TIME_OF_FLIGHT: 2>
-    UNKNOWN: typing.ClassVar[OBDeviceType]  # value = <OBDeviceType.UNKNOWN: -1>
-    __members__: typing.ClassVar[
-        dict[str, OBDeviceType]
-    ]  # value = {'UNKNOWN': <OBDeviceType.UNKNOWN: -1>, 'LIGHT_MONOCULAR': <OBDeviceType.LIGHT_MONOCULAR: 0>, 'LIGHT_BINOCULAR': <OBDeviceType.LIGHT_BINOCULAR: 1>, 'TIME_OF_FLIGHT': <OBDeviceType.TIME_OF_FLIGHT: 2>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
+    def register_device_changed_callback(self, arg0: typing.Callable) -> int: ...
+    def send_action_command(
+        self,
+        device_key: typing.SupportsInt | typing.SupportsIndex,
+        group_key: typing.SupportsInt | typing.SupportsIndex,
+        group_mask: typing.SupportsInt | typing.SupportsIndex,
+        dest_ip: str = "255.255.255.255",
+        scheduled_time: typing.SupportsInt | typing.SupportsIndex = 0,
+    ) -> bool:
+        """
+        Send an Action Command to GVCP devices
+        """
 
-class OBEdgeNoiseRemovalFilterParams:
-    enable_direction: bool
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def height(self) -> int: ...
-    @height.setter
-    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def limit_x_th(self) -> int: ...
-    @limit_x_th.setter
-    def limit_x_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def limit_y_th(self) -> int: ...
-    @limit_y_th.setter
-    def limit_y_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def margin_x_th(self) -> int: ...
-    @margin_x_th.setter
-    def margin_x_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def margin_y_th(self) -> int: ...
-    @margin_y_th.setter
-    def margin_y_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def width(self) -> int: ...
-    @width.setter
-    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def set_device_changed_callback(self, arg0: typing.Callable) -> None:
+        """
+        Set device changed callback, callback will be called when device changed
+        """
 
-class OBEdgeNoiseRemovalType:
-    """
-    Members:
+    def set_gvcp_port_scheme(self, arg0: OBGvcpPortScheme) -> None:
+        """
+        Set the GVCP port scheme used for network device discovery and control
+        """
 
-      MG_FILTER
+    def set_timestamp_clock_type(self, clock_type: OBClockType) -> None:
+        """
+        Set the host-side timestamp clock type for the current context
+        """
 
-      MGH_FILTER
+    def set_uvc_backend_type(self, type: OBUvcBackendType) -> None:
+        """
+        Set the UVC backend type (Linux only: LIBUVC or V4L2)
+        """
 
-      MGA_FILTER
+    def sync_device_hardware_pps_time(self, hardware_pps_time: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Synchronize the device time (synchronize hardwarePPS time to all created devices)
+        """
 
-      MGC_FILTER
-    """
-
-    MGA_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]  # value = <OBEdgeNoiseRemovalType.MGA_FILTER: 2>
-    MGC_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]  # value = <OBEdgeNoiseRemovalType.MGC_FILTER: 3>
-    MGH_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]  # value = <OBEdgeNoiseRemovalType.MGH_FILTER: 1>
-    MG_FILTER: typing.ClassVar[OBEdgeNoiseRemovalType]  # value = <OBEdgeNoiseRemovalType.MG_FILTER: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBEdgeNoiseRemovalType]
-    ]  # value = {'MG_FILTER': <OBEdgeNoiseRemovalType.MG_FILTER: 0>, 'MGH_FILTER': <OBEdgeNoiseRemovalType.MGH_FILTER: 1>, 'MGA_FILTER': <OBEdgeNoiseRemovalType.MGA_FILTER: 2>, 'MGC_FILTER': <OBEdgeNoiseRemovalType.MGC_FILTER: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
+    def unregister_device_changed_callback(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
 
 class OBError(Exception):
     pass
@@ -2691,1661 +5347,119 @@ class OBErrorDetails:
     def get_type(self) -> OBException: ...
     def what(self) -> str: ...
 
-class OBException:
-    """
-    Members:
-
-      UNKNOWN
-
-      CAMERA_DISCONNECTED
-
-      PLATFORM
-
-      INVALID_VALUE
-
-      WRONG_API_CALL_SEQUENCE
-
-      NOT_IMPLEMENTED
-
-      IO_ERROR
-
-      UNSUPPORTED_OPERATION
-
-      ACCESS_DENIED
-
-      DEVICE_UNAVAILABLE
-
-      INVALID_DATA
-
-      NOT_FOUND
-
-      RESOURCE_BUSY
-
-      LICENSE_VERIFY_FAILED : License verification failed, the device/feature license is missing, invalid or expired
-
-      STD_EXCEPTION
-
-      TYPE_MEMORY
-    """
-
-    ACCESS_DENIED: typing.ClassVar[OBException]  # value = <OBException.ACCESS_DENIED: 10>
-    CAMERA_DISCONNECTED: typing.ClassVar[OBException]  # value = <OBException.CAMERA_DISCONNECTED: 2>
-    DEVICE_UNAVAILABLE: typing.ClassVar[OBException]  # value = <OBException.DEVICE_UNAVAILABLE: 11>
-    INVALID_DATA: typing.ClassVar[OBException]  # value = <OBException.INVALID_DATA: 12>
-    INVALID_VALUE: typing.ClassVar[OBException]  # value = <OBException.INVALID_VALUE: 4>
-    IO_ERROR: typing.ClassVar[OBException]  # value = <OBException.IO_ERROR: 7>
-    LICENSE_VERIFY_FAILED: typing.ClassVar[OBException]  # value = <OBException.LICENSE_VERIFY_FAILED: 15>
-    NOT_FOUND: typing.ClassVar[OBException]  # value = <OBException.NOT_FOUND: 13>
-    NOT_IMPLEMENTED: typing.ClassVar[OBException]  # value = <OBException.NOT_IMPLEMENTED: 6>
-    PLATFORM: typing.ClassVar[OBException]  # value = <OBException.PLATFORM: 3>
-    RESOURCE_BUSY: typing.ClassVar[OBException]  # value = <OBException.RESOURCE_BUSY: 14>
-    STD_EXCEPTION: typing.ClassVar[OBException]  # value = <OBException.STD_EXCEPTION: 1>
-    TYPE_MEMORY: typing.ClassVar[OBException]  # value = <OBException.TYPE_MEMORY: 8>
-    UNKNOWN: typing.ClassVar[OBException]  # value = <OBException.UNKNOWN: 0>
-    UNSUPPORTED_OPERATION: typing.ClassVar[OBException]  # value = <OBException.UNSUPPORTED_OPERATION: 9>
-    WRONG_API_CALL_SEQUENCE: typing.ClassVar[OBException]  # value = <OBException.WRONG_API_CALL_SEQUENCE: 5>
-    __members__: typing.ClassVar[
-        dict[str, OBException]
-    ]  # value = {'UNKNOWN': <OBException.UNKNOWN: 0>, 'CAMERA_DISCONNECTED': <OBException.CAMERA_DISCONNECTED: 2>, 'PLATFORM': <OBException.PLATFORM: 3>, 'INVALID_VALUE': <OBException.INVALID_VALUE: 4>, 'WRONG_API_CALL_SEQUENCE': <OBException.WRONG_API_CALL_SEQUENCE: 5>, 'NOT_IMPLEMENTED': <OBException.NOT_IMPLEMENTED: 6>, 'IO_ERROR': <OBException.IO_ERROR: 7>, 'UNSUPPORTED_OPERATION': <OBException.UNSUPPORTED_OPERATION: 9>, 'ACCESS_DENIED': <OBException.ACCESS_DENIED: 10>, 'DEVICE_UNAVAILABLE': <OBException.DEVICE_UNAVAILABLE: 11>, 'INVALID_DATA': <OBException.INVALID_DATA: 12>, 'NOT_FOUND': <OBException.NOT_FOUND: 13>, 'RESOURCE_BUSY': <OBException.RESOURCE_BUSY: 14>, 'LICENSE_VERIFY_FAILED': <OBException.LICENSE_VERIFY_FAILED: 15>, 'STD_EXCEPTION': <OBException.STD_EXCEPTION: 1>, 'TYPE_MEMORY': <OBException.TYPE_MEMORY: 8>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBExtrinsic:
+class Config:
     def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def rot(self) -> numpy.typing.NDArray[numpy.float32]: ...
-    @rot.setter
-    def rot(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float32]) -> None: ...
-    @property
-    def transform(self) -> numpy.typing.NDArray[numpy.float32]: ...
-    @transform.setter
-    def transform(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float32]) -> None: ...
-
-class OBFileTranState:
-    """
-    Members:
-
-      TRANSFER
-
-      DONE
-
-      PREPARING
-
-      ERR_DDR
-
-      ERR_NOT_ENOUGH_SPACE
-
-      ERR_PATH_NOT_WRITABLE
-
-      ERR_MD5_ERROR
-
-      ERR_WRITE_FLASH_ERROR
-
-      ERR_TIMEOUT
-    """
-
-    DONE: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.DONE: 1>
-    ERR_DDR: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.ERR_DDR: -1>
-    ERR_MD5_ERROR: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.ERR_MD5_ERROR: -4>
-    ERR_NOT_ENOUGH_SPACE: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.ERR_NOT_ENOUGH_SPACE: -2>
-    ERR_PATH_NOT_WRITABLE: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.ERR_PATH_NOT_WRITABLE: -3>
-    ERR_TIMEOUT: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.ERR_TIMEOUT: -6>
-    ERR_WRITE_FLASH_ERROR: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.ERR_WRITE_FLASH_ERROR: -5>
-    PREPARING: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.PREPARING: 0>
-    TRANSFER: typing.ClassVar[OBFileTranState]  # value = <OBFileTranState.TRANSFER: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBFileTranState]
-    ]  # value = {'TRANSFER': <OBFileTranState.TRANSFER: 2>, 'DONE': <OBFileTranState.DONE: 1>, 'PREPARING': <OBFileTranState.PREPARING: 0>, 'ERR_DDR': <OBFileTranState.ERR_DDR: -1>, 'ERR_NOT_ENOUGH_SPACE': <OBFileTranState.ERR_NOT_ENOUGH_SPACE: -2>, 'ERR_PATH_NOT_WRITABLE': <OBFileTranState.ERR_PATH_NOT_WRITABLE: -3>, 'ERR_MD5_ERROR': <OBFileTranState.ERR_MD5_ERROR: -4>, 'ERR_WRITE_FLASH_ERROR': <OBFileTranState.ERR_WRITE_FLASH_ERROR: -5>, 'ERR_TIMEOUT': <OBFileTranState.ERR_TIMEOUT: -6>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBFilterConfigSchemaItem:
-    type: OBFilterConfigValueType
-    def __init__(self) -> None: ...
-    @property
-    def default(self) -> float: ...
-    @default.setter
-    def default(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def desc(self) -> str: ...
-    @property
-    def max(self) -> float: ...
-    @max.setter
-    def max(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def min(self) -> float: ...
-    @min.setter
-    def min(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def step(self) -> float: ...
-    @step.setter
-    def step(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBFilterConfigValueType:
-    """
-    Members:
-
-      INVALID
-
-      INT
-
-      FLOAT
-
-      BOOLEAN
-    """
-
-    BOOLEAN: typing.ClassVar[OBFilterConfigValueType]  # value = <OBFilterConfigValueType.BOOLEAN: 2>
-    FLOAT: typing.ClassVar[OBFilterConfigValueType]  # value = <OBFilterConfigValueType.FLOAT: 1>
-    INT: typing.ClassVar[OBFilterConfigValueType]  # value = <OBFilterConfigValueType.INT: 0>
-    INVALID: typing.ClassVar[OBFilterConfigValueType]  # value = <OBFilterConfigValueType.INVALID: -1>
-    __members__: typing.ClassVar[
-        dict[str, OBFilterConfigValueType]
-    ]  # value = {'INVALID': <OBFilterConfigValueType.INVALID: -1>, 'INT': <OBFilterConfigValueType.INT: 0>, 'FLOAT': <OBFilterConfigValueType.FLOAT: 1>, 'BOOLEAN': <OBFilterConfigValueType.BOOLEAN: 2>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBFilterList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Filter: ...
-    def __len__(self) -> int: ...
-    def get_count(self) -> int: ...
-    def get_filter(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Filter: ...
-
-class OBFloatPropertyRange:
-    def __init__(self) -> None: ...
-    @property
-    def current(self) -> float: ...
-    @current.setter
-    def current(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def default_value(self) -> float: ...
-    @default_value.setter
-    def default_value(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def max(self) -> float: ...
-    @max.setter
-    def max(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def min(self) -> float: ...
-    @min.setter
-    def min(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def step(self) -> float: ...
-    @step.setter
-    def step(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBFormat:
-    """
-    Members:
-
-      UNKNOWN_FORMAT
-
-      YUYV
-
-      YUY2
-
-      UYVY
-
-      NV12
-
-      NV21
-
-      MJPG
-
-      H264
-
-      H265
-
-      Y16
-
-      Y8
-
-      Y10
-
-      Y11
-
-      Y12
-
-      GRAY
-
-      HEVC
-
-      I420
-
-      ACCEL
-
-      GYRO
-
-      POINT
-
-      RGB_POINT
-
-      RLE
-
-      RGB
-
-      BGR
-
-      Y14
-
-      BGRA
-
-      COMPRESSED
-
-      RVL
-
-      Z16
-
-      YV12
-
-      BA81
-
-      RGBA
-
-      BYR2
-
-      RW16
-
-      Y12C4
-
-      LIDAR_POINT
-
-      LIDAR_SPHERE_POINT
-
-      LIDAR_SCAN
-
-      LIDAR_CALIBRATION
-    """
-
-    ACCEL: typing.ClassVar[OBFormat]  # value = <OBFormat.ACCEL: 16>
-    BA81: typing.ClassVar[OBFormat]  # value = <OBFormat.BA81: 30>
-    BGR: typing.ClassVar[OBFormat]  # value = <OBFormat.BGR: 23>
-    BGRA: typing.ClassVar[OBFormat]  # value = <OBFormat.BGRA: 25>
-    BYR2: typing.ClassVar[OBFormat]  # value = <OBFormat.BYR2: 32>
-    COMPRESSED: typing.ClassVar[OBFormat]  # value = <OBFormat.COMPRESSED: 26>
-    GRAY: typing.ClassVar[OBFormat]  # value = <OBFormat.GRAY: 13>
-    GYRO: typing.ClassVar[OBFormat]  # value = <OBFormat.GYRO: 17>
-    H264: typing.ClassVar[OBFormat]  # value = <OBFormat.H264: 6>
-    H265: typing.ClassVar[OBFormat]  # value = <OBFormat.H265: 7>
-    HEVC: typing.ClassVar[OBFormat]  # value = <OBFormat.HEVC: 14>
-    I420: typing.ClassVar[OBFormat]  # value = <OBFormat.I420: 15>
-    LIDAR_CALIBRATION: typing.ClassVar[OBFormat]  # value = <OBFormat.LIDAR_CALIBRATION: 38>
-    LIDAR_POINT: typing.ClassVar[OBFormat]  # value = <OBFormat.LIDAR_POINT: 35>
-    LIDAR_SCAN: typing.ClassVar[OBFormat]  # value = <OBFormat.LIDAR_SCAN: 37>
-    LIDAR_SPHERE_POINT: typing.ClassVar[OBFormat]  # value = <OBFormat.LIDAR_SPHERE_POINT: 36>
-    MJPG: typing.ClassVar[OBFormat]  # value = <OBFormat.MJPG: 5>
-    NV12: typing.ClassVar[OBFormat]  # value = <OBFormat.NV12: 3>
-    NV21: typing.ClassVar[OBFormat]  # value = <OBFormat.NV21: 4>
-    POINT: typing.ClassVar[OBFormat]  # value = <OBFormat.POINT: 19>
-    RGB: typing.ClassVar[OBFormat]  # value = <OBFormat.RGB: 22>
-    RGBA: typing.ClassVar[OBFormat]  # value = <OBFormat.RGBA: 31>
-    RGB_POINT: typing.ClassVar[OBFormat]  # value = <OBFormat.RGB_POINT: 20>
-    RLE: typing.ClassVar[OBFormat]  # value = <OBFormat.RLE: 21>
-    RVL: typing.ClassVar[OBFormat]  # value = <OBFormat.RVL: 27>
-    RW16: typing.ClassVar[OBFormat]  # value = <OBFormat.RW16: 33>
-    UNKNOWN_FORMAT: typing.ClassVar[OBFormat]  # value = <OBFormat.UNKNOWN_FORMAT: -1>
-    UYVY: typing.ClassVar[OBFormat]  # value = <OBFormat.UYVY: 2>
-    Y10: typing.ClassVar[OBFormat]  # value = <OBFormat.Y10: 10>
-    Y11: typing.ClassVar[OBFormat]  # value = <OBFormat.Y11: 11>
-    Y12: typing.ClassVar[OBFormat]  # value = <OBFormat.Y12: 12>
-    Y12C4: typing.ClassVar[OBFormat]  # value = <OBFormat.Y12C4: 34>
-    Y14: typing.ClassVar[OBFormat]  # value = <OBFormat.Y14: 24>
-    Y16: typing.ClassVar[OBFormat]  # value = <OBFormat.Y16: 8>
-    Y8: typing.ClassVar[OBFormat]  # value = <OBFormat.Y8: 9>
-    YUY2: typing.ClassVar[OBFormat]  # value = <OBFormat.YUY2: 1>
-    YUYV: typing.ClassVar[OBFormat]  # value = <OBFormat.YUYV: 0>
-    YV12: typing.ClassVar[OBFormat]  # value = <OBFormat.YV12: 29>
-    Z16: typing.ClassVar[OBFormat]  # value = <OBFormat.Z16: 28>
-    __members__: typing.ClassVar[
-        dict[str, OBFormat]
-    ]  # value = {'UNKNOWN_FORMAT': <OBFormat.UNKNOWN_FORMAT: -1>, 'YUYV': <OBFormat.YUYV: 0>, 'YUY2': <OBFormat.YUY2: 1>, 'UYVY': <OBFormat.UYVY: 2>, 'NV12': <OBFormat.NV12: 3>, 'NV21': <OBFormat.NV21: 4>, 'MJPG': <OBFormat.MJPG: 5>, 'H264': <OBFormat.H264: 6>, 'H265': <OBFormat.H265: 7>, 'Y16': <OBFormat.Y16: 8>, 'Y8': <OBFormat.Y8: 9>, 'Y10': <OBFormat.Y10: 10>, 'Y11': <OBFormat.Y11: 11>, 'Y12': <OBFormat.Y12: 12>, 'GRAY': <OBFormat.GRAY: 13>, 'HEVC': <OBFormat.HEVC: 14>, 'I420': <OBFormat.I420: 15>, 'ACCEL': <OBFormat.ACCEL: 16>, 'GYRO': <OBFormat.GYRO: 17>, 'POINT': <OBFormat.POINT: 19>, 'RGB_POINT': <OBFormat.RGB_POINT: 20>, 'RLE': <OBFormat.RLE: 21>, 'RGB': <OBFormat.RGB: 22>, 'BGR': <OBFormat.BGR: 23>, 'Y14': <OBFormat.Y14: 24>, 'BGRA': <OBFormat.BGRA: 25>, 'COMPRESSED': <OBFormat.COMPRESSED: 26>, 'RVL': <OBFormat.RVL: 27>, 'Z16': <OBFormat.Z16: 28>, 'YV12': <OBFormat.YV12: 29>, 'BA81': <OBFormat.BA81: 30>, 'RGBA': <OBFormat.RGBA: 31>, 'BYR2': <OBFormat.BYR2: 32>, 'RW16': <OBFormat.RW16: 33>, 'Y12C4': <OBFormat.Y12C4: 34>, 'LIDAR_POINT': <OBFormat.LIDAR_POINT: 35>, 'LIDAR_SPHERE_POINT': <OBFormat.LIDAR_SPHERE_POINT: 36>, 'LIDAR_SCAN': <OBFormat.LIDAR_SCAN: 37>, 'LIDAR_CALIBRATION': <OBFormat.LIDAR_CALIBRATION: 38>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBFrameAggregateOutputMode:
-    """
-    Members:
-
-      FULL_FRAME_REQUIRE
-
-      COLOR_FRAME_REQUIRE
-
-      ANY_SITUATION
-
-      DISABLE
-    """
-
-    ANY_SITUATION: typing.ClassVar[OBFrameAggregateOutputMode]  # value = <OBFrameAggregateOutputMode.ANY_SITUATION: 2>
-    COLOR_FRAME_REQUIRE: typing.ClassVar[
-        OBFrameAggregateOutputMode
-    ]  # value = <OBFrameAggregateOutputMode.COLOR_FRAME_REQUIRE: 1>
-    DISABLE: typing.ClassVar[OBFrameAggregateOutputMode]  # value = <OBFrameAggregateOutputMode.DISABLE: 3>
-    FULL_FRAME_REQUIRE: typing.ClassVar[
-        OBFrameAggregateOutputMode
-    ]  # value = <OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBFrameAggregateOutputMode]
-    ]  # value = {'FULL_FRAME_REQUIRE': <OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE: 0>, 'COLOR_FRAME_REQUIRE': <OBFrameAggregateOutputMode.COLOR_FRAME_REQUIRE: 1>, 'ANY_SITUATION': <OBFrameAggregateOutputMode.ANY_SITUATION: 2>, 'DISABLE': <OBFrameAggregateOutputMode.DISABLE: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBFrameMetadataType:
-    """
-    Members:
-
-      TIMESTAMP
-
-      SENSOR_TIMESTAMP
-
-      FRAME_NUMBER
-
-      AUTO_EXPOSURE
-
-      EXPOSURE
-
-      GAIN
-
-      AUTO_WHITE_BALANCE
-
-      WHITE_BALANCE
-
-      BRIGHTNESS
-
-      CONTRAST
-
-      SATURATION
-
-      SHARPNESS
-
-      BACKLIGHT_COMPENSATION
-
-      HUE
-
-      GAMMA
-
-      POWER_LINE_FREQUENCY
-
-      LOW_LIGHT_COMPENSATION
-
-      MANUAL_WHITE_BALANCE
-
-      ACTUAL_FRAME_RATE
-
-      FRAME_RATE
-
-      AE_ROI_LEFT
-
-      AE_ROI_TOP
-
-      AE_ROI_RIGHT
-
-      AE_ROI_BOTTOM
-
-      EXPOSURE_PRIORITY
-
-      HDR_SEQUENCE_NAME
-
-      HDR_SEQUENCE_SIZE
-
-      HDR_SEQUENCE_INDEX
-
-      LASER_POWER
-
-      LASER_POWER_LEVEL
-
-      LASER_STATUS
-
-      GPIO_INPUT_DATA
-
-      DISPARITY_SEARCH_OFFSET
-
-      DISPARITY_SEARCH_RANGE
-
-      COUNT
-    """
-
-    ACTUAL_FRAME_RATE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.ACTUAL_FRAME_RATE: 18>
-    AE_ROI_BOTTOM: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.AE_ROI_BOTTOM: 23>
-    AE_ROI_LEFT: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.AE_ROI_LEFT: 20>
-    AE_ROI_RIGHT: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.AE_ROI_RIGHT: 22>
-    AE_ROI_TOP: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.AE_ROI_TOP: 21>
-    AUTO_EXPOSURE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.AUTO_EXPOSURE: 3>
-    AUTO_WHITE_BALANCE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.AUTO_WHITE_BALANCE: 6>
-    BACKLIGHT_COMPENSATION: typing.ClassVar[
-        OBFrameMetadataType
-    ]  # value = <OBFrameMetadataType.BACKLIGHT_COMPENSATION: 12>
-    BRIGHTNESS: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.BRIGHTNESS: 8>
-    CONTRAST: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.CONTRAST: 9>
-    COUNT: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.COUNT: 34>
-    DISPARITY_SEARCH_OFFSET: typing.ClassVar[
-        OBFrameMetadataType
-    ]  # value = <OBFrameMetadataType.DISPARITY_SEARCH_OFFSET: 32>
-    DISPARITY_SEARCH_RANGE: typing.ClassVar[
-        OBFrameMetadataType
-    ]  # value = <OBFrameMetadataType.DISPARITY_SEARCH_RANGE: 33>
-    EXPOSURE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.EXPOSURE: 4>
-    EXPOSURE_PRIORITY: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.EXPOSURE_PRIORITY: 24>
-    FRAME_NUMBER: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.FRAME_NUMBER: 2>
-    FRAME_RATE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.FRAME_RATE: 19>
-    GAIN: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.GAIN: 5>
-    GAMMA: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.GAMMA: 14>
-    GPIO_INPUT_DATA: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.GPIO_INPUT_DATA: 31>
-    HDR_SEQUENCE_INDEX: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.HDR_SEQUENCE_INDEX: 27>
-    HDR_SEQUENCE_NAME: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.HDR_SEQUENCE_NAME: 25>
-    HDR_SEQUENCE_SIZE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.HDR_SEQUENCE_SIZE: 26>
-    HUE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.HUE: 13>
-    LASER_POWER: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.LASER_POWER: 28>
-    LASER_POWER_LEVEL: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.LASER_POWER_LEVEL: 29>
-    LASER_STATUS: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.LASER_STATUS: 30>
-    LOW_LIGHT_COMPENSATION: typing.ClassVar[
-        OBFrameMetadataType
-    ]  # value = <OBFrameMetadataType.LOW_LIGHT_COMPENSATION: 16>
-    MANUAL_WHITE_BALANCE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.MANUAL_WHITE_BALANCE: 17>
-    POWER_LINE_FREQUENCY: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.POWER_LINE_FREQUENCY: 15>
-    SATURATION: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.SATURATION: 10>
-    SENSOR_TIMESTAMP: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.SENSOR_TIMESTAMP: 1>
-    SHARPNESS: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.SHARPNESS: 11>
-    TIMESTAMP: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.TIMESTAMP: 0>
-    WHITE_BALANCE: typing.ClassVar[OBFrameMetadataType]  # value = <OBFrameMetadataType.WHITE_BALANCE: 7>
-    __members__: typing.ClassVar[
-        dict[str, OBFrameMetadataType]
-    ]  # value = {'TIMESTAMP': <OBFrameMetadataType.TIMESTAMP: 0>, 'SENSOR_TIMESTAMP': <OBFrameMetadataType.SENSOR_TIMESTAMP: 1>, 'FRAME_NUMBER': <OBFrameMetadataType.FRAME_NUMBER: 2>, 'AUTO_EXPOSURE': <OBFrameMetadataType.AUTO_EXPOSURE: 3>, 'EXPOSURE': <OBFrameMetadataType.EXPOSURE: 4>, 'GAIN': <OBFrameMetadataType.GAIN: 5>, 'AUTO_WHITE_BALANCE': <OBFrameMetadataType.AUTO_WHITE_BALANCE: 6>, 'WHITE_BALANCE': <OBFrameMetadataType.WHITE_BALANCE: 7>, 'BRIGHTNESS': <OBFrameMetadataType.BRIGHTNESS: 8>, 'CONTRAST': <OBFrameMetadataType.CONTRAST: 9>, 'SATURATION': <OBFrameMetadataType.SATURATION: 10>, 'SHARPNESS': <OBFrameMetadataType.SHARPNESS: 11>, 'BACKLIGHT_COMPENSATION': <OBFrameMetadataType.BACKLIGHT_COMPENSATION: 12>, 'HUE': <OBFrameMetadataType.HUE: 13>, 'GAMMA': <OBFrameMetadataType.GAMMA: 14>, 'POWER_LINE_FREQUENCY': <OBFrameMetadataType.POWER_LINE_FREQUENCY: 15>, 'LOW_LIGHT_COMPENSATION': <OBFrameMetadataType.LOW_LIGHT_COMPENSATION: 16>, 'MANUAL_WHITE_BALANCE': <OBFrameMetadataType.MANUAL_WHITE_BALANCE: 17>, 'ACTUAL_FRAME_RATE': <OBFrameMetadataType.ACTUAL_FRAME_RATE: 18>, 'FRAME_RATE': <OBFrameMetadataType.FRAME_RATE: 19>, 'AE_ROI_LEFT': <OBFrameMetadataType.AE_ROI_LEFT: 20>, 'AE_ROI_TOP': <OBFrameMetadataType.AE_ROI_TOP: 21>, 'AE_ROI_RIGHT': <OBFrameMetadataType.AE_ROI_RIGHT: 22>, 'AE_ROI_BOTTOM': <OBFrameMetadataType.AE_ROI_BOTTOM: 23>, 'EXPOSURE_PRIORITY': <OBFrameMetadataType.EXPOSURE_PRIORITY: 24>, 'HDR_SEQUENCE_NAME': <OBFrameMetadataType.HDR_SEQUENCE_NAME: 25>, 'HDR_SEQUENCE_SIZE': <OBFrameMetadataType.HDR_SEQUENCE_SIZE: 26>, 'HDR_SEQUENCE_INDEX': <OBFrameMetadataType.HDR_SEQUENCE_INDEX: 27>, 'LASER_POWER': <OBFrameMetadataType.LASER_POWER: 28>, 'LASER_POWER_LEVEL': <OBFrameMetadataType.LASER_POWER_LEVEL: 29>, 'LASER_STATUS': <OBFrameMetadataType.LASER_STATUS: 30>, 'GPIO_INPUT_DATA': <OBFrameMetadataType.GPIO_INPUT_DATA: 31>, 'DISPARITY_SEARCH_OFFSET': <OBFrameMetadataType.DISPARITY_SEARCH_OFFSET: 32>, 'DISPARITY_SEARCH_RANGE': <OBFrameMetadataType.DISPARITY_SEARCH_RANGE: 33>, 'COUNT': <OBFrameMetadataType.COUNT: 34>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBFrameType:
-    """
-    Members:
-
-      UNKNOWN_FRAME
-
-      VIDEO_FRAME
-
-      IR_FRAME
-
-      COLOR_FRAME
-
-      DEPTH_FRAME
-
-      ACCEL_FRAME
-
-      GYRO_FRAME
-
-      LEFT_IR_FRAME
-
-      RIGHT_IR_FRAME
-
-      FRAME_SET
-
-      RAW_PHASE_FRAME
-
-      CONFIDENCE_FRAME
-
-      LIDAR_POINTS_FRAME
-
-      LEFT_COLOR_FRAME
-
-      RIGHT_COLOR_FRAME
-
-      TYPE_COUNT_FRAME
-    """
-
-    ACCEL_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.ACCEL_FRAME: 4>
-    COLOR_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.COLOR_FRAME: 2>
-    CONFIDENCE_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.CONFIDENCE_FRAME: 11>
-    DEPTH_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.DEPTH_FRAME: 3>
-    FRAME_SET: typing.ClassVar[OBFrameType]  # value = <OBFrameType.FRAME_SET: 5>
-    GYRO_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.GYRO_FRAME: 7>
-    IR_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.IR_FRAME: 1>
-    LEFT_COLOR_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.LEFT_COLOR_FRAME: 13>
-    LEFT_IR_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.LEFT_IR_FRAME: 8>
-    LIDAR_POINTS_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.LIDAR_POINTS_FRAME: 12>
-    RAW_PHASE_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.RAW_PHASE_FRAME: 10>
-    RIGHT_COLOR_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.RIGHT_COLOR_FRAME: 14>
-    RIGHT_IR_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.RIGHT_IR_FRAME: 9>
-    TYPE_COUNT_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.TYPE_COUNT_FRAME: 15>
-    UNKNOWN_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.UNKNOWN_FRAME: -1>
-    VIDEO_FRAME: typing.ClassVar[OBFrameType]  # value = <OBFrameType.VIDEO_FRAME: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBFrameType]
-    ]  # value = {'UNKNOWN_FRAME': <OBFrameType.UNKNOWN_FRAME: -1>, 'VIDEO_FRAME': <OBFrameType.VIDEO_FRAME: 0>, 'IR_FRAME': <OBFrameType.IR_FRAME: 1>, 'COLOR_FRAME': <OBFrameType.COLOR_FRAME: 2>, 'DEPTH_FRAME': <OBFrameType.DEPTH_FRAME: 3>, 'ACCEL_FRAME': <OBFrameType.ACCEL_FRAME: 4>, 'GYRO_FRAME': <OBFrameType.GYRO_FRAME: 7>, 'LEFT_IR_FRAME': <OBFrameType.LEFT_IR_FRAME: 8>, 'RIGHT_IR_FRAME': <OBFrameType.RIGHT_IR_FRAME: 9>, 'FRAME_SET': <OBFrameType.FRAME_SET: 5>, 'RAW_PHASE_FRAME': <OBFrameType.RAW_PHASE_FRAME: 10>, 'CONFIDENCE_FRAME': <OBFrameType.CONFIDENCE_FRAME: 11>, 'LIDAR_POINTS_FRAME': <OBFrameType.LIDAR_POINTS_FRAME: 12>, 'LEFT_COLOR_FRAME': <OBFrameType.LEFT_COLOR_FRAME: 13>, 'RIGHT_COLOR_FRAME': <OBFrameType.RIGHT_COLOR_FRAME: 14>, 'TYPE_COUNT_FRAME': <OBFrameType.TYPE_COUNT_FRAME: 15>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBGvcpPortScheme:
-    """
-    Members:
-
-      STANDARD
-
-      B
-    """
-
-    B: typing.ClassVar[OBGvcpPortScheme]  # value = <OBGvcpPortScheme.B: 1>
-    STANDARD: typing.ClassVar[OBGvcpPortScheme]  # value = <OBGvcpPortScheme.STANDARD: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBGvcpPortScheme]
-    ]  # value = {'STANDARD': <OBGvcpPortScheme.STANDARD: 0>, 'B': <OBGvcpPortScheme.B: 1>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBGyroFullScaleRange:
-    """
-    Members:
-
-      FS_UNKNOWN
-
-      FS_16dps
-
-      FS_31dps
-
-      FS_62dps
-
-      FS_125dps
-
-      FS_250dps
-
-      FS_500dps
-
-      FS_1000dps
-
-      FS_2000dps
-
-      FS_400dps
-
-      FS_800dps
-    """
-
-    FS_1000dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_1000dps: 7>
-    FS_125dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_125dps: 4>
-    FS_16dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_16dps: 1>
-    FS_2000dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_2000dps: 8>
-    FS_250dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_250dps: 5>
-    FS_31dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_31dps: 2>
-    FS_400dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_400dps: 9>
-    FS_500dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_500dps: 6>
-    FS_62dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_62dps: 3>
-    FS_800dps: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_800dps: 10>
-    FS_UNKNOWN: typing.ClassVar[OBGyroFullScaleRange]  # value = <OBGyroFullScaleRange.FS_UNKNOWN: -1>
-    __members__: typing.ClassVar[
-        dict[str, OBGyroFullScaleRange]
-    ]  # value = {'FS_UNKNOWN': <OBGyroFullScaleRange.FS_UNKNOWN: -1>, 'FS_16dps': <OBGyroFullScaleRange.FS_16dps: 1>, 'FS_31dps': <OBGyroFullScaleRange.FS_31dps: 2>, 'FS_62dps': <OBGyroFullScaleRange.FS_62dps: 3>, 'FS_125dps': <OBGyroFullScaleRange.FS_125dps: 4>, 'FS_250dps': <OBGyroFullScaleRange.FS_250dps: 5>, 'FS_500dps': <OBGyroFullScaleRange.FS_500dps: 6>, 'FS_1000dps': <OBGyroFullScaleRange.FS_1000dps: 7>, 'FS_2000dps': <OBGyroFullScaleRange.FS_2000dps: 8>, 'FS_400dps': <OBGyroFullScaleRange.FS_400dps: 9>, 'FS_800dps': <OBGyroFullScaleRange.FS_800dps: 10>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBGyroIntrinsic:
-    def __init__(self) -> None: ...
-    @property
-    def bias(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @bias.setter
-    def bias(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-    @property
-    def noise_density(self) -> float: ...
-    @noise_density.setter
-    def noise_density(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def random_walk(self) -> float: ...
-    @random_walk.setter
-    def random_walk(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def reference_temp(self) -> float: ...
-    @reference_temp.setter
-    def reference_temp(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def scale_misalignment(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @scale_misalignment.setter
-    def scale_misalignment(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-    @property
-    def temp_slope(self) -> numpy.typing.NDArray[numpy.float64]: ...
-    @temp_slope.setter
-    def temp_slope(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.float64]) -> None: ...
-
-class OBGyroSampleRate:
-    """
-    Members:
-
-      SAMPLE_RATE_UNKNOWN
-
-      SAMPLE_RATE_1_5625_HZ
-
-      SAMPLE_RATE_3_125_HZ
-
-      SAMPLE_RATE_6_25_HZ
-
-      SAMPLE_RATE_12_5_HZ
-
-      SAMPLE_RATE_25_HZ
-
-      SAMPLE_RATE_50_HZ
-
-      SAMPLE_RATE_100_HZ
-
-      SAMPLE_RATE_200_HZ
-
-      SAMPLE_RATE_500_HZ
-
-      SAMPLE_RATE_1_KHZ
-
-      SAMPLE_RATE_2_KHZ
-
-      SAMPLE_RATE_4_KHZ
-
-      SAMPLE_RATE_8_KHZ
-
-      SAMPLE_RATE_16_KHZ
-
-      SAMPLE_RATE_32_KHZ
-
-      SAMPLE_RATE_400_HZ
-
-      SAMPLE_RATE_800_HZ
-    """
-
-    SAMPLE_RATE_100_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_100_HZ: 7>
-    SAMPLE_RATE_12_5_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_12_5_HZ: 4>
-    SAMPLE_RATE_16_KHZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_16_KHZ: 14>
-    SAMPLE_RATE_1_5625_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_1_5625_HZ: 1>
-    SAMPLE_RATE_1_KHZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_1_KHZ: 10>
-    SAMPLE_RATE_200_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_200_HZ: 8>
-    SAMPLE_RATE_25_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_25_HZ: 5>
-    SAMPLE_RATE_2_KHZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_2_KHZ: 11>
-    SAMPLE_RATE_32_KHZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_32_KHZ: 15>
-    SAMPLE_RATE_3_125_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_3_125_HZ: 2>
-    SAMPLE_RATE_400_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_400_HZ: 16>
-    SAMPLE_RATE_4_KHZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_4_KHZ: 12>
-    SAMPLE_RATE_500_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_500_HZ: 9>
-    SAMPLE_RATE_50_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_50_HZ: 6>
-    SAMPLE_RATE_6_25_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_6_25_HZ: 3>
-    SAMPLE_RATE_800_HZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_800_HZ: 17>
-    SAMPLE_RATE_8_KHZ: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_8_KHZ: 13>
-    SAMPLE_RATE_UNKNOWN: typing.ClassVar[OBGyroSampleRate]  # value = <OBGyroSampleRate.SAMPLE_RATE_UNKNOWN: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBGyroSampleRate]
-    ]  # value = {'SAMPLE_RATE_UNKNOWN': <OBGyroSampleRate.SAMPLE_RATE_UNKNOWN: 0>, 'SAMPLE_RATE_1_5625_HZ': <OBGyroSampleRate.SAMPLE_RATE_1_5625_HZ: 1>, 'SAMPLE_RATE_3_125_HZ': <OBGyroSampleRate.SAMPLE_RATE_3_125_HZ: 2>, 'SAMPLE_RATE_6_25_HZ': <OBGyroSampleRate.SAMPLE_RATE_6_25_HZ: 3>, 'SAMPLE_RATE_12_5_HZ': <OBGyroSampleRate.SAMPLE_RATE_12_5_HZ: 4>, 'SAMPLE_RATE_25_HZ': <OBGyroSampleRate.SAMPLE_RATE_25_HZ: 5>, 'SAMPLE_RATE_50_HZ': <OBGyroSampleRate.SAMPLE_RATE_50_HZ: 6>, 'SAMPLE_RATE_100_HZ': <OBGyroSampleRate.SAMPLE_RATE_100_HZ: 7>, 'SAMPLE_RATE_200_HZ': <OBGyroSampleRate.SAMPLE_RATE_200_HZ: 8>, 'SAMPLE_RATE_500_HZ': <OBGyroSampleRate.SAMPLE_RATE_500_HZ: 9>, 'SAMPLE_RATE_1_KHZ': <OBGyroSampleRate.SAMPLE_RATE_1_KHZ: 10>, 'SAMPLE_RATE_2_KHZ': <OBGyroSampleRate.SAMPLE_RATE_2_KHZ: 11>, 'SAMPLE_RATE_4_KHZ': <OBGyroSampleRate.SAMPLE_RATE_4_KHZ: 12>, 'SAMPLE_RATE_8_KHZ': <OBGyroSampleRate.SAMPLE_RATE_8_KHZ: 13>, 'SAMPLE_RATE_16_KHZ': <OBGyroSampleRate.SAMPLE_RATE_16_KHZ: 14>, 'SAMPLE_RATE_32_KHZ': <OBGyroSampleRate.SAMPLE_RATE_32_KHZ: 15>, 'SAMPLE_RATE_400_HZ': <OBGyroSampleRate.SAMPLE_RATE_400_HZ: 16>, 'SAMPLE_RATE_800_HZ': <OBGyroSampleRate.SAMPLE_RATE_800_HZ: 17>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBHardwareDecimationConfig:
-    def __init__(self) -> None: ...
-    @property
-    def factor(self) -> int: ...
-    @factor.setter
-    def factor(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def origin_height(self) -> int: ...
-    @origin_height.setter
-    def origin_height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def origin_width(self) -> int: ...
-    @origin_width.setter
-    def origin_width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBHdrConfig:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBHdrConfig: ...
-    def to_bytes(self) -> bytes: ...
-    def __init__(self) -> None: ...
-    @property
-    def enable(self) -> int: ...
-    @enable.setter
-    def enable(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def exposure_1(self) -> int: ...
-    @exposure_1.setter
-    def exposure_1(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def exposure_2(self) -> int: ...
-    @exposure_2.setter
-    def exposure_2(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def gain_1(self) -> int: ...
-    @gain_1.setter
-    def gain_1(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def gain_2(self) -> int: ...
-    @gain_2.setter
-    def gain_2(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def sequence_name(self) -> int: ...
-    @sequence_name.setter
-    def sequence_name(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBHoleFillingMode:
-    """
-    Members:
-
-      TOP
-
-      NEAREST
-
-      FURTHEST
-    """
-
-    FURTHEST: typing.ClassVar[OBHoleFillingMode]  # value = <OBHoleFillingMode.FURTHEST: 2>
-    NEAREST: typing.ClassVar[OBHoleFillingMode]  # value = <OBHoleFillingMode.NEAREST: 1>
-    TOP: typing.ClassVar[OBHoleFillingMode]  # value = <OBHoleFillingMode.TOP: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBHoleFillingMode]
-    ]  # value = {'TOP': <OBHoleFillingMode.TOP: 0>, 'NEAREST': <OBHoleFillingMode.NEAREST: 1>, 'FURTHEST': <OBHoleFillingMode.FURTHEST: 2>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBIntPropertyRange:
-    def __init__(self) -> None: ...
-    @property
-    def current(self) -> int: ...
-    @current.setter
-    def current(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def default_value(self) -> int: ...
-    @default_value.setter
-    def default_value(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max(self) -> int: ...
-    @max.setter
-    def max(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def min(self) -> int: ...
-    @min.setter
-    def min(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def step(self) -> int: ...
-    @step.setter
-    def step(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBIntraCameraSyncReference:
-    """
-    Members:
-
-      START_OF_EXPOSURE
-
-      MIDDLE_OF_EXPOSURE
-
-      END_OF_EXPOSURE
-    """
-
-    END_OF_EXPOSURE: typing.ClassVar[
-        OBIntraCameraSyncReference
-    ]  # value = <OBIntraCameraSyncReference.END_OF_EXPOSURE: 2>
-    MIDDLE_OF_EXPOSURE: typing.ClassVar[
-        OBIntraCameraSyncReference
-    ]  # value = <OBIntraCameraSyncReference.MIDDLE_OF_EXPOSURE: 1>
-    START_OF_EXPOSURE: typing.ClassVar[
-        OBIntraCameraSyncReference
-    ]  # value = <OBIntraCameraSyncReference.START_OF_EXPOSURE: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBIntraCameraSyncReference]
-    ]  # value = {'START_OF_EXPOSURE': <OBIntraCameraSyncReference.START_OF_EXPOSURE: 0>, 'MIDDLE_OF_EXPOSURE': <OBIntraCameraSyncReference.MIDDLE_OF_EXPOSURE: 1>, 'END_OF_EXPOSURE': <OBIntraCameraSyncReference.END_OF_EXPOSURE: 2>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBIpSourceType:
-    """
-    Members:
-
-      NONE
-
-      LLA
-
-      DHCP
-
-      PERSISTENT
-    """
-
-    DHCP: typing.ClassVar[OBIpSourceType]  # value = <OBIpSourceType.DHCP: 2>
-    LLA: typing.ClassVar[OBIpSourceType]  # value = <OBIpSourceType.LLA: 1>
-    NONE: typing.ClassVar[OBIpSourceType]  # value = <OBIpSourceType.NONE: 0>
-    PERSISTENT: typing.ClassVar[OBIpSourceType]  # value = <OBIpSourceType.PERSISTENT: 3>
-    __members__: typing.ClassVar[
-        dict[str, OBIpSourceType]
-    ]  # value = {'NONE': <OBIpSourceType.NONE: 0>, 'LLA': <OBIpSourceType.LLA: 1>, 'DHCP': <OBIpSourceType.DHCP: 2>, 'PERSISTENT': <OBIpSourceType.PERSISTENT: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBLiDARPoint:
-    def __init__(self) -> None: ...
-    @property
-    def reflectivity(self) -> int: ...
-    @reflectivity.setter
-    def reflectivity(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def tag(self) -> int: ...
-    @tag.setter
-    def tag(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def x(self) -> float: ...
-    @x.setter
-    def x(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def y(self) -> float: ...
-    @y.setter
-    def y(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def z(self) -> float: ...
-    @z.setter
-    def z(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBLiDARScanPoint:
-    def __init__(self) -> None: ...
-    @property
-    def angle(self) -> float: ...
-    @angle.setter
-    def angle(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def distance(self) -> float: ...
-    @distance.setter
-    def distance(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def intensity(self) -> int: ...
-    @intensity.setter
-    def intensity(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBLiDARScanRate:
-    """
-    Members:
-
-      LIDAR_SCAN_UNKNOWN
-
-      LIDAR_SCAN_5HZ
-
-      LIDAR_SCAN_10HZ
-
-      LIDAR_SCAN_15HZ
-
-      LIDAR_SCAN_20HZ
-
-      LIDAR_SCAN_25HZ
-
-      LIDAR_SCAN_30HZ
-
-      LIDAR_SCAN_40HZ
-    """
-
-    LIDAR_SCAN_10HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_10HZ: 2>
-    LIDAR_SCAN_15HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_15HZ: 3>
-    LIDAR_SCAN_20HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_20HZ: 4>
-    LIDAR_SCAN_25HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_25HZ: 5>
-    LIDAR_SCAN_30HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_30HZ: 6>
-    LIDAR_SCAN_40HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_40HZ: 7>
-    LIDAR_SCAN_5HZ: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_5HZ: 1>
-    LIDAR_SCAN_UNKNOWN: typing.ClassVar[OBLiDARScanRate]  # value = <OBLiDARScanRate.LIDAR_SCAN_UNKNOWN: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBLiDARScanRate]
-    ]  # value = {'LIDAR_SCAN_UNKNOWN': <OBLiDARScanRate.LIDAR_SCAN_UNKNOWN: 0>, 'LIDAR_SCAN_5HZ': <OBLiDARScanRate.LIDAR_SCAN_5HZ: 1>, 'LIDAR_SCAN_10HZ': <OBLiDARScanRate.LIDAR_SCAN_10HZ: 2>, 'LIDAR_SCAN_15HZ': <OBLiDARScanRate.LIDAR_SCAN_15HZ: 3>, 'LIDAR_SCAN_20HZ': <OBLiDARScanRate.LIDAR_SCAN_20HZ: 4>, 'LIDAR_SCAN_25HZ': <OBLiDARScanRate.LIDAR_SCAN_25HZ: 5>, 'LIDAR_SCAN_30HZ': <OBLiDARScanRate.LIDAR_SCAN_30HZ: 6>, 'LIDAR_SCAN_40HZ': <OBLiDARScanRate.LIDAR_SCAN_40HZ: 7>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBLiDARSpherePoint:
-    def __init__(self) -> None: ...
-    @property
-    def distance(self) -> float: ...
-    @distance.setter
-    def distance(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def phi(self) -> float: ...
-    @phi.setter
-    def phi(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def reflectivity(self) -> int: ...
-    @reflectivity.setter
-    def reflectivity(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def tag(self) -> int: ...
-    @tag.setter
-    def tag(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def theta(self) -> float: ...
-    @theta.setter
-    def theta(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBLogLevel:
-    """
-    Members:
-
-      DEBUG
-
-      INFO
-
-      WARNING
-
-      ERROR
-
-      FATAL
-
-      NONE
-    """
-
-    DEBUG: typing.ClassVar[OBLogLevel]  # value = <OBLogLevel.DEBUG: 0>
-    ERROR: typing.ClassVar[OBLogLevel]  # value = <OBLogLevel.ERROR: 3>
-    FATAL: typing.ClassVar[OBLogLevel]  # value = <OBLogLevel.FATAL: 4>
-    INFO: typing.ClassVar[OBLogLevel]  # value = <OBLogLevel.INFO: 1>
-    NONE: typing.ClassVar[OBLogLevel]  # value = <OBLogLevel.NONE: 5>
-    WARNING: typing.ClassVar[OBLogLevel]  # value = <OBLogLevel.WARNING: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBLogLevel]
-    ]  # value = {'DEBUG': <OBLogLevel.DEBUG: 0>, 'INFO': <OBLogLevel.INFO: 1>, 'WARNING': <OBLogLevel.WARNING: 2>, 'ERROR': <OBLogLevel.ERROR: 3>, 'FATAL': <OBLogLevel.FATAL: 4>, 'NONE': <OBLogLevel.NONE: 5>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBLutNoiseRemovalFilterParams:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def height(self) -> int: ...
-    @height.setter
-    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max_lut(self) -> numpy.typing.NDArray[numpy.uint16]: ...
-    @max_lut.setter
-    def max_lut(self, arg1: typing_extensions.Annotated[numpy.typing.ArrayLike, numpy.uint16]) -> None: ...
-    @property
-    def min_diff(self) -> int: ...
-    @min_diff.setter
-    def min_diff(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def width(self) -> int: ...
-    @width.setter
-    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBMediaState:
-    """
-    Members:
-
-      OB_MEDIA_BEGIN
-
-      OB_MEDIA_PAUSE
-
-      OB_MEDIA_RESUME
-
-      OB_MEDIA_END
-    """
-
-    OB_MEDIA_BEGIN: typing.ClassVar[OBMediaState]  # value = <OBMediaState.OB_MEDIA_BEGIN: 0>
-    OB_MEDIA_END: typing.ClassVar[OBMediaState]  # value = <OBMediaState.OB_MEDIA_END: 3>
-    OB_MEDIA_PAUSE: typing.ClassVar[OBMediaState]  # value = <OBMediaState.OB_MEDIA_PAUSE: 1>
-    OB_MEDIA_RESUME: typing.ClassVar[OBMediaState]  # value = <OBMediaState.OB_MEDIA_RESUME: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBMediaState]
-    ]  # value = {'OB_MEDIA_BEGIN': <OBMediaState.OB_MEDIA_BEGIN: 0>, 'OB_MEDIA_PAUSE': <OBMediaState.OB_MEDIA_PAUSE: 1>, 'OB_MEDIA_RESUME': <OBMediaState.OB_MEDIA_RESUME: 2>, 'OB_MEDIA_END': <OBMediaState.OB_MEDIA_END: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBMediaType:
-    """
-    Members:
-
-      DEPTH
-
-      COLOR
-
-      IR
-
-      GYRO
-
-      ACCEL
-
-      CAMERA_PARAM
-
-      DEVICE_INFO
-
-      STREAM_INFO
-
-      LEFT_IR
-
-      RIGHT_IR
-
-      ALL
-    """
-
-    ACCEL: typing.ClassVar[OBMediaType]  # value = <OBMediaType.ACCEL: 16>
-    ALL: typing.ClassVar[OBMediaType]  # value = <OBMediaType.ALL: 1023>
-    CAMERA_PARAM: typing.ClassVar[OBMediaType]  # value = <OBMediaType.CAMERA_PARAM: 32>
-    COLOR: typing.ClassVar[OBMediaType]  # value = <OBMediaType.COLOR: 1>
-    DEPTH: typing.ClassVar[OBMediaType]  # value = <OBMediaType.DEPTH: 2>
-    DEVICE_INFO: typing.ClassVar[OBMediaType]  # value = <OBMediaType.DEVICE_INFO: 64>
-    GYRO: typing.ClassVar[OBMediaType]  # value = <OBMediaType.GYRO: 8>
-    IR: typing.ClassVar[OBMediaType]  # value = <OBMediaType.IR: 4>
-    LEFT_IR: typing.ClassVar[OBMediaType]  # value = <OBMediaType.LEFT_IR: 256>
-    RIGHT_IR: typing.ClassVar[OBMediaType]  # value = <OBMediaType.RIGHT_IR: 512>
-    STREAM_INFO: typing.ClassVar[OBMediaType]  # value = <OBMediaType.STREAM_INFO: 128>
-    __members__: typing.ClassVar[
-        dict[str, OBMediaType]
-    ]  # value = {'DEPTH': <OBMediaType.DEPTH: 2>, 'COLOR': <OBMediaType.COLOR: 1>, 'IR': <OBMediaType.IR: 4>, 'GYRO': <OBMediaType.GYRO: 8>, 'ACCEL': <OBMediaType.ACCEL: 16>, 'CAMERA_PARAM': <OBMediaType.CAMERA_PARAM: 32>, 'DEVICE_INFO': <OBMediaType.DEVICE_INFO: 64>, 'STREAM_INFO': <OBMediaType.STREAM_INFO: 128>, 'LEFT_IR': <OBMediaType.LEFT_IR: 256>, 'RIGHT_IR': <OBMediaType.RIGHT_IR: 512>, 'ALL': <OBMediaType.ALL: 1023>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBMgcNoiseRemovalFilterParams:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def height(self) -> int: ...
-    @height.setter
-    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def limit_x_th(self) -> int: ...
-    @limit_x_th.setter
-    def limit_x_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def limit_y_th(self) -> int: ...
-    @limit_y_th.setter
-    def limit_y_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def margin_x_th(self) -> int: ...
-    @margin_x_th.setter
-    def margin_x_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def margin_y_th(self) -> int: ...
-    @margin_y_th.setter
-    def margin_y_th(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max_radius(self) -> int: ...
-    @max_radius.setter
-    def max_radius(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max_width_left(self) -> int: ...
-    @max_width_left.setter
-    def max_width_left(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max_width_right(self) -> int: ...
-    @max_width_right.setter
-    def max_width_right(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def width(self) -> int: ...
-    @width.setter
-    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBMultiDeviceSyncConfig:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBMultiDeviceSyncConfig: ...
-    def to_bytes(self) -> bytes: ...
-    mode: OBMultiDeviceSyncMode
-    trigger_out_enable: bool
-    def __init__(self) -> None: ...
-    @property
-    def color_delay_us(self) -> int: ...
-    @color_delay_us.setter
-    def color_delay_us(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def depth_delay_us(self) -> int: ...
-    @depth_delay_us.setter
-    def depth_delay_us(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def frames_per_trigger(self) -> int: ...
-    @frames_per_trigger.setter
-    def frames_per_trigger(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def trigger_out_delay_us(self) -> int: ...
-    @trigger_out_delay_us.setter
-    def trigger_out_delay_us(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def trigger_to_image_delay_us(self) -> int: ...
-    @trigger_to_image_delay_us.setter
-    def trigger_to_image_delay_us(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBMultiDeviceSyncMode:
-    """
-    Members:
-
-      FREE_RUN
-
-      STANDALONE
-
-      PRIMARY
-
-      SECONDARY
-
-      SECONDARY_SYNCED
-
-      SOFTWARE_TRIGGERING
-
-      HARDWARE_TRIGGERING
-
-      IR_IMU_SYNC
-
-      SOFTWARE_SYNCED
-
-      GROUP_ACTIONS
-    """
-
-    FREE_RUN: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.FREE_RUN: 1>
-    GROUP_ACTIONS: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.GROUP_ACTIONS: 512>
-    HARDWARE_TRIGGERING: typing.ClassVar[
-        OBMultiDeviceSyncMode
-    ]  # value = <OBMultiDeviceSyncMode.HARDWARE_TRIGGERING: 64>
-    IR_IMU_SYNC: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.IR_IMU_SYNC: 128>
-    PRIMARY: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.PRIMARY: 4>
-    SECONDARY: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.SECONDARY: 8>
-    SECONDARY_SYNCED: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.SECONDARY_SYNCED: 16>
-    SOFTWARE_SYNCED: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.SOFTWARE_SYNCED: 256>
-    SOFTWARE_TRIGGERING: typing.ClassVar[
-        OBMultiDeviceSyncMode
-    ]  # value = <OBMultiDeviceSyncMode.SOFTWARE_TRIGGERING: 32>
-    STANDALONE: typing.ClassVar[OBMultiDeviceSyncMode]  # value = <OBMultiDeviceSyncMode.STANDALONE: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBMultiDeviceSyncMode]
-    ]  # value = {'FREE_RUN': <OBMultiDeviceSyncMode.FREE_RUN: 1>, 'STANDALONE': <OBMultiDeviceSyncMode.STANDALONE: 2>, 'PRIMARY': <OBMultiDeviceSyncMode.PRIMARY: 4>, 'SECONDARY': <OBMultiDeviceSyncMode.SECONDARY: 8>, 'SECONDARY_SYNCED': <OBMultiDeviceSyncMode.SECONDARY_SYNCED: 16>, 'SOFTWARE_TRIGGERING': <OBMultiDeviceSyncMode.SOFTWARE_TRIGGERING: 32>, 'HARDWARE_TRIGGERING': <OBMultiDeviceSyncMode.HARDWARE_TRIGGERING: 64>, 'IR_IMU_SYNC': <OBMultiDeviceSyncMode.IR_IMU_SYNC: 128>, 'SOFTWARE_SYNCED': <OBMultiDeviceSyncMode.SOFTWARE_SYNCED: 256>, 'GROUP_ACTIONS': <OBMultiDeviceSyncMode.GROUP_ACTIONS: 512>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBNetIpConfigV2:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBNetIpConfigV2: ...
-    def to_bytes(self) -> bytes: ...
-    address: str
-    gateway: str
-    netmask: str
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def flags(self) -> int: ...
-    @flags.setter
-    def flags(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBNoiseRemovalFilterParams:
-    type: OBDDONoiseRemovalType
-    def __init__(self) -> None: ...
-    @property
-    def disp_diff(self) -> int: ...
-    @disp_diff.setter
-    def disp_diff(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max_size(self) -> int: ...
-    @max_size.setter
-    def max_size(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBPermissionType:
-    """
-    Members:
-
-      PERMISSION_DENY
-
-      PERMISSION_READ
-
-      PERMISSION_WRITE
-
-      PERMISSION_READ_WRITE
-
-      PERMISSION_ANY
-    """
-
-    PERMISSION_ANY: typing.ClassVar[OBPermissionType]  # value = <OBPermissionType.PERMISSION_ANY: 255>
-    PERMISSION_DENY: typing.ClassVar[OBPermissionType]  # value = <OBPermissionType.PERMISSION_DENY: 0>
-    PERMISSION_READ: typing.ClassVar[OBPermissionType]  # value = <OBPermissionType.PERMISSION_READ: 1>
-    PERMISSION_READ_WRITE: typing.ClassVar[OBPermissionType]  # value = <OBPermissionType.PERMISSION_READ_WRITE: 3>
-    PERMISSION_WRITE: typing.ClassVar[OBPermissionType]  # value = <OBPermissionType.PERMISSION_WRITE: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBPermissionType]
-    ]  # value = {'PERMISSION_DENY': <OBPermissionType.PERMISSION_DENY: 0>, 'PERMISSION_READ': <OBPermissionType.PERMISSION_READ: 1>, 'PERMISSION_WRITE': <OBPermissionType.PERMISSION_WRITE: 2>, 'PERMISSION_READ_WRITE': <OBPermissionType.PERMISSION_READ_WRITE: 3>, 'PERMISSION_ANY': <OBPermissionType.PERMISSION_ANY: 255>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBPipelineIssue:
-    """
-    Members:
-
-      NONE
-
-      SDK
-
-      DRIVER
-
-      FW
-
-      HW
-    """
-
-    DRIVER: typing.ClassVar[OBPipelineIssue]  # value = <OBPipelineIssue.DRIVER: 2>
-    FW: typing.ClassVar[OBPipelineIssue]  # value = <OBPipelineIssue.FW: 4>
-    HW: typing.ClassVar[OBPipelineIssue]  # value = <OBPipelineIssue.HW: 8>
-    NONE: typing.ClassVar[OBPipelineIssue]  # value = <OBPipelineIssue.NONE: 0>
-    SDK: typing.ClassVar[OBPipelineIssue]  # value = <OBPipelineIssue.SDK: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBPipelineIssue]
-    ]  # value = {'NONE': <OBPipelineIssue.NONE: 0>, 'SDK': <OBPipelineIssue.SDK: 1>, 'DRIVER': <OBPipelineIssue.DRIVER: 2>, 'FW': <OBPipelineIssue.FW: 4>, 'HW': <OBPipelineIssue.HW: 8>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBPipelineStatus:
-    issue: OBPipelineIssue
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def dev_status(self) -> int: ...
-    @dev_status.setter
-    def dev_status(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def drv_status(self) -> int: ...
-    @drv_status.setter
-    def drv_status(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def sdk_status(self) -> int: ...
-    @sdk_status.setter
-    def sdk_status(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBPixelType:
-    """
-    Members:
-
-      OB_PIXEL_UNKNOWN
-
-      OB_PIXEL_DEPTH
-
-      OB_PIXEL_DISPARITY
-
-      OB_PIXEL_RAW_PHASE
-
-      OB_PIXEL_TOF_DEPTH
-    """
-
-    OB_PIXEL_DEPTH: typing.ClassVar[OBPixelType]  # value = <OBPixelType.OB_PIXEL_DEPTH: 0>
-    OB_PIXEL_DISPARITY: typing.ClassVar[OBPixelType]  # value = <OBPixelType.OB_PIXEL_DISPARITY: 2>
-    OB_PIXEL_RAW_PHASE: typing.ClassVar[OBPixelType]  # value = <OBPixelType.OB_PIXEL_RAW_PHASE: 3>
-    OB_PIXEL_TOF_DEPTH: typing.ClassVar[OBPixelType]  # value = <OBPixelType.OB_PIXEL_TOF_DEPTH: 4>
-    OB_PIXEL_UNKNOWN: typing.ClassVar[OBPixelType]  # value = <OBPixelType.OB_PIXEL_UNKNOWN: -1>
-    __members__: typing.ClassVar[
-        dict[str, OBPixelType]
-    ]  # value = {'OB_PIXEL_UNKNOWN': <OBPixelType.OB_PIXEL_UNKNOWN: -1>, 'OB_PIXEL_DEPTH': <OBPixelType.OB_PIXEL_DEPTH: 0>, 'OB_PIXEL_DISPARITY': <OBPixelType.OB_PIXEL_DISPARITY: 2>, 'OB_PIXEL_RAW_PHASE': <OBPixelType.OB_PIXEL_RAW_PHASE: 3>, 'OB_PIXEL_TOF_DEPTH': <OBPixelType.OB_PIXEL_TOF_DEPTH: 4>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBPlaybackStatus:
-    """
-    Members:
-
-      UNKNOWN
-
-      PLAYING
-
-      PAUSED
-
-      STOPPED
-
-      COUNT
-    """
-
-    COUNT: typing.ClassVar[OBPlaybackStatus]  # value = <OBPlaybackStatus.COUNT: 4>
-    PAUSED: typing.ClassVar[OBPlaybackStatus]  # value = <OBPlaybackStatus.PAUSED: 2>
-    PLAYING: typing.ClassVar[OBPlaybackStatus]  # value = <OBPlaybackStatus.PLAYING: 1>
-    STOPPED: typing.ClassVar[OBPlaybackStatus]  # value = <OBPlaybackStatus.STOPPED: 3>
-    UNKNOWN: typing.ClassVar[OBPlaybackStatus]  # value = <OBPlaybackStatus.UNKNOWN: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBPlaybackStatus]
-    ]  # value = {'UNKNOWN': <OBPlaybackStatus.UNKNOWN: 0>, 'PLAYING': <OBPlaybackStatus.PLAYING: 1>, 'PAUSED': <OBPlaybackStatus.PAUSED: 2>, 'STOPPED': <OBPlaybackStatus.STOPPED: 3>, 'COUNT': <OBPlaybackStatus.COUNT: 4>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBPoint2f:
+    def disable_all_stream(self) -> None: ...
     @typing.overload
-    def __init__(self) -> None: ...
+    def disable_stream(self, arg0: OBStreamType) -> None: ...
     @typing.overload
-    def __init__(
-        self, arg0: typing.SupportsFloat | typing.SupportsIndex, arg1: typing.SupportsFloat | typing.SupportsIndex
-    ) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def x(self) -> float: ...
-    @x.setter
-    def x(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def y(self) -> float: ...
-    @y.setter
-    def y(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class OBPoint3f:
-    @staticmethod
-    def get_sizeof() -> int: ...
-    @typing.overload
-    def __init__(self) -> None: ...
-    @typing.overload
-    def __init__(
+    def disable_stream(self, arg0: OBSensorType) -> None: ...
+    def enable_accel_stream(
         self,
-        arg0: typing.SupportsFloat | typing.SupportsIndex,
-        arg1: typing.SupportsFloat | typing.SupportsIndex,
-        arg2: typing.SupportsFloat | typing.SupportsIndex,
+        full_scale_range: OBAccelFullScaleRange = OBAccelFullScaleRange.ACCEL_FS_UNKNOWN,
+        sample_rate: OBGyroSampleRate = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN,
     ) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def x(self) -> float: ...
-    @x.setter
-    def x(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def y(self) -> float: ...
-    @y.setter
-    def y(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def z(self) -> float: ...
-    @z.setter
-    def z(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
+    def enable_all_stream(self) -> None: ...
+    def enable_gyro_stream(
+        self,
+        full_scale_range: OBGyroFullScaleRange = OBGyroFullScaleRange.FS_UNKNOWN,
+        sample_rate: OBGyroSampleRate = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN,
+    ) -> None: ...
+    def enable_lidar_stream(
+        self,
+        scan_rate: OBLiDARScanRate = OBLiDARScanRate.LIDAR_SCAN_UNKNOWN,
+        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
+    ) -> None: ...
+    @typing.overload
+    def enable_stream(self, arg0: StreamProfile) -> None: ...
+    @typing.overload
+    def enable_stream(self, arg0: OBStreamType) -> None: ...
+    @typing.overload
+    def enable_stream(self, arg0: OBSensorType) -> None: ...
+    @typing.overload
+    def enable_video_stream(
+        self,
+        stream_type: OBStreamType,
+        width: typing.SupportsInt | typing.SupportsIndex = 0,
+        height: typing.SupportsInt | typing.SupportsIndex = 0,
+        fps: typing.SupportsInt | typing.SupportsIndex = 0,
+        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
+    ) -> None: ...
+    @typing.overload
+    def enable_video_stream(
+        self,
+        sensor_type: OBSensorType,
+        width: typing.SupportsInt | typing.SupportsIndex = 0,
+        height: typing.SupportsInt | typing.SupportsIndex = 0,
+        fps: typing.SupportsInt | typing.SupportsIndex = 0,
+        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
+    ) -> None: ...
+    @typing.overload
+    def enable_video_stream(
+        self,
+        sensor_type: OBSensorType,
+        decimation_config: OBHardwareDecimationConfig,
+        fps: typing.SupportsInt | typing.SupportsIndex = 0,
+        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
+    ) -> None: ...
+    def get_enabled_stream_profile_list(self) -> StreamProfileList: ...
+    def set_align_mode(self, arg0: OBAlignMode) -> None: ...
+    def set_depth_scale_require(self, arg0: bool) -> None: ...
+    def set_frame_aggregate_output_mode(self, arg0: OBFrameAggregateOutputMode) -> None: ...
 
-class OBPowerLineFreqMode:
-    """
-    Members:
-
-      FREQUENCY_50HZ
-
-      FREQUENCY_60HZ
-
-      FREQUENCY_CLOSE
-    """
-
-    FREQUENCY_50HZ: typing.ClassVar[OBPowerLineFreqMode]  # value = <OBPowerLineFreqMode.FREQUENCY_50HZ: 1>
-    FREQUENCY_60HZ: typing.ClassVar[OBPowerLineFreqMode]  # value = <OBPowerLineFreqMode.FREQUENCY_60HZ: 2>
-    FREQUENCY_CLOSE: typing.ClassVar[OBPowerLineFreqMode]  # value = <OBPowerLineFreqMode.FREQUENCY_CLOSE: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBPowerLineFreqMode]
-    ]  # value = {'FREQUENCY_50HZ': <OBPowerLineFreqMode.FREQUENCY_50HZ: 1>, 'FREQUENCY_60HZ': <OBPowerLineFreqMode.FREQUENCY_60HZ: 2>, 'FREQUENCY_CLOSE': <OBPowerLineFreqMode.FREQUENCY_CLOSE: 0>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBPresetResolutionConfig:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBPresetResolutionConfig: ...
-    def to_bytes(self) -> bytes: ...
+class Pipeline:
+    @typing.overload
     def __init__(self) -> None: ...
-    @property
-    def depth_decimation_factor(self) -> int: ...
-    @depth_decimation_factor.setter
-    def depth_decimation_factor(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def height(self) -> int: ...
-    @height.setter
-    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def ir_decimation_factor(self) -> int: ...
-    @ir_decimation_factor.setter
-    def ir_decimation_factor(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def width(self) -> int: ...
-    @width.setter
-    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    @typing.overload
+    def __init__(self, arg0: Device) -> None: ...
+    def disable_frame_sync(self) -> None: ...
+    def disable_health_monitor(self) -> None:
+        """
+        Disable pipeline health monitor
+        """
+
+    def enable_frame_sync(self) -> None: ...
+    def enable_health_monitor(
+        self, callback: typing.Callable, interval_ms: typing.SupportsInt | typing.SupportsIndex = 3000
+    ) -> None:
+        """
+        Enable pipeline health monitor with periodic status polling
+        """
+
+    def get_camera_param(self) -> OBCameraParam: ...
+    def get_config(self) -> Config: ...
+    def get_d2c_depth_profile_list(self, arg0: StreamProfile, arg1: OBAlignMode) -> StreamProfileList: ...
+    def get_device(self) -> Device: ...
+    def get_status(self) -> OBPipelineStatus:
+        """
+        Get the current pipeline status observed during streaming
+        """
+
+    def get_stream_profile_list(self, arg0: OBSensorType) -> StreamProfileList: ...
+    @typing.overload
+    def start(self, arg0: Config) -> None: ...
+    @typing.overload
+    def start(self, arg0: Config, arg1: typing.Callable) -> None: ...
+    @typing.overload
+    def start(self) -> None: ...
+    def stop(self) -> None: ...
+    def wait_for_frames(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> typing.Optional[FrameSet]: ...
 
 class OBPropertyID:
-    OB_STRUCT_DEVICE_ERROR_STATE: typing.ClassVar[OBPropertyID]
-    OB_STRUCT_GET_ACCEL_PRESETS_FULL_SCALE_LIST: typing.ClassVar[OBPropertyID]
-    OB_STRUCT_GET_GYRO_PRESETS_FULL_SCALE_LIST: typing.ClassVar[OBPropertyID]
-    OB_STRUCT_GET_ACCEL_PRESETS_ODR_LIST: typing.ClassVar[OBPropertyID]
-    OB_STRUCT_GET_GYRO_PRESETS_ODR_LIST: typing.ClassVar[OBPropertyID]
-    OB_STRUCT_VERSION: typing.ClassVar[OBPropertyID]
     """
     Members:
+
+      OB_STRUCT_VERSION
+
+      OB_STRUCT_GET_GYRO_PRESETS_ODR_LIST
+
+      OB_STRUCT_GET_ACCEL_PRESETS_ODR_LIST
+
+      OB_STRUCT_GET_GYRO_PRESETS_FULL_SCALE_LIST
+
+      OB_STRUCT_GET_ACCEL_PRESETS_FULL_SCALE_LIST
+
+      OB_STRUCT_DEVICE_ERROR_STATE
 
       OB_PROP_LDP_BOOL : LDP switch
 
@@ -4798,577 +5912,280 @@ class OBPropertyID:
       OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT : Confidence degree
     """
 
-    OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL: 216>
-    OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT: 217>
-    OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL: 223>
-    OB_PROP_ACTION_DEVICE_KEY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ACTION_DEVICE_KEY_INT: 297>
-    OB_PROP_ACTION_GROUP_KEY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ACTION_GROUP_KEY_INT: 300>
-    OB_PROP_ACTION_GROUP_MASK_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ACTION_GROUP_MASK_INT: 301>
-    OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT: 298>
-    OB_PROP_ACTION_SELECTOR_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ACTION_SELECTOR_INT: 299>
-    OB_PROP_ACTION_SIGNAL_COUNT_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ACTION_SIGNAL_COUNT_INT: 296>
-    OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL: 64>
-    OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL: 132>
-    OB_PROP_BRT_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_BRT_BOOL: 86>
-    OB_PROP_CAPTURE_IMAGE_FRAME_NUMBER_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CAPTURE_IMAGE_FRAME_NUMBER_INT: 113>
-    OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT: 136>
-    OB_PROP_CAPTURE_IMAGE_SIGNAL_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CAPTURE_IMAGE_SIGNAL_BOOL: 107>
-    OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT: 135>
-    OB_PROP_CAPTURE_INTERVAL_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CAPTURE_INTERVAL_MODE_INT: 134>
-    OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL: 195>
-    OB_PROP_COLOR_AE_AWB_STATUS_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AE_AWB_STATUS_INT: 287>
-    OB_PROP_COLOR_AE_AWB_STAT_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AE_AWB_STATUS_INT: 287>
-    OB_PROP_COLOR_AE_MAX_EXPOSURE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AE_MAX_EXPOSURE_INT: 189>
-    OB_PROP_COLOR_AE_MAX_GAIN_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AE_MAX_GAIN_INT: 2030>
-    OB_PROP_COLOR_ANTI_FLICKER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_ANTI_FLICKER_BOOL: 259>
-    OB_PROP_COLOR_AUTO_EXPOSURE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL: 2000>
-    OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT: 2012>
-    OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL: 2003>
-    OB_PROP_COLOR_BACKLIGHT_COMPENSATION_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_BACKLIGHT_COMPENSATION_INT: 2013>
-    OB_PROP_COLOR_BRIGHTNESS_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_BRIGHTNESS_INT: 2005>
-    OB_PROP_COLOR_CONTRAST_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_CONTRAST_INT: 2009>
-    OB_PROP_COLOR_DENOISING_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_DENOISING_LEVEL_INT: 5525>
-    OB_PROP_COLOR_EXPOSURE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT: 2001>
-    OB_PROP_COLOR_FLIP_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_FLIP_BOOL: 82>
-    OB_PROP_COLOR_FOCUS_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_FOCUS_INT: 2038>
-    OB_PROP_COLOR_GAIN_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_GAIN_INT: 2002>
-    OB_PROP_COLOR_GAMMA_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_GAMMA_INT: 2010>
-    OB_PROP_COLOR_HDR_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_HDR_BOOL: 2034>
-    OB_PROP_COLOR_HUE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_HUE_INT: 2014>
-    OB_PROP_COLOR_LEFT_FLIP_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_LEFT_FLIP_BOOL: 253>
-    OB_PROP_COLOR_LEFT_MIRROR_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_LEFT_MIRROR_BOOL: 252>
-    OB_PROP_COLOR_LEFT_ROTATE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_LEFT_ROTATE_INT: 251>
-    OB_PROP_COLOR_MAXIMAL_SHUTTER_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_MAXIMAL_SHUTTER_INT: 2031>
-    OB_PROP_COLOR_MIRROR_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL: 81>
-    OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT: 2015>
-    OB_PROP_COLOR_PRESET_PRIORITY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_PRESET_PRIORITY_INT: 255>
-    OB_PROP_COLOR_RIGHT_FLIP_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_RIGHT_FLIP_BOOL: 244>
-    OB_PROP_COLOR_RIGHT_MIRROR_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_RIGHT_MIRROR_BOOL: 243>
-    OB_PROP_COLOR_RIGHT_ROTATE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_RIGHT_ROTATE_INT: 242>
-    OB_PROP_COLOR_ROI_BRIGHTNESS_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_ROI_BRIGHTNESS_INT: 249>
-    OB_PROP_COLOR_ROLL_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_ROLL_INT: 2011>
-    OB_PROP_COLOR_ROTATE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_ROTATE_INT: 115>
-    OB_PROP_COLOR_SATURATION_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_SATURATION_INT: 2008>
-    OB_PROP_COLOR_SHARPNESS_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_SHARPNESS_INT: 2006>
-    OB_PROP_COLOR_SHUTTER_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_SHUTTER_INT: 2007>
-    OB_PROP_COLOR_WB_CTRL_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_COLOR_WB_CTRL_INT: 2053>
-    OB_PROP_COLOR_WHITE_BALANCE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_COLOR_WHITE_BALANCE_INT: 2004>
-    OB_PROP_CONFIDENCE_FLIP_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CONFIDENCE_FLIP_BOOL: 230>
-    OB_PROP_CONFIDENCE_MIRROR_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CONFIDENCE_MIRROR_BOOL: 229>
-    OB_PROP_CONFIDENCE_ROTATE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CONFIDENCE_ROTATE_INT: 231>
-    OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL: 226>
-    OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT: 227>
-    OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL: 199>
-    OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT: 272>
-    OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT: 271>
-    OB_PROP_D2C_PREPROCESS_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_D2C_PREPROCESS_BOOL: 91>
-    OB_PROP_DC_POWER_STATE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DC_POWER_STATE_INT: 122>
-    OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT: 5013>
-    OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL: 42>
-    OB_PROP_DEPTH_ALIGN_HARDWARE_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_ALIGN_HARDWARE_MODE_INT: 63>
-    OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL: 2016>
-    OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT: 2052>
-    OB_PROP_DEPTH_CROPPING_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_CROPPING_MODE_INT: 90>
-    OB_PROP_DEPTH_EXPOSURE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEPTH_EXPOSURE_INT: 2017>
-    OB_PROP_DEPTH_FLIP_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEPTH_FLIP_BOOL: 15>
-    OB_PROP_DEPTH_GAIN_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEPTH_GAIN_INT: 2018>
-    OB_PROP_DEPTH_HOLEFILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_HOLEFILTER_BOOL: 17>
-    OB_PROP_DEPTH_INDUSTRY_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_INDUSTRY_MODE_INT: 3024>
-    OB_PROP_DEPTH_MAX_DIFF_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEPTH_MAX_DIFF_INT: 40>
-    OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: 41>
-    OB_PROP_DEPTH_MIRROR_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEPTH_MIRROR_BOOL: 14>
-    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL: 24>
-    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_MAX_DIFF_INT: 40>
-    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: 41>
-    OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL: 25>
-    OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT: 26>
-    OB_PROP_DEPTH_POSTFILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_POSTFILTER_BOOL: 16>
-    OB_PROP_DEPTH_PRECISION_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_PRECISION_LEVEL_INT: 75>
-    OB_PROP_DEPTH_RM_FILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_RM_FILTER_BOOL: 2029>
-    OB_PROP_DEPTH_ROTATE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEPTH_ROTATE_INT: 118>
-    OB_PROP_DEPTH_SOFT_FILTER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL: 24>
-    OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT: 176>
-    OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL: 224>
-    OB_PROP_DEVICE_AE_REFERENCE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_AE_REFERENCE_INT: 247>
-    OB_PROP_DEVICE_AE_STRATEGY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_AE_STRATEGY_INT: 248>
-    OB_PROP_DEVICE_COMMUNICATION_TYPE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_COMMUNICATION_TYPE_INT: 97>
-    OB_PROP_DEVICE_DEVELOPMENT_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_DEVELOPMENT_MODE_INT: 129>
-    OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL: 133>
-    OB_PROP_DEVICE_IP_MODE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_DEVICE_IP_MODE_INT: 260>
-    OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY: 5555>
-    OB_PROP_DEVICE_PERFORMANCE_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_PERFORMANCE_MODE_INT: 3028>
-    OB_PROP_DEVICE_REBOOT_DELAY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_REBOOT_DELAY_INT: 142>
-    OB_PROP_DEVICE_REPOWER_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_REPOWER_BOOL: 202>
-    OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL: 141>
-    OB_PROP_DEVICE_WORK_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DEVICE_WORK_MODE_INT: 95>
-    OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT: 261>
-    OB_PROP_DISPARITY_TO_DEPTH_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DISPARITY_TO_DEPTH_BOOL: 85>
-    OB_PROP_DISP_SEARCH_OFFSET_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DISP_SEARCH_OFFSET_INT: 196>
-    OB_PROP_DISP_SEARCH_RANGE_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_DISP_SEARCH_RANGE_MODE_INT: 191>
-    OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL: 88>
-    OB_PROP_FAN_WORK_MODE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_FAN_WORK_MODE_INT: 62>
-    OB_PROP_FLOOD_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_FLOOD_BOOL: 6>
-    OB_PROP_FLOOD_LEVEL_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_FLOOD_LEVEL_INT: 7>
-    OB_PROP_FPS_BOOST_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_FPS_BOOST_BOOL: 275>
-    OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT: 204>
-    OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL: 205>
-    OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT: 206>
-    OB_PROP_GPM_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_GPM_BOOL: 93>
-    OB_PROP_HARDWARE_DISTORTION_SWITCH_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_HARDWARE_DISTORTION_SWITCH_BOOL: 61>
-    OB_PROP_HDR_MERGE_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_HDR_MERGE_BOOL: 2037>
-    OB_PROP_HEARTBEAT_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_HEARTBEAT_BOOL: 89>
-    OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL: 211>
-    OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT: 212>
-    OB_PROP_INDICATOR_LIGHT_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_INDICATOR_LIGHT_BOOL: 83>
-    OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT: 236>
-    OB_PROP_IR_AE_MAX_EXPOSURE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_AE_MAX_EXPOSURE_INT: 190>
-    OB_PROP_IR_AUTO_EXPOSURE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL: 2025>
-    OB_PROP_IR_BRIGHTNESS_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_BRIGHTNESS_INT: 184>
-    OB_PROP_IR_CHANNEL_DATA_SOURCE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_CHANNEL_DATA_SOURCE_INT: 2028>
-    OB_PROP_IR_EXPOSURE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_EXPOSURE_INT: 2026>
-    OB_PROP_IR_FLIP_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_FLIP_BOOL: 19>
-    OB_PROP_IR_GAIN_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_GAIN_INT: 2027>
-    OB_PROP_IR_LONG_EXPOSURE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_LONG_EXPOSURE_BOOL: 2035>
-    OB_PROP_IR_MIRROR_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_MIRROR_BOOL: 18>
-    OB_PROP_IR_RECTIFY_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_RECTIFY_BOOL: 2040>
-    OB_PROP_IR_RIGHT_FLIP_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_RIGHT_FLIP_BOOL: 114>
-    OB_PROP_IR_RIGHT_MIRROR_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_RIGHT_MIRROR_BOOL: 112>
-    OB_PROP_IR_RIGHT_ROTATE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_RIGHT_ROTATE_INT: 117>
-    OB_PROP_IR_ROTATE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_IR_ROTATE_INT: 116>
-    OB_PROP_IR_SHORT_EXPOSURE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_IR_SHORT_EXPOSURE_BOOL: 2032>
-    OB_PROP_LASER_ALWAYS_ON_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_ALWAYS_ON_BOOL: 174>
-    OB_PROP_LASER_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LASER_BOOL: 3>
-    OB_PROP_LASER_CONTROL_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LASER_CONTROL_INT: 182>
-    OB_PROP_LASER_CURRENT_FLOAT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LASER_CURRENT_FLOAT: 5>
-    OB_PROP_LASER_ENERGY_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_POWER_LEVEL_CONTROL_INT: 99>
-    OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL: 193>
-    OB_PROP_LASER_HW_ENERGY_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT: 119>
-    OB_PROP_LASER_MODE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LASER_MODE_INT: 79>
-    OB_PROP_LASER_ON_OFF_PATTERN_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_ON_OFF_PATTERN_INT: 175>
-    OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL: 148>
-    OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT: 119>
-    OB_PROP_LASER_POWER_LEVEL_CONTROL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_POWER_LEVEL_CONTROL_INT: 99>
-    OB_PROP_LASER_PULSE_WIDTH_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_PULSE_WIDTH_INT: 4>
-    OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL: 149>
-    OB_PROP_LDP_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LDP_BOOL: 2>
-    OB_PROP_LDP_MEASURE_DISTANCE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LDP_MEASURE_DISTANCE_INT: 100>
-    OB_PROP_LDP_STATUS_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LDP_STATUS_BOOL: 32>
-    OB_PROP_LIDAR_APD_TEMPERATURE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_APD_TEMPERATURE_INT: 8015>
-    OB_PROP_LIDAR_APPLY_CONFIGS_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_APPLY_CONFIGS_INT: 8005>
-    OB_PROP_LIDAR_MCU_TEMPERATURE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_MCU_TEMPERATURE_INT: 8014>
-    OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT: 8007>
-    OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT: 8008>
-    OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT: 8013>
-    OB_PROP_LIDAR_PORT_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_LIDAR_PORT_INT: 8001>
-    OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT: 8017>
-    OB_PROP_LIDAR_SPECIFIC_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_SPECIFIC_MODE_INT: 8016>
-    OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT: 8006>
-    OB_PROP_LIDAR_WARNING_INFO_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_WARNING_INFO_INT: 8012>
-    OB_PROP_LIDAR_WORK_MODE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LIDAR_WORK_MODE_INT: 8004>
-    OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL: 194>
-    OB_PROP_MAX_DEPTH_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_MAX_DEPTH_INT: 23>
-    OB_PROP_MIN_DEPTH_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_MIN_DEPTH_INT: 22>
-    OB_PROP_MJPEG_QUALITY_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_MJPEG_QUALITY_INT: 277>
-    OB_PROP_NETWORK_BANDWIDTH_TYPE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_NETWORK_BANDWIDTH_TYPE_INT: 3027>
-    OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL: 210>
-    OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT: 209>
-    OB_PROP_RECTIFY2_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_RECTIFY2_BOOL: 80>
-    OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL: 131>
-    OB_PROP_RGB_CUSTOM_CROP_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_RGB_CUSTOM_CROP_BOOL: 94>
-    OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL: 3009>
-    OB_PROP_SDK_DEPTH_FRAME_UNPACK_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_DEPTH_FRAME_UNPACK_BOOL: 3007>
-    OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL: 3004>
-    OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL: 3010>
-    OB_PROP_SDK_IR_FRAME_UNPACK_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_IR_FRAME_UNPACK_BOOL: 3008>
-    OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL: 3011>
-    OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL: 3012>
-    OB_PROP_SKIP_FRAME_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_SKIP_FRAME_BOOL: 2036>
-    OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL: 188>
-    OB_PROP_SWITCH_IR_MODE_INT: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_SWITCH_IR_MODE_INT: 98>
-    OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL: 130>
-    OB_PROP_TEMPERATURE_COMPENSATION_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TEMPERATURE_COMPENSATION_BOOL: 8>
-    OB_PROP_TIMER_RESET_DELAY_US_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TIMER_RESET_DELAY_US_INT: 106>
-    OB_PROP_TIMER_RESET_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TIMER_RESET_ENABLE_BOOL: 140>
-    OB_PROP_TIMER_RESET_SIGNAL_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TIMER_RESET_SIGNAL_BOOL: 104>
-    OB_PROP_TIMER_RESET_TRIGGER_OUT_ENABLE_BOOL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TIMER_RESET_TRIGGER_OUT_ENABLE_BOOL: 105>
-    OB_PROP_TIMESTAMP_OFFSET_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TIMESTAMP_OFFSET_INT: 43>
-    OB_PROP_TOF_FILTER_RANGE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_TOF_FILTER_RANGE_INT: 76>
-    OB_PROP_USB_POWER_STATE_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_USB_POWER_STATE_INT: 121>
-    OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT: 270>
-    OB_PROP_WATCHDOG_BOOL: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_PROP_WATCHDOG_BOOL: 87>
-    OB_RAW_DATA_CAMERA_CALIB_JSON_FILE: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_CAMERA_CALIB_JSON_FILE: 4029>
-    OB_RAW_DATA_LIDAR_FIRMWARE_VERSION: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_LIDAR_FIRMWARE_VERSION: 8010>
-    OB_RAW_DATA_LIDAR_FPGA_VERSION: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_LIDAR_FPGA_VERSION: 8011>
-    OB_RAW_DATA_LIDAR_IP_ADDRESS: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_LIDAR_IP_ADDRESS: 8000>
-    OB_RAW_DATA_LIDAR_MAC_ADDRESS: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_LIDAR_MAC_ADDRESS: 8002>
-    OB_RAW_DATA_LIDAR_PRODUCT_MODEL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_LIDAR_PRODUCT_MODEL: 8009>
-    OB_RAW_DATA_LIDAR_SUBNET_MASK: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_RAW_DATA_LIDAR_SUBNET_MASK: 8003>
-    OB_STRUCT_ASIC_SERIAL_NUMBER: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_ASIC_SERIAL_NUMBER: 1063>
-    OB_STRUCT_BASELINE_CALIBRATION_PARAM: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_BASELINE_CALIBRATION_PARAM: 1002>
-    OB_STRUCT_COLOR_AE_ROI: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_COLOR_AE_ROI: 1060>
-    OB_STRUCT_COLOR_AWB_GAIN: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_COLOR_AWB_GAIN: 1097>
-    OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: 1077>
-    OB_STRUCT_CURRENT_DEPTH_ALG_MODE: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_CURRENT_DEPTH_ALG_MODE: 1043>
-    OB_STRUCT_DEPTH_AE_ROI: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_DEPTH_AE_ROI: 1061>
-    OB_STRUCT_DEPTH_HDR_CONFIG: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_DEPTH_HDR_CONFIG: 1059>
-    OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST: 1045>
-    OB_STRUCT_DEVICE_IP_ADDR_CONFIG: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DEVICE_IP_ADDR_CONFIG: 1041>
-    OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2: 1088>
-    OB_STRUCT_DEVICE_SERIAL_NUMBER: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DEVICE_SERIAL_NUMBER: 1035>
-    OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD: 1053>
-    OB_STRUCT_DEVICE_TEMPERATURE: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DEVICE_TEMPERATURE: 1003>
-    OB_STRUCT_DEVICE_TIME: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_DEVICE_TIME: 1037>
-    OB_STRUCT_DISP_OFFSET_CONFIG: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_DISP_OFFSET_CONFIG: 1064>
-    OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG: 1038>
-    OB_STRUCT_PRESET_RESOLUTION_CONFIG: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_PRESET_RESOLUTION_CONFIG: 1069>
-    OB_STRUCT_RGB_CROP_ROI: typing.ClassVar[OBPropertyID]  # value = <OBPropertyID.OB_STRUCT_RGB_CROP_ROI: 1040>
-    OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL: typing.ClassVar[
-        OBPropertyID
-    ]  # value = <OBPropertyID.OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL: 1024>
-    __members__: typing.ClassVar[
-        dict[str, OBPropertyID]
-    ]  # value = {'OB_PROP_LDP_BOOL': <OBPropertyID.OB_PROP_LDP_BOOL: 2>, 'OB_PROP_LASER_BOOL': <OBPropertyID.OB_PROP_LASER_BOOL: 3>, 'OB_PROP_LASER_PULSE_WIDTH_INT': <OBPropertyID.OB_PROP_LASER_PULSE_WIDTH_INT: 4>, 'OB_PROP_LASER_CURRENT_FLOAT': <OBPropertyID.OB_PROP_LASER_CURRENT_FLOAT: 5>, 'OB_PROP_FLOOD_BOOL': <OBPropertyID.OB_PROP_FLOOD_BOOL: 6>, 'OB_PROP_FLOOD_LEVEL_INT': <OBPropertyID.OB_PROP_FLOOD_LEVEL_INT: 7>, 'OB_PROP_TEMPERATURE_COMPENSATION_BOOL': <OBPropertyID.OB_PROP_TEMPERATURE_COMPENSATION_BOOL: 8>, 'OB_PROP_DEPTH_MIRROR_BOOL': <OBPropertyID.OB_PROP_DEPTH_MIRROR_BOOL: 14>, 'OB_PROP_DEPTH_FLIP_BOOL': <OBPropertyID.OB_PROP_DEPTH_FLIP_BOOL: 15>, 'OB_PROP_DEPTH_POSTFILTER_BOOL': <OBPropertyID.OB_PROP_DEPTH_POSTFILTER_BOOL: 16>, 'OB_PROP_DEPTH_HOLEFILTER_BOOL': <OBPropertyID.OB_PROP_DEPTH_HOLEFILTER_BOOL: 17>, 'OB_PROP_IR_MIRROR_BOOL': <OBPropertyID.OB_PROP_IR_MIRROR_BOOL: 18>, 'OB_PROP_IR_FLIP_BOOL': <OBPropertyID.OB_PROP_IR_FLIP_BOOL: 19>, 'OB_PROP_MIN_DEPTH_INT': <OBPropertyID.OB_PROP_MIN_DEPTH_INT: 22>, 'OB_PROP_MAX_DEPTH_INT': <OBPropertyID.OB_PROP_MAX_DEPTH_INT: 23>, 'OB_PROP_DEPTH_SOFT_FILTER_BOOL': <OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL: 24>, 'OB_PROP_LDP_STATUS_BOOL': <OBPropertyID.OB_PROP_LDP_STATUS_BOOL: 32>, 'OB_PROP_DEPTH_MAX_DIFF_INT': <OBPropertyID.OB_PROP_DEPTH_MAX_DIFF_INT: 40>, 'OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT': <OBPropertyID.OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: 41>, 'OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT': <OBPropertyID.OB_PROP_DEPTH_MAX_DIFF_INT: 40>, 'OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT': <OBPropertyID.OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: 41>, 'OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL': <OBPropertyID.OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL: 42>, 'OB_PROP_TIMESTAMP_OFFSET_INT': <OBPropertyID.OB_PROP_TIMESTAMP_OFFSET_INT: 43>, 'OB_PROP_HARDWARE_DISTORTION_SWITCH_BOOL': <OBPropertyID.OB_PROP_HARDWARE_DISTORTION_SWITCH_BOOL: 61>, 'OB_PROP_FAN_WORK_MODE_INT': <OBPropertyID.OB_PROP_FAN_WORK_MODE_INT: 62>, 'OB_PROP_DEPTH_ALIGN_HARDWARE_MODE_INT': <OBPropertyID.OB_PROP_DEPTH_ALIGN_HARDWARE_MODE_INT: 63>, 'OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL': <OBPropertyID.OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL: 64>, 'OB_PROP_DEVICE_AE_REFERENCE_INT': <OBPropertyID.OB_PROP_DEVICE_AE_REFERENCE_INT: 247>, 'OB_PROP_DEVICE_AE_STRATEGY_INT': <OBPropertyID.OB_PROP_DEVICE_AE_STRATEGY_INT: 248>, 'OB_PROP_COLOR_ROI_BRIGHTNESS_INT': <OBPropertyID.OB_PROP_COLOR_ROI_BRIGHTNESS_INT: 249>, 'OB_PROP_COLOR_PRESET_PRIORITY_INT': <OBPropertyID.OB_PROP_COLOR_PRESET_PRIORITY_INT: 255>, 'OB_PROP_COLOR_ANTI_FLICKER_BOOL': <OBPropertyID.OB_PROP_COLOR_ANTI_FLICKER_BOOL: 259>, 'OB_PROP_DEPTH_PRECISION_LEVEL_INT': <OBPropertyID.OB_PROP_DEPTH_PRECISION_LEVEL_INT: 75>, 'OB_PROP_TOF_FILTER_RANGE_INT': <OBPropertyID.OB_PROP_TOF_FILTER_RANGE_INT: 76>, 'OB_PROP_LASER_MODE_INT': <OBPropertyID.OB_PROP_LASER_MODE_INT: 79>, 'OB_PROP_RECTIFY2_BOOL': <OBPropertyID.OB_PROP_RECTIFY2_BOOL: 80>, 'OB_PROP_COLOR_MIRROR_BOOL': <OBPropertyID.OB_PROP_COLOR_MIRROR_BOOL: 81>, 'OB_PROP_COLOR_FLIP_BOOL': <OBPropertyID.OB_PROP_COLOR_FLIP_BOOL: 82>, 'OB_PROP_INDICATOR_LIGHT_BOOL': <OBPropertyID.OB_PROP_INDICATOR_LIGHT_BOOL: 83>, 'OB_PROP_DISPARITY_TO_DEPTH_BOOL': <OBPropertyID.OB_PROP_DISPARITY_TO_DEPTH_BOOL: 85>, 'OB_PROP_BRT_BOOL': <OBPropertyID.OB_PROP_BRT_BOOL: 86>, 'OB_PROP_WATCHDOG_BOOL': <OBPropertyID.OB_PROP_WATCHDOG_BOOL: 87>, 'OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL': <OBPropertyID.OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL: 88>, 'OB_PROP_HEARTBEAT_BOOL': <OBPropertyID.OB_PROP_HEARTBEAT_BOOL: 89>, 'OB_PROP_DEPTH_CROPPING_MODE_INT': <OBPropertyID.OB_PROP_DEPTH_CROPPING_MODE_INT: 90>, 'OB_PROP_D2C_PREPROCESS_BOOL': <OBPropertyID.OB_PROP_D2C_PREPROCESS_BOOL: 91>, 'OB_PROP_GPM_BOOL': <OBPropertyID.OB_PROP_GPM_BOOL: 93>, 'OB_PROP_RGB_CUSTOM_CROP_BOOL': <OBPropertyID.OB_PROP_RGB_CUSTOM_CROP_BOOL: 94>, 'OB_PROP_DEVICE_WORK_MODE_INT': <OBPropertyID.OB_PROP_DEVICE_WORK_MODE_INT: 95>, 'OB_PROP_DEVICE_COMMUNICATION_TYPE_INT': <OBPropertyID.OB_PROP_DEVICE_COMMUNICATION_TYPE_INT: 97>, 'OB_PROP_SWITCH_IR_MODE_INT': <OBPropertyID.OB_PROP_SWITCH_IR_MODE_INT: 98>, 'OB_PROP_LASER_POWER_LEVEL_CONTROL_INT': <OBPropertyID.OB_PROP_LASER_POWER_LEVEL_CONTROL_INT: 99>, 'OB_PROP_LASER_ENERGY_LEVEL_INT': <OBPropertyID.OB_PROP_LASER_POWER_LEVEL_CONTROL_INT: 99>, 'OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT': <OBPropertyID.OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT: 119>, 'OB_PROP_LDP_MEASURE_DISTANCE_INT': <OBPropertyID.OB_PROP_LDP_MEASURE_DISTANCE_INT: 100>, 'OB_PROP_TIMER_RESET_SIGNAL_BOOL': <OBPropertyID.OB_PROP_TIMER_RESET_SIGNAL_BOOL: 104>, 'OB_PROP_TIMER_RESET_TRIGGER_OUT_ENABLE_BOOL': <OBPropertyID.OB_PROP_TIMER_RESET_TRIGGER_OUT_ENABLE_BOOL: 105>, 'OB_PROP_TIMER_RESET_DELAY_US_INT': <OBPropertyID.OB_PROP_TIMER_RESET_DELAY_US_INT: 106>, 'OB_PROP_CAPTURE_IMAGE_SIGNAL_BOOL': <OBPropertyID.OB_PROP_CAPTURE_IMAGE_SIGNAL_BOOL: 107>, 'OB_PROP_IR_RIGHT_MIRROR_BOOL': <OBPropertyID.OB_PROP_IR_RIGHT_MIRROR_BOOL: 112>, 'OB_PROP_CAPTURE_IMAGE_FRAME_NUMBER_INT': <OBPropertyID.OB_PROP_CAPTURE_IMAGE_FRAME_NUMBER_INT: 113>, 'OB_PROP_IR_RIGHT_FLIP_BOOL': <OBPropertyID.OB_PROP_IR_RIGHT_FLIP_BOOL: 114>, 'OB_PROP_COLOR_ROTATE_INT': <OBPropertyID.OB_PROP_COLOR_ROTATE_INT: 115>, 'OB_PROP_IR_ROTATE_INT': <OBPropertyID.OB_PROP_IR_ROTATE_INT: 116>, 'OB_PROP_IR_RIGHT_ROTATE_INT': <OBPropertyID.OB_PROP_IR_RIGHT_ROTATE_INT: 117>, 'OB_PROP_DEPTH_ROTATE_INT': <OBPropertyID.OB_PROP_DEPTH_ROTATE_INT: 118>, 'OB_PROP_COLOR_RIGHT_ROTATE_INT': <OBPropertyID.OB_PROP_COLOR_RIGHT_ROTATE_INT: 242>, 'OB_PROP_COLOR_RIGHT_MIRROR_BOOL': <OBPropertyID.OB_PROP_COLOR_RIGHT_MIRROR_BOOL: 243>, 'OB_PROP_COLOR_RIGHT_FLIP_BOOL': <OBPropertyID.OB_PROP_COLOR_RIGHT_FLIP_BOOL: 244>, 'OB_PROP_COLOR_LEFT_ROTATE_INT': <OBPropertyID.OB_PROP_COLOR_LEFT_ROTATE_INT: 251>, 'OB_PROP_COLOR_LEFT_MIRROR_BOOL': <OBPropertyID.OB_PROP_COLOR_LEFT_MIRROR_BOOL: 252>, 'OB_PROP_COLOR_LEFT_FLIP_BOOL': <OBPropertyID.OB_PROP_COLOR_LEFT_FLIP_BOOL: 253>, 'OB_PROP_LASER_HW_ENERGY_LEVEL_INT': <OBPropertyID.OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT: 119>, 'OB_PROP_USB_POWER_STATE_INT': <OBPropertyID.OB_PROP_USB_POWER_STATE_INT: 121>, 'OB_PROP_DC_POWER_STATE_INT': <OBPropertyID.OB_PROP_DC_POWER_STATE_INT: 122>, 'OB_PROP_DEVICE_DEVELOPMENT_MODE_INT': <OBPropertyID.OB_PROP_DEVICE_DEVELOPMENT_MODE_INT: 129>, 'OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL': <OBPropertyID.OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL: 130>, 'OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL': <OBPropertyID.OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL: 224>, 'OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL': <OBPropertyID.OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL: 226>, 'OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT': <OBPropertyID.OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT: 227>, 'OB_PROP_CONFIDENCE_MIRROR_BOOL': <OBPropertyID.OB_PROP_CONFIDENCE_MIRROR_BOOL: 229>, 'OB_PROP_CONFIDENCE_FLIP_BOOL': <OBPropertyID.OB_PROP_CONFIDENCE_FLIP_BOOL: 230>, 'OB_PROP_CONFIDENCE_ROTATE_INT': <OBPropertyID.OB_PROP_CONFIDENCE_ROTATE_INT: 231>, 'OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT': <OBPropertyID.OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT: 236>, 'OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL': <OBPropertyID.OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL: 131>, 'OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL': <OBPropertyID.OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL: 132>, 'OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL': <OBPropertyID.OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL: 133>, 'OB_PROP_CAPTURE_INTERVAL_MODE_INT': <OBPropertyID.OB_PROP_CAPTURE_INTERVAL_MODE_INT: 134>, 'OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT': <OBPropertyID.OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT: 135>, 'OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT': <OBPropertyID.OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT: 136>, 'OB_PROP_TIMER_RESET_ENABLE_BOOL': <OBPropertyID.OB_PROP_TIMER_RESET_ENABLE_BOOL: 140>, 'OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL': <OBPropertyID.OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL: 141>, 'OB_PROP_DEVICE_REBOOT_DELAY_INT': <OBPropertyID.OB_PROP_DEVICE_REBOOT_DELAY_INT: 142>, 'OB_PROP_DEVICE_IP_MODE_INT': <OBPropertyID.OB_PROP_DEVICE_IP_MODE_INT: 260>, 'OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT': <OBPropertyID.OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT: 261>, 'OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT': <OBPropertyID.OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT: 270>, 'OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT': <OBPropertyID.OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT: 271>, 'OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT': <OBPropertyID.OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT: 272>, 'OB_PROP_FPS_BOOST_BOOL': <OBPropertyID.OB_PROP_FPS_BOOST_BOOL: 275>, 'OB_PROP_MJPEG_QUALITY_INT': <OBPropertyID.OB_PROP_MJPEG_QUALITY_INT: 277>, 'OB_PROP_COLOR_AE_AWB_STATUS_INT': <OBPropertyID.OB_PROP_COLOR_AE_AWB_STATUS_INT: 287>, 'OB_PROP_COLOR_AE_AWB_STAT_INT': <OBPropertyID.OB_PROP_COLOR_AE_AWB_STATUS_INT: 287>, 'OB_PROP_ACTION_SIGNAL_COUNT_INT': <OBPropertyID.OB_PROP_ACTION_SIGNAL_COUNT_INT: 296>, 'OB_PROP_ACTION_DEVICE_KEY_INT': <OBPropertyID.OB_PROP_ACTION_DEVICE_KEY_INT: 297>, 'OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT': <OBPropertyID.OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT: 298>, 'OB_PROP_ACTION_SELECTOR_INT': <OBPropertyID.OB_PROP_ACTION_SELECTOR_INT: 299>, 'OB_PROP_ACTION_GROUP_KEY_INT': <OBPropertyID.OB_PROP_ACTION_GROUP_KEY_INT: 300>, 'OB_PROP_ACTION_GROUP_MASK_INT': <OBPropertyID.OB_PROP_ACTION_GROUP_MASK_INT: 301>, 'OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL': <OBPropertyID.OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL: 148>, 'OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL': <OBPropertyID.OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL: 149>, 'OB_PROP_LASER_ALWAYS_ON_BOOL': <OBPropertyID.OB_PROP_LASER_ALWAYS_ON_BOOL: 174>, 'OB_PROP_LASER_ON_OFF_PATTERN_INT': <OBPropertyID.OB_PROP_LASER_ON_OFF_PATTERN_INT: 175>, 'OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT': <OBPropertyID.OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT: 176>, 'OB_PROP_LASER_CONTROL_INT': <OBPropertyID.OB_PROP_LASER_CONTROL_INT: 182>, 'OB_PROP_IR_BRIGHTNESS_INT': <OBPropertyID.OB_PROP_IR_BRIGHTNESS_INT: 184>, 'OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL': <OBPropertyID.OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL: 188>, 'OB_PROP_COLOR_AE_MAX_EXPOSURE_INT': <OBPropertyID.OB_PROP_COLOR_AE_MAX_EXPOSURE_INT: 189>, 'OB_PROP_IR_AE_MAX_EXPOSURE_INT': <OBPropertyID.OB_PROP_IR_AE_MAX_EXPOSURE_INT: 190>, 'OB_PROP_DISP_SEARCH_RANGE_MODE_INT': <OBPropertyID.OB_PROP_DISP_SEARCH_RANGE_MODE_INT: 191>, 'OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL': <OBPropertyID.OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL: 193>, 'OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL': <OBPropertyID.OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL: 194>, 'OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL': <OBPropertyID.OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL: 195>, 'OB_PROP_DISP_SEARCH_OFFSET_INT': <OBPropertyID.OB_PROP_DISP_SEARCH_OFFSET_INT: 196>, 'OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL': <OBPropertyID.OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL: 199>, 'OB_PROP_DEVICE_REPOWER_BOOL': <OBPropertyID.OB_PROP_DEVICE_REPOWER_BOOL: 202>, 'OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT': <OBPropertyID.OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT: 204>, 'OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL': <OBPropertyID.OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL: 205>, 'OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT': <OBPropertyID.OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT: 206>, 'OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT': <OBPropertyID.OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT: 209>, 'OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL': <OBPropertyID.OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL: 210>, 'OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL': <OBPropertyID.OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL: 211>, 'OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT': <OBPropertyID.OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT: 212>, 'OB_STRUCT_BASELINE_CALIBRATION_PARAM': <OBPropertyID.OB_STRUCT_BASELINE_CALIBRATION_PARAM: 1002>, 'OB_STRUCT_DEVICE_TEMPERATURE': <OBPropertyID.OB_STRUCT_DEVICE_TEMPERATURE: 1003>, 'OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL': <OBPropertyID.OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL: 1024>, 'OB_STRUCT_DEVICE_SERIAL_NUMBER': <OBPropertyID.OB_STRUCT_DEVICE_SERIAL_NUMBER: 1035>, 'OB_STRUCT_DEVICE_TIME': <OBPropertyID.OB_STRUCT_DEVICE_TIME: 1037>, 'OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG': <OBPropertyID.OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG: 1038>, 'OB_STRUCT_RGB_CROP_ROI': <OBPropertyID.OB_STRUCT_RGB_CROP_ROI: 1040>, 'OB_STRUCT_DEVICE_IP_ADDR_CONFIG': <OBPropertyID.OB_STRUCT_DEVICE_IP_ADDR_CONFIG: 1041>, 'OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2': <OBPropertyID.OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2: 1088>, 'OB_STRUCT_CURRENT_DEPTH_ALG_MODE': <OBPropertyID.OB_STRUCT_CURRENT_DEPTH_ALG_MODE: 1043>, 'OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST': <OBPropertyID.OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST: 1045>, 'OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD': <OBPropertyID.OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD: 1053>, 'OB_STRUCT_DEPTH_HDR_CONFIG': <OBPropertyID.OB_STRUCT_DEPTH_HDR_CONFIG: 1059>, 'OB_STRUCT_COLOR_AE_ROI': <OBPropertyID.OB_STRUCT_COLOR_AE_ROI: 1060>, 'OB_STRUCT_DEPTH_AE_ROI': <OBPropertyID.OB_STRUCT_DEPTH_AE_ROI: 1061>, 'OB_STRUCT_ASIC_SERIAL_NUMBER': <OBPropertyID.OB_STRUCT_ASIC_SERIAL_NUMBER: 1063>, 'OB_STRUCT_DISP_OFFSET_CONFIG': <OBPropertyID.OB_STRUCT_DISP_OFFSET_CONFIG: 1064>, 'OB_STRUCT_PRESET_RESOLUTION_CONFIG': <OBPropertyID.OB_STRUCT_PRESET_RESOLUTION_CONFIG: 1069>, 'OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM': <OBPropertyID.OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: 1077>, 'OB_PROP_COLOR_AUTO_EXPOSURE_BOOL': <OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL: 2000>, 'OB_PROP_COLOR_EXPOSURE_INT': <OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT: 2001>, 'OB_PROP_COLOR_GAIN_INT': <OBPropertyID.OB_PROP_COLOR_GAIN_INT: 2002>, 'OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL': <OBPropertyID.OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL: 2003>, 'OB_PROP_COLOR_WHITE_BALANCE_INT': <OBPropertyID.OB_PROP_COLOR_WHITE_BALANCE_INT: 2004>, 'OB_PROP_COLOR_BRIGHTNESS_INT': <OBPropertyID.OB_PROP_COLOR_BRIGHTNESS_INT: 2005>, 'OB_PROP_COLOR_SHARPNESS_INT': <OBPropertyID.OB_PROP_COLOR_SHARPNESS_INT: 2006>, 'OB_PROP_COLOR_SHUTTER_INT': <OBPropertyID.OB_PROP_COLOR_SHUTTER_INT: 2007>, 'OB_PROP_COLOR_SATURATION_INT': <OBPropertyID.OB_PROP_COLOR_SATURATION_INT: 2008>, 'OB_PROP_COLOR_CONTRAST_INT': <OBPropertyID.OB_PROP_COLOR_CONTRAST_INT: 2009>, 'OB_PROP_COLOR_GAMMA_INT': <OBPropertyID.OB_PROP_COLOR_GAMMA_INT: 2010>, 'OB_PROP_COLOR_ROLL_INT': <OBPropertyID.OB_PROP_COLOR_ROLL_INT: 2011>, 'OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT': <OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT: 2012>, 'OB_PROP_COLOR_BACKLIGHT_COMPENSATION_INT': <OBPropertyID.OB_PROP_COLOR_BACKLIGHT_COMPENSATION_INT: 2013>, 'OB_PROP_COLOR_HUE_INT': <OBPropertyID.OB_PROP_COLOR_HUE_INT: 2014>, 'OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT': <OBPropertyID.OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT: 2015>, 'OB_PROP_COLOR_DENOISING_LEVEL_INT': <OBPropertyID.OB_PROP_COLOR_DENOISING_LEVEL_INT: 5525>, 'OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY': <OBPropertyID.OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY: 5555>, 'OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT': <OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT: 2052>, 'OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL': <OBPropertyID.OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL: 2016>, 'OB_PROP_DEPTH_EXPOSURE_INT': <OBPropertyID.OB_PROP_DEPTH_EXPOSURE_INT: 2017>, 'OB_PROP_DEPTH_GAIN_INT': <OBPropertyID.OB_PROP_DEPTH_GAIN_INT: 2018>, 'OB_PROP_IR_AUTO_EXPOSURE_BOOL': <OBPropertyID.OB_PROP_IR_AUTO_EXPOSURE_BOOL: 2025>, 'OB_PROP_IR_EXPOSURE_INT': <OBPropertyID.OB_PROP_IR_EXPOSURE_INT: 2026>, 'OB_PROP_IR_GAIN_INT': <OBPropertyID.OB_PROP_IR_GAIN_INT: 2027>, 'OB_PROP_IR_CHANNEL_DATA_SOURCE_INT': <OBPropertyID.OB_PROP_IR_CHANNEL_DATA_SOURCE_INT: 2028>, 'OB_PROP_DEPTH_RM_FILTER_BOOL': <OBPropertyID.OB_PROP_DEPTH_RM_FILTER_BOOL: 2029>, 'OB_PROP_COLOR_AE_MAX_GAIN_INT': <OBPropertyID.OB_PROP_COLOR_AE_MAX_GAIN_INT: 2030>, 'OB_PROP_COLOR_MAXIMAL_SHUTTER_INT': <OBPropertyID.OB_PROP_COLOR_MAXIMAL_SHUTTER_INT: 2031>, 'OB_PROP_IR_SHORT_EXPOSURE_BOOL': <OBPropertyID.OB_PROP_IR_SHORT_EXPOSURE_BOOL: 2032>, 'OB_PROP_COLOR_HDR_BOOL': <OBPropertyID.OB_PROP_COLOR_HDR_BOOL: 2034>, 'OB_PROP_IR_LONG_EXPOSURE_BOOL': <OBPropertyID.OB_PROP_IR_LONG_EXPOSURE_BOOL: 2035>, 'OB_PROP_SKIP_FRAME_BOOL': <OBPropertyID.OB_PROP_SKIP_FRAME_BOOL: 2036>, 'OB_PROP_HDR_MERGE_BOOL': <OBPropertyID.OB_PROP_HDR_MERGE_BOOL: 2037>, 'OB_PROP_COLOR_FOCUS_INT': <OBPropertyID.OB_PROP_COLOR_FOCUS_INT: 2038>, 'OB_PROP_IR_RECTIFY_BOOL': <OBPropertyID.OB_PROP_IR_RECTIFY_BOOL: 2040>, 'OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL': <OBPropertyID.OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL: 3004>, 'OB_PROP_SDK_DEPTH_FRAME_UNPACK_BOOL': <OBPropertyID.OB_PROP_SDK_DEPTH_FRAME_UNPACK_BOOL: 3007>, 'OB_PROP_SDK_IR_FRAME_UNPACK_BOOL': <OBPropertyID.OB_PROP_SDK_IR_FRAME_UNPACK_BOOL: 3008>, 'OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL': <OBPropertyID.OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL: 3009>, 'OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL': <OBPropertyID.OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL: 3010>, 'OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL': <OBPropertyID.OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL: 3011>, 'OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL': <OBPropertyID.OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL: 3012>, 'OB_PROP_DEPTH_INDUSTRY_MODE_INT': <OBPropertyID.OB_PROP_DEPTH_INDUSTRY_MODE_INT: 3024>, 'OB_PROP_NETWORK_BANDWIDTH_TYPE_INT': <OBPropertyID.OB_PROP_NETWORK_BANDWIDTH_TYPE_INT: 3027>, 'OB_PROP_DEVICE_PERFORMANCE_MODE_INT': <OBPropertyID.OB_PROP_DEVICE_PERFORMANCE_MODE_INT: 3028>, 'OB_RAW_DATA_CAMERA_CALIB_JSON_FILE': <OBPropertyID.OB_RAW_DATA_CAMERA_CALIB_JSON_FILE: 4029>, 'OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT': <OBPropertyID.OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT: 8006>, 'OB_RAW_DATA_LIDAR_IP_ADDRESS': <OBPropertyID.OB_RAW_DATA_LIDAR_IP_ADDRESS: 8000>, 'OB_PROP_LIDAR_PORT_INT': <OBPropertyID.OB_PROP_LIDAR_PORT_INT: 8001>, 'OB_RAW_DATA_LIDAR_MAC_ADDRESS': <OBPropertyID.OB_RAW_DATA_LIDAR_MAC_ADDRESS: 8002>, 'OB_RAW_DATA_LIDAR_SUBNET_MASK': <OBPropertyID.OB_RAW_DATA_LIDAR_SUBNET_MASK: 8003>, 'OB_PROP_LIDAR_WORK_MODE_INT': <OBPropertyID.OB_PROP_LIDAR_WORK_MODE_INT: 8004>, 'OB_PROP_LIDAR_APPLY_CONFIGS_INT': <OBPropertyID.OB_PROP_LIDAR_APPLY_CONFIGS_INT: 8005>, 'OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT': <OBPropertyID.OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT: 8007>, 'OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT': <OBPropertyID.OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT: 8008>, 'OB_RAW_DATA_LIDAR_PRODUCT_MODEL': <OBPropertyID.OB_RAW_DATA_LIDAR_PRODUCT_MODEL: 8009>, 'OB_RAW_DATA_LIDAR_FIRMWARE_VERSION': <OBPropertyID.OB_RAW_DATA_LIDAR_FIRMWARE_VERSION: 8010>, 'OB_RAW_DATA_LIDAR_FPGA_VERSION': <OBPropertyID.OB_RAW_DATA_LIDAR_FPGA_VERSION: 8011>, 'OB_PROP_LIDAR_WARNING_INFO_INT': <OBPropertyID.OB_PROP_LIDAR_WARNING_INFO_INT: 8012>, 'OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT': <OBPropertyID.OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT: 8013>, 'OB_PROP_LIDAR_MCU_TEMPERATURE_INT': <OBPropertyID.OB_PROP_LIDAR_MCU_TEMPERATURE_INT: 8014>, 'OB_PROP_LIDAR_APD_TEMPERATURE_INT': <OBPropertyID.OB_PROP_LIDAR_APD_TEMPERATURE_INT: 8015>, 'OB_PROP_LIDAR_SPECIFIC_MODE_INT': <OBPropertyID.OB_PROP_LIDAR_SPECIFIC_MODE_INT: 8016>, 'OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT': <OBPropertyID.OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT: 8017>, 'OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL': <OBPropertyID.OB_PROP_DEPTH_SOFT_FILTER_BOOL: 24>, 'OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL': <OBPropertyID.OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL: 25>, 'OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT': <OBPropertyID.OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT: 26>, 'OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL': <OBPropertyID.OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL: 216>, 'OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT': <OBPropertyID.OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT: 217>, 'OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL': <OBPropertyID.OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL: 223>, 'OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT': <OBPropertyID.OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT: 5013>}
+    OB_DEVICE_AUTO_CAPTURE_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_DEVICE_AUTO_CAPTURE_INTERVAL_TIME_INT: typing.ClassVar[OBPropertyID]
+    OB_DEVICE_PTP_CLOCK_SYNC_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_ACTION_DEVICE_KEY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ACTION_GROUP_KEY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ACTION_GROUP_MASK_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ACTION_SELECTOR_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ACTION_SIGNAL_COUNT_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ANTI_COLLUSION_ACTIVATION_STATUS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_BOOT_INTO_RECOVERY_MODE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_BRT_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_CAPTURE_IMAGE_FRAME_NUMBER_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CAPTURE_IMAGE_NUMBER_INTERVAL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CAPTURE_IMAGE_SIGNAL_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_CAPTURE_IMAGE_TIME_INTERVAL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CAPTURE_INTERVAL_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CHECK_PPS_SYNC_IN_SIGNAL_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AE_AWB_STATUS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AE_AWB_STAT_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AE_MAX_EXPOSURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AE_MAX_GAIN_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_ANTI_FLICKER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AUTO_EXPOSURE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AUTO_EXPOSURE_PRIORITY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_AUTO_WHITE_BALANCE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_BACKLIGHT_COMPENSATION_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_BRIGHTNESS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_CONTRAST_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_DENOISING_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_EXPOSURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_FOCUS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_GAIN_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_GAMMA_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_HDR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_HUE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_LEFT_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_LEFT_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_LEFT_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_MAXIMAL_SHUTTER_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_POWER_LINE_FREQUENCY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_PRESET_PRIORITY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_RIGHT_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_RIGHT_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_RIGHT_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_ROI_BRIGHTNESS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_ROLL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_SATURATION_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_SHARPNESS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_SHUTTER_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_WB_CTRL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_COLOR_WHITE_BALANCE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CONFIDENCE_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_CONFIDENCE_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_CONFIDENCE_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CONFIDENCE_STREAM_FILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_CONFIDENCE_STREAM_FILTER_THRESHOLD_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CPU_TEMPERATURE_CALIBRATION_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_CURRENT_DISP_SEARCH_OFFSET_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_CURRENT_DISP_SEARCH_RANGE_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_D2C_PREPROCESS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DC_POWER_STATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEBUG_ESGM_CONFIDENCE_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_ALIGN_HARDWARE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_ALIGN_HARDWARE_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_AUTO_EXPOSURE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_AUTO_EXPOSURE_PRIORITY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_CROPPING_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_EXPOSURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_GAIN_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_HOLEFILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_INDUSTRY_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_MAX_DIFF_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_MAX_SPECKLE_SIZE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_DIFF_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPECKLE_SIZE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_OUTLIERS_FILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_OUTLIERS_FILTER_SEARCH_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_POSTFILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_PRECISION_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_RM_FILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_SOFT_FILTER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_UNIT_FLEXIBLE_ADJUSTMENT_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEPTH_WITH_CONFIDENCE_STREAM_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_AE_REFERENCE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_AE_STRATEGY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_COMMUNICATION_TYPE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_DEVELOPMENT_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_IN_RECOVERY_MODE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_IP_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_OFFLINE_AFTER_IP_CONFIG_APPLY: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_PERFORMANCE_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_REBOOT_DELAY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_REPOWER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_USB3_REPEAT_IDENTIFY_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DEVICE_WORK_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DHCP_ASSIGN_IP_TIMEOUT_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DISPARITY_TO_DEPTH_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_DISP_SEARCH_OFFSET_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_DISP_SEARCH_RANGE_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_EXTERNAL_SIGNAL_RESET_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_FAN_WORK_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_FLOOD_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_FLOOD_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_FPS_BOOST_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_FRAME_INTERLEAVE_CONFIG_INDEX_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_FRAME_INTERLEAVE_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_FRAME_INTERLEAVE_LASER_PATTERN_SYNC_DELAY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_GPM_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_HARDWARE_DISTORTION_SWITCH_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_HDR_MERGE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_HEARTBEAT_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_HW_NOISE_REMOVE_FILTER_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_HW_NOISE_REMOVE_FILTER_THRESHOLD_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_INDICATOR_LIGHT_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_INTRA_CAMERA_SYNC_REFERENCE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_AE_MAX_EXPOSURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_AUTO_EXPOSURE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_BRIGHTNESS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_CHANNEL_DATA_SOURCE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_EXPOSURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_GAIN_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_LONG_EXPOSURE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_RECTIFY_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_RIGHT_FLIP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_RIGHT_MIRROR_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_RIGHT_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_ROTATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_IR_SHORT_EXPOSURE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_ALWAYS_ON_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_CONTROL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_CURRENT_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_ENERGY_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_HIGH_TEMPERATURE_PROTECT_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_HW_ENERGY_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_ON_OFF_PATTERN_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_OVERCURRENT_PROTECTION_STATUS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_POWER_ACTUAL_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_POWER_LEVEL_CONTROL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_PULSE_WIDTH_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LASER_PULSE_WIDTH_PROTECTION_STATUS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LDP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LDP_MEASURE_DISTANCE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LDP_STATUS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_APD_TEMPERATURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_APPLY_CONFIGS_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_MCU_TEMPERATURE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_MEMS_FOV_SIZE_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_MEMS_FRENQUENCY_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_MOTOR_SPIN_SPEED_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_PORT_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_REPETITIVE_SCAN_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_SPECIFIC_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_TAIL_FILTER_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_WARNING_INFO_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LIDAR_WORK_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_LOW_EXPOSURE_LASER_CONTROL_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_MAX_DEPTH_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_MIN_DEPTH_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_MJPEG_QUALITY_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_NETWORK_BANDWIDTH_TYPE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_ON_CHIP_CALIBRATION_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_ON_CHIP_CALIBRATION_HEALTH_CHECK_FLOAT: typing.ClassVar[OBPropertyID]
+    OB_PROP_RECTIFY2_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_RESTORE_FACTORY_SETTINGS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_RGB_CUSTOM_CROP_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_ACCEL_FRAME_TRANSFORMED_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_DEPTH_FRAME_UNPACK_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_DISPARITY_TO_DEPTH_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_GYRO_FRAME_TRANSFORMED_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_IR_FRAME_UNPACK_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_IR_LEFT_FRAME_UNPACK_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SDK_IR_RIGHT_FRAME_UNPACK_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SKIP_FRAME_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SLAVE_DEVICE_SYNC_STATUS_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_SWITCH_IR_MODE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_SYNC_SIGNAL_TRIGGER_OUT_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_TEMPERATURE_COMPENSATION_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_TIMER_RESET_DELAY_US_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_TIMER_RESET_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_TIMER_RESET_SIGNAL_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_TIMER_RESET_TRIGGER_OUT_ENABLE_BOOL: typing.ClassVar[OBPropertyID]
+    OB_PROP_TIMESTAMP_OFFSET_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_TOF_FILTER_RANGE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_USB_POWER_STATE_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_USB_SYNC_VOLTAGE_LEVEL_INT: typing.ClassVar[OBPropertyID]
+    OB_PROP_WATCHDOG_BOOL: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_CAMERA_CALIB_JSON_FILE: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_LIDAR_FIRMWARE_VERSION: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_LIDAR_FPGA_VERSION: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_LIDAR_IP_ADDRESS: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_LIDAR_MAC_ADDRESS: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_LIDAR_PRODUCT_MODEL: typing.ClassVar[OBPropertyID]
+    OB_RAW_DATA_LIDAR_SUBNET_MASK: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_ASIC_SERIAL_NUMBER: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_BASELINE_CALIBRATION_PARAM: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_COLOR_AE_ROI: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_COLOR_AWB_GAIN: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_CURRENT_DEPTH_ALG_MODE: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEPTH_AE_ROI: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEPTH_HDR_CONFIG: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_ERROR_STATE: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_IP_ADDR_CONFIG: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_SERIAL_NUMBER: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_TEMPERATURE: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DEVICE_TIME: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_DISP_OFFSET_CONFIG: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_GET_ACCEL_PRESETS_FULL_SCALE_LIST: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_GET_ACCEL_PRESETS_ODR_LIST: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_GET_GYRO_PRESETS_FULL_SCALE_LIST: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_GET_GYRO_PRESETS_ODR_LIST: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_PRESET_RESOLUTION_CONFIG: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_RGB_CROP_ROI: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL: typing.ClassVar[OBPropertyID]
+    OB_STRUCT_VERSION: typing.ClassVar[OBPropertyID]
+    __members__: typing.ClassVar[dict[str, OBPropertyID]]
     def __eq__(self, other: typing.Any) -> bool: ...
     def __getstate__(self) -> int: ...
     def __hash__(self) -> int: ...
     def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __init__(self, value: int) -> None: ...
     def __int__(self) -> int: ...
     def __ne__(self, other: typing.Any) -> bool: ...
     def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
+    def __setstate__(self, state: int) -> None: ...
+    def __str__(self) -> str: ...
+    @property
+    def name(self) -> str: ...
+    @property
+    def value(self) -> int: ...
+
+class OBPropertyType:
+    """
+    Members:
+
+      OB_BOOL_PROPERTY : Boolean property
+
+      OB_INT_PROPERTY : Integer property
+
+      OB_FLOAT_PROPERTY : Float property
+
+      OB_STRUCT_PROPERTY : Struct property
+    """
+
+    OB_BOOL_PROPERTY: typing.ClassVar[OBPropertyType]
+    OB_FLOAT_PROPERTY: typing.ClassVar[OBPropertyType]
+    OB_INT_PROPERTY: typing.ClassVar[OBPropertyType]
+    OB_STRUCT_PROPERTY: typing.ClassVar[OBPropertyType]
+    __members__: typing.ClassVar[dict[str, OBPropertyType]]
+    def __eq__(self, other: typing.Any) -> bool: ...
+    def __getstate__(self) -> int: ...
+    def __hash__(self) -> int: ...
+    def __index__(self) -> int: ...
+    def __init__(self, value: int) -> None: ...
+    def __int__(self) -> int: ...
+    def __ne__(self, other: typing.Any) -> bool: ...
+    def __repr__(self) -> str: ...
+    def __setstate__(self, state: int) -> None: ...
     def __str__(self) -> str: ...
     @property
     def name(self) -> str: ...
@@ -5410,785 +6227,10 @@ class OBPropertyItem:
     @type.setter
     def type(self, arg0: OBPropertyType) -> None: ...
 
-class OBPropertyType:
-    """
-    Members:
-
-      OB_BOOL_PROPERTY : Boolean property
-
-      OB_INT_PROPERTY : Integer property
-
-      OB_FLOAT_PROPERTY : Float property
-
-      OB_STRUCT_PROPERTY : Struct property
-    """
-
-    OB_BOOL_PROPERTY: typing.ClassVar[OBPropertyType]  # value = <OBPropertyType.OB_BOOL_PROPERTY: 0>
-    OB_FLOAT_PROPERTY: typing.ClassVar[OBPropertyType]  # value = <OBPropertyType.OB_FLOAT_PROPERTY: 2>
-    OB_INT_PROPERTY: typing.ClassVar[OBPropertyType]  # value = <OBPropertyType.OB_INT_PROPERTY: 1>
-    OB_STRUCT_PROPERTY: typing.ClassVar[OBPropertyType]  # value = <OBPropertyType.OB_STRUCT_PROPERTY: 3>
-    __members__: typing.ClassVar[
-        dict[str, OBPropertyType]
-    ]  # value = {'OB_BOOL_PROPERTY': <OBPropertyType.OB_BOOL_PROPERTY: 0>, 'OB_INT_PROPERTY': <OBPropertyType.OB_INT_PROPERTY: 1>, 'OB_FLOAT_PROPERTY': <OBPropertyType.OB_FLOAT_PROPERTY: 2>, 'OB_STRUCT_PROPERTY': <OBPropertyType.OB_STRUCT_PROPERTY: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBProtocolVersion:
-    def __init__(self) -> None: ...
-    @property
-    def major(self) -> int: ...
-    @major.setter
-    def major(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def minor(self) -> int: ...
-    @minor.setter
-    def minor(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def patch(self) -> int: ...
-    @patch.setter
-    def patch(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBRect:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBRect: ...
-    def to_bytes(self) -> bytes: ...
-    def __init__(self) -> None: ...
-    @property
-    def height(self) -> int: ...
-    @height.setter
-    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def width(self) -> int: ...
-    @width.setter
-    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def x(self) -> int: ...
-    @x.setter
-    def x(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def y(self) -> int: ...
-    @y.setter
-    def y(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBRegionOfInterest:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBRegionOfInterest: ...
-    def to_bytes(self) -> bytes: ...
-    def __init__(self) -> None: ...
-    @property
-    def x0_left(self) -> int: ...
-    @x0_left.setter
-    def x0_left(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def x1_right(self) -> int: ...
-    @x1_right.setter
-    def x1_right(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def y0_top(self) -> int: ...
-    @y0_top.setter
-    def y0_top(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def y1_bottom(self) -> int: ...
-    @y1_bottom.setter
-    def y1_bottom(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBRotateDegreeType:
-    """
-    Members:
-
-      ROTATE_0
-
-      ROTATE_90
-
-      ROTATE_180
-
-      ROTATE_270
-    """
-
-    ROTATE_0: typing.ClassVar[OBRotateDegreeType]  # value = <OBRotateDegreeType.ROTATE_0: 0>
-    ROTATE_180: typing.ClassVar[OBRotateDegreeType]  # value = <OBRotateDegreeType.ROTATE_180: 180>
-    ROTATE_270: typing.ClassVar[OBRotateDegreeType]  # value = <OBRotateDegreeType.ROTATE_270: 270>
-    ROTATE_90: typing.ClassVar[OBRotateDegreeType]  # value = <OBRotateDegreeType.ROTATE_90: 90>
-    __members__: typing.ClassVar[
-        dict[str, OBRotateDegreeType]
-    ]  # value = {'ROTATE_0': <OBRotateDegreeType.ROTATE_0: 0>, 'ROTATE_90': <OBRotateDegreeType.ROTATE_90: 90>, 'ROTATE_180': <OBRotateDegreeType.ROTATE_180: 180>, 'ROTATE_270': <OBRotateDegreeType.ROTATE_270: 270>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBSensorType:
-    """
-    Members:
-
-      UNKNOWN_SENSOR
-
-      IR_SENSOR
-
-      COLOR_SENSOR
-
-      DEPTH_SENSOR
-
-      ACCEL_SENSOR
-
-      GYRO_SENSOR
-
-      LEFT_IR_SENSOR
-
-      RIGHT_IR_SENSOR
-
-      RAW_PHASE_SENSOR
-
-      CONFIDENCE_SENSOR
-
-      LIDAR_SENSOR
-
-      LEFT_COLOR_SENSOR
-
-      RIGHT_COLOR_SENSOR
-
-      TYPE_COUNT_SENSOR
-    """
-
-    ACCEL_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.ACCEL_SENSOR: 4>
-    COLOR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.COLOR_SENSOR: 2>
-    CONFIDENCE_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.CONFIDENCE_SENSOR: 9>
-    DEPTH_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.DEPTH_SENSOR: 3>
-    GYRO_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.GYRO_SENSOR: 5>
-    IR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.IR_SENSOR: 1>
-    LEFT_COLOR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.LEFT_COLOR_SENSOR: 11>
-    LEFT_IR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.LEFT_IR_SENSOR: 6>
-    LIDAR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.LIDAR_SENSOR: 10>
-    RAW_PHASE_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.RAW_PHASE_SENSOR: 8>
-    RIGHT_COLOR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.RIGHT_COLOR_SENSOR: 12>
-    RIGHT_IR_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.RIGHT_IR_SENSOR: 7>
-    TYPE_COUNT_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.TYPE_COUNT_SENSOR: 13>
-    UNKNOWN_SENSOR: typing.ClassVar[OBSensorType]  # value = <OBSensorType.UNKNOWN_SENSOR: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBSensorType]
-    ]  # value = {'UNKNOWN_SENSOR': <OBSensorType.UNKNOWN_SENSOR: 0>, 'IR_SENSOR': <OBSensorType.IR_SENSOR: 1>, 'COLOR_SENSOR': <OBSensorType.COLOR_SENSOR: 2>, 'DEPTH_SENSOR': <OBSensorType.DEPTH_SENSOR: 3>, 'ACCEL_SENSOR': <OBSensorType.ACCEL_SENSOR: 4>, 'GYRO_SENSOR': <OBSensorType.GYRO_SENSOR: 5>, 'LEFT_IR_SENSOR': <OBSensorType.LEFT_IR_SENSOR: 6>, 'RIGHT_IR_SENSOR': <OBSensorType.RIGHT_IR_SENSOR: 7>, 'RAW_PHASE_SENSOR': <OBSensorType.RAW_PHASE_SENSOR: 8>, 'CONFIDENCE_SENSOR': <OBSensorType.CONFIDENCE_SENSOR: 9>, 'LIDAR_SENSOR': <OBSensorType.LIDAR_SENSOR: 10>, 'LEFT_COLOR_SENSOR': <OBSensorType.LEFT_COLOR_SENSOR: 11>, 'RIGHT_COLOR_SENSOR': <OBSensorType.RIGHT_COLOR_SENSOR: 12>, 'TYPE_COUNT_SENSOR': <OBSensorType.TYPE_COUNT_SENSOR: 13>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBSequenceIdItem:
-    name: str
-    def __init__(self) -> None: ...
-    @property
-    def sequence_select_id(self) -> int: ...
-    @sequence_select_id.setter
-    def sequence_select_id(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBSpatialAdvancedFilterParams:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def alpha(self) -> float: ...
-    @alpha.setter
-    def alpha(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    @property
-    def disp_diff(self) -> int: ...
-    @disp_diff.setter
-    def disp_diff(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def magnitude(self) -> int: ...
-    @magnitude.setter
-    def magnitude(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def radius(self) -> int: ...
-    @radius.setter
-    def radius(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBSpatialFastFilterParams:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def radius(self) -> int: ...
-    @radius.setter
-    def radius(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBSpatialModerateFilterParams:
-    def __init__(self) -> None: ...
-    def __repr__(self) -> str: ...
-    @property
-    def disp_diff(self) -> int: ...
-    @disp_diff.setter
-    def disp_diff(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def magnitude(self) -> int: ...
-    @magnitude.setter
-    def magnitude(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def radius(self) -> int: ...
-    @radius.setter
-    def radius(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBStatus:
-    """
-    Members:
-
-      STATUS_OK
-
-      STATUS_ERROR
-
-      ERROR_UNKNOWN
-
-      ERROR_INVALID_PARAMETER
-
-      ERROR_INVALID_DATA
-
-      ERROR_INVALID_DATA_LEN
-
-      ERROR_BUFFER_TOO_SMALL
-
-      ERROR_MEMORY
-
-      ERROR_WAIT_TIMEOUT
-
-      ERROR_NOT_IMPLEMENTED
-
-      ERROR_UNSUPPORTED_OPERATION
-
-      ERROR_WRONG_API_CALL_SEQUENCE
-
-      ERROR_NO_DEVICE
-
-      ERROR_DEVICE_CONNECT_FAILED
-
-      ERROR_DEVICE_ACCESS_DENIED
-
-      ERROR_DEVICE_DISCONNECTED
-
-      ERROR_DEVICE_UNAVAILABLE
-
-      ERROR_ITEM_NOT_FOUND
-
-      ERROR_IO_FAILURE
-
-      ERROR_RESOURCE_BUSY
-
-      ERROR_FRAME_QUEUE_OVERFLOW
-
-      ERROR_FRAME_DATA
-
-      ERROR_FRAME_DATA_LEN
-
-      ERROR_DEVICE_UNKNOWN
-
-      ERROR_DEVICE_RESPONSE_BAD_MAGIC
-
-      ERROR_DEVICE_RESPONSE_WRONG_ID
-
-      ERROR_DEVICE_RESPONSE_WRONG_OPCODE
-
-      ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE
-
-      ERROR_DEVICE_RESPONSE_ERROR
-
-      ERROR_DEVICE_RESPONSE_WARNING
-
-      ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE
-    """
-
-    ERROR_BUFFER_TOO_SMALL: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_BUFFER_TOO_SMALL: 103>
-    ERROR_DEVICE_ACCESS_DENIED: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_ACCESS_DENIED: 111>
-    ERROR_DEVICE_CONNECT_FAILED: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_CONNECT_FAILED: 110>
-    ERROR_DEVICE_DISCONNECTED: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_DISCONNECTED: 112>
-    ERROR_DEVICE_RESPONSE_BAD_MAGIC: typing.ClassVar[
-        OBStatus
-    ]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_BAD_MAGIC: 1001>
-    ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE: typing.ClassVar[
-        OBStatus
-    ]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE: 1007>
-    ERROR_DEVICE_RESPONSE_ERROR: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_ERROR: 1005>
-    ERROR_DEVICE_RESPONSE_WARNING: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_WARNING: 1006>
-    ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE: typing.ClassVar[
-        OBStatus
-    ]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE: 1004>
-    ERROR_DEVICE_RESPONSE_WRONG_ID: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_WRONG_ID: 1002>
-    ERROR_DEVICE_RESPONSE_WRONG_OPCODE: typing.ClassVar[
-        OBStatus
-    ]  # value = <OBStatus.ERROR_DEVICE_RESPONSE_WRONG_OPCODE: 1003>
-    ERROR_DEVICE_UNAVAILABLE: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_UNAVAILABLE: 113>
-    ERROR_DEVICE_UNKNOWN: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_DEVICE_UNKNOWN: 1000>
-    ERROR_FRAME_DATA: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_FRAME_DATA: 201>
-    ERROR_FRAME_DATA_LEN: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_FRAME_DATA_LEN: 202>
-    ERROR_FRAME_QUEUE_OVERFLOW: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_FRAME_QUEUE_OVERFLOW: 200>
-    ERROR_INVALID_DATA: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_INVALID_DATA: 101>
-    ERROR_INVALID_DATA_LEN: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_INVALID_DATA_LEN: 102>
-    ERROR_INVALID_PARAMETER: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_INVALID_PARAMETER: 100>
-    ERROR_IO_FAILURE: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_IO_FAILURE: 115>
-    ERROR_ITEM_NOT_FOUND: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_ITEM_NOT_FOUND: 114>
-    ERROR_MEMORY: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_MEMORY: 104>
-    ERROR_NOT_IMPLEMENTED: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_NOT_IMPLEMENTED: 106>
-    ERROR_NO_DEVICE: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_NO_DEVICE: 109>
-    ERROR_RESOURCE_BUSY: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_RESOURCE_BUSY: 116>
-    ERROR_UNKNOWN: typing.ClassVar[OBStatus]  # value = <OBStatus.STATUS_ERROR: 1>
-    ERROR_UNSUPPORTED_OPERATION: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_UNSUPPORTED_OPERATION: 107>
-    ERROR_WAIT_TIMEOUT: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_WAIT_TIMEOUT: 105>
-    ERROR_WRONG_API_CALL_SEQUENCE: typing.ClassVar[OBStatus]  # value = <OBStatus.ERROR_WRONG_API_CALL_SEQUENCE: 108>
-    STATUS_ERROR: typing.ClassVar[OBStatus]  # value = <OBStatus.STATUS_ERROR: 1>
-    STATUS_OK: typing.ClassVar[OBStatus]  # value = <OBStatus.STATUS_OK: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBStatus]
-    ]  # value = {'STATUS_OK': <OBStatus.STATUS_OK: 0>, 'STATUS_ERROR': <OBStatus.STATUS_ERROR: 1>, 'ERROR_UNKNOWN': <OBStatus.STATUS_ERROR: 1>, 'ERROR_INVALID_PARAMETER': <OBStatus.ERROR_INVALID_PARAMETER: 100>, 'ERROR_INVALID_DATA': <OBStatus.ERROR_INVALID_DATA: 101>, 'ERROR_INVALID_DATA_LEN': <OBStatus.ERROR_INVALID_DATA_LEN: 102>, 'ERROR_BUFFER_TOO_SMALL': <OBStatus.ERROR_BUFFER_TOO_SMALL: 103>, 'ERROR_MEMORY': <OBStatus.ERROR_MEMORY: 104>, 'ERROR_WAIT_TIMEOUT': <OBStatus.ERROR_WAIT_TIMEOUT: 105>, 'ERROR_NOT_IMPLEMENTED': <OBStatus.ERROR_NOT_IMPLEMENTED: 106>, 'ERROR_UNSUPPORTED_OPERATION': <OBStatus.ERROR_UNSUPPORTED_OPERATION: 107>, 'ERROR_WRONG_API_CALL_SEQUENCE': <OBStatus.ERROR_WRONG_API_CALL_SEQUENCE: 108>, 'ERROR_NO_DEVICE': <OBStatus.ERROR_NO_DEVICE: 109>, 'ERROR_DEVICE_CONNECT_FAILED': <OBStatus.ERROR_DEVICE_CONNECT_FAILED: 110>, 'ERROR_DEVICE_ACCESS_DENIED': <OBStatus.ERROR_DEVICE_ACCESS_DENIED: 111>, 'ERROR_DEVICE_DISCONNECTED': <OBStatus.ERROR_DEVICE_DISCONNECTED: 112>, 'ERROR_DEVICE_UNAVAILABLE': <OBStatus.ERROR_DEVICE_UNAVAILABLE: 113>, 'ERROR_ITEM_NOT_FOUND': <OBStatus.ERROR_ITEM_NOT_FOUND: 114>, 'ERROR_IO_FAILURE': <OBStatus.ERROR_IO_FAILURE: 115>, 'ERROR_RESOURCE_BUSY': <OBStatus.ERROR_RESOURCE_BUSY: 116>, 'ERROR_FRAME_QUEUE_OVERFLOW': <OBStatus.ERROR_FRAME_QUEUE_OVERFLOW: 200>, 'ERROR_FRAME_DATA': <OBStatus.ERROR_FRAME_DATA: 201>, 'ERROR_FRAME_DATA_LEN': <OBStatus.ERROR_FRAME_DATA_LEN: 202>, 'ERROR_DEVICE_UNKNOWN': <OBStatus.ERROR_DEVICE_UNKNOWN: 1000>, 'ERROR_DEVICE_RESPONSE_BAD_MAGIC': <OBStatus.ERROR_DEVICE_RESPONSE_BAD_MAGIC: 1001>, 'ERROR_DEVICE_RESPONSE_WRONG_ID': <OBStatus.ERROR_DEVICE_RESPONSE_WRONG_ID: 1002>, 'ERROR_DEVICE_RESPONSE_WRONG_OPCODE': <OBStatus.ERROR_DEVICE_RESPONSE_WRONG_OPCODE: 1003>, 'ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE': <OBStatus.ERROR_DEVICE_RESPONSE_WRONG_DATA_SIZE: 1004>, 'ERROR_DEVICE_RESPONSE_ERROR': <OBStatus.ERROR_DEVICE_RESPONSE_ERROR: 1005>, 'ERROR_DEVICE_RESPONSE_WARNING': <OBStatus.ERROR_DEVICE_RESPONSE_WARNING: 1006>, 'ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE': <OBStatus.ERROR_DEVICE_RESPONSE_CHANNEL_FAILURE: 1007>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBStreamType:
-    """
-    Members:
-
-      UNKNOWN_STREAM
-
-      VIDEO_STREAM
-
-      IR_STREAM
-
-      COLOR_STREAM
-
-      DEPTH_STREAM
-
-      ACCEL_STREAM
-
-      GYRO_STREAM
-
-      LEFT_IR_STREAM
-
-      RIGHT_IR_STREAM
-
-      RAW_PHASE_STREAM
-
-      CONFIDENCE_STREAM
-
-      LIDAR_STREAM
-
-      LEFT_COLOR_STREAM
-
-      RIGHT_COLOR_STREAM
-
-      TYPE_COUNT_STREAM
-    """
-
-    ACCEL_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.ACCEL_STREAM: 4>
-    COLOR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.COLOR_STREAM: 2>
-    CONFIDENCE_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.CONFIDENCE_STREAM: 9>
-    DEPTH_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.DEPTH_STREAM: 3>
-    GYRO_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.GYRO_STREAM: 5>
-    IR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.IR_STREAM: 1>
-    LEFT_COLOR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.LEFT_COLOR_STREAM: 11>
-    LEFT_IR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.LEFT_IR_STREAM: 6>
-    LIDAR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.LIDAR_STREAM: 10>
-    RAW_PHASE_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.RAW_PHASE_STREAM: 8>
-    RIGHT_COLOR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.RIGHT_COLOR_STREAM: 12>
-    RIGHT_IR_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.RIGHT_IR_STREAM: 7>
-    TYPE_COUNT_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.TYPE_COUNT_STREAM: 13>
-    UNKNOWN_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.UNKNOWN_STREAM: -1>
-    VIDEO_STREAM: typing.ClassVar[OBStreamType]  # value = <OBStreamType.VIDEO_STREAM: 0>
-    __members__: typing.ClassVar[
-        dict[str, OBStreamType]
-    ]  # value = {'UNKNOWN_STREAM': <OBStreamType.UNKNOWN_STREAM: -1>, 'VIDEO_STREAM': <OBStreamType.VIDEO_STREAM: 0>, 'IR_STREAM': <OBStreamType.IR_STREAM: 1>, 'COLOR_STREAM': <OBStreamType.COLOR_STREAM: 2>, 'DEPTH_STREAM': <OBStreamType.DEPTH_STREAM: 3>, 'ACCEL_STREAM': <OBStreamType.ACCEL_STREAM: 4>, 'GYRO_STREAM': <OBStreamType.GYRO_STREAM: 5>, 'LEFT_IR_STREAM': <OBStreamType.LEFT_IR_STREAM: 6>, 'RIGHT_IR_STREAM': <OBStreamType.RIGHT_IR_STREAM: 7>, 'RAW_PHASE_STREAM': <OBStreamType.RAW_PHASE_STREAM: 8>, 'CONFIDENCE_STREAM': <OBStreamType.CONFIDENCE_STREAM: 9>, 'LIDAR_STREAM': <OBStreamType.LIDAR_STREAM: 10>, 'LEFT_COLOR_STREAM': <OBStreamType.LEFT_COLOR_STREAM: 11>, 'RIGHT_COLOR_STREAM': <OBStreamType.RIGHT_COLOR_STREAM: 12>, 'TYPE_COUNT_STREAM': <OBStreamType.TYPE_COUNT_STREAM: 13>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBSyncMode:
-    """
-    Members:
-
-      CLOSE
-
-      STANDALONE
-
-      PRIMARY
-
-      SECONDARY
-
-      PRIMARY_MCU_TRIGGER
-
-      PRIMARY_IR_TRIGGER
-
-      PRIMARY_SOFT_TRIGGER
-
-      SECONDARY_SOFT_TRIGGER
-
-      IR_IMU_SYNC
-
-      UNKNOWN
-    """
-
-    CLOSE: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.CLOSE: 0>
-    IR_IMU_SYNC: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.IR_IMU_SYNC: 8>
-    PRIMARY: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.PRIMARY: 2>
-    PRIMARY_IR_TRIGGER: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.PRIMARY_IR_TRIGGER: 5>
-    PRIMARY_MCU_TRIGGER: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.PRIMARY_MCU_TRIGGER: 4>
-    PRIMARY_SOFT_TRIGGER: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.PRIMARY_SOFT_TRIGGER: 6>
-    SECONDARY: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.SECONDARY: 3>
-    SECONDARY_SOFT_TRIGGER: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.SECONDARY_SOFT_TRIGGER: 7>
-    STANDALONE: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.STANDALONE: 1>
-    UNKNOWN: typing.ClassVar[OBSyncMode]  # value = <OBSyncMode.UNKNOWN: 255>
-    __members__: typing.ClassVar[
-        dict[str, OBSyncMode]
-    ]  # value = {'CLOSE': <OBSyncMode.CLOSE: 0>, 'STANDALONE': <OBSyncMode.STANDALONE: 1>, 'PRIMARY': <OBSyncMode.PRIMARY: 2>, 'SECONDARY': <OBSyncMode.SECONDARY: 3>, 'PRIMARY_MCU_TRIGGER': <OBSyncMode.PRIMARY_MCU_TRIGGER: 4>, 'PRIMARY_IR_TRIGGER': <OBSyncMode.PRIMARY_IR_TRIGGER: 5>, 'PRIMARY_SOFT_TRIGGER': <OBSyncMode.PRIMARY_SOFT_TRIGGER: 6>, 'SECONDARY_SOFT_TRIGGER': <OBSyncMode.SECONDARY_SOFT_TRIGGER: 7>, 'IR_IMU_SYNC': <OBSyncMode.IR_IMU_SYNC: 8>, 'UNKNOWN': <OBSyncMode.UNKNOWN: 255>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBTofExposureThresholdControl:
-    @staticmethod
-    def from_bytes(data: bytes) -> OBTofExposureThresholdControl: ...
-    def to_bytes(self) -> bytes: ...
-    def __init__(self) -> None: ...
-    @property
-    def lower(self) -> int: ...
-    @lower.setter
-    def lower(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def upper(self) -> int: ...
-    @upper.setter
-    def upper(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBTofFilterRange:
-    """
-    Members:
-
-      CLOSE
-
-      MIDDLE
-
-      FAR
-
-      DEBUG
-    """
-
-    CLOSE: typing.ClassVar[OBTofFilterRange]  # value = <OBTofFilterRange.CLOSE: 0>
-    DEBUG: typing.ClassVar[OBTofFilterRange]  # value = <OBTofFilterRange.DEBUG: 100>
-    FAR: typing.ClassVar[OBTofFilterRange]  # value = <OBTofFilterRange.FAR: 2>
-    MIDDLE: typing.ClassVar[OBTofFilterRange]  # value = <OBTofFilterRange.MIDDLE: 1>
-    __members__: typing.ClassVar[
-        dict[str, OBTofFilterRange]
-    ]  # value = {'CLOSE': <OBTofFilterRange.CLOSE: 0>, 'MIDDLE': <OBTofFilterRange.MIDDLE: 1>, 'FAR': <OBTofFilterRange.FAR: 2>, 'DEBUG': <OBTofFilterRange.DEBUG: 100>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBUSBPowerState:
-    """
-    Members:
-
-      OFF
-
-      POWER_5V_0A9
-
-      POWER_5V_1A5
-
-      POWER_5V_3A0
-    """
-
-    OFF: typing.ClassVar[OBUSBPowerState]  # value = <OBUSBPowerState.OFF: 0>
-    POWER_5V_0A9: typing.ClassVar[OBUSBPowerState]  # value = <OBUSBPowerState.POWER_5V_0A9: 1>
-    POWER_5V_1A5: typing.ClassVar[OBUSBPowerState]  # value = <OBUSBPowerState.POWER_5V_1A5: 2>
-    POWER_5V_3A0: typing.ClassVar[OBUSBPowerState]  # value = <OBUSBPowerState.POWER_5V_3A0: 3>
-    __members__: typing.ClassVar[
-        dict[str, OBUSBPowerState]
-    ]  # value = {'OFF': <OBUSBPowerState.OFF: 0>, 'POWER_5V_0A9': <OBUSBPowerState.POWER_5V_0A9: 1>, 'POWER_5V_1A5': <OBUSBPowerState.POWER_5V_1A5: 2>, 'POWER_5V_3A0': <OBUSBPowerState.POWER_5V_3A0: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBUint16PropertyRange:
-    def __init__(self) -> None: ...
-    @property
-    def current(self) -> int: ...
-    @current.setter
-    def current(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def default_value(self) -> int: ...
-    @default_value.setter
-    def default_value(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max(self) -> int: ...
-    @max.setter
-    def max(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def min(self) -> int: ...
-    @min.setter
-    def min(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def step(self) -> int: ...
-    @step.setter
-    def step(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBUint8PropertyRange:
-    def __init__(self) -> None: ...
-    @property
-    def current(self) -> int: ...
-    @current.setter
-    def current(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def default_value(self) -> int: ...
-    @default_value.setter
-    def default_value(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def max(self) -> int: ...
-    @max.setter
-    def max(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def min(self) -> int: ...
-    @min.setter
-    def min(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    @property
-    def step(self) -> int: ...
-    @step.setter
-    def step(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class OBUpgradeState:
-    """
-    Members:
-
-      DONE_REBOOT_AND_REUPDATE
-
-      DONE_WITH_DUPLICATES
-
-      VERIFY_SUCCESS
-
-      FILE_TRANSFER
-
-      DONE
-
-      IN_PROGRESS
-
-      START
-
-      VERIFY_IMAGE
-
-      ERR_VERIFY
-
-      ERR_PROGRAM
-
-      ERR_ERASE
-
-      ERR_FLASH_TYPE
-
-      ERR_IMAGE_SIZE
-
-      ERR_OTHER
-
-      ERR_DDR
-
-      ERR_TIMEOUT
-
-      ERR_MISMATCH
-
-      ERR_UNSUPPORT_DEV
-
-      ERR_INVALID_COUNT
-
-      ERR_FILE_READ
-
-      ERR_TRANSFER
-    """
-
-    DONE: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.DONE: 3>
-    DONE_REBOOT_AND_REUPDATE: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.DONE_REBOOT_AND_REUPDATE: 7>
-    DONE_WITH_DUPLICATES: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.DONE_WITH_DUPLICATES: 6>
-    ERR_DDR: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_DDR: -7>
-    ERR_ERASE: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_ERASE: -3>
-    ERR_FILE_READ: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_FILE_READ: -12>
-    ERR_FLASH_TYPE: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_FLASH_TYPE: -4>
-    ERR_IMAGE_SIZE: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_IMAGE_SIZE: -5>
-    ERR_INVALID_COUNT: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_INVALID_COUNT: -11>
-    ERR_MISMATCH: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_MISMATCH: -9>
-    ERR_OTHER: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_OTHER: -6>
-    ERR_PROGRAM: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_PROGRAM: -2>
-    ERR_TIMEOUT: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_TIMEOUT: -8>
-    ERR_TRANSFER: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_TRANSFER: -13>
-    ERR_UNSUPPORT_DEV: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_UNSUPPORT_DEV: -10>
-    ERR_VERIFY: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.ERR_VERIFY: -1>
-    FILE_TRANSFER: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.FILE_TRANSFER: 4>
-    IN_PROGRESS: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.IN_PROGRESS: 2>
-    START: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.START: 1>
-    VERIFY_IMAGE: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.VERIFY_IMAGE: 0>
-    VERIFY_SUCCESS: typing.ClassVar[OBUpgradeState]  # value = <OBUpgradeState.VERIFY_SUCCESS: 5>
-    __members__: typing.ClassVar[
-        dict[str, OBUpgradeState]
-    ]  # value = {'DONE_REBOOT_AND_REUPDATE': <OBUpgradeState.DONE_REBOOT_AND_REUPDATE: 7>, 'DONE_WITH_DUPLICATES': <OBUpgradeState.DONE_WITH_DUPLICATES: 6>, 'VERIFY_SUCCESS': <OBUpgradeState.VERIFY_SUCCESS: 5>, 'FILE_TRANSFER': <OBUpgradeState.FILE_TRANSFER: 4>, 'DONE': <OBUpgradeState.DONE: 3>, 'IN_PROGRESS': <OBUpgradeState.IN_PROGRESS: 2>, 'START': <OBUpgradeState.START: 1>, 'VERIFY_IMAGE': <OBUpgradeState.VERIFY_IMAGE: 0>, 'ERR_VERIFY': <OBUpgradeState.ERR_VERIFY: -1>, 'ERR_PROGRAM': <OBUpgradeState.ERR_PROGRAM: -2>, 'ERR_ERASE': <OBUpgradeState.ERR_ERASE: -3>, 'ERR_FLASH_TYPE': <OBUpgradeState.ERR_FLASH_TYPE: -4>, 'ERR_IMAGE_SIZE': <OBUpgradeState.ERR_IMAGE_SIZE: -5>, 'ERR_OTHER': <OBUpgradeState.ERR_OTHER: -6>, 'ERR_DDR': <OBUpgradeState.ERR_DDR: -7>, 'ERR_TIMEOUT': <OBUpgradeState.ERR_TIMEOUT: -8>, 'ERR_MISMATCH': <OBUpgradeState.ERR_MISMATCH: -9>, 'ERR_UNSUPPORT_DEV': <OBUpgradeState.ERR_UNSUPPORT_DEV: -10>, 'ERR_INVALID_COUNT': <OBUpgradeState.ERR_INVALID_COUNT: -11>, 'ERR_FILE_READ': <OBUpgradeState.ERR_FILE_READ: -12>, 'ERR_TRANSFER': <OBUpgradeState.ERR_TRANSFER: -13>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class OBUvcBackendType:
-    """
-    Members:
-
-      AUTO
-
-      LIBUVC
-
-      V4L2
-
-      MSMF
-    """
-
-    AUTO: typing.ClassVar[OBUvcBackendType]  # value = <OBUvcBackendType.AUTO: 0>
-    LIBUVC: typing.ClassVar[OBUvcBackendType]  # value = <OBUvcBackendType.LIBUVC: 1>
-    MSMF: typing.ClassVar[OBUvcBackendType]  # value = <OBUvcBackendType.MSMF: 3>
-    V4L2: typing.ClassVar[OBUvcBackendType]  # value = <OBUvcBackendType.V4L2: 2>
-    __members__: typing.ClassVar[
-        dict[str, OBUvcBackendType]
-    ]  # value = {'AUTO': <OBUvcBackendType.AUTO: 0>, 'LIBUVC': <OBUvcBackendType.LIBUVC: 1>, 'V4L2': <OBUvcBackendType.V4L2: 2>, 'MSMF': <OBUvcBackendType.MSMF: 3>}
-    def __eq__(self, other: typing.Any) -> bool: ...
-    def __getstate__(self) -> int: ...
-    def __hash__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __int__(self) -> int: ...
-    def __ne__(self, other: typing.Any) -> bool: ...
-    def __repr__(self) -> str: ...
-    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def __str__(self) -> str: ...
-    @property
-    def name(self) -> str: ...
-    @property
-    def value(self) -> int: ...
-
-class Pipeline:
-    @typing.overload
-    def __init__(self) -> None: ...
-    @typing.overload
-    def __init__(self, arg0: Device) -> None: ...
-    def disable_frame_sync(self) -> None: ...
-    def disable_health_monitor(self) -> None:
-        """
-        Disable pipeline health monitor
-        """
-
-    def enable_frame_sync(self) -> None: ...
-    def enable_health_monitor(
-        self, callback: collections.abc.Callable, interval_ms: typing.SupportsInt | typing.SupportsIndex = 3000
-    ) -> None:
-        """
-        Enable pipeline health monitor with periodic status polling
-        """
-
-    def get_camera_param(self) -> OBCameraParam: ...
-    def get_config(self) -> Config: ...
-    def get_d2c_depth_profile_list(self, arg0: StreamProfile, arg1: OBAlignMode) -> StreamProfileList: ...
-    def get_device(self) -> Device: ...
-    def get_status(self) -> OBPipelineStatus:
-        """
-        Get the current pipeline status observed during streaming
-        """
-
-    def get_stream_profile_list(self, arg0: OBSensorType) -> StreamProfileList: ...
-    @typing.overload
-    def start(self, arg0: Config) -> None: ...
-    @typing.overload
-    def start(self, arg0: Config, arg1: collections.abc.Callable) -> None: ...
-    @typing.overload
-    def start(self) -> None: ...
-    def stop(self) -> None: ...
-    def wait_for_frames(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> FrameSet: ...
+class RecordDevice:
+    def __init__(self, device: Device, file: str, compression: bool = True) -> None: ...
+    def pause(self) -> None: ...
+    def resume(self) -> None: ...
 
 class PlaybackDevice(Device):
     def __init__(self, file: str, preset_path: str = "") -> None: ...
@@ -6199,197 +6241,7 @@ class PlaybackDevice(Device):
     def resume(self) -> None: ...
     def seek(self, timestamp: typing.SupportsInt | typing.SupportsIndex) -> None: ...
     def set_playback_rate(self, rate: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    def set_playback_status_change_callback(self, arg0: collections.abc.Callable) -> None: ...
-
-class PointCloudFilter(Filter):
-    def __init__(self) -> None: ...
-    def calculate(self, arg0: Frame) -> numpy.typing.NDArray[numpy.float32]: ...
-    def get_decimation_factor_range(self) -> OBIntPropertyRange: ...
-    def set_camera_param(self, arg0: OBCameraParam) -> None: ...
-    def set_color_data_normalization(self, arg0: bool) -> None: ...
-    def set_coordinate_data_scaled(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-    def set_coordinate_system(self, arg0: OBCoordinateSystemType) -> None: ...
-    def set_create_point_format(self, arg0: OBFormat) -> None: ...
-    def set_decimation_factor(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def set_frame_align_state(self, arg0: bool) -> None: ...
-    def set_position_data_scaled(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class PointsFrame(Frame):
-    def get_height(self) -> int: ...
-    def get_position_value_scale(self) -> float: ...
-    def get_width(self) -> int: ...
-
-class PresetResolutionConfigList:
-    def get_count(self) -> int:
-        """
-        Get the number of device preset resolution ratio in the list
-        """
-
-    def get_preset_resolution_ratio_config(
-        self, arg0: typing.SupportsInt | typing.SupportsIndex
-    ) -> OBPresetResolutionConfig:
-        """
-        Get the device preset resolution ratio at the specified index
-        """
-
-class RecordDevice:
-    def __init__(self, device: Device, file: str, compression: bool = True) -> None: ...
-    def pause(self) -> None: ...
-    def resume(self) -> None: ...
-
-class Sensor:
-    def __repr__(self) -> str: ...
-    def get_recommended_filters(self) -> list[Filter]: ...
-    def get_stream_profile_list(self) -> StreamProfileList: ...
-    def get_type(self) -> OBSensorType: ...
-    def start(self, arg0: StreamProfile, arg1: collections.abc.Callable) -> None: ...
-    def stop(self) -> None: ...
-    def switch_profile(self, arg0: StreamProfile) -> None: ...
-
-class SensorList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Sensor: ...
-    def __len__(self) -> int: ...
-    def get_count(self) -> int: ...
-    def get_sensor_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> Sensor: ...
-    def get_sensor_by_type(self, arg0: OBSensorType) -> Sensor: ...
-    def get_type_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> OBSensorType: ...
-
-class SequenceIdFilter(Filter):
-    def __init__(self) -> None: ...
-    def get_select_sequence_id(self) -> int: ...
-    def get_sequence_id_list(self) -> list: ...
-    def get_sequence_id_list_size(self) -> int: ...
-    def select_sequence_id(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-
-class SpatialAdvancedFilter(Filter):
-    def __init__(self) -> None: ...
-    def get_alpha_range(self) -> OBFloatPropertyRange:
-        """
-        get alpha range
-        """
-
-    def get_disp_diff_range(self) -> OBUint16PropertyRange: ...
-    def get_filter_params(self) -> OBSpatialAdvancedFilterParams: ...
-    def get_magnitude_range(self) -> OBIntPropertyRange: ...
-    def get_radius_range(self) -> OBUint16PropertyRange: ...
-    def set_filter_params(self, arg0: OBSpatialAdvancedFilterParams) -> None: ...
-
-class SpatialFastFilter(Filter):
-    def __init__(self, activation_key: str = "") -> None: ...
-    def get_filter_params(self) -> OBSpatialFastFilterParams: ...
-    def get_radius_range(self) -> OBIntPropertyRange: ...
-    def set_filter_params(self, arg0: OBSpatialFastFilterParams) -> None: ...
-
-class SpatialModerateFilter(Filter):
-    def __init__(self, activation_key: str = "") -> None: ...
-    def get_disp_diff_range(self) -> OBIntPropertyRange: ...
-    def get_filter_params(self) -> OBSpatialModerateFilterParams: ...
-    def get_magnitude_range(self) -> OBIntPropertyRange: ...
-    def get_radius_range(self) -> OBIntPropertyRange: ...
-    def set_filter_params(self, arg0: OBSpatialModerateFilterParams) -> None: ...
-
-class StreamProfile:
-    def as_accel_stream_profile(self) -> AccelStreamProfile: ...
-    def as_gyro_stream_profile(self) -> GyroStreamProfile: ...
-    def as_lidar_stream_profile(self) -> LiDARStreamProfile: ...
-    def as_video_stream_profile(self) -> VideoStreamProfile: ...
-    @typing.overload
-    def bind_extrinsic_to(self, arg0: StreamProfile, arg1: OBExtrinsic) -> None: ...
-    @typing.overload
-    def bind_extrinsic_to(self, arg0: OBStreamType, arg1: OBExtrinsic) -> None: ...
-    def get_extrinsic_to(self, arg0: StreamProfile) -> OBExtrinsic: ...
-    def get_format(self) -> OBFormat: ...
-    def get_type(self) -> OBStreamType: ...
-    def is_accel_stream_profile(self) -> bool: ...
-    def is_gyro_stream_profile(self) -> bool: ...
-    def is_lidar_stream_profile(self) -> bool: ...
-    def is_video_stream_profile(self) -> bool: ...
-
-class StreamProfileList:
-    def __getitem__(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> StreamProfile: ...
-    def __len__(self) -> int: ...
-    def get_accel_stream_profile(self, arg0: OBAccelFullScaleRange, arg1: OBGyroSampleRate) -> AccelStreamProfile: ...
-    def get_count(self) -> int: ...
-    def get_default_video_stream_profile(self) -> VideoStreamProfile: ...
-    def get_gyro_stream_profile(self, arg0: OBGyroFullScaleRange, arg1: OBGyroSampleRate) -> GyroStreamProfile: ...
-    def get_lidar_stream_profile(self, arg0: OBLiDARScanRate, arg1: OBFormat) -> LiDARStreamProfile: ...
-    def get_stream_profile_by_index(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> StreamProfile: ...
-    @typing.overload
-    def get_video_stream_profile(
-        self,
-        width: typing.SupportsInt | typing.SupportsIndex = 0,
-        height: typing.SupportsInt | typing.SupportsIndex = 0,
-        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
-        fps: typing.SupportsInt | typing.SupportsIndex = 0,
-    ) -> VideoStreamProfile: ...
-    @typing.overload
-    def get_video_stream_profile(
-        self,
-        decimation_config: OBHardwareDecimationConfig,
-        format: OBFormat = OBFormat.UNKNOWN_FORMAT,
-        fps: typing.SupportsInt | typing.SupportsIndex = 0,
-    ) -> VideoStreamProfile: ...
-
-class TemporalFilter(Filter):
-    def __init__(self) -> None: ...
-    def get_diff_scale_range(self) -> OBFloatPropertyRange:
-        """
-        get diff scale range
-        """
-
-    def get_weight_range(self) -> OBFloatPropertyRange:
-        """
-        get weight range
-        """
-
-    def set_diff_scale(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
-        """
-        set diff scale
-        """
-
-    def set_weight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None: ...
-
-class ThresholdFilter(Filter):
-    def __init__(self) -> None: ...
-    def get_max_range(self) -> OBIntPropertyRange: ...
-    def get_min_range(self) -> OBIntPropertyRange: ...
-    def set_value_range(
-        self, arg0: typing.SupportsInt | typing.SupportsIndex, arg1: typing.SupportsInt | typing.SupportsIndex
-    ) -> bool: ...
-
-class UnDistortionFilter(Filter):
-    def __init__(self, stream_type: OBStreamType = OBStreamType.COLOR_STREAM) -> None: ...
-    def clear_new_camera_matrix(self) -> None: ...
-    def get_stream_type(self) -> OBStreamType: ...
-    def set_new_camera_matrix(self, arg0: OBCameraIntrinsic) -> None: ...
-    def set_stream_type(self, arg0: OBStreamType) -> None: ...
-
-class VideoFrame(Frame):
-    def __repr__(self) -> str: ...
-    def as_color_frame(self) -> ColorFrame: ...
-    def as_confidence_frame(self) -> ConfidenceFrame: ...
-    def as_depth_frame(self) -> DepthFrame: ...
-    def as_ir_frame(self) -> IRFrame: ...
-    def as_points_frame(self) -> PointsFrame: ...
-    def get_height(self) -> int: ...
-    def get_metadata(self) -> numpy.typing.NDArray[numpy.uint8]: ...
-    def get_metadata_size(self) -> int: ...
-    def get_pixel_available_bit_size(self) -> int: ...
-    def get_pixel_type(self) -> OBPixelType: ...
-    def get_width(self) -> int: ...
-    def set_pixel_available_bit_size(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None: ...
-    def set_pixel_type(self, arg0: OBPixelType) -> None: ...
-
-class VideoStreamProfile(StreamProfile):
-    def __repr__(self) -> str: ...
-    def get_decimation_config(self) -> OBHardwareDecimationConfig: ...
-    def get_distortion(self) -> OBCameraDistortion: ...
-    def get_fps(self) -> int: ...
-    def get_height(self) -> int: ...
-    def get_intrinsic(self) -> OBCameraIntrinsic: ...
-    def get_width(self) -> int: ...
-    def set_distortion(self, arg0: OBCameraDistortion) -> None: ...
-    def set_intrinsic(self, arg0: OBCameraIntrinsic) -> None: ...
+    def set_playback_status_change_callback(self, arg0: typing.Callable) -> None: ...
 
 def convert_accel_full_scale_range_to_string(arg0: OBAccelFullScaleRange) -> str: ...
 def convert_format_to_string(arg0: OBFormat) -> str: ...
@@ -6439,121 +6291,32 @@ def transformation3dto2d(
 ) -> OBPoint2f: ...
 def transformation3dto3d(arg0: OBPoint3f, arg1: OBExtrinsic) -> OBPoint3f: ...
 
-COUNT: OBPlaybackStatus  # value = <OBPlaybackStatus.COUNT: 4>
-PAUSED: OBPlaybackStatus  # value = <OBPlaybackStatus.PAUSED: 2>
-PLAYING: OBPlaybackStatus  # value = <OBPlaybackStatus.PLAYING: 1>
-SAMPLE_RATE_100_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_100_HZ: 7>
-SAMPLE_RATE_12_5_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_12_5_HZ: 4>
-SAMPLE_RATE_16_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_16_KHZ: 14>
-SAMPLE_RATE_1_5625_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_1_5625_HZ: 1>
-SAMPLE_RATE_1_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_1_KHZ: 10>
-SAMPLE_RATE_200_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_200_HZ: 8>
-SAMPLE_RATE_25_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_25_HZ: 5>
-SAMPLE_RATE_2_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_2_KHZ: 11>
-SAMPLE_RATE_32_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_32_KHZ: 15>
-SAMPLE_RATE_3_125_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_3_125_HZ: 2>
-SAMPLE_RATE_400_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_400_HZ: 16>
-SAMPLE_RATE_4_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_4_KHZ: 12>
-SAMPLE_RATE_500_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_500_HZ: 9>
-SAMPLE_RATE_50_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_50_HZ: 6>
-SAMPLE_RATE_6_25_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_6_25_HZ: 3>
-SAMPLE_RATE_800_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_800_HZ: 17>
-SAMPLE_RATE_8_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_8_KHZ: 13>
-SAMPLE_RATE_UNKNOWN: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_UNKNOWN: 0>
-STOPPED: OBPlaybackStatus  # value = <OBPlaybackStatus.STOPPED: 3>
-UNKNOWN: OBPlaybackStatus  # value = <OBPlaybackStatus.UNKNOWN: 0>
+COUNT: OBPlaybackStatus
+PAUSED: OBPlaybackStatus
+PLAYING: OBPlaybackStatus
+SAMPLE_RATE_100_HZ: OBGyroSampleRate
+SAMPLE_RATE_12_5_HZ: OBGyroSampleRate
+SAMPLE_RATE_16_KHZ: OBGyroSampleRate
+SAMPLE_RATE_1_5625_HZ: OBGyroSampleRate
+SAMPLE_RATE_1_KHZ: OBGyroSampleRate
+SAMPLE_RATE_200_HZ: OBGyroSampleRate
+SAMPLE_RATE_25_HZ: OBGyroSampleRate
+SAMPLE_RATE_2_KHZ: OBGyroSampleRate
+SAMPLE_RATE_32_KHZ: OBGyroSampleRate
+SAMPLE_RATE_3_125_HZ: OBGyroSampleRate
+SAMPLE_RATE_400_HZ: OBGyroSampleRate
+SAMPLE_RATE_4_KHZ: OBGyroSampleRate
+SAMPLE_RATE_500_HZ: OBGyroSampleRate
+SAMPLE_RATE_50_HZ: OBGyroSampleRate
+SAMPLE_RATE_6_25_HZ: OBGyroSampleRate
+SAMPLE_RATE_800_HZ: OBGyroSampleRate
+SAMPLE_RATE_8_KHZ: OBGyroSampleRate
+SAMPLE_RATE_UNKNOWN: OBGyroSampleRate
+STOPPED: OBPlaybackStatus
+UNKNOWN: OBPlaybackStatus
 OBAccelSampleRate = OBGyroSampleRate
-OBFloat3D = OBAccelValue
 OBGyroValue = OBAccelValue
-
-class OBDeviceTime:
-    time: int
-    rtt: int
-    def __init__(self) -> None: ...
-    def to_bytes(self) -> bytes: ...
-    @staticmethod
-    def from_bytes(data: bytes) -> OBDeviceTime: ...
-
-class OBDeviceErrorState:
-    error_code: int
-    def __init__(self) -> None: ...
-    def to_bytes(self) -> bytes: ...
-    @staticmethod
-    def from_bytes(data: bytes) -> OBDeviceErrorState: ...
-
-class OBDepthWorkModeInternal:
-    checksum: bytes
-    name: str
-    option_code: int
-    def __init__(self) -> None: ...
-    def to_bytes(self) -> bytes: ...
-    @staticmethod
-    def from_bytes(data: bytes) -> OBDepthWorkModeInternal: ...
-
-class OBVersionInfo:
-    firmware_version: str
-    hardware_version: str
-    sdk_version: str
-    depth_chip: str
-    system_chip: str
-    serial_number: str
-    device_name: str
-    sub_system_version: str
-    device_type: int
-    reserved: bytes
-    def __init__(self) -> None: ...
-    def to_bytes(self) -> bytes: ...
-    @staticmethod
-    def from_bytes(data: bytes) -> OBVersionInfo: ...
-
-class OBImuPresetList:
-    values: list[int]
-    @property
-    def count(self) -> int: ...
-    def __init__(self) -> None: ...
-    def to_bytes(self) -> bytes: ...
-    @staticmethod
-    def from_bytes(data: bytes) -> OBImuPresetList: ...
-
-class OBDeviceErrorCode:
-    DEVICE_ERROR_RGB_SENSOR: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IRL_SENSOR: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IRR_SENSOR: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IMU_SENSOR: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_LASER_MODULE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_FLOOD_MODULE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_LDP_SENSOR: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_M_ADC_CHIP: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_S_ADC_CHIP: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_EEPROM_SENSOR: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_CFG_PARAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_CALIB_PARAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_TEC_FUN: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_MCU_FUN: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_DSP_MODULE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_OVER_LOAD: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_ISP_MODULE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_TRB_EXHAUSTION: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_OVF_MODULE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_RGB_STREAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IRL_STREAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IRR_STREAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_DEP_STREAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IRL_SNS_STREAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_ERROR_IRR_SNS_STREAM: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_PERMISSION: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_IR_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_RGB_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_LASER_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_CPU_TEMPERATURE: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_RES_MISMATCH: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_FPS_MISMATCH: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_D2C_UNSPPOURT: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_USB_LOG: typing.ClassVar[OBDeviceErrorCode]
-    DEVICE_WARNING_LOG_OVERFLOW: typing.ClassVar[OBDeviceErrorCode]
-    def __int__(self) -> int: ...
-    def __index__(self) -> int: ...
-    def __init__(self, value: int) -> None: ...
-
+OBFloat3D = OBAccelValue
+OBSerialNumber = OBDeviceSerialNumber
 OBNetIpConfig = OBDeviceIpAddrConfig
 OBDepthWorkMode_Internal = OBDepthWorkModeInternal

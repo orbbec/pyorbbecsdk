@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fix return type issues in pyorbbecsdk pyi files
+Repair generated pyorbbecsdk type stubs (Python 3.8+).
 
 Usage:
     python fix_pyi.py <input_pyi_file> [output_pyi_file]
@@ -8,6 +8,7 @@ Usage:
 If output_pyi_file is not specified, the input file will be modified directly.
 """
 
+import ast
 import re
 import shutil
 import subprocess
@@ -86,164 +87,283 @@ def print_isort_install_hint():
     print("=" * 60 + "\n")
 
 
-def fix_pyi_content(content: str) -> str:
-    """Fix return type issues in pyi file content"""
-
-    # 1. Fix typing.Annotated -> typing_extensions.Annotated (Python 3.8 compat)
-    # pybind11_stubgen generates typing.Annotated for fixed-size array fields,
-    # but typing.Annotated was only added in Python 3.9.
-    if "typing.Annotated" in content:
-        content = content.replace("typing.Annotated", "typing_extensions.Annotated")
-
-    # 2. Fix typing_extensions import issue
-    # pybind11_stubgen generates typing_extensions.Buffer but doesn't add the import
-    # Also needed for typing_extensions.Annotated (after replacement above)
-    if (
-        "typing_extensions.Buffer" in content or "typing_extensions.Annotated" in content
-    ) and "import typing_extensions" not in content:
-        # Add typing_extensions import at the beginning of the file
-        # Find the position of the last import statement
-        import_pattern = r"^(import .+|from .+ import .+)$"
-        last_import_end = 0
-        for match in re.finditer(import_pattern, content, re.MULTILINE):
-            last_import_end = match.end()
-
-        if last_import_end > 0:
-            # Add typing_extensions import after the last import
-            content = content[:last_import_end] + "\nimport typing_extensions" + content[last_import_end:]
-        else:
-            # If no import found, add at the beginning of the file (skip possible shebang and docstring)
-            lines = content.split("\n")
-            insert_pos = 0
-            for i, line in enumerate(lines):
-                if line.startswith("#") or line.strip() == "":
-                    insert_pos = i + 1
-                else:
-                    break
-            lines.insert(insert_pos, "import typing_extensions")
-            content = "\n".join(lines)
-
-    # 3. Fix enum type default parameter values
-    # pybind11_stubgen cannot parse C++ enum default values, generates ... as placeholder
-    # Use line-level replacement to match the entire function signature line
-    ENUM_DEFAULTS = [
-        # OBAccelFullScaleRange default (enable_accel_stream)
-        (
-            r"(full_scale_range: OBAccelFullScaleRange) = \.\.\.",
-            r"\1 = OBAccelFullScaleRange.ACCEL_FS_UNKNOWN",
-        ),
-        # OBGyroFullScaleRange default (enable_gyro_stream)
-        (
-            r"(full_scale_range: OBGyroFullScaleRange) = \.\.\.",
-            r"\1 = OBGyroFullScaleRange.FS_UNKNOWN",
-        ),
-        # OBGyroSampleRate default (shared by enable_accel_stream / enable_gyro_stream)
-        (
-            r"(sample_rate: OBGyroSampleRate) = \.\.\.",
-            r"\1 = OBGyroSampleRate.SAMPLE_RATE_UNKNOWN",
-        ),
-        # OBFormat default (enable_video_stream, get_video_stream_profile, etc.)
-        (
-            r"(format: OBFormat) = \.\.\.",
-            r"\1 = OBFormat.UNKNOWN_FORMAT",
-        ),
-        # OBDeviceAccessMode default (create_net_device, get_device_by_index, etc.)
-        (
-            r"(access_mode: OBDeviceAccessMode) = \.\.\.",
-            r"\1 = OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS",
-        ),
-        # OBLiDARScanRate default (enable_lidar_stream)
-        (
-            r"(scan_rate: OBLiDARScanRate) = \.\.\.",
-            r"\1 = OBLiDARScanRate.LIDAR_SCAN_UNKNOWN",
-        ),
-        # OBStreamType default (UnDistortionFilter.__init__)
-        (
-            r"(stream_type: OBStreamType) = \.\.\.",
-            r"\1 = OBStreamType.COLOR_STREAM",
-        ),
-    ]
-
-    for pattern, replacement in ENUM_DEFAULTS:
-        new_content = re.sub(pattern, replacement, content)
-        if new_content != content:
-            print(f"  Fixed: {pattern[:50]}...")
-        content = new_content
-
-    # Define method mappings that need to be fixed: class name -> {method name: return type}
-    FIXES = {
-        # Frame class
-        "Frame": {
-            "as_video_frame": "VideoFrame",
-            "as_color_frame": "ColorFrame",
-            "as_depth_frame": "DepthFrame",
-            "as_ir_frame": "IRFrame",
-            "as_frame_set": "FrameSet",
-            "as_accel_frame": "AccelFrame",
-            "as_gyro_frame": "GyroFrame",
-            "as_confidence_frame": "ConfidenceFrame",
-            "as_points_frame": "PointsFrame",
-            "as_lidar_points_frame": "LiDARPointsFrame",
+# These overrides describe binding semantics that stubgen cannot infer from
+# pybind11 docstrings, especially null shared_ptr values and py::object returns.
+RETURN_TYPES = {
+    "Frame": {
+        "as_video_frame": "VideoFrame",
+        "as_color_frame": "ColorFrame",
+        "as_depth_frame": "DepthFrame",
+        "as_ir_frame": "IRFrame",
+        "as_frame_set": "FrameSet",
+        "as_accel_frame": "AccelFrame",
+        "as_gyro_frame": "GyroFrame",
+        "as_confidence_frame": "ConfidenceFrame",
+        "as_points_frame": "PointsFrame",
+        "as_lidar_points_frame": "LiDARPointsFrame",
+        "create_frame_set": "FrameSet",
+        "create_video_frame": "VideoFrame",
+    },
+    "VideoFrame": {
+        "as_color_frame": "ColorFrame",
+        "as_depth_frame": "DepthFrame",
+        "as_ir_frame": "IRFrame",
+        "as_confidence_frame": "ConfidenceFrame",
+        "as_points_frame": "PointsFrame",
+    },
+    "StreamProfile": {
+        "as_video_stream_profile": "VideoStreamProfile",
+        "as_accel_stream_profile": "AccelStreamProfile",
+        "as_gyro_stream_profile": "GyroStreamProfile",
+        "as_lidar_stream_profile": "LiDARStreamProfile",
+    },
+    "Sensor": {"get_recommended_filters": "list[Filter]"},
+    "Device": {"get_available_frame_interleave_list": "DeviceFrameInterleaveList"},
+    "ApplicationConfig": {"get_by_preset": "typing.Optional[ApplicationConfig]"},
+    "ApplicationSensorConfig": {"stream_profile": "typing.Optional[StreamProfile]"},
+    "Pipeline": {"wait_for_frames": "typing.Optional[FrameSet]"},
+    "Filter": {"process": "typing.Optional[Frame]"},
+    "FrameSet": {
+        "__getitem__": "typing.Optional[Frame]",
+        "get_frame": "typing.Optional[Frame]",
+        "get_frame_by_type": "typing.Optional[Frame]",
+        "get_frame_by_index": "typing.Optional[Frame]",
+        **{
+            "get_" + name + "_frame": "typing.Optional[" + frame_type + "]"
+            for name, frame_type in {
+                "depth": "DepthFrame",
+                "color": "ColorFrame",
+                "left_color": "ColorFrame",
+                "right_color": "ColorFrame",
+                "ir": "IRFrame",
+                "left_ir": "IRFrame",
+                "right_ir": "IRFrame",
+                "confidence": "ConfidenceFrame",
+                "accel": "AccelFrame",
+                "gyro": "GyroFrame",
+                "points": "PointsFrame",
+                "lidar_points": "LiDARPointsFrame",
+            }.items()
         },
-        # VideoFrame class
-        "VideoFrame": {
-            "as_color_frame": "ColorFrame",
-            "as_depth_frame": "DepthFrame",
-            "as_ir_frame": "IRFrame",
-            "as_confidence_frame": "ConfidenceFrame",
-            "as_points_frame": "PointsFrame",
-        },
-        # StreamProfile class
-        "StreamProfile": {
-            "as_video_stream_profile": "VideoStreamProfile",
-            "as_accel_stream_profile": "AccelStreamProfile",
-            "as_gyro_stream_profile": "GyroStreamProfile",
-            "as_lidar_stream_profile": "LiDARStreamProfile",
-        },
+    },
+}
+
+ENUM_DEFAULTS = {
+    ("full_scale_range", "OBAccelFullScaleRange"): "OBAccelFullScaleRange.ACCEL_FS_UNKNOWN",
+    ("full_scale_range", "OBGyroFullScaleRange"): "OBGyroFullScaleRange.FS_UNKNOWN",
+    ("sample_rate", "OBGyroSampleRate"): "OBGyroSampleRate.SAMPLE_RATE_UNKNOWN",
+    ("format", "OBFormat"): "OBFormat.UNKNOWN_FORMAT",
+    ("access_mode", "OBDeviceAccessMode"): "OBDeviceAccessMode.OB_DEVICE_DEFAULT_ACCESS",
+    ("scan_rate", "OBLiDARScanRate"): "OBLiDARScanRate.LIDAR_SCAN_UNKNOWN",
+    ("stream_type", "OBStreamType"): "OBStreamType.COLOR_STREAM",
+}
+
+NUMERIC_INPUTS = {
+    "int": "typing.SupportsInt | typing.SupportsIndex",
+    "float": "typing.SupportsFloat | typing.SupportsIndex",
+}
+
+
+class _SourceEdits:
+    """Edit AST spans while preserving docstrings, comments and formatting.
+
+    AST columns are UTF-8 byte offsets, including when running on Python 3.8.
+    No ast.unparse dependency or execution/import of the input stub is needed.
+    """
+
+    def __init__(self, source):
+        self.source = source
+        self.lines = source.splitlines(keepends=True)
+        self.offsets = [0]
+        for line in self.lines:
+            self.offsets.append(self.offsets[-1] + len(line))
+        self.edits = {}
+
+    def offset(self, line, column):
+        prefix = self.lines[line - 1].encode("utf-8")[:column].decode("utf-8")
+        return self.offsets[line - 1] + len(prefix)
+
+    def text(self, node):
+        start = self.offset(node.lineno, node.col_offset)
+        end = self.offset(node.end_lineno, node.end_col_offset)
+        return self.source[start:end]
+
+    def replace(self, node, replacement):
+        start = self.offset(node.lineno, node.col_offset)
+        end = self.offset(node.end_lineno, node.end_col_offset)
+        if self.source[start:end] != replacement:
+            self.edits[start, end] = replacement
+
+    def apply(self):
+        result = self.source
+        boundary = len(result)
+        for (start, end), replacement in sorted(self.edits.items(), reverse=True):
+            if end > boundary:
+                raise ValueError("Overlapping stub repairs")
+            result = result[:start] + replacement + result[end:]
+            boundary = start
+        return result
+
+
+def _annotation(source, node, numeric_input=False):
+    text = source.text(node)
+    text = text.replace("typing.Annotated", "typing_extensions.Annotated")
+    # ndarray takes shape and dtype arguments. Older generators put a scalar
+    # dtype in its only argument; NDArray is the corresponding one-argument alias.
+    text = re.sub(
+        r"numpy\.ndarray\[\s*(numpy\.\w+|typing\.Any)\s*\]",
+        r"numpy.typing.NDArray[\1]",
+        text,
+    )
+    return NUMERIC_INPUTS.get(text, text) if numeric_input else text
+
+
+def _array_input(annotation):
+    match = re.fullmatch(r"numpy\.typing\.NDArray\[(numpy\.\w+|typing\.Any)\]", annotation)
+    if match:
+        return "typing_extensions.Annotated[numpy.typing.ArrayLike, " + match[1] + "]"
+    return annotation
+
+
+def _ensure_imports(content):
+    tree = ast.parse(content)
+    imports = {
+        alias.name
+        for node in tree.body
+        if isinstance(node, ast.Import)
+        for alias in node.names
+        if alias.asname is None or alias.asname == alias.name
     }
-
-    # Fix methods: find class definitions, then fix methods within them
-    for class_name, methods in FIXES.items():
-        for method_name, return_type in methods.items():
-            # Match method definitions in the class
-            # Format: def method_name(self) -> ...:
-            pattern = rf"(class {class_name}[^{{]*?\n)(.*?)(def {method_name}\(self\) -> \.\.\.:)"
-            replacement = rf"\1\2def {method_name}(self) -> {return_type}:"
-            content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-
-    # Fix special return types (generics with type parameters)
-    # Sensor.get_recommended_filters() -> list[...] should be list[Filter]
-    content = re.sub(
-        r"(class Sensor[^{]*?\n)(.*?)(def get_recommended_filters\(self\) -> list\[\.\.\.\]:)",
-        r"\1\2def get_recommended_filters(self) -> list[Filter]:",
-        content,
-        flags=re.DOTALL,
+    names = {node.id for node in ast.walk(tree) if isinstance(node, ast.Name)}
+    uses_numpy_typing = any(
+        isinstance(node, ast.Attribute)
+        and node.attr == "typing"
+        and isinstance(node.value, ast.Name)
+        and node.value.id == "numpy"
+        for node in ast.walk(tree)
     )
+    required = []
+    for name in ("typing", "numpy.typing", "typing_extensions"):
+        used = uses_numpy_typing if name == "numpy.typing" else name in names
+        if used and name not in imports:
+            required.append("import " + name)
+    if not required:
+        return content
+    # Insert after complete import statements, including multiline imports and
+    # __future__ imports; otherwise retain the module docstring and comments.
+    anchors = [n.end_lineno for n in tree.body if isinstance(n, (ast.Import, ast.ImportFrom))]
+    if anchors:
+        line = max(anchors)
+    elif (
+        tree.body
+        and isinstance(tree.body[0], ast.Expr)
+        and isinstance(tree.body[0].value, ast.Constant)
+        and isinstance(tree.body[0].value.value, str)
+    ):
+        line = tree.body[0].end_lineno
+    else:
+        line = tree.body[0].lineno - 1 if tree.body else len(content.splitlines())
+    lines = content.splitlines(keepends=True)
+    prefix = "".join(lines[:line])
+    if prefix and not prefix.endswith("\n"):
+        prefix += "\n"
+    return prefix + "\n".join(required) + "\n" + "".join(lines[line:])
 
-    # Fix return types for new methods added in v2.9.3 binding sync
-    # Device.get_available_frame_interleave_list() -> DeviceFrameInterleaveList
-    content = re.sub(
-        r"(class Device[^{]*?\n)(.*?)(def get_available_frame_interleave_list\(self\) -> \.\.\.:)",
-        r"\1\2def get_available_frame_interleave_list(self) -> DeviceFrameInterleaveList:",
-        content,
-        flags=re.DOTALL,
-    )
-    # Frame.create_frame_set() -> FrameSet (static method)
-    content = re.sub(
-        r"(def create_frame_set\(\) -> \.\.\.:)",
-        r"def create_frame_set() -> FrameSet:",
-        content,
-    )
-    # Frame.create_video_frame(...) -> VideoFrame (static method, multi-line signature)
-    # The signature spans multiple lines ending with ") -> ...:"
-    content = re.sub(
-        r"(def create_video_frame\([^)]*\)[^)]*?) -> \.\.\.:",
-        r"\1 -> VideoFrame:",
-        content,
-        flags=re.DOTALL,
-    )
 
-    return content
+def fix_pyi_content(content: str) -> str:
+    """Repair generated annotations without crossing class/function boundaries.
+
+    Numeric input protocols reflect pybind11 conversion; return values keep
+    their concrete Python types. Reapplying this function is a no-op.
+    """
+    tree = ast.parse(content)
+    edits = _SourceEdits(content)
+
+    def fix_function(node, class_name=None, is_enum=False):
+        args = node.args.posonlyargs + node.args.args + node.args.kwonlyargs
+        for arg in args + [a for a in (node.args.vararg, node.args.kwarg) if a is not None]:
+            if arg.annotation is None:
+                continue
+            annotation = _annotation(edits, arg.annotation, numeric_input=not is_enum)
+            if class_name in ("Device", "OBDepthWorkMode") and node.name == "__eq__" and arg.arg != "self":
+                annotation = "object"
+            elif class_name == "Device" and node.name == "update_firmware_from_data" and arg.arg == "callback":
+                annotation = "typing.Callable[[OBUpgradeState, str, int], None]"
+            elif class_name == "ApplicationConfig" and node.name == "set_sensors" and arg.arg == "sensors":
+                annotation = "typing.Sequence[ApplicationSensorConfig]"
+            elif class_name == "OBImuPresetList" and node.name == "values" and arg.arg != "self":
+                annotation = "typing.Sequence[int]"
+            # Array setters accept ArrayLike, while getters return NDArray.
+            if any(isinstance(d, ast.Attribute) and d.attr == "setter" for d in node.decorator_list):
+                annotation = _array_input(annotation)
+            edits.replace(arg.annotation, annotation)
+
+        positional = node.args.posonlyargs + node.args.args
+        defaults = list(zip(positional[len(positional) - len(node.args.defaults) :], node.args.defaults))
+        defaults += list(zip(node.args.kwonlyargs, node.args.kw_defaults))
+        for arg, default in defaults:
+            if arg.annotation is not None and isinstance(default, ast.Constant) and default.value is Ellipsis:
+                key = (arg.arg, edits.text(arg.annotation))
+                if key in ENUM_DEFAULTS:
+                    edits.replace(default, ENUM_DEFAULTS[key])
+
+        if node.returns is not None:
+            annotation = RETURN_TYPES.get(class_name, {}).get(node.name, _annotation(edits, node.returns))
+            if (
+                class_name == "OBImuPresetList"
+                and node.name == "values"
+                and not any(isinstance(d, ast.Attribute) and d.attr == "setter" for d in node.decorator_list)
+            ):
+                annotation = "list[int]"
+            edits.replace(node.returns, annotation)
+
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef):
+            fix_function(node)
+        elif isinstance(node, ast.ClassDef):
+            is_enum = any(
+                isinstance(n, ast.AnnAssign) and isinstance(n.target, ast.Name) and n.target.id == "__members__"
+                for n in node.body
+            )
+            for member in node.body:
+                if isinstance(member, ast.FunctionDef):
+                    fix_function(member, node.name, is_enum)
+                elif isinstance(member, ast.AnnAssign):
+                    annotation = _annotation(edits, member.annotation)
+                    name = member.target.id if isinstance(member.target, ast.Name) else None
+                    if name == "__hash__" and node.name in ("Device", "OBDepthWorkMode"):
+                        # Keep these classes unhashable. typeshed uses the same
+                        # targeted exception for object.__hash__ overrides.
+                        line = edits.lines[member.lineno - 1]
+                        if "type: ignore" not in line:
+                            edits.replace(member, edits.text(member) + "  # type: ignore[assignment]")
+                    elif (
+                        not is_enum
+                        and name
+                        and (
+                            annotation in NUMERIC_INPUTS
+                            or _array_input(annotation) != annotation
+                            or (node.name == "OBImuPresetList" and name == "values")
+                        )
+                    ):
+                        getter = "list[int]" if node.name == "OBImuPresetList" and name == "values" else annotation
+                        setter = (
+                            "typing.Sequence[int]"
+                            if node.name == "OBImuPresetList" and name == "values"
+                            else _array_input(NUMERIC_INPUTS.get(annotation, annotation))
+                        )
+                        indent = " " * member.col_offset
+                        replacement = f"@property\n{indent}def {name}(self) -> {getter}: ..."
+                        if not (node.name == "OBImuPresetList" and name == "count"):
+                            replacement += (
+                                f"\n{indent}@{name}.setter\n{indent}def {name}(self, value: {setter}) -> None: ..."
+                            )
+                        edits.replace(member, replacement)
+                    else:
+                        edits.replace(member.annotation, annotation)
+    fixed = _ensure_imports(edits.apply())
+    ast.parse(fixed)  # Never write syntactically invalid output.
+    return fixed
 
 
 def fix_pyi_file(input_path: Path, output_path: Path = None) -> None:
@@ -263,7 +383,7 @@ def fix_pyi_file(input_path: Path, output_path: Path = None) -> None:
 
     fixed_content = fix_pyi_content(content)
 
-    if content == fixed_content:
+    if content == fixed_content and output_path == input_path:
         print("No changes needed.")
     else:
         output_path.write_text(fixed_content, encoding="utf-8")

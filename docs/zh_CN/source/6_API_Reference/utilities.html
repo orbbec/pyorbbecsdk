@@ -1,0 +1,1671 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6.8. 工具函数 &mdash; OrbbecSDK V2 Python Wrapper  文档</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=29ab96f1" />
+
+  
+    <link rel="shortcut icon" href="../../_static/orbbec_footerlogo_3d_world.svg"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7d86a446"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=beaddf03"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="7. 常见问题" href="../7_FAQ/FAQ.html" />
+    <link rel="prev" title="6.7. 数据结构" href="data_structures.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            OrbbecSDK V2 Python Wrapper
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+<nav aria-label="Language / 语言" class="language-switcher" style="margin-top: 0.75rem;">
+  
+  <a href="../../../en/source/6_API_Reference/utilities.html" lang="en" hreflang="en">English</a> · 
+  
+  <a href="../../../zh_CN/source/6_API_Reference/utilities.html" lang="zh-CN" hreflang="zh-CN" aria-current="true">中文</a>
+  
+</nav>
+
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../1_overview/overview.html">1. 概述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/Introduction.html">1.1. 简介</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/Introduction.html#device-support-comparison">1.1.1. 设备支持对比</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/Introduction.html#supported-platforms">1.1.2. 支持的平台</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/Introduction.html#support-hardware-products">1.1.3. 支持的硬件产品</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../1_overview/Introduction.html#v2-main-branch">1.1.3.1. v2-main 分支</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../1_overview/Introduction.html#main-branch-v1-x">1.1.3.2. main 分支（v1.x）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html">1.2. Orbbec SDK 概述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#terms">1.2.1. 术语</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#orbbec-sdk-v2-architecture-overview">1.2.2. Orbbec SDK v2 架构概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#sdk-concept-overview">1.2.3. SDK 概念概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../1_overview/OrbbecSDK_Overview.html#sdk-programming-model">1.2.4. SDK 编程模型</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../2_installation/installation.html">2. 安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2_installation/virtual_environment_guide.html">2.1. 虚拟环境安装指南</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#table-of-contents">2.1.1. 📋 目录</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#tool-selection-guide">2.1.2. 📊 工具选择指南</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#quick-start">2.1.3. 快速入门</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#linux-macos-venv">2.1.3.1. Linux / macOS (venv)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#windows-venv">2.1.3.2. Windows (venv)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#using-venv-recommended-for-beginners">2.1.4. 1. 使用 venv（适合初学者）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#check-python-version">2.1.4.1. 1.1 检查 Python 版本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#create-virtual-environment">2.1.4.2. 1.2 创建虚拟环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#activate-virtual-environment">2.1.4.3. 1.3 激活虚拟环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#install-pyorbbecsdk2">2.1.4.4. 1.4 安装 pyorbbecsdk2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#verify-installation">2.1.4.5. 1.5 验证安装</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#run-examples">2.1.4.6. 1.6 运行示例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#deactivate-virtual-environment">2.1.4.7. 1.7 退出虚拟环境</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#using-pyenv-multiple-python-versions">2.1.5. 2. 使用 pyenv（管理多个 Python 版本）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#install-pyenv">2.1.5.1. 2.1 安装 pyenv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#install-python-3-10">2.1.5.2. 2.2 安装 Python 3.10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#set-local-python-version-in-project-directory">2.1.5.3. 2.3 在项目目录中设置本地 Python 版本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#create-virtual-environment-and-activate">2.1.5.4. 2.4 创建并激活虚拟环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#id1">2.1.5.5. 2.5 安装 pyorbbecsdk2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#complete-workflow-example">2.1.5.6. 2.6 完整流程示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#using-conda-data-science-users">2.1.6. 3. 使用 conda（适合数据科学用户）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#install-miniconda">2.1.6.1. 3.1 安装 Miniconda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#create-conda-environment">2.1.6.2. 3.2 创建 conda 环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#install-dependencies-optional">2.1.6.3. 3.3 安装依赖（可选）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#id2">2.1.6.4. 3.4 安装 pyorbbecsdk2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#exit-environment">2.1.6.5. 3.5 退出环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#remove-environment-if-needed">2.1.6.6. 3.6 删除环境（如有需要）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#platform-specific-notes">2.1.7. 各平台注意事项</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#linux">2.1.7.1. Linux</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#ubuntu-debian">2.1.7.1.1. Ubuntu/Debian</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#macos">2.1.7.2. macOS</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#xcode-command-line-tools">2.1.7.2.1. Xcode 命令行工具</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#permission-issues">2.1.7.2.2. 权限问题</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#windows">2.1.7.3. Windows</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#visual-c-redistributable">2.1.7.3.1. Visual C++ Redistributable</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#powershell-execution-policy">2.1.7.3.2. PowerShell 执行策略</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#troubleshooting">2.1.8. 问题排查</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#externally-managed-environment-error">2.1.8.1. ❌ “externally-managed-environment”错误</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#no-module-named-venv">2.1.8.2. ❌ “No module named 'venv'”（缺少 venv 模块）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#virtual-environment-activated-but-still-using-system-python">2.1.8.3. ❌ 虚拟环境已激活，但仍在使用系统 Python</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#pip-install-shows-permission-denied">2.1.8.4. ❌ pip install 显示权限不足</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#pyorbbec-env-bin-activate-no-such-file">2.1.8.5. ❌ “pyorbbec_env/bin/activate: No such file”（文件不存在）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#best-practices">2.1.9. 📝 最佳实践</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/virtual_environment_guide.html#related-documentation">2.1.10. 🔗 相关文档</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../2_installation/registration_script.html">2.2. 环境配置（一次性配置）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/registration_script.html#quick-setup-recommended">2.2.1. 快速配置（推荐）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#from-repository">2.2.1.1. 从仓库运行</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/registration_script.html#windows-powershell">2.2.1.1.1. Windows (PowerShell)</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/registration_script.html#linux">2.2.1.1.2. Linux</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/registration_script.html#macos">2.2.1.1.3. macOS</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#from-installed-package">2.2.1.2. 从已安装的软件包运行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#command-options">2.2.1.3. 命令选项</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/registration_script.html#what-this-setup-does">2.2.2. 配置内容</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#windows">2.2.2.1. Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#id1">2.2.2.2. Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#id2">2.2.2.3. macOS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/registration_script.html#manual-configuration-advanced">2.2.3. 手动配置（高级）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#linux-manual-udev-rules-installation">2.2.3.1. Linux——手动安装 udev 规则</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/registration_script.html#windows-manual-metadata-registration">2.2.3.2. Windows——手动注册元数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../2_installation/install_the_package.html">2.3. 安装指南</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/install_the_package.html#system-requirements">2.3.1. 📋 系统要求</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#hardware-requirements">2.3.1.1. 硬件要求</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/install_the_package.html#detailed-installation">2.3.2. 📖 详细安装步骤</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#prerequisites">2.3.2.1. 前置条件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#python-version-check">2.3.2.2. 检查 Python 版本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#virtual-environment-recommended">2.3.2.3. 虚拟环境（推荐）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#environment-setup-one-time">2.3.2.4. 环境配置（仅需执行一次）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#system-specific-prerequisites">2.3.2.5. 各操作系统的前置条件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#installation-methods">2.3.2.6. 安装方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#method-1-pip-install-recommended">2.3.2.7. 方式 1：pip install（推荐）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#method-2-offline-wheel-installation">2.3.2.8. 方式 2：离线安装 wheel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/install_the_package.html#step-1-download-the-wheel">2.3.2.8.1. 步骤 1：下载 wheel</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../2_installation/install_the_package.html#step-2-install-the-wheel">2.3.2.8.2. 步骤 2：安装 wheel</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#hello-world-example">2.3.2.9. “Hello World”示例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#run-an-example">2.3.2.10. 运行示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/install_the_package.html#quick-install-tl-dr">2.3.3. 🚀 快速安装（简要步骤）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/install_the_package.html#troubleshooting">2.3.4. 🐛 问题排查</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#no-device-found-linux">2.3.4.1. “No device found”（Linux：未找到设备）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#permission-denied-macos">2.3.4.2. Permission denied（macOS：权限不足）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#importerror-on-windows">2.3.4.3. Windows 上的 ImportError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#metadata-timestamp-issues-windows">2.3.4.4. 元数据/时间戳问题（Windows）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#python-version-mismatch">2.3.4.5. Python 版本不匹配</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#offline-installation-fails">2.3.4.6. 离线安装失败</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#examples-not-running">2.3.4.7. 示例无法运行</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/install_the_package.html#next-steps">2.3.5. 📚 后续步骤</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../2_installation/install_the_package.html#common-example-commands">2.3.5.1. 常用示例命令</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../2_installation/install_the_package.html#additional-resources">2.3.6. 📖 更多资源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../3_QuickStarts/QuickStarts.html">3. 快速入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html">3.1. 快速入门指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#overview">3.2. 🎯 概述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#what-you-ll-learn">3.2.1. 学习内容</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#time-to-complete">3.2.2. 所需时间</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#final-result">3.2.3. 最终效果</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#prerequisites">3.3. ✅ 前置条件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#hardware">3.3.1. 硬件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#software">3.3.2. 软件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#quick-verification">3.3.3. 快速验证</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#platform-specific-notes">3.3.4. 各平台注意事项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#your-first-application">3.4. 🚀 第一个应用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#step-1-run-the-quick-start-example">3.4.1. 步骤 1：运行快速入门示例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#step-2-how-it-works">3.4.2. 步骤 2：工作原理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#step-3-common-customizations">3.4.3. 步骤 3：常用自定义配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#custom-resolution-fps">3.4.3.1. 自定义分辨率/帧率</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#color-only-mode">3.4.3.2. 仅彩色模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#save-frames-to-disk">3.4.3.3. 将帧保存到磁盘</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#troubleshooting">3.5. 🐛 问题排查</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#no-device-found-linux">3.5.1. “No device found”（Linux：未找到设备）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#permission-denied-macos">3.5.2. Permission denied（macOS：权限不足）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#import-error">3.5.3. 导入错误</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#empty-frames">3.5.4. 空帧</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#display-issues">3.5.5. 显示问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#metadata-timestamp-issues-windows">3.5.6. 元数据/时间戳问题（Windows）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#next-steps">3.6. 📚 后续步骤</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#recommended-learning-path">3.6.1. 🗺️ 推荐学习路径</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#learn-by-example">3.6.2. 🎓 通过示例学习</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#level-1-beginner">3.6.3. 级别 1——入门 ⭐</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#level-2-advanced">3.6.4. 级别 2——进阶 ⭐⭐</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#level-3-applications">3.6.5. 级别 3——应用 ⭐⭐⭐</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#specialized-lidar">3.6.6. 专题——激光雷达 ⭐⭐⭐</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#additional-resources">3.6.7. 🔗 更多资源</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#sdk-feature-overview">3.6.8. 📝 SDK 功能概览</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../3_QuickStarts/QuickStart.html#tips-for-success">3.7. 💡 使用建议</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../4_Package/Package.html">4. 软件包构建</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../4_Package/build_with_uv.html">4.1. 使用 UV 从源码构建（推荐）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#prerequisites">4.1.1. 前置条件</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#all-platforms">4.1.1.1. 所有平台</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#platform-specific-requirements">4.1.1.2. 各平台要求</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#linux">4.1.1.2.1. Linux</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#macos">4.1.1.2.2. macOS</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#windows">4.1.1.2.3. Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#build-scripts">4.1.2. 构建脚本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#quick-start">4.1.3. 快速入门</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#id1">4.1.3.1. Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#id2">4.1.3.2. macOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#id3">4.1.3.3. Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#script-options">4.1.4. 脚本选项</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#examples">4.1.4.1. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#offline-build">4.1.5. 离线构建</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#preparing-for-offline-build">4.1.5.1. 准备离线构建</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#how-offline-mode-works">4.1.5.2. 离线模式的工作原理</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#build-output">4.1.6. 构建产物</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#installing-the-wheel">4.1.6.1. 安装 wheel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#generate-type-stubs-optional-but-recommended">4.1.6.2. 生成类型存根（可选但推荐）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#build-process-details">4.1.7. 构建流程详情</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#key-differences-by-platform">4.1.7.1. 各平台的主要差异</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#troubleshooting">4.1.8. 问题排查</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#common-issues">4.1.8.1. 常见问题</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#uv-command-not-found">4.1.8.1.1. “uv: command not found”（找不到 uv 命令）</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#cmake-configuration-failed">4.1.8.1.2. “CMake configuration failed”（CMake 配置失败）</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#pybind11-not-found-offline-mode">4.1.8.1.3. “pybind11 not found”（离线模式：找不到 pybind11）</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#permission-denied-on-macos">4.1.8.1.4. macOS 上的“Permission denied”（权限不足）</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../4_Package/build_with_uv.html#build-fails-on-windows-with-visual-studio-not-found">4.1.8.1.5. Windows 构建失败，提示“Visual Studio not found”（找不到 Visual Studio）</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#cleaning-build-artifacts">4.1.8.2. 清理构建产物</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#advanced-usage">4.1.9. 高级用法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#customizing-python-versions">4.1.9.1. 自定义 Python 版本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#parallel-builds">4.1.9.2. 并行构建</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#environment-variables">4.1.9.3. 环境变量</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#comparison-with-traditional-build">4.1.10. 与传统构建方式对比</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#next-steps">4.1.11. 后续步骤</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#see-also">4.1.12. 另请参阅</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../4_Package/build_the_package.html">4.2. 从源码构建（传统 CMake 方式——已弃用）</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_the_package.html#environment">4.2.1. 环境</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#compilation-platform-requirements">4.2.1.1. 编译平台要求</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#python-version">4.2.1.2. Python 版本</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_the_package.html#linux-python-sdk-compilation">4.2.2. Linux Python SDK 编译</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#install-dependencies-ubuntu">4.2.2.1. 安装依赖（Ubuntu）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#custom-python-path-optional">4.2.2.2. 自定义 Python 路径（可选）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#build-the-project">4.2.2.3. 构建项目</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#run-the-examples">4.2.2.4. 运行示例</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#generate-python-stubs">4.2.2.5. 生成 Python 类型存根</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#making-a-python-wheel">4.2.2.6. 制作 Python wheel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Package/build_the_package.html#windows-python-sdk-compilation">4.2.3. Windows Python SDK 编译</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#download-the-python-sdk-source-code">4.2.3.1. 下载 Python SDK 源代码</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#install-dependencies">4.2.3.2. 安装依赖</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#configure-visual-studio-project">4.2.3.3. 配置 Visual Studio 项目</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#compile-the-python-sdk">4.2.3.4. 编译 Python SDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_the_package.html#test-examples">4.2.3.5. 测试示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../5_Application_Guide/Application_Guide.html">5. 应用指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html">5.1. 创建设备</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#create-pipeline">5.2. 创建 Pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-the-sensor-list">5.3. 获取传感器列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-video-data-streams">5.4. 获取视频数据流</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#blocking-polling-mode-video-data-streams">5.4.1. 阻塞轮询模式（视频数据流）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#asynchronous-callback-mode-video-data-streams">5.4.2. 异步回调模式（视频数据流）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-imu-data-streams">5.5. 获取 IMU 数据流</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#blocking-polling-mode-imu-data-streams">5.5.1. 阻塞轮询模式（IMU 数据流）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#asynchronous-callback-mode-imu-data-streams">5.5.2. 异步回调模式（IMU 数据流）</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-the-camera-intrinsic-and-extrinsic-parameters">5.6. 获取相机内参与外参</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#frame-aggregate">5.7. 帧聚合</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#d2c">5.8. D2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#hardware-d2c">5.8.1. 硬件 D2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#software-d2c">5.8.2. 软件 D2C</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#software-c2d">5.9. 软件 C2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#depth-point-cloud">5.10. 深度点云</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#rgbd-point-cloud">5.11. RGBD 点云</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#noise-removeal-filter">5.12. 去噪滤波器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#hardware-noise-removeal-filter">5.12.1. 硬件去噪滤波器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#software-noise-removeal-filter">5.12.2. 软件去噪滤波器</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#depth-post-processing-filters">5.13. 深度后处理滤波器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#recording-and-playback">5.14. 录制与回放</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#recording">5.14.1. 录制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#playback">5.14.2. 回放</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#firmware-update">5.15. 固件更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#update-preset">5.16. 更新预设</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#device-disconnection-and-reconnection">5.17. 设备断开与重连</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#commonly-used-interfaces">5.18. 常用接口</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#device-reboot">5.18.1. 重启设备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-the-serial-number">5.18.2. 获取序列号</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-the-ip-config">5.18.3. 获取 IP 配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-local-network-configuration">5.18.4. 获取本地网络配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#ip-configuration">5.18.5. IP 配置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ip-configuration-persistent">5.18.5.1. 设置 IP 配置（持久化）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#force-ip-configuration-temporary">5.18.5.2. 强制 IP 配置（临时）</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-device-temperature">5.18.6. 获取设备温度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-device-baseline">5.18.7. 获取设备基线</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#structured-data-read-write">5.18.8. 结构化数据读写</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#device-binary-data">5.18.9. 设备二进制数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#stream-profile">5.18.10. 流配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-imu-streamprofile">5.18.11. 获取 IMU StreamProfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-intrinsic-and-extrinsic-parameters">5.18.12. 获取内参与外参</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-imu-intrinsic-parameters">5.18.13. 获取 IMU 内参</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#ldp-switch">5.18.14. LDP 开关</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#hdr-merge">5.18.15. HDR 合并</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-ldp-measurement-value">5.18.16. 获取 LDP 测量值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-ldp-protection-status">5.18.17. 获取 LDP 保护状态</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#laser-switch">5.18.18. 激光开关</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#obtain-metadata">5.18.19. 获取元数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#triggered-capture">5.18.20. 触发采集</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#software-triggered-capture">5.18.20.1. 软件触发采集</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#timed-capture">5.18.20.2. 定时采集</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#timestamp-reset">5.18.21. 时间戳重置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#device-time-synchronization">5.18.22. 设备时间同步</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#d2d-disparity-to-depth">5.18.23. D2D（视差转深度）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#hardware-d2d">5.18.23.1. 硬件 D2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#software-d2d">5.18.23.2. 软件 D2D</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#depth-settings">5.18.24. 深度设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#depth-working-mode">5.18.24.1. 深度工作模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#preset-configuration">5.18.24.2. 预设配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-depth-ae">5.18.24.3. 设置深度自动曝光（AE）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-depth-exposure">5.18.24.4. 设置深度曝光</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-depth-gain">5.18.24.5. 设置深度增益</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-depth-mirror">5.18.24.6. 设置深度镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-depth-flip">5.18.24.7. 设置深度上下翻转</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-depth-rotation">5.18.24.8. 设置深度旋转</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-the-unit-of-depth">5.18.24.9. 设置深度单位</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-min-and-max-depth">5.18.24.10. 设置最小和最大深度</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#ir-parameter-settings">5.18.25. 红外参数设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-ae">5.18.25.1. 设置红外自动曝光（AE）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-exposure">5.18.25.2. 设置红外曝光</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-gain">5.18.25.3. 设置红外增益</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-target-brightness">5.18.25.4. 设置红外目标亮度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-maximum-exposure-value">5.18.25.5. 设置红外最大曝光值</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-mirror">5.18.25.6. 设置红外镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-flip">5.18.25.7. 设置红外上下翻转</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-ir-rotation">5.18.25.8. 设置红外旋转</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#color-parameter-settings">5.18.26. 彩色参数设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-ae">5.18.26.1. 设置彩色自动曝光（AE）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-exposure">5.18.26.2. 设置彩色曝光</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-gain">5.18.26.3. 设置彩色增益</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-mirror">5.18.26.4. 设置彩色镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-flip">5.18.26.5. 设置彩色上下翻转</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-rotation">5.18.26.6. 设置彩色旋转</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-automatic-white-balance-awb">5.18.26.7. 设置彩色自动白平衡（AWB）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-white-balance-parameters">5.18.26.8. 设置彩色白平衡参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-the-color-brightness">5.18.26.9. 设置彩色亮度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-sharpness">5.18.26.10. 设置彩色锐度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-gamma">5.18.26.11. 设置彩色 Gamma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-saturation">5.18.26.12. 设置彩色饱和度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-hue">5.18.26.13. 设置彩色色调</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-auto-exposure-priority">5.18.26.14. 设置彩色自动曝光优先级</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-backlight-compensation">5.18.26.15. 设置彩色背光补偿</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-contrast">5.18.26.16. 设置彩色对比度</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-color-power-line-frequency">5.18.26.17. 设置彩色电源频率</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#multi-camera-synchronization">5.18.27. 多相机同步</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#multi-camera-synchronous-hardware-connection">5.18.27.1. 多相机同步硬件连接</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#multi-camera-synchronization-software-configuration">5.18.27.2. 多相机同步软件配置</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#frame-interleave">5.18.28. 帧交错</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#load-frame-interleave">5.18.28.1. 加载帧交错</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#check-frame-interleave-support">5.18.28.2. 检查帧交错支持情况</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#heart-beat-control">5.18.29. 心跳控制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#log-management">5.18.30. 日志管理</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-the-log-level">5.18.30.1. 设置日志级别</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-the-log-output-to-the-console">5.18.30.2. 设置日志输出到控制台</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-log-output-to-file">5.18.30.3. 设置日志输出到文件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/ApplicationGuide.html#set-the-log-callback-output">5.18.30.4. 设置日志回调输出</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/structured_data.html">5.19. 结构化数据读写</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#choose-the-simplest-interface">5.19.1. 选择最简单的接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#interface-at-a-glance">5.19.2. 接口速览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#basic-usage">5.19.3. 基本用法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#payload-rules">5.19.4. 载荷规则</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#check-support-and-permission">5.19.5. 检查支持情况与权限</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#read-only-data">5.19.6. 只读数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#read-modify-verify-and-restore">5.19.7. 读取、修改、验证与恢复</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#supported-properties">5.19.8. 支持的属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#existing-apis-and-special-cases">5.19.9. 已有 API 与特殊情况</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/structured_data.html#multi-device-synchronization">5.19.9.1. 多设备同步</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/structured_data.html#depth-work-mode">5.19.9.2. 深度工作模式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/structured_data.html#device-error-state">5.19.9.3. 设备错误状态</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/structured_data.html#variable-and-unavailable-layouts">5.19.9.4. 可变及不可用布局</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../5_Application_Guide/structured_data.html#ip-configuration-and-other-field-conventions">5.19.9.5. IP 配置与其他字段约定</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#type-aliases">5.19.10. 类型别名</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/structured_data.html#limitations">5.19.11. 限制</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Application_Guide/binary_device_data.html">5.20. 设备二进制数据</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/binary_device_data.html#protocol-request-and-response">5.20.1. 协议请求与响应</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/binary_device_data.html#customer-data-storage">5.20.2. 客户数据存储</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/binary_device_data.html#firmware-update-from-bytes">5.20.3. 从字节更新固件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../5_Application_Guide/binary_device_data.html#input-validation-and-errors">5.20.4. 输入校验与错误</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">6. API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="core.html">6.1. 核心接口</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#classes">6.1.1. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="core.html#context">6.1.1.1. Context</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.Context"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#device">6.1.1.2. Device</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.Device"><code class="docutils literal notranslate"><span class="pre">Device</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#deviceinfo">6.1.1.3. DeviceInfo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.DeviceInfo"><code class="docutils literal notranslate"><span class="pre">DeviceInfo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#devicelist">6.1.1.4. DeviceList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.DeviceList"><code class="docutils literal notranslate"><span class="pre">DeviceList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#devicepresetlist">6.1.1.5. DevicePresetList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.DevicePresetList"><code class="docutils literal notranslate"><span class="pre">DevicePresetList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#sensor">6.1.1.6. Sensor</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.Sensor"><code class="docutils literal notranslate"><span class="pre">Sensor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#sensorlist">6.1.1.7. SensorList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.SensorList"><code class="docutils literal notranslate"><span class="pre">SensorList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#cameraparamlist">6.1.1.8. CameraParamList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.CameraParamList"><code class="docutils literal notranslate"><span class="pre">CameraParamList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#presetresolutionconfiglist">6.1.1.9. PresetResolutionConfigList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.PresetResolutionConfigList"><code class="docutils literal notranslate"><span class="pre">PresetResolutionConfigList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#obdepthworkmodelist">6.1.1.10. OBDepthWorkModeList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.OBDepthWorkModeList"><code class="docutils literal notranslate"><span class="pre">OBDepthWorkModeList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#colorpresetlist">6.1.1.11. ColorPresetList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.ColorPresetList"><code class="docutils literal notranslate"><span class="pre">ColorPresetList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#deviceframeinterleavelist">6.1.1.12. DeviceFrameInterleaveList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.DeviceFrameInterleaveList"><code class="docutils literal notranslate"><span class="pre">DeviceFrameInterleaveList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#applicationconfig">6.1.1.13. ApplicationConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.ApplicationConfig"><code class="docutils literal notranslate"><span class="pre">ApplicationConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#applicationsensorconfig">6.1.1.14. ApplicationSensorConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.ApplicationSensorConfig"><code class="docutils literal notranslate"><span class="pre">ApplicationSensorConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#applicationdevdecimationconfig">6.1.1.15. ApplicationDevDecimationConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.ApplicationDevDecimationConfig"><code class="docutils literal notranslate"><span class="pre">ApplicationDevDecimationConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#applicationhdrmergeconfig">6.1.1.16. ApplicationHDRMergeConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.ApplicationHDRMergeConfig"><code class="docutils literal notranslate"><span class="pre">ApplicationHDRMergeConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#applicationpointcloudconfig">6.1.1.17. ApplicationPointCloudConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="core.html#pyorbbecsdk.ApplicationPointCloudConfig"><code class="docutils literal notranslate"><span class="pre">ApplicationPointCloudConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="core.html#device-data-interface-details">6.1.2. 设备数据接口详情</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pipeline.html">6.2. Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pipeline.html#classes">6.2.1. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pipeline.html#id1">6.2.1.1. Pipeline</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pipeline.html#pyorbbecsdk.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pipeline.html#config">6.2.1.2. Config</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pipeline.html#pyorbbecsdk.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frames.html">6.3. 帧</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frames.html#class-hierarchy">6.3.1. 类层次结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frames.html#inheritance-overview">6.3.2. 继承概览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="frames.html#classes">6.3.3. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#frame">6.3.3.1. Frame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#videoframe">6.3.3.2. VideoFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.VideoFrame"><code class="docutils literal notranslate"><span class="pre">VideoFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#colorframe">6.3.3.3. ColorFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.ColorFrame"><code class="docutils literal notranslate"><span class="pre">ColorFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#depthframe">6.3.3.4. DepthFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.DepthFrame"><code class="docutils literal notranslate"><span class="pre">DepthFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#irframe">6.3.3.5. IRFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.IRFrame"><code class="docutils literal notranslate"><span class="pre">IRFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#confidenceframe">6.3.3.6. ConfidenceFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.ConfidenceFrame"><code class="docutils literal notranslate"><span class="pre">ConfidenceFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#pointsframe">6.3.3.7. PointsFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.PointsFrame"><code class="docutils literal notranslate"><span class="pre">PointsFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#lidarpointsframe">6.3.3.8. LiDARPointsFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.LiDARPointsFrame"><code class="docutils literal notranslate"><span class="pre">LiDARPointsFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#accelframe">6.3.3.9. AccelFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.AccelFrame"><code class="docutils literal notranslate"><span class="pre">AccelFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#gyroframe">6.3.3.10. GyroFrame</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.GyroFrame"><code class="docutils literal notranslate"><span class="pre">GyroFrame</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#frameset">6.3.3.11. FrameSet</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.FrameSet"><code class="docutils literal notranslate"><span class="pre">FrameSet</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frames.html#enumerations">6.3.4. 枚举</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#obframetype">6.3.4.1. OBFrameType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBFrameType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#obframemetadatatype">6.3.4.2. OBFrameMetadataType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameMetadataType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBFrameMetadataType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#obformat">6.3.4.3. OBFormat</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFormat"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBFormat</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#obmediatype">6.3.4.4. OBMediaType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.OBMediaType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBMediaType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#obmediastate">6.3.4.5. OBMediaState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.OBMediaState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBMediaState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#obplaybackstatus">6.3.4.6. OBPlaybackStatus</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="frames.html#pyorbbecsdk.OBPlaybackStatus"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPlaybackStatus</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frames.html#constants">6.3.5. 常量</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#pyorbbecsdk.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#pyorbbecsdk.PAUSED"><code class="docutils literal notranslate"><span class="pre">PAUSED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#pyorbbecsdk.PLAYING"><code class="docutils literal notranslate"><span class="pre">PLAYING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#pyorbbecsdk.STOPPED"><code class="docutils literal notranslate"><span class="pre">STOPPED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frames.html#pyorbbecsdk.COUNT"><code class="docutils literal notranslate"><span class="pre">COUNT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stream_profile.html">6.4. 流配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stream_profile.html#class-hierarchy">6.4.1. 类层次结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stream_profile.html#inheritance-overview">6.4.2. 继承概览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stream_profile.html#classes">6.4.3. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#streamprofile">6.4.3.1. StreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.StreamProfile"><code class="docutils literal notranslate"><span class="pre">StreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#videostreamprofile">6.4.3.2. VideoStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.VideoStreamProfile"><code class="docutils literal notranslate"><span class="pre">VideoStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#accelstreamprofile">6.4.3.3. AccelStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.AccelStreamProfile"><code class="docutils literal notranslate"><span class="pre">AccelStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#gyrostreamprofile">6.4.3.4. GyroStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.GyroStreamProfile"><code class="docutils literal notranslate"><span class="pre">GyroStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#lidarstreamprofile">6.4.3.5. LiDARStreamProfile</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.LiDARStreamProfile"><code class="docutils literal notranslate"><span class="pre">LiDARStreamProfile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#streamprofilelist">6.4.3.6. StreamProfileList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.StreamProfileList"><code class="docutils literal notranslate"><span class="pre">StreamProfileList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obdepthworkmode">6.4.3.7. OBDepthWorkMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBDepthWorkMode"><code class="docutils literal notranslate"><span class="pre">OBDepthWorkMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obpresetresolutionconfig">6.4.3.8. OBPresetResolutionConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBPresetResolutionConfig"><code class="docutils literal notranslate"><span class="pre">OBPresetResolutionConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obhdrconfig">6.4.3.9. OBHdrConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBHdrConfig"><code class="docutils literal notranslate"><span class="pre">OBHdrConfig</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stream_profile.html#enumerations">6.4.4. 枚举</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obsensortype">6.4.4.1. OBSensorType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSensorType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBSensorType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obstreamtype">6.4.4.2. OBStreamType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBStreamType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obdepthworkmodelist">6.4.4.3. OBDepthWorkModeList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obdepthworkmodetag">6.4.4.4. OBDepthWorkModeTag</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBDepthWorkModeTag"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDepthWorkModeTag</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obalignmode">6.4.4.5. OBAlignMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBAlignMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBAlignMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obframeaggregateoutputmode">6.4.4.6. OBFrameAggregateOutputMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBFrameAggregateOutputMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBFrameAggregateOutputMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obcompressionmode">6.4.4.7. OBCompressionMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBCompressionMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBCompressionMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obcompressionparams">6.4.4.8. OBCompressionParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obhardwaredecimationconfig">6.4.4.9. OBHardwareDecimationConfig</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obsyncmode">6.4.4.10. OBSyncMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSyncMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBSyncMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obmultidevicesyncmode">6.4.4.11. OBMultiDeviceSyncMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBMultiDeviceSyncMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBMultiDeviceSyncMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#obgyrosamplerate">6.4.4.12. OBGyroSampleRate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBGyroSampleRate"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBGyroSampleRate</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stream_profile.html#constants">6.4.5. 常量</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_UNKNOWN"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_UNKNOWN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_1_5625_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_1_5625_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_3_125_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_3_125_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_6_25_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_6_25_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_12_5_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_12_5_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_25_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_25_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_50_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_50_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_100_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_100_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_200_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_200_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_400_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_400_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_500_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_500_HZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_1_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_1_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_2_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_2_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_4_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_4_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_8_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_8_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_16_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_16_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_32_KHZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_32_KHZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.SAMPLE_RATE_800_HZ"><code class="docutils literal notranslate"><span class="pre">SAMPLE_RATE_800_HZ</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="filters.html">6.5. 滤波器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="filters.html#class-hierarchy">6.5.1. 类层次结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filters.html#inheritance-overview">6.5.2. 继承概览</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filters.html#classes">6.5.3. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#filter">6.5.3.1. Filter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#alignfilter">6.5.3.2. AlignFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.AlignFilter"><code class="docutils literal notranslate"><span class="pre">AlignFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#decimationfilter">6.5.3.3. DecimationFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.DecimationFilter"><code class="docutils literal notranslate"><span class="pre">DecimationFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#disparitytransform">6.5.3.4. DisparityTransform</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.DisparityTransform"><code class="docutils literal notranslate"><span class="pre">DisparityTransform</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#formatconvertfilter">6.5.3.5. FormatConvertFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.FormatConvertFilter"><code class="docutils literal notranslate"><span class="pre">FormatConvertFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#hdrmergefilter">6.5.3.6. HDRMergeFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.HDRMergeFilter"><code class="docutils literal notranslate"><span class="pre">HDRMergeFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#holefillingfilter">6.5.3.7. HoleFillingFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.HoleFillingFilter"><code class="docutils literal notranslate"><span class="pre">HoleFillingFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#noiseremovalfilter">6.5.3.8. NoiseRemovalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.NoiseRemovalFilter"><code class="docutils literal notranslate"><span class="pre">NoiseRemovalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#pointcloudfilter">6.5.3.9. PointCloudFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.PointCloudFilter"><code class="docutils literal notranslate"><span class="pre">PointCloudFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#sequenceidfilter">6.5.3.10. SequenceIdFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.SequenceIdFilter"><code class="docutils literal notranslate"><span class="pre">SequenceIdFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#spatialadvancedfilter">6.5.3.11. SpatialAdvancedFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.SpatialAdvancedFilter"><code class="docutils literal notranslate"><span class="pre">SpatialAdvancedFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#temporalfilter">6.5.3.12. TemporalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.TemporalFilter"><code class="docutils literal notranslate"><span class="pre">TemporalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#thresholdfilter">6.5.3.13. ThresholdFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.ThresholdFilter"><code class="docutils literal notranslate"><span class="pre">ThresholdFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#edgenoiseremovalfilter">6.5.3.14. EdgeNoiseRemovalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.EdgeNoiseRemovalFilter"><code class="docutils literal notranslate"><span class="pre">EdgeNoiseRemovalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#enhanceddepthfilter">6.5.3.15. EnhancedDepthFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.EnhancedDepthFilter"><code class="docutils literal notranslate"><span class="pre">EnhancedDepthFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#falsepositivefilter">6.5.3.16. FalsePositiveFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.FalsePositiveFilter"><code class="docutils literal notranslate"><span class="pre">FalsePositiveFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#lutnoiseremovalfilter">6.5.3.17. LutNoiseRemovalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.LutNoiseRemovalFilter"><code class="docutils literal notranslate"><span class="pre">LutNoiseRemovalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#mgcnoiseremovalfilter">6.5.3.18. MgcNoiseRemovalFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.MgcNoiseRemovalFilter"><code class="docutils literal notranslate"><span class="pre">MgcNoiseRemovalFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#spatialfastfilter">6.5.3.19. SpatialFastFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.SpatialFastFilter"><code class="docutils literal notranslate"><span class="pre">SpatialFastFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#spatialmoderatefilter">6.5.3.20. SpatialModerateFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.SpatialModerateFilter"><code class="docutils literal notranslate"><span class="pre">SpatialModerateFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#undistortionfilter">6.5.3.21. UnDistortionFilter</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.UnDistortionFilter"><code class="docutils literal notranslate"><span class="pre">UnDistortionFilter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#filterfactory">6.5.3.22. FilterFactory</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.FilterFactory"><code class="docutils literal notranslate"><span class="pre">FilterFactory</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="filters.html#enumerations">6.5.4. 枚举</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obfilterlist">6.5.4.1. OBFilterList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obfilterconfigschemaitem">6.5.4.2. OBFilterConfigSchemaItem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obfilterconfigvaluetype">6.5.4.3. OBFilterConfigValueType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.OBFilterConfigValueType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBFilterConfigValueType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obholefillingmode">6.5.4.4. OBHoleFillingMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.OBHoleFillingMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBHoleFillingMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obnoiseremovalfilterparams">6.5.4.5. OBNoiseRemovalFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obedgenoiseremovaltype">6.5.4.6. OBEdgeNoiseRemovalType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.OBEdgeNoiseRemovalType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBEdgeNoiseRemovalType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obedgenoiseremovalfilterparams">6.5.4.7. OBEdgeNoiseRemovalFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obddonoiseremovaltype">6.5.4.8. OBDDONoiseRemovalType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.OBDDONoiseRemovalType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDDONoiseRemovalType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obspatialadvancedfilterparams">6.5.4.9. OBSpatialAdvancedFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#oblutnoiseremovalfilterparams">6.5.4.10. OBLutNoiseRemovalFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obmgcnoiseremovalfilterparams">6.5.4.11. OBMgcNoiseRemovalFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obspatialfastfilterparams">6.5.4.12. OBSpatialFastFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obspatialmoderatefilterparams">6.5.4.13. OBSpatialModerateFilterParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="filters.html#obconvertformat">6.5.4.14. OBConvertFormat</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="filters.html#pyorbbecsdk.OBConvertFormat"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBConvertFormat</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="record_playback.html">6.6. 录制与回放</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="record_playback.html#classes">6.6.1. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="record_playback.html#recorddevice">6.6.1.1. RecordDevice</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="record_playback.html#pyorbbecsdk.RecordDevice"><code class="docutils literal notranslate"><span class="pre">RecordDevice</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="record_playback.html#playbackdevice">6.6.1.2. PlaybackDevice</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="record_playback.html#pyorbbecsdk.PlaybackDevice"><code class="docutils literal notranslate"><span class="pre">PlaybackDevice</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data_structures.html">6.7. 数据结构</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="data_structures.html#classes">6.7.1. 类</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdeviceserialnumber">6.7.1.1. OBDeviceSerialNumber</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceSerialNumber"><code class="docutils literal notranslate"><span class="pre">OBDeviceSerialNumber</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdispoffsetconfig">6.7.1.2. OBDispOffsetConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDispOffsetConfig"><code class="docutils literal notranslate"><span class="pre">OBDispOffsetConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdevicetime">6.7.1.3. OBDeviceTime</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceTime"><code class="docutils literal notranslate"><span class="pre">OBDeviceTime</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdeviceerrorstate">6.7.1.4. OBDeviceErrorState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceErrorState"><code class="docutils literal notranslate"><span class="pre">OBDeviceErrorState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obversioninfo">6.7.1.5. OBVersionInfo</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBVersionInfo"><code class="docutils literal notranslate"><span class="pre">OBVersionInfo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdepthworkmodeinternal">6.7.1.6. OBDepthWorkModeInternal</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDepthWorkModeInternal"><code class="docutils literal notranslate"><span class="pre">OBDepthWorkModeInternal</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obimupresetlist">6.7.1.7. OBImuPresetList</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBImuPresetList"><code class="docutils literal notranslate"><span class="pre">OBImuPresetList</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obbaselinecalibrationparam">6.7.1.8. OBBaselineCalibrationParam</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBBaselineCalibrationParam"><code class="docutils literal notranslate"><span class="pre">OBBaselineCalibrationParam</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdevicetemperature">6.7.1.9. OBDeviceTemperature</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceTemperature"><code class="docutils literal notranslate"><span class="pre">OBDeviceTemperature</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obtofexposurethresholdcontrol">6.7.1.10. OBTofExposureThresholdControl</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBTofExposureThresholdControl"><code class="docutils literal notranslate"><span class="pre">OBTofExposureThresholdControl</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdevicesyncconfig">6.7.1.11. OBDeviceSyncConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceSyncConfig"><code class="docutils literal notranslate"><span class="pre">OBDeviceSyncConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdeviceipaddrconfig">6.7.1.12. OBDeviceIpAddrConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceIpAddrConfig"><code class="docutils literal notranslate"><span class="pre">OBDeviceIpAddrConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obnetipconfigv2">6.7.1.13. OBNetIpConfigV2</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBNetIpConfigV2"><code class="docutils literal notranslate"><span class="pre">OBNetIpConfigV2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obmultidevicesyncconfig">6.7.1.14. OBMultiDeviceSyncConfig</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBMultiDeviceSyncConfig"><code class="docutils literal notranslate"><span class="pre">OBMultiDeviceSyncConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obawbgainparams">6.7.1.15. OBAwbGainParams</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBAwbGainParams"><code class="docutils literal notranslate"><span class="pre">OBAwbGainParams</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obregionofinterest">6.7.1.16. OBRegionOfInterest</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBRegionOfInterest"><code class="docutils literal notranslate"><span class="pre">OBRegionOfInterest</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obrect">6.7.1.17. OBRect</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBRect"><code class="docutils literal notranslate"><span class="pre">OBRect</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data_structures.html#enumerations">6.7.2. 枚举</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obloglevel">6.7.2.1. OBLogLevel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBLogLevel"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBLogLevel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#oberror">6.7.2.2. OBError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obexception">6.7.2.3. OBException</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBException"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obstatus">6.7.2.4. OBStatus</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBStatus"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBStatus</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpropertyid">6.7.2.5. OBPropertyID</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPropertyID"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPropertyID</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdeviceerrorcode">6.7.2.6. OBDeviceErrorCode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceErrorCode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDeviceErrorCode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcameraparam">6.7.2.7. OBCameraParam</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcameraintrinsic">6.7.2.8. OBCameraIntrinsic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcameradistortion">6.7.2.9. OBCameraDistortion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcameradistortionmodel">6.7.2.10. OBCameraDistortionModel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBCameraDistortionModel"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBCameraDistortionModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obextrinsic">6.7.2.11. OBExtrinsic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcalibrationparam">6.7.2.12. OBCalibrationParam</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obaccelintrinsic">6.7.2.13. OBAccelIntrinsic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obgyrointrinsic">6.7.2.14. OBGyroIntrinsic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obaccelfullscalerange">6.7.2.15. OBAccelFullScaleRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBAccelFullScaleRange"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBAccelFullScaleRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obgyrofullscalerange">6.7.2.16. OBGyroFullScaleRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBGyroFullScaleRange"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBGyroFullScaleRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obaccelvalue">6.7.2.17. OBAccelValue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obgyrovalue">6.7.2.18. OBGyroValue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obfloat3d">6.7.2.19. OBFloat3D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpoint2f">6.7.2.20. OBPoint2f</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpoint3f">6.7.2.21. OBPoint3f</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#oblidarpoint">6.7.2.22. OBLiDARPoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#oblidarscanpoint">6.7.2.23. OBLiDARScanPoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#oblidarspherepoint">6.7.2.24. OBLiDARSpherePoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#oblidarscanrate">6.7.2.25. OBLiDARScanRate</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBLiDARScanRate"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBLiDARScanRate</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcolorpoint">6.7.2.26. OBColorPoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpixeltype">6.7.2.27. OBPixelType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPixelType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPixelType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpowerlinefreqmode">6.7.2.28. OBPowerLineFreqMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPowerLineFreqMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPowerLineFreqMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdcpowerstate">6.7.2.29. OBDCPowerState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDCPowerState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDCPowerState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obusbpowerstate">6.7.2.30. OBUSBPowerState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBUSBPowerState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBUSBPowerState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcommunicationtype">6.7.2.31. OBCommunicationType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBCommunicationType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBCommunicationType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obprotocolversion">6.7.2.32. OBProtocolVersion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcmdversion">6.7.2.33. OBCmdVersion</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBCmdVersion"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBCmdVersion</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcoordinatesystemtype">6.7.2.34. OBCoordinateSystemType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBCoordinateSystemType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBCoordinateSystemType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obrotatedegreetype">6.7.2.35. OBRotateDegreeType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBRotateDegreeType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBRotateDegreeType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdepthprecisionlevel">6.7.2.36. OBDepthPrecisionLevel</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDepthPrecisionLevel"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDepthPrecisionLevel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdepthcroppingmode">6.7.2.37. OBDepthCroppingMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDepthCroppingMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDepthCroppingMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obtoffilterrange">6.7.2.38. OBTofFilterRange</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBTofFilterRange"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBTofFilterRange</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obsequenceiditem">6.7.2.39. OBSequenceIdItem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obupgradestate">6.7.2.40. OBUpgradeState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBUpgradeState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBUpgradeState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdatatranstate">6.7.2.41. OBDataTranState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDataTranState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDataTranState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obfiletranstate">6.7.2.42. OBFileTranState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBFileTranState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBFileTranState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpropertyitem">6.7.2.43. OBPropertyItem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpropertytype">6.7.2.44. OBPropertyType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPropertyType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPropertyType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obfloatpropertyrange">6.7.2.45. OBFloatPropertyRange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obintpropertyrange">6.7.2.46. OBIntPropertyRange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obuint8propertyrange">6.7.2.47. OBUint8PropertyRange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obuint16propertyrange">6.7.2.48. OBUint16PropertyRange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obboolpropertyrange">6.7.2.49. OBBoolPropertyRange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#oberrordetails">6.7.2.50. OBErrorDetails</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpipelinestatus">6.7.2.51. OBPipelineStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdevicetimestampresetconfig">6.7.2.52. OBDeviceTimestampResetConfig</a></li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obclocktype">6.7.2.53. OBClockType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBClockType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBClockType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdevicetype">6.7.2.54. OBDeviceType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDeviceType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdeviceaccessmode">6.7.2.55. OBDeviceAccessMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceAccessMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDeviceAccessMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdeviceaccessstate">6.7.2.56. OBDeviceAccessState</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceAccessState"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDeviceAccessState</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obdevicedevelopmentmode">6.7.2.57. OBDeviceDevelopmentMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBDeviceDevelopmentMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBDeviceDevelopmentMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpermissiontype">6.7.2.58. OBPermissionType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPermissionType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPermissionType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcameraperformancemode">6.7.2.59. OBCameraPerformanceMode</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBCameraPerformanceMode"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBCameraPerformanceMode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obcolorpreset">6.7.2.60. OBColorPreset</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBColorPreset"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBColorPreset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obgvcpportscheme">6.7.2.61. OBGvcpPortScheme</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBGvcpPortScheme"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBGvcpPortScheme</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obintracamerasyncreference">6.7.2.62. OBIntraCameraSyncReference</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBIntraCameraSyncReference"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBIntraCameraSyncReference</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obipsourcetype">6.7.2.63. OBIpSourceType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBIpSourceType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBIpSourceType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obpipelineissue">6.7.2.64. OBPipelineIssue</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPipelineIssue"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBPipelineIssue</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="data_structures.html#obuvcbackendtype">6.7.2.65. OBUvcBackendType</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBUvcBackendType"><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.OBUvcBackendType</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data_structures.html#type-aliases">6.7.3. 类型别名</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6.8. 工具函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">6.8.1. 函数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-version">6.8.1.1. get_version</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.get_version"><code class="docutils literal notranslate"><span class="pre">get_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#get-version-major">6.8.1.2. get_version_major</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.get_version_major"><code class="docutils literal notranslate"><span class="pre">get_version_major()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#get-version-minor">6.8.1.3. get_version_minor</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.get_version_minor"><code class="docutils literal notranslate"><span class="pre">get_version_minor()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#get-version-patch">6.8.1.4. get_version_patch</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.get_version_patch"><code class="docutils literal notranslate"><span class="pre">get_version_patch()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#get-version-stage">6.8.1.5. get_version_stage</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.get_version_stage"><code class="docutils literal notranslate"><span class="pre">get_version_stage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#is-video-sensor-type">6.8.1.6. is_video_sensor_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.is_video_sensor_type"><code class="docutils literal notranslate"><span class="pre">is_video_sensor_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#is-video-stream-type">6.8.1.7. is_video_stream_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.is_video_stream_type"><code class="docutils literal notranslate"><span class="pre">is_video_stream_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-format-to-string">6.8.1.8. convert_format_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_format_to_string"><code class="docutils literal notranslate"><span class="pre">convert_format_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-frame-type-to-string">6.8.1.9. convert_frame_type_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_frame_type_to_string"><code class="docutils literal notranslate"><span class="pre">convert_frame_type_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-frame-type-to-sensor-type">6.8.1.10. convert_frame_type_to_sensor_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_frame_type_to_sensor_type"><code class="docutils literal notranslate"><span class="pre">convert_frame_type_to_sensor_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-frame-type-to-stream-type">6.8.1.11. convert_frame_type_to_stream_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_frame_type_to_stream_type"><code class="docutils literal notranslate"><span class="pre">convert_frame_type_to_stream_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-frame-metadata-type-to-string">6.8.1.12. convert_frame_metadata_type_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_frame_metadata_type_to_string"><code class="docutils literal notranslate"><span class="pre">convert_frame_metadata_type_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-sensor-type-to-string">6.8.1.13. convert_sensor_type_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_sensor_type_to_string"><code class="docutils literal notranslate"><span class="pre">convert_sensor_type_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-sensor-type-to-stream-type">6.8.1.14. convert_sensor_type_to_stream_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_sensor_type_to_stream_type"><code class="docutils literal notranslate"><span class="pre">convert_sensor_type_to_stream_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-stream-type-to-string">6.8.1.15. convert_stream_type_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_stream_type_to_string"><code class="docutils literal notranslate"><span class="pre">convert_stream_type_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-stream-type-to-sensor-type">6.8.1.16. convert_stream_type_to_sensor_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_stream_type_to_sensor_type"><code class="docutils literal notranslate"><span class="pre">convert_stream_type_to_sensor_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-stream-type-to-frame-type">6.8.1.17. convert_stream_type_to_frame_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_stream_type_to_frame_type"><code class="docutils literal notranslate"><span class="pre">convert_stream_type_to_frame_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-accel-full-scale-range-to-string">6.8.1.18. convert_accel_full_scale_range_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_accel_full_scale_range_to_string"><code class="docutils literal notranslate"><span class="pre">convert_accel_full_scale_range_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-gyro-full-scale-range-to-string">6.8.1.19. convert_gyro_full_scale_range_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_gyro_full_scale_range_to_string"><code class="docutils literal notranslate"><span class="pre">convert_gyro_full_scale_range_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-imu-sample-rate-to-string">6.8.1.20. convert_imu_sample_rate_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_imu_sample_rate_to_string"><code class="docutils literal notranslate"><span class="pre">convert_imu_sample_rate_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-imu-sample-rate-to-value">6.8.1.21. convert_imu_sample_rate_to_value</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_imu_sample_rate_to_value"><code class="docutils literal notranslate"><span class="pre">convert_imu_sample_rate_to_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-imu-sample-rate-value-to-type">6.8.1.22. convert_imu_sample_rate_value_to_type</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_imu_sample_rate_value_to_type"><code class="docutils literal notranslate"><span class="pre">convert_imu_sample_rate_value_to_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#convert-lidar-scan-rate-to-string">6.8.1.23. convert_lidar_scan_rate_to_string</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.convert_lidar_scan_rate_to_string"><code class="docutils literal notranslate"><span class="pre">convert_lidar_scan_rate_to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#save-point-cloud-to-ply">6.8.1.24. save_point_cloud_to_ply</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.save_point_cloud_to_ply"><code class="docutils literal notranslate"><span class="pre">save_point_cloud_to_ply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#save-lidar-point-cloud-to-ply">6.8.1.25. save_lidar_point_cloud_to_ply</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.save_lidar_point_cloud_to_ply"><code class="docutils literal notranslate"><span class="pre">save_lidar_point_cloud_to_ply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#transformation2dto2d">6.8.1.26. transformation2dto2d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.transformation2dto2d"><code class="docutils literal notranslate"><span class="pre">transformation2dto2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#transformation2dto3d">6.8.1.27. transformation2dto3d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.transformation2dto3d"><code class="docutils literal notranslate"><span class="pre">transformation2dto3d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#transformation3dto2d">6.8.1.28. transformation3dto2d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.transformation3dto2d"><code class="docutils literal notranslate"><span class="pre">transformation3dto2d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#transformation3dto3d">6.8.1.29. transformation3dto3d</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#pyorbbecsdk.transformation3dto3d"><code class="docutils literal notranslate"><span class="pre">transformation3dto3d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#quick-links">6.9. 快捷链接</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-overview">6.10. 模块概览</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../7_FAQ/FAQ.html">7. 常见问题</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#table-of-contents">7.1. 目录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#installation-issues">7.2. 安装问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#no-device-found-on-linux">7.2.1. Linux 上找不到设备</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#permission-denied-on-macos">7.2.2. macOS 上权限不足</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#importerror-on-windows">7.2.3. Windows 上的 ImportError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#python-version-mismatch">7.2.4. Python 版本不匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#offline-installation-fails">7.2.5. 离线安装失败</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#package-name-confusion">7.2.6. 包名混淆</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#open3d-and-numpy-version-compatibility">7.2.7. Open3D 与 NumPy 版本兼容性</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#build-issues">7.3. 构建问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#uv-command-not-found">7.3.1. 找不到 uv 命令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#cmake-configuration-failed">7.3.2. CMake 配置失败</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#pybind11-not-found-in-offline-mode">7.3.3. 离线模式下找不到 pybind11</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#build-fails-on-windows-with-visual-studio-not-found">7.3.4. Windows 构建失败，找不到 Visual Studio</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#runtime-issues">7.4. 运行时问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#empty-frames-or-frames-is-none">7.4.1. 帧为空或 frames 为 None</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#display-issues-with-opencv">7.4.2. OpenCV 显示问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#jetson-nano-illegal-instruction">7.4.3. Jetson Nano 非法指令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#import-error-modulenotfounderror">7.4.4. 导入错误 ModuleNotFoundError</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#platform-specific-issues">7.5. 各平台问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#usb-device-access-permission-error-on-linux">7.5.1. Linux 上 USB 设备访问权限错误</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#metadata-or-timestamp-issues-on-windows">7.5.2. Windows 上的元数据或时间戳问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#macos-camera-and-terminal-authorization">7.5.3. macOS 相机与终端授权</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#camera-and-streaming">7.6. 相机与数据流</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#frame-synchronization-failures">7.6.1. 帧同步失败</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#resolution-or-fps-configuration-issues">7.6.2. 分辨率或帧率配置问题</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#configuration">7.7. 配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#how-to-configure-or-disable-sdk-logging">7.7.1. 如何配置或禁用 SDK 日志</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#firmware">7.8. 固件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#firmware-version-mismatch">7.8.1. 固件版本不匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../7_FAQ/FAQ.html#how-to-update-firmware">7.8.2. 如何更新固件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../7_FAQ/FAQ.html#additional-resources">7.9. 更多资源</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">8. 许可证</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">OrbbecSDK V2 Python Wrapper</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html"><span class="section-number">6. </span>API 参考</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">6.8. </span>工具函数</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/6_API_Reference/utilities.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="utilities">
+<h1><span class="section-number">6.8. </span>工具函数<a class="headerlink" href="#utilities" title="Link to this heading"></a></h1>
+<p>用于操作 pyorbbecsdk 的工具函数。</p>
+<section id="functions">
+<h2><span class="section-number">6.8.1. </span>函数<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<section id="get-version">
+<h3><span class="section-number">6.8.1.1. </span>get_version<a class="headerlink" href="#get-version" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.get_version">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">get_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.get_version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="get-version-major">
+<h3><span class="section-number">6.8.1.2. </span>get_version_major<a class="headerlink" href="#get-version-major" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.get_version_major">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">get_version_major</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pyorbbecsdk.get_version_major" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="get-version-minor">
+<h3><span class="section-number">6.8.1.3. </span>get_version_minor<a class="headerlink" href="#get-version-minor" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.get_version_minor">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">get_version_minor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pyorbbecsdk.get_version_minor" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="get-version-patch">
+<h3><span class="section-number">6.8.1.4. </span>get_version_patch<a class="headerlink" href="#get-version-patch" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.get_version_patch">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">get_version_patch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pyorbbecsdk.get_version_patch" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="get-version-stage">
+<h3><span class="section-number">6.8.1.5. </span>get_version_stage<a class="headerlink" href="#get-version-stage" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.get_version_stage">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">get_version_stage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.get_version_stage" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="is-video-sensor-type">
+<h3><span class="section-number">6.8.1.6. </span>is_video_sensor_type<a class="headerlink" href="#is-video-sensor-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.is_video_sensor_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">is_video_sensor_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSensorType" title="pyorbbecsdk.OBSensorType"><span class="pre">pyorbbecsdk.OBSensorType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pyorbbecsdk.is_video_sensor_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="is-video-stream-type">
+<h3><span class="section-number">6.8.1.7. </span>is_video_stream_type<a class="headerlink" href="#is-video-stream-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.is_video_stream_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">is_video_stream_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType" title="pyorbbecsdk.OBStreamType"><span class="pre">pyorbbecsdk.OBStreamType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pyorbbecsdk.is_video_stream_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-format-to-string">
+<h3><span class="section-number">6.8.1.8. </span>convert_format_to_string<a class="headerlink" href="#convert-format-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_format_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_format_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFormat" title="pyorbbecsdk.OBFormat"><span class="pre">pyorbbecsdk.OBFormat</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_format_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-frame-type-to-string">
+<h3><span class="section-number">6.8.1.9. </span>convert_frame_type_to_string<a class="headerlink" href="#convert-frame-type-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_frame_type_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_frame_type_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_frame_type_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-frame-type-to-sensor-type">
+<h3><span class="section-number">6.8.1.10. </span>convert_frame_type_to_sensor_type<a class="headerlink" href="#convert-frame-type-to-sensor-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_frame_type_to_sensor_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_frame_type_to_sensor_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSensorType" title="pyorbbecsdk.OBSensorType"><span class="pre">pyorbbecsdk.OBSensorType</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.convert_frame_type_to_sensor_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-frame-type-to-stream-type">
+<h3><span class="section-number">6.8.1.11. </span>convert_frame_type_to_stream_type<a class="headerlink" href="#convert-frame-type-to-stream-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_frame_type_to_stream_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_frame_type_to_stream_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType" title="pyorbbecsdk.OBStreamType"><span class="pre">pyorbbecsdk.OBStreamType</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.convert_frame_type_to_stream_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-frame-metadata-type-to-string">
+<h3><span class="section-number">6.8.1.12. </span>convert_frame_metadata_type_to_string<a class="headerlink" href="#convert-frame-metadata-type-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_frame_metadata_type_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_frame_metadata_type_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameMetadataType" title="pyorbbecsdk.OBFrameMetadataType"><span class="pre">pyorbbecsdk.OBFrameMetadataType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_frame_metadata_type_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-sensor-type-to-string">
+<h3><span class="section-number">6.8.1.13. </span>convert_sensor_type_to_string<a class="headerlink" href="#convert-sensor-type-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_sensor_type_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_sensor_type_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSensorType" title="pyorbbecsdk.OBSensorType"><span class="pre">pyorbbecsdk.OBSensorType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_sensor_type_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-sensor-type-to-stream-type">
+<h3><span class="section-number">6.8.1.14. </span>convert_sensor_type_to_stream_type<a class="headerlink" href="#convert-sensor-type-to-stream-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_sensor_type_to_stream_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_sensor_type_to_stream_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSensorType" title="pyorbbecsdk.OBSensorType"><span class="pre">pyorbbecsdk.OBSensorType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType" title="pyorbbecsdk.OBStreamType"><span class="pre">pyorbbecsdk.OBStreamType</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.convert_sensor_type_to_stream_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-stream-type-to-string">
+<h3><span class="section-number">6.8.1.15. </span>convert_stream_type_to_string<a class="headerlink" href="#convert-stream-type-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_stream_type_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_stream_type_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType" title="pyorbbecsdk.OBStreamType"><span class="pre">pyorbbecsdk.OBStreamType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_stream_type_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-stream-type-to-sensor-type">
+<h3><span class="section-number">6.8.1.16. </span>convert_stream_type_to_sensor_type<a class="headerlink" href="#convert-stream-type-to-sensor-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_stream_type_to_sensor_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_stream_type_to_sensor_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType" title="pyorbbecsdk.OBStreamType"><span class="pre">pyorbbecsdk.OBStreamType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBSensorType" title="pyorbbecsdk.OBSensorType"><span class="pre">pyorbbecsdk.OBSensorType</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.convert_stream_type_to_sensor_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-stream-type-to-frame-type">
+<h3><span class="section-number">6.8.1.17. </span>convert_stream_type_to_frame_type<a class="headerlink" href="#convert-stream-type-to-frame-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_stream_type_to_frame_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_stream_type_to_frame_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBStreamType" title="pyorbbecsdk.OBStreamType"><span class="pre">pyorbbecsdk.OBStreamType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="frames.html#pyorbbecsdk.OBFrameType" title="pyorbbecsdk.OBFrameType"><span class="pre">pyorbbecsdk.OBFrameType</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.convert_stream_type_to_frame_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-accel-full-scale-range-to-string">
+<h3><span class="section-number">6.8.1.18. </span>convert_accel_full_scale_range_to_string<a class="headerlink" href="#convert-accel-full-scale-range-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_accel_full_scale_range_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_accel_full_scale_range_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBAccelFullScaleRange" title="pyorbbecsdk.OBAccelFullScaleRange"><span class="pre">pyorbbecsdk.OBAccelFullScaleRange</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_accel_full_scale_range_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-gyro-full-scale-range-to-string">
+<h3><span class="section-number">6.8.1.19. </span>convert_gyro_full_scale_range_to_string<a class="headerlink" href="#convert-gyro-full-scale-range-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_gyro_full_scale_range_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_gyro_full_scale_range_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBGyroFullScaleRange" title="pyorbbecsdk.OBGyroFullScaleRange"><span class="pre">pyorbbecsdk.OBGyroFullScaleRange</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_gyro_full_scale_range_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-imu-sample-rate-to-string">
+<h3><span class="section-number">6.8.1.20. </span>convert_imu_sample_rate_to_string<a class="headerlink" href="#convert-imu-sample-rate-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_imu_sample_rate_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_imu_sample_rate_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBGyroSampleRate" title="pyorbbecsdk.OBGyroSampleRate"><span class="pre">pyorbbecsdk.OBGyroSampleRate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_imu_sample_rate_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-imu-sample-rate-to-value">
+<h3><span class="section-number">6.8.1.21. </span>convert_imu_sample_rate_to_value<a class="headerlink" href="#convert-imu-sample-rate-to-value" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_imu_sample_rate_to_value">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_imu_sample_rate_to_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBGyroSampleRate" title="pyorbbecsdk.OBGyroSampleRate"><span class="pre">pyorbbecsdk.OBGyroSampleRate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_imu_sample_rate_to_value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-imu-sample-rate-value-to-type">
+<h3><span class="section-number">6.8.1.22. </span>convert_imu_sample_rate_value_to_type<a class="headerlink" href="#convert-imu-sample-rate-value-to-type" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_imu_sample_rate_value_to_type">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_imu_sample_rate_value_to_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="stream_profile.html#pyorbbecsdk.OBGyroSampleRate" title="pyorbbecsdk.OBGyroSampleRate"><span class="pre">pyorbbecsdk.OBGyroSampleRate</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.convert_imu_sample_rate_value_to_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="convert-lidar-scan-rate-to-string">
+<h3><span class="section-number">6.8.1.23. </span>convert_lidar_scan_rate_to_string<a class="headerlink" href="#convert-lidar-scan-rate-to-string" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.convert_lidar_scan_rate_to_string">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">convert_lidar_scan_rate_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBLiDARScanRate" title="pyorbbecsdk.OBLiDARScanRate"><span class="pre">pyorbbecsdk.OBLiDARScanRate</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pyorbbecsdk.convert_lidar_scan_rate_to_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="save-point-cloud-to-ply">
+<h3><span class="section-number">6.8.1.24. </span>save_point_cloud_to_ply<a class="headerlink" href="#save-point-cloud-to-ply" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.save_point_cloud_to_ply">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">save_point_cloud_to_ply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.Frame" title="pyorbbecsdk.Frame"><span class="pre">pyorbbecsdk.Frame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyorbbecsdk.save_point_cloud_to_ply" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="save-lidar-point-cloud-to-ply">
+<h3><span class="section-number">6.8.1.25. </span>save_lidar_point_cloud_to_ply<a class="headerlink" href="#save-lidar-point-cloud-to-ply" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.save_lidar_point_cloud_to_ply">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">save_lidar_point_cloud_to_ply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="frames.html#pyorbbecsdk.LiDARPointsFrame" title="pyorbbecsdk.LiDARPointsFrame"><span class="pre">pyorbbecsdk.LiDARPointsFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyorbbecsdk.save_lidar_point_cloud_to_ply" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="transformation2dto2d">
+<h3><span class="section-number">6.8.1.26. </span>transformation2dto2d<a class="headerlink" href="#transformation2dto2d" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.transformation2dto2d">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">transformation2dto2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBPoint2f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraIntrinsic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraDistortion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraIntrinsic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraDistortion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg6</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBExtrinsic</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBPoint2f</span></span></span><a class="headerlink" href="#pyorbbecsdk.transformation2dto2d" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="transformation2dto3d">
+<h3><span class="section-number">6.8.1.27. </span>transformation2dto3d<a class="headerlink" href="#transformation2dto3d" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.transformation2dto3d">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">transformation2dto3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBPoint2f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraIntrinsic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBExtrinsic</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBPoint3f</span></span></span><a class="headerlink" href="#pyorbbecsdk.transformation2dto3d" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="transformation3dto2d">
+<h3><span class="section-number">6.8.1.28. </span>transformation3dto2d<a class="headerlink" href="#transformation3dto2d" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.transformation3dto2d">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">transformation3dto2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBPoint3f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraIntrinsic</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBCameraDistortion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBExtrinsic</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBPoint2f</span></span></span><a class="headerlink" href="#pyorbbecsdk.transformation3dto2d" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="transformation3dto3d">
+<h3><span class="section-number">6.8.1.29. </span>transformation3dto3d<a class="headerlink" href="#transformation3dto3d" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyorbbecsdk.transformation3dto3d">
+<span class="sig-prename descclassname"><span class="pre">pyorbbecsdk.</span></span><span class="sig-name descname"><span class="pre">transformation3dto3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBPoint3f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pyorbbecsdk.OBExtrinsic</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pyorbbecsdk.OBPoint3f</span></span></span><a class="headerlink" href="#pyorbbecsdk.transformation3dto3d" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="data_structures.html" class="btn btn-neutral float-left" title="6.7. 数据结构" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="../7_FAQ/FAQ.html" class="btn btn-neutral float-right" title="7. 常见问题" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
+      <span class="lastupdated">最后更新于 2026-11-18 17:53:46.
+      </span></p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

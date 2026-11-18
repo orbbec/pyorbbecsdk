@@ -1,0 +1,564 @@
+/* 让表格自动拉伸到满宽度 */
+table {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 让表格中的每个 <th> 和 <td> 也自动拉伸 */
+th,
+td {
+    width: auto;
+}
+
+ul {
+    width: 100%;
+    /* 列表宽度占满整个容器 */
+    }
+
+
+/* 修改 Sphinx  Theme 项目标题的字体大小  Book和rtd 均OK */
+.wy-side-nav-search>a {
+    font-size: 16px;
+    /* 你可以根据需要调整这个值 */
+}
+
+/* 修改项目标题的字体大小 Book和rtd 均OK*/
+.wy-side-nav-search>div.version {
+    font-size: 16px;
+    /* 你可以根据需要调整这个值 */
+}
+
+
+.sidebar-logo {
+    width: 500px;
+    /* 或者使用百分比 */
+    height: auto;
+    max-width: 90%;
+        max-height: 90%;
+}
+
+
+.sidebar-content {
+    line-height: 1.0;
+    /* 行间距是字体大小的1.5倍 */
+}
+
+.sidebar {
+    padding: 20px;
+    /* 内边距 */
+    margin-bottom: 20px;
+    /* 外边距 */
+}
+
+.sidebar-text {
+    font-size: 30px;
+}
+/* 修改侧边栏的背景颜色 */
+.wy-nav-side {
+    background-color: #cecece !important;
+}
+
+/* 针对导航栏链接的选择器 */
+.wy-nav-side a {
+    color: #000000;
+    /* 修改为您需要的颜色 */
+}
+
+/* 如果需要，您可以添加 hover 和 active 状态的样式 */
+.wy-nav-side a:hover {
+    color: #fffcfc;
+}
+
+.wy-nav-side .current>a {
+    color: #108bf0 !important;
+    font-weight: bold !important;
+    /* 设置为粗体 */
+    /* 当前活动项的颜色 */
+}
+
+/* 提示：不同版本的 Sphinx 主题生成的 HTML 结构可能有所不同，请根据实际情况调整选择器 */
+h1.wy-banner-title {
+    color: #0267da !important;
+    /* 将此处的颜色替换为您希望的颜色 */
+}
+
+/* 如果也需要修改小标题 */
+h2.wy-banner-subtitle {
+    color: #7b7b7b !important;
+    /* 替换为希望的颜色 */
+}
+
+.wy-side-nav-search>a {
+    color: #ffffff !important;
+    /* 将 #your-color 替换为你想要颜色的十六进制代码 */
+}
+
+
+/* 调整最大宽度  OK */
+.wy-nav-content {
+    max-width: 960px;
+
+}
+
+
+/* 可选：调整侧边栏宽度 */
+/* .wy-side-scroll {
+    width: 300px;
+
+} */
+
+/* =============================================
+   OpenCV/Doxygen Style Inheritance Diagrams
+   ============================================= */
+
+/* Inheritance diagram container - OpenCV style */
+.inheritance-diagram {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    overflow-x: auto;
+}
+
+/* Graphviz-generated SVG in inheritance diagrams */
+.inheritance-diagram svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Class nodes in inheritance diagram */
+.inheritance-diagram g.node {
+    cursor: pointer;
+}
+
+/* Class node boxes */
+.inheritance-diagram polygon {
+    fill: #e3f2fd;
+    stroke: #2196f3;
+    stroke-width: 1.5px;
+}
+
+/* Class node text */
+.inheritance-diagram text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    fill: #1565c0;
+}
+
+/* Edges/arrows in inheritance diagram */
+.inheritance-diagram path {
+    stroke: #666666;
+    stroke-width: 1.2px;
+    fill: none;
+}
+
+/* Arrowheads */
+.inheritance-diagram polygon.arrowhead {
+    fill: #666666;
+    stroke: #666666;
+}
+
+/* Class Hierarchy section heading */
+dl.class > dt {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left: 4px solid #2196f3;
+    border-radius: 4px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Class name styling */
+dl.class > dt code.descclassname {
+    color: #1565c0;
+    font-weight: 500;
+}
+
+dl.class > dt code.descname {
+    color: #0d47a1;
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+/* Method definitions */
+dl.method > dt {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px 0;
+    margin-top: 10px;
+}
+
+dl.method > dt code.descname {
+    color: #1976d2;
+    font-weight: 600;
+}
+
+/* Property definitions */
+dl.attribute > dt {
+    border-left: 3px solid #4caf50;
+    padding-left: 10px;
+    margin: 8px 0;
+}
+
+dl.attribute > dt code.descname {
+    color: #2e7d32;
+}
+
+/* Function definitions */
+dl.function > dt {
+    background-color: #f5f5f5;
+    border-left: 4px solid #9e9e9e;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+/* Enumerations */
+dl.class > dt:has(code.descname:contains("OB")) {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-left-color: #ff9800;
+}
+
+dl.class > dt code.descname[data-type="enum"],
+dl.class[id^="enum-"] > dt {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-left-color: #ff9800;
+}
+
+/* Bases indicator (show-inheritance) */
+dl.class .property {
+    color: #666;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* Class Hierarchy heading style */
+h2:contains("Class Hierarchy") {
+    color: #1565c0;
+    border-bottom: 2px solid #2196f3;
+    padding-bottom: 8px;
+    margin-top: 25px;
+}
+
+/* Section headings for Classes/Functions/etc */
+h2 {
+    color: #424242;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    color: #616161;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+/* Code blocks in documentation */
+div.highlight {
+    background-color: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 10px 0;
+}
+
+/* Parameter tables */
+table.docutils.field-list {
+    border: none;
+    background-color: transparent;
+}
+
+table.docutils.field-list th.field-name {
+    color: #1976d2;
+    font-weight: 600;
+    text-align: left;
+    padding: 5px 10px 5px 0;
+}
+
+table.docutils.field-list td.field-body {
+    padding: 5px 0;
+}
+
+/* See also section */
+div.seealso {
+    background-color: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+div.seealso .admonition-title {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+/* Notes and warnings */
+div.note {
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    padding: 10px 15px;
+    margin: 15px 0;
+}
+
+div.warning {
+    background-color: #ffebee;
+    border-left: 4px solid #f44336;
+    padding: 10px 15px;
+    margin: 15px 0;
+}
+
+/* API index page improvements */
+.toctree-wrapper ul {
+    padding-left: 20px;
+}
+
+.toctree-wrapper li {
+    margin: 5px 0;
+}
+
+.toctree-wrapper a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+.toctree-wrapper a:hover {
+    text-decoration: underline;
+}
+
+/* Module description text */
+dd {
+    margin-left: 20px;
+    color: #616161;
+}
+
+/* Quick links section */
+.quick-links {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 15px 0;
+}
+
+.quick-links a {
+    color: #1976d2;
+}
+
+/* =============================================
+   Inheritance Table Styling
+   ============================================= */
+
+/* Inheritance overview table */
+table.inheritance-table {
+    margin: 15px 0;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table.inheritance-table thead {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+}
+
+table.inheritance-table th {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    font-weight: 600;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #2196f3;
+}
+
+table.inheritance-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+
+table.inheritance-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+table.inheritance-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+table.inheritance-table td:first-child {
+    font-weight: 500;
+}
+
+table.inheritance-table td:first-child a {
+    color: #1565c0;
+    text-decoration: none;
+}
+
+table.inheritance-table td:first-child a:hover {
+    text-decoration: underline;
+}
+
+table.inheritance-table td:nth-child(2) {
+    color: #616161;
+    font-style: italic;
+}
+
+table.inheritance-table td:nth-child(2) a {
+    color: #1976d2;
+    font-style: normal;
+}
+
+/* =============================================
+   Enum Table Styling - 4 Columns
+   ============================================= */
+
+/* Enum value table */
+table.enum-table {
+    margin: 15px 0;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table.enum-table thead {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+}
+
+table.enum-table th {
+    background-color: #ffe0b2;
+    color: #e65100;
+    font-weight: 600;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #ff9800;
+}
+
+table.enum-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+
+table.enum-table tr:nth-child(even) {
+    background-color: #fff8f0;
+}
+
+table.enum-table tr:hover {
+    background-color: #fff3e0;
+}
+
+/* Column 1: Name - monospace */
+table.enum-table td:first-child {
+    font-family: "SFMono-Regular", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-weight: 500;
+    color: #d84315;
+}
+
+/* Column 2: C++ Binding Object - monospace, smaller font */
+table.enum-table td:nth-child(2) {
+    font-family: "SFMono-Regular", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.85em;
+    color: #5d4037;
+    word-break: break-all;
+}
+
+/* Column 3: Value - monospace, centered */
+table.enum-table td:nth-child(3) {
+    font-family: "SFMono-Regular", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    color: #616161;
+    text-align: center;
+}
+
+/* Column 4: Description */
+table.enum-table td:nth-child(4) {
+    color: #424242;
+}
+
+/* Enum section heading */
+h3:contains("Enum Values") {
+    color: #e65100;
+    border-bottom: 2px solid #ff9800;
+    padding-bottom: 8px;
+    margin-top: 25px;
+}
+
+/* Responsive tables for mobile */
+@media screen and (max-width: 768px) {
+    table.inheritance-table,
+    table.enum-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    table.inheritance-table th,
+    table.inheritance-table td,
+    table.enum-table th,
+    table.enum-table td {
+        white-space: normal;
+        min-width: 100px;
+    }
+
+    /* C++ Binding column needs more space on mobile */
+    table.enum-table td:nth-child(2) {
+        min-width: 180px;
+        font-size: 0.8em;
+    }
+}
+
+/* Inheritance section heading - complement to graphviz diagram */
+h2:contains("Inheritance Overview") {
+    color: #1565c0;
+    margin-top: 30px;
+}
+
+/* Class hierarchy section styling */
+.class-hierarchy {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+/* Make enum member names stand out */
+dl.attribute[id*="-"] > dt code.descname {
+    color: #d84315;
+    font-family: "SFMono-Regular", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Enum autoclass - hide redundant member list when we have custom table */
+.enum-section + dl.class > dt {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-left-color: #ff9800;
+}
+
+/* Improve table caption styling */
+.list-table-caption {
+    font-weight: 600;
+    color: #424242;
+    margin-bottom: 10px;
+}
+
+/* Link styling in tables */
+table.inheritance-table a,
+table.enum-table a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+table.inheritance-table a:hover,
+table.enum-table a:hover {
+    text-decoration: underline;
+}
+
+/* Styling for autoclass within enum sections to reduce redundancy */
+.enum-section dl.class > dt {
+    background: transparent;
+    border-left: none;
+    padding: 8px 0;
+}
+
+.enum-section dl.class > dt code.descname {
+    font-size: 1em;
+    color: #e65100;
+}

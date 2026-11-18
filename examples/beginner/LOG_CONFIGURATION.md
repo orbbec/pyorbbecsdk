@@ -1,3 +1,6 @@
+
+**English** | [中文](LOG_CONFIGURATION_zh-CN.md)
+
 # Log Configuration Guide
 
 This guide explains how to configure or disable SDK logging in pyorbbecsdk.
@@ -73,7 +76,7 @@ Open the XML file and find the `<Log>` section:
 
 ## Examples
 
-See [10_logger.py](./10_logger.py) for a complete working example.
+See [01_hello_camera.py](./01_hello_camera.py) for a complete working example.
 
 ## Troubleshooting
 

@@ -1,3 +1,6 @@
+
+**English** | [中文](V2_FEATURES_zh-CN.md)
+
 # V2 New Features
 
 This document highlights the new features, capabilities, and architectural evolution introduced in the **v2-main** branch (SDK v2.x series).
@@ -99,7 +102,7 @@ Python 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
 
 ### Supported Devices
 
-See the [device support matrix](README.md#device-support) in README.md.
+See the [device support matrix](../../README.md#supported-devices) in README.md.
 
 Notable device families supported in v2-main:
 - **Gemini 435Le**

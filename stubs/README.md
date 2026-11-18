@@ -1,3 +1,6 @@
+
+**English** | [中文](README_zh-CN.md)
+
 # Type Stubs for pyorbbecsdk
 
 This directory contains Python type stub files (`.pyi`) for the pyorbbecsdk package.
@@ -13,7 +16,7 @@ This directory contains Python type stub files (`.pyi`) for the pyorbbecsdk pack
 
 > 💡 **Recommended: Use Virtual Environment**
 >
-> This documentation assumes you're using a Python virtual environment. If you haven't set one up yet, please follow the [Virtual Environment Guide](../README.md#recommended-use-virtual-environment) first.
+> This documentation assumes you're using a Python virtual environment. If you haven't set one up yet, please follow the [Virtual Environment Guide](https://orbbec.github.io/pyorbbecsdk/en/source/2_installation/virtual_environment_guide.html) first.
 
 ### Scenario 1: pip install (Recommended)
 

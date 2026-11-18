@@ -1,3 +1,6 @@
+
+**English** | [中文](README_zh-CN.md)
+
 # pyorbbecsdk Examples
 
 A curated collection of examples organized by difficulty — from connecting your first camera to building complete depth-sensing applications.

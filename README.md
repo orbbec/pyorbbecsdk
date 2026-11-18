@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <strong>English</strong> | <a href="README_zh-CN.md">简体中文</a>
+  <strong>English</strong> | <a href="README_zh-CN.md">中文</a>
 </p>
 
 <p align="center">
@@ -15,6 +15,8 @@
 
 <p align="center">
   <a href="https://orbbec.github.io/pyorbbecsdk/en/index.html">Documentation</a>
+  ·
+  <a href="docs/README.md">Repository Guides</a>
   ·
   <a href="https://pypi.org/project/pyorbbecsdk2/">PyPI Package</a>
   ·

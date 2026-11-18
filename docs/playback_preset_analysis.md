@@ -1,3 +1,6 @@
+
+[English](playback_preset_analysis_en.md) | **中文**
+
 # 回放预设未生效问题分析报告
 
 > **场景**：pyorbbecsdk 录制/回放 sample 引入侧车 JSON 预设机制后，回放时预设未实际生效。

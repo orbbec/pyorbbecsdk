@@ -1,3 +1,6 @@
+
+**English** | [中文](README_zh-CN.md)
+
 # pyorbbecsdk Test Suite
 
 This directory contains the pytest-based test suite for pyorbbecsdk.

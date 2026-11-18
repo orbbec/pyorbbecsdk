@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <a href="README.md">English</a> | <strong>简体中文</strong>
+  <a href="README.md">English</a> | <strong>中文</strong>
 </p>
 
 <p align="center">
@@ -15,6 +15,8 @@
 
 <p align="center">
   <a href="https://orbbec.github.io/pyorbbecsdk/zh_CN/index.html">文档</a>
+  ·
+  <a href="docs/README_zh-CN.md">仓库文档</a>
   ·
   <a href="https://pypi.org/project/pyorbbecsdk2/">PyPI 软件包</a>
   ·
@@ -183,7 +185,7 @@ frames = pipeline.wait_for_frames(1000) # get synchronized Color + Depth frames
 | ⭐⭐⭐⭐ | [**应用示例**](examples/applications/) | 叠加深度信息的 YOLO 目标检测；交互式深度测距工具。 |
 | ⭐⭐⭐⭐ | [**LiDAR**](examples/lidar_examples/) | LiDAR 数据流、控制、录制和回放。 |
 
-完整列表、各脚本说明及设备兼容性请参阅 [examples/README.md](examples/README.md)。
+完整列表、各脚本说明及设备兼容性请参阅 [examples/README.md](examples/README_zh-CN.md)。
 
 **📚 后续学习**：从入门到进阶的系统学习路径 → [快速入门指南：后续步骤](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/3_QuickStarts/QuickStart.html#next-steps)
 
@@ -234,11 +236,11 @@ python scripts/auto_update_firmware.py
 
 - **GitHub Issues**：如果发现缺陷或希望提出功能需求，请在 [GitHub 仓库](https://github.com/orbbec/pyorbbecsdk/issues)提交 issue。
 - **文档**：[Orbbec SDK V2 Python Wrapper 用户指南](https://orbbec.github.io/pyorbbecsdk/zh_CN/index.html)涵盖架构、API 快速入门及使用指南。
-- **参与贡献**：欢迎贡献代码，请阅读 [CONTRIBUTING.md](.github/CONTRIBUTING.md)，了解构建步骤、代码风格及 PR 流程。
+- **参与贡献**：欢迎贡献代码，请阅读 [CONTRIBUTING.md](.github/CONTRIBUTING_zh-CN.md)，了解构建步骤、代码风格及 PR 流程。
 
 ## 更新日志
 
-详细变更历史请参阅 [CHANGELOG.md](docs/CHANGELOG.md)。
+详细变更历史请参阅 [CHANGELOG.md](docs/CHANGELOG_zh-CN.md)。
 
 ## 许可证
 

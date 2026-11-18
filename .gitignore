@@ -796,3 +796,9 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,c++,python,jetbrains+all,ros,ros2
+
+# Keep SDK configuration translations alongside the tracked ARM64 guide.
+!sdk/lib/arm64/
+sdk/lib/arm64/*
+!sdk/lib/arm64/OrbbecSDKConfig.md
+!sdk/lib/arm64/OrbbecSDKConfig_zh-CN.md

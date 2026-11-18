@@ -1,3 +1,6 @@
+
+**English** | [中文](THIRD_PARTY_LICENSES_zh-CN.md)
+
 # Third-party Libraries
 
 This folder contains third-party libraries used by the OrbbecSDK.

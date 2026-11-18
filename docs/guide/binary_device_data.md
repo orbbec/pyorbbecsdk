@@ -1,3 +1,6 @@
+
+**English** | [中文](binary_device_data_zh-CN.md)
+
 # Device binary data interfaces
 
 These bindings expose the SDK operations directly. Binary input must be `bytes`

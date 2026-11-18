@@ -4,13 +4,17 @@
 </h1>
 
 <p align="center">
+  <strong>English</strong> | <a href="README_zh-CN.md">简体中文</a>
+</p>
+
+<p align="center">
   Python Bindings for Orbbec SDK v2.x
   <br />
   The official Python wrapper enabling developers to interface with Orbbec RGB-D cameras (Gemini, Femto, Astra series) through a clean, Pythonic API backed by native C++ performance via pybind11.
 </p>
 
 <p align="center">
-  <a href="https://orbbec.github.io/pyorbbecsdk/index.html">Documentation</a>
+  <a href="https://orbbec.github.io/pyorbbecsdk/en/index.html">Documentation</a>
   ·
   <a href="https://pypi.org/project/pyorbbecsdk2/">PyPI Package</a>
   ·
@@ -75,7 +79,7 @@
 > - Starting from October 2025 (Orbbec SDK v2.5.5), devices using the OpenNI protocol will be upgraded to UVC protocol. See [the upgrade document](https://github.com/orbbec/OrbbecSDK_v2?tab=readme-ov-file#12-upgrading-from-openni-protocol-to-uvc-protocol) for details.
 > - For legacy v1.x device support (Astra+, Astra Pro Plus, Gemini 2 XL), use the [main branch](https://github.com/orbbec/pyorbbecsdk/tree/main).
 
-For detailed branch comparison and device support matrix, see [Introduction - Device Support Comparison](https://orbbec.github.io/pyorbbecsdk/source/1_overview/Introduction.html#device-support-comparison).
+For detailed branch comparison and device support matrix, see [Introduction - Device Support Comparison](https://orbbec.github.io/pyorbbecsdk/en/source/1_overview/Introduction.html#device-support-comparison).
 
 ## Why pyorbbecsdk?
 
@@ -134,10 +138,10 @@ pip install "pyorbbecsdk2-2.1.4-cp310-cp310-macosx_11_0_arm64.whl[examples]"
 > # Install SDK and example dependencies in virtual environment
 > pip install --upgrade "pyorbbecsdk2[examples]"
 > ```
-> See [Virtual Environment Guide](https://orbbec.github.io/pyorbbecsdk/source/2_installation/virtual_environment_guide.html) for more options (venv, pyenv, conda).
+> See [Virtual Environment Guide](https://orbbec.github.io/pyorbbecsdk/en/source/2_installation/virtual_environment_guide.html) for more options (venv, pyenv, conda).
 
 > 🔧 **Building from Source?**
-> See the [Build with UV Guide](https://orbbec.github.io/pyorbbecsdk/source/4_Package/build_with_uv.html) for detailed instructions.
+> See the [Build with UV Guide](https://orbbec.github.io/pyorbbecsdk/en/source/4_Package/build_with_uv.html) for detailed instructions.
 
 > **Note:** PyPI provides pre-built wheels for every supported Python version (3.8–3.14) on Windows x64, Linux x64/ARM64, and macOS (Apple Silicon). Python 3.8 on Linux is now supported for online installation, so no manual wheel download is required.
 >
@@ -170,7 +174,7 @@ frames = pipeline.wait_for_frames(1000) # get synchronized Color + Depth frames
 For full visualisation, check out [`examples/quick_start.py`](examples/quick_start.py). 
 **Running result:**
 
-![quick_start_result](docs/_images/quick_start_result.png)
+![quick_start_result](docs/en/_images/quick_start_result.png)
 
 ## Samples
 
@@ -186,7 +190,7 @@ The [examples/](examples/) directory contains **35+ scripts** organized by diffi
 
 See [examples/README.md](examples/README.md) for the full list with per-script descriptions and device compatibility.
 
-**📚 Next Steps**: Explore our structured learning path from beginner to advanced → [Quick Start Guide - Next Steps](https://orbbec.github.io/pyorbbecsdk/source/3_QuickStarts/QuickStart.html#next-steps)
+**📚 Next Steps**: Explore our structured learning path from beginner to advanced → [Quick Start Guide - Next Steps](https://orbbec.github.io/pyorbbecsdk/en/source/3_QuickStarts/QuickStart.html#next-steps)
 
 ## Supported Platforms
 
@@ -223,18 +227,18 @@ This script will check your current device firmware version, automatically downl
 
 If you prefer to manually download firmware files, they are available at the [OrbbecFirmware](https://github.com/orbbec/OrbbecFirmware) repository.
 
-For detailed device support and firmware compatibility information, see [Introduction — v2-main Branch](https://orbbec.github.io/pyorbbecsdk/source/1_overview/Introduction.html#v2-main-branch).
+For detailed device support and firmware compatibility information, see [Introduction — v2-main Branch](https://orbbec.github.io/pyorbbecsdk/en/source/1_overview/Introduction.html#v2-main-branch).
 
 ## FAQ
 
-See the [full FAQ](https://orbbec.github.io/pyorbbecsdk/source/7_FAQ/FAQ.html) for common issues and solutions.
+See the [full FAQ](https://orbbec.github.io/pyorbbecsdk/en/source/7_FAQ/FAQ.html) for common issues and solutions.
 
 ## Community
 
 Join the conversation and connect with other pyorbbecsdk users to share ideas, solve problems, and help make the SDK awesome. 
 
 - **GitHub Issues** If you come across a bug or want to request a feature, please raise an issue in this [**GitHub repository**](https://github.com/orbbec/pyorbbecsdk/issues).
-- **Documentation** The comprehensive [Orbbec SDK V2 Python Wrapper User Guide](https://orbbec.github.io/pyorbbecsdk/index.html) covers architecture, API quick-starts, and usage guides.
+- **Documentation** The comprehensive [Orbbec SDK V2 Python Wrapper User Guide](https://orbbec.github.io/pyorbbecsdk/en/index.html) covers architecture, API quick-starts, and usage guides.
 - **Contributing** Contributions are welcome — read [CONTRIBUTING.md](.github/CONTRIBUTING.md) for build instructions, code style, and the PR process.
 
 ## Changelog

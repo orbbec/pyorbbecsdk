@@ -22,7 +22,7 @@ v2-main 分支面向 **Orbbec SDK v2.7.6+** 全面重写 Python 绑定。该 SDK
 ### 依赖
 
 - 需要 **Orbbec SDK v2.7.6** 或更高版本（预编译库位于 `sdk/lib/`）。
-- pybind11 2.11.0 或更高版本。
+- pybind11 2.12.0（在 `pyproject.toml` 中固定版本，以兼容 NumPy 2.x）。
 
 <a id="added"></a>
 
@@ -119,7 +119,7 @@ v2-main 分支面向 **Orbbec SDK v2.7.6+** 全面重写 Python 绑定。该 SDK
 | Windows | x64 | Windows 10+ |
 | Linux | x64 | Ubuntu 18.04, 20.04, 22.04 |
 | Linux | ARM64 | Ubuntu 18.04, 20.04, 22.04 |
-| macOS | x64 | macOS（实验性支持，仅 CI） |
+| macOS | ARM64（Apple Silicon） | 构建部署目标：macOS 11.0；已在 M2、macOS 13.2 上测试 |
 
 <a id="supported-python-versions"></a>
 

@@ -1569,10 +1569,10 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;i
 </div>
 <p>wheel 命名规则：</p>
 <ul class="simple">
-<li><p>Linux x86_64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></li>
-<li><p>Linux ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></li>
-<li><p>macOS ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></li>
-<li><p>Windows x64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl</span></code></p></li>
+<li><p>Linux x86_64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></li>
+<li><p>Linux ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></li>
+<li><p>macOS ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></li>
+<li><p>Windows x64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl</span></code></p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -1601,7 +1601,7 @@ pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.x.x-xxx
 <p>解决方法：</p>
 <p>由于 ABI（应用程序二进制接口）兼容性要求，Open3D 对 NumPy 版本有特定限制。使用不兼容版本可能导致运行时错误或崩溃。</p>
 <p>要点：</p>
-<ol>
+<ol class="simple">
 <li><p>Open3D 的 NumPy 依赖：Open3D 针对特定 NumPy 版本编译。使用与构建时不同的 NumPy 版本可能导致：</p>
 <ul class="simple">
 <li><p>调用 Open3D 函数时出现 <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code></p></li>
@@ -1609,7 +1609,27 @@ pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.x.x-xxx
 <li><p>计算结果不正确</p></li>
 </ul>
 </li>
-<li><p>推荐兼容版本：| Open3D 版本 | 兼容的 NumPy 版本 | |:---|:---| | 0.16.x | 1.21 - 1.23 | | 0.17.x | 1.21 - 1.24 | | 0.18.x | 1.22 - 1.26 |</p></li>
+<li><p>推荐兼容版本：</p></li>
+</ol>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Open3D 版本</p></th>
+<th class="head"><p>兼容的 NumPy 版本</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.16.x</p></td>
+<td><p>1.21 - 1.23</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.17.x</p></td>
+<td><p>1.21 - 1.24</p></td>
+</tr>
+<tr class="row-even"><td><p>0.18.x</p></td>
+<td><p>1.22 - 1.26</p></td>
+</tr>
+</tbody>
+</table>
+<ol>
 <li><p>最佳实践：请始终查看 Open3D 官方入门指南，了解最新兼容性信息：<a class="reference external" href="https://www.open3d.org/docs/release/getting_started.html">Open3D 入门指南</a></p></li>
 <li><p>如果遇到问题：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check your current versions</span>
@@ -2066,7 +2086,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 09:43:07.
+      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
       </span></p>
   </div>
 

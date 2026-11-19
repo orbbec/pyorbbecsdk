@@ -143,7 +143,7 @@ shells such as macOS zsh interpret unquoted brackets as filename patterns.
 
 For environments without internet access or specific version requirements:
 
-> **Note:** Wheel files are named `pyorbbecsdk-*.whl`, but starting from v2.0.18 they install as package `pyorbbecsdk2`.
+> **Note:** Current release wheels use the distribution name `pyorbbecsdk2` and filenames beginning with `pyorbbecsdk2-`. Older downloads may use the historical `pyorbbecsdk-` prefix. Always use the actual downloaded filename; the Python import name remains `pyorbbecsdk`.
 
 #### Step 1: Download the Wheel
 
@@ -151,10 +151,10 @@ Download the appropriate `.whl` file from [GitHub Releases](https://github.com/o
 
 | Platform | File Pattern | Example |
 |----------|--------------|---------|
-| Linux x86_64 | `pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-linux_x86_64.whl` |
-| Linux ARM64 | `pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-linux_aarch64.whl` |
-| macOS ARM64 | `pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-macosx_13_0_arm64.whl` |
-| Windows x64 | `pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl` | `pyorbbecsdk-2.1.0-cp311-cp311-win_amd64.whl` |
+| Linux x86_64 | `pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl` | `pyorbbecsdk2-2.1.4-cp311-cp311-linux_x86_64.whl` |
+| Linux ARM64 | `pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl` | `pyorbbecsdk2-2.1.4-cp311-cp311-linux_aarch64.whl` |
+| macOS ARM64 | `pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl` | `pyorbbecsdk2-2.1.4-cp311-cp311-macosx_13_0_arm64.whl` |
+| Windows x64 | `pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl` | `pyorbbecsdk2-2.1.4-cp311-cp311-win_amd64.whl` |
 
 > **Note:** Replace `cp3X` with your Python version (e.g., `cp311` for Python 3.11).
 
@@ -163,7 +163,7 @@ Download the appropriate `.whl` file from [GitHub Releases](https://github.com/o
 Navigate to the download directory and install:
 
 ```bash
-python -m pip install pyorbbecsdk-2.1.0-cp311-cp311-<platform>.whl
+python -m pip install pyorbbecsdk2-2.1.4-cp311-cp311-<platform>.whl
 ```
 
 For a 2.1.4 or later wheel, append `[examples]` to install the example
@@ -189,7 +189,7 @@ Summary: pyorbbecsdk is a python wrapper for the OrbbecSDK
 Location: /path/to/site-packages
 ```
 
-> **Note:** The wheel file name starts with `pyorbbecsdk-` (e.g., `pyorbbecsdk-2.1.0-...`), but the installed package name is `pyorbbecsdk2`. The import module remains `pyorbbecsdk`.
+> **Note:** The current distribution name is `pyorbbecsdk2`; use `python -m pip show pyorbbecsdk2` to inspect it. The Python import name remains `pyorbbecsdk`. The `pyorbbecsdk-` filenames in older downloads are historical names, not the current naming rule.
 
 ### "Hello World" Example
 

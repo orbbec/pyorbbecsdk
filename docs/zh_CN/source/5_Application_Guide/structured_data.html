@@ -1446,7 +1446,7 @@
 </section>
 <section id="interface-at-a-glance">
 <h2><span class="section-number">5.19.2. </span>接口速览<a class="headerlink" href="#interface-at-a-glance" title="Link to this heading"></a></h2>
-<p>当结构化属性没有合适的强类型封装（如彩色 AE ROI），或应用需要按属性 ID 统一访问时，使用通用接口。<code class="docutils literal notranslate"><span class="pre">Device.get_structured_data(property_id)</span></code> 返回独立持有的 Python <code class="docutils literal notranslate"><span class="pre">bytes</span></code>；<code class="docutils literal notranslate"><span class="pre">Device.set_structured_data(property_id,</span> <span class="pre">data)</span></code> 写入字节。使用 <code class="docutils literal notranslate"><span class="pre">Config.from_bytes(data)</span></code><code class="docutils literal notranslate"><span class="pre">bytes</span></code>(data) 和 <code class="docutils literal notranslate"><span class="pre">config.to_bytes()</span></code> 显式转换。属性 ID 决定操作，字节本身不携带 Python 类型。以下示例说明此通用流程。</p>
+<p>当结构化属性没有合适的强类型封装（如彩色 AE ROI），或应用需要按属性 ID 统一访问时，使用通用接口。<code class="docutils literal notranslate"><span class="pre">Device.get_structured_data(property_id)</span></code> 返回独立持有的 Python <code class="docutils literal notranslate"><span class="pre">bytes</span></code>；<code class="docutils literal notranslate"><span class="pre">Device.set_structured_data(property_id,</span> <span class="pre">data)</span></code> 写入 <code class="docutils literal notranslate"><span class="pre">bytes</span></code>。使用 <code class="docutils literal notranslate"><span class="pre">Config.from_bytes(data)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">config.to_bytes()</span></code> 显式转换。属性 ID 决定操作，字节本身不携带 Python 类型。以下示例说明此通用流程。</p>
 </section>
 <section id="basic-usage">
 <h2><span class="section-number">5.19.3. </span>基本用法<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
@@ -1787,7 +1787,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 09:43:07.
+      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
       </span></p>
   </div>
 

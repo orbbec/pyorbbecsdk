@@ -1549,7 +1549,7 @@ shells such as macOS zsh interpret unquoted brackets as filename patterns.</p>
 <h3><span class="section-number">2.3.2.8. </span>Method 2: Offline Wheel Installation<a class="headerlink" href="#method-2-offline-wheel-installation" title="Link to this heading"></a></h3>
 <p>For environments without internet access or specific version requirements:</p>
 <blockquote>
-<div><p><strong>Note:</strong> Wheel files are named <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*.whl</span></code>, but starting from v2.0.18 they install as package <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>.</p>
+<div><p><strong>Note:</strong> Current release wheels use the distribution name <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code> and filenames beginning with <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-</span></code>. Older downloads may use the historical <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-</span></code> prefix. Always use the actual downloaded filename; the Python import name remains <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>.</p>
 </div></blockquote>
 <section id="step-1-download-the-wheel">
 <h4><span class="section-number">2.3.2.8.1. </span>Step 1: Download the Wheel<a class="headerlink" href="#step-1-download-the-wheel" title="Link to this heading"></a></h4>
@@ -1563,20 +1563,20 @@ shells such as macOS zsh interpret unquoted brackets as filename patterns.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Linux x86_64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-linux_x86_64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-linux_x86_64.whl</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Linux ARM64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-linux_aarch64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-linux_aarch64.whl</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>macOS ARM64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-macosx_13_0_arm64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-macosx_13_0_arm64.whl</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Windows x64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-win_amd64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-win_amd64.whl</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1587,7 +1587,7 @@ shells such as macOS zsh interpret unquoted brackets as filename patterns.</p>
 <section id="step-2-install-the-wheel">
 <h4><span class="section-number">2.3.2.8.2. </span>Step 2: Install the Wheel<a class="headerlink" href="#step-2-install-the-wheel" title="Link to this heading"></a></h4>
 <p>Navigate to the download directory and install:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk-2.1.0-cp311-cp311-&lt;platform&gt;.whl
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.1.4-cp311-cp311-&lt;platform&gt;.whl
 </pre></div>
 </div>
 <p>For a 2.1.4 or later wheel, append <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> to install the example
@@ -1608,7 +1608,7 @@ dependencies as well (replace the filename with your wheel):</p>
 </pre></div>
 </div>
 <blockquote>
-<div><p><strong>Note:</strong> The wheel file name starts with <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-...</span></code>), but the installed package name is <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>. The import module remains <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>.</p>
+<div><p><strong>Note:</strong> The current distribution name is <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>; use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">show</span> <span class="pre">pyorbbecsdk2</span></code> to inspect it. The Python import name remains <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>. The <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-</span></code> filenames in older downloads are historical names, not the current naming rule.</p>
 </div></blockquote>
 </section>
 </section>
@@ -1869,7 +1869,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 09:43:00.
+      <span class="lastupdated">Last updated on 2026-11-19 10:16:11.
       </span></p>
   </div>
 

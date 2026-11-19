@@ -41,8 +41,16 @@ Please read this guide before submitting changes, and ensure you follow the [Cod
 
 ### Runtime Dependencies
 
+For the core SDK:
+
 ```bash
-pip install --upgrade pyorbbecsdk2
+python -m pip install --upgrade pyorbbecsdk2
+```
+
+To run the examples, install the optional example dependencies:
+
+```bash
+python -m pip install --upgrade "pyorbbecsdk2[examples]"
 ```
 
 For running the object detection example:
@@ -52,11 +60,13 @@ pip install onnxruntime
 
 > **NumPy Compatibility Note:**
 >
-> The SDK has specific NumPy version requirements based on Python version:
+> The base package declares `numpy` without a version range. The optional `[examples]` dependencies apply the following NumPy constraints by Python version for compatibility with example dependencies such as Open3D:
 > - **Python 3.8-3.11**: Use `numpy<2.0.0`
 > - **Python 3.12+**: Use `numpy>=2.1.0`
 >
-> pybind11>=2.12.0 is required to support NumPy 2.x (needed for Python 3.12+).
+> These version ranges apply only when installing `[examples]`; Python 3.12+ alone does not make NumPy 2.x a core SDK requirement. Open3D is included only on Python 3.8–3.11, where the extra selects `open3d==0.18.0`.
+>
+> Building bindings compatible with NumPy 2.x requires pybind11>=2.12.0; this project's build configuration pins pybind11 to 2.12.0.
 
 ---
 

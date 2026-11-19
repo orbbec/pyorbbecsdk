@@ -53,8 +53,16 @@
 
 ### 运行依赖
 
+基础 SDK：
+
 ```bash
-pip install --upgrade pyorbbecsdk2
+python -m pip install --upgrade pyorbbecsdk2
+```
+
+运行示例时安装可选示例依赖：
+
+```bash
+python -m pip install --upgrade "pyorbbecsdk2[examples]"
 ```
 
 运行目标检测示例还需要：
@@ -65,11 +73,13 @@ pip install onnxruntime
 
 > **NumPy 兼容性说明：**
 >
-> SDK 根据 Python 版本要求不同的 NumPy 版本：
+> 基础包仅声明 `numpy`，没有指定版本范围。可选的 `[examples]` 依赖根据 Python 版本设置以下 NumPy 约束，以兼容 Open3D 等示例依赖：
 > - **Python 3.8-3.11**：使用 `numpy<2.0.0`。
 > - **Python 3.12+**：使用 `numpy>=2.1.0`。
 >
-> 支持 NumPy 2.x 需要 pybind11>=2.12.0（Python 3.12+ 需要）。
+> 这些版本范围仅在安装 `[examples]` 时生效；使用 Python 3.12+ 本身并不意味着基础 SDK 必须使用 NumPy 2.x。Open3D 仅在 Python 3.8–3.11 上安装，可选依赖组选用 `open3d==0.18.0`。
+>
+> 构建兼容 NumPy 2.x 的绑定需要 pybind11>=2.12.0；本项目的构建配置固定使用 pybind11 2.12.0。
 
 ---
 

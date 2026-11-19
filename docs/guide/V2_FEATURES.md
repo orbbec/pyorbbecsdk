@@ -19,7 +19,7 @@ v1.x used the proprietary OpenNI protocol.
 ### Dependencies
 
 - Requires **Orbbec SDK v2.7.6** or newer (precompiled libraries bundled in `sdk/lib/`)
-- pybind11 2.11.0 or newer
+- pybind11 2.12.0 (pinned in `pyproject.toml` for NumPy 2.x compatibility)
 
 ### Added
 
@@ -94,7 +94,7 @@ v1.x used the proprietary OpenNI protocol.
 | Windows | x64 | Windows 10+ |
 | Linux | x64 | Ubuntu 18.04, 20.04, 22.04 |
 | Linux | ARM64 | Ubuntu 18.04, 20.04, 22.04 |
-| macOS | x64 | macOS (experimental, CI only) |
+| macOS | ARM64 (Apple Silicon) | Build deployment target: macOS 11.0; tested on M2, macOS 13.2 |
 
 ### Supported Python Versions
 

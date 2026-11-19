@@ -167,10 +167,10 @@ python -c "import platform; print(platform.machine()); print(platform.system())"
 ```
 
 **Wheel naming convention:**
-- Linux x86_64: `pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl`
-- Linux ARM64: `pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl`
-- macOS ARM64: `pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl`
-- Windows x64: `pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl`
+- Linux x86_64: `pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl`
+- Linux ARM64: `pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl`
+- macOS ARM64: `pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl`
+- Windows x64: `pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl`
 
 ---
 
@@ -215,6 +215,7 @@ Open3D has specific NumPy version requirements due to ABI (Application Binary In
    - Incorrect computation results
 
 2. **Recommended compatible versions**:
+
    | Open3D Version | Compatible NumPy Version |
    |:---|:---|
    | 0.16.x | 1.21 - 1.23 |

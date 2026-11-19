@@ -1541,7 +1541,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <h3><span class="section-number">2.3.2.8. </span>方式 2：离线安装 wheel<a class="headerlink" href="#method-2-offline-wheel-installation" title="Link to this heading"></a></h3>
 <p>适用于无法联网或需要特定版本的环境：</p>
 <blockquote>
-<div><p>注意：wheel 文件名为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*.whl</span></code>，但从 v2.0.18 开始，安装后的包名为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>。</p>
+<div><p>注意：当前发行包名为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>，wheel 文件名以 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-</span></code> 开头。历史下载文件可能使用 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-</span></code> 前缀。请始终使用实际下载的文件名；Python 导入名仍为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>。</p>
 </div></blockquote>
 <section id="step-1-download-the-wheel">
 <h4><span class="section-number">2.3.2.8.1. </span>步骤 1：下载 wheel<a class="headerlink" href="#step-1-download-the-wheel" title="Link to this heading"></a></h4>
@@ -1555,20 +1555,20 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Linux x86_64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-linux_x86_64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-linux_x86_64.whl</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Linux ARM64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-linux_aarch64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-linux_aarch64.whl</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>macOS ARM64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-macosx_13_0_arm64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-macosx_13_0_arm64.whl</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Windows x64</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-*-cp3X-cp3X-win_amd64.whl</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-cp311-cp311-win_amd64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-2.1.4-cp311-cp311-win_amd64.whl</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1579,7 +1579,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <section id="step-2-install-the-wheel">
 <h4><span class="section-number">2.3.2.8.2. </span>步骤 2：安装 wheel<a class="headerlink" href="#step-2-install-the-wheel" title="Link to this heading"></a></h4>
 <p>进入下载目录并安装：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk-2.1.0-cp311-cp311-&lt;platform&gt;.whl
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.1.4-cp311-cp311-&lt;platform&gt;.whl
 </pre></div>
 </div>
 <p>对于 2.1.4 或更新版本的 wheel，追加 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 可同时安装示例依赖（请替换为实际的 wheel 文件名）：</p>
@@ -1599,7 +1599,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 </pre></div>
 </div>
 <blockquote>
-<div><p>注意：wheel 文件名以 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-</span></code> 开头（例如 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-2.1.0-...</span></code>），但安装后的包名是 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>。导入模块名仍为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>。</p>
+<div><p>注意：当前发行包名为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2</span></code>；使用 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">show</span> <span class="pre">pyorbbecsdk2</span></code> 查看包信息。Python 导入名仍为 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk</span></code>。旧下载文件中的 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk-</span></code> 属于历史文件名，并非当前命名规则。</p>
 </div></blockquote>
 </section>
 </section>
@@ -1860,7 +1860,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 09:43:07.
+      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
       </span></p>
   </div>
 

@@ -283,8 +283,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#offline-build">4.1.5. Offline Build</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#preparing-for-offline-build">4.1.5.1. Preparing for Offline Build</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#how-offline-mode-works">4.1.5.2. How Offline Mode Works</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#prepare-the-cache-online">4.1.5.1. Prepare the cache online</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#default-offline-build">4.1.5.2. Default offline build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#reuse-an-active-environment">4.1.5.3. Reuse an active environment</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#build-output">4.1.6. Build Output</a><ul>
@@ -2140,29 +2141,36 @@ Sample code is shown below:</p>
 <h2><span class="section-number">5.14.1. </span>Recording<a class="headerlink" href="#recording" title="Link to this heading"></a></h2>
 <p>Data stream recording is primarily implemented using RecordDevice.</p>
 <p>Key API Description:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">OBSensorType</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">RecordDevice</span>
 
-<span class="c1"># 1.Prompt the user to enter the output filename (.bag) and wait for input to start recording</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter output filename (.bag) and press Enter to start recording: &quot;</span><span class="p">)</span>
-
-<span class="c1"># 2.Create a pipeline with default device.</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Output .bag filename: &quot;</span><span class="p">)</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-<span class="c1"># 3.Get device with pipeline</span>
 <span class="n">device</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
-<span class="c1"># 4.Get the list of playback sensors</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+<span class="n">video_sensors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">OBSensorType</span><span class="o">.</span><span class="n">COLOR_SENSOR</span><span class="p">,</span> <span class="n">OBSensorType</span><span class="o">.</span><span class="n">DEPTH_SENSOR</span><span class="p">,</span>
+    <span class="n">OBSensorType</span><span class="o">.</span><span class="n">IR_SENSOR</span><span class="p">,</span> <span class="n">OBSensorType</span><span class="o">.</span><span class="n">LEFT_IR_SENSOR</span><span class="p">,</span>
+    <span class="n">OBSensorType</span><span class="o">.</span><span class="n">RIGHT_IR_SENSOR</span><span class="p">,</span>
+<span class="p">}</span>
 <span class="n">sensor_list</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">get_sensor_list</span><span class="p">()</span>
-<span class="c1"># 5.enable the data streams for playback</span>
-<span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sensor_list</span><span class="p">)):</span>
-    <span class="n">sensor_type</span> <span class="o">=</span> <span class="n">sensor_list</span><span class="p">[</span><span class="n">sensor</span><span class="p">]</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sensor_list</span><span class="p">)):</span>
+    <span class="n">sensor_type</span> <span class="o">=</span> <span class="n">sensor_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">sensor_type</span> <span class="ow">in</span> <span class="n">video_sensors</span><span class="p">:</span>
         <span class="n">config</span><span class="o">.</span><span class="n">enable_stream</span><span class="p">(</span><span class="n">sensor_type</span><span class="p">)</span>
-<span class="c1"># 6.Initialize recording device with output file</span>
-<span class="n">recorder</span> <span class="o">=</span> <span class="n">RecordDevice</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
-<span class="c1"># 7.Start record</span>
-<span class="n">recorder</span><span class="o">.</span><span class="n">resume</span><span class="p">()</span>
 
-<span class="c1"># 8.Stop record</span>
-<span class="n">recorder</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+<span class="n">recorder</span> <span class="o">=</span> <span class="n">RecordDevice</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">recorder</span><span class="o">.</span><span class="n">resume</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recording; press Ctrl+C to stop.&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">recorder</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+    <span class="n">recorder</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Release the recorder to finalize the bag file.</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>For detailed code, refer to: <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/01_recorder.py">examples/advanced/01_recorder.py</a>.</p>
@@ -2171,46 +2179,45 @@ Sample code is shown below:</p>
 <h2><span class="section-number">5.14.2. </span>Playback<a class="headerlink" href="#playback" title="Link to this heading"></a></h2>
 <p>Data stream playback is primarily implemented using PlaybackDevice.</p>
 <p>Key API Description:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">OBPlaybackStatus</span><span class="p">,</span> <span class="n">OBSensorType</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">PlaybackDevice</span>
 
-<span class="c1"># 1.Get valid .bag</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter output filename (.bag) and press Enter to start playbacking: &quot;</span><span class="p">)</span>
-<span class="c1"># 2.Create a playback device with a .bag file</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Input .bag filename: &quot;</span><span class="p">)</span>
 <span class="n">playback</span> <span class="o">=</span> <span class="n">PlaybackDevice</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
-<span class="c1"># 3.Create a pipeline with the playback device</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">playback</span><span class="p">)</span>
-<span class="c1"># 4.Get the default config</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
-<span class="c1"># 5.Set playback status change callback, when the playback stops, start the pipeline again with the same config</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">on_status_change</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Callback] status changed: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">PlaybackStatus</span><span class="o">.</span><span class="n">STOPPED</span><span class="p">:</span>
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-<span class="n">playback</span><span class="o">.</span><span class="n">set_playback_status_change_callback</span><span class="p">(</span><span class="n">on_status_change</span><span class="p">)</span>
-<span class="c1"># 6.Get the list of playback sensors</span>
-<span class="n">sensor_list</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">get_sensor_list</span><span class="p">()</span>
-<span class="c1"># 7.enable the data streams for playback</span>
-<span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sensor_list</span><span class="p">)):</span>
-    <span class="n">sensor_type</span> <span class="o">=</span> <span class="n">sensor_list</span><span class="p">[</span><span class="n">sensor</span><span class="p">]</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
+<span class="n">video_sensors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">OBSensorType</span><span class="o">.</span><span class="n">COLOR_SENSOR</span><span class="p">,</span> <span class="n">OBSensorType</span><span class="o">.</span><span class="n">DEPTH_SENSOR</span><span class="p">,</span>
+    <span class="n">OBSensorType</span><span class="o">.</span><span class="n">IR_SENSOR</span><span class="p">,</span> <span class="n">OBSensorType</span><span class="o">.</span><span class="n">LEFT_IR_SENSOR</span><span class="p">,</span>
+    <span class="n">OBSensorType</span><span class="o">.</span><span class="n">RIGHT_IR_SENSOR</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">sensor_list</span> <span class="o">=</span> <span class="n">playback</span><span class="o">.</span><span class="n">get_sensor_list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sensor_list</span><span class="p">)):</span>
+    <span class="n">sensor_type</span> <span class="o">=</span> <span class="n">sensor_list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">sensor_type</span> <span class="ow">in</span> <span class="n">video_sensors</span><span class="p">:</span>
         <span class="n">config</span><span class="o">.</span><span class="n">enable_stream</span><span class="p">(</span><span class="n">sensor_type</span><span class="p">)</span>
+<span class="n">finished</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
 
-<span class="c1"># 8.Start the pipeline with the config</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">on_status_change</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">OBPlaybackStatus</span><span class="o">.</span><span class="n">STOPPED</span><span class="p">:</span>
+        <span class="n">finished</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>  <span class="c1"># Do not stop/restart the pipeline inside this callback.</span>
+
+<span class="n">playback</span><span class="o">.</span><span class="n">set_playback_status_change_callback</span><span class="p">(</span><span class="n">on_status_change</span><span class="p">)</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-
-<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="c1"># 9.Get all frames</span>
-    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">frames</span><span class="p">:</span>
-        <span class="k">continue</span>
-
-    <span class="c1"># Process color image</span>
-    <span class="n">color_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">OBFrameType</span><span class="o">.</span><span class="n">COLOR_FRAME</span><span class="p">)</span>
-
-<span class="c1"># 10.Stop the pipeline.</span>
-<span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-<span class="n">playback</span>  <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">finished</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">color_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_color_frame</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">color_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Process the color frame here.</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">color_frame</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">color_frame</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="n">playback</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 </div>
 <p>For detailed code, refer to: <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/02_playback.py">examples/advanced/02_playback.py</a>.</p>
@@ -2586,7 +2593,8 @@ and asynchronous update behavior. These methods are available in wrapper 2.1.4.<
 <h2><span class="section-number">5.18.18. </span>Laser Switch<a class="headerlink" href="#laser-switch" title="Link to this heading"></a></h2>
 <p>The command to turn the laser on or off for the Gemini 330 is as follows：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gemini 330 series Laser control, 0: off, 1: on, 2: auto</span>
-<span class="n">device</span><span class="o">.</span><span class="n">set_bool_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_LASER_CONTROL_INT</span><span class="p">,</span> <span class="n">laser</span><span class="p">)</span>
+<span class="n">laser</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># 0: off, 1: on, 2: auto</span>
+<span class="n">device</span><span class="o">.</span><span class="n">set_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_LASER_CONTROL_INT</span><span class="p">,</span> <span class="n">laser</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For devices other than the Gemini 330, the command to turn the laser on or off is as follows：</p>
@@ -2597,12 +2605,14 @@ and asynchronous update behavior. These methods are available in wrapper 2.1.4.<
 <section id="obtain-metadata">
 <h2><span class="section-number">5.18.19. </span>Obtain MetaData<a class="headerlink" href="#obtain-metadata" title="Link to this heading"></a></h2>
 <p>MetaData can be obtained from the returned Frame objects. Supported frame types include depth, leftIR, rightIR, and color.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame_set</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="c1"># Example of using color frame</span>
-<span class="n">frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_color_frame</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">OBFrameMetadataType</span>
 
-<span class="k">if</span> <span class="n">frame</span><span class="o">.</span><span class="n">has_metadata</span><span class="p">(</span><span class="n">EXPOSURE</span><span class="p">):</span>
-    <span class="n">metadata_value</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">get_metadata_value</span><span class="p">(</span><span class="n">EXPOSURE</span><span class="p">)</span>
+<span class="c1"># Assumes pipeline has already been started with a color stream enabled.</span>
+<span class="n">frame_set</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">frame_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">frame_set</span><span class="o">.</span><span class="n">get_color_frame</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">frame</span><span class="o">.</span><span class="n">has_metadata</span><span class="p">(</span><span class="n">OBFrameMetadataType</span><span class="o">.</span><span class="n">EXPOSURE</span><span class="p">):</span>
+        <span class="n">metadata_value</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">get_metadata_value</span><span class="p">(</span><span class="n">OBFrameMetadataType</span><span class="o">.</span><span class="n">EXPOSURE</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For detailed code, refer to: <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/07_metadata.py">examples/advanced/07_metadata.py</a>.</p>
@@ -3014,7 +3024,7 @@ An empty version string means the device does not support versioned depth work m
 <h3><span class="section-number">5.18.26.2. </span>Set Color Exposure<a class="headerlink" href="#set-color-exposure" title="Link to this heading"></a></h3>
 <p>Set Color exposure, prerequisites, you need to turn off the Color AE</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#True open color AE， False: close color AE</span>
-<span class="n">device</span><span class="o">.</span><span class="n">set_bool_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_AUTO_EXPOSURE_BOOL</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">device</span><span class="o">.</span><span class="n">set_bool_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_AUTO_EXPOSURE_BOOL</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="c1">#set exposure</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_EXPOSURE_INT</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 </pre></div>
@@ -3024,7 +3034,7 @@ An empty version string means the device does not support versioned depth work m
 <h3><span class="section-number">5.18.26.3. </span>Set Color Gain<a class="headerlink" href="#set-color-gain" title="Link to this heading"></a></h3>
 <p>Set the Color gain and prerequisites. You need to turn off the Color AE</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#True open color AE， False: close color AE</span>
-<span class="n">device</span><span class="o">.</span><span class="n">set_bool_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_AUTO_EXPOSURE_BOOL</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">device</span><span class="o">.</span><span class="n">set_bool_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_AUTO_EXPOSURE_BOOL</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="c1">#Set color gain. gain: the specific gain value</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_int_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_COLOR_GAIN_INT</span><span class="p">,</span> <span class="n">gain</span><span class="p">)</span>
 </pre></div>
@@ -3294,7 +3304,7 @@ We use the timestamps of the Primary and Secondary printed by Sample to determin
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 10:45:00.
+      <span class="lastupdated">Last updated on 2026-11-19 11:21:14.
       </span></p>
   </div>
 

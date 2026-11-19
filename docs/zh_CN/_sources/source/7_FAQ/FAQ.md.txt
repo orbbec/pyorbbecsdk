@@ -169,7 +169,7 @@ python -c "import platform; print(platform.machine()); print(platform.system())"
 **Wheel naming convention:**
 - Linux x86_64: `pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl`
 - Linux ARM64: `pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl`
-- macOS ARM64: `pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl`
+- macOS ARM64: `pyorbbecsdk2-*-cp3X-cp3X-macosx_11_0_arm64.whl`
 - Windows x64: `pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl`
 
 ---
@@ -288,17 +288,9 @@ sudo yum install python3-devel gcc-c++
 
 **Solution:**
 
-Ensure virtual environments are set up correctly before copying to the offline machine:
+The default build script recreates its per-version environment. Copying `venv*` alone does not preserve pybind11 for that workflow. Prepare the actual build's uv cache and Python interpreters on a matching online machine, then transfer them with the project and provide the native build toolchain.
 
-```bash
-# On a machine with internet access, prepare the offline environment:
-for ver in 3.8 3.9 3.10 3.11 3.12 3.13 3.14; do
-    uv venv venv${ver//./} --python $ver
-    uv pip install pybind11 -e . --python venv${ver//./}/bin/python
-done
-
-# Then copy the entire project directory (including venv* directories) to the offline machine
-```
+See [Offline Build](../4_Package/build_with_uv.html#offline-build) for the complete cache preparation and platform commands. To reuse a valid local environment, activate it and use `--offline --no-sync` (PowerShell: `-Offline -NoSync`); the isolated wheel build still needs its cached build dependencies. Do not prepare a clean checkout with `uv pip install -e .`: CMake must first produce `install/lib`.
 
 ---
 
@@ -592,12 +584,25 @@ Modify the log level by editing the `OrbbecSDKConfig.xml` configuration file.
 
 1. **Locate the configuration file**
 
-   For pip-installed packages, run `pip show pyorbbecsdk2` to get the installation path. The XML file is located at `<Location>/OrbbecSDKConfig.xml`
+   The packaged XML is at `<Location>/pyorbbecsdk/OrbbecSDKConfig.xml`, where `<Location>` is the installation directory reported for the distribution. Locate the file using the current Python instead of relying on pip:
 
    ```bash
-   pip show pyorbbecsdk2
-   # Output: Location: /Users/me/.../site-packages
-   # Full path: /Users/me/.../site-packages/OrbbecSDKConfig.xml
+   python -c "from pathlib import Path; import pyorbbecsdk; print(Path(pyorbbecsdk.__file__).resolve().parent / 'OrbbecSDKConfig.xml')"
+   ```
+
+   Editing this installed file alone does not guarantee that a default `Context()` will load it. After editing, explicitly pass the printed path when creating the context, before creating devices or pipelines:
+
+   ```python
+   from pathlib import Path
+   import pyorbbecsdk
+   from pyorbbecsdk import Context, Pipeline
+
+   config_path = Path(pyorbbecsdk.__file__).resolve().parent / "OrbbecSDKConfig.xml"
+   context = Context(str(config_path))
+   devices = context.query_devices()
+   if len(devices) == 0:
+       raise RuntimeError("No device found")
+   pipeline = Pipeline(devices[0])
    ```
 
 2. **Modify the log level**

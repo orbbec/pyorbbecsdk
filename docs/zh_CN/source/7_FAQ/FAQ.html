@@ -284,8 +284,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#offline-build">4.1.5. 离线构建</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#preparing-for-offline-build">4.1.5.1. 准备离线构建</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#how-offline-mode-works">4.1.5.2. 离线模式的工作原理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#prepare-the-cache-online">4.1.5.1. 联网准备缓存</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#default-offline-build">4.1.5.2. 默认离线构建</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../4_Package/build_with_uv.html#reuse-an-active-environment">4.1.5.3. 复用已激活环境</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../4_Package/build_with_uv.html#build-output">4.1.6. 构建产物</a><ul>
@@ -1571,7 +1572,7 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;i
 <ul class="simple">
 <li><p>Linux x86_64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_x86_64.whl</span></code></p></li>
 <li><p>Linux ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-linux_aarch64.whl</span></code></p></li>
-<li><p>macOS ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-macosx_13_0_arm64.whl</span></code></p></li>
+<li><p>macOS ARM64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-macosx_11_0_arm64.whl</span></code></p></li>
 <li><p>Windows x64: <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk2-*-cp3X-cp3X-win_amd64.whl</span></code></p></li>
 </ul>
 </section>
@@ -1686,16 +1687,8 @@ sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> <
 <h3><span class="section-number">7.3.3. </span>离线模式下找不到 pybind11<a class="headerlink" href="#pybind11-not-found-in-offline-mode" title="Link to this heading"></a></h3>
 <p>问题：离线构建失败，出现“pybind11 not found”错误。</p>
 <p>解决方法：</p>
-<p>复制到离线计算机前，确保虚拟环境配置正确：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On a machine with internet access, prepare the offline environment:</span>
-<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="w"> </span><span class="m">3</span>.14<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span>uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span><span class="w"> </span>--python<span class="w"> </span><span class="nv">$ver</span>
-<span class="w">    </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>--python<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span>/bin/python
-<span class="k">done</span>
-
-<span class="c1"># Then copy the entire project directory (including venv* directories) to the offline machine</span>
-</pre></div>
-</div>
+<p>默认构建脚本会重建各版本环境，仅复制 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 不能为此流程保留 pybind11。请在匹配的联网机器上准备实际构建所需的 uv 缓存和 Python 解释器，再随项目传输，并提供原生构建工具链。</p>
+<p>完整缓存准备及平台命令参见<a class="reference external" href="../4_Package/build_with_uv.html#offline-build">离线构建</a>。如需复用有效的本地环境，请先激活，再使用 <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code>（PowerShell：<code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>）；隔离 wheel 构建仍需要缓存的构建依赖。不要使用 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> 准备干净仓库：CMake 必须先生成 <code class="docutils literal notranslate"><span class="pre">install/lib</span></code>。</p>
 </section>
 <hr class="docutils" />
 <section id="build-fails-on-windows-with-visual-studio-not-found">
@@ -1956,10 +1949,21 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 <p>步骤：</p>
 <ol>
 <li><p>找到配置文件</p>
-<p>通过 pip 安装时，运行 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">show</span> <span class="pre">pyorbbecsdk2</span></code> 获取安装路径。XML 文件位于 <code class="docutils literal notranslate"><span class="pre">&lt;Location&gt;/OrbbecSDKConfig.xml</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2
-<span class="c1"># Output: Location: /Users/me/.../site-packages</span>
-<span class="c1"># Full path: /Users/me/.../site-packages/OrbbecSDKConfig.xml</span>
+<p>包内 XML 位于 <code class="docutils literal notranslate"><span class="pre">&lt;Location&gt;/pyorbbecsdk/OrbbecSDKConfig.xml</span></code>，其中 <code class="docutils literal notranslate"><span class="pre">&lt;Location&gt;</span></code> 是发行包的安装目录。请使用当前 Python 定位文件，不必依赖 pip：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from pathlib import Path; import pyorbbecsdk; print(Path(pyorbbecsdk.__file__).resolve().parent / &#39;OrbbecSDKConfig.xml&#39;)&quot;</span>
+</pre></div>
+</div>
+<p>仅编辑安装目录中的文件，不能保证默认 <code class="docutils literal notranslate"><span class="pre">Context()</span></code> 会加载它。编辑后，请在创建设备或管线之前，将输出的配置路径显式传入上下文构造函数：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Pipeline</span>
+
+<span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pyorbbecsdk</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;OrbbecSDKConfig.xml&quot;</span>
+<span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">config_path</span><span class="p">))</span>
+<span class="n">devices</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No device found&quot;</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">devices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </li>
@@ -2086,7 +2090,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 10:45:07.
+      <span class="lastupdated">最后更新于 2026-11-19 11:21:21.
       </span></p>
   </div>
 

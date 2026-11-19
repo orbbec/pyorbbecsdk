@@ -284,8 +284,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#offline-build">4.1.5. 离线构建</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#preparing-for-offline-build">4.1.5.1. 准备离线构建</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#how-offline-mode-works">4.1.5.2. 离线模式的工作原理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-the-cache-online">4.1.5.1. 联网准备缓存</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-offline-build">4.1.5.2. 默认离线构建</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reuse-an-active-environment">4.1.5.3. 复用已激活环境</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#build-output">4.1.6. 构建产物</a><ul>
@@ -1571,7 +1572,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <span class="c1"># Build for multiple Python versions</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
 
-<span class="c1"># Build all supported versions (3.8-3.14)</span>
+<span class="c1"># Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>all
 </pre></div>
 </div>
@@ -1590,7 +1591,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <span class="c1"># Build for multiple Python versions</span>
 ./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
 
-<span class="c1"># Build all supported versions (3.8-3.14)</span>
+<span class="c1"># Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14</span>
 ./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span>all
 </pre></div>
 </div>
@@ -1652,42 +1653,45 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 </section>
 <section id="offline-build">
 <h2><span class="section-number">4.1.5. </span>离线构建<a class="headerlink" href="#offline-build" title="Link to this heading"></a></h2>
-<p>UV 构建系统支持离线模式，适合在无法联网的计算机上构建。</p>
-<section id="preparing-for-offline-build">
-<h3><span class="section-number">4.1.5.1. </span>准备离线构建<a class="headerlink" href="#preparing-for-offline-build" title="Link to this heading"></a></h3>
-<ol class="simple">
-<li><p>在可联网的计算机上准备离线环境：</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install UV</span>
-curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
-
-<span class="c1"># Clone the repository</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/orbbec/pyorbbecsdk.git
-<span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
-
-<span class="c1"># Create virtual environments with pybind11 for each Python version</span>
-<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="w"> </span><span class="m">3</span>.14<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span>uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span><span class="w"> </span>--python<span class="w"> </span><span class="nv">$ver</span>
-<span class="w">    </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>--python<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span>/bin/python
-<span class="k">done</span>
+<p>离线构建要求匹配的操作系统和架构、本地可用的 Python 解释器、原生编译器及 CMake 工具链、SDK 库和完整的 uv 缓存。仅复制仓库或虚拟环境并不足够。</p>
+<section id="prepare-the-cache-online">
+<h3><span class="section-number">4.1.5.1. </span>联网准备缓存<a class="headerlink" href="#prepare-the-cache-online" title="Link to this heading"></a></h3>
+<p>在环境匹配的联网机器上，针对每个所需 Python 版本和平台完整执行一次实际构建，以预热 pybind11 安装、依赖同步和隔离 wheel 构建所需的缓存。不要通过项目的可编辑安装准备干净仓库：包构建后端要求先在 <code class="docutils literal notranslate"><span class="pre">install/lib</span></code> 中生成 CMake 产物。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux example; use the macOS or Windows script on those platforms.</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.10
+uv<span class="w"> </span>cache<span class="w"> </span>dir
+uv<span class="w"> </span>python<span class="w"> </span>dir
 </pre></div>
 </div>
-<ol class="simple">
-<li><p>将整个项目目录（包括 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 目录）复制到离线计算机。</p></li>
-<li><p>运行离线构建：</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span><span class="m">3</span>.10
-</pre></div>
-</div>
+<p>将项目、<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">cache</span> <span class="pre">dir</span></code> 输出的缓存目录，以及所需的 uv 托管 Python 安装目录传输到离线机器。保留完整缓存，传输前不要清理缓存。编译器、CMake 和系统库需另行准备。虚拟环境通常不能任意迁移，应在目标机器上重建，或使用解释器路径有效的本地预备环境。如需 Python 3.14，请单独准备；<code class="docutils literal notranslate"><span class="pre">all</span></code> 仅包含 3.8 到 3.13。</p>
 </section>
-<section id="how-offline-mode-works">
-<h3><span class="section-number">4.1.5.2. </span>离线模式的工作原理<a class="headerlink" href="#how-offline-mode-works" title="Link to this heading"></a></h3>
-<p>指定 <code class="docutils literal notranslate"><span class="pre">--offline</span></code> 时：</p>
-<ul class="simple">
-<li><p>脚本使用 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 目录中的本地 pybind11</p></li>
-<li><p>UV 以离线模式运行（<code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>）</p></li>
-<li><p>构建过程中不发起网络请求</p></li>
-</ul>
+<section id="default-offline-build">
+<h3><span class="section-number">4.1.5.2. </span>默认离线构建<a class="headerlink" href="#default-offline-build" title="Link to this heading"></a></h3>
+<p>将缓存和 Python 安装位置设置为复制后的目录，再使用相应平台的离线选项：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux; replace these paths with the transferred cache/interpreter directories.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">UV_CACHE_DIR</span><span class="o">=</span>/path/to/copied-uv-cache
+<span class="nb">export</span><span class="w"> </span><span class="nv">UV_PYTHON_INSTALL_DIR</span><span class="o">=</span>/path/to/copied-uv-python
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span><span class="m">3</span>.10
+<span class="c1"># macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline 3.10</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># Windows PowerShell</span>
+<span class="nv">$env:UV_CACHE_DIR</span> <span class="p">=</span> <span class="s2">&quot;C:\offline\uv-cache&quot;</span>
+<span class="nv">$env:UV_PYTHON_INSTALL_DIR</span> <span class="p">=</span> <span class="s2">&quot;C:\offline\uv-python&quot;</span>
+<span class="p">.\</span><span class="n">scripts</span><span class="p">\</span><span class="n">build_whl</span><span class="p">\</span><span class="n">build-whl-uv</span><span class="p">.</span><span class="n">ps1</span> <span class="n">3</span><span class="p">.</span><span class="n">10</span> <span class="n">-Offline</span>
+</pre></div>
+</div>
+<p>默认模式会删除并重建各版本环境，安装固定版本的 pybind11，并运行 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--no-install-project</span></code>。离线选项设置 <code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>；缺少缓存依赖或解释器时会失败，复制的 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 目录不能替代这些资源。</p>
+</section>
+<section id="reuse-an-active-environment">
+<h3><span class="section-number">4.1.5.3. </span>复用已激活环境<a class="headerlink" href="#reuse-an-active-environment" title="Link to this heading"></a></h3>
+<p>如需保留本地预备环境，请先激活它，再添加脚本的 <code class="docutils literal notranslate"><span class="pre">--no-sync</span></code> 选项（PowerShell：<code class="docutils literal notranslate"><span class="pre">-NoSync</span></code>）。激活的 Python 版本必须与请求版本相同，且 pybind11 和所有构建依赖均已可用。例如：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span>--no-sync<span class="w"> </span><span class="m">3</span>.10
+<span class="c1"># macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10</span>
+</pre></div>
+</div>
+<p>此模式跳过环境重建、固定版本 pybind11 安装和依赖同步，但仍执行 CMake 编译及 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code>；隔离构建所需依赖仍必须缓存。不能据此保证任意复制的环境都能离线构建。</p>
 </section>
 </section>
 <section id="build-output">
@@ -1716,23 +1720,22 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 </section>
 <section id="generate-type-stubs-optional-but-recommended">
 <h3><span class="section-number">4.1.6.2. </span>生成类型存根（可选但推荐）<a class="headerlink" href="#generate-type-stubs-optional-but-recommended" title="Link to this heading"></a></h3>
-<p>生成用于 IDE 自动补全的 <code class="docutils literal notranslate"><span class="pre">.pyi</span></code> 类型存根文件：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Activate your virtual environment</span>
-<span class="nb">source</span><span class="w"> </span>orbbec_env/bin/activate<span class="w">  </span><span class="c1"># Linux/macOS</span>
-<span class="c1"># .\orbbec_env\Scripts\Activate.ps1  # Windows PowerShell</span>
+<p>从仓库根目录执行，并先激活已安装新构建 SDK 的环境。存根生成会检查该安装包；绑定变化后应先重新构建和安装 SDK。请遵循 <code class="docutils literal notranslate"><span class="pre">stubs/README.md</span></code> 中相同的包目录结构：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
+python<span class="w"> </span>-m<span class="w"> </span>pybind11_stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>generated_stubs
+python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generated_stubs/pyorbbecsdk/pyorbbecsdk.pyi<span class="w"> </span>stubs/pyorbbecsdk.pyi
+python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generated_stubs/pyorbbecsdk/__init__.pyi<span class="w"> </span>stubs/__init__.pyi
+</pre></div>
+</div>
+<p>如果 uv 环境没有 pip，可使用 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--python</span> <span class="pre">.venv/bin/python</span> <span class="pre">pybind11-stubgen</span></code> 安装工具，再用该环境的 Python 执行其余命令。包存根和扩展模块存根均须修复并一起复制：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span>
 
-<span class="c1"># Install pybind11-stubgen</span>
-pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
-
-<span class="c1"># Generate pyi file</span>
-pybind11-stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>.
-
-<span class="c1"># Fix the generated pyi file</span>
-python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>pyorbbecsdk.pyi
-
-<span class="c1"># Copy the fixed pyi file to the package directory</span>
-<span class="c1"># (find the package path using pip show)</span>
-cp<span class="w"> </span>pyorbbecsdk.pyi<span class="w"> </span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))&quot;</span><span class="k">)</span>/
+<span class="n">package_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pyorbbecsdk</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;pyorbbecsdk.pyi&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__.pyi&quot;</span><span class="p">):</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;stubs&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">package_dir</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1791,7 +1794,7 @@ cp<span class="w"> </span>pyorbbecsdk.pyi<span class="w"> </span><span class="k"
 </tr>
 <tr class="row-even"><td><p>部署目标</p></td>
 <td><p>-</p></td>
-<td><p>macOS 13.0+</p></td>
+<td><p>macOS 11.0（构建目标；已在 M2/macOS 13.2 上测试）</p></td>
 <td><p>-</p></td>
 </tr>
 </tbody>
@@ -1893,7 +1896,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 <td><p>设为 <code class="docutils literal notranslate"><span class="pre">1</span></code> 以启用离线模式</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MACOSX_DEPLOYMENT_TARGET</span></code></p></td>
-<td><p>最低 macOS 版本（默认：13.0）</p></td>
+<td><p>构建部署目标（脚本设为 11.0；已在 M2/macOS 13.2 上测试）</p></td>
 </tr>
 </tbody>
 </table>
@@ -1968,7 +1971,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 10:45:07.
+      <span class="lastupdated">最后更新于 2026-11-19 11:21:21.
       </span></p>
   </div>
 

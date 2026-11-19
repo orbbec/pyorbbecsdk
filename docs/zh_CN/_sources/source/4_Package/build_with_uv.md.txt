@@ -144,7 +144,7 @@ chmod +x scripts/build_whl/build-whl-uv.sh
 # Build for multiple Python versions
 ./scripts/build_whl/build-whl-uv.sh 3.9 3.10 3.11
 
-# Build all supported versions (3.8-3.14)
+# Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14
 ./scripts/build_whl/build-whl-uv.sh all
 ```
 
@@ -163,7 +163,7 @@ chmod +x scripts/build_whl/build-whl-uv-macos.sh
 # Build for multiple Python versions
 ./scripts/build_whl/build-whl-uv-macos.sh 3.9 3.10 3.11
 
-# Build all supported versions (3.8-3.14)
+# Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14
 ./scripts/build_whl/build-whl-uv-macos.sh all
 ```
 
@@ -207,41 +207,53 @@ All build scripts support the following command-line options:
 
 ## Offline Build
 
-The UV build system supports offline mode, which is useful when building on machines without internet access.
+Offline builds require matching OS/architecture, locally available Python interpreters, the native compiler/CMake toolchain and SDK libraries, and a populated uv cache. Copying the repository or virtual environments alone is not sufficient.
 
-### Preparing for Offline Build
+### Prepare the cache online
 
-1. **On a machine with internet access**, prepare the offline environment:
+On a matching online machine, complete the actual build once for every required Python version and platform. This warms the dependencies used by pybind11 installation, dependency synchronization and the isolated wheel build. Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in `install/lib` first.
 
 ```bash
-# Install UV
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Clone the repository
-git clone https://github.com/orbbec/pyorbbecsdk.git
-cd pyorbbecsdk
-
-# Create virtual environments with pybind11 for each Python version
-for ver in 3.8 3.9 3.10 3.11 3.12 3.13 3.14; do
-    uv venv venv${ver//./} --python $ver
-    uv pip install pybind11 -e . --python venv${ver//./}/bin/python
-done
+# Linux example; use the macOS or Windows script on those platforms.
+./scripts/build_whl/build-whl-uv.sh 3.10
+uv cache dir
+uv python dir
 ```
 
-2. **Copy the entire project directory** (including the `venv*` directories) to the offline machine.
+Transfer the project, the cache printed by `uv cache dir`, and any required uv-managed Python installations to the offline machine. Preserve cache contents; do not run cache pruning before transfer. Provide the compiler, CMake and system libraries separately. Virtual environments are not generally relocatable; recreate them on the target or use a locally prepared environment with valid interpreter paths. Repeat preparation for Python 3.14 explicitly if needed; `all` covers only 3.8 through 3.13.
 
-3. **Run the offline build**:
+### Default offline build
+
+Set the cache and Python installation locations to the copied directories, then use the platform's offline flag:
 
 ```bash
+# Linux; replace these paths with the transferred cache/interpreter directories.
+export UV_CACHE_DIR=/path/to/copied-uv-cache
+export UV_PYTHON_INSTALL_DIR=/path/to/copied-uv-python
 ./scripts/build_whl/build-whl-uv.sh --offline 3.10
+# macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline 3.10
 ```
 
-### How Offline Mode Works
+```powershell
+# Windows PowerShell
+$env:UV_CACHE_DIR = "C:\offline\uv-cache"
+$env:UV_PYTHON_INSTALL_DIR = "C:\offline\uv-python"
+.\scripts\build_whl\build-whl-uv.ps1 3.10 -Offline
+```
 
-When `--offline` is specified:
-- The script uses local pybind11 from the `venv*` directories
-- UV operates in offline mode (`UV_OFFLINE=1`)
-- No network requests are made during the build
+The default mode deletes and recreates the per-version environment, installs pinned pybind11 and runs `uv sync --no-install-project`. The offline flag sets `UV_OFFLINE=1`; missing cached dependencies or interpreters cause failure rather than being supplied by a copied `venv*` directory.
+
+### Reuse an active environment
+
+To retain a locally prepared environment, activate it and add the script's `--no-sync` option (PowerShell: `-NoSync`). The active Python version must match the requested version, and pybind11 and all build requirements must already be available. For example:
+
+```bash
+source .venv/bin/activate
+./scripts/build_whl/build-whl-uv.sh --offline --no-sync 3.10
+# macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10
+```
+
+This mode skips environment recreation, pinned pybind11 installation and dependency synchronization. It still performs CMake compilation and `uv build`, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.
 
 ## Build Output
 
@@ -275,25 +287,26 @@ pip show pyorbbecsdk2 | grep Version
 
 ### Generate Type Stubs (Optional but Recommended)
 
-To generate `.pyi` type stub files for IDE autocomplete support:
+From the repository root, activate the environment containing the newly built SDK. Stub generation inspects that installed package; rebuild/install the SDK first when bindings change. Follow the same package layout as `stubs/README.md`:
 
 ```bash
-# Activate your virtual environment
-source orbbec_env/bin/activate  # Linux/macOS
-# .\orbbec_env\Scripts\Activate.ps1  # Windows PowerShell
+python -m pip install pybind11-stubgen
+python -m pybind11_stubgen pyorbbecsdk -o generated_stubs
+python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/pyorbbecsdk.pyi stubs/pyorbbecsdk.pyi
+python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/__init__.pyi stubs/__init__.pyi
+```
 
-# Install pybind11-stubgen
-pip install pybind11-stubgen
+In a uv environment without pip, install the tool using `uv pip install --python .venv/bin/python pybind11-stubgen`, then run the remaining commands with that environment's Python. Both package and extension stubs must be repaired and copied together:
 
-# Generate pyi file
-pybind11-stubgen pyorbbecsdk -o .
+```python
+from pathlib import Path
+import shutil
+import pyorbbecsdk
 
-# Fix the generated pyi file
-python scripts/fix_pyi.py pyorbbecsdk.pyi
-
-# Copy the fixed pyi file to the package directory
-# (find the package path using pip show)
-cp pyorbbecsdk.pyi $(python -c "import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))")/
+package_dir = Path(pyorbbecsdk.__file__).resolve().parent
+for name in ("pyorbbecsdk.pyi", "__init__.pyi"):
+    shutil.copy2(Path("stubs") / name, package_dir / name)
+print(package_dir)
 ```
 
 ## Build Process Details
@@ -322,7 +335,7 @@ The build scripts perform the following steps:
 | Library Path | `LD_LIBRARY_PATH` | `DYLD_LIBRARY_PATH` | PATH |
 | Architecture | x86_64, arm64 | arm64 | x64 |
 | Wheel Repair | auditwheel | None needed | None needed |
-| Deployment Target | - | macOS 13.0+ | - |
+| Deployment Target | - | macOS 11.0 (build target; tested on M2/macOS 13.2) | - |
 
 ## Troubleshooting
 
@@ -413,7 +426,7 @@ The scripts automatically use all available CPU cores:
 |----------|-------------|
 | `UV_LINK_MODE` | Set to `copy` for compatibility (default in scripts) |
 | `UV_OFFLINE` | Set to `1` to enable offline mode |
-| `MACOSX_DEPLOYMENT_TARGET` | Minimum macOS version (default: 13.0) |
+| `MACOSX_DEPLOYMENT_TARGET` | Build deployment target (script sets 11.0; tested on M2/macOS 13.2) |
 
 ## Comparison with Traditional Build
 

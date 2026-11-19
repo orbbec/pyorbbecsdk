@@ -49,9 +49,8 @@ You can also configure logging by editing the `OrbbecSDKConfig.xml` file:
 For pip-installed packages:
 
 ```bash
-pip show pyorbbecsdk2
-# Output: Location: /path/to/site-packages
-# Full path: /path/to/site-packages/OrbbecSDKConfig.xml
+python -c "from pathlib import Path; import pyorbbecsdk; print(Path(pyorbbecsdk.__file__).resolve().parent / 'OrbbecSDKConfig.xml')"
+# Example: /path/to/site-packages/pyorbbecsdk/OrbbecSDKConfig.xml
 ```
 
 ### Step 2: Modify Log Levels
@@ -72,6 +71,23 @@ Open the XML file and find the `<Log>` section:
     <FileLogLevel>5</FileLogLevel>      <!-- 5 = NONE, disables file logging -->
     <ConsoleLogLevel>5</ConsoleLogLevel>  <!-- 5 = NONE, disables console logging -->
 </Log>
+```
+
+### Load the edited configuration
+
+Editing the installed XML alone does not guarantee that a default `Context()` loads it. After editing, explicitly pass its path when creating the context, before creating devices or pipelines:
+
+```python
+from pathlib import Path
+import pyorbbecsdk
+from pyorbbecsdk import Context, Pipeline
+
+config_path = Path(pyorbbecsdk.__file__).resolve().parent / "OrbbecSDKConfig.xml"
+context = Context(str(config_path))
+devices = context.query_devices()
+if len(devices) == 0:
+    raise RuntimeError("No device found")
+pipeline = Pipeline(devices[0])
 ```
 
 ## Examples

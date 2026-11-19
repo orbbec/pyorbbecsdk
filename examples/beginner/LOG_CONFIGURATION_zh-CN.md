@@ -61,9 +61,8 @@ Context.set_logger_to_console(OBLogLevel.NONE)
 对于通过 pip 安装的软件包：
 
 ```bash
-pip show pyorbbecsdk2
-# Output: Location: /path/to/site-packages
-# Full path: /path/to/site-packages/OrbbecSDKConfig.xml
+python -c "from pathlib import Path; import pyorbbecsdk; print(Path(pyorbbecsdk.__file__).resolve().parent / 'OrbbecSDKConfig.xml')"
+# Example: /path/to/site-packages/pyorbbecsdk/OrbbecSDKConfig.xml
 ```
 
 <a id="step-2-modify-log-levels"></a>
@@ -88,6 +87,23 @@ pip show pyorbbecsdk2
     <FileLogLevel>5</FileLogLevel>      <!-- 5 = NONE, disables file logging -->
     <ConsoleLogLevel>5</ConsoleLogLevel>  <!-- 5 = NONE, disables console logging -->
 </Log>
+```
+
+### 加载修改后的配置
+
+仅编辑安装目录中的 XML，不能保证默认 `Context()` 会加载它。编辑后，请在创建设备或管线之前，将配置路径显式传入上下文构造函数：
+
+```python
+from pathlib import Path
+import pyorbbecsdk
+from pyorbbecsdk import Context, Pipeline
+
+config_path = Path(pyorbbecsdk.__file__).resolve().parent / "OrbbecSDKConfig.xml"
+context = Context(str(config_path))
+devices = context.query_devices()
+if len(devices) == 0:
+    raise RuntimeError("No device found")
+pipeline = Pipeline(devices[0])
 ```
 
 <a id="examples"></a>

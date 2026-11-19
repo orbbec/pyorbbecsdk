@@ -283,8 +283,9 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#offline-build">4.1.5. Offline Build</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#preparing-for-offline-build">4.1.5.1. Preparing for Offline Build</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#how-offline-mode-works">4.1.5.2. How Offline Mode Works</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-the-cache-online">4.1.5.1. Prepare the cache online</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-offline-build">4.1.5.2. Default offline build</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reuse-an-active-environment">4.1.5.3. Reuse an active environment</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#build-output">4.1.6. Build Output</a><ul>
@@ -1570,7 +1571,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <span class="c1"># Build for multiple Python versions</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
 
-<span class="c1"># Build all supported versions (3.8-3.14)</span>
+<span class="c1"># Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>all
 </pre></div>
 </div>
@@ -1589,7 +1590,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <span class="c1"># Build for multiple Python versions</span>
 ./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11
 
-<span class="c1"># Build all supported versions (3.8-3.14)</span>
+<span class="c1"># Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14</span>
 ./scripts/build_whl/build-whl-uv-macos.sh<span class="w"> </span>all
 </pre></div>
 </div>
@@ -1651,42 +1652,45 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 </section>
 <section id="offline-build">
 <h2><span class="section-number">4.1.5. </span>Offline Build<a class="headerlink" href="#offline-build" title="Link to this heading"></a></h2>
-<p>The UV build system supports offline mode, which is useful when building on machines without internet access.</p>
-<section id="preparing-for-offline-build">
-<h3><span class="section-number">4.1.5.1. </span>Preparing for Offline Build<a class="headerlink" href="#preparing-for-offline-build" title="Link to this heading"></a></h3>
-<ol class="simple">
-<li><p><strong>On a machine with internet access</strong>, prepare the offline environment:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install UV</span>
-curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
-
-<span class="c1"># Clone the repository</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/orbbec/pyorbbecsdk.git
-<span class="nb">cd</span><span class="w"> </span>pyorbbecsdk
-
-<span class="c1"># Create virtual environments with pybind11 for each Python version</span>
-<span class="k">for</span><span class="w"> </span>ver<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">3</span>.8<span class="w"> </span><span class="m">3</span>.9<span class="w"> </span><span class="m">3</span>.10<span class="w"> </span><span class="m">3</span>.11<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="m">3</span>.13<span class="w"> </span><span class="m">3</span>.14<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">    </span>uv<span class="w"> </span>venv<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span><span class="w"> </span>--python<span class="w"> </span><span class="nv">$ver</span>
-<span class="w">    </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>-e<span class="w"> </span>.<span class="w"> </span>--python<span class="w"> </span>venv<span class="si">${</span><span class="nv">ver</span><span class="p">//./</span><span class="si">}</span>/bin/python
-<span class="k">done</span>
+<p>Offline builds require matching OS/architecture, locally available Python interpreters, the native compiler/CMake toolchain and SDK libraries, and a populated uv cache. Copying the repository or virtual environments alone is not sufficient.</p>
+<section id="prepare-the-cache-online">
+<h3><span class="section-number">4.1.5.1. </span>Prepare the cache online<a class="headerlink" href="#prepare-the-cache-online" title="Link to this heading"></a></h3>
+<p>On a matching online machine, complete the actual build once for every required Python version and platform. This warms the dependencies used by pybind11 installation, dependency synchronization and the isolated wheel build. Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in <code class="docutils literal notranslate"><span class="pre">install/lib</span></code> first.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux example; use the macOS or Windows script on those platforms.</span>
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.10
+uv<span class="w"> </span>cache<span class="w"> </span>dir
+uv<span class="w"> </span>python<span class="w"> </span>dir
 </pre></div>
 </div>
-<ol class="simple">
-<li><p><strong>Copy the entire project directory</strong> (including the <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directories) to the offline machine.</p></li>
-<li><p><strong>Run the offline build</strong>:</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span><span class="m">3</span>.10
-</pre></div>
-</div>
+<p>Transfer the project, the cache printed by <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">cache</span> <span class="pre">dir</span></code>, and any required uv-managed Python installations to the offline machine. Preserve cache contents; do not run cache pruning before transfer. Provide the compiler, CMake and system libraries separately. Virtual environments are not generally relocatable; recreate them on the target or use a locally prepared environment with valid interpreter paths. Repeat preparation for Python 3.14 explicitly if needed; <code class="docutils literal notranslate"><span class="pre">all</span></code> covers only 3.8 through 3.13.</p>
 </section>
-<section id="how-offline-mode-works">
-<h3><span class="section-number">4.1.5.2. </span>How Offline Mode Works<a class="headerlink" href="#how-offline-mode-works" title="Link to this heading"></a></h3>
-<p>When <code class="docutils literal notranslate"><span class="pre">--offline</span></code> is specified:</p>
-<ul class="simple">
-<li><p>The script uses local pybind11 from the <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directories</p></li>
-<li><p>UV operates in offline mode (<code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>)</p></li>
-<li><p>No network requests are made during the build</p></li>
-</ul>
+<section id="default-offline-build">
+<h3><span class="section-number">4.1.5.2. </span>Default offline build<a class="headerlink" href="#default-offline-build" title="Link to this heading"></a></h3>
+<p>Set the cache and Python installation locations to the copied directories, then use the platform’s offline flag:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux; replace these paths with the transferred cache/interpreter directories.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">UV_CACHE_DIR</span><span class="o">=</span>/path/to/copied-uv-cache
+<span class="nb">export</span><span class="w"> </span><span class="nv">UV_PYTHON_INSTALL_DIR</span><span class="o">=</span>/path/to/copied-uv-python
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span><span class="m">3</span>.10
+<span class="c1"># macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline 3.10</span>
+</pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># Windows PowerShell</span>
+<span class="nv">$env:UV_CACHE_DIR</span> <span class="p">=</span> <span class="s2">&quot;C:\offline\uv-cache&quot;</span>
+<span class="nv">$env:UV_PYTHON_INSTALL_DIR</span> <span class="p">=</span> <span class="s2">&quot;C:\offline\uv-python&quot;</span>
+<span class="p">.\</span><span class="n">scripts</span><span class="p">\</span><span class="n">build_whl</span><span class="p">\</span><span class="n">build-whl-uv</span><span class="p">.</span><span class="n">ps1</span> <span class="n">3</span><span class="p">.</span><span class="n">10</span> <span class="n">-Offline</span>
+</pre></div>
+</div>
+<p>The default mode deletes and recreates the per-version environment, installs pinned pybind11 and runs <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--no-install-project</span></code>. The offline flag sets <code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>; missing cached dependencies or interpreters cause failure rather than being supplied by a copied <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directory.</p>
+</section>
+<section id="reuse-an-active-environment">
+<h3><span class="section-number">4.1.5.3. </span>Reuse an active environment<a class="headerlink" href="#reuse-an-active-environment" title="Link to this heading"></a></h3>
+<p>To retain a locally prepared environment, activate it and add the script’s <code class="docutils literal notranslate"><span class="pre">--no-sync</span></code> option (PowerShell: <code class="docutils literal notranslate"><span class="pre">-NoSync</span></code>). The active Python version must match the requested version, and pybind11 and all build requirements must already be available. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span>--no-sync<span class="w"> </span><span class="m">3</span>.10
+<span class="c1"># macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10</span>
+</pre></div>
+</div>
+<p>This mode skips environment recreation, pinned pybind11 installation and dependency synchronization. It still performs CMake compilation and <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code>, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.</p>
 </section>
 </section>
 <section id="build-output">
@@ -1718,23 +1722,22 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 </section>
 <section id="generate-type-stubs-optional-but-recommended">
 <h3><span class="section-number">4.1.6.2. </span>Generate Type Stubs (Optional but Recommended)<a class="headerlink" href="#generate-type-stubs-optional-but-recommended" title="Link to this heading"></a></h3>
-<p>To generate <code class="docutils literal notranslate"><span class="pre">.pyi</span></code> type stub files for IDE autocomplete support:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Activate your virtual environment</span>
-<span class="nb">source</span><span class="w"> </span>orbbec_env/bin/activate<span class="w">  </span><span class="c1"># Linux/macOS</span>
-<span class="c1"># .\orbbec_env\Scripts\Activate.ps1  # Windows PowerShell</span>
+<p>From the repository root, activate the environment containing the newly built SDK. Stub generation inspects that installed package; rebuild/install the SDK first when bindings change. Follow the same package layout as <code class="docutils literal notranslate"><span class="pre">stubs/README.md</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
+python<span class="w"> </span>-m<span class="w"> </span>pybind11_stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>generated_stubs
+python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generated_stubs/pyorbbecsdk/pyorbbecsdk.pyi<span class="w"> </span>stubs/pyorbbecsdk.pyi
+python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generated_stubs/pyorbbecsdk/__init__.pyi<span class="w"> </span>stubs/__init__.pyi
+</pre></div>
+</div>
+<p>In a uv environment without pip, install the tool using <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--python</span> <span class="pre">.venv/bin/python</span> <span class="pre">pybind11-stubgen</span></code>, then run the remaining commands with that environment’s Python. Both package and extension stubs must be repaired and copied together:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span>
 
-<span class="c1"># Install pybind11-stubgen</span>
-pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
-
-<span class="c1"># Generate pyi file</span>
-pybind11-stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>.
-
-<span class="c1"># Fix the generated pyi file</span>
-python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>pyorbbecsdk.pyi
-
-<span class="c1"># Copy the fixed pyi file to the package directory</span>
-<span class="c1"># (find the package path using pip show)</span>
-cp<span class="w"> </span>pyorbbecsdk.pyi<span class="w"> </span><span class="k">$(</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))&quot;</span><span class="k">)</span>/
+<span class="n">package_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pyorbbecsdk</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;pyorbbecsdk.pyi&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__.pyi&quot;</span><span class="p">):</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;stubs&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">package_dir</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1793,7 +1796,7 @@ cp<span class="w"> </span>pyorbbecsdk.pyi<span class="w"> </span><span class="k"
 </tr>
 <tr class="row-even"><td><p>Deployment Target</p></td>
 <td><p>-</p></td>
-<td><p>macOS 13.0+</p></td>
+<td><p>macOS 11.0 (build target; tested on M2/macOS 13.2)</p></td>
 <td><p>-</p></td>
 </tr>
 </tbody>
@@ -1895,7 +1898,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 <td><p>Set to <code class="docutils literal notranslate"><span class="pre">1</span></code> to enable offline mode</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MACOSX_DEPLOYMENT_TARGET</span></code></p></td>
-<td><p>Minimum macOS version (default: 13.0)</p></td>
+<td><p>Build deployment target (script sets 11.0; tested on M2/macOS 13.2)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1970,7 +1973,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 10:45:00.
+      <span class="lastupdated">Last updated on 2026-11-19 11:21:14.
       </span></p>
   </div>
 

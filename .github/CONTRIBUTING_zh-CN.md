@@ -145,7 +145,7 @@ UV 是快速的 Python 包管理器，依赖解析速度可达 pip 的 10–100 
 chmod +x scripts/build_whl/build-whl-uv.sh
 ./scripts/build_whl/build-whl-uv.sh  # Build for Python 3.10 (default)
 ./scripts/build_whl/build-whl-uv.sh 3.11  # Build for Python 3.11
-./scripts/build_whl/build-whl-uv.sh all   # Build all supported versions (3.8-3.14)
+./scripts/build_whl/build-whl-uv.sh all   # Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14
 
 # macOS
 chmod +x scripts/build_whl/build-whl-uv-macos.sh

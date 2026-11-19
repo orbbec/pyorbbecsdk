@@ -786,29 +786,36 @@ Data stream recording is primarily implemented using RecordDevice.
 Key API Description:
 
 ```python
-from pyorbbecsdk import *
+from pyorbbecsdk import Config, OBSensorType, Pipeline, RecordDevice
 
-# 1.Prompt the user to enter the output filename (.bag) and wait for input to start recording
-file_path = input("Enter output filename (.bag) and press Enter to start recording: ")
-
-# 2.Create a pipeline with default device.
+file_path = input("Output .bag filename: ")
 pipeline = Pipeline()
-# 3.Get device with pipeline
 device = pipeline.get_device()
-# 4.Get the list of playback sensors
+config = Config()
+video_sensors = {
+    OBSensorType.COLOR_SENSOR, OBSensorType.DEPTH_SENSOR,
+    OBSensorType.IR_SENSOR, OBSensorType.LEFT_IR_SENSOR,
+    OBSensorType.RIGHT_IR_SENSOR,
+}
 sensor_list = device.get_sensor_list()
-# 5.enable the data streams for playback
-for sensor in range(len(sensor_list)):
-    sensor_type = sensor_list[sensor].get_type()
+for index in range(len(sensor_list)):
+    sensor_type = sensor_list[index].get_type()
     if sensor_type in video_sensors:
         config.enable_stream(sensor_type)
-# 6.Initialize recording device with output file
-recorder = RecordDevice(device, file_path)
-# 7.Start record
-recorder.resume()
 
-# 8.Stop record
-recorder.pause()
+recorder = RecordDevice(device, file_path)
+pipeline.start(config)
+try:
+    recorder.resume()
+    print("Recording; press Ctrl+C to stop.")
+    while True:
+        pipeline.wait_for_frames(100)
+except KeyboardInterrupt:
+    pass
+finally:
+    recorder.pause()
+    recorder = None  # Release the recorder to finalize the bag file.
+    pipeline.stop()
 ```
 
 For detailed code, refer to: [examples/advanced/01_recorder.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/01_recorder.py).
@@ -820,46 +827,45 @@ Data stream playback is primarily implemented using PlaybackDevice.
 Key API Description:
 
 ```python
-from pyorbbecsdk import *
+from threading import Event
+from pyorbbecsdk import Config, OBPlaybackStatus, OBSensorType, Pipeline, PlaybackDevice
 
-# 1.Get valid .bag
-file_path = input("Enter output filename (.bag) and press Enter to start playbacking: ")
-# 2.Create a playback device with a .bag file
+file_path = input("Input .bag filename: ")
 playback = PlaybackDevice(file_path)
-# 3.Create a pipeline with the playback device
 pipeline = Pipeline(playback)
-# 4.Get the default config
 config = Config()
-# 5.Set playback status change callback, when the playback stops, start the pipeline again with the same config
-def on_status_change(status):
-    print(f"[Callback] status changed: {status}")
-    if status == PlaybackStatus.STOPPED:
-        pipeline.stop()
-        pipeline.start(config)
-playback.set_playback_status_change_callback(on_status_change)
-# 6.Get the list of playback sensors
-sensor_list = device.get_sensor_list()
-# 7.enable the data streams for playback
-for sensor in range(len(sensor_list)):
-    sensor_type = sensor_list[sensor].get_type()
+video_sensors = {
+    OBSensorType.COLOR_SENSOR, OBSensorType.DEPTH_SENSOR,
+    OBSensorType.IR_SENSOR, OBSensorType.LEFT_IR_SENSOR,
+    OBSensorType.RIGHT_IR_SENSOR,
+}
+sensor_list = playback.get_sensor_list()
+for index in range(len(sensor_list)):
+    sensor_type = sensor_list[index].get_type()
     if sensor_type in video_sensors:
         config.enable_stream(sensor_type)
+finished = Event()
 
-# 8.Start the pipeline with the config
+def on_status_change(status):
+    if status == OBPlaybackStatus.STOPPED:
+        finished.set()  # Do not stop/restart the pipeline inside this callback.
+
+playback.set_playback_status_change_callback(on_status_change)
 pipeline.start(config)
-
-while True:
-    # 9.Get all frames
-    frames = pipeline.wait_for_frames(100)
-    if not frames:
-        continue
-
-    # Process color image
-    color_frame = frames.get_frame(OBFrameType.COLOR_FRAME)
-
-# 10.Stop the pipeline.
-pipeline.stop()
-playback  = None
+try:
+    while not finished.is_set():
+        frames = pipeline.wait_for_frames(100)
+        if frames is None:
+            continue
+        color_frame = frames.get_color_frame()
+        if color_frame is not None:
+            # Process the color frame here.
+            print(color_frame.get_width(), color_frame.get_height())
+except KeyboardInterrupt:
+    pass
+finally:
+    pipeline.stop()
+    playback = None
 ```
 
 For detailed code, refer to: [examples/advanced/02_playback.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/02_playback.py).
@@ -1266,7 +1272,8 @@ The command to turn the laser on or off for the Gemini 330 is as follows：
 
 ```python
 # Gemini 330 series Laser control, 0: off, 1: on, 2: auto
-device.set_bool_property(OBPropertyID.OB_PROP_LASER_CONTROL_INT, laser)
+laser = 1  # 0: off, 1: on, 2: auto
+device.set_int_property(OBPropertyID.OB_PROP_LASER_CONTROL_INT, laser)
 ```
 
 For devices other than the Gemini 330, the command to turn the laser on or off is as follows：
@@ -1280,12 +1287,14 @@ device.set_bool_property(OBPropertyID.OB_PROP_LASER_BOOL, True)
 MetaData can be obtained from the returned Frame objects. Supported frame types include depth, leftIR, rightIR, and color.
 
 ```python
-frame_set = pipeline.wait_for_frames(1000)
-# Example of using color frame
-frame = frames.get_color_frame()
+from pyorbbecsdk import OBFrameMetadataType
 
-if frame.has_metadata(EXPOSURE):
-    metadata_value = frame.get_metadata_value(EXPOSURE)
+# Assumes pipeline has already been started with a color stream enabled.
+frame_set = pipeline.wait_for_frames(1000)
+if frame_set is not None:
+    frame = frame_set.get_color_frame()
+    if frame is not None and frame.has_metadata(OBFrameMetadataType.EXPOSURE):
+        metadata_value = frame.get_metadata_value(OBFrameMetadataType.EXPOSURE)
 ```
 
 For detailed code, refer to: [examples/advanced/07_metadata.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/07_metadata.py).
@@ -1744,7 +1753,7 @@ Set Color exposure, prerequisites, you need to turn off the Color AE
 
 ```python
 #True open color AE， False: close color AE
-device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, True)
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
 #set exposure
 device.set_int_property(OBPropertyID.OB_PROP_COLOR_EXPOSURE_INT, 1000)
 ```
@@ -1754,7 +1763,7 @@ Set the Color gain and prerequisites. You need to turn off the Color AE
 
 ```python
 #True open color AE， False: close color AE
-device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, True)
+device.set_bool_property(OBPropertyID.OB_PROP_COLOR_AUTO_EXPOSURE_BOOL, False)
 #Set color gain. gain: the specific gain value
 device.set_int_property(OBPropertyID.OB_PROP_COLOR_GAIN_INT, gain)
 ```

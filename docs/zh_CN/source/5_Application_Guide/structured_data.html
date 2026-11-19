@@ -1404,7 +1404,7 @@
 <p>本节接口在 Python Wrapper 2.1.4 中可用。可访问的属性仍取决于设备和固件支持情况。</p>
 <section id="choose-the-simplest-interface">
 <h2><span class="section-number">5.19.1. </span>选择最简单的接口<a class="headerlink" href="#choose-the-simplest-interface" title="Link to this heading"></a></h2>
-<p>日常设备操作应优先使用已有的强类型 API。它直接接收或返回 Python 配置对象，因此不需要属性 ID、<code class="docutils literal notranslate"><span class="pre">bytes</span></code>、<code class="docutils literal notranslate"><span class="pre">to_bytes()</span></code> 或 <code class="docutils literal notranslate"><span class="pre">from_bytes()</span></code>。</p>
+<p>日常设备操作应优先使用已有的专用 API。这类接口直接接收或返回 Python 配置对象，无需手动指定属性 ID，也无需通过 <code class="docutils literal notranslate"><span class="pre">bytes</span></code>、<code class="docutils literal notranslate"><span class="pre">to_bytes()</span></code> 或 <code class="docutils literal notranslate"><span class="pre">from_bytes()</span></code> 转换数据。</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>任务</p></th>
@@ -1443,11 +1443,11 @@
 </tr>
 </tbody>
 </table>
-<p>IP 信息方法不返回完整配置标志或静态 IP 记录。如需这些字段，请参见下方 IP 特殊情况。签名和成员参见<a class="reference internal" href="../6_API_Reference/core.html"><span class="doc">核心接口</span></a>、<a class="reference internal" href="../6_API_Reference/data_structures.html"><span class="doc">数据结构</span></a>和<a class="reference internal" href="../6_API_Reference/stream_profile.html"><span class="doc">流配置</span></a>。</p>
+<p>用于查询 IP 信息的方法不会返回完整的配置标志或静态 IP 记录。如需这些字段，请参见下方 IP 配置的特殊处理说明。接口签名和结构体成员请参见<a class="reference internal" href="../6_API_Reference/core.html"><span class="doc">核心接口</span></a>、<a class="reference internal" href="../6_API_Reference/data_structures.html"><span class="doc">数据结构</span></a>和<a class="reference internal" href="../6_API_Reference/stream_profile.html"><span class="doc">流配置</span></a>。</p>
 </section>
 <section id="interface-at-a-glance">
 <h2><span class="section-number">5.19.2. </span>接口速览<a class="headerlink" href="#interface-at-a-glance" title="Link to this heading"></a></h2>
-<p>当结构化属性没有合适的强类型封装（如彩色 AE ROI），或应用需要按属性 ID 统一访问时，使用通用接口。<code class="docutils literal notranslate"><span class="pre">Device.get_structured_data(property_id)</span></code> 返回独立持有的 Python <code class="docutils literal notranslate"><span class="pre">bytes</span></code>；<code class="docutils literal notranslate"><span class="pre">Device.set_structured_data(property_id,</span> <span class="pre">data)</span></code> 写入 <code class="docutils literal notranslate"><span class="pre">bytes</span></code>。使用 <code class="docutils literal notranslate"><span class="pre">Config.from_bytes(data)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">config.to_bytes()</span></code> 显式转换。属性 ID 决定操作，字节本身不携带 Python 类型。以下示例说明此通用流程。</p>
+<p>当结构化属性没有合适的专用封装（如彩色 AE ROI），或应用需要通过属性 ID 统一访问不同属性时，可使用通用接口。<code class="docutils literal notranslate"><span class="pre">Device.get_structured_data(property_id)</span></code> 返回独立的 Python <code class="docutils literal notranslate"><span class="pre">bytes</span></code> 对象；<code class="docutils literal notranslate"><span class="pre">Device.set_structured_data(property_id,</span> <span class="pre">data)</span></code> 接收 <code class="docutils literal notranslate"><span class="pre">bytes</span></code> 并写入对应属性。使用 <code class="docutils literal notranslate"><span class="pre">Config.from_bytes(data)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">config.to_bytes()</span></code> 显式转换数据。属性 ID 决定具体操作，字节数据本身不包含 Python 类型信息。以下示例介绍通用接口的使用流程。</p>
 </section>
 <section id="basic-usage">
 <h2><span class="section-number">5.19.3. </span>基本用法<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h2>
@@ -1461,7 +1461,7 @@
 <span class="n">device</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get_device_by_index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>彩色 AE ROI 是通过通用接口访问的属性示例。读取后，使用匹配的结构体解码坐标：</p>
+<p>以下以彩色自动曝光感兴趣区域（AE ROI）为例，说明如何通过通用接口访问属性。读取数据后，使用对应结构体解析区域坐标：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prop</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_STRUCT_COLOR_AE_ROI</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">device</span><span class="o">.</span><span class="n">is_property_supported</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">ob</span><span class="o">.</span><span class="n">OBPermissionType</span><span class="o">.</span><span class="n">PERMISSION_READ</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Color AE ROI is not readable&quot;</span><span class="p">)</span>
@@ -1469,17 +1469,17 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">x0_left</span><span class="p">,</span> <span class="n">roi</span><span class="o">.</span><span class="n">y0_top</span><span class="p">,</span> <span class="n">roi</span><span class="o">.</span><span class="n">x1_right</span><span class="p">,</span> <span class="n">roi</span><span class="o">.</span><span class="n">y1_bottom</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>写入 AE ROI 前，请启动对应数据流，并在收到首帧后刷新 ROI，详见下文。</p>
+<p>写入 AE ROI 前，请启动对应数据流，并在收到首帧后重新读取 ROI 配置，详见下文。</p>
 </section>
 <section id="payload-rules">
 <h2><span class="section-number">5.19.4. </span>载荷规则<a class="headerlink" href="#payload-rules" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>二进制输入必须为 <code class="docutils literal notranslate"><span class="pre">bytes</span></code>。先用 <code class="docutils literal notranslate"><span class="pre">bytes(buffer)</span></code> 转换 <code class="docutils literal notranslate"><span class="pre">bytearray</span></code> 或 <code class="docutils literal notranslate"><span class="pre">memoryview</span></code>。内嵌零字节会保留。</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">set_structured_data()</span></code> 拒绝空数据和长度超过 <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> 的数据。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set_structured_data()</span></code> 不接受空数据，也不接受长度超过 <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> 可表示范围的数据。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">from_bytes()</span></code> 要求长度与结构体精确匹配。<code class="docutils literal notranslate"><span class="pre">to_bytes()</span></code> 返回独立副本。使用 <code class="docutils literal notranslate"><span class="pre">len(config.to_bytes())</span></code>，不要使用 <code class="docutils literal notranslate"><span class="pre">sys.getsizeof(config)</span></code>。</p></li>
 <li><p>载荷使用当前 SDK 的原生字节序和紧凑结构体布局，不是用于文件存储或跨平台交换的可移植序列化格式。</p></li>
 <li><p>仅提供结构体载荷：不要包含 I2C 头、操作码、请求 ID、命令版本或响应错误码。完整协议数据包请使用<a class="reference internal" href="binary_device_data.html"><span class="doc">设备二进制数据</span></a>接口。</p></li>
-<li><p>对于普通属性，设置接口直接转发字节，不验证属性与类型是否匹配，也不强制表中的长度。调用者必须匹配属性和布局。长度相同不代表两种类型可以互换。</p></li>
+<li><p>对于普通属性，设置接口会直接转发字节数据，不检查属性与结构体类型是否匹配，也不强制检查数据长度是否符合表中规定。调用者必须确保属性、结构体布局和数据长度相互匹配。即使两种结构体长度相同，也不代表它们可以互换。</p></li>
 </ul>
 </section>
 <section id="check-support-and-permission">
@@ -1490,7 +1490,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;readable:&quot;</span><span class="p">,</span> <span class="n">readable</span><span class="p">,</span> <span class="s2">&quot;writable:&quot;</span><span class="p">,</span> <span class="n">writable</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>枚举成员、Python 结构体、字节转换支持和设备支持是不同条件。权限检查成功，不排除后续因设备状态、参数限制或固件行为导致 SDK 错误。</p>
+<p>枚举中定义了某个属性、Python 提供了对应结构体、绑定层支持字节转换，以及设备支持该属性，是四个不同的条件，需要分别确认。即使权限检查通过，后续操作仍可能因设备状态、参数限制或固件行为而引发 SDK 错误。</p>
 <p>无效二进制输入引发 <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>；无效长度、未知读取布局和绑定层限制引发 <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>。设备访问失败通过 <code class="docutils literal notranslate"><span class="pre">OBError</span></code> 报告。</p>
 </section>
 <section id="read-only-data">
@@ -1500,13 +1500,13 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">temperature</span><span class="o">.</span><span class="n">cpu_temperature</span><span class="p">,</span> <span class="n">temperature</span><span class="o">.</span><span class="n">ir_left_temperature</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>温度可能在两次读取间变化或包含 <code class="docutils literal notranslate"><span class="pre">NaN</span></code>。请按属性比较有意义的字段，不要要求原始字节完全一致。存在通用读取接口并不意味着该值可写。</p>
+<p>温度值可能在两次读取之间发生变化，也可能为 <code class="docutils literal notranslate"><span class="pre">NaN</span></code>。请根据具体属性比较相关字段，不要要求两次读取的原始字节完全一致。提供通用读取接口并不意味着该属性也支持写入。</p>
 </section>
 <section id="read-modify-verify-and-restore">
 <h2><span class="section-number">5.19.7. </span>读取、修改、验证与恢复<a class="headerlink" href="#read-modify-verify-and-restore" title="Link to this heading"></a></h2>
 <p>AE ROI 使用 <code class="docutils literal notranslate"><span class="pre">OBRegionOfInterest</span></code>，字段为边界坐标 (<code class="docutils literal notranslate"><span class="pre">x0_left</span></code>, <code class="docutils literal notranslate"><span class="pre">y0_top</span></code>, <code class="docutils literal notranslate"><span class="pre">x1_right</span></code>, <code class="docutils literal notranslate"><span class="pre">y1_bottom</span></code>)。RGB 裁剪使用 <code class="docutils literal notranslate"><span class="pre">OBRect</span></code> (<code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">width</span></code>, <code class="docutils literal notranslate"><span class="pre">height</span></code>)，两种布局不能互换。</p>
 <p>某些设备和固件要求在推流状态下配置 AE ROI。启动对应数据流，等待首帧，然后读取 ROI 作为原始配置。坐标必须在该帧尺寸范围内，改变分辨率后应刷新 ROI。必须启用自动曝光，ROI 才会影响曝光调节。</p>
-<p>运行此示例前，请按<a class="reference external" href="ApplicationGuide.html#blocking-polling-mode-video-data-streams">阻塞轮询模式</a>流程启动彩色流。在此使用同一 <code class="docutils literal notranslate"><span class="pre">pipeline</span></code> 及其 <code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">=</span> <span class="pre">pipeline.get_device()</span></code>，并沿用基本用法中的 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pyorbbecsdk</span> <span class="pre">as</span> <span class="pre">ob</span></code> 别名。保持 Pipeline 运行直至恢复完成，之后在不再需要时停止。</p>
+<p>运行此示例前，请按<a class="reference external" href="ApplicationGuide.html#blocking-polling-mode-video-data-streams">阻塞轮询模式</a>的流程启动彩色流。下文沿用同一个 <code class="docutils literal notranslate"><span class="pre">pipeline</span></code>，并通过 <code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">=</span> <span class="pre">pipeline.get_device()</span></code> 获取设备对象；模块别名沿用基本用法中的 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pyorbbecsdk</span> <span class="pre">as</span> <span class="pre">ob</span></code>。恢复原始配置前，请保持 Pipeline 运行；恢复完成后，如不再需要采集数据，再停止 Pipeline。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prop</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_STRUCT_COLOR_AE_ROI</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">device</span><span class="o">.</span><span class="n">is_property_supported</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">ob</span><span class="o">.</span><span class="n">OBPermissionType</span><span class="o">.</span><span class="n">PERMISSION_READ_WRITE</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Color AE ROI is not readable/writable&quot;</span><span class="p">)</span>
@@ -1546,11 +1546,11 @@
 </pre></div>
 </div>
 <p>对于深度 AE ROI，使用 <code class="docutils literal notranslate"><span class="pre">OB_STRUCT_DEPTH_AE_ROI</span></code>，通过 <code class="docutils literal notranslate"><span class="pre">frames.get_depth_frame()</span></code> 等待深度帧，并使用深度帧尺寸。</p>
-<p>某些属性异步生效或会量化数值。请根据设备调整等待时间和比较方式，并将恢复失败视为失败。回读仅验证配置读写流程，不验证图像效果。IP 配置可能导致设备断连，不要套用此自动恢复模式。</p>
+<p>某些属性的设置会异步生效，或由设备将数值量化为支持的取值。请根据设备调整等待时间和比较方式；如果恢复原始配置失败，应按操作失败处理。重新读取配置只能确认读写流程是否正常，不能验证实际图像效果。修改 IP 配置可能使设备断开连接，请勿套用此示例中的自动恢复方式。</p>
 </section>
 <section id="supported-properties">
 <h2><span class="section-number">5.19.8. </span>支持的属性<a class="headerlink" href="#supported-properties" title="Link to this heading"></a></h2>
-<p>下列大小对应当前绑定所用的 SDK 布局。“检查设备”表示需分别查询读写权限，表格不保证所有相机均支持任一操作。“固定”表示通用读取接口已知载荷大小；“专用”表示调用专用 SDK 操作。</p>
+<p>下列字节数对应当前绑定所用的 SDK 结构体布局。“检查设备”表示需要分别查询读权限和写权限，表格并不保证每款相机都支持相应操作。“固定”表示通用读取接口已知数据大小；“专用”表示通过专用 SDK 接口读取。</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>属性（<code class="docutils literal notranslate"><span class="pre">OBPropertyID</span></code>）</p></th>
@@ -1735,7 +1735,7 @@
 </section>
 <section id="existing-apis-and-special-cases">
 <h2><span class="section-number">5.19.9. </span>已有 API 与特殊情况<a class="headerlink" href="#existing-apis-and-special-cases" title="Link to this heading"></a></h2>
-<p>请使用以下封装接口完成对应任务。本节列出推荐方法和剩余约束；正常使用这些方法时无需手动序列化属性。</p>
+<p>请优先使用以下封装接口完成对应任务。本节列出推荐方法及仍需注意的使用限制；通常无需手动将属性数据序列化为字节。</p>
 <section id="multi-device-synchronization">
 <h3><span class="section-number">5.19.9.1. </span>多设备同步<a class="headerlink" href="#multi-device-synchronization" title="Link to this heading"></a></h3>
 <p>使用 <code class="docutils literal notranslate"><span class="pre">device.get_multi_device_sync_config()</span></code> 获取 <code class="docutils literal notranslate"><span class="pre">OBMultiDeviceSyncConfig</span></code>，修改所需字段，再将对象传入 <code class="docutils literal notranslate"><span class="pre">device.set_multi_device_sync_config(config)</span></code>。SDK 负责协议选择。硬件连接与配置流程请参见<a class="reference external" href="ApplicationGuide.html#multi-camera-synchronization">多相机同步</a>。</p>
@@ -1744,7 +1744,7 @@
 <section id="depth-work-mode">
 <h3><span class="section-number">5.19.9.2. </span>深度工作模式<a class="headerlink" href="#depth-work-mode" title="Link to this heading"></a></h3>
 <p>使用 <code class="docutils literal notranslate"><span class="pre">device.get_depth_work_mode()</span></code> 读取当前模式，使用 <code class="docutils literal notranslate"><span class="pre">device.get_depth_work_mode_list()</span></code> 获取有效模式。切换前停止所有流，选择列表中的完整项并传给 <code class="docutils literal notranslate"><span class="pre">device.set_depth_work_mode(mode)</span></code>。将返回状态与 <code class="docutils literal notranslate"><span class="pre">ob.OBStatus.STATUS_OK</span></code> 比较。完整示例参见<a class="reference external" href="ApplicationGuide.html#depth-working-mode">深度工作模式</a>。</p>
-<p>对于未填充 <code class="docutils literal notranslate"><span class="pre">get_depth_work_mode().tag</span></code> 的 SDK 版本，请从支持模式列表的对应项获取 tag。需处理专用 API 的 SDK 错误；仅有原始属性权限不能证明该流程受支持。</p>
+<p>对于未填充 <code class="docutils literal notranslate"><span class="pre">get_depth_work_mode().tag</span></code> 的 SDK 版本，请从设备支持的模式列表中获取对应模式的 tag。使用专用 API 时仍需处理 SDK 错误；仅通过原始属性的权限检查，并不能证明设备支持整个操作流程。</p>
 <p>公开的 <code class="docutils literal notranslate"><span class="pre">OBDepthWorkMode</span></code> 包含 <code class="docutils literal notranslate"><span class="pre">tag</span></code>；内部的 <code class="docutils literal notranslate"><span class="pre">OBDepthWorkModeInternal</span></code> 包含 <code class="docutils literal notranslate"><span class="pre">option_code</span></code>。两者都是 52 字节，但含义不同。切换模式时应保留设备提供的列表项，不要自行构造内部载荷。</p>
 </section>
 <section id="device-error-state">
@@ -1754,8 +1754,8 @@
 </section>
 <section id="variable-and-unavailable-layouts">
 <h3><span class="section-number">5.19.9.4. </span>可变及不可用布局<a class="headerlink" href="#variable-and-unavailable-layouts" title="Link to this heading"></a></h3>
-<p>通用读取接口不支持 <code class="docutils literal notranslate"><span class="pre">OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST</span></code>（可变长度）或 <code class="docutils literal notranslate"><span class="pre">OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM</span></code>（布局尚未适配）。此版本也未提供读取这两种载荷的专用封装。设备支持检查不能补足缺失布局或安全的长度查询 API。</p>
-<p>发现 IMU 能力时，使用 <code class="docutils literal notranslate"><span class="pre">device.get_sensor_list()</span></code> 选择加速度计或陀螺仪传感器，再调用 <code class="docutils literal notranslate"><span class="pre">sensor.get_stream_profile_list()</span></code>。此公开接口避免依赖内部预设列表权限。它仅发现 IMU 流配置，不能替代上述不支持的载荷。<code class="docutils literal notranslate"><span class="pre">OBImuPresetList</span></code> 自身为固定 68 字节布局，最多含 16 项；<code class="docutils literal notranslate"><span class="pre">count</span></code> 只读，<code class="docutils literal notranslate"><span class="pre">values</span></code> 暴露有效条目。</p>
+<p>通用读取接口不支持 <code class="docutils literal notranslate"><span class="pre">OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST</span></code>（数据长度可变）或 <code class="docutils literal notranslate"><span class="pre">OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM</span></code>（尚未适配其结构体布局）。此版本也未提供读取这两类数据的专用封装。即使设备支持对应属性，也不能解决绑定层缺少布局定义或安全长度查询 API 的问题。</p>
+<p>如需查询设备支持的 IMU 流配置，请通过 <code class="docutils literal notranslate"><span class="pre">device.get_sensor_list()</span></code> 选择加速度计或陀螺仪传感器，再调用 <code class="docutils literal notranslate"><span class="pre">sensor.get_stream_profile_list()</span></code>。使用此公开接口无需依赖内部预设列表的访问权限，但它仅用于查询 IMU 流配置，不能替代对上述两类不受支持数据的读取。<code class="docutils literal notranslate"><span class="pre">OBImuPresetList</span></code> 采用固定的 68 字节布局，最多包含 16 项；<code class="docutils literal notranslate"><span class="pre">count</span></code> 为只读字段，<code class="docutils literal notranslate"><span class="pre">values</span></code> 返回有效条目。</p>
 </section>
 <section id="ip-configuration-and-other-field-conventions">
 <h3><span class="section-number">5.19.9.5. </span>IP 配置与其他字段约定<a class="headerlink" href="#ip-configuration-and-other-field-conventions" title="Link to this heading"></a></h3>
@@ -1771,8 +1771,8 @@
 </section>
 <section id="limitations">
 <h2><span class="section-number">5.19.11. </span>限制<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
-<p>仅扁平、固定布局结构体支持字节转换。这不是 SDK 对象、指针或可变数组的通用序列化。通用设置接口接收 bytes，不意味着读取接口知道该属性布局，也不意味着设备允许写入。</p>
-<p>SDK 的普通结构化读取先复制数据，再报告返回长度，不强制传入容量。因此读取依赖设备和 SDK 遵守已登记布局。调用后的长度检查可发现 ABI 不匹配，却无法防止 SDK 缓冲区越界。不要使用空缓冲区或反复扩大缓冲区探测未知长度。安全支持任意载荷需要具有容量感知能力的 SDK API。</p>
+<p>仅布局固定且不含嵌套结构的结构体支持字节转换。这些转换方法不适用于任意 SDK 对象、指针或可变长度数组。通用设置接口接收 bytes，并不代表读取接口已知该属性的布局，也不代表设备允许写入该属性。</p>
+<p>SDK 的普通结构化读取接口会先复制数据，再返回实际长度，且不会按传入的缓冲区容量限制复制大小。因此，读取安全依赖于设备和 SDK 遵循已登记的结构体布局。调用后的长度检查可以发现 ABI 不匹配，但无法防止 SDK 在复制时发生缓冲区越界。请勿通过空缓冲区或反复扩大缓冲区来探测未知数据的长度。若要安全读取任意大小的数据，需要使用能够接收缓冲区容量并限制写入大小的 SDK API。</p>
 </section>
 </section>
 
@@ -1788,7 +1788,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

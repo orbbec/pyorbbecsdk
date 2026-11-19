@@ -1921,7 +1921,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.set_monitor_poll_interval">
 <span class="sig-name descname"><span class="pre">set_monitor_poll_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyorbbecsdk.Device.set_monitor_poll_interval" title="Link to this definition"></a></dt>
-<dd><p>设置心跳和固件日志获取所用的设备监控轮询间隔，单位为毫秒（有效范围 [1000, 10000]，超出范围会被限幅）</p>
+<dd><p>设置设备监控的轮询间隔，用于发送心跳和获取固件日志，单位为毫秒（有效范围为 [1000, 10000]，超出范围的值会被限制在最近的边界值）</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1937,7 +1937,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.set_structured_data">
 <span class="sig-name descname"><span class="pre">set_structured_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#pyorbbecsdk.OBPropertyID" title="pyorbbecsdk.OBPropertyID"><span class="pre">OBPropertyID</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyorbbecsdk.Device.set_structured_data" title="Link to this definition"></a></dt>
-<dd><p>使用 SDK 原生结构体布局的非空字节设置结构化属性。字节长度自动推断；属性与类型的匹配及序列化由调用者负责。</p>
+<dd><p>使用符合 SDK 原生结构体布局的非空字节数据设置结构化属性。接口会自动推断数据长度；调用者负责确保属性与类型匹配，并完成序列化。</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1984,7 +1984,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.Device.update_firmware_from_data">
 <span class="sig-name descname"><span class="pre">update_firmware_from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.Device" title="pyorbbecsdk.pyorbbecsdk.Device"><span class="pre">pyorbbecsdk.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">async_update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pyorbbecsdk.Device.update_firmware_from_data" title="Link to this definition"></a></dt>
-<dd><p>从固件字节更新。保持 Device 存活直至完成。回调异常通过 sys.unraisablehook 报告。</p>
+<dd><p>使用固件字节数据更新设备。更新完成前，请保留 Device 对象，避免其被销毁。回调异常通过 sys.unraisablehook 报告。</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2838,7 +2838,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

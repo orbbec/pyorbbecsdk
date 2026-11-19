@@ -1442,7 +1442,7 @@
 </tr>
 <tr class="row-odd"><td><p>8</p></td>
 <td><p>深度点云</p></td>
-<td><p>深度点云表示三维世界坐标系中的点坐标，可利用深度相机内参将深度数据转换为点云。</p></td>
+<td><p>深度点云由三维空间中的点坐标组成，可根据深度相机的内参将深度数据转换为点云。</p></td>
 </tr>
 <tr class="row-even"><td><p>9</p></td>
 <td><p>RGBD 点云</p></td>
@@ -1450,11 +1450,11 @@
 </tr>
 <tr class="row-odd"><td><p>10</p></td>
 <td><p>D2C</p></td>
-<td><p>“Depth to Color”（深度对齐至彩色）对深度图像执行逐像素几何变换，使其与对应彩色图像对齐。通过变换后深度图中的相同图像坐标，可以查得彩色像素的深度信息。D2C 生成与目标彩色图像尺寸相同的深度图，内容表示彩色相机坐标系中的深度数据。换言之，以彩色相机的原点和尺寸重建深度图，每个像素与彩色相机的对应像素坐标匹配。</p></td>
+<td><p>“Depth to Color”（深度对齐至彩色）通过逐像素几何变换，将深度图像对齐到对应的彩色图像。完成 D2C 变换后，即可用彩色图像中某个像素的坐标，在对齐后的深度图中查找对应的深度值。生成的深度图与目标彩色图像尺寸相同，深度数据以彩色相机坐标系为基准。也就是说，对齐后的深度图采用彩色相机的视角和图像尺寸，使两幅图像中相同坐标的像素相互对应。</p></td>
 </tr>
 <tr class="row-even"><td><p>11</p></td>
 <td><p>硬件 D2C</p></td>
-<td><p>硬件 D2C 指在相机内部执行深度至彩色的变换，相机直接输出 D2C 结果。</p></td>
+<td><p>硬件 D2C 指在相机内部完成深度图像到彩色图像的对齐，并由相机直接输出对齐结果。</p></td>
 </tr>
 <tr class="row-odd"><td><p>12</p></td>
 <td><p>软件 D2C</p></td>
@@ -1462,7 +1462,7 @@
 </tr>
 <tr class="row-even"><td><p>13</p></td>
 <td><p>帧聚合（FrameSet）</p></td>
-<td><p>将深度、红外和彩色帧组合为 FrameSet，并通过 Pipeline 调用。</p></td>
+<td><p>将深度、红外和彩色帧组合为一个 FrameSet，供应用通过 Pipeline 获取。</p></td>
 </tr>
 <tr class="row-odd"><td><p>14</p></td>
 <td><p>C2D</p></td>
@@ -1470,7 +1470,7 @@
 </tr>
 <tr class="row-even"><td><p>15</p></td>
 <td><p>元数据</p></td>
-<td><p>帧元数据是一组参数（或属性），反映生成该帧时传感器配置和/或系统状态的快照。</p></td>
+<td><p>帧元数据是一组参数（或属性），用于记录生成该帧时的传感器配置、系统状态等信息。</p></td>
 </tr>
 <tr class="row-odd"><td><p>16</p></td>
 <td><p>HDR</p></td>
@@ -1520,7 +1520,7 @@
 <ul class="simple">
 <li><p>Context</p></li>
 </ul>
-<p>Context 提供一组设置，包括设备状态变化回调、日志级别等。Context 可以访问多个设备。</p>
+<p>Context 提供设备状态变化回调、日志级别等设置，并可用于访问多个设备。</p>
 <ul class="simple">
 <li><p>Device</p></li>
 </ul>
@@ -1528,7 +1528,7 @@
 <ul class="simple">
 <li><p>Pipeline</p></li>
 </ul>
-<p>HighLevel 对应的对象封装了快速访问 SDK 的接口，通过简单的功能帮助用户快速上手使用 SDK。</p>
+<p>HighLevel 对应的对象封装了常用 SDK 接口，简化操作流程，便于用户快速上手。</p>
 <ul class="simple">
 <li><p>Config</p></li>
 </ul>
@@ -1544,7 +1544,7 @@
 <ul class="simple">
 <li><p>Filter</p></li>
 </ul>
-<p>主要指用于复合流 FrameSet 的算法处理模块，例如点云算法处理。</p>
+<p>用于处理 FrameSet 中数据的算法模块，例如点云生成模块。</p>
 <ul class="simple">
 <li><p>录制</p></li>
 </ul>
@@ -1561,7 +1561,7 @@
 <li><p>标准流程图：</p></li>
 </ul>
 <p><img alt="image.png" src="../../_images/Standard_Flowchart.png" /></p>
-<p>标准流程图展示了如何从设备列表创建设备、设置和获取参数，以及应用后处理滤波器。</p>
+<p>标准流程图展示了如何从设备列表获取并创建设备对象、设置和读取参数，以及使用后处理滤波器。</p>
 <ul class="simple">
 <li><p>使用默认配置的流程图（基于 OrbbecSDKConfig.xml 的默认设置获取数据流）：</p></li>
 </ul>
@@ -1581,7 +1581,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

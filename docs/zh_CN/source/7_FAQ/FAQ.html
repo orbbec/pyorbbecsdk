@@ -1687,7 +1687,7 @@ sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> <
 <h3><span class="section-number">7.3.3. </span>离线模式下找不到 pybind11<a class="headerlink" href="#pybind11-not-found-in-offline-mode" title="Link to this heading"></a></h3>
 <p>问题：离线构建失败，出现“pybind11 not found”错误。</p>
 <p>解决方法：</p>
-<p>默认构建脚本会重建各版本环境，仅复制 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 不能为此流程保留 pybind11。请在匹配的联网机器上准备实际构建所需的 uv 缓存和 Python 解释器，再随项目传输，并提供原生构建工具链。</p>
+<p>默认构建脚本会重建各 Python 版本对应的虚拟环境，因此仅复制 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 目录，无法保留构建所需的 pybind11。请在与目标平台环境匹配的联网计算机上，准备实际构建所需的 uv 缓存和 Python 解释器，再将其随项目一起复制到离线计算机，并另行准备原生编译工具链。</p>
 <p>完整缓存准备及平台命令参见<a class="reference external" href="../4_Package/build_with_uv.html#offline-build">离线构建</a>。如需复用有效的本地环境，请先激活，再使用 <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code>（PowerShell：<code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>）；隔离 wheel 构建仍需要缓存的构建依赖。不要使用 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> 准备干净仓库：CMake 必须先生成 <code class="docutils literal notranslate"><span class="pre">install/lib</span></code>。</p>
 </section>
 <hr class="docutils" />
@@ -1761,7 +1761,7 @@ sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> <
 </pre></div>
 </div>
 </li>
-<li><p>安装示例依赖：从封装版本 2.1.4 开始，OpenCV 是可选依赖，基础包不会安装它。请在同一 Python 环境中安装 examples 扩展依赖：</p>
+<li><p>安装示例脚本所需的第三方依赖包：从 Python Wrapper 2.1.4 开始，OpenCV 改为可选安装，不随基础包安装。请在安装 SDK 的同一个 Python 环境中，通过 examples 选项安装相应依赖包：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 </pre></div>
 </div>
@@ -1953,7 +1953,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from pathlib import Path; import pyorbbecsdk; print(Path(pyorbbecsdk.__file__).resolve().parent / &#39;OrbbecSDKConfig.xml&#39;)&quot;</span>
 </pre></div>
 </div>
-<p>仅编辑安装目录中的文件，不能保证默认 <code class="docutils literal notranslate"><span class="pre">Context()</span></code> 会加载它。编辑后，请在创建设备或管线之前，将输出的配置路径显式传入上下文构造函数：</p>
+<p>仅修改安装目录中的 XML 文件，并不能保证默认 <code class="docutils literal notranslate"><span class="pre">Context()</span></code> 会加载该文件。修改后，请在创建设备对象或 Pipeline 之前，将上一步输出的配置文件路径显式传入上下文构造函数：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Pipeline</span>
@@ -2090,7 +2090,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

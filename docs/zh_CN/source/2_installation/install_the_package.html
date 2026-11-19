@@ -1454,7 +1454,7 @@ python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </
 orbbec_env<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
-<p>以下内容的详细指南：</p>
+<p>以下操作的详细说明请参见下方指南：</p>
 <ul class="simple">
 <li><p>使用 <code class="docutils literal notranslate"><span class="pre">venv</span></code>、<code class="docutils literal notranslate"><span class="pre">pyenv</span></code> 或 <code class="docutils literal notranslate"><span class="pre">conda</span></code></p></li>
 <li><p>各平台的配置（Linux/macOS/Windows）</p></li>
@@ -1522,11 +1522,11 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 </pre></div>
 </div>
-<p>从 Wrapper 2.1.4 开始，示例依赖为可选项。上述命令会安装 SDK 和本指南中示例所需的依赖。如果应用仅需要核心 SDK 和 NumPy，请使用：</p>
+<p>从 Python Wrapper 2.1.4 开始，运行示例脚本所需的第三方依赖包改为可选安装。上述命令会同时安装 SDK 和本指南中示例脚本所需的依赖包。如果应用仅需要核心 SDK 和 NumPy，请使用：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2&quot;</span>
 </pre></div>
 </div>
-<p>已有用户可通过相同的 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 命令补装示例依赖。请始终为包含 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 的完整参数加引号，因为 macOS zsh 等 shell 会将未加引号的方括号解释为文件名匹配模式。</p>
+<p>已安装 SDK 的用户，也可执行上述包含 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 的安装命令，补装运行示例脚本所需的第三方依赖包。请为包含 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 的完整安装参数加引号，避免 macOS zsh 等 shell 将方括号解析为文件名匹配模式。</p>
 <p>特点：</p>
 <ul class="simple">
 <li><p>自动解析依赖</p></li>
@@ -1583,7 +1583,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.1.4-cp311-cp311-&lt;platform&gt;.whl
 </pre></div>
 </div>
-<p>对于 2.1.4 或更新版本的 wheel，追加 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 可同时安装示例依赖（请替换为实际的 wheel 文件名）：</p>
+<p>安装 2.1.4 或更新版本的 wheel 时，在文件名后附加 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 可同时安装运行示例脚本所需的第三方依赖包（请将下方文件名替换为实际下载的 wheel 文件名）：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2-2.1.4-cp310-cp310-macosx_11_0_arm64.whl[examples]&quot;</span>
 </pre></div>
 </div>
@@ -1653,7 +1653,7 @@ sudo<span class="w"> </span>-E<span class="w"> </span>python<span class="w"> </s
 </pre></div>
 </div>
 <blockquote>
-<div><p>示例依赖：从封装版本 2.1.4 开始，仅安装基础包不会安装 OpenCV 或其他可选示例依赖。即使已经安装 SDK，也需要在运行示例前安装 examples 扩展依赖：</p>
+<div><p>示例脚本的第三方依赖包：从 Python Wrapper 2.1.4 开始，仅安装基础包不会安装 OpenCV 等可选依赖包。即使已安装 SDK，运行示例脚本前仍需通过 examples 选项补装相应依赖包：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 </pre></div>
 </div>
@@ -1861,7 +1861,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

@@ -1401,7 +1401,7 @@
              
   <section id="stream-profile">
 <h1><span class="section-number">6.4. </span>流配置<a class="headerlink" href="#stream-profile" title="Link to this heading"></a></h1>
-<p>用于配置和操作流配置的类。</p>
+<p>用于获取、选择和操作数据流配置的类。</p>
 <section id="class-hierarchy">
 <h2><span class="section-number">6.4.1. </span>类层次结构<a class="headerlink" href="#class-hierarchy" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="#pyorbbecsdk.StreamProfile" title="pyorbbecsdk.StreamProfile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamProfile</span></code></a> 类是相关类型的基类。</p>
@@ -1752,7 +1752,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.OBDepthWorkMode.from_bytes">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.OBDepthWorkMode" title="pyorbbecsdk.pyorbbecsdk.OBDepthWorkMode"><span class="pre">pyorbbecsdk.OBDepthWorkMode</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.OBDepthWorkMode.from_bytes" title="Link to this definition"></a></dt>
-<dd><p>解码精确大小的 SDK 原生紧凑载荷。</p>
+<dd><p>按 SDK 原生紧凑结构体布局解码数据，输入字节数必须与结构体大小完全一致。</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1768,7 +1768,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.OBDepthWorkMode.to_bytes">
 <span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBDepthWorkMode" title="pyorbbecsdk.pyorbbecsdk.OBDepthWorkMode"><span class="pre">pyorbbecsdk.OBDepthWorkMode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#pyorbbecsdk.OBDepthWorkMode.to_bytes" title="Link to this definition"></a></dt>
-<dd><p>复制 SDK 原生紧凑布局。</p>
+<dd><p>按 SDK 原生紧凑结构体布局复制数据。</p>
 </dd></dl>
 
 </dd></dl>
@@ -1793,7 +1793,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.OBPresetResolutionConfig.from_bytes">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.OBPresetResolutionConfig" title="pyorbbecsdk.pyorbbecsdk.OBPresetResolutionConfig"><span class="pre">pyorbbecsdk.OBPresetResolutionConfig</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.OBPresetResolutionConfig.from_bytes" title="Link to this definition"></a></dt>
-<dd><p>解码精确大小的 SDK 原生紧凑载荷。</p>
+<dd><p>按 SDK 原生紧凑结构体布局解码数据，输入字节数必须与结构体大小完全一致。</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1809,7 +1809,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.OBPresetResolutionConfig.to_bytes">
 <span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBPresetResolutionConfig" title="pyorbbecsdk.pyorbbecsdk.OBPresetResolutionConfig"><span class="pre">pyorbbecsdk.OBPresetResolutionConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#pyorbbecsdk.OBPresetResolutionConfig.to_bytes" title="Link to this definition"></a></dt>
-<dd><p>复制 SDK 原生紧凑布局。</p>
+<dd><p>按 SDK 原生紧凑结构体布局复制数据。</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1849,7 +1849,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.OBHdrConfig.from_bytes">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pyorbbecsdk.OBHdrConfig" title="pyorbbecsdk.pyorbbecsdk.OBHdrConfig"><span class="pre">pyorbbecsdk.OBHdrConfig</span></a></span></span><a class="headerlink" href="#pyorbbecsdk.OBHdrConfig.from_bytes" title="Link to this definition"></a></dt>
-<dd><p>解码精确大小的 SDK 原生紧凑载荷。</p>
+<dd><p>按 SDK 原生紧凑结构体布局解码数据，输入字节数必须与结构体大小完全一致。</p>
 </dd></dl>
 
 <dl class="py property">
@@ -1870,7 +1870,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pyorbbecsdk.OBHdrConfig.to_bytes">
 <span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pyorbbecsdk.OBHdrConfig" title="pyorbbecsdk.pyorbbecsdk.OBHdrConfig"><span class="pre">pyorbbecsdk.OBHdrConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#pyorbbecsdk.OBHdrConfig.to_bytes" title="Link to this definition"></a></dt>
-<dd><p>复制 SDK 原生紧凑布局。</p>
+<dd><p>按 SDK 原生紧凑结构体布局复制数据。</p>
 </dd></dl>
 
 </dd></dl>
@@ -3023,7 +3023,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

@@ -1704,11 +1704,11 @@
 <p><code class="docutils literal notranslate"><span class="pre">OBFrameAggregateOutputMode.FULL_FRAME_REQUIRE</span></code></p>
 <p>仅输出包含所有预期类型数据帧的 FrameSet。</p>
 <p><code class="docutils literal notranslate"><span class="pre">OBFrameAggregateOutputMode.COLOR_FRAME_REQUIRE</span></code></p>
-<p>要求包含彩色帧的输出模式。适用于使用 H264、H265 等帧间编码格式的彩色流。</p>
+<p>仅在包含彩色帧时输出 FrameSet。适用于使用 H264、H265 等帧间编码格式的彩色流。</p>
 <p><code class="docutils literal notranslate"><span class="pre">注意：</span></code>此模式下，FrameSet 中的非彩色帧可能为空。</p>
 <p><code class="docutils literal notranslate"><span class="pre">OBFrameAggregateOutputMode.ANY_SITUATION</span></code></p>
 <p>无论是否完整，均输出 FrameSet。</p>
-<p><code class="docutils literal notranslate"><span class="pre">注意：</span></code>不可用的特定类型帧可能为空。</p>
+<p><code class="docutils literal notranslate"><span class="pre">注意：</span></code>如果某种类型的帧不可用，FrameSet 中对应的帧可能为空。</p>
 <p><code class="docutils literal notranslate"><span class="pre">OBFrameAggregateOutputMode.DISABLE</span></code></p>
 <p>禁用帧聚合。所有类型的帧独立输出。</p>
 <p>例如，同时启用深度、彩色、左红外和右红外流，并将帧聚合模式设为 FULL_FRAME_REQUIRE 时，返回的 FrameSet 将包含四种流的非空帧数据。示例代码如下：</p>
@@ -2243,14 +2243,14 @@
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">注意：</span></code>Femto Mega 系列设备不适用</p>
-<p>如果固件已加载到内存，请使用以下额外接口，并确保固件适用于当前连接的设备：</p>
+<p>如果固件已加载到内存，请使用以下接口进行更新，并确保该固件适用于当前连接的设备：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">firmware</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">firmware_path</span><span class="p">)</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">()</span>
 <span class="n">device</span><span class="o">.</span><span class="n">update_firmware_from_data</span><span class="p">(</span><span class="n">firmware</span><span class="p">,</span> <span class="n">firmware_update_callback</span><span class="p">,</span> <span class="n">async_update</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>默认为异步更新（<code class="docutils literal notranslate"><span class="pre">async_update=True</span></code>）。请保持设备存活直至更新完成，并根据 SDK 回调状态判断是否成功。回调生命周期和错误行为参见<a class="reference internal" href="binary_device_data.html"><span class="doc">设备二进制数据</span></a>。</p>
+<p>默认采用异步更新（<code class="docutils literal notranslate"><span class="pre">async_update=True</span></code>）。更新完成前，请保留设备对象，避免其被销毁，并根据 SDK 回调状态判断更新是否成功。回调对象的保留时间和异常处理方式请参见<a class="reference internal" href="binary_device_data.html"><span class="doc">设备二进制数据</span></a>。</p>
 <p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/09_device_firmware_update.py">examples/beginner/09_device_firmware_update.py</a>。</p>
 </section>
 <section id="update-preset">
@@ -2423,11 +2423,11 @@
 </section>
 <section id="structured-data-read-write">
 <h2><span class="section-number">5.18.8. </span>结构化数据读写<a class="headerlink" href="#structured-data-read-write" title="Link to this heading"></a></h2>
-<p>温度、基线、HDR、同步、深度工作模式、设备状态和 IP 配置，应优先使用已有的强类型方法。它们直接返回值或配置对象，避免手动转换字节。对于没有合适强类型封装的结构化属性，使用 <code class="docutils literal notranslate"><span class="pre">get_structured_data(property_id)</span></code> / <code class="docutils literal notranslate"><span class="pre">set_structured_data(property_id,</span> <span class="pre">data)</span></code>，并配合匹配结构体的 <code class="docutils literal notranslate"><span class="pre">from_bytes()</span></code> / <code class="docutils literal notranslate"><span class="pre">to_bytes()</span></code> 方法。推荐 API 列表、通用用法、属性表和约束请参见<a class="reference internal" href="structured_data.html"><span class="doc">结构化数据读写</span></a>。</p>
+<p>读取或设置温度、基线、HDR、同步、深度工作模式、设备状态和 IP 配置时，应优先使用已有的专用方法。这些方法直接返回数值或配置对象，无需手动转换字节数据。对于没有合适专用封装的结构化属性，使用 <code class="docutils literal notranslate"><span class="pre">get_structured_data(property_id)</span></code> / <code class="docutils literal notranslate"><span class="pre">set_structured_data(property_id,</span> <span class="pre">data)</span></code>，并配合对应结构体的 <code class="docutils literal notranslate"><span class="pre">from_bytes()</span></code> / <code class="docutils literal notranslate"><span class="pre">to_bytes()</span></code> 方法完成转换。推荐 API 列表、通用接口用法、属性表和使用限制请参见<a class="reference internal" href="structured_data.html"><span class="doc">结构化数据读写</span></a>。</p>
 </section>
 <section id="device-binary-data">
 <h2><span class="section-number">5.18.9. </span>设备二进制数据<a class="headerlink" href="#device-binary-data" title="Link to this heading"></a></h2>
-<p>协议数据包使用 <code class="docutils literal notranslate"><span class="pre">send_and_receive_data()</span></code>，设备客户存储使用 <code class="docutils literal notranslate"><span class="pre">read_customer_data()</span></code> / <code class="docutils literal notranslate"><span class="pre">write_customer_data()</span></code>，内存中的固件使用 <code class="docutils literal notranslate"><span class="pre">update_firmware_from_data()</span></code>。容量限制、示例和异步更新行为请参见<a class="reference internal" href="binary_device_data.html"><span class="doc">设备二进制数据</span></a>。这些方法在 Wrapper 2.1.4 中可用。</p>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">send_and_receive_data()</span></code> 收发协议数据包，使用 <code class="docutils literal notranslate"><span class="pre">read_customer_data()</span></code> / <code class="docutils literal notranslate"><span class="pre">write_customer_data()</span></code> 读写设备中的客户数据存储区，使用 <code class="docutils literal notranslate"><span class="pre">update_firmware_from_data()</span></code> 更新已加载到内存的固件。容量限制、示例和异步更新行为请参见<a class="reference internal" href="binary_device_data.html"><span class="doc">设备二进制数据</span></a>。这些方法在 Python Wrapper 2.1.4 中可用。</p>
 </section>
 <section id="stream-profile">
 <h2><span class="section-number">5.18.10. </span>流配置<a class="headerlink" href="#stream-profile" title="Link to this heading"></a></h2>
@@ -2639,7 +2639,7 @@
 <ul class="simple">
 <li><p>时间戳重置命令</p></li>
 </ul>
-<p>此命令用于多设备同步场景，只需发送给主设备。重置主设备时间戳即可，因为主设备可配置为输出重置信号，以重置从设备。</p>
+<p>此命令用于多设备同步场景，只需发送给主设备。主设备可配置为在重置自身时间戳时输出重置信号，使从设备也重置时间戳。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">device</span><span class="o">.</span><span class="n">set_bool_property</span><span class="p">(</span><span class="n">OBPropertyID</span><span class="o">.</span><span class="n">OB_PROP_TIMER_RESET_SIGNAL_BOOL</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2720,7 +2720,7 @@
 <h2><span class="section-number">5.18.24. </span>深度设置<a class="headerlink" href="#depth-settings" title="Link to this heading"></a></h2>
 <section id="depth-working-mode">
 <h3><span class="section-number">5.18.24.1. </span>深度工作模式<a class="headerlink" href="#depth-working-mode" title="Link to this heading"></a></h3>
-<p>切换深度工作模式前，请停止所有数据流。以下示例创建空闲的 Pipeline，列出设备支持的模式，并使用完整的列表项进行切换。如果使用已在推流的 Pipeline，请先停止它。</p>
+<p>切换深度工作模式前，请停止所有数据流。以下示例先创建尚未启动数据流的 Pipeline，再列出设备支持的模式，并将选中的完整模式对象传入设置接口。如果使用的是正在采集数据的 Pipeline，请先停止数据流。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ob</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">ob</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">()</span>
@@ -2742,7 +2742,7 @@
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Depth work mode readback differs&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>传入设置接口时，请保留 SDK 提供的模式对象，包括其校验和和标签。某些 SDK 版本不会填充当前模式的 <code class="docutils literal notranslate"><span class="pre">tag</span></code>；需要该字段时，请使用支持模式列表中的对应项。准备好后，使用所选模式支持的流配置重新启动数据流。</p>
+<p>将模式对象传入设置接口时，请保留 SDK 提供的完整信息，包括校验和及标签。某些 SDK 版本不会填充当前模式的 <code class="docutils literal notranslate"><span class="pre">tag</span></code> 字段；如果需要该字段，请从设备支持的模式列表中获取对应模式对象。切换完成后，使用新模式支持的流配置重新启动数据流。</p>
 </section>
 <section id="preset-configuration">
 <h3><span class="section-number">5.18.24.2. </span>预设配置<a class="headerlink" href="#preset-configuration" title="Link to this heading"></a></h3>
@@ -3269,7 +3269,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

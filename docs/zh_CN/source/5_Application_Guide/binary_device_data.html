@@ -1401,7 +1401,7 @@
              
   <section id="device-binary-data">
 <h1><span class="section-number">5.20. </span>设备二进制数据<a class="headerlink" href="#device-binary-data" title="Link to this heading"></a></h1>
-<p>Python Wrapper 2.1.4 提供协议请求/响应、客户存储和内存固件更新接口。所有二进制输入必须为 <code class="docutils literal notranslate"><span class="pre">bytes</span></code>；可用 <code class="docutils literal notranslate"><span class="pre">bytes(buffer)</span></code> 转换 <code class="docutils literal notranslate"><span class="pre">bytearray</span></code> 或 <code class="docutils literal notranslate"><span class="pre">memoryview</span></code>。内嵌零字节会保留，输入长度自动推断，读取结果为独立的 Python <code class="docutils literal notranslate"><span class="pre">bytes</span></code>。仍需设备和固件支持。</p>
+<p>Python Wrapper 2.1.4 提供协议请求与响应、客户数据存储区读写，以及从内存更新固件的接口。所有二进制输入必须为 <code class="docutils literal notranslate"><span class="pre">bytes</span></code> 类型；可使用 <code class="docutils literal notranslate"><span class="pre">bytes(buffer)</span></code> 将 <code class="docutils literal notranslate"><span class="pre">bytearray</span></code> 或 <code class="docutils literal notranslate"><span class="pre">memoryview</span></code> 转换为 <code class="docutils literal notranslate"><span class="pre">bytes</span></code>。数据中的零字节会原样保留，输入长度由接口自动推断，读取结果为独立的 Python bytes 对象。这些操作仍需设备和固件支持。</p>
 <p>示例中，<code class="docutils literal notranslate"><span class="pre">device</span></code> 是已打开的 <code class="docutils literal notranslate"><span class="pre">pyorbbecsdk.Device</span></code>。设备发现请参见<a class="reference internal" href="structured_data.html"><span class="doc">结构化数据读写</span></a>，各方法签名请参见<a class="reference internal" href="../6_API_Reference/core.html"><span class="doc">核心接口</span></a>。</p>
 <section id="protocol-request-and-response">
 <h2><span class="section-number">5.20.1. </span>协议请求与响应<a class="headerlink" href="#protocol-request-and-response" title="Link to this heading"></a></h2>
@@ -1419,7 +1419,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Customer data length:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">original</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>显式写入会替换设备客户数据。仅当应用拥有该存储区时才使用；它可能与设备扩展 User ID 共用存储。修改前请保存原始数据。对于适合进行临时修改和恢复的设备：</p>
+<p>写入操作会替换设备中原有的客户数据。仅当该存储区由你的应用管理时，才应执行写入；该区域可能与设备的扩展 User ID 共用存储空间。修改前请保存原始数据。如果设备允许临时修改并恢复数据，可参考以下示例：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">original</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">read_customer_data</span><span class="p">()</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">device</span><span class="o">.</span><span class="n">write_customer_data</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;customer</span><span class="se">\x00</span><span class="s2">data&quot;</span><span class="p">)</span>
@@ -1431,7 +1431,7 @@
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Failed to restore customer data&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>SDK 规定最大长度为 65532 字节。绑定层拒绝更大的写入，并在读取时分配完整容量，因为 SDK 的长度参数是输出参数，并非长度查询或容量参数。空写入会传给 SDK，仍受设备具体规则约束。客户存储不是通用文件 API。</p>
+<p>SDK 规定客户数据的最大长度为 65532 字节。绑定层会拒绝超过此上限的写入请求，并在读取时分配 65532 字节的缓冲区，因为 SDK 的长度参数用于返回实际读取长度，而非查询长度或指定缓冲区容量。空数据写入请求会传递给 SDK，具体行为取决于设备。客户数据存储接口不能作为通用文件读写接口使用。</p>
 </section>
 <section id="firmware-update-from-bytes">
 <h2><span class="section-number">5.20.3. </span>从字节更新固件<a class="headerlink" href="#firmware-update-from-bytes" title="Link to this heading"></a></h2>
@@ -1445,9 +1445,9 @@
 <span class="n">device</span><span class="o">.</span><span class="n">update_firmware_from_data</span><span class="p">(</span><span class="n">firmware</span><span class="p">,</span> <span class="n">on_progress</span><span class="p">,</span> <span class="n">async_update</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>回调接收 <code class="docutils literal notranslate"><span class="pre">(state,</span> <span class="pre">message,</span> <span class="pre">percent)</span></code>，分别为 <code class="docutils literal notranslate"><span class="pre">OBUpgradeState</span></code> 状态、消息字符串和整数百分比。方法返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>；应根据 SDK 的完成/错误状态判断结果，不应将方法返回视为更新成功。</p>
-<p><code class="docutils literal notranslate"><span class="pre">async_update=False</span></code> 会等待 SDK 操作返回。默认值为 <code class="docutils literal notranslate"><span class="pre">True</span></code>；请保持 <code class="docutils literal notranslate"><span class="pre">Device</span></code> 存活直至异步更新完成。绑定层通过 SDK 回调对象保留输入字节和回调，直到回调被替换或设备销毁。不要在同一设备上并发启动固件操作。</p>
-<p>Python 回调异常通过 <code class="docutils literal notranslate"><span class="pre">sys.unraisablehook</span></code> 报告，不会经 SDK 工作线程传播。回调应专注于报告进度；设备释放或后续更新应在回调外执行。成功完成后，按照设备要求执行更新/重启流程。另请参见<a class="reference external" href="ApplicationGuide.html#firmware-update">固件更新</a>。</p>
+<p>回调接收 <code class="docutils literal notranslate"><span class="pre">(state,</span> <span class="pre">message,</span> <span class="pre">percent)</span></code>，分别表示 <code class="docutils literal notranslate"><span class="pre">OBUpgradeState</span></code> 类型的更新状态、消息字符串和整数形式的进度百分比。更新方法返回 <code class="docutils literal notranslate"><span class="pre">None</span></code>；请根据 SDK 回调报告的完成或错误状态判断更新结果，不能仅凭方法已返回就认定更新成功。</p>
+<p><code class="docutils literal notranslate"><span class="pre">async_update=False</span></code> 表示等待 SDK 操作结束后再返回。默认值为 <code class="docutils literal notranslate"><span class="pre">True</span></code>，表示异步更新；更新完成前，请保留 <code class="docutils literal notranslate"><span class="pre">Device</span></code> 对象，避免其被销毁。绑定层通过 SDK 回调对象保留输入字节数据和 Python 回调，直到该回调被替换或设备对象被销毁。请勿在同一设备上同时启动多个固件操作。</p>
+<p>Python 回调中发生的异常通过 <code class="docutils literal notranslate"><span class="pre">sys.unraisablehook</span></code> 报告，不会通过 SDK 工作线程传播。回调函数应主要用于报告进度；释放设备对象或发起后续更新，应在回调函数之外执行。更新成功后，请按照设备要求完成后续更新或重启步骤。另请参见<a class="reference external" href="ApplicationGuide.html#firmware-update">固件更新</a>。</p>
 </section>
 <section id="input-validation-and-errors">
 <h2><span class="section-number">5.20.4. </span>输入校验与错误<a class="headerlink" href="#input-validation-and-errors" title="Link to this heading"></a></h2>
@@ -1471,7 +1471,7 @@
 <td><p>返回实际客户数据字节，最多 65532 字节</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">update_firmware_from_data()</span></code></p></td>
-<td><p>固件非空；回调可调用；返回 <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>固件数据不能为空；回调参数必须是可调用对象；返回 <code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -1491,7 +1491,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

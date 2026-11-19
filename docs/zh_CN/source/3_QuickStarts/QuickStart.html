@@ -1441,9 +1441,9 @@
 <h2><span class="section-number">3.3.2. </span>软件<a class="headerlink" href="#software" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Python 3.8 至 3.14</p></li>
-<li><p>通过 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">&quot;pyorbbecsdk2[examples]&quot;</span></code> 安装 SDK 和示例依赖（参见<a class="reference external" href="../2_installation/install_the_package.html#detailed-installation">安装指南</a>）</p></li>
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">&quot;pyorbbecsdk2[examples]&quot;</span></code> 安装 SDK 和运行示例脚本所需的第三方依赖包（参见<a class="reference external" href="../2_installation/install_the_package.html#detailed-installation">安装指南</a>）</p></li>
 </ul>
-<p>从 Wrapper 2.1.4 开始，基础包安装核心 SDK 和 NumPy。<code class="docutils literal notranslate"><span class="pre">[examples]</span></code> 扩展依赖包含本指南使用的 OpenCV 等组件。请始终为完整包参数加引号，尤其是在 macOS zsh 中。</p>
+<p>从 Python Wrapper 2.1.4 开始，基础安装仅包含核心 SDK 和 NumPy。在安装参数中添加 <code class="docutils literal notranslate"><span class="pre">[examples]</span></code>，可额外安装本指南所需的 OpenCV 等第三方依赖包。请为完整安装参数加引号，尤其是在 macOS 的 zsh 中。</p>
 </section>
 <section id="quick-verification">
 <h2><span class="section-number">3.3.3. </span>快速验证<a class="headerlink" href="#quick-verification" title="Link to this heading"></a></h2>
@@ -1533,7 +1533,7 @@ sudo<span class="w"> </span>-E<span class="w"> </span>python<span class="w"> </s
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Pipeline()</span></code>：管理相机数据流，并自动加载默认设置</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">wait_for_frames()</span></code>：返回同步的彩色与深度帧</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">frame_to_bgr_image()</span></code>：将相机格式转换为 OpenCV 兼容的 BGR 图像</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frame_to_bgr_image()</span></code>：将相机输出的图像转换为 OpenCV 兼容的 BGR 格式</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">get_depth_scale()</span></code>：将原始深度值转换为毫米</p></li>
 </ul>
 </section>
@@ -1724,7 +1724,7 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;f
 </tr>
 <tr class="row-even"><td><p>多设备与同步</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">examples/advanced/14_two_devices_sync.py</span></code>, <code class="docutils literal notranslate"><span class="pre">examples/advanced/15_high_performance_pipeline.py</span></code></p></td>
-<td><p>了解设备同步和流水线性能。</p></td>
+<td><p>了解多设备同步和 Pipeline 性能。</p></td>
 </tr>
 <tr class="row-odd"><td><p>LiDAR</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">examples/lidar_examples/lidar_quick_start.py</span></code></p></td>
@@ -1767,7 +1767,7 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;f
 </tr>
 <tr class="row-odd"><td><p>04</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">beginner/04_camera_calibration.py</span></code></p></td>
-<td><p>读取相机内参、畸变和外参</p></td>
+<td><p>读取相机内参、畸变参数和外参</p></td>
 <td><p>numpy</p></td>
 </tr>
 <tr class="row-even"><td><p>05</p></td>
@@ -1947,7 +1947,7 @@ python<span class="w"> </span>examples/applications/object_detection/object_dete
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lidar_quick_start.py</span></code></p></td>
-<td><p>最简激光雷达推流</p></td>
+<td><p>最简激光雷达数据流采集示例</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lidar_stream.py</span></code></p></td>
 <td><p>连续点云查看器</p></td>
@@ -1988,7 +1988,7 @@ python<span class="w"> </span>examples/applications/object_detection/object_dete
 </thead>
 <tbody>
 <tr class="row-even"><td><p>快速入门</p></td>
-<td><p>零配置 RGB-D 推流</p></td>
+<td><p>使用默认配置采集 RGB-D 数据流</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">quick_start.py</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>深度流</p></td>
@@ -2062,7 +2062,7 @@ python<span class="w"> </span>examples/applications/object_detection/object_dete
 <li><p>从简单开始：先运行 <code class="docutils literal notranslate"><span class="pre">examples/quick_start.py</span></code>，验证相机正常工作</p></li>
 <li><p>按顺序学习：从 <code class="docutils literal notranslate"><span class="pre">examples/beginner/01_hello_camera.py</span></code> 开始，依次学习 01→09</p></li>
 <li><p>检查支持情况：并非所有相机型号都支持所有功能，请查看级别 2 示例中的说明</p></li>
-<li><p>使用 Try/Except：将流配置放入 try/except 中，完善错误处理</p></li>
+<li><p>使用 Try/Except：将流配置代码放入 try/except 语句中，处理配置过程中可能出现的异常</p></li>
 <li><p>始终清理资源：退出前调用 <code class="docutils literal notranslate"><span class="pre">pipeline.stop()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cv2.destroyAllWindows()</span></code></p></li>
 <li><p>注意平台差异：macOS 可能需要 <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span></code>，Linux 可能需要 udev 规则</p></li>
 <li><p>虚拟环境：使用 <code class="docutils literal notranslate"><span class="pre">venv</span></code> 或 <code class="docutils literal notranslate"><span class="pre">conda</span></code> 避免软件包冲突</p></li>
@@ -2085,7 +2085,7 @@ python<span class="w"> </span>examples/applications/object_detection/object_dete
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 15:43:27.
+      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
       </span></p>
   </div>
 

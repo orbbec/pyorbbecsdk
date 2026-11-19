@@ -13,9 +13,9 @@
 ## 📋 Table of Contents
 
 1. [Quick Start](#quick-start)
-2. [Using venv (Recommended for Beginners)](#1-using-venv-recommended-for-beginners)
-3. [Using pyenv (Multiple Python Versions)](#2-using-pyenv-multiple-python-versions)
-4. [Using conda (Data Science Users)](#3-using-conda-data-science-users)
+2. [Using venv (Recommended for Beginners)](#using-venv-recommended-for-beginners)
+3. [Using pyenv (Multiple Python Versions)](#using-pyenv-multiple-python-versions)
+4. [Using conda (Data Science Users)](#using-conda-data-science-users)
 5. [Platform-Specific Notes](#platform-specific-notes)
 6. [Troubleshooting](#troubleshooting)
 

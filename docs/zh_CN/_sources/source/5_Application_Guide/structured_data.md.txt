@@ -193,7 +193,7 @@ the payload size; “Dedicated” means it calls a specialized SDK operation.
 | `OB_STRUCT_RGB_CROP_ROI` | `OBRect` | 16 | Check device | Fixed |
 | `OB_STRUCT_DEVICE_IP_ADDR_CONFIG` | `OBDeviceIpAddrConfig` | 14 | Check device | Fixed |
 | `OB_STRUCT_CURRENT_DEPTH_ALG_MODE` | `OBDepthWorkMode` | 52 | Check device | Dedicated |
-| `OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST` | Variable-length `uint16_t` array | Variable | No generic getter | Unsupported layout |
+| `OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST` | Variable-length `uint16_t` array | Variable length | No generic getter | Unsupported layout |
 | `OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD` | `OBDeviceIpAddrConfig` | 14 | Read only in SDK | Fixed |
 | `OB_STRUCT_DEPTH_HDR_CONFIG` | `OBHdrConfig` | 18 | Check device | Fixed |
 | `OB_STRUCT_COLOR_AE_ROI` | `OBRegionOfInterest` | 8 | Check device | Fixed |

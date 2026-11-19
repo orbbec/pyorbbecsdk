@@ -62,7 +62,7 @@ You should see the SDK version printed without errors.
 |----------|---------------------|
 | **Linux** | Install udev rules for USB permissions (see [Troubleshooting](#no-device-found-linux)) |
 | **macOS** | Use `sudo -E` to run scripts (preserves environment variables) |
-| **Windows** | Run metadata registration script once per device (see [Troubleshooting](#metadata-issues-windows)) |
+| **Windows** | Run metadata registration script once per device (see [Troubleshooting](#metadata-timestamp-issues-windows)) |
 
 ---
 
@@ -293,20 +293,14 @@ Now that you have a working camera application, explore these topics:
 
 ### 🗺️ Recommended Learning Path
 
-```
-First time?        →  examples/quick_start.py (30 seconds to first frame)
-                          ↓
-Basics             →  examples/beginner/01 → 02 → 03 → 04 → 05
-                          ↓
-Specific Feature   →  examples/advanced/ (pick by category)
-                          ↓
-Build an App       →  examples/applications/ruler.py
-                          ↓
-Multi-device/Sync  →  examples/advanced/14_two_devices_sync.py
-                     examples/advanced/15_high_performance_pipeline.py
-
-LiDAR?             →  examples/lidar_examples/lidar_quick_start.py
-```
+| Learning stage | Example path | Guidance |
+|---|---|---|
+| First time | `examples/quick_start.py` | Get your first frame in 30 seconds. |
+| Basics | `examples/beginner/01` → `02` → `03` → `04` → `05` | Follow the numbered tutorials in order. |
+| Specific feature | `examples/advanced/` | Pick an example by category. |
+| Build an app | `examples/applications/ruler.py` | Explore a complete application. |
+| Multi-device / sync | `examples/advanced/14_two_devices_sync.py`, `examples/advanced/15_high_performance_pipeline.py` | Explore device synchronization and pipeline performance. |
+| LiDAR | `examples/lidar_examples/lidar_quick_start.py` | Start with the LiDAR quick start. |
 
 ---
 

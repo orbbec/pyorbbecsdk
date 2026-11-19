@@ -138,10 +138,10 @@ The SDK restores the enabled filter states, but no component in the frame data p
 Pipeline.start(config, callback)
         │
         ▼
-  帧到达 callback（原始帧，未经 filter 处理）
+  Frames reach callback (raw frames, no filter processing)
         │
         ▼
-  直接可视化  ←  填洞/spatial/temporal 全部未执行
+  Visualize directly  ←  Hole filling / spatial / temporal filters not applied
 ```
 
 `load_preset_from_json_file` sets `enable=True`, but no node calls `filter.process()`. Filters remain enabled but idle.
@@ -154,16 +154,16 @@ Pipeline.start(config, callback)
 Pipeline.start(config, callback)
         │
         ▼
-  帧到达 callback
+  Frames reach callback
         │
         ▼
-  _apply_filter_chain(frame, enabled_filters)   ← 手动执行 recommended filters
+  _apply_filter_chain(frame, enabled_filters)   ← Manually apply recommended filters
         │   ├─ SpatialAdvancedFilter.process()
         │   ├─ TemporalFilter.process()
         │   ├─ HoleFillingFilter.process()
         │   └─ DisparityTransform.process()
         ▼
-  可视化  ←  与录制时一致
+  Visualize  ←  Matches the recording configuration
 ```
 
 <a id="openorbbecviewer-的等价做法"></a>

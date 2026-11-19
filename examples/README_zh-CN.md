@@ -201,17 +201,16 @@ python examples/applications/object_detection.py
 ## 学习路径
 
 ```
-First time?           →  quick_start.py  (30 seconds to first frame)
-                          then beginner/01 → 02 → 03 → 04 → 05
+首次使用？           →  quick_start.py（30 秒获取第一帧）
+                       然后依次运行 beginner/01 → 02 → 03 → 04 → 05
 
-Want a specific       →  Pick any Level 2 script by category
-SDK feature?
+了解特定 SDK 功能？  →  按类别选择第二级中的相应脚本
 
-Building an app?      →  applications/ruler.py
-                          applications/object_detection.py
+构建应用？           →  applications/ruler.py
+                       applications/object_detection.py
 
-Multi-device / sync?  →  advanced/14_two_devices_sync.py
-High performance?     →  advanced/15_high_performance_pipeline.py
+多设备 / 同步？      →  advanced/14_two_devices_sync.py
+追求高性能？         →  advanced/15_high_performance_pipeline.py
 
-Using a LiDAR?        →  lidar_examples/lidar_quick_start.py
+使用 LiDAR？         →  lidar_examples/lidar_quick_start.py
 ```

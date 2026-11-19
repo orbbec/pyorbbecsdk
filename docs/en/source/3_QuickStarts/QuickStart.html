@@ -1470,7 +1470,7 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 <td><p>Use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span></code> to run scripts (preserves environment variables)</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>Windows</strong></p></td>
-<td><p>Run metadata registration script once per device (see <a class="reference external" href="#metadata-issues-windows">Troubleshooting</a>)</p></td>
+<td><p>Run metadata registration script once per device (see <a class="reference external" href="#metadata-timestamp-issues-windows">Troubleshooting</a>)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1693,20 +1693,40 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 <p>Now that you have a working camera application, explore these topics:</p>
 <section id="recommended-learning-path">
 <h2><span class="section-number">3.6.1. </span>🗺️ Recommended Learning Path<a class="headerlink" href="#recommended-learning-path" title="Link to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>First time?        →  examples/quick_start.py (30 seconds to first frame)
-                          ↓
-Basics             →  examples/beginner/01 → 02 → 03 → 04 → 05
-                          ↓
-Specific Feature   →  examples/advanced/ (pick by category)
-                          ↓
-Build an App       →  examples/applications/ruler.py
-                          ↓
-Multi-device/Sync  →  examples/advanced/14_two_devices_sync.py
-                     examples/advanced/15_high_performance_pipeline.py
-
-LiDAR?             →  examples/lidar_examples/lidar_quick_start.py
-</pre></div>
-</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Learning stage</p></th>
+<th class="head"><p>Example path</p></th>
+<th class="head"><p>Guidance</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>First time</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/quick_start.py</span></code></p></td>
+<td><p>Get your first frame in 30 seconds.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Basics</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/beginner/01</span></code> → <code class="docutils literal notranslate"><span class="pre">02</span></code> → <code class="docutils literal notranslate"><span class="pre">03</span></code> → <code class="docutils literal notranslate"><span class="pre">04</span></code> → <code class="docutils literal notranslate"><span class="pre">05</span></code></p></td>
+<td><p>Follow the numbered tutorials in order.</p></td>
+</tr>
+<tr class="row-even"><td><p>Specific feature</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/advanced/</span></code></p></td>
+<td><p>Pick an example by category.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Build an app</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/applications/ruler.py</span></code></p></td>
+<td><p>Explore a complete application.</p></td>
+</tr>
+<tr class="row-even"><td><p>Multi-device / sync</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/advanced/14_two_devices_sync.py</span></code>, <code class="docutils literal notranslate"><span class="pre">examples/advanced/15_high_performance_pipeline.py</span></code></p></td>
+<td><p>Explore device synchronization and pipeline performance.</p></td>
+</tr>
+<tr class="row-odd"><td><p>LiDAR</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">examples/lidar_examples/lidar_quick_start.py</span></code></p></td>
+<td><p>Start with the LiDAR quick start.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <hr class="docutils" />
 <section id="learn-by-example">
@@ -2061,7 +2081,7 @@ python<span class="w"> </span>examples/applications/object_detection.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-18 17:53:39.
+      <span class="lastupdated">Last updated on 2026-11-19 09:43:00.
       </span></p>
   </div>
 

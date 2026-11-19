@@ -10,7 +10,7 @@
 <p align="center">
   Orbbec SDK v2.x 的 Python 绑定
   <br />
-  官方 Python 封装库，通过 pybind11 提供原生 C++ 性能，让开发者使用简洁、符合 Python 使用习惯的 API 访问 Orbbec RGB-D 相机（Gemini、Femto、Astra 系列）。
+  官方 Python 封装库，基于 pybind11 绑定原生 C++ SDK，让开发者通过简洁、符合 Python 使用习惯的 API 使用 Orbbec RGB-D 相机（Gemini、Femto、Astra 系列）。
 </p>
 
 <p align="center">
@@ -38,11 +38,11 @@
 
 > **分支说明：** 当前为 `v2-main` 分支（SDK v2.x）。如需旧版 v1.x 分支，请查看 [main](https://github.com/orbbec/pyorbbecsdk/tree/main)。SDK v1.x 与 v2.x 的区别详见 [OrbbecSDK_v2 README](https://github.com/orbbec/OrbbecSDK_v2)。
 
-> **重要安装变更：** 示例依赖现已改为可选安装。
+> **安装方式变更：** 运行示例脚本所需的额外第三方依赖包不再默认安装，可按需通过 `examples` 可选依赖组安装。
 > `pip install "pyorbbecsdk2"` 仅安装核心 SDK 和 NumPy。
 > **如需运行示例，请使用 `pip install --upgrade "pyorbbecsdk2[examples]"`。**
-> 已安装 SDK 的用户也可以运行同一命令补充示例依赖。
-> `examples` 可选依赖组保留了此前默认安装的依赖版本约束，包括针对不同 Python 版本的 NumPy 版本范围。
+> 如果已经安装 SDK，也可执行上述命令，补装运行示例所需的依赖包。
+> `examples` 可选依赖组沿用此前默认安装时的依赖版本约束，其中 NumPy 的版本范围会根据 Python 版本确定。
 
 ## 目录
 
@@ -78,28 +78,30 @@
 > **重要说明：**
 > - 大多数新设备已预装兼容固件，开箱即可使用。
 > - 自 2025 年 10 月起（Orbbec SDK v2.5.5），使用 OpenNI 协议的设备将升级为 UVC 协议。详情请参阅[升级文档](https://github.com/orbbec/OrbbecSDK_v2?tab=readme-ov-file#12-upgrading-from-openni-protocol-to-uvc-protocol)。
-> - 如需旧版 v1.x 设备支持（Astra+、Astra Pro Plus、Gemini 2 XL），请使用 [main 分支](https://github.com/orbbec/pyorbbecsdk/tree/main)。
+> - 如需使用旧版 v1.x 支持的设备（Astra+、Astra Pro Plus、Gemini 2 XL），请使用 [main 分支](https://github.com/orbbec/pyorbbecsdk/tree/main)。
 
-详细的分支对比和设备支持矩阵请参阅[简介：设备支持对比](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/1_overview/Introduction.html#device-support-comparison)。
+各分支的区别及支持的设备列表，请参阅[简介：设备支持对比](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/1_overview/Introduction.html#device-support-comparison)。
 
 ## 功能特点
 
 - 📷 **RGB-D 数据流** — 获取深度、彩色和红外数据流，支持配置分辨率和帧率（FPS）。
-- 🛠️ **后处理滤波器** — 支持时域、空域（高级）、孔洞填充、阈值、降采样和降噪滤波（Temporal、Spatial (Advanced)、HoleFilling、Threshold、Decimation、Noise Removal）。
+- 🛠️ **后处理滤波器** — 支持时域、空域、填洞、截断、下采样和去噪滤波（Temporal、Spatial (Advanced)、HoleFilling、Threshold、Decimation、Noise Removal）。
 - 🎯 **深度与彩色对齐** — 支持软件 `AlignFilter` 和硬件 D2C 对齐。
 - ☁️ **点云生成** — 通过 `PointCloudFilter` 生成彩色 3D 点云。
-- 📐 **相机标定数据** — 获取内参、畸变系数和外参变换。
-- ⚡ **实时性能** — 通过 pybind11 提供原生 C++ 性能。
+- 📐 **相机标定数据** — 获取相机内参、畸变系数和外参，用于标定与坐标变换。
+- ⚡ **实时性能** — 通过 pybind11 调用原生 C++ SDK，满足实时数据处理需求。
 - 🌐 **网络相机** — 通过以太网连接 Femto Mega / Gemini 2 XL。
 - 📦 **预编译 wheel 包** — 在 Windows x64、Linux x64/ARM64 和 macOS（Apple Silicon）上无需自行编译。
 
 ## 快速入门
 
-pyorbbecsdk 包含驱动相机所需的全部库，以及用于体验相机功能和设置的工具。
+pyorbbecsdk 集成了访问相机所需的 SDK 库，并提供示例脚本，帮助你采集数据、调整参数和了解相机功能。
 
 按以下步骤开始使用：
 
-**1. 安装 SDK 和示例依赖**，推荐入门用户通过 PyPI 安装：
+**1. 安装 SDK 及运行示例所需的依赖包**
+
+推荐首次使用时通过 PyPI 安装：
 
 ```bash
 pip install --upgrade "pyorbbecsdk2[examples]"
@@ -111,20 +113,20 @@ pip install --upgrade "pyorbbecsdk2[examples]"
 pip install --upgrade "pyorbbecsdk2"
 ```
 
-`examples` 可选依赖组保留了此前默认安装使用的依赖版本约束，包括针对不同 Python 版本的 NumPy 版本范围。
+安装 `examples` 可选依赖组时，会同时应用适合当前 Python 版本的 NumPy 版本约束，以兼容相关示例使用的第三方库。
 
-如果已经将 wheel 包下载到当前目录，请在文件名后添加可选依赖组（将以下文件名替换为与你的 Python 版本及平台匹配的 wheel 文件名）：
+如果已将 wheel 包下载到当前目录，可在文件名后加上 `[examples]`，同时安装该软件包及运行示例所需的依赖包。请将下方文件名替换为实际下载的、与你的 Python 版本和系统架构匹配的 wheel 文件名：
 
 ```bash
 pip install "pyorbbecsdk2-2.1.4-cp310-cp310-macosx_11_0_arm64.whl[examples]"
 ```
 
 > **务必用双引号括住整个参数，包括 `[examples]`。** 在 macOS 上，zsh 会将未加引号的方括号视为文件名匹配模式，可能在 pip 或 uv 执行前报错：
-> `zsh: no matches found`。引号还可以保留路径中的空格。这一规则同时适用于软件包名称和本地 wheel 路径。
+> `zsh: no matches found`。用引号括住参数也能正确处理路径中的空格。软件包名称和本地 wheel 文件路径均适用。
 
 > 💡 **推荐使用虚拟环境**
 >
-> 现代系统（如 macOS、Ubuntu 24.04+）会限制通过 pip 向系统 Python 安装软件包。使用虚拟环境可以避免权限错误：
+> 在部分系统环境中（如 macOS、Ubuntu 24.04+），直接通过 pip 向系统 Python 安装软件包可能受到限制。建议使用虚拟环境，避免权限或系统包管理冲突：
 >
 > ```bash
 > # Create and activate virtual environment
@@ -142,9 +144,11 @@ pip install "pyorbbecsdk2-2.1.4-cp310-cp310-macosx_11_0_arm64.whl[examples]"
 
 > **说明：** PyPI 为 Windows x64、Linux x64/ARM64 和 macOS（Apple Silicon）上的所有受支持 Python 版本（3.8–3.14）提供预编译 wheel 包。Linux 上的 Python 3.8 现已支持在线安装，无需手动下载 wheel 包。
 >
-> 所有平台均完整支持 Python 3.14。安装 `examples` 可选依赖组时，Python 3.14 使用 `pygame-ce` 和最新版 `av`；`open3d` 仅适用于 Python 3.8–3.11。
+> 上述平台均支持 Python 3.14。通过 `examples` 可选依赖组安装时，Python 3.14 环境会安装 `pygame-ce` 和最新版 `av`；该依赖组仅在 Python 3.8–3.11 环境中安装 `open3d`。
 
-**2. 配置环境**（为元数据和 udev 规则执行一次系统级配置）：
+**2. 完成系统配置**
+
+在 Windows 上注册相机帧元数据，在 Linux 上安装 USB 设备访问所需的 udev 规则。根据操作系统执行以下命令：
 
 ```bash
 # From the repository
@@ -158,7 +162,7 @@ python3 scripts/env_setup/setup_env.py
 python $(python -c "import pyorbbecsdk, os; print(os.path.dirname(pyorbbecsdk.__file__))")/shared/setup_env.py
 ```
 
-**3. 使用 SDK 的快速入门代码开始体验：**
+**3. 运行快速入门代码，开始采集相机数据：**
 
 ```python
 from pyorbbecsdk import *
@@ -175,7 +179,7 @@ frames = pipeline.wait_for_frames(1000) # get synchronized Color + Depth frames
 
 ## 示例
 
-[examples/](examples/) 目录包含 **35 个以上脚本**，按难度组织，只需几行代码即可开始使用 pyorbbecsdk。
+[examples/](examples/) 目录包含 **35 个以上的示例脚本**，按难度分级，帮助你从基本数据采集逐步掌握 pyorbbecsdk 的各项功能。
 
 | 难度 | 类别 | 说明 |
 |-------|----------|-------------|
@@ -185,9 +189,9 @@ frames = pipeline.wait_for_frames(1000) # get synchronized Color + Depth frames
 | ⭐⭐⭐⭐ | [**应用示例**](examples/applications/) | 叠加深度信息的 YOLO 目标检测；交互式深度测距工具。 |
 | ⭐⭐⭐⭐ | [**LiDAR**](examples/lidar_examples/) | LiDAR 数据流、控制、录制和回放。 |
 
-完整列表、各脚本说明及设备兼容性请参阅 [examples/README.md](examples/README_zh-CN.md)。
+完整示例列表、脚本说明及适用设备请参阅 [examples/README.md](examples/README_zh-CN.md)。
 
-**📚 后续学习**：从入门到进阶的系统学习路径 → [快速入门指南：后续步骤](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/3_QuickStarts/QuickStart.html#next-steps)
+**📚 后续学习**：按推荐顺序从入门逐步学习进阶功能 → [快速入门指南：后续步骤](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/3_QuickStarts/QuickStart.html#next-steps)
 
 ## 支持的平台
 
@@ -196,7 +200,7 @@ pyorbbecsdk 支持以下操作系统和架构：
 - **Windows** 10 或更高版本：x64 架构
 - **Linux x64**：已在 Ubuntu 18.04、20.04、22.04 和 24.04 上测试
 - **Linux ARM64**：已在 NVIDIA Jetson AGX Orin、NVIDIA Jetson Orin NX、NVIDIA Jetson Orin Nano、NVIDIA Jetson AGX Xavier、NVIDIA Jetson Xavier NX、NVIDIA Jetson Thor 上测试
-- **macOS**：已在 M2 芯片、系统版本 13.2 上测试
+- **macOS**：已在搭载 M2 芯片、运行 macOS 13.2 的设备上测试
 
 **支持的 Python 版本：3.8 至 3.14**
 
@@ -228,14 +232,14 @@ python scripts/auto_update_firmware.py
 
 ## 常见问题
 
-常见问题及解决方法请参阅[完整 FAQ](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/7_FAQ/FAQ.html)。
+常见问题及解决方法请参阅[常见问题文档](https://orbbec.github.io/pyorbbecsdk/zh_CN/source/7_FAQ/FAQ.html)。
 
 ## 社区
 
 欢迎与其他 pyorbbecsdk 用户交流想法、解决问题，共同改进 SDK。
 
-- **GitHub Issues**：如果发现缺陷或希望提出功能需求，请在 [GitHub 仓库](https://github.com/orbbec/pyorbbecsdk/issues)提交 issue。
-- **文档**：[Orbbec SDK V2 Python Wrapper 用户指南](https://orbbec.github.io/pyorbbecsdk/zh_CN/index.html)涵盖架构、API 快速入门及使用指南。
+- **GitHub Issues**：如果发现缺陷或希望提出功能需求，请在 [GitHub 仓库](https://github.com/orbbec/pyorbbecsdk/issues) 提交 issue。
+- **文档**：[Orbbec SDK V2 Python Wrapper 用户指南](https://orbbec.github.io/pyorbbecsdk/zh_CN/index.html) 涵盖架构说明、API 快速入门和使用方法。
 - **参与贡献**：欢迎贡献代码，请阅读 [CONTRIBUTING.md](.github/CONTRIBUTING_zh-CN.md)，了解构建步骤、代码风格及 PR 流程。
 
 ## 更新日志

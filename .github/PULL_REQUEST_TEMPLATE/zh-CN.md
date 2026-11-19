@@ -4,7 +4,7 @@ about: 向 pyorbbecsdk 提交修改
 title: '[PR] '
 ---
 
-[English](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/.github/PULL_REQUEST_TEMPLATE.md) | **中文**
+[English](../PULL_REQUEST_TEMPLATE.md) | **中文**
 
 <a id="description"></a>
 

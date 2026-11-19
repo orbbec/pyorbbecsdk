@@ -1727,7 +1727,32 @@ python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generate
 python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generated_stubs/pyorbbecsdk/__init__.pyi<span class="w"> </span>stubs/__init__.pyi
 </pre></div>
 </div>
-<p>如果 uv 环境没有 pip，可使用 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--python</span> <span class="pre">.venv/bin/python</span> <span class="pre">pybind11-stubgen</span></code> 安装工具，再用该环境的 Python 执行其余命令。包存根和扩展模块存根均须修复并一起复制：</p>
+<p>如果环境中没有 pip，请先激活目标虚拟环境。将 <code class="docutils literal notranslate"><span class="pre">.venv</span></code> 替换为实际的环境目录：</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>平台与终端</p></th>
+<th class="head"><p>激活命令</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Linux / macOS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">.venv/bin/activate</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Windows PowerShell</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.\.venv\Scripts\Activate.ps1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Windows 命令提示符</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.venv\Scripts\activate.bat</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>先核对当前解释器，再让 uv 将工具安装到已激活的环境中：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
+python<span class="w"> </span>-m<span class="w"> </span>pybind11_stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>generated_stubs
+</pre></div>
+</div>
+<p>上文和下文的修复与复制命令都应使用同一个已激活环境。Linux/macOS 的解释器路径为 <code class="docutils literal notranslate"><span class="pre">.venv/bin/python</span></code>，Windows 则为 <code class="docutils literal notranslate"><span class="pre">.venv\Scripts\python.exe</span></code>；不要在 Windows 上照搬 Linux 路径。包存根和扩展模块存根均须修复并一起复制：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span>
@@ -1826,12 +1851,11 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </section>
 <section id="pybind11-not-found-offline-mode">
 <h4><span class="section-number">4.1.8.1.3. </span>“pybind11 not found”（离线模式：找不到 pybind11）<a class="headerlink" href="#pybind11-not-found-offline-mode" title="Link to this heading"></a></h4>
-<p>解决方法：确保虚拟环境已正确配置：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create venv with pybind11</span>
-uv<span class="w"> </span>venv<span class="w"> </span>venv310<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.10
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>--python<span class="w"> </span>venv310/bin/python
-</pre></div>
-</div>
+<p>解决方法：参照<a class="reference external" href="#offline-build">离线构建</a>，并根据构建模式选择相应的准备步骤：</p>
+<ul class="simple">
+<li><p>默认模式：脚本会删除并重建 <code class="docutils literal notranslate"><span class="pre">venv&lt;version&gt;</span></code>，再从 uv 缓存安装固定版本的 pybind11。预先将 pybind11 安装到 <code class="docutils literal notranslate"><span class="pre">venv310</span></code> 中，既不能使其在重建后保留，也不能补齐全部缺失缓存。请按上文准备完整缓存、解释器和工具链。</p></li>
+<li><p>复用环境：先激活有效且准备完整的本地环境，其 Python 版本必须与请求版本一致，再传入 <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code>（PowerShell：<code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>）。此模式跳过环境重建和依赖同步，但隔离 wheel 构建仍需要缓存依赖。仅创建环境，而未激活它并选择此模式，并不足以完成准备。</p></li>
+</ul>
 </section>
 <section id="permission-denied-on-macos">
 <h4><span class="section-number">4.1.8.1.4. </span>macOS 上的“Permission denied”（权限不足）<a class="headerlink" href="#permission-denied-on-macos" title="Link to this heading"></a></h4>
@@ -1971,7 +1995,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 11:21:21.
+      <span class="lastupdated">最后更新于 2026-11-19 11:39:10.
       </span></p>
   </div>
 

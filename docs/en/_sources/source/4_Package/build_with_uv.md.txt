@@ -296,7 +296,23 @@ python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/pyorbbecsdk.pyi stubs/pyor
 python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/__init__.pyi stubs/__init__.pyi
 ```
 
-In a uv environment without pip, install the tool using `uv pip install --python .venv/bin/python pybind11-stubgen`, then run the remaining commands with that environment's Python. Both package and extension stubs must be repaired and copied together:
+If the environment has no pip, first activate the intended virtual environment. Replace `.venv` with your actual environment directory:
+
+| Platform / shell | Activation command |
+|---|---|
+| Linux / macOS | `source .venv/bin/activate` |
+| Windows PowerShell | `.\.venv\Scripts\Activate.ps1` |
+| Windows Command Prompt | `.venv\Scripts\activate.bat` |
+
+Verify the active interpreter, then let uv install the tool into that activated environment:
+
+```bash
+python -c "import sys; print(sys.executable)"
+uv pip install pybind11-stubgen
+python -m pybind11_stubgen pyorbbecsdk -o generated_stubs
+```
+
+Use the same activated environment for the repair and copy commands above and below. The platform-specific interpreter paths are `.venv/bin/python` on Linux/macOS and `.venv\Scripts\python.exe` on Windows; do not use the Linux path on Windows. Both package and extension stubs must be repaired and copied together:
 
 ```python
 from pathlib import Path
@@ -364,13 +380,10 @@ sudo apt-get install python3-dev
 
 #### "pybind11 not found" (Offline mode)
 
-**Solution**: Ensure virtual environments are set up correctly:
+**Solution**: Follow [Offline Build](#offline-build) and choose the preparation steps that match the build mode:
 
-```bash
-# Create venv with pybind11
-uv venv venv310 --python 3.10
-uv pip install pybind11 --python venv310/bin/python
-```
+- **Default mode:** The script deletes and recreates `venv<version>`, then installs pinned pybind11 from the uv cache. Installing pybind11 into `venv310` beforehand does not preserve it through this process or supply all missing cached dependencies. Prepare the complete cache, interpreters and toolchain as described above.
+- **Reuse an environment:** Activate a valid, fully prepared local environment whose Python version matches the requested version, then pass `--offline --no-sync` (PowerShell: `-Offline -NoSync`). This skips environment recreation and dependency synchronization; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.
 
 #### "Permission denied" on macOS
 

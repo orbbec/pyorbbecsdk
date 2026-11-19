@@ -1729,7 +1729,32 @@ python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generate
 python<span class="w"> </span>scripts/fix_pyi.py<span class="w"> </span>generated_stubs/pyorbbecsdk/__init__.pyi<span class="w"> </span>stubs/__init__.pyi
 </pre></div>
 </div>
-<p>In a uv environment without pip, install the tool using <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--python</span> <span class="pre">.venv/bin/python</span> <span class="pre">pybind11-stubgen</span></code>, then run the remaining commands with that environment’s Python. Both package and extension stubs must be repaired and copied together:</p>
+<p>If the environment has no pip, first activate the intended virtual environment. Replace <code class="docutils literal notranslate"><span class="pre">.venv</span></code> with your actual environment directory:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Platform / shell</p></th>
+<th class="head"><p>Activation command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Linux / macOS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">.venv/bin/activate</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Windows PowerShell</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.\.venv\Scripts\Activate.ps1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Windows Command Prompt</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.venv\Scripts\activate.bat</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Verify the active interpreter, then let uv install the tool into that activated environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11-stubgen
+python<span class="w"> </span>-m<span class="w"> </span>pybind11_stubgen<span class="w"> </span>pyorbbecsdk<span class="w"> </span>-o<span class="w"> </span>generated_stubs
+</pre></div>
+</div>
+<p>Use the same activated environment for the repair and copy commands above and below. The platform-specific interpreter paths are <code class="docutils literal notranslate"><span class="pre">.venv/bin/python</span></code> on Linux/macOS and <code class="docutils literal notranslate"><span class="pre">.venv\Scripts\python.exe</span></code> on Windows; do not use the Linux path on Windows. Both package and extension stubs must be repaired and copied together:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyorbbecsdk</span>
@@ -1828,12 +1853,11 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </section>
 <section id="pybind11-not-found-offline-mode">
 <h4><span class="section-number">4.1.8.1.3. </span>“pybind11 not found” (Offline mode)<a class="headerlink" href="#pybind11-not-found-offline-mode" title="Link to this heading"></a></h4>
-<p><strong>Solution</strong>: Ensure virtual environments are set up correctly:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create venv with pybind11</span>
-uv<span class="w"> </span>venv<span class="w"> </span>venv310<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.10
-uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pybind11<span class="w"> </span>--python<span class="w"> </span>venv310/bin/python
-</pre></div>
-</div>
+<p><strong>Solution</strong>: Follow <a class="reference external" href="#offline-build">Offline Build</a> and choose the preparation steps that match the build mode:</p>
+<ul class="simple">
+<li><p><strong>Default mode:</strong> The script deletes and recreates <code class="docutils literal notranslate"><span class="pre">venv&lt;version&gt;</span></code>, then installs pinned pybind11 from the uv cache. Installing pybind11 into <code class="docutils literal notranslate"><span class="pre">venv310</span></code> beforehand does not preserve it through this process or supply all missing cached dependencies. Prepare the complete cache, interpreters and toolchain as described above.</p></li>
+<li><p><strong>Reuse an environment:</strong> Activate a valid, fully prepared local environment whose Python version matches the requested version, then pass <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code> (PowerShell: <code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>). This skips environment recreation and dependency synchronization; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.</p></li>
+</ul>
 </section>
 <section id="permission-denied-on-macos">
 <h4><span class="section-number">4.1.8.1.4. </span>“Permission denied” on macOS<a class="headerlink" href="#permission-denied-on-macos" title="Link to this heading"></a></h4>
@@ -1973,7 +1997,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 11:21:14.
+      <span class="lastupdated">Last updated on 2026-11-19 11:39:03.
       </span></p>
   </div>
 

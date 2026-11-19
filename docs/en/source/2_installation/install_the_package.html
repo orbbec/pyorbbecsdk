@@ -1502,7 +1502,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 </tr>
 </tbody>
 </table>
-<p><strong>Check status:</strong> <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup_env.py</span> <span class="pre">--check</span></code></p>
+<p><strong>Check status (from the repository root):</strong> <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/env_setup/setup_env.py</span> <span class="pre">--check</span></code>. For a wheel-only installation, use the full path to <code class="docutils literal notranslate"><span class="pre">shared/setup_env.py</span></code> shown above and append <code class="docutils literal notranslate"><span class="pre">--check</span></code>.</p>
 <p>→ For detailed instructions and manual configuration, see <a class="reference internal" href="registration_script.html"><span class="doc">Environment Setup Guide</span></a></p>
 </section>
 <section id="system-specific-prerequisites">
@@ -1661,8 +1661,8 @@ sudo<span class="w"> </span>-E<span class="w"> </span>python<span class="w"> </s
 </pre></div>
 </div>
 <blockquote>
-<div><p><strong>Note for versions &lt; 2.1.0:</strong> If you installed an older version, you need to manually install example dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opencv-python<span class="w"> </span>numpy
+<div><p><strong>Example dependencies:</strong> Starting with wrapper 2.1.4, installing only the base package does not install OpenCV or the other optional example dependencies. Install the examples extra before running the examples, even if the SDK is already installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1869,7 +1869,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 10:16:11.
+      <span class="lastupdated">Last updated on 2026-11-19 10:45:00.
       </span></p>
   </div>
 

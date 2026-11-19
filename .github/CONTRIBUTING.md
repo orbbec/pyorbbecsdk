@@ -231,7 +231,7 @@ sudo udevadm control --reload && sudo udevadm trigger
 | Marker | Meaning |
 |--------|---------|
 | `hardware` | Requires a physical Orbbec camera (auto-skipped if none connected) |
-| `gemini335` | Requires a Gemini 335 specifically |
+| `g300_series` | Requires a G300 series camera (Gemini 330/335/336/305/345) |
 | `performance` | Long-running benchmarks (60+ seconds each) |
 
 ### Common Test Commands
@@ -242,14 +242,14 @@ python -m pytest test/ -m "not hardware" -v
 
 # Core tests (device, controls, calibration) — ~2 min with camera
 python -m pytest \
-  test/test_gemini335_device.py \
-  test/test_gemini335_controls.py \
-  test/test_gemini335_calib.py \
+  test/test_g300_series_device.py \
+  test/test_g300_series_controls.py \
+  test/test_g300_series_calib.py \
   test/test_context.py \
   test/test_device.py -v
 
-# Full Gemini 335 test suite (camera must be connected)
-python -m pytest test/test_gemini335_*.py -v
+# Full G300 series test suite (matching camera must be connected)
+python -m pytest test/test_g300_series_*.py -v
 
 # Skip long performance benchmarks
 python -m pytest test/ -m "not performance" -v

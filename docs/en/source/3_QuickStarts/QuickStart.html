@@ -1449,7 +1449,7 @@ Always quote the full package argument, especially in macOS zsh.</p>
 <h2><span class="section-number">3.3.3. </span>Quick Verification<a class="headerlink" href="#quick-verification" title="Link to this heading"></a></h2>
 <p>Run this command to verify your installation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/Windows/macOS</span>
-pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Version
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from importlib.metadata import version; print(version(&#39;pyorbbecsdk2&#39;))&quot;</span>
 </pre></div>
 </div>
 <p>You should see the SDK version printed without errors.</p>
@@ -1481,6 +1481,11 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 <h1><span class="section-number">3.4. </span>🚀 Your First Application<a class="headerlink" href="#your-first-application" title="Link to this heading"></a></h1>
 <section id="step-1-run-the-quick-start-example">
 <h2><span class="section-number">3.4.1. </span>Step 1: Run the Quick Start Example<a class="headerlink" href="#step-1-run-the-quick-start-example" title="Link to this heading"></a></h2>
+<p>First choose the working directory. When using a source checkout, run all example commands below from the repository root (the directory containing <code class="docutils literal notranslate"><span class="pre">examples/</span></code>). When using only the installed wheel, locate the package directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyorbbecsdk; from pathlib import Path; print(Path(pyorbbecsdk.__file__).parent)&quot;</span>
+</pre></div>
+</div>
+<p>Change into the printed directory before running the commands below. A working directory is required because installing the package does not change your current directory.</p>
 <p>Run the ready-to-use example with <strong>zero configuration</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/Windows</span>
 python<span class="w"> </span>examples/quick_start.py
@@ -1628,7 +1633,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 
 <span class="c1"># Verify installation</span>
-pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Version
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from importlib.metadata import version; print(version(&#39;pyorbbecsdk2&#39;))&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -1921,14 +1926,14 @@ python<span class="w"> </span>examples/advanced/08_custom_filter_chain.py
 <td><p><strong>Interactive depth ruler</strong> — drag to measure 3D distance</p></td>
 <td><p>numpy, opencv</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">applications/object_detection.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">applications/object_detection/object_detection.py</span></code></p></td>
 <td><p>Real-time YOLO object detection with depth overlay</p></td>
 <td><p>onnxruntime, opencv</p></td>
 </tr>
 </tbody>
 </table>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/applications/ruler.py
-python<span class="w"> </span>examples/applications/object_detection.py
+python<span class="w"> </span>examples/applications/object_detection/object_detection.py
 </pre></div>
 </div>
 </section>
@@ -2081,7 +2086,7 @@ python<span class="w"> </span>examples/applications/object_detection.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 10:16:11.
+      <span class="lastupdated">Last updated on 2026-11-19 10:45:00.
       </span></p>
   </div>
 

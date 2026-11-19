@@ -76,7 +76,7 @@ Open the XML file and find the `<Log>` section:
 
 ## Examples
 
-See [01_hello_camera.py](./01_hello_camera.py) for a complete working example.
+See [10_logger.py](./10_logger.py) for a complete working example.
 
 ## Troubleshooting
 

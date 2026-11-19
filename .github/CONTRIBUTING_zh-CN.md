@@ -273,7 +273,7 @@ sudo udevadm control --reload && sudo udevadm trigger
 | 标记 | 含义 |
 |--------|---------|
 | `hardware` | 需要实体 Orbbec 相机；未连接时自动跳过 |
-| `gemini335` | 需要 Gemini 335 |
+| `g300_series` | 需要 G300 系列相机（Gemini 330/335/336/305/345） |
 | `performance` | 长时间基准测试，每项 60 秒以上 |
 
 <a id="common-test-commands"></a>
@@ -286,14 +286,14 @@ python -m pytest test/ -m "not hardware" -v
 
 # Core tests (device, controls, calibration) — ~2 min with camera
 python -m pytest \
-  test/test_gemini335_device.py \
-  test/test_gemini335_controls.py \
-  test/test_gemini335_calib.py \
+  test/test_g300_series_device.py \
+  test/test_g300_series_controls.py \
+  test/test_g300_series_calib.py \
   test/test_context.py \
   test/test_device.py -v
 
-# Full Gemini 335 test suite (camera must be connected)
-python -m pytest test/test_gemini335_*.py -v
+# Full G300 series test suite (matching camera must be connected)
+python -m pytest test/test_g300_series_*.py -v
 
 # Skip long performance benchmarks
 python -m pytest test/ -m "not performance" -v

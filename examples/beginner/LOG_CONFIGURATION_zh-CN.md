@@ -94,7 +94,7 @@ pip show pyorbbecsdk2
 
 ## 示例
 
-完整示例请参阅 [01_hello_camera.py](./01_hello_camera.py)。
+完整示例请参阅 [10_logger.py](./10_logger.py)。
 
 <a id="troubleshooting"></a>
 

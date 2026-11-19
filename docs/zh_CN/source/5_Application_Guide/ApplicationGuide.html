@@ -1456,6 +1456,7 @@
 <span class="c1"># 3.Get the sensor list from device.</span>
 <span class="n">sensor_list</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">get_sensor_list</span><span class="p">()</span>
 <span class="c1"># 4.Enable all available video streams</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sensor_list</span><span class="p">)):</span>
     <span class="n">sensor_type</span> <span class="o">=</span> <span class="n">sensor_list</span><span class="p">[</span><span class="n">sensor</span><span class="p">]</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
 
@@ -1471,7 +1472,9 @@
 <section id="blocking-polling-mode-video-data-streams">
 <h2><span class="section-number">5.4.1. </span>阻塞轮询模式（视频数据流）<a class="headerlink" href="#blocking-polling-mode-video-data-streams" title="Link to this heading"></a></h2>
 <p>关键 API 说明：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># 1.Create a pipeline with default device.</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
@@ -1517,12 +1520,14 @@
 <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/depth.py">examples/depth.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/02_depth_visualization.py">examples/beginner/02_depth_visualization.py</a>。</p>
 </section>
 <section id="asynchronous-callback-mode-video-data-streams">
 <h2><span class="section-number">5.4.2. </span>异步回调模式（视频数据流）<a class="headerlink" href="#asynchronous-callback-mode-video-data-streams" title="Link to this heading"></a></h2>
 <p>关键 API 说明：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">on_new_frame_callback</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">FrameSet</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback function to handle new frames&quot;&quot;&quot;</span>
@@ -1568,7 +1573,7 @@
     <span class="c1"># ...</span>
 
     <span class="c1"># 5.Stop the pipeline</span>
-    <span class="n">pipeLine</span><span class="o">.</span><span class="n">stop</span><span class="p">();</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">注意：</span></code>Gemini 330 系列支持左红外和右红外传感器，类型分别为 OBSensorType.LEFT_IR_SENSOR 和 OBSensorType.RIGHT_IR_SENSOR。深度传感器类型为 OBSensorType.DEPTH_SENSOR，彩色传感器类型为 OBSensorType.COLOR_SENSOR。</p>
@@ -1611,7 +1616,7 @@
 <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/imu.py">examples/imu.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/07_imu.py">examples/beginner/07_imu.py</a>。</p>
 </section>
 <section id="asynchronous-callback-mode-imu-data-streams">
 <h2><span class="section-number">5.5.2. </span>异步回调模式（IMU 数据流）<a class="headerlink" href="#asynchronous-callback-mode-imu-data-streams" title="Link to this heading"></a></h2>
@@ -1740,7 +1745,7 @@
 <span class="c1"># 8.Start the pipeline with config.</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
-<span class="k">while</span><span class="p">(</span><span class="n">true</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
     <span class="c1"># 9.Wait for up to 100ms for a frameset in blocking mode.</span>
     <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1751,13 +1756,12 @@
     <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_depth_frame</span><span class="p">()</span>
     <span class="n">left_ir_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">OBFrameType</span><span class="o">.</span><span class="n">LEFT_IR_FRAME</span><span class="p">)</span>
     <span class="n">right_ir_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">OBFrameType</span><span class="o">.</span><span class="n">RIGHT_IR_FRAME</span><span class="p">)</span>
-<span class="p">}</span>
 
 <span class="c1"># 11.Stop the pipeline.</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hdr.py">examples/hdr.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/10_hdr.py">examples/advanced/10_hdr.py</a>。</p>
 </section>
 <section id="d2c">
 <h1><span class="section-number">5.8. </span>D2C<a class="headerlink" href="#d2c" title="Link to this heading"></a></h1>
@@ -1824,7 +1828,10 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hw_d2c_align.py">examples/hw_d2c_align.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/03_color_and_depth_aligned.py">examples/beginner/03_color_and_depth_aligned.py</a>。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/beginner/03_color_and_depth_aligned.py<span class="w"> </span>--hw
+</pre></div>
+</div>
 </section>
 <section id="software-d2c">
 <h2><span class="section-number">5.8.2. </span>软件 D2C<a class="headerlink" href="#software-d2c" title="Link to this heading"></a></h2>
@@ -1940,7 +1947,7 @@
     <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/sync_align.py">examples/sync_align.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/03_color_and_depth_aligned.py">examples/beginner/03_color_and_depth_aligned.py</a>。</p>
 </section>
 <section id="depth-point-cloud">
 <h1><span class="section-number">5.10. </span>深度点云<a class="headerlink" href="#depth-point-cloud" title="Link to this heading"></a></h1>
@@ -2095,7 +2102,7 @@
 </section>
 <section id="depth-post-processing-filters">
 <h1><span class="section-number">5.13. </span>深度后处理滤波器<a class="headerlink" href="#depth-post-processing-filters" title="Link to this heading"></a></h1>
-<p>SDK 提供推荐的后处理滤波器列表。后处理滤波器列表接口的用法参见 <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/post_processing.py">examples/post_processing.py</a>。</p>
+<p>SDK 提供推荐的后处理滤波器列表。后处理滤波器列表接口的用法参见 <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/09_post_processing.py">examples/advanced/09_post_processing.py</a>。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># 1.Create a pipeline with default device.</span>
@@ -2149,7 +2156,7 @@
 <span class="n">recorder</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/recorder.py">examples/recorder.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/01_recorder.py">examples/advanced/01_recorder.py</a>。</p>
 </section>
 <section id="playback">
 <h2><span class="section-number">5.14.2. </span>回放<a class="headerlink" href="#playback" title="Link to this heading"></a></h2>
@@ -2197,7 +2204,7 @@
 <span class="n">playback</span>  <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/playback.py">examples/playback.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/02_playback.py">examples/advanced/02_playback.py</a>。</p>
 </section>
 </section>
 <section id="firmware-update">
@@ -2237,7 +2244,7 @@
 </pre></div>
 </div>
 <p>默认为异步更新（<code class="docutils literal notranslate"><span class="pre">async_update=True</span></code>）。请保持设备存活直至更新完成，并根据 SDK 回调状态判断是否成功。回调生命周期和错误行为参见<a class="reference internal" href="binary_device_data.html"><span class="doc">设备二进制数据</span></a>。</p>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/device_firmware_update.py">examples/device_firmware_update.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/09_device_firmware_update.py">examples/beginner/09_device_firmware_update.py</a>。</p>
 </section>
 <section id="update-preset">
 <h1><span class="section-number">5.16. </span>更新预设<a class="headerlink" href="#update-preset" title="Link to this heading"></a></h1>
@@ -2272,7 +2279,7 @@
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">注意：</span></code>此 API 支持一次更新多个预设。G300 系列设备每次最多写入 3 个预设，第一个写入的预设会被设为默认预设。</p>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/device_optional_depth_presets_update.py">examples/device_optional_depth_presets_update.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/19_device_optional_depth_presets_update.py">examples/advanced/19_device_optional_depth_presets_update.py</a>。</p>
 </section>
 <section id="device-disconnection-and-reconnection">
 <h1><span class="section-number">5.17. </span>设备断开与重连<a class="headerlink" href="#device-disconnection-and-reconnection" title="Link to this heading"></a></h1>
@@ -2297,7 +2304,7 @@
 <li><p>disconn_device_list 包含 SDK 检测到的已断开（离线）设备。</p></li>
 <li><p>conn_device_list 包含 SDK 检测到的已连接（在线）设备。</p></li>
 </ul>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hot_plug.py">examples/hot_plug.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/05_hot_plug.py">examples/advanced/05_hot_plug.py</a>。</p>
 </section>
 <section id="commonly-used-interfaces">
 <h1><span class="section-number">5.18. </span>常用接口<a class="headerlink" href="#commonly-used-interfaces" title="Link to this heading"></a></h1>
@@ -2388,7 +2395,7 @@
 <span class="n">device_status</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">ob_force_ip_config</span><span class="p">(</span><span class="n">device_list</span><span class="o">.</span><span class="n">get_device_uid_by_index</span><span class="p">(</span><span class="n">device_number</span><span class="p">),</span> <span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/forceip.py">examples/forceip.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/18_forceip.py">examples/advanced/18_forceip.py</a>。</p>
 </section>
 </section>
 <section id="obtain-device-temperature">
@@ -2430,23 +2437,27 @@
 </pre></div>
 </div>
 <p>方式 2：获取默认流配置</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-  <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-  <span class="n">depth_profile_list</span> <span class="o">=</span> 
-  <span class="n">pipeline</span><span class="o">.</span><span class="n">get_stream_profile_list</span><span class="p">(</span><span class="n">OBSensorType</span><span class="o">.</span><span class="n">DEPTH_SENSOR</span><span class="p">)</span>
-  <span class="c1"># Obtain the default depth profile. The default resolution can be configured by using the OrbbecSDKConfig_v1.0.xml</span>
-  <span class="n">depth_profile</span> <span class="o">=</span> <span class="n">depth_profile_list</span><span class="o">.</span><span class="n">get_default_video_stream_profile</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+<span class="n">depth_profile_list</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">get_stream_profile_list</span><span class="p">(</span><span class="n">OBSensorType</span><span class="o">.</span><span class="n">DEPTH_SENSOR</span><span class="p">)</span>
+<span class="c1"># Obtain the default depth profile from the device configuration.</span>
+<span class="n">depth_profile</span> <span class="o">=</span> <span class="n">depth_profile_list</span><span class="o">.</span><span class="n">get_default_video_stream_profile</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>方式 3：通过视频帧获取流配置</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-  <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
-  <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-  <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-  <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_depth_frame</span><span class="p">()</span>
-  <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">depth_frame</span><span class="o">.</span><span class="n">as_video_frame</span><span class="p">()</span>
-  <span class="c1">#Get depth profile</span>
-  <span class="n">depth_profile</span> <span class="o">=</span> <span class="n">depth_frame</span><span class="o">.</span><span class="n">get_stream_profile</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyorbbecsdk</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No frames received&quot;</span><span class="p">)</span>
+    <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_depth_frame</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">depth_frame</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No depth frame received&quot;</span><span class="p">)</span>
+    <span class="n">depth_profile</span> <span class="o">=</span> <span class="n">depth_frame</span><span class="o">.</span><span class="n">get_stream_profile</span><span class="p">()</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -2531,7 +2542,7 @@
 <span class="n">merged_frame</span> <span class="o">=</span> <span class="n">hdr_filter</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hdr.py">examples/hdr.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/10_hdr.py">examples/advanced/10_hdr.py</a>。</p>
 </section>
 <section id="obtain-ldp-measurement-value">
 <h2><span class="section-number">5.18.16. </span>获取 LDP 测量值<a class="headerlink" href="#obtain-ldp-measurement-value" title="Link to this heading"></a></h2>
@@ -2569,7 +2580,7 @@
     <span class="n">metadata_value</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">get_metadata_value</span><span class="p">(</span><span class="n">EXPOSURE</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/metadata.py">examples/metadata.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/07_metadata.py">examples/advanced/07_metadata.py</a>。</p>
 </section>
 <section id="triggered-capture">
 <h2><span class="section-number">5.18.20. </span>触发采集<a class="headerlink" href="#triggered-capture" title="Link to this heading"></a></h2>
@@ -2587,7 +2598,7 @@
 <span class="n">device</span><span class="o">.</span><span class="n">trigger_capture</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/two_devices_sync.py">examples/two_devices_sync.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/14_two_devices_sync.py">examples/advanced/14_two_devices_sync.py</a>。</p>
 </section>
 <section id="timed-capture">
 <h3><span class="section-number">5.18.20.2. </span>定时采集<a class="headerlink" href="#timed-capture" title="Link to this heading"></a></h3>
@@ -3143,7 +3154,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>多设备同步示例参见 <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/two_devices_sync.py">examples/two_devices_sync.py</a>。如果需要同步超过 2 台设备，建议使用 C++。</p>
+<p>多设备同步示例参见 <a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/14_two_devices_sync.py">examples/advanced/14_two_devices_sync.py</a>。如果需要同步超过 2 台设备，建议使用 C++。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#1. read sync param from json config，and set multi device sync params</span>
 <span class="n">device</span><span class="o">.</span><span class="n">set_multi_device_sync_config</span><span class="p">(</span><span class="n">sync_config</span><span class="p">)</span>
 <span class="c1">#2. start the data stream for each device</span>
@@ -3182,7 +3193,7 @@
 <span class="n">supported</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">isFrameInterleaveSupported</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/laser_interleave.py">examples/laser_interleave.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/17_laser_interleave.py">examples/advanced/17_laser_interleave.py</a>。</p>
 </section>
 </section>
 <section id="heart-beat-control">
@@ -3231,7 +3242,7 @@
 <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/logger.py">examples/logger.py</a>。</p>
+<p>完整代码参见：<a class="reference external" href="https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/10_logger.py">examples/beginner/10_logger.py</a>。</p>
 </section>
 </section>
 </section>
@@ -3248,7 +3259,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
+      <span class="lastupdated">最后更新于 2026-11-19 10:45:07.
       </span></p>
   </div>
 

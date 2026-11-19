@@ -41,30 +41,30 @@ This guide explains how to build pyorbbecsdk wheel packages using **uv**, a fast
 
    Before building, verify that the required compiler tools are installed:
 
-   === "Linux/macOS"
+   **Linux/macOS**
 
-       ```bash
-       # Check CMake version (requires 3.15.0+)
-       cmake --version
+   ```bash
+   # Check CMake version (requires 3.15.0+)
+   cmake --version
 
-       # Check GCC version (requires 7.4.0+)
-       gcc --version
-       g++ --version
-       ```
+   # Check GCC version (requires 7.4.0+)
+   gcc --version
+   g++ --version
+   ```
 
-   === "Windows"
+   **Windows**
 
-       ```powershell
-       # Check CMake version
-       cmake --version
+   ```powershell
+   # Check CMake version
+   cmake --version
 
-       # Check Visual Studio installation
-       # Option 1: Using vswhere (if installed with VS)
-       & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+   # Check Visual Studio installation
+   # Option 1: Using vswhere (if installed with VS)
+   & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 
-       # Option 2: Check for cl.exe
-       Get-Command cl.exe -ErrorAction SilentlyContinue
-       ```
+   # Option 2: Check for cl.exe
+   Get-Command cl.exe -ErrorAction SilentlyContinue
+   ```
 
    **CMake and Visual Studio Version Compatibility (Windows):**
 

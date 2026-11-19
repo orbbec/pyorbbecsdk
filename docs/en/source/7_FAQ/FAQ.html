@@ -1600,16 +1600,16 @@ pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.x.x-xxx
 <p><strong>Solution:</strong></p>
 <p>Open3D has specific NumPy version requirements due to ABI (Application Binary Interface) compatibility. Using incompatible versions can cause runtime errors or crashes.</p>
 <p><strong>Key points:</strong></p>
-<ol class="simple">
-<li><p><strong>Open3D’s NumPy dependency</strong>: Open3D is compiled against specific NumPy versions. Using a different NumPy version than what Open3D was built with can cause:</p>
 <ul class="simple">
+<li><p><strong>Open3D’s NumPy dependency</strong>: Open3D is compiled against specific NumPy versions. Using a different NumPy version than what Open3D was built with can cause:</p>
+<ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> when calling Open3D functions</p></li>
 <li><p>Segmentation faults</p></li>
 <li><p>Incorrect computation results</p></li>
 </ul>
 </li>
 <li><p><strong>Recommended compatible versions</strong>:</p></li>
-</ol>
+</ul>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Open3D Version</p></th>
@@ -1628,7 +1628,7 @@ pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.x.x-xxx
 </tr>
 </tbody>
 </table>
-<ol>
+<ul>
 <li><p><strong>Best practice</strong>: Always check Open3D’s official getting started guide for the latest compatibility information:
 <a class="reference external" href="https://www.open3d.org/docs/release/getting_started.html">Open3D Getting Started Guide</a></p></li>
 <li><p><strong>If you encounter issues</strong>:</p>
@@ -1641,7 +1641,7 @@ pip<span class="w"> </span>install<span class="w"> </span><span class="nv">numpy
 </pre></div>
 </div>
 </li>
-</ol>
+</ul>
 </section>
 </section>
 <hr class="docutils" />
@@ -1768,8 +1768,8 @@ sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> <
 </pre></div>
 </div>
 </li>
-<li><p><strong>Install dependencies</strong> (for versions &lt; 2.1.0):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opencv-python<span class="w"> </span>numpy
+<li><p><strong>Install example dependencies</strong>: Starting with wrapper 2.1.4, OpenCV is optional and is not installed by the base package. Install the examples extra in the same Python environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 </pre></div>
 </div>
 </li>
@@ -2086,7 +2086,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 10:16:11.
+      <span class="lastupdated">Last updated on 2026-11-19 10:45:00.
       </span></p>
   </div>
 

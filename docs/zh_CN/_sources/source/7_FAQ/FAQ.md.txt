@@ -209,31 +209,31 @@ Open3D has specific NumPy version requirements due to ABI (Application Binary In
 
 **Key points:**
 
-1. **Open3D's NumPy dependency**: Open3D is compiled against specific NumPy versions. Using a different NumPy version than what Open3D was built with can cause:
-   - `RuntimeError` when calling Open3D functions
-   - Segmentation faults
-   - Incorrect computation results
+- **Open3D's NumPy dependency**: Open3D is compiled against specific NumPy versions. Using a different NumPy version than what Open3D was built with can cause:
+  - `RuntimeError` when calling Open3D functions
+  - Segmentation faults
+  - Incorrect computation results
 
-2. **Recommended compatible versions**:
+- **Recommended compatible versions**:
 
-   | Open3D Version | Compatible NumPy Version |
-   |:---|:---|
-   | 0.16.x | 1.21 - 1.23 |
-   | 0.17.x | 1.21 - 1.24 |
-   | 0.18.x | 1.22 - 1.26 |
+  | Open3D Version | Compatible NumPy Version |
+  |:---|:---|
+  | 0.16.x | 1.21 - 1.23 |
+  | 0.17.x | 1.21 - 1.24 |
+  | 0.18.x | 1.22 - 1.26 |
 
-3. **Best practice**: Always check Open3D's official getting started guide for the latest compatibility information:
-   [Open3D Getting Started Guide](https://www.open3d.org/docs/release/getting_started.html)
+- **Best practice**: Always check Open3D's official getting started guide for the latest compatibility information:
+  [Open3D Getting Started Guide](https://www.open3d.org/docs/release/getting_started.html)
 
-4. **If you encounter issues**:
-   ```bash
-   # Check your current versions
-   python -c "import numpy; print(f'NumPy: {numpy.__version__}')"
-   python -c "import open3d; print(f'Open3D: {open3d.__version__}')"
+- **If you encounter issues**:
+  ```bash
+  # Check your current versions
+  python -c "import numpy; print(f'NumPy: {numpy.__version__}')"
+  python -c "import open3d; print(f'Open3D: {open3d.__version__}')"
 
-   # Install compatible versions
-   pip install numpy==1.23.5 open3d==0.17.0
-   ```
+  # Install compatible versions
+  pip install numpy==1.23.5 open3d==0.17.0
+  ```
 
 ---
 
@@ -375,9 +375,9 @@ Required components:
            cv2.imshow("Color", color_image)
    ```
 
-3. **Install dependencies** (for versions < 2.1.0):
+3. **Install example dependencies**: Starting with wrapper 2.1.4, OpenCV is optional and is not installed by the base package. Install the examples extra in the same Python environment:
    ```bash
-   pip install opencv-python numpy
+   python -m pip install --upgrade "pyorbbecsdk2[examples]"
    ```
 
 ---

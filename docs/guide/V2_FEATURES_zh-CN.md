@@ -88,7 +88,7 @@ v2-main 分支面向 **Orbbec SDK v2.7.6+** 全面重写 Python 绑定。该 SDK
 - 硬件 D2C 对齐 — 在设备端完成深度到彩色对齐。
 - 深度工作模式切换 — High Accuracy、High Density 等（部分设备）。
 - 设备预设管理 — 加载、保存命名深度预设（Gemini 330 系列）。
-- 设备固件升级 — 通过 `device_firmware_update.py` 执行 OTA 固件升级。
+- 设备固件升级 — 通过 `examples/beginner/09_device_firmware_update.py` 执行 OTA 固件升级。
 - 录制与回放 — 将流录制为 bag 文件，并离线回放。
 
 <a id="developer-experience"></a>
@@ -102,8 +102,8 @@ v2-main 分支面向 **Orbbec SDK v2.7.6+** 全面重写 Python 绑定。该 SDK
   - `02_depth_visualization.py` — 使用 OpenCV 色图显示深度流。
   - `03_color_and_depth_aligned.py` — 使用 AlignFilter 的多流示例。
 - 进阶示例系列（`examples/advanced/`）：
-  - `high_performance_pipeline.py` — 异步回调、有界帧队列和 FPS 计数器。
-  - `custom_filter_chain.py` — 支持键盘实时调节的滤波器链。
+  - `15_high_performance_pipeline.py` — 异步回调、有界帧队列和 FPS 计数器。
+  - `08_custom_filter_chain.py` — 支持键盘实时调节的滤波器链。
 - 25 个以上独立示例，覆盖 SDK 各项主要功能。
 - pytest 测试套件：
   - 设备、控制、数据流、滤波器、标定和性能测试模块。

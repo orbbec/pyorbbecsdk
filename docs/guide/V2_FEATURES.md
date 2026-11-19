@@ -68,7 +68,7 @@ v1.x used the proprietary OpenNI protocol.
 - Hardware D2C alignment — depth-to-color alignment processed on-device
 - Depth work mode switching — High Accuracy, High Density, etc. (select devices)
 - Device preset management — load/save named depth presets (Gemini 330 series)
-- Device firmware update — OTA firmware upgrade via `device_firmware_update.py`
+- Device firmware update — OTA firmware upgrade via `examples/beginner/09_device_firmware_update.py`
 - Recording and playback — record streams to bag files; replay offline
 
 #### Developer Experience
@@ -79,8 +79,8 @@ v1.x used the proprietary OpenNI protocol.
   - `02_depth_visualization.py` — depth streaming with OpenCV colormap
   - `03_color_and_depth_aligned.py` — multi-stream with AlignFilter
 - Advanced example series (`examples/advanced/`):
-  - `high_performance_pipeline.py` — async callback with bounded frame queue and FPS meter
-  - `custom_filter_chain.py` — filter chain with live keyboard tuning
+  - `15_high_performance_pipeline.py` — async callback with bounded frame queue and FPS meter
+  - `08_custom_filter_chain.py` — filter chain with live keyboard tuning
 - 25+ additional standalone examples covering every major SDK feature
 - pytest test suite:
   - Device, controls, streams, filters, calibration, and performance test modules

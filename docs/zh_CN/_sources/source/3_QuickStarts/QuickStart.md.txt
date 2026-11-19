@@ -51,7 +51,7 @@ Run this command to verify your installation:
 
 ```bash
 # Linux/Windows/macOS
-pip show pyorbbecsdk2 | grep Version
+python -c "from importlib.metadata import version; print(version('pyorbbecsdk2'))"
 ```
 
 You should see the SDK version printed without errors.
@@ -69,6 +69,14 @@ You should see the SDK version printed without errors.
 # 🚀 Your First Application
 
 ## Step 1: Run the Quick Start Example
+
+First choose the working directory. When using a source checkout, run all example commands below from the repository root (the directory containing `examples/`). When using only the installed wheel, locate the package directory:
+
+```bash
+python -c "import pyorbbecsdk; from pathlib import Path; print(Path(pyorbbecsdk.__file__).parent)"
+```
+
+Change into the printed directory before running the commands below. A working directory is required because installing the package does not change your current directory.
 
 Run the ready-to-use example with **zero configuration**:
 
@@ -227,7 +235,7 @@ The `-E` flag preserves your Python environment (virtualenv, etc.).
 pip install --upgrade "pyorbbecsdk2[examples]"
 
 # Verify installation
-pip show pyorbbecsdk2 | grep Version
+python -c "from importlib.metadata import version; print(version('pyorbbecsdk2'))"
 ```
 
 ### Empty Frames
@@ -388,11 +396,11 @@ Complete working applications combining multiple SDK features:
 | Script | Description | Dependencies |
 |--------|-------------|--------------|
 | `applications/ruler.py` | **Interactive depth ruler** — drag to measure 3D distance | numpy, opencv |
-| `applications/object_detection.py` | Real-time YOLO object detection with depth overlay | onnxruntime, opencv |
+| `applications/object_detection/object_detection.py` | Real-time YOLO object detection with depth overlay | onnxruntime, opencv |
 
 ```bash
 python examples/applications/ruler.py
-python examples/applications/object_detection.py
+python examples/applications/object_detection/object_detection.py
 ```
 
 ### Specialized — LiDAR ⭐⭐⭐

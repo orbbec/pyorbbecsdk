@@ -30,11 +30,6 @@
 | YOLO 模型配置 | [English](../examples/applications/object_detection/models/readme.md) | [中文](../examples/applications/object_detection/models/readme_zh-CN.md) |
 | 日志配置 | [English](../examples/beginner/LOG_CONFIGURATION.md) | [中文](../examples/beginner/LOG_CONFIGURATION_zh-CN.md) |
 | Windows UVC 元数据注册 | [English](../scripts/env_setup/obsensor_metadata_win10.md) | [中文](../scripts/env_setup/obsensor_metadata_win10_zh-CN.md) |
-| SDK 配置说明：arm64 | [English](../sdk/lib/arm64/OrbbecSDKConfig.md) | [中文](../sdk/lib/arm64/OrbbecSDKConfig_zh-CN.md) |
-| SDK 配置说明：linux_x64 | [English](../sdk/lib/linux_x64/OrbbecSDKConfig.md) | [中文](../sdk/lib/linux_x64/OrbbecSDKConfig_zh-CN.md) |
-| SDK 配置说明：macOS | [English](../sdk/lib/macOS/OrbbecSDKConfig.md) | [中文](../sdk/lib/macOS/OrbbecSDKConfig_zh-CN.md) |
-| SDK 配置说明：win_x64 | [English](../sdk/lib/win_x64/OrbbecSDKConfig.md) | [中文](../sdk/lib/win_x64/OrbbecSDKConfig_zh-CN.md) |
-| 第三方依赖清单 | [English](../sdk/licenses/THIRD_PARTY_LICENSES.md) | [中文](../sdk/licenses/THIRD_PARTY_LICENSES_zh-CN.md) |
 | 类型存根与 IDE 配置 | [English](../stubs/README.md) | [中文](../stubs/README_zh-CN.md) |
 | 测试标记 | [English](../test/MARKERS.md) | [中文](../test/MARKERS_zh-CN.md) |
 | 测试套件 | [English](../test/README.md) | [中文](../test/README_zh-CN.md) |

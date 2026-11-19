@@ -123,7 +123,7 @@ python examples/beginner/03_color_and_depth_aligned.py --hw   # hardware D2C
 |--------|-------------|-------|
 | `advanced/08_custom_filter_chain.py` | 串联 Temporal、Spatial、HoleFilling、Threshold 滤波器；通过键盘实时调节 | 全部 |
 | `advanced/09_post_processing.py` | 完整后处理流程；并排对比原始和滤波结果 | Gemini 330 |
-| `advanced/10_hdr.py` | HDR 合并：通过 `HdrMergeFilter` 合并交替曝光帧 | Gemini 330 |
+| `advanced/10_hdr.py` | HDR 合并：通过 `HDRMergeFilter` 合并交替曝光帧 | Gemini 330 |
 | `advanced/11_preset.py` | 加载命名深度预设（`Default`、`Hand`、`High Accuracy`）；运行时切换 | Gemini 330 |
 | `advanced/12_depth_work_mode.py` | 运行时切换深度工作模式（High Accuracy、High Density 等） | Gemini 2 系列 |
 | `advanced/13_confidence.py` | 获取深度置信度图；可视化并按像素置信度进行阈值处理 | 部分设备 |
@@ -157,12 +157,12 @@ python examples/advanced/08_custom_filter_chain.py
 
 | 脚本 | 说明 | 依赖 |
 |--------|-------------|--------------|
-| `applications/object_detection.py` | 在对齐后的彩色流上实时执行 YOLO 目标检测；为每个目标叠加深度信息 | onnxruntime, opencv |
+| `applications/object_detection/object_detection.py` | 在对齐后的彩色流上实时执行 YOLO 目标检测；为每个目标叠加深度信息 | onnxruntime, opencv |
 | `applications/ruler.py` | **交互式深度测距工具**：在彩色图像上拖动绘制线段，通过反投影计算真实 3D 欧氏距离（mm）；按 **C** 清除 | numpy, opencv |
 
 ```bash
 python examples/applications/ruler.py
-python examples/applications/object_detection.py
+python examples/applications/object_detection/object_detection.py
 ```
 
 > **测距原理：** 对于每个端点 (u, v)，应用读取对齐深度值 Z，然后计算 `X = (u−cx)·Z/fx`、`Y = (v−cy)·Z/fy`。距离 = ‖P2 − P1‖₂，单位为 mm。
@@ -207,7 +207,7 @@ python examples/applications/object_detection.py
 了解特定 SDK 功能？  →  按类别选择第二级中的相应脚本
 
 构建应用？           →  applications/ruler.py
-                       applications/object_detection.py
+                       applications/object_detection/object_detection.py
 
 多设备 / 同步？      →  advanced/14_two_devices_sync.py
 追求高性能？         →  advanced/15_high_performance_pipeline.py

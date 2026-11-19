@@ -91,7 +91,7 @@ python /path/to/site-packages/pyorbbecsdk/shared/setup_env.py
 | Windows | Registers UVC metadata | Auto-elevates to admin |
 | macOS | No setup needed | Works out of the box |
 
-**Check status:** `python setup_env.py --check`
+**Check status (from the repository root):** `python scripts/env_setup/setup_env.py --check`. For a wheel-only installation, use the full path to `shared/setup_env.py` shown above and append `--check`.
 
 → For detailed instructions and manual configuration, see [Environment Setup Guide](registration_script.md)
 
@@ -244,9 +244,9 @@ python examples/beginner/02_depth_visualization.py
 sudo -E python examples/beginner/02_depth_visualization.py
 ```
 
-> **Note for versions < 2.1.0:** If you installed an older version, you need to manually install example dependencies:
+> **Example dependencies:** Starting with wrapper 2.1.4, installing only the base package does not install OpenCV or the other optional example dependencies. Install the examples extra before running the examples, even if the SDK is already installed:
 > ```bash
-> pip install opencv-python numpy
+> python -m pip install --upgrade "pyorbbecsdk2[examples]"
 > ```
 
 ---

@@ -1440,29 +1440,25 @@ powershell<span class="w"> </span>-c<span class="w"> </span><span class="s2">&qu
 </li>
 <li><p>验证构建环境：</p>
 <p>构建前，确认已安装所需的编译工具：</p>
-<p>=== &quot;Linux/macOS&quot;</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```bash
-# Check CMake version (requires 3.15.0+)
-cmake --version
+<p><strong>Linux/macOS</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check CMake version (requires 3.15.0+)</span>
+cmake<span class="w"> </span>--version
 
-# Check GCC version (requires 7.4.0+)
-gcc --version
-g++ --version
-```
+<span class="c1"># Check GCC version (requires 7.4.0+)</span>
+gcc<span class="w"> </span>--version
+g++<span class="w"> </span>--version
 </pre></div>
 </div>
-<p>=== &quot;Windows&quot;</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```powershell
-# Check CMake version
-cmake --version
+<p><strong>Windows</strong></p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="c"># Check CMake version</span>
+<span class="n">cmake</span> <span class="p">-</span><span class="n">-version</span>
 
-# Check Visual Studio installation
-# Option 1: Using vswhere (if installed with VS)
-&amp; &quot;${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe&quot; -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+<span class="c"># Check Visual Studio installation</span>
+<span class="c"># Option 1: Using vswhere (if installed with VS)</span>
+<span class="p">&amp;</span> <span class="s2">&quot;${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe&quot;</span> <span class="n">-latest</span> <span class="n">-products</span> <span class="p">*</span> <span class="n">-requires</span> <span class="n">Microsoft</span><span class="p">.</span><span class="n">VisualStudio</span><span class="p">.</span><span class="n">Component</span><span class="p">.</span><span class="n">VC</span><span class="p">.</span><span class="n">Tools</span><span class="p">.</span><span class="n">x86</span><span class="p">.</span><span class="n">x64</span> <span class="n">-property</span> <span class="n">installationPath</span>
 
-# Option 2: Check for cl.exe
-Get-Command cl.exe -ErrorAction SilentlyContinue
-```
+<span class="c"># Option 2: Check for cl.exe</span>
+<span class="nb">Get-Command</span> <span class="n">cl</span><span class="p">.</span><span class="n">exe</span> <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
 </pre></div>
 </div>
 <p>CMake 与 Visual Studio 版本兼容性（Windows）：</p>
@@ -1972,7 +1968,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
+      <span class="lastupdated">最后更新于 2026-11-19 10:45:07.
       </span></p>
   </div>
 

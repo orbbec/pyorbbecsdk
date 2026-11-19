@@ -1498,7 +1498,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 </tr>
 </tbody>
 </table>
-<p>检查状态：<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup_env.py</span> <span class="pre">--check</span></code></p>
+<p>检查状态（从仓库根目录执行）：<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/env_setup/setup_env.py</span> <span class="pre">--check</span></code>。仅安装 wheel 时，请使用上文 <code class="docutils literal notranslate"><span class="pre">shared/setup_env.py</span></code> 的完整路径并附加 <code class="docutils literal notranslate"><span class="pre">--check</span></code>。</p>
 <p>→ 详细步骤和手动配置说明，请参见<a class="reference internal" href="registration_script.html"><span class="doc">环境配置指南</span></a></p>
 </section>
 <section id="system-specific-prerequisites">
@@ -1652,8 +1652,8 @@ sudo<span class="w"> </span>-E<span class="w"> </span>python<span class="w"> </s
 </pre></div>
 </div>
 <blockquote>
-<div><p>2.1.0 之前版本的说明：如果安装的是旧版本，需要手动安装示例依赖：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>opencv-python<span class="w"> </span>numpy
+<div><p>示例依赖：从封装版本 2.1.4 开始，仅安装基础包不会安装 OpenCV 或其他可选示例依赖。即使已经安装 SDK，也需要在运行示例前安装 examples 扩展依赖：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -1860,7 +1860,7 @@ python<span class="w"> </span>examples/quick_start.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
+      <span class="lastupdated">最后更新于 2026-11-19 10:45:07.
       </span></p>
   </div>
 

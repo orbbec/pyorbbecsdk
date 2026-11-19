@@ -1448,7 +1448,7 @@
 <h2><span class="section-number">3.3.3. </span>快速验证<a class="headerlink" href="#quick-verification" title="Link to this heading"></a></h2>
 <p>运行以下命令验证安装：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/Windows/macOS</span>
-pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Version
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from importlib.metadata import version; print(version(&#39;pyorbbecsdk2&#39;))&quot;</span>
 </pre></div>
 </div>
 <p>应能看到 SDK 版本输出，且没有错误。</p>
@@ -1480,6 +1480,11 @@ pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="
 <h1><span class="section-number">3.4. </span>🚀 第一个应用<a class="headerlink" href="#your-first-application" title="Link to this heading"></a></h1>
 <section id="step-1-run-the-quick-start-example">
 <h2><span class="section-number">3.4.1. </span>步骤 1：运行快速入门示例<a class="headerlink" href="#step-1-run-the-quick-start-example" title="Link to this heading"></a></h2>
+<p>首先确定工作目录。使用源码仓库时，请从仓库根目录（包含 <code class="docutils literal notranslate"><span class="pre">examples/</span></code> 的目录）运行下文所有示例命令。如果仅安装了 wheel，请先定位安装包目录：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pyorbbecsdk; from pathlib import Path; print(Path(pyorbbecsdk.__file__).parent)&quot;</span>
+</pre></div>
+</div>
+<p>先切换到输出的目录，再运行下文命令。安装软件包不会改变当前目录，因此需要明确设置工作目录。</p>
 <p>运行开箱即用的零配置示例：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/Windows</span>
 python<span class="w"> </span>examples/quick_start.py
@@ -1627,7 +1632,7 @@ python<span class="w"> </span>/path/to/site-packages/pyorbbecsdk/shared/setup_en
 pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
 
 <span class="c1"># Verify installation</span>
-pip<span class="w"> </span>show<span class="w"> </span>pyorbbecsdk2<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Version
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from importlib.metadata import version; print(version(&#39;pyorbbecsdk2&#39;))&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -1919,14 +1924,14 @@ python<span class="w"> </span>examples/advanced/08_custom_filter_chain.py
 <td><p>交互式深度测距尺——拖动测量 3D 距离</p></td>
 <td><p>numpy, opencv</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">applications/object_detection.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">applications/object_detection/object_detection.py</span></code></p></td>
 <td><p>实时 YOLO 目标检测，叠加深度信息</p></td>
 <td><p>onnxruntime, opencv</p></td>
 </tr>
 </tbody>
 </table>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/applications/ruler.py
-python<span class="w"> </span>examples/applications/object_detection.py
+python<span class="w"> </span>examples/applications/object_detection/object_detection.py
 </pre></div>
 </div>
 </section>
@@ -2079,7 +2084,7 @@ python<span class="w"> </span>examples/applications/object_detection.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 10:16:18.
+      <span class="lastupdated">最后更新于 2026-11-19 10:45:07.
       </span></p>
   </div>
 

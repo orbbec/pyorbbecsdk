@@ -1,6 +1,3 @@
-
-**English** | [中文](OrbbecSDKConfig_zh-CN.md)
-
 # Orbbec SDK Configuration File Introduction (OrbbecSDKConfig_v1.0.xml)
 
 The Orbbec SDK configuration file is an XML file that defines the global configuration of the Orbbec SDK.

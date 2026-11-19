@@ -9,7 +9,7 @@ Before you start: Normally, installing with the provided .whl package is suffici
 - Windows: Visual Studio 2017 and above
 - Linux: gcc 5.4.0 and above
 - cmake: 3.15.0 and above
-- pybind11 2.10.3 and above
+- pybind11 2.12.0 and pybind11-global 2.12.0 (matching the current build configuration)
 
 ### Python Version
 
@@ -50,9 +50,9 @@ sudo apt-get install python3-dev python3-venv python3-pip python3-opencv
 
 If you use Anaconda, update the Python path in `pyorbbecsdk/CMakeLists.txt` before the `find_package(Python3 REQUIRED COMPONENTS Interpreter Development)` line:
 
-```bash
-set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.6.8") # Replace with your Python path
-set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.6/site-packages/pybind11/share/cmake/pybind11") # Replace with your Pybind11 path
+```cmake
+set(Python3_ROOT_DIR "/home/anaconda3/envs/py3.10") # Replace with your Python path
+set(pybind11_DIR "${Python3_ROOT_DIR}/lib/python3.10/site-packages/pybind11/share/cmake/pybind11") # Replace with your Pybind11 path
 ```
 
 ### Build the Project
@@ -117,7 +117,7 @@ pip3 install dist/*.whl
 
 ### Download the Python SDK Source Code
 
-```python
+```bash
 git clone https://github.com/orbbec/pyorbbecsdk.git
 cd pyorbbecsdk
 git checkout v2-main
@@ -125,7 +125,7 @@ git checkout v2-main
 
 ### Install Dependencies
 
-```python
+```bash
 pip3 install -r requirements.txt
 ```
 

@@ -91,7 +91,7 @@ python -c "import pyorbbecsdk; import os; print(os.path.dirname(pyorbbecsdk.__fi
 
 #### 第二步：将存根复制到软件包目录
 
-进入 pyorbbecsdk 源码目录（本 README 所在仓库），然后运行：
+进入 pyorbbecsdk 仓库根目录（包含 `stubs/` 子目录），然后运行：
 
 **Linux/macOS：**
 
@@ -126,7 +126,7 @@ copy stubs\*.pyi "%PACKAGE_PATH%\"
 **Linux/macOS：**
 
 ```bash
-ls -la "$PACKAGE_PATH/*.pyi"
+ls -la "$PACKAGE_PATH"/*.pyi
 ```
 
 **Windows PowerShell：**

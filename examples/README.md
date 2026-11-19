@@ -109,7 +109,7 @@ Single-feature scripts that each go deeper into one area of the SDK.
 |--------|-------------|-------|
 | `advanced/08_custom_filter_chain.py` | Chain Temporal + Spatial + HoleFilling + Threshold filters; tune live with keyboard | All |
 | `advanced/09_post_processing.py` | Full post-processing stack; raw vs. filtered side-by-side comparison | Gemini 330 |
-| `advanced/10_hdr.py` | HDR merge: combine alternating-exposure frames with `HdrMergeFilter` | Gemini 330 |
+| `advanced/10_hdr.py` | HDR merge: combine alternating-exposure frames with `HDRMergeFilter` | Gemini 330 |
 | `advanced/11_preset.py` | Load named depth presets (`Default`, `Hand`, `High Accuracy`); switch at runtime | Gemini 330 |
 | `advanced/12_depth_work_mode.py` | Switch depth work modes (High Accuracy, High Density, …) at runtime | Gemini 2 series |
 | `advanced/13_confidence.py` | Access depth confidence map; visualize and threshold per-pixel confidence | Select devices |
@@ -139,12 +139,12 @@ Complete working applications that combine multiple SDK features.
 
 | Script | Description | Dependencies |
 |--------|-------------|--------------|
-| `applications/object_detection.py` | Real-time YOLO object detection on the aligned color stream; depth overlay per detected object | onnxruntime, opencv |
+| `applications/object_detection/object_detection.py` | Real-time YOLO object detection on the aligned color stream; depth overlay per detected object | onnxruntime, opencv |
 | `applications/ruler.py` | **Interactive depth ruler** — drag to draw a line on the color image; computes the real 3D Euclidean distance (mm) using back-projection; press **C** to clear | numpy, opencv |
 
 ```bash
 python examples/applications/ruler.py
-python examples/applications/object_detection.py
+python examples/applications/object_detection/object_detection.py
 ```
 
 > **How the ruler works:** For each endpoint (u, v) the app reads the aligned depth value Z, then computes `X = (u−cx)·Z/fx`, `Y = (v−cy)·Z/fy`. Distance = ‖P2 − P1‖₂ in mm.
@@ -184,7 +184,7 @@ Want a specific       →  Pick any Level 2 script by category
 SDK feature?
 
 Building an app?      →  applications/ruler.py
-                          applications/object_detection.py
+                          applications/object_detection/object_detection.py
 
 Multi-device / sync?  →  advanced/14_two_devices_sync.py
 High performance?     →  advanced/15_high_performance_pipeline.py

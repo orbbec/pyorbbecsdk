@@ -64,6 +64,7 @@ device = pipeline.get_device()
 # 3.Get the sensor list from device.
 sensor_list = device.get_sensor_list()
 # 4.Enable all available video streams
+config = Config()
 for sensor in range(len(sensor_list)):
     sensor_type = sensor_list[sensor].get_type()
 
@@ -84,6 +85,8 @@ The difference between Blocking Polling Mode and Asynchronous Callback Mode: In 
 Key API Descriptions:
 
 ```python
+import numpy as np
+import cv2
 from pyorbbecsdk import *
 
 # 1.Create a pipeline with default device.
@@ -130,13 +133,15 @@ while True:
 pipeline.stop()
 ```
 
-For detailed code, refer to: [examples/depth.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/depth.py).
+For detailed code, refer to: [examples/beginner/02_depth_visualization.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/02_depth_visualization.py).
 
 ## Asynchronous Callback Mode (Video Data Streams)
 
 Key API Descriptions:
 
 ```python
+import numpy as np
+import cv2
 from pyorbbecsdk import *
 
 def on_new_frame_callback(frame: FrameSet):
@@ -183,7 +188,7 @@ def main():
     # ...
 
     # 5.Stop the pipeline
-    pipeLine.stop();
+    pipeline.stop()
 ```
 
 `Note:` The Gemini 330 series supports left IR and right IR sensors, with the IR sensor types being OBSensorType.LEFT_IR_SENSOR and OBSensorType.RIGHT_IR_SENSOR, respectively. The depth sensor type is OBSensorType.DEPTH_SENSOR, and the color sensor type is OBSensorType.COLOR_SENSOR
@@ -227,7 +232,7 @@ while True:
 pipeline.stop();
 ```
 
-For detailed code, refer to: [examples/imu.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/imu.py).
+For detailed code, refer to: [examples/beginner/07_imu.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/07_imu.py).
 
 ## Asynchronous Callback Mode (Imu Data Streams)
 
@@ -373,7 +378,7 @@ config.set_frame_aggregate_output_mode(OBFrameAggregateOutputMode.FULL_FRAME_REQ
 # 8.Start the pipeline with config.
 pipeline.start(config)
 
-while(true) {
+while True:
     # 9.Wait for up to 100ms for a frameset in blocking mode.
     frames = pipeline.wait_for_frames(100)
     if frames is None:
@@ -384,13 +389,12 @@ while(true) {
     depth_frame = frames.get_depth_frame()
     left_ir_frame = frames.get_frame(OBFrameType.LEFT_IR_FRAME)
     right_ir_frame = frames.get_frame(OBFrameType.RIGHT_IR_FRAME)
-}
 
 # 11.Stop the pipeline.
 pipeline.stop();
 ```
 
-For detailed code, refer to: [examples/hdr.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hdr.py).
+For detailed code, refer to: [examples/advanced/10_hdr.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/10_hdr.py).
 
 # D2C
 
@@ -462,7 +466,11 @@ def main():
     pipeline.stop()
 ```
 
-For detailed code, refer to: [examples/hw_d2c_align.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hw_d2c_align.py).
+For detailed code, refer to: [examples/beginner/03_color_and_depth_aligned.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/03_color_and_depth_aligned.py).
+
+```bash
+python examples/beginner/03_color_and_depth_aligned.py --hw
+```
 
 ## Software D2C
 
@@ -584,7 +592,7 @@ def main():
     pipeline.stop()
 ```
 
-For detailed code, refer to: [examples/sync_align.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/sync_align.py).
+For detailed code, refer to: [examples/beginner/03_color_and_depth_aligned.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/03_color_and_depth_aligned.py).
 
 # Depth Point Cloud
 The SDK provides PointCloudFilter, for processing depth data and generating point clouds.
@@ -745,7 +753,7 @@ device.set_int_property(OBPropertyID.OB_PROP_DEPTH_NOISE_REMOVAL_FILTER_MAX_SPEC
 ```
 
 # Depth Post-Processing Filters
-The SDK provides a recommended list of post-processing filters,For details on how to use the post-processing filter list interface,see [examples/post_processing.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/post_processing.py).
+The SDK provides a recommended list of post-processing filters,For details on how to use the post-processing filter list interface,see [examples/advanced/09_post_processing.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/09_post_processing.py).
 
 ```python
 from pyorbbecsdk import *
@@ -803,7 +811,7 @@ recorder.resume()
 recorder.pause()
 ```
 
-For detailed code, refer to: [examples/recorder.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/recorder.py).
+For detailed code, refer to: [examples/advanced/01_recorder.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/01_recorder.py).
 
 ## Playback
 
@@ -854,7 +862,7 @@ pipeline.stop()
 playback  = None
 ```
 
-For detailed code, refer to: [examples/playback.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/playback.py).
+For detailed code, refer to: [examples/advanced/02_playback.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/02_playback.py).
 
 # Firmware Update
 
@@ -904,7 +912,7 @@ The default is asynchronous (`async_update=True`). Keep the device alive until
 completion and determine success from the SDK callback state. See
 [Device Binary Data](binary_device_data.md) for callback lifetime and error behavior.
 
-For detailed code, refer to: [examples/device_firmware_update.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/device_firmware_update.py).
+For detailed code, refer to: [examples/beginner/09_device_firmware_update.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/09_device_firmware_update.py).
 
 # Update Preset
 
@@ -946,7 +954,7 @@ device.update_optional_depth_presets(
 
 `Note:` The API supports upgrading multiple presets at once. For G300 series devices, a maximum of 3 presets can be written at a time. The first preset written will be set as the default preset.
 
-For detailed code, refer to: [examples/device_optional_depth_presets_update.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/device_optional_depth_presets_update.py).
+For detailed code, refer to: [examples/advanced/19_device_optional_depth_presets_update.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/19_device_optional_depth_presets_update.py).
 
 # Device Disconnection and Reconnection
 
@@ -972,7 +980,7 @@ In the Context callback on_device_changed_callback:
 - disconn_device_list contains devices that the SDK has detected as disconnected (offline).
 - conn_device_list contains devices that the SDK has detected as connected (online).
 
-For detailed code, refer to: [examples/hot_plug.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hot_plug.py).
+For detailed code, refer to: [examples/advanced/05_hot_plug.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/05_hot_plug.py).
 
 # Commonly Used Interfaces
 
@@ -1069,7 +1077,7 @@ config = get_ip_config()
 device_status = context.ob_force_ip_config(device_list.get_device_uid_by_index(device_number), config)
 ```
 
-For detailed code, refer to: [examples/forceip.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/forceip.py).
+For detailed code, refer to: [examples/advanced/18_forceip.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/18_forceip.py).
 
 ## Obtain Device Temperature
 
@@ -1125,25 +1133,29 @@ depth_profile = depth_profile_list.get_video_stream_profile(640, 0, OBFormat.Y16
 Method 2: Obtain the default stream profile
 
 ```python
-  from pyorbbecsdk import *
-  pipeline = Pipeline()
-  depth_profile_list = 
-  pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
-  # Obtain the default depth profile. The default resolution can be configured by using the OrbbecSDKConfig_v1.0.xml
-  depth_profile = depth_profile_list.get_default_video_stream_profile()
+from pyorbbecsdk import *
+pipeline = Pipeline()
+depth_profile_list = pipeline.get_stream_profile_list(OBSensorType.DEPTH_SENSOR)
+# Obtain the default depth profile from the device configuration.
+depth_profile = depth_profile_list.get_default_video_stream_profile()
 ```
 
 Method 3: Obtain stream profile through video frames
 
 ```python
-  from pyorbbecsdk import *
-  pipeline = Pipeline()
-  pipeline.start(config)
-  frames = pipeline.wait_for_frames(100)
-  depth_frame = frames.get_depth_frame()
-  depth_frame = depth_frame.as_video_frame()
-  #Get depth profile
-  depth_profile = depth_frame.get_stream_profile()
+from pyorbbecsdk import *
+pipeline = Pipeline()
+pipeline.start()
+try:
+    frames = pipeline.wait_for_frames(100)
+    if frames is None:
+        raise RuntimeError("No frames received")
+    depth_frame = frames.get_depth_frame()
+    if depth_frame is None:
+        raise RuntimeError("No depth frame received")
+    depth_profile = depth_frame.get_stream_profile()
+finally:
+    pipeline.stop()
 ```
 
 ## Obtain IMU StreamProfile
@@ -1233,7 +1245,7 @@ frames = pipeline.wait_for_frames(100)
 merged_frame = hdr_filter.process(frames)
 ```
 
-For detailed code, refer to: [examples/hdr.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/hdr.py).
+For detailed code, refer to: [examples/advanced/10_hdr.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/10_hdr.py).
 
 ## Obtain LDP Measurement Value
 To obtain the LDP (Laser Distance Protection) measurement values when the LDP switch is enabled.
@@ -1276,7 +1288,7 @@ if frame.has_metadata(EXPOSURE):
     metadata_value = frame.get_metadata_value(EXPOSURE)
 ```
 
-For detailed code, refer to: [examples/metadata.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/metadata.py).
+For detailed code, refer to: [examples/advanced/07_metadata.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/07_metadata.py).
 
 ## Triggered Capture
 
@@ -1295,7 +1307,7 @@ device.set_multi_device_sync_config(sync_config)
 device.trigger_capture()
 ```
 
-For detailed code, refer to: [examples/two_devices_sync.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/two_devices_sync.py).
+For detailed code, refer to: [examples/advanced/14_two_devices_sync.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/14_two_devices_sync.py).
 
 ### Timed Capture
 
@@ -1919,7 +1931,7 @@ First, modify the configuration file (multi_device_sync_config.json), modify the
 }
 ```
 
-Multi-device synchronization Sample, please refer to [examples/two_devices_sync.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/two_devices_sync.py), if you need to synchronize more than 2 devices, it is recommended to use C++.
+Multi-device synchronization Sample, please refer to [examples/advanced/14_two_devices_sync.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/14_two_devices_sync.py), if you need to synchronize more than 2 devices, it is recommended to use C++.
 
 ``` python
 #1. read sync param from json config，and set multi device sync params
@@ -1966,7 +1978,7 @@ from pyorbbecsdk import *
 supported = device.isFrameInterleaveSupported()
 ```
 
-For detailed code, refer to: [examples/laser_interleave.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/laser_interleave.py).
+For detailed code, refer to: [examples/advanced/17_laser_interleave.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/advanced/17_laser_interleave.py).
 
 ## Heart Beat Control
 
@@ -2022,4 +2034,4 @@ Context.set_logger_to_callback(OBLogLevel.DEBUG, on_log)
 ctx = Context()
 ```
 
-For detailed code, refer to: [examples/logger.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/logger.py).
+For detailed code, refer to: [examples/beginner/10_logger.py](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/examples/beginner/10_logger.py).

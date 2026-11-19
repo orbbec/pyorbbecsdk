@@ -92,13 +92,13 @@ Orbbec SDK 配置文件是用于定义 SDK 全局配置的 XML 文件。
     </Misc>
 ```
 
-1. 原文说明默认每八秒获取设备时间以更新全局时间戳拟合器；下方配置示例为 1000 ms。实际值请以所用 SDK 配置为准。
+1. 下方配置每 1000 毫秒（1 秒）获取设备时间，以更新全局时间戳拟合器。
 
 ```cpp
         <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
 ```
 
-2. 原文说明全局时间戳拟合器的默认队列长度为 10；下方配置示例为 100。实际值请以所用 SDK 配置为准。
+2. 下方配置将全局时间戳拟合器的队列长度设为 100。
 
 ```cpp
         <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>

@@ -72,7 +72,7 @@ python -c "import pyorbbecsdk; import os; print(os.path.dirname(pyorbbecsdk.__fi
 
 #### Step 2: Copy stubs to the package directory
 
-Navigate to your pyorbbecsdk source directory (where this README is located), then run:
+From the pyorbbecsdk repository root (the directory containing `stubs/`), run:
 
 **Linux/macOS:**
 ```bash
@@ -101,7 +101,7 @@ Check that the `.pyi` files are now in the package directory:
 
 **Linux/macOS:**
 ```bash
-ls -la "$PACKAGE_PATH/*.pyi"
+ls -la "$PACKAGE_PATH"/*.pyi
 ```
 
 **Windows PowerShell:**

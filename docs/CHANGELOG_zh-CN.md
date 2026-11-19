@@ -56,50 +56,8 @@
   - Python 3.14 使用 `pygame-ce` 和最新版 `av`；`open3d` 仅在 Python 3.8–3.11 上安装。
 
 <a id="212---2026-08-11"></a>
-
-## [2.1.2] - 2026-08-11
-
 <a id="whats-changed-1"></a>
-
-### 变更内容
-- 将 Orbbec SDK 更新至 v2.10.6.
-- 新增 GVCP 网络设备 Action Command 支持，以及 `GROUP_ACTIONS` 多设备同步模式。
-- 新增带版本的深度工作模式预设，可通过版本区分同名预设。
-- 新增固件心跳和固件日志轮询间隔配置。
-- 新增 AWB 状态及增益属性、`OBAwbGainParams` 结构体和 Action Signal 属性集。
-- 新增 Python 3.14 构建与打包支持。
-- 在 `auto_tests` 下新增 C++ 测试套件的 pytest 移植版本。
-- 修复多流示例中的深度闪烁。
-- 将 Orbbec SDK 许可证（`sdk/LICENSE.txt`）和全部第三方许可证文件包含到 wheel 包中。
-- 改进文档和 API 参考。
-
 <a id="key-new-apis-1"></a>
-
-## 主要新增 API
-
-面向 GVCP 网络设备的 **Action Command**（多机触发）：
-  - `Context.send_action_command(device_key, group_key, group_mask, dest_ip="255.255.255.255", scheduled_time=0)`
-  - `OBMultiDeviceSyncMode.GROUP_ACTIONS`
-  - Action Signal 属性： `OB_PROP_ACTION_SIGNAL_COUNT_INT` (296), `OB_PROP_ACTION_DEVICE_KEY_INT` (297),
-  `OB_PROP_ACTION_SCHEDULED_COMMAND_QUEUE_SIZE_INT` (298), `OB_PROP_ACTION_SELECTOR_INT` (299),
-  `OB_PROP_ACTION_GROUP_KEY_INT` (300), `OB_PROP_ACTION_GROUP_MASK_INT` (301)
-
-  **带版本的深度工作模式预设**：
-  - `Device.get_current_preset_depth_work_mode_version()`, `DevicePresetList.get_depth_work_mode_version(index)` —
-  返回版本字符串（如 `"1.2.3"`）；设备不支持带版本模式时返回空字符串。
-  - `Device.load_preset(preset_name, version)` — `load_preset(preset_name)` 的重载，用于加载指定版本。
-
-  **固件监控轮询间隔**：
-  - `Device.set_monitor_poll_interval(interval_ms)`, `Device.get_monitor_poll_interval()` — 心跳和固件日志轮询间隔，单位为毫秒；默认 3000 ms，有效范围为 [1000, 10000]，超出范围的值会被限制到边界。
-
-  **彩色 AE / AWB**：
-  - `OBAwbGainParams` (`r_gain`, `g_gain`, `b_gain`), `OB_STRUCT_COLOR_AWB_GAIN` (1097)
-  - `OB_PROP_COLOR_AE_AWB_STATUS_INT` (287)，别名为 `OB_PROP_COLOR_AE_AWB_STAT_INT`
-  - `OB_PROP_COLOR_WB_CTRL_INT` (2053)
-
-  **Python 3.14**:
-  - 为 Windows x64、Linux x64/ARM64 和 macOS（Apple Silicon）上的 Python 3.8–3.14 提供预编译 wheel 包。
-  - Python 3.14 使用 `pygame-ce` 和最新版 `av`；`open3d` 仅在 Python 3.8–3.11 上安装。
 
 <a id="212---2026-08-11-1"></a>
 

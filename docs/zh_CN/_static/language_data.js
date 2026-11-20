@@ -190,3 +190,15 @@ var Stemmer = function() {
   }
 }
 
+
+
+var splitQuery = (query) => {
+  const tokens = query.match(/[\u3400-\u4dbf\u4e00-\u9fff]+|(?:(?![\u3400-\u4dbf\u4e00-\u9fff])[\p{Letter}\p{Number}_])+/gu) || [];
+  return tokens.flatMap((token) => {
+    if (/^[\u3400-\u4dbf\u4e00-\u9fff]+$/.test(token) && token.length > 1) {
+      return Array.from({length: token.length - 1}, (_, i) => token.slice(i, i + 2));
+    }
+    return [token];
+  });
+};
+

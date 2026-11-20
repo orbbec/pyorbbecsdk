@@ -562,3 +562,42 @@ table.enum-table a:hover {
     font-size: 1em;
     color: #e65100;
 }
+/* Section-level search results with offline-ready body previews. */
+.section-search-form {
+    display: flex;
+    gap: 0.6rem;
+    margin: 1.25rem 0;
+}
+.section-search-form input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    padding: 0.7rem;
+    border: 1px solid #adb9c2;
+    border-radius: 4px;
+}
+.section-search-form button, .section-search-more {
+    padding: 0.65rem 1rem;
+    background: #2980b9;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#section-search-status { color: #52616b; }
+#section-search-results { margin: 0; list-style: none; }
+#section-search-results > li {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid #dfe5ea;
+    border-radius: 6px;
+    background: #fff;
+}
+#section-search-results h2 { font-size: 1.1rem; margin: 0.3rem 0 0.6rem; }
+#section-search-results p { margin: 0; }
+.section-search-path { font-size: 0.8rem; color: #60717d; overflow-wrap: anywhere; }
+.section-search-preview { line-height: 1.7; overflow-wrap: anywhere; }
+#section-search-results mark { background: #fff1b8; color: #483d11; padding: 0 0.1em; }
+#section-search-results a:focus-visible, .section-search-more:focus-visible {
+    outline: 2px solid #2980b9;
+    outline-offset: 3px;
+}

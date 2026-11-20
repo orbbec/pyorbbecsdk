@@ -11,6 +11,7 @@ Frequently Asked Questions and Solutions for pyorbbecsdk.
   - [Python version mismatch](#python-version-mismatch)
   - [Offline installation fails](#offline-installation-fails)
   - [Package name confusion](#package-name-confusion)
+  - [Examples fail after installing pyorbbecsdk2 (v2.1.4 and later)](#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later)
   - [Open3D and NumPy version compatibility](#open3d-and-numpy-version-compatibility)
 - [Build Issues](#build-issues)
   - [uv command not found](#uv-command-not-found)
@@ -196,6 +197,24 @@ pip install pyorbbecsdk2-2.x.x-xxx.whl
 ```bash
 pip show pyorbbecsdk2 | grep Version
 ```
+
+---
+
+### Examples fail after installing pyorbbecsdk2 (v2.1.4 and later)
+
+**Question:** Why can't I run the examples after installing v2.1.4 or later with `pip install pyorbbecsdk2`?
+
+**Solution:**
+
+Starting with Python Wrapper v2.1.4, the core SDK and the third-party dependencies needed to run example scripts are installed separately. `pip install pyorbbecsdk2` installs only the core SDK and its required dependencies, including NumPy. It does not install optional example dependencies such as OpenCV, so an example may fail with an error such as `ModuleNotFoundError: No module named 'cv2'`.
+
+To install the SDK together with the third-party dependencies required by the examples, use:
+
+```bash
+pip install "pyorbbecsdk2[examples]"
+```
+
+If the SDK is already installed, run the same command in the Python environment used to run the examples to add the missing dependencies. Keep the entire `"pyorbbecsdk2[examples]"` argument in quotes so shells such as macOS zsh do not interpret the brackets as filename patterns.
 
 ---
 

@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=29ab96f1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=26aedec2" />
 
   
     <link rel="shortcut icon" href="../../_static/orbbec_footerlogo_3d_world.svg"/>
@@ -1330,7 +1330,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#python-version-mismatch">7.2.4. Python version mismatch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#offline-installation-fails">7.2.5. Offline installation fails</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#package-name-confusion">7.2.6. Package name confusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#open3d-and-numpy-version-compatibility">7.2.7. Open3D and NumPy version compatibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">7.2.7. Examples fail after installing pyorbbecsdk2 (v2.1.4 and later)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#open3d-and-numpy-version-compatibility">7.2.8. Open3D and NumPy version compatibility</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#build-issues">7.3. Build Issues</a><ul>
@@ -1411,6 +1412,7 @@
 <li><p><a class="reference external" href="#python-version-mismatch">Python version mismatch</a></p></li>
 <li><p><a class="reference external" href="#offline-installation-fails">Offline installation fails</a></p></li>
 <li><p><a class="reference external" href="#package-name-confusion">Package name confusion</a></p></li>
+<li><p><a class="reference external" href="#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">Examples fail after installing pyorbbecsdk2 (v2.1.4 and later)</a></p></li>
 <li><p><a class="reference external" href="#open3d-and-numpy-version-compatibility">Open3D and NumPy version compatibility</a></p></li>
 </ul>
 </li>
@@ -1595,8 +1597,20 @@ pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.x.x-xxx
 </div>
 </section>
 <hr class="docutils" />
+<section id="examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">
+<h3><span class="section-number">7.2.7. </span>Examples fail after installing pyorbbecsdk2 (v2.1.4 and later)<a class="headerlink" href="#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later" title="Link to this heading"></a></h3>
+<p><strong>Question:</strong> Why can’t I run the examples after installing v2.1.4 or later with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyorbbecsdk2</span></code>?</p>
+<p><strong>Solution:</strong></p>
+<p>Starting with Python Wrapper v2.1.4, the core SDK and the third-party dependencies needed to run example scripts are installed separately. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyorbbecsdk2</span></code> installs only the core SDK and its required dependencies, including NumPy. It does not install optional example dependencies such as OpenCV, so an example may fail with an error such as <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'cv2'</span></code>.</p>
+<p>To install the SDK together with the third-party dependencies required by the examples, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
+</pre></div>
+</div>
+<p>If the SDK is already installed, run the same command in the Python environment used to run the examples to add the missing dependencies. Keep the entire <code class="docutils literal notranslate"><span class="pre">&quot;pyorbbecsdk2[examples]&quot;</span></code> argument in quotes so shells such as macOS zsh do not interpret the brackets as filename patterns.</p>
+</section>
+<hr class="docutils" />
 <section id="open3d-and-numpy-version-compatibility">
-<h3><span class="section-number">7.2.7. </span>Open3D and NumPy version compatibility<a class="headerlink" href="#open3d-and-numpy-version-compatibility" title="Link to this heading"></a></h3>
+<h3><span class="section-number">7.2.8. </span>Open3D and NumPy version compatibility<a class="headerlink" href="#open3d-and-numpy-version-compatibility" title="Link to this heading"></a></h3>
 <p><strong>Question:</strong> Why are there version restrictions for Open3D and NumPy? I get compatibility errors when using them together.</p>
 <p><strong>Solution:</strong></p>
 <p>Open3D has specific NumPy version requirements due to ABI (Application Binary Interface) compatibility. Using incompatible versions can cause runtime errors or crashes.</p>
@@ -2090,7 +2104,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-20 11:17:33.
+      <span class="lastupdated">Last updated on 2026-11-20 13:37:54.
       </span></p>
   </div>
 

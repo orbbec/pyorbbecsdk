@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=29ab96f1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=26aedec2" />
 
   
     <link rel="shortcut icon" href="../../_static/orbbec_footerlogo_3d_world.svg"/>
@@ -1331,7 +1331,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#python-version-mismatch">7.2.4. Python 版本不匹配</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#offline-installation-fails">7.2.5. 离线安装失败</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#package-name-confusion">7.2.6. 包名混淆</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#open3d-and-numpy-version-compatibility">7.2.7. Open3D 与 NumPy 版本兼容性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">7.2.7. 安装 pyorbbecsdk2 后仍无法运行示例（v2.1.4 及更新版本）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#open3d-and-numpy-version-compatibility">7.2.8. Open3D 与 NumPy 版本兼容性</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#build-issues">7.3. 构建问题</a><ul>
@@ -1412,6 +1413,7 @@
 <li><p><a class="reference external" href="#python-version-mismatch">Python 版本不匹配</a></p></li>
 <li><p><a class="reference external" href="#offline-installation-fails">离线安装失败</a></p></li>
 <li><p><a class="reference external" href="#package-name-confusion">包名混淆</a></p></li>
+<li><p><a class="reference external" href="#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">安装 pyorbbecsdk2 后仍无法运行示例（v2.1.4 及更新版本）</a></p></li>
 <li><p><a class="reference external" href="#open3d-and-numpy-version-compatibility">Open3D 与 NumPy 版本兼容性</a></p></li>
 </ul>
 </li>
@@ -1596,8 +1598,20 @@ pip<span class="w"> </span>install<span class="w"> </span>pyorbbecsdk2-2.x.x-xxx
 </div>
 </section>
 <hr class="docutils" />
+<section id="examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">
+<h3><span class="section-number">7.2.7. </span>安装 pyorbbecsdk2 后仍无法运行示例（v2.1.4 及更新版本）<a class="headerlink" href="#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later" title="Link to this heading"></a></h3>
+<p>问题：为什么通过 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyorbbecsdk2</span></code> 安装 v2.1.4 或更新版本后，仍然无法直接运行 examples 中的示例脚本？</p>
+<p>解决方法：</p>
+<p>从 Python Wrapper v2.1.4 开始，核心 SDK 与运行示例脚本所需的第三方依赖包分开安装。<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyorbbecsdk2</span></code> 仅安装核心 SDK 及其必需依赖（包括 NumPy），不会安装 OpenCV 等可选的示例依赖包。因此，运行示例脚本时可能出现 <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'cv2'</span></code> 等缺少模块的错误。</p>
+<p>如需同时安装 SDK 和运行示例脚本所需的第三方依赖包，请使用：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pyorbbecsdk2[examples]&quot;</span>
+</pre></div>
+</div>
+<p>如果已经安装 SDK，请在运行示例脚本所用的 Python 环境中执行同一条命令，补装缺少的依赖包。请保留完整参数 <code class="docutils literal notranslate"><span class="pre">&quot;pyorbbecsdk2[examples]&quot;</span></code> 两侧的引号，避免 macOS zsh 等 shell 将方括号解析为文件名匹配模式。</p>
+</section>
+<hr class="docutils" />
 <section id="open3d-and-numpy-version-compatibility">
-<h3><span class="section-number">7.2.7. </span>Open3D 与 NumPy 版本兼容性<a class="headerlink" href="#open3d-and-numpy-version-compatibility" title="Link to this heading"></a></h3>
+<h3><span class="section-number">7.2.8. </span>Open3D 与 NumPy 版本兼容性<a class="headerlink" href="#open3d-and-numpy-version-compatibility" title="Link to this heading"></a></h3>
 <p>问题：为什么 Open3D 和 NumPy 有版本限制？同时使用时出现兼容性错误。</p>
 <p>解决方法：</p>
 <p>由于 ABI（应用程序二进制接口）兼容性要求，Open3D 对 NumPy 版本有特定限制。使用不兼容版本可能导致运行时错误或崩溃。</p>
@@ -2090,7 +2104,7 @@ python<span class="w"> </span>examples/beginner/01_hello_camera.py
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-20 11:17:40.
+      <span class="lastupdated">最后更新于 2026-11-20 13:38:02.
       </span></p>
   </div>
 

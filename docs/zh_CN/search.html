@@ -5,15 +5,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>搜索 &mdash; OrbbecSDK V2 Python Wrapper  文档</title>
+  <title>搜索文档 &mdash; OrbbecSDK V2 Python Wrapper  文档</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=29ab96f1" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=26aedec2" />
 
   
     <link rel="shortcut icon" href="_static/orbbec_footerlogo_3d_world.svg"/>
-    
+  
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=7d86a446"></script>
@@ -21,10 +21,14 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/translations.js?v=beaddf03"></script>
     <script src="_static/js/theme.js"></script>
-    <script src="_static/searchtools.js"></script>
-    <script src="_static/language_data.js"></script>
+  <script src="_static/section-search-index.js" defer></script>
+  <script src="_static/section-search.js" defer></script>
+
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="搜索" href="#" /> 
+    <link rel="search" title="搜索" href="#" />
+   
+  <meta name="robots" content="noindex" />
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -1331,7 +1335,8 @@
 <li class="toctree-l3"><a class="reference internal" href="source/7_FAQ/FAQ.html#python-version-mismatch">7.2.4. Python 版本不匹配</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/7_FAQ/FAQ.html#offline-installation-fails">7.2.5. 离线安装失败</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/7_FAQ/FAQ.html#package-name-confusion">7.2.6. 包名混淆</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/7_FAQ/FAQ.html#open3d-and-numpy-version-compatibility">7.2.7. Open3D 与 NumPy 版本兼容性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/7_FAQ/FAQ.html#examples-fail-after-installing-pyorbbecsdk2-v2-1-4-and-later">7.2.7. 安装 pyorbbecsdk2 后仍无法运行示例（v2.1.4 及更新版本）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/7_FAQ/FAQ.html#open3d-and-numpy-version-compatibility">7.2.8. Open3D 与 NumPy 版本兼容性</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="source/7_FAQ/FAQ.html#build-issues">7.3. 构建问题</a><ul>
@@ -1388,7 +1393,7 @@
           <div role="navigation" aria-label="页面导航">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">搜索</li>
+      <li class="breadcrumb-item active">搜索文档</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -1397,18 +1402,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      请启用 JavaScript 以便使用搜索功能
-    </p>
-  </div>
-  </noscript>
 
-  
-  <div id="search-results">
-  
-  </div>
+<div id="section-search" data-language="zh-CN">
+  <h1 id="search-documentation">搜索文档</h1>
+  <p>搜索标题、正文和 API；结果可直接跳转到对应章节。多个关键词用空格分隔。</p>
+  <form action="" method="get" class="section-search-form" role="search">
+    <input type="search" name="q" aria-labelledby="search-documentation" autocomplete="off" required />
+    <button type="submit">搜索</button>
+  </form>
+  <p id="section-search-status" role="status" aria-live="polite"></p>
+  <ol id="section-search-results"></ol>
+  <noscript>请启用 JavaScript 以搜索文档。</noscript>
+</div>
 
            </div>
           </div>
@@ -1418,7 +1423,7 @@
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-20 11:17:40.
+      <span class="lastupdated">最后更新于 2026-11-20 13:38:02.
       </span></p>
   </div>
 
@@ -1433,14 +1438,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-  <script>
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script id="searchindexloader"></script>
-   
-
+  </script> 
 
 </body>
 </html>

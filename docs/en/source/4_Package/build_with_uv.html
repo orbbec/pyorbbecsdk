@@ -1656,7 +1656,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <p>Offline builds require matching OS/architecture, locally available Python interpreters, the native compiler/CMake toolchain and SDK libraries, and a populated uv cache. Copying the repository or virtual environments alone is not sufficient.</p>
 <section id="prepare-the-cache-online">
 <h3><span class="section-number">4.1.5.1. </span>Prepare the cache online<a class="headerlink" href="#prepare-the-cache-online" title="Link to this heading"></a></h3>
-<p>On a matching online machine, complete the actual build once for every required Python version and platform. This warms the dependencies used by pybind11 installation, dependency synchronization and the isolated wheel build. Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in <code class="docutils literal notranslate"><span class="pre">install/lib</span></code> first.</p>
+<p>On a matching online machine, complete the actual build once for every required Python version and platform. This caches pybind11, the isolated wheel build dependencies, and the tools needed on Linux to repair wheels and adjust their platform tags (auditwheel and wheel). Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in <code class="docutils literal notranslate"><span class="pre">install/lib</span></code> first.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux example; use the macOS or Windows script on those platforms.</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.10
 uv<span class="w"> </span>cache<span class="w"> </span>dir
@@ -1681,17 +1681,17 @@ uv<span class="w"> </span>python<span class="w"> </span>dir
 <span class="p">.\</span><span class="n">scripts</span><span class="p">\</span><span class="n">build_whl</span><span class="p">\</span><span class="n">build-whl-uv</span><span class="p">.</span><span class="n">ps1</span> <span class="n">3</span><span class="p">.</span><span class="n">10</span> <span class="n">-Offline</span>
 </pre></div>
 </div>
-<p>The default mode deletes and recreates the per-version environment, installs pinned pybind11 and runs <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--no-install-project</span></code>. The offline flag sets <code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>; missing cached dependencies or interpreters cause failure rather than being supplied by a copied <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directory.</p>
+<p>The default mode deletes and recreates the per-version environment and installs only pinned pybind11 into it. Packaging dependencies are installed separately by <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code> in an isolated build environment. The offline flag sets <code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>; missing cached dependencies or interpreters cause failure rather than being supplied by a copied <code class="docutils literal notranslate"><span class="pre">venv*</span></code> directory.</p>
 </section>
 <section id="reuse-an-active-environment">
 <h3><span class="section-number">4.1.5.3. </span>Reuse an active environment<a class="headerlink" href="#reuse-an-active-environment" title="Link to this heading"></a></h3>
-<p>To retain a locally prepared environment, activate it and add the script’s <code class="docutils literal notranslate"><span class="pre">--no-sync</span></code> option (PowerShell: <code class="docutils literal notranslate"><span class="pre">-NoSync</span></code>). The active Python version must match the requested version, and pybind11 and all build requirements must already be available. For example:</p>
+<p>To retain a locally prepared environment, activate it and add the script’s <code class="docutils literal notranslate"><span class="pre">--no-sync</span></code> option (PowerShell: <code class="docutils literal notranslate"><span class="pre">-NoSync</span></code>). The active Python version must match the requested version, and pybind11 must already be installed in that environment. For offline packaging, the isolated build dependencies must still be available in the uv cache. For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span>--no-sync<span class="w"> </span><span class="m">3</span>.10
 <span class="c1"># macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10</span>
 </pre></div>
 </div>
-<p>This mode skips environment recreation, pinned pybind11 installation and dependency synchronization. It still performs CMake compilation and <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code>, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.</p>
+<p>This mode skips environment recreation and pinned pybind11 installation. It still performs CMake compilation and <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code>, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.</p>
 </section>
 </section>
 <section id="build-output">
@@ -1857,7 +1857,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 <p><strong>Solution</strong>: Follow <a class="reference external" href="#offline-build">Offline Build</a> and choose the preparation steps that match the build mode:</p>
 <ul class="simple">
 <li><p><strong>Default mode:</strong> The script deletes and recreates <code class="docutils literal notranslate"><span class="pre">venv&lt;version&gt;</span></code>, then installs pinned pybind11 from the uv cache. Installing pybind11 into <code class="docutils literal notranslate"><span class="pre">venv310</span></code> beforehand does not preserve it through this process or supply all missing cached dependencies. Prepare the complete cache, interpreters and toolchain as described above.</p></li>
-<li><p><strong>Reuse an environment:</strong> Activate a valid, fully prepared local environment whose Python version matches the requested version, then pass <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code> (PowerShell: <code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>). This skips environment recreation and dependency synchronization; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.</p></li>
+<li><p><strong>Reuse an environment:</strong> Activate a valid local environment with pybind11 already installed and a Python version matching the requested version, then pass <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code> (PowerShell: <code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>). This skips environment recreation and pinned pybind11 installation; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.</p></li>
 </ul>
 </section>
 <section id="permission-denied-on-macos">
@@ -1998,7 +1998,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-20 13:37:54.
+      <span class="lastupdated">Last updated on 2026-11-20 15:41:43.
       </span></p>
   </div>
 

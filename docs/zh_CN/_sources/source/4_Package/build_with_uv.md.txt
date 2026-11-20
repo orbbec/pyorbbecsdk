@@ -211,7 +211,7 @@ Offline builds require matching OS/architecture, locally available Python interp
 
 ### Prepare the cache online
 
-On a matching online machine, complete the actual build once for every required Python version and platform. This warms the dependencies used by pybind11 installation, dependency synchronization and the isolated wheel build. Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in `install/lib` first.
+On a matching online machine, complete the actual build once for every required Python version and platform. This caches pybind11, the isolated wheel build dependencies, and the tools needed on Linux to repair wheels and adjust their platform tags (auditwheel and wheel). Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in `install/lib` first.
 
 ```bash
 # Linux example; use the macOS or Windows script on those platforms.
@@ -241,11 +241,11 @@ $env:UV_PYTHON_INSTALL_DIR = "C:\offline\uv-python"
 .\scripts\build_whl\build-whl-uv.ps1 3.10 -Offline
 ```
 
-The default mode deletes and recreates the per-version environment, installs pinned pybind11 and runs `uv sync --no-install-project`. The offline flag sets `UV_OFFLINE=1`; missing cached dependencies or interpreters cause failure rather than being supplied by a copied `venv*` directory.
+The default mode deletes and recreates the per-version environment and installs only pinned pybind11 into it. Packaging dependencies are installed separately by `uv build` in an isolated build environment. The offline flag sets `UV_OFFLINE=1`; missing cached dependencies or interpreters cause failure rather than being supplied by a copied `venv*` directory.
 
 ### Reuse an active environment
 
-To retain a locally prepared environment, activate it and add the script's `--no-sync` option (PowerShell: `-NoSync`). The active Python version must match the requested version, and pybind11 and all build requirements must already be available. For example:
+To retain a locally prepared environment, activate it and add the script's `--no-sync` option (PowerShell: `-NoSync`). The active Python version must match the requested version, and pybind11 must already be installed in that environment. For offline packaging, the isolated build dependencies must still be available in the uv cache. For example:
 
 ```bash
 source .venv/bin/activate
@@ -253,7 +253,7 @@ source .venv/bin/activate
 # macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10
 ```
 
-This mode skips environment recreation, pinned pybind11 installation and dependency synchronization. It still performs CMake compilation and `uv build`, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.
+This mode skips environment recreation and pinned pybind11 installation. It still performs CMake compilation and `uv build`, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.
 
 ## Build Output
 
@@ -383,7 +383,7 @@ sudo apt-get install python3-dev
 **Solution**: Follow [Offline Build](#offline-build) and choose the preparation steps that match the build mode:
 
 - **Default mode:** The script deletes and recreates `venv<version>`, then installs pinned pybind11 from the uv cache. Installing pybind11 into `venv310` beforehand does not preserve it through this process or supply all missing cached dependencies. Prepare the complete cache, interpreters and toolchain as described above.
-- **Reuse an environment:** Activate a valid, fully prepared local environment whose Python version matches the requested version, then pass `--offline --no-sync` (PowerShell: `-Offline -NoSync`). This skips environment recreation and dependency synchronization; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.
+- **Reuse an environment:** Activate a valid local environment with pybind11 already installed and a Python version matching the requested version, then pass `--offline --no-sync` (PowerShell: `-Offline -NoSync`). This skips environment recreation and pinned pybind11 installation; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.
 
 #### "Permission denied" on macOS
 

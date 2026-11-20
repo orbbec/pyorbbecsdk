@@ -1657,7 +1657,7 @@ chmod<span class="w"> </span>+x<span class="w"> </span>scripts/build_whl/build-w
 <p>离线构建需要准备与目标平台匹配的操作系统和架构、本地可用的 Python 解释器、原生编译器、CMake 工具链、SDK 库，以及包含全部所需依赖的 uv 缓存。仅复制仓库或虚拟环境不足以完成离线构建。</p>
 <section id="prepare-the-cache-online">
 <h3><span class="section-number">4.1.5.1. </span>联网准备缓存<a class="headerlink" href="#prepare-the-cache-online" title="Link to this heading"></a></h3>
-<p>在与目标平台环境匹配的联网计算机上，针对每个所需的 Python 版本和平台，完整执行一次实际构建，以缓存安装 pybind11、同步依赖和隔离构建 wheel 所需的软件包。对于尚未生成构建产物的源码仓库，请勿通过可编辑安装准备构建环境：包构建后端要求先由 CMake 在 <code class="docutils literal notranslate"><span class="pre">install/lib</span></code> 中生成所需文件。</p>
+<p>在与目标平台环境匹配的联网计算机上，针对每个所需的 Python 版本和平台，完整执行一次实际构建，以缓存 pybind11、隔离打包所需的依赖包，以及 Linux 上修复 wheel 和调整平台标签所需的工具（auditwheel 和 wheel）。对于尚未生成构建产物的源码仓库，请勿通过可编辑安装准备构建环境：包构建后端要求先由 CMake 在 <code class="docutils literal notranslate"><span class="pre">install/lib</span></code> 中生成所需文件。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux example; use the macOS or Windows script on those platforms.</span>
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span><span class="m">3</span>.10
 uv<span class="w"> </span>cache<span class="w"> </span>dir
@@ -1682,17 +1682,17 @@ uv<span class="w"> </span>python<span class="w"> </span>dir
 <span class="p">.\</span><span class="n">scripts</span><span class="p">\</span><span class="n">build_whl</span><span class="p">\</span><span class="n">build-whl-uv</span><span class="p">.</span><span class="n">ps1</span> <span class="n">3</span><span class="p">.</span><span class="n">10</span> <span class="n">-Offline</span>
 </pre></div>
 </div>
-<p>默认模式会删除并重建各版本环境，安装固定版本的 pybind11，并运行 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">sync</span> <span class="pre">--no-install-project</span></code>。离线选项设置 <code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>；缺少缓存依赖或解释器时会失败，复制的 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 目录不能替代这些资源。</p>
+<p>默认模式会删除并重建各 Python 版本对应的虚拟环境，并仅在其中安装固定版本的 pybind11。打包依赖由 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code> 在隔离构建环境中另行安装。离线选项设置 <code class="docutils literal notranslate"><span class="pre">UV_OFFLINE=1</span></code>；缺少缓存依赖或 Python 解释器时，构建会失败，复制的 <code class="docutils literal notranslate"><span class="pre">venv*</span></code> 目录不能替代这些资源。</p>
 </section>
 <section id="reuse-an-active-environment">
 <h3><span class="section-number">4.1.5.3. </span>复用已激活环境<a class="headerlink" href="#reuse-an-active-environment" title="Link to this heading"></a></h3>
-<p>如需保留本地预备环境，请先激活它，再添加脚本的 <code class="docutils literal notranslate"><span class="pre">--no-sync</span></code> 选项（PowerShell：<code class="docutils literal notranslate"><span class="pre">-NoSync</span></code>）。激活的 Python 版本必须与请求版本相同，且 pybind11 和所有构建依赖均已可用。例如：</p>
+<p>如需保留已在本机准备好的环境，请先激活它，再添加脚本的 <code class="docutils literal notranslate"><span class="pre">--no-sync</span></code> 选项（PowerShell：<code class="docutils literal notranslate"><span class="pre">-NoSync</span></code>）。已激活环境的 Python 版本必须与请求版本一致，且该环境中必须已安装 pybind11。离线打包所需的隔离构建依赖仍须在 uv 缓存中备齐。例如：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 ./scripts/build_whl/build-whl-uv.sh<span class="w"> </span>--offline<span class="w"> </span>--no-sync<span class="w"> </span><span class="m">3</span>.10
 <span class="c1"># macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10</span>
 </pre></div>
 </div>
-<p>此模式跳过环境重建、固定版本 pybind11 安装和依赖同步，但仍执行 CMake 编译及 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code>；隔离构建所需依赖仍必须缓存。不能据此保证任意复制的环境都能离线构建。</p>
+<p>此模式跳过环境重建和固定版本 pybind11 安装，但仍执行 CMake 编译及 <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">build</span></code>；隔离构建所需的依赖仍须预先缓存。这并不意味着任意复制的环境都能完成离线构建。</p>
 </section>
 </section>
 <section id="build-output">
@@ -1855,7 +1855,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 <p>解决方法：参照<a class="reference external" href="#offline-build">离线构建</a>，并根据构建模式选择相应的准备步骤：</p>
 <ul class="simple">
 <li><p>默认模式：脚本会删除并重建 <code class="docutils literal notranslate"><span class="pre">venv&lt;version&gt;</span></code>，再从 uv 缓存安装固定版本的 pybind11。因此，即使预先将 pybind11 安装到 <code class="docutils literal notranslate"><span class="pre">venv310</span></code> 中，重建环境后它也不会保留，而且这一步无法补齐其他缺失的缓存依赖。请按上文准备完整的依赖缓存、Python 解释器和编译工具链。</p></li>
-<li><p>复用环境：先激活有效且准备完整的本地环境，其 Python 版本必须与请求版本一致，再传入 <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code>（PowerShell：<code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>）。此模式跳过环境重建和依赖同步，但隔离 wheel 构建仍需要缓存依赖。仅创建环境，而未激活它并选择此模式，并不足以完成准备。</p></li>
+<li><p>复用环境：先激活已安装 pybind11 的有效本地环境，其 Python 版本必须与请求版本一致，再传入 <code class="docutils literal notranslate"><span class="pre">--offline</span> <span class="pre">--no-sync</span></code>（PowerShell：<code class="docutils literal notranslate"><span class="pre">-Offline</span> <span class="pre">-NoSync</span></code>）。此模式跳过环境重建和固定版本 pybind11 安装，但隔离打包所需的构建依赖仍须在 uv 缓存中备齐。仅创建环境，而未激活它并选择此模式，并不足以完成准备。</p></li>
 </ul>
 </section>
 <section id="permission-denied-on-macos">
@@ -1996,7 +1996,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>build<span class="w"> </spa
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-20 13:38:02.
+      <span class="lastupdated">最后更新于 2026-11-20 15:41:51.
       </span></p>
   </div>
 

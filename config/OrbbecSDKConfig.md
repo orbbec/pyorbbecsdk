@@ -1,6 +1,3 @@
-
-**English** | [中文](OrbbecSDKConfig_zh-CN.md)
-
 # Orbbec SDK Configuration File Introduction (OrbbecSDKConfig_v1.0.xml)
 
 The Orbbec SDK configuration file is an XML file that defines the global configuration of the Orbbec SDK.
@@ -80,12 +77,12 @@ Based on the device's timestamp and considering data transmission delays, the ti
     </Misc>
 ```
 
-1. The configuration below obtains the device time every 1000 milliseconds (1 second) to update the global timestamp fitter.
+1. By default, the device time is obtained every eight seconds to update the global timestamp fitter.
 ```cpp
         <GlobalTimestampFitterInterval>1000</GlobalTimestampFitterInterval>
 ```
 
-2. The global timestamp fitter queue size in the configuration below is 100.
+2. The default queue size of the global timestamp fitter is 10.
 ```cpp
         <GlobalTimestampFitterQueueSize>100</GlobalTimestampFitterQueueSize>
 ```

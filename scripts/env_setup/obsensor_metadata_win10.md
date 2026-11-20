@@ -1,6 +1,3 @@
-
-**English** | [中文](obsensor_metadata_win10_zh-CN.md)
-
 # obsensor_metadata_win10
 
 This document introduces the process for getting metadata from cameras with UVC protocal on Windows system. The following process has been verified on Windows 10 and Windows 11.

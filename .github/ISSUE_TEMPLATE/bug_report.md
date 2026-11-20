@@ -6,6 +6,8 @@ labels: bug
 assignees: ''
 ---
 
+**English** | [中文](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/.github/ISSUE_TEMPLATE/bug_report_zh-CN.md)
+
 ## Bug Description
 A clear and concise description of what the bug is.
 

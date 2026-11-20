@@ -75,16 +75,29 @@ from pyorbbecsdk.pyorbbecsdk import (
     OBDepthCroppingMode,
     OBDepthPrecisionLevel,
     OBDepthWorkMode,
+)
+from pyorbbecsdk.pyorbbecsdk import OBDepthWorkModeInternal
+from pyorbbecsdk.pyorbbecsdk import OBDepthWorkModeInternal as OBDepthWorkMode_Internal
+from pyorbbecsdk.pyorbbecsdk import (
     OBDepthWorkModeList,
     OBDepthWorkModeTag,
     OBDeviceAccessMode,
     OBDeviceAccessState,
     OBDeviceDevelopmentMode,
-    OBDeviceIpAddrConfig,
+    OBDeviceErrorCode,
+    OBDeviceErrorState,
+)
+from pyorbbecsdk.pyorbbecsdk import OBDeviceIpAddrConfig
+from pyorbbecsdk.pyorbbecsdk import OBDeviceIpAddrConfig as OBNetIpConfig
+from pyorbbecsdk.pyorbbecsdk import OBDeviceSerialNumber
+from pyorbbecsdk.pyorbbecsdk import OBDeviceSerialNumber as OBSerialNumber
+from pyorbbecsdk.pyorbbecsdk import (
     OBDeviceSyncConfig,
     OBDeviceTemperature,
+    OBDeviceTime,
     OBDeviceTimestampResetConfig,
     OBDeviceType,
+    OBDispOffsetConfig,
     OBEdgeNoiseRemovalFilterParams,
     OBEdgeNoiseRemovalType,
     OBError,
@@ -110,6 +123,7 @@ from pyorbbecsdk.pyorbbecsdk import (
     OBHardwareDecimationConfig,
     OBHdrConfig,
     OBHoleFillingMode,
+    OBImuPresetList,
     OBIntPropertyRange,
     OBIntraCameraSyncReference,
     OBIpSourceType,
@@ -157,6 +171,7 @@ from pyorbbecsdk.pyorbbecsdk import (
     OBUpgradeState,
     OBUSBPowerState,
     OBUvcBackendType,
+    OBVersionInfo,
     Pipeline,
     PlaybackDevice,
     PointCloudFilter,
@@ -280,16 +295,23 @@ __all__: list[str] = [
     "OBDepthCroppingMode",
     "OBDepthPrecisionLevel",
     "OBDepthWorkMode",
+    "OBDepthWorkModeInternal",
     "OBDepthWorkModeList",
     "OBDepthWorkModeTag",
+    "OBDepthWorkMode_Internal",
     "OBDeviceAccessMode",
     "OBDeviceAccessState",
     "OBDeviceDevelopmentMode",
+    "OBDeviceErrorCode",
+    "OBDeviceErrorState",
     "OBDeviceIpAddrConfig",
+    "OBDeviceSerialNumber",
     "OBDeviceSyncConfig",
     "OBDeviceTemperature",
+    "OBDeviceTime",
     "OBDeviceTimestampResetConfig",
     "OBDeviceType",
+    "OBDispOffsetConfig",
     "OBEdgeNoiseRemovalFilterParams",
     "OBEdgeNoiseRemovalType",
     "OBError",
@@ -314,6 +336,7 @@ __all__: list[str] = [
     "OBHardwareDecimationConfig",
     "OBHdrConfig",
     "OBHoleFillingMode",
+    "OBImuPresetList",
     "OBIntPropertyRange",
     "OBIntraCameraSyncReference",
     "OBIpSourceType",
@@ -328,6 +351,7 @@ __all__: list[str] = [
     "OBMgcNoiseRemovalFilterParams",
     "OBMultiDeviceSyncConfig",
     "OBMultiDeviceSyncMode",
+    "OBNetIpConfig",
     "OBNetIpConfigV2",
     "OBNoiseRemovalFilterParams",
     "OBPermissionType",
@@ -348,6 +372,7 @@ __all__: list[str] = [
     "OBRotateDegreeType",
     "OBSensorType",
     "OBSequenceIdItem",
+    "OBSerialNumber",
     "OBSpatialAdvancedFilterParams",
     "OBSpatialFastFilterParams",
     "OBSpatialModerateFilterParams",
@@ -361,6 +386,7 @@ __all__: list[str] = [
     "OBUint8PropertyRange",
     "OBUpgradeState",
     "OBUvcBackendType",
+    "OBVersionInfo",
     "PAUSED",
     "PLAYING",
     "Pipeline",
@@ -434,27 +460,27 @@ __all__: list[str] = [
     "transformation3dto3d",
     "version",
 ]
-COUNT: OBPlaybackStatus  # value = <OBPlaybackStatus.COUNT: 4>
-PAUSED: OBPlaybackStatus  # value = <OBPlaybackStatus.PAUSED: 2>
-PLAYING: OBPlaybackStatus  # value = <OBPlaybackStatus.PLAYING: 1>
-SAMPLE_RATE_100_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_100_HZ: 7>
-SAMPLE_RATE_12_5_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_12_5_HZ: 4>
-SAMPLE_RATE_16_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_16_KHZ: 14>
-SAMPLE_RATE_1_5625_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_1_5625_HZ: 1>
-SAMPLE_RATE_1_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_1_KHZ: 10>
-SAMPLE_RATE_200_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_200_HZ: 8>
-SAMPLE_RATE_25_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_25_HZ: 5>
-SAMPLE_RATE_2_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_2_KHZ: 11>
-SAMPLE_RATE_32_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_32_KHZ: 15>
-SAMPLE_RATE_3_125_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_3_125_HZ: 2>
-SAMPLE_RATE_400_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_400_HZ: 16>
-SAMPLE_RATE_4_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_4_KHZ: 12>
-SAMPLE_RATE_500_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_500_HZ: 9>
-SAMPLE_RATE_50_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_50_HZ: 6>
-SAMPLE_RATE_6_25_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_6_25_HZ: 3>
-SAMPLE_RATE_800_HZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_800_HZ: 17>
-SAMPLE_RATE_8_KHZ: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_8_KHZ: 13>
-SAMPLE_RATE_UNKNOWN: OBGyroSampleRate  # value = <OBGyroSampleRate.SAMPLE_RATE_UNKNOWN: 0>
-STOPPED: OBPlaybackStatus  # value = <OBPlaybackStatus.STOPPED: 3>
-UNKNOWN: OBPlaybackStatus  # value = <OBPlaybackStatus.UNKNOWN: 0>
-__version__: str = "2.1.2"
+COUNT: OBPlaybackStatus
+PAUSED: OBPlaybackStatus
+PLAYING: OBPlaybackStatus
+SAMPLE_RATE_100_HZ: OBGyroSampleRate
+SAMPLE_RATE_12_5_HZ: OBGyroSampleRate
+SAMPLE_RATE_16_KHZ: OBGyroSampleRate
+SAMPLE_RATE_1_5625_HZ: OBGyroSampleRate
+SAMPLE_RATE_1_KHZ: OBGyroSampleRate
+SAMPLE_RATE_200_HZ: OBGyroSampleRate
+SAMPLE_RATE_25_HZ: OBGyroSampleRate
+SAMPLE_RATE_2_KHZ: OBGyroSampleRate
+SAMPLE_RATE_32_KHZ: OBGyroSampleRate
+SAMPLE_RATE_3_125_HZ: OBGyroSampleRate
+SAMPLE_RATE_400_HZ: OBGyroSampleRate
+SAMPLE_RATE_4_KHZ: OBGyroSampleRate
+SAMPLE_RATE_500_HZ: OBGyroSampleRate
+SAMPLE_RATE_50_HZ: OBGyroSampleRate
+SAMPLE_RATE_6_25_HZ: OBGyroSampleRate
+SAMPLE_RATE_800_HZ: OBGyroSampleRate
+SAMPLE_RATE_8_KHZ: OBGyroSampleRate
+SAMPLE_RATE_UNKNOWN: OBGyroSampleRate
+STOPPED: OBPlaybackStatus
+UNKNOWN: OBPlaybackStatus
+__version__: str = "2.1.4"

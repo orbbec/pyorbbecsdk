@@ -70,7 +70,7 @@ Options:
   --clean-only    Only clean, don't build
   --yes, -y       Auto-confirm all cleanup prompts (non-interactive)
   --no-sync       Use the currently activated virtual environment instead of
-                  recreating venv<ver> and running uv sync. Requires an active
+                  recreating venv<ver> and installing pinned pybind11. Requires an active
                   venv (VIRTUAL_ENV must be set); pybind11 is used as-is.
   -h, --help      Show this help message
 
@@ -445,11 +445,11 @@ build_version() {
     fi
 
     # In --no-sync mode, use the currently activated venv as-is (no recreate,
-    # no pinned pybind11, no uv sync). Otherwise recreate the per-version venv
+    # no pinned pybind11 installation). Otherwise recreate the per-version venv
     # for reproducible automated builds.
     local VENV_DIR VENV_PYTHON PYBIND11_DIR
     if [ "$NO_SYNC" = "true" ]; then
-        echo "  --no-sync: using activated venv (no venv recreation, no uv sync)"
+        echo "  --no-sync: using activated venv (no venv recreation or pybind11 installation)"
         VENV_PYTHON="$(active_venv_python)"
         VENV_DIR="$(dirname "$(dirname "$VENV_PYTHON")")"
         echo "  Using active venv Python: $VENV_PYTHON"
@@ -546,23 +546,8 @@ build_version() {
         echo "  Warning: stubs directory not found at $STUBS_DIR"
     fi
 
-    # Sync runtime dependencies + project into the per-version venv.
-    # CMake has already produced install/lib, so the editable install of
-    # pyorbbecsdk2 (which copies install/lib) will succeed.
-    # In --no-sync mode this step is skipped; the active venv is used as-is.
-    if [ "$NO_SYNC" = "true" ]; then
-        echo "  --no-sync: skipping uv sync (using active venv as-is)"
-    else
-        echo "Syncing dependencies via uv sync into $VENV_DIR..."
-        # --no-install-project: install dependencies only. Installing the
-        # project editable would run setup.py build_ext, whose output dir
-        # resolves to src/pyorbbecsdk/ and pollutes the source tree.
-        UV_PROJECT_ENVIRONMENT="$VENV_DIR" uv sync --no-install-project --python "$PYVER" >&2
-        if [ $? -ne 0 ]; then
-            echo "Error: uv sync failed (Python $PYVER)" >&2
-            exit 1
-        fi
-    fi
+    # Runtime and example dependencies are not needed to build the wheel.
+    # uv build installs build-system.requires in its isolated build environment.
 
     # Build wheel via uv. Point --python at the venv's python executable so the
     # wheel is tagged for the correct CPython version. In normal mode $VENV_PYTHON

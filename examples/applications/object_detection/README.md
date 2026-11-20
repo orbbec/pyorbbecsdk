@@ -1,3 +1,6 @@
+
+**English** | [中文](README_zh-CN.md)
+
 # YOLOv5 Object Detection with Orbbec Depth Camera
 
 Real-time object detection using YOLOv5s (ONNX) on an Orbbec RGB-D camera. Each

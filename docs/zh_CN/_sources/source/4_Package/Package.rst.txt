@@ -1,0 +1,14 @@
+Package
+======================================================
+
+This section provides guides for building pyorbbecsdk from source code. Building from source is useful when you need custom features, the pre-built wheel packages are not compatible with your system, or you want to contribute to the project.
+
+======================================================
+
+
+.. toctree::
+    :maxdepth: 2
+    :caption: This Section Covers:
+
+    build_with_uv.md
+    build_the_package.md

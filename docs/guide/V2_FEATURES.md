@@ -1,3 +1,6 @@
+
+**English** | [中文](V2_FEATURES_zh-CN.md)
+
 # V2 New Features
 
 This document highlights the new features, capabilities, and architectural evolution introduced in the **v2-main** branch (SDK v2.x series).
@@ -16,7 +19,7 @@ v1.x used the proprietary OpenNI protocol.
 ### Dependencies
 
 - Requires **Orbbec SDK v2.7.6** or newer (precompiled libraries bundled in `sdk/lib/`)
-- pybind11 2.11.0 or newer
+- pybind11 2.12.0 (pinned in `pyproject.toml` for NumPy 2.x compatibility)
 
 ### Added
 
@@ -65,7 +68,7 @@ v1.x used the proprietary OpenNI protocol.
 - Hardware D2C alignment — depth-to-color alignment processed on-device
 - Depth work mode switching — High Accuracy, High Density, etc. (select devices)
 - Device preset management — load/save named depth presets (Gemini 330 series)
-- Device firmware update — OTA firmware upgrade via `device_firmware_update.py`
+- Device firmware update — OTA firmware upgrade via `examples/beginner/09_device_firmware_update.py`
 - Recording and playback — record streams to bag files; replay offline
 
 #### Developer Experience
@@ -76,8 +79,8 @@ v1.x used the proprietary OpenNI protocol.
   - `02_depth_visualization.py` — depth streaming with OpenCV colormap
   - `03_color_and_depth_aligned.py` — multi-stream with AlignFilter
 - Advanced example series (`examples/advanced/`):
-  - `high_performance_pipeline.py` — async callback with bounded frame queue and FPS meter
-  - `custom_filter_chain.py` — filter chain with live keyboard tuning
+  - `15_high_performance_pipeline.py` — async callback with bounded frame queue and FPS meter
+  - `08_custom_filter_chain.py` — filter chain with live keyboard tuning
 - 25+ additional standalone examples covering every major SDK feature
 - pytest test suite:
   - Device, controls, streams, filters, calibration, and performance test modules
@@ -91,7 +94,7 @@ v1.x used the proprietary OpenNI protocol.
 | Windows | x64 | Windows 10+ |
 | Linux | x64 | Ubuntu 18.04, 20.04, 22.04 |
 | Linux | ARM64 | Ubuntu 18.04, 20.04, 22.04 |
-| macOS | x64 | macOS (experimental, CI only) |
+| macOS | ARM64 (Apple Silicon) | Build deployment target: macOS 11.0; tested on M2, macOS 13.2 |
 
 ### Supported Python Versions
 
@@ -99,7 +102,7 @@ Python 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14
 
 ### Supported Devices
 
-See the [device support matrix](README.md#device-support) in README.md.
+See the [device support matrix](../../README.md#supported-devices) in README.md.
 
 Notable device families supported in v2-main:
 - **Gemini 435Le**

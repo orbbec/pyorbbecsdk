@@ -1,0 +1,109 @@
+# Device Binary Data
+
+Python wrapper 2.1.4 exposes protocol request/response, customer storage and
+firmware updates from memory. All binary input must be `bytes`; use
+`bytes(buffer)` to convert a `bytearray` or `memoryview`. Embedded zero bytes are
+preserved, input lengths are inferred and reads return independent Python
+`bytes`. Device and firmware support still apply.
+
+In the examples, `device` is an opened `pyorbbecsdk.Device`. See
+[Structured Data Read/Write](structured_data.md) for device discovery, and
+[Core](../6_API_Reference/core) for individual method signatures.
+
+## Protocol request and response
+
+```python
+# command must be a valid SDK/device protocol packet for this operation.
+response = device.send_and_receive_data(command, receive_capacity=4096)
+```
+
+Select `receive_capacity` from the command's maximum response size; 4096 is only
+an example. Capacity must be positive and fit `uint32_t`. The result contains
+the actual returned bytes and can be empty. The binding does not build commands,
+retry requests or decode the response.
+
+This operation takes protocol packets. In contrast, `set_structured_data()`
+takes a structure payload without protocol headers. Do not exchange these two
+representations.
+
+## Customer data storage
+
+Read existing data without changing it:
+
+```python
+original = device.read_customer_data()
+print("Customer data length:", len(original))
+```
+
+An explicit write replaces device customer data. Use it only when your
+application owns this storage; it may share the device's extended User ID
+storage. Save existing data before changing it. For a device on which temporary
+changes and restoration are appropriate:
+
+```python
+original = device.read_customer_data()
+try:
+    device.write_customer_data(b"customer\x00data")
+    if device.read_customer_data() != b"customer\x00data":
+        raise RuntimeError("Customer data readback differs")
+finally:
+    device.write_customer_data(original)
+    if device.read_customer_data() != original:
+        raise RuntimeError("Failed to restore customer data")
+```
+
+The SDK documents a maximum of 65532 bytes. The binding rejects larger writes
+and allocates that full capacity for reads, because the SDK's length is an
+output rather than a length-query or capacity argument. Empty writes are
+forwarded to the SDK, whose device-specific rules still apply. Customer storage
+is not a general file API.
+
+## Firmware update from bytes
+
+`update_firmware(file_path, callback, async_update=...)` reads firmware from a
+file. `update_firmware_from_data(data, callback, async_update=...)` accepts an
+image already loaded into memory. Both perform a real firmware update and
+require firmware intended for the connected device.
+
+```python
+from pathlib import Path
+
+def on_progress(state, message, percent):
+    print(state, message, percent)
+
+firmware = Path("firmware.bin").read_bytes()
+device.update_firmware_from_data(firmware, on_progress, async_update=False)
+```
+
+The callback receives `(state, message, percent)`, with state represented by
+`OBUpgradeState`, a message string and an integer percentage. The method returns
+`None`; use the SDK's completion/error state to determine the outcome rather
+than assuming that return means success.
+
+`async_update=False` waits for the SDK operation to return. The default is
+`True`; keep the `Device` alive until the asynchronous update completes. The
+binding retains the input bytes and callback in the SDK callback object until
+it is replaced or the device is destroyed. Do not start overlapping firmware
+operations on the same device.
+
+Python callback exceptions are reported through `sys.unraisablehook` and do not
+propagate through SDK worker threads. Keep callbacks focused on reporting
+progress; perform device disposal or further upgrades outside the callback.
+Follow the device's update/reboot procedure after a successful completion.
+See also [Firmware Update](ApplicationGuide.html#firmware-update).
+
+## Input validation and errors
+
+| Operation | Binding checks / result |
+|---|---|
+| All binary inputs | `bytes` only; input length must fit `uint32_t` |
+| `send_and_receive_data()` | Positive receive capacity; returns actual response bytes |
+| `write_customer_data()` | At most 65532 bytes; returns `None` |
+| `read_customer_data()` | Returns actual customer bytes, up to 65532 bytes |
+| `update_firmware_from_data()` | Nonempty firmware; callable callback; returns `None` |
+
+Non-bytes inputs raise `TypeError`; the binding's empty-firmware, zero-capacity
+and customer-size checks raise `ValueError`. Out-of-range integers fail argument
+conversion. A returned length exceeding the allocated receive/customer buffer
+raises `RuntimeError` after the SDK call; this does not replace correct SDK
+buffer handling. SDK operation failures are reported as `OBError`.

@@ -1,3 +1,6 @@
+
+**English** | [中文](CONTRIBUTING_zh-CN.md)
+
 # Contributing to pyorbbecsdk
 
 Thank you for your interest in contributing! Whether you're fixing a bug, adding a feature, improving documentation, or reporting an issue — all contributions are appreciated.
@@ -38,8 +41,16 @@ Please read this guide before submitting changes, and ensure you follow the [Cod
 
 ### Runtime Dependencies
 
+For the core SDK:
+
 ```bash
-pip install --upgrade pyorbbecsdk2
+python -m pip install --upgrade pyorbbecsdk2
+```
+
+To run the examples, install the optional example dependencies:
+
+```bash
+python -m pip install --upgrade "pyorbbecsdk2[examples]"
 ```
 
 For running the object detection example:
@@ -49,11 +60,13 @@ pip install onnxruntime
 
 > **NumPy Compatibility Note:**
 >
-> The SDK has specific NumPy version requirements based on Python version:
+> The base package declares `numpy` without a version range. The optional `[examples]` dependencies apply the following NumPy constraints by Python version for compatibility with example dependencies such as Open3D:
 > - **Python 3.8-3.11**: Use `numpy<2.0.0`
 > - **Python 3.12+**: Use `numpy>=2.1.0`
 >
-> pybind11>=2.12.0 is required to support NumPy 2.x (needed for Python 3.12+).
+> These version ranges apply only when installing `[examples]`; Python 3.12+ alone does not make NumPy 2.x a core SDK requirement. Open3D is included only on Python 3.8–3.11, where the extra selects `open3d==0.18.0`.
+>
+> Building bindings compatible with NumPy 2.x requires pybind11>=2.12.0; this project's build configuration pins pybind11 to 2.12.0.
 
 ---
 
@@ -108,7 +121,7 @@ UV is a fast Python package manager that provides 10-100x faster dependency reso
 chmod +x scripts/build_whl/build-whl-uv.sh
 ./scripts/build_whl/build-whl-uv.sh  # Build for Python 3.10 (default)
 ./scripts/build_whl/build-whl-uv.sh 3.11  # Build for Python 3.11
-./scripts/build_whl/build-whl-uv.sh all   # Build all supported versions (3.8-3.14)
+./scripts/build_whl/build-whl-uv.sh all   # Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14
 
 # macOS
 chmod +x scripts/build_whl/build-whl-uv-macos.sh
@@ -120,7 +133,7 @@ chmod +x scripts/build_whl/build-whl-uv-macos.sh
 
 Wheels are output to `wheel/` directory.
 
-> See [Build with UV](https://orbbec.github.io/pyorbbecsdk/source/4_Package/build_with_uv.html) for detailed instructions including offline builds, script options, and troubleshooting.
+> See [Build with UV](https://orbbec.github.io/pyorbbecsdk/en/source/4_Package/build_with_uv.html) for detailed instructions including offline builds, script options, and troubleshooting.
 
 ---
 
@@ -218,7 +231,7 @@ sudo udevadm control --reload && sudo udevadm trigger
 | Marker | Meaning |
 |--------|---------|
 | `hardware` | Requires a physical Orbbec camera (auto-skipped if none connected) |
-| `gemini335` | Requires a Gemini 335 specifically |
+| `g300_series` | Requires a G300 series camera (Gemini 330/335/336/305/345) |
 | `performance` | Long-running benchmarks (60+ seconds each) |
 
 ### Common Test Commands
@@ -229,14 +242,14 @@ python -m pytest test/ -m "not hardware" -v
 
 # Core tests (device, controls, calibration) — ~2 min with camera
 python -m pytest \
-  test/test_gemini335_device.py \
-  test/test_gemini335_controls.py \
-  test/test_gemini335_calib.py \
+  test/test_g300_series_device.py \
+  test/test_g300_series_controls.py \
+  test/test_g300_series_calib.py \
   test/test_context.py \
   test/test_device.py -v
 
-# Full Gemini 335 test suite (camera must be connected)
-python -m pytest test/test_gemini335_*.py -v
+# Full G300 series test suite (matching camera must be connected)
+python -m pytest test/test_g300_series_*.py -v
 
 # Skip long performance benchmarks
 python -m pytest test/ -m "not performance" -v
@@ -304,7 +317,7 @@ When modifying the public API (adding or changing C++ binding signatures), updat
 Before opening an issue, please check:
 
 - The existing [issues list](https://github.com/orbbec/pyorbbecsdk/issues) for duplicates.
-- The [FAQ / Troubleshooting](https://orbbec.github.io/pyorbbecsdk/index.html) in the documentation.
+- The [FAQ / Troubleshooting](https://orbbec.github.io/pyorbbecsdk/en/index.html) in the documentation.
 - Your device firmware meets the minimum version in [README.md — Automated Firmware Update](../README.md#automated-firmware-update).
 - On Linux: udev rules are installed.
 - On Windows: metadata registration was completed.

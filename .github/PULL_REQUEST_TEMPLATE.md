@@ -4,6 +4,8 @@ about: Submit changes to pyorbbecsdk
 title: '[PR] '
 ---
 
+**English** | [中文](PULL_REQUEST_TEMPLATE/zh-CN.md)
+
 ## Description
 
 <!-- Provide a clear and concise description of your changes -->

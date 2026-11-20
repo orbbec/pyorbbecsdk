@@ -14,10 +14,17 @@
  * limitations under the License.
  *******************************************************************************/
 #include "properties.hpp"
+#include "structured_data.hpp"
 
 namespace pyorbbecsdk {
 void define_properties(const py::object& m) {
   py::enum_<OBPropertyID>(m, "OBPropertyID")
+      .value("OB_STRUCT_VERSION", static_cast<OBPropertyID>(1000))
+      .value("OB_STRUCT_GET_GYRO_PRESETS_ODR_LIST", static_cast<OBPropertyID>(1031))
+      .value("OB_STRUCT_GET_ACCEL_PRESETS_ODR_LIST", static_cast<OBPropertyID>(1032))
+      .value("OB_STRUCT_GET_GYRO_PRESETS_FULL_SCALE_LIST", static_cast<OBPropertyID>(1033))
+      .value("OB_STRUCT_GET_ACCEL_PRESETS_FULL_SCALE_LIST", static_cast<OBPropertyID>(1034))
+      .value("OB_STRUCT_DEVICE_ERROR_STATE", static_cast<OBPropertyID>(5524))
       .value("OB_PROP_LDP_BOOL", OBPropertyID::OB_PROP_LDP_BOOL, "LDP switch")
       .value("OB_PROP_LASER_BOOL", OBPropertyID::OB_PROP_LASER_BOOL,
              "Laser switch")

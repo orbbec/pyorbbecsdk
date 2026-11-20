@@ -14,8 +14,15 @@
  * limitations under the License.
  *******************************************************************************/
 #include "device.hpp"
+#include "structured_data.hpp"
 
+#include <limits>
+#include <memory>
 #include <sstream>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "error.hpp"
 
@@ -23,6 +30,99 @@ namespace pyorbbecsdk {
 
 inline std::string safe_str(const char *ptr) {
   return ptr ? std::string(ptr) : std::string();
+}
+
+static std::string binary_payload(const py::bytes &data) {
+  auto payload = data.cast<std::string>();
+  if (payload.size() > std::numeric_limits<uint32_t>::max()) {
+    throw py::value_error("data exceeds the SDK uint32_t size limit");
+  }
+  return payload;
+}
+
+// Device.h documents a maximum customer-data length of 65532 bytes.
+// readCustomerData has an OUT-only length, so allocate the full maximum.
+static constexpr uint32_t customer_data_capacity = 65532;
+
+// The SDK copies the entire result before writing dataSize; it does not use
+// dataSize as a capacity and does not support a null-buffer size query.
+// Only call it when a fixed public payload layout is known in advance.
+static uint32_t structured_data_size(OBPropertyID property_id) {
+  switch (property_id) {
+    case static_cast<OBPropertyID>(structured::VERSION):
+      return sizeof(structured::VersionInfo);
+    case OB_STRUCT_DEVICE_TIME:
+      return sizeof(structured::DeviceTime);
+    case OB_STRUCT_ASIC_SERIAL_NUMBER:
+      return sizeof(OBDeviceSerialNumber);
+    case static_cast<OBPropertyID>(structured::GYRO_ODR):
+    case static_cast<OBPropertyID>(structured::ACCEL_ODR):
+    case static_cast<OBPropertyID>(structured::GYRO_FULL_SCALE):
+    case static_cast<OBPropertyID>(structured::ACCEL_FULL_SCALE):
+      return sizeof(structured::ImuPresetList);
+    case OB_STRUCT_BASELINE_CALIBRATION_PARAM:
+      return sizeof(OBBaselineCalibrationParam);
+    case OB_STRUCT_DEVICE_TEMPERATURE:
+      return sizeof(OBDeviceTemperature);
+    case OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL:
+      return sizeof(OBTofExposureThresholdControl);
+    case OB_STRUCT_DEVICE_SERIAL_NUMBER:
+      return sizeof(OBDeviceSerialNumber);
+    case OB_STRUCT_DEVICE_IP_ADDR_CONFIG:
+    case OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD:
+      return sizeof(OBDeviceIpAddrConfig);
+    case OB_STRUCT_DEPTH_HDR_CONFIG:
+      return sizeof(OBHdrConfig);
+    case OB_STRUCT_RGB_CROP_ROI:
+      return sizeof(OBRect);
+    case OB_STRUCT_COLOR_AE_ROI:
+    case OB_STRUCT_DEPTH_AE_ROI:
+      return sizeof(OBRegionOfInterest);
+    case OB_STRUCT_DISP_OFFSET_CONFIG:
+      return sizeof(OBDispOffsetConfig);
+    case OB_STRUCT_PRESET_RESOLUTION_CONFIG:
+      return sizeof(OBPresetResolutionConfig);
+    case OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2:
+      return sizeof(OBNetIpConfigV2);
+    case OB_STRUCT_COLOR_AWB_GAIN:
+      return sizeof(OBAwbGainParams);
+    default:
+      throw py::value_error(
+          "get_structured_data has no fixed public payload layout for this "
+          "property; the SDK cannot safely query an unknown result size");
+  }
+}
+
+static py::bytes get_structured_data(
+    const std::shared_ptr<ob::Device> &device, OBPropertyID property_id) {
+  // These properties require SDK protocol selection/conversion. Return public
+  // SDK struct bytes, not a guessed firmware packet (which may include padding).
+  OB_TRY_CATCH({
+    if (property_id == OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG) {
+      return structured::to_bytes(device->getMultiDeviceSyncConfig());
+    }
+    if (property_id == OB_STRUCT_CURRENT_DEPTH_ALG_MODE) {
+      return structured::to_bytes(device->getCurrentDepthWorkMode());
+    }
+    if (static_cast<uint32_t>(property_id) == structured::DEVICE_ERROR_STATE) {
+      // Preserve SDK errors (Device::getDeviceState currently omits handle()).
+      ob_error *error = nullptr;
+      const auto state = ob_device_get_device_state(device->getImpl(), &error);
+      ob::Error::handle(&error);
+      return structured::to_bytes(structured::DeviceErrorState{state});
+    }
+  });
+  const uint32_t expected_size = structured_data_size(property_id);
+  std::vector<uint8_t> data(expected_size);
+  uint32_t size = expected_size;
+  OB_TRY_CATCH({
+    device->getStructuredData(property_id, data.data(), &size);
+  });
+  // Detect an ABI mismatch; this is not a substitute for SDK capacity checks.
+  if (size != expected_size) {
+    throw py::value_error("unexpected structured data size for the public SDK layout");
+  }
+  return py::bytes(reinterpret_cast<const char *>(data.data()), size);
 }
 
 void define_device_info(const py::object &m) {
@@ -202,6 +302,94 @@ void define_preset_resolution_config_list(const py::object &m) {
 
 void define_device(const py::object &m) {
   py::class_<ob::Device, std::shared_ptr<ob::Device>>(m, "Device")
+      .def("send_and_receive_data",
+           [](const std::shared_ptr<ob::Device> &self, py::bytes data,
+              uint32_t receive_capacity) {
+             const auto payload = binary_payload(data);
+             if (receive_capacity == 0) {
+               throw py::value_error("receive_capacity must be positive");
+             }
+             std::vector<uint8_t> received(receive_capacity);
+             uint32_t received_size = receive_capacity;
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->sendAndReceiveData(
+                   reinterpret_cast<const uint8_t *>(payload.data()),
+                   static_cast<uint32_t>(payload.size()), received.data(),
+                   &received_size);
+             });
+             if (received_size > receive_capacity) {
+               throw std::runtime_error(
+                   "SDK returned a length larger than receive_capacity");
+             }
+             return py::bytes(reinterpret_cast<const char *>(received.data()),
+                              received_size);
+           }, py::arg("data").noconvert(), py::arg("receive_capacity"),
+           "Send SDK protocol bytes and return the actual response bytes.")
+      .def("write_customer_data",
+           [](const std::shared_ptr<ob::Device> &self, py::bytes data) {
+             const auto payload = binary_payload(data);
+             if (payload.size() > customer_data_capacity) {
+               throw py::value_error("customer data cannot exceed 65532 bytes");
+             }
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->writeCustomerData(payload.data(),
+                                       static_cast<uint32_t>(payload.size()));
+             });
+           }, py::arg("data").noconvert())
+      .def("read_customer_data",
+           [](const std::shared_ptr<ob::Device> &self) {
+             std::vector<uint8_t> data(customer_data_capacity);
+             uint32_t size = customer_data_capacity;
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->readCustomerData(data.data(), &size);
+             });
+             if (size > data.size()) {
+               throw std::runtime_error(
+                   "SDK returned customer data exceeding 65532 bytes");
+             }
+             return py::bytes(reinterpret_cast<const char *>(data.data()), size);
+           })
+      .def("update_firmware_from_data",
+           [](const std::shared_ptr<ob::Device> &self, py::bytes data,
+              const py::function &callback, bool async_update) {
+             auto payload = std::make_shared<std::string>(binary_payload(data));
+             if (payload->empty()) {
+               throw py::value_error("firmware data must not be empty");
+             }
+             // The SDK stores/copies the C++ callback. Its copies must not
+             // change Python reference counts without the GIL, and its final
+             // destruction may occur on an SDK thread.
+             auto python_callback = std::shared_ptr<py::function>(
+                 new py::function(callback), [](py::function *function) {
+                   py::gil_scoped_acquire acquire;
+                   delete function;
+                 });
+             ob::Device::DeviceFwUpdateCallback progress =
+                 [python_callback, payload](OBFwUpdateState state,
+                                            const char *message,
+                                            uint8_t percent) {
+                   py::gil_scoped_acquire acquire;
+                   try {
+                     (*python_callback)(state, safe_str(message), percent);
+                   } catch (py::error_already_set &error) {
+                     // Never unwind a Python exception through SDK workers.
+                     error.discard_as_unraisable("firmware update callback");
+                   }
+                 };
+             OB_TRY_CATCH({
+               py::gil_scoped_release release;
+               self->updateFirmwareFromData(
+                   reinterpret_cast<const uint8_t *>(payload->data()),
+                   static_cast<uint32_t>(payload->size()), std::move(progress),
+                   async_update);
+             });
+           }, py::arg("data").noconvert(), py::arg("callback"),
+           py::arg("async_update") = true,
+           "Update from firmware bytes. Keep Device alive until completion. "
+           "Callback exceptions are reported via sys.unraisablehook.")
       .def("get_device_info",
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDeviceInfo(); });
@@ -306,6 +494,67 @@ void define_device(const py::object &m) {
            [](const std::shared_ptr<ob::Device> &self) {
              OB_TRY_CATCH({ return self->getDepthWorkModeList(); });
            })
+      .def("get_structured_data", &get_structured_data,
+           py::arg("property_id"),
+           "Read bytes for a property with a known SDK layout. Sync config and "
+           "depth work mode use public SDK structs via dedicated SDK methods. "
+           "Unknown or variable-size layouts raise ValueError before SDK access; "
+           "unsupported/unreadable device properties raise OBError.")
+      .def("set_structured_data",
+           [](const std::shared_ptr<ob::Device> &self,
+              OBPropertyID property_id, py::bytes payload) {
+             // Keep an owned binary copy alive throughout the SDK call.
+             const std::string data = payload;
+             if (data.empty()) {
+               throw py::value_error("structured data must not be empty");
+             }
+             if (data.size() > std::numeric_limits<uint32_t>::max()) {
+               throw py::value_error("structured data exceeds uint32_t size");
+             }
+             OB_TRY_CATCH({
+               if (property_id == OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG) {
+                 self->setMultiDeviceSyncConfig(
+                     structured::from_bytes<OBMultiDeviceSyncConfig>(payload));
+                 return;
+               }
+               if (property_id == OB_STRUCT_CURRENT_DEPTH_ALG_MODE) {
+                 const auto mode = structured::from_bytes<OBDepthWorkMode>(payload);
+                 if (structured::read_text(mode.name).size() == sizeof(mode.name)) {
+                   throw py::value_error("depth work mode name must be NUL-terminated");
+                 }
+                 if (self->switchDepthWorkMode(mode) != OB_STATUS_OK) {
+                   throw py::value_error("SDK failed to switch depth work mode");
+                 }
+                 return;
+               }
+               if (static_cast<uint32_t>(property_id) == structured::DEVICE_ERROR_STATE) {
+                 throw py::value_error("device error state is read-only");
+               }
+               self->setStructuredData(
+                   property_id,
+                   reinterpret_cast<const uint8_t *>(data.data()),
+                   static_cast<uint32_t>(data.size()));
+             });
+           },
+           py::arg("property_id"), py::arg("data").noconvert(),
+           "Set a structured property from non-empty bytes in the SDK's native "
+           "struct layout. The byte length is inferred; property/type matching "
+           "and serialization are the caller's responsibility.")
+      .def("get_hdr_config",
+           [](const std::shared_ptr<ob::Device> &self) {
+             OB_TRY_CATCH({
+               OBHdrConfig config{};
+               uint32_t size = sizeof(config);
+               self->getStructuredData(
+                   OB_STRUCT_DEPTH_HDR_CONFIG,
+                   reinterpret_cast<uint8_t *>(&config), &size);
+               if (size != sizeof(config)) {
+                 throw py::value_error("unexpected OBHdrConfig data size");
+               }
+               return config;
+             });
+           },
+           "Read the fixed-size HDR configuration as OBHdrConfig.")
       .def("set_hdr_config",
            [](const std::shared_ptr<ob::Device> &self,
               const OBHdrConfig &config) {

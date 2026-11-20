@@ -1,0 +1,189 @@
+Core
+====
+
+Core classes for device management including Context, Device, Sensor and related lists.
+
+Classes
+-------
+
+Context
+^^^^^^^
+
+.. autoclass:: pyorbbecsdk.Context
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Device
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.Device
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DeviceInfo
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DeviceInfo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DeviceList
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DeviceList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DevicePresetList
+^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DevicePresetList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Sensor
+^^^^^^
+
+.. autoclass:: pyorbbecsdk.Sensor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SensorList
+^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.SensorList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+CameraParamList
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.CameraParamList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PresetResolutionConfigList
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.PresetResolutionConfigList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OBDepthWorkModeList
+^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.OBDepthWorkModeList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ColorPresetList
+^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ColorPresetList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+DeviceFrameInterleaveList
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.DeviceFrameInterleaveList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationConfig
+^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationSensorConfig
+^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationSensorConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationDevDecimationConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationDevDecimationConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationHDRMergeConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationHDRMergeConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ApplicationPointCloudConfig
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.ApplicationPointCloudConfig
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Device Data Interface Details
+-----------------------------
+
+These interfaces were added in Python wrapper 2.1.4. The signatures above are
+extracted from the installed SDK. Usage and property layouts are described in
+:doc:`../5_Application_Guide/structured_data` and
+:doc:`../5_Application_Guide/binary_device_data`.
+
+* :meth:`~pyorbbecsdk.Device.get_structured_data`: ``property_id`` is an
+  :class:`~pyorbbecsdk.OBPropertyID`. Returns owned ``bytes`` for a registered
+  fixed layout. Raises ``ValueError`` for unknown/variable layouts or an
+  unexpected returned length; device access failures raise
+  :class:`~pyorbbecsdk.OBError`. Sync, depth mode and error state use dedicated
+  SDK operations.
+* :meth:`~pyorbbecsdk.Device.set_structured_data`: ``property_id`` selects the
+  property; ``data`` must be nonempty ``bytes`` of the matching SDK layout.
+  Returns ``None``. Non-bytes inputs raise ``TypeError``; empty or oversized
+  payloads, invalid specialized layouts, writes to error state and a failed
+  depth mode switch raise ``ValueError``. Ordinary writes do not validate the
+  property/type pairing or structure length. SDK failures raise
+  :class:`~pyorbbecsdk.OBError`.
+* :meth:`~pyorbbecsdk.Device.get_hdr_config`: takes no arguments and returns
+  :class:`~pyorbbecsdk.OBHdrConfig`. An unexpected returned size raises
+  ``ValueError``; SDK failures raise :class:`~pyorbbecsdk.OBError`.
+* :meth:`~pyorbbecsdk.Device.send_and_receive_data`: ``data`` is a protocol
+  packet as ``bytes``; ``receive_capacity`` is a positive ``uint32_t`` capacity
+  chosen for that command. Returns the actual response as ``bytes``.
+  Zero capacity raises ``ValueError``; a returned length exceeding capacity
+  raises ``RuntimeError`` after the SDK call.
+* :meth:`~pyorbbecsdk.Device.read_customer_data`: takes no arguments and returns
+  the actual stored ``bytes``. The binding allocates the SDK maximum of 65532
+  bytes. A returned length above that maximum raises ``RuntimeError``.
+* :meth:`~pyorbbecsdk.Device.write_customer_data`: ``data`` is ``bytes`` of at
+  most 65532 bytes. Returns ``None``. Larger input raises ``ValueError``;
+  empty input is forwarded to the SDK.
+* :meth:`~pyorbbecsdk.Device.update_firmware_from_data`: ``data`` is nonempty
+  firmware ``bytes``; ``callback(state, message, percent)`` receives an
+  :class:`~pyorbbecsdk.OBUpgradeState`, ``str`` and ``int``; ``async_update``
+  defaults to ``True``. Returns ``None``; completion is reported by SDK callback
+  states. Empty input raises ``ValueError``. Keep the Device alive until
+  completion. Callback exceptions are sent to ``sys.unraisablehook``.
+
+For all four binary operations, non-bytes input raises ``TypeError``, data
+lengths must fit ``uint32_t``, out-of-range integer arguments fail conversion,
+and SDK failures raise :class:`~pyorbbecsdk.OBError`.

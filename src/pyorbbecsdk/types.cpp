@@ -14,12 +14,127 @@
  * limitations under the License.
  *******************************************************************************/
 #include "types.hpp"
+#include "structured_data.hpp"
+
+#include <cstring>
+#include <string>
 
 #include "error.hpp"
 #include "utils.hpp"
 namespace pyorbbecsdk {
 
 void define_orbbec_types(const py::object &m) {
+  auto errors = py::enum_<structured::OBDeviceErrorCode>(m, "OBDeviceErrorCode", py::arithmetic());
+  errors.value("DEVICE_ERROR_RGB_SENSOR", structured::DEVICE_ERROR_RGB_SENSOR);
+  errors.value("DEVICE_ERROR_IRL_SENSOR", structured::DEVICE_ERROR_IRL_SENSOR);
+  errors.value("DEVICE_ERROR_IRR_SENSOR", structured::DEVICE_ERROR_IRR_SENSOR);
+  errors.value("DEVICE_ERROR_IMU_SENSOR", structured::DEVICE_ERROR_IMU_SENSOR);
+  errors.value("DEVICE_ERROR_LASER_MODULE", structured::DEVICE_ERROR_LASER_MODULE);
+  errors.value("DEVICE_ERROR_FLOOD_MODULE", structured::DEVICE_ERROR_FLOOD_MODULE);
+  errors.value("DEVICE_ERROR_LDP_SENSOR", structured::DEVICE_ERROR_LDP_SENSOR);
+  errors.value("DEVICE_ERROR_M_ADC_CHIP", structured::DEVICE_ERROR_M_ADC_CHIP);
+  errors.value("DEVICE_ERROR_S_ADC_CHIP", structured::DEVICE_ERROR_S_ADC_CHIP);
+  errors.value("DEVICE_ERROR_EEPROM_SENSOR", structured::DEVICE_ERROR_EEPROM_SENSOR);
+  errors.value("DEVICE_ERROR_CFG_PARAM", structured::DEVICE_ERROR_CFG_PARAM);
+  errors.value("DEVICE_ERROR_CALIB_PARAM", structured::DEVICE_ERROR_CALIB_PARAM);
+  errors.value("DEVICE_ERROR_TEC_FUN", structured::DEVICE_ERROR_TEC_FUN);
+  errors.value("DEVICE_ERROR_MCU_FUN", structured::DEVICE_ERROR_MCU_FUN);
+  errors.value("DEVICE_ERROR_DSP_MODULE", structured::DEVICE_ERROR_DSP_MODULE);
+  errors.value("DEVICE_ERROR_OVER_LOAD", structured::DEVICE_ERROR_OVER_LOAD);
+  errors.value("DEVICE_ERROR_ISP_MODULE", structured::DEVICE_ERROR_ISP_MODULE);
+  errors.value("DEVICE_ERROR_TRB_EXHAUSTION", structured::DEVICE_ERROR_TRB_EXHAUSTION);
+  errors.value("DEVICE_ERROR_OVF_MODULE", structured::DEVICE_ERROR_OVF_MODULE);
+  errors.value("DEVICE_ERROR_RGB_STREAM", structured::DEVICE_ERROR_RGB_STREAM);
+  errors.value("DEVICE_ERROR_IRL_STREAM", structured::DEVICE_ERROR_IRL_STREAM);
+  errors.value("DEVICE_ERROR_IRR_STREAM", structured::DEVICE_ERROR_IRR_STREAM);
+  errors.value("DEVICE_ERROR_DEP_STREAM", structured::DEVICE_ERROR_DEP_STREAM);
+  errors.value("DEVICE_ERROR_IRL_SNS_STREAM", structured::DEVICE_ERROR_IRL_SNS_STREAM);
+  errors.value("DEVICE_ERROR_IRR_SNS_STREAM", structured::DEVICE_ERROR_IRR_SNS_STREAM);
+  errors.value("DEVICE_WARNING_PERMISSION", structured::DEVICE_WARNING_PERMISSION);
+  errors.value("DEVICE_WARNING_IR_TEMPERATURE", structured::DEVICE_WARNING_IR_TEMPERATURE);
+  errors.value("DEVICE_WARNING_RGB_TEMPERATURE", structured::DEVICE_WARNING_RGB_TEMPERATURE);
+  errors.value("DEVICE_WARNING_LASER_TEMPERATURE", structured::DEVICE_WARNING_LASER_TEMPERATURE);
+  errors.value("DEVICE_WARNING_CPU_TEMPERATURE", structured::DEVICE_WARNING_CPU_TEMPERATURE);
+  errors.value("DEVICE_WARNING_RES_MISMATCH", structured::DEVICE_WARNING_RES_MISMATCH);
+  errors.value("DEVICE_WARNING_FPS_MISMATCH", structured::DEVICE_WARNING_FPS_MISMATCH);
+  errors.value("DEVICE_WARNING_D2C_UNSPPOURT", structured::DEVICE_WARNING_D2C_UNSPPOURT);
+  errors.value("DEVICE_WARNING_USB_LOG", structured::DEVICE_WARNING_USB_LOG);
+  errors.value("DEVICE_WARNING_LOG_OVERFLOW", structured::DEVICE_WARNING_LOG_OVERFLOW);
+
+  py::class_<structured::DeviceTime>(m, "OBDeviceTime")
+      .def(py::init<>())
+      .def_readwrite("time", &structured::DeviceTime::time)
+      .def_readwrite("rtt", &structured::DeviceTime::rtt);
+  py::class_<structured::DeviceErrorState>(m, "OBDeviceErrorState")
+      .def(py::init<>())
+      .def_readwrite("error_code", &structured::DeviceErrorState::errorCode);
+  auto version = py::class_<structured::VersionInfo>(m, "OBVersionInfo")
+      .def(py::init<>())
+      .def_readwrite("device_type", &structured::VersionInfo::deviceType);
+  version.def_property("firmware_version",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.firmwareVersion); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.firmwareVersion, s); });
+  version.def_property("hardware_version",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.hardwareVersion); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.hardwareVersion, s); });
+  version.def_property("sdk_version",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.sdkVersion); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.sdkVersion, s); });
+  version.def_property("depth_chip",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.depthChip); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.depthChip, s); });
+  version.def_property("system_chip",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.systemChip); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.systemChip, s); });
+  version.def_property("serial_number",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.serialNumber); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.serialNumber, s); });
+  version.def_property("device_name",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.deviceName); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.deviceName, s); });
+  version.def_property("sub_system_version",
+      [](const structured::VersionInfo &v) { return structured::read_text(v.subSystemVersion); },
+      [](structured::VersionInfo &v, const std::string &s) { structured::write_text(v.subSystemVersion, s); });
+  version.def_property("reserved",
+      [](const structured::VersionInfo &v) { return py::bytes(v.reserved, 32); },
+      [](structured::VersionInfo &v, py::bytes b) {
+        std::string data = b;
+        if (data.size() != 32) throw py::value_error("reserved requires 32 bytes");
+        std::memcpy(v.reserved, data.data(), 32);
+      });
+  py::class_<structured::DepthWorkModeInternal>(m, "OBDepthWorkModeInternal")
+      .def(py::init<>())
+      .def_property("checksum",
+          [](const structured::DepthWorkModeInternal &v) {
+            return py::bytes(reinterpret_cast<const char *>(v.checksum), 16);
+          },
+          [](structured::DepthWorkModeInternal &v, py::bytes b) {
+            std::string data = b;
+            if (data.size() != 16) throw py::value_error("checksum requires 16 bytes");
+            std::memcpy(v.checksum, data.data(), 16);
+          })
+      .def_property("name",
+          [](const structured::DepthWorkModeInternal &v) { return structured::read_text(v.name); },
+          [](structured::DepthWorkModeInternal &v, const std::string &s) { structured::write_text(v.name, s); })
+      .def_readwrite("option_code", &structured::DepthWorkModeInternal::optionCode);
+  py::class_<structured::ImuPresetList>(m, "OBImuPresetList")
+      .def(py::init<>())
+      .def_property_readonly("count", [](const structured::ImuPresetList &v) { return v.count; })
+      .def_property("values",
+          [](const structured::ImuPresetList &v) {
+            if (v.count > 16) throw py::value_error("invalid IMU preset count");
+            py::list result;
+            for (uint32_t i = 0; i < v.count; ++i) result.append(v.values[i]);
+            return result;
+          },
+          [](structured::ImuPresetList &v, const py::sequence &items) {
+            if (py::len(items) > 16) throw py::value_error("at most 16 IMU presets");
+            structured::ImuPresetList next{};
+            next.count = static_cast<uint32_t>(py::len(items));
+            for (uint32_t i = 0; i < next.count; ++i) next.values[i] = items[i].cast<int32_t>();
+            v = next;
+          });
+
   py::enum_<OBPermissionType>(m, "OBPermissionType")
       .value("PERMISSION_DENY", OB_PERMISSION_DENY)
       .value("PERMISSION_READ", OB_PERMISSION_READ)
@@ -840,18 +955,21 @@ void define_orbbec_types(const py::object &m) {
             return arr;
           },
           [](OBDepthWorkMode &mode, const py::array_t<uint8_t> &arr) {
+            if (arr.ndim() != 1 || arr.size() != 16 || arr.strides(0) != 1) {
+              throw py::value_error("checksum requires 16 contiguous uint8 values");
+            }
             std::memcpy(mode.checksum, arr.data(), 16);
           })
       .def_property(
           "name",
-          [](const OBDepthWorkMode &mode) -> std::string { return mode.name; },
+          [](const OBDepthWorkMode &mode) -> std::string { return structured::read_text(mode.name); },
           [](OBDepthWorkMode &mode, const std::string &str) {
             std::strncpy(mode.name, str.c_str(), 31);
             mode.name[31] = '\0';  // ensure null-termination
           })
       .def_readwrite("tag", &OBDepthWorkMode::tag)
       .def("__repr__",
-           [](const OBDepthWorkMode &mode) { return std::string(mode.name); })
+           [](const OBDepthWorkMode &mode) { return structured::read_text(mode.name); })
       .def("__eq__",
            [](const OBDepthWorkMode &mode1, const OBDepthWorkMode &mode2) {
              return std::memcmp(mode1.name, mode2.name, 32) == 0;
@@ -1227,6 +1345,40 @@ void define_orbbec_types(const py::object &m) {
       .def_readwrite("baseline", &OBBaselineCalibrationParam::baseline)
       .def_readwrite("zpd", &OBBaselineCalibrationParam::zpd);
 
+  py::class_<OBDeviceSerialNumber>(m, "OBDeviceSerialNumber")
+      .def(py::init([]() { return OBDeviceSerialNumber{}; }))
+      .def_property(
+          "number_str",
+          [](const OBDeviceSerialNumber &serial) {
+            // The SDK field may occupy all 16 bytes without a terminator.
+            size_t length = 0;
+            while (length < sizeof(serial.numberStr) &&
+                   serial.numberStr[length] != '\0') {
+              ++length;
+            }
+            return std::string(serial.numberStr, length);
+          },
+          [](OBDeviceSerialNumber &serial, const std::string &value) {
+            if (value.size() > sizeof(serial.numberStr)) {
+              throw py::value_error("number_str must fit in 16 UTF-8 bytes");
+            }
+            if (value.find('\0') != std::string::npos) {
+              throw py::value_error("number_str must not contain NUL bytes");
+            }
+            std::memset(serial.numberStr, 0, sizeof(serial.numberStr));
+            std::memcpy(serial.numberStr, value.data(), value.size());
+          },
+          "SDK numberStr field; at most 16 UTF-8 bytes, without embedded NUL.");
+  // OBSerialNumber is a typedef of the same C++ type, not a separate class.
+  m.attr("OBSerialNumber") = m.attr("OBDeviceSerialNumber");
+
+  py::class_<OBDispOffsetConfig>(m, "OBDispOffsetConfig")
+      .def(py::init([]() { return OBDispOffsetConfig{}; }))
+      .def_readwrite("enable", &OBDispOffsetConfig::enable)
+      .def_readwrite("offset0", &OBDispOffsetConfig::offset0)
+      .def_readwrite("offset1", &OBDispOffsetConfig::offset1)
+      .def_readwrite("reserved", &OBDispOffsetConfig::reserved);
+
   py::class_<OBAwbGainParams>(m, "OBAwbGainParams")
       .def(py::init<>())
       .def_readwrite("r_gain", &OBAwbGainParams::rGain)
@@ -1512,6 +1664,30 @@ void define_orbbec_types(const py::object &m) {
       .value("START_OF_EXPOSURE", OB_START_OF_EXPOSURE)
       .value("MIDDLE_OF_EXPOSURE", OB_MIDDLE_OF_EXPOSURE)
       .value("END_OF_EXPOSURE", OB_END_OF_EXPOSURE);
+  // Flat property payloads only; pointer-containing SDK types are excluded.
+  structured::bind_bytes<OBPresetResolutionConfig>(m, "OBPresetResolutionConfig");
+  structured::bind_bytes<OBDeviceTemperature>(m, "OBDeviceTemperature");
+  structured::bind_bytes<OBTofExposureThresholdControl>(m, "OBTofExposureThresholdControl");
+  structured::bind_bytes<OBDeviceSyncConfig>(m, "OBDeviceSyncConfig");
+  structured::bind_bytes<OBDepthWorkMode>(m, "OBDepthWorkMode");
+  structured::bind_bytes<OBDeviceIpAddrConfig>(m, "OBDeviceIpAddrConfig");
+  structured::bind_bytes<OBNetIpConfigV2>(m, "OBNetIpConfigV2");
+  structured::bind_bytes<OBMultiDeviceSyncConfig>(m, "OBMultiDeviceSyncConfig");
+  structured::bind_bytes<OBBaselineCalibrationParam>(m, "OBBaselineCalibrationParam");
+  structured::bind_bytes<OBDeviceSerialNumber>(m, "OBDeviceSerialNumber");
+  structured::bind_bytes<OBDispOffsetConfig>(m, "OBDispOffsetConfig");
+  structured::bind_bytes<OBAwbGainParams>(m, "OBAwbGainParams");
+  structured::bind_bytes<OBHdrConfig>(m, "OBHdrConfig");
+  structured::bind_bytes<OBRegionOfInterest>(m, "OBRegionOfInterest");
+  structured::bind_bytes<OBRect>(m, "OBRect");
+  structured::bind_bytes<structured::DeviceTime>(m, "OBDeviceTime");
+  structured::bind_bytes<structured::DeviceErrorState>(m, "OBDeviceErrorState");
+  structured::bind_bytes<structured::VersionInfo>(m, "OBVersionInfo");
+  structured::bind_bytes<structured::DepthWorkModeInternal>(m, "OBDepthWorkModeInternal");
+  structured::bind_bytes<structured::ImuPresetList>(m, "OBImuPresetList");
+  m.attr("OBNetIpConfig") = m.attr("OBDeviceIpAddrConfig");
+  m.attr("OBDepthWorkMode_Internal") = m.attr("OBDepthWorkModeInternal");
+
 }
 void define_type_helper(py::module &m) {
   m.def("convert_format_to_string", &ob::TypeHelper::convertOBFormatTypeToString);

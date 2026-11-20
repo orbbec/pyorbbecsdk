@@ -6,6 +6,8 @@ labels: enhancement
 assignees: ''
 ---
 
+**English** | [中文](https://github.com/orbbec/pyorbbecsdk/blob/v2-main/.github/ISSUE_TEMPLATE/feature_request_zh-CN.md)
+
 ## Is your feature request related to a problem?
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 

@@ -1,0 +1,333 @@
+# Structured Data Read/Write
+
+The interfaces described here are available in Python wrapper 2.1.4. Device and
+firmware support still determine which properties can be accessed.
+
+## Choose the simplest interface
+
+Prefer an existing typed API for everyday device operations. It accepts or
+returns a Python configuration object directly, so you do not need property
+IDs, `bytes`, `to_bytes()` or `from_bytes()` for these tasks.
+
+| Task | Recommended read API | Recommended write API |
+|---|---|---|
+| Temperature | `device.get_temperature()` | Read only |
+| Baseline | `device.get_baseline()` | Read only |
+| HDR | `device.get_hdr_config()` | `device.set_hdr_config(config)` |
+| Multi-device synchronization | `device.get_multi_device_sync_config()` | `device.set_multi_device_sync_config(config)` |
+| Depth work mode | `device.get_depth_work_mode()`; supported modes: `device.get_depth_work_mode_list()` | `device.set_depth_work_mode(mode)` |
+| Device state | `device.get_device_state()` returns an integer mask | Read only |
+| IP configuration | `device.get_device_info()` exposes the current address, subnet mask and gateway | `device.set_ip_config(config)` |
+
+The IP information methods do not return the complete configuration flags or
+static IP record. See the IP special case below if you need those fields.
+Signatures and members are in [Core](../6_API_Reference/core),
+[Data Structures](../6_API_Reference/data_structures) and
+[Stream Profile](../6_API_Reference/stream_profile).
+
+## Interface at a glance
+
+Use the generic interface when a structured property has no suitable typed
+wrapper, such as color AE ROI, or when an application needs uniform access by
+property ID. `Device.get_structured_data(property_id)` returns owned Python
+`bytes`; `Device.set_structured_data(property_id, data)` writes `bytes`.
+Convert explicitly with `Config.from_bytes(data)` and `config.to_bytes()`.
+The property ID selects the operation; the bytes do not carry a Python type.
+The following examples explain this generic path.
+
+## Basic usage
+
+In these examples, `device` is an opened `pyorbbecsdk.Device`. For example:
+
+```python
+import pyorbbecsdk as ob
+
+context = ob.Context()
+devices = context.query_devices()
+if devices.get_count() == 0:
+    raise RuntimeError("No device connected")
+device = devices.get_device_by_index(0)
+```
+
+Color AE ROI is an example of a property accessed through the generic
+interface. Read it and decode its coordinates with the matching structure:
+
+```python
+prop = ob.OBPropertyID.OB_STRUCT_COLOR_AE_ROI
+if not device.is_property_supported(prop, ob.OBPermissionType.PERMISSION_READ):
+    raise RuntimeError("Color AE ROI is not readable")
+roi = ob.OBRegionOfInterest.from_bytes(device.get_structured_data(prop))
+print(roi.x0_left, roi.y0_top, roi.x1_right, roi.y1_bottom)
+```
+
+For writing AE ROI, start the corresponding stream and refresh the ROI after
+receiving its first frame, as described below.
+
+## Payload rules
+
+- Binary input must be `bytes`. Convert a `bytearray` or `memoryview` with
+  `bytes(buffer)` first. Embedded zero bytes are preserved.
+- `set_structured_data()` rejects empty data and lengths above `uint32_t`.
+- `from_bytes()` requires the exact structure length. `to_bytes()` returns an
+  independent copy. Use `len(config.to_bytes())`, not `sys.getsizeof(config)`.
+- Payloads use the current SDK's native byte order and packed structure layout.
+  They are not a portable serialization format for files or cross-platform
+  exchange.
+- Supply only the structure payload: no I2C header, opcode, request ID, command
+  version or response error code. Complete protocol packets belong to
+  [Device Binary Data](binary_device_data.md).
+- For ordinary properties, the setter forwards bytes without validating the
+  property/type pairing or enforcing the table's length. The caller must match
+  the property and layout. Equal lengths do not make two types interchangeable.
+
+## Check support and permission
+
+```python
+prop = ob.OBPropertyID.OB_STRUCT_COLOR_AE_ROI
+readable = device.is_property_supported(prop, ob.OBPermissionType.PERMISSION_READ)
+writable = device.is_property_supported(prop, ob.OBPermissionType.PERMISSION_WRITE)
+print("readable:", readable, "writable:", writable)
+```
+
+An enum member, a Python structure, byte conversion support and device support
+are separate conditions. A successful permission check does not rule out a
+later SDK error caused by device state, parameter limits or firmware behavior.
+
+Invalid binary input raises `TypeError`; invalid lengths, unknown read layouts
+and binding-level restrictions raise `ValueError`. Device access failures are
+reported as `OBError`.
+
+## Read-only data
+
+For temperature, the typed API already returns the structure directly:
+
+```python
+temperature = device.get_temperature()
+print(temperature.cpu_temperature, temperature.ir_left_temperature)
+```
+
+Temperatures may change between reads or contain `NaN`. Compare meaningful
+fields according to the property rather than requiring identical raw bytes.
+A generic getter also being available does not make the value writable.
+
+## Read, modify, verify and restore
+
+AE ROI uses `OBRegionOfInterest` with boundary coordinates (`x0_left`,
+`y0_top`, `x1_right`, `y1_bottom`). RGB crop instead uses `OBRect`
+(`x`, `y`, `width`, `height`); the layouts are not interchangeable.
+
+Some devices and firmware require streaming to configure AE ROI. Start the
+corresponding stream, wait for its first frame, then read the ROI used as the
+original configuration. Use coordinates within that frame's dimensions and
+refresh the ROI after changing resolution. Auto exposure must be enabled for
+the ROI to affect exposure adjustment.
+
+Before running this example, start a color stream using the
+[Blocking Polling Mode](ApplicationGuide.html#blocking-polling-mode-video-data-streams)
+workflow. Use that same `pipeline` and its `device = pipeline.get_device()`
+here, with the `import pyorbbecsdk as ob` alias from Basic usage. Keep the
+pipeline running until restoration finishes, then stop it when no longer needed.
+
+```python
+prop = ob.OBPropertyID.OB_STRUCT_COLOR_AE_ROI
+if not device.is_property_supported(prop, ob.OBPermissionType.PERMISSION_READ_WRITE):
+    raise RuntimeError("Color AE ROI is not readable/writable")
+
+for _ in range(5):
+    frames = pipeline.wait_for_frames(1000)
+    color = frames.get_color_frame() if frames is not None else None
+    if color is not None:
+        break
+else:
+    raise RuntimeError("No color frame received")
+
+original = device.get_structured_data(prop)  # Read after the first color frame.
+config = ob.OBRegionOfInterest.from_bytes(original)
+if config.x1_right - config.x0_left <= 16 or config.y1_bottom - config.y0_top <= 16:
+    raise RuntimeError("ROI is too small for this example")
+config.x0_left += 8
+config.y0_top += 8
+config.x1_right -= 8
+config.y1_bottom -= 8
+if not (0 <= config.x0_left < config.x1_right < color.get_width()
+        and 0 <= config.y0_top < config.y1_bottom < color.get_height()):
+    raise RuntimeError("Target ROI is outside the active color frame")
+
+try:
+    device.set_structured_data(prop, config.to_bytes())
+    actual = ob.OBRegionOfInterest.from_bytes(device.get_structured_data(prop))
+    fields = ("x0_left", "y0_top", "x1_right", "y1_bottom")
+    expected = tuple(getattr(config, field) for field in fields)
+    observed = tuple(getattr(actual, field) for field in fields)
+    if observed != expected:
+        raise RuntimeError("ROI readback differs; check firmware limits/update timing")
+finally:
+    device.set_structured_data(prop, original)
+    if device.get_structured_data(prop) != original:
+        raise RuntimeError("Failed to restore original ROI")
+```
+
+For depth AE ROI, use `OB_STRUCT_DEPTH_AE_ROI`, wait for a depth frame with
+`frames.get_depth_frame()`, and use the depth frame's dimensions.
+
+Some properties apply asynchronously or quantize values. Adapt the wait and
+comparison to the device; treat restoration failures as failures. Readback
+confirms the configuration round trip, not the image effect. Do not reuse this
+automatic restore pattern for IP settings, which can disconnect the device.
+
+## Supported properties
+
+Sizes below describe the current binding's SDK layout. “Check device” means
+query read and write permissions separately; the table does not promise that
+every camera supports either operation. “Fixed” means the generic getter knows
+the payload size; “Dedicated” means it calls a specialized SDK operation.
+
+| Property (`OBPropertyID`) | Python type | Bytes | Access | Generic read path |
+|---|---|---|---|---|
+| `OB_STRUCT_BASELINE_CALIBRATION_PARAM` | `OBBaselineCalibrationParam` | 8 | Check device | Fixed |
+| `OB_STRUCT_DEVICE_TEMPERATURE` | `OBDeviceTemperature` | 44 | Check device | Fixed |
+| `OB_STRUCT_TOF_EXPOSURE_THRESHOLD_CONTROL` | `OBTofExposureThresholdControl` | 8 | Check device | Fixed |
+| `OB_STRUCT_DEVICE_SERIAL_NUMBER` | `OBDeviceSerialNumber` | 16 | Check device | Fixed |
+| `OB_STRUCT_DEVICE_TIME` | `OBDeviceTime` | 16 | Check device; may be internal | Fixed |
+| `OB_STRUCT_MULTI_DEVICE_SYNC_CONFIG` | `OBMultiDeviceSyncConfig` | 25 | Check device | Dedicated |
+| `OB_STRUCT_RGB_CROP_ROI` | `OBRect` | 16 | Check device | Fixed |
+| `OB_STRUCT_DEVICE_IP_ADDR_CONFIG` | `OBDeviceIpAddrConfig` | 14 | Check device | Fixed |
+| `OB_STRUCT_CURRENT_DEPTH_ALG_MODE` | `OBDepthWorkMode` | 52 | Check device | Dedicated |
+| `OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST` | Variable-length `uint16_t` array | Variable length | No generic getter | Unsupported layout |
+| `OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD` | `OBDeviceIpAddrConfig` | 14 | Read only in SDK | Fixed |
+| `OB_STRUCT_DEPTH_HDR_CONFIG` | `OBHdrConfig` | 18 | Check device | Fixed |
+| `OB_STRUCT_COLOR_AE_ROI` | `OBRegionOfInterest` | 8 | Check device | Fixed |
+| `OB_STRUCT_DEPTH_AE_ROI` | `OBRegionOfInterest` | 8 | Check device | Fixed |
+| `OB_STRUCT_ASIC_SERIAL_NUMBER` | `OBDeviceSerialNumber` | 16 | Check device | Fixed |
+| `OB_STRUCT_DISP_OFFSET_CONFIG` | `OBDispOffsetConfig` | 4 | Check device | Fixed |
+| `OB_STRUCT_PRESET_RESOLUTION_CONFIG` | `OBPresetResolutionConfig` | 12 | Check device | Fixed |
+| `OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM` | Not adapted | — | No generic getter | Unsupported layout |
+| `OB_STRUCT_DEVICE_IP_ADDR_CONFIG_V2` | `OBNetIpConfigV2` | 14 | Check device | Fixed |
+| `OB_STRUCT_COLOR_AWB_GAIN` | `OBAwbGainParams` | 6 | Check device | Fixed |
+
+The following additional IDs expose SDK-internal layouts without changing SDK
+access permissions. They may be unavailable to ordinary applications.
+
+| Property (`OBPropertyID`) | ID | Python type | Bytes | Access / read path |
+|---|---|---|---|---|
+| `OB_STRUCT_VERSION` | 1000 | `OBVersionInfo` | 164 | Check device / fixed |
+| `OB_STRUCT_GET_GYRO_PRESETS_ODR_LIST` | 1031 | `OBImuPresetList` | 68 | Check device / fixed |
+| `OB_STRUCT_GET_ACCEL_PRESETS_ODR_LIST` | 1032 | `OBImuPresetList` | 68 | Check device / fixed |
+| `OB_STRUCT_GET_GYRO_PRESETS_FULL_SCALE_LIST` | 1033 | `OBImuPresetList` | 68 | Check device / fixed |
+| `OB_STRUCT_GET_ACCEL_PRESETS_FULL_SCALE_LIST` | 1034 | `OBImuPresetList` | 68 | Check device / fixed |
+| `OB_STRUCT_DEVICE_ERROR_STATE` | 5524 | `OBDeviceErrorState` | 8 | Read only / dedicated |
+
+## Existing APIs and special cases
+
+Use the wrapped interfaces below for their respective tasks. This section
+lists the recommended methods and the remaining constraints; no manual
+property serialization is needed for ordinary use of those methods.
+
+### Multi-device synchronization
+
+Use `device.get_multi_device_sync_config()` to obtain an
+`OBMultiDeviceSyncConfig`, edit the required fields, then pass the object to
+`device.set_multi_device_sync_config(config)`. The SDK handles protocol
+selection. See [Multi-Camera Synchronization](ApplicationGuide.html#multi-camera-synchronization)
+for the hardware setup and configuration workflow.
+
+If an application requires generic access, the corresponding property uses the
+public 25-byte `OBMultiDeviceSyncConfig` layout. The legacy `OBDeviceSyncConfig`
+and firmware protocol packets are different representations. The serialized
+`trigger_out_enable` byte must be 0 or 1.
+
+### Depth work mode
+
+Use `device.get_depth_work_mode()` to read the current mode and
+`device.get_depth_work_mode_list()` to obtain valid modes. Stop all streams
+before switching, select a complete item from the list, and pass it to
+`device.set_depth_work_mode(mode)`. Check the returned status against
+`ob.OBStatus.STATUS_OK`. See
+[Depth Working Mode](ApplicationGuide.html#depth-working-mode) for the full example.
+
+On SDK versions that do not populate `get_depth_work_mode().tag`, obtain the
+mode's tag from the corresponding supported-list item. Handle SDK errors from
+the dedicated APIs; raw-property permissions alone do not establish support
+for this workflow.
+
+The public `OBDepthWorkMode` contains `tag`; the internal
+`OBDepthWorkModeInternal` contains `option_code`. Both are 52 bytes but have
+different meanings. Preserve the device-provided list item when switching
+modes rather than constructing an internal payload.
+
+### Device error state
+
+Use `device.get_device_state()` to obtain the integer state mask directly.
+Interpret its bits with `OBDeviceErrorCode`; no byte conversion is required.
+There is no setter for this read-only state, and the SDK may return cached
+information.
+
+For applications that require the structured property interface,
+`OB_STRUCT_DEVICE_ERROR_STATE` returns `OBDeviceErrorState.error_code` through
+the dedicated SDK state API. Writes are rejected. Error bits occupy the lower
+32 bits; warning bits occupy the upper 32 bits. Bit 63,
+`DEVICE_WARNING_LOG_OVERFLOW`, is described by the SDK as a state-info cache
+flag. See the full enum table in
+[Data Structures](../6_API_Reference/data_structures).
+
+### Variable and unavailable layouts
+
+The generic getter does not support
+`OB_STRUCT_DEPTH_PRECISION_SUPPORT_LIST` (variable length) or
+`OB_STRUCT_COLOR_SYNCED_EXPOSURE_PARAM` (unadapted layout). This release does
+not provide dedicated wrappers for reading those two payloads either. Device
+support checks cannot supply the missing layout or a safe length-query API.
+
+For IMU capability discovery, use `device.get_sensor_list()`, select an
+accelerometer or gyroscope sensor and call `sensor.get_stream_profile_list()`.
+This public interface avoids depending on internal preset-list permissions.
+It discovers IMU profiles only; it does not replace either unsupported payload
+above. `OBImuPresetList` itself has a fixed 68-byte layout with at most 16
+entries; `count` is read only and `values` exposes the active entries.
+
+### IP configuration and other field conventions
+
+Use `device.set_ip_config(config)` to write an `OBNetIpConfigV2` or
+`OBDeviceIpAddrConfig` object directly. When passed a V2 object, the wrapper
+checks V2 read/write support and falls back to converted V1 configuration when
+V2 is unavailable. A V1 object writes V1 directly. See
+[IP Configuration](ApplicationGuide.html#ip-configuration) for the usage workflow.
+
+To inspect the current address, obtain `info = device.get_device_info()` and
+use `info.get_device_ip_address()`, `info.get_device_subnet_mask()` and
+`info.get_device_gateway()`. These methods report address information; reading
+full V1/V2 configuration fields or the static IP record still requires the
+corresponding structured property when supported.
+
+For those advanced reads, V1 uses `dhcp`; V2 uses `flags` (DHCP mask `0x01`,
+Persistent IP mask `0x02`); IP address fields are dotted strings.
+`OB_STRUCT_DEVICE_STATIC_IP_CONFIG_RECORD` uses `OBDeviceIpAddrConfig` and is
+read only. A generic IP write targets exactly the specified property and does
+not perform the typed setter's V2-to-V1 fallback. IP changes can interrupt the
+connection, so do not apply the ROI example's automatic restore pattern.
+
+For other structures, preserve reserved fields. HDR occupies 18 bytes in the
+packed layout and already has `get_hdr_config()` / `set_hdr_config(config)`.
+AWB gains are ordered `r_gain`, `b_gain`, `g_gain`; handle automatic white
+balance as required by the device before writing them. `OBDeviceTime` contains
+`time` and `rtt`; older clock units can depend on device frequency.
+
+## Type aliases
+
+Type aliases are `OBSerialNumber = OBDeviceSerialNumber`,
+`OBNetIpConfig = OBDeviceIpAddrConfig` and
+`OBDepthWorkMode_Internal = OBDepthWorkModeInternal`.
+
+## Limitations
+
+Only flat, fixed-layout structures have byte conversion support. This is not
+general serialization of SDK objects, pointers or variable arrays. The generic
+setter accepting bytes does not imply that the getter knows that property's
+layout, or that the device allows a write.
+
+The SDK's ordinary structured read copies data before reporting the returned
+length and does not enforce the supplied capacity. Reads therefore depend on
+the device and SDK respecting the registered layout. A length check after the
+call detects an ABI mismatch but cannot prevent an SDK buffer overrun. Do not
+try to discover unknown lengths with a null buffer or repeated larger buffers.
+Supporting arbitrary payloads safely requires a capacity-aware SDK API.

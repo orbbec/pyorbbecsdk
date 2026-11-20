@@ -1,0 +1,23 @@
+Record & Playback
+=================
+
+Recording and playback functionality for saving and replaying sensor data.
+
+Classes
+-------
+
+RecordDevice
+^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.RecordDevice
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+PlaybackDevice
+^^^^^^^^^^^^^^
+
+.. autoclass:: pyorbbecsdk.PlaybackDevice
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,3 +1,6 @@
+
+**English** | [中文](readme_zh-CN.md)
+
 # YOLOv5s ONNX Model
 
 Place `yolov5s.onnx` in this directory.

@@ -1,0 +1,468 @@
+# Build from Source with UV (Recommended)
+
+This guide explains how to build pyorbbecsdk wheel packages using **uv**, a fast Python package manager and resolver. The UV-based build system provides significant advantages over traditional pip/venv workflows:
+
+- **Fast dependency resolution**: UV resolves dependencies 10-100x faster than pip
+- **Automatic Python version management**: UV can install and manage multiple Python versions
+- **Automatic virtual environments**: UV creates and manages isolated environments automatically
+- **Offline support**: Build without internet access using cached dependencies
+- **Cross-platform**: Unified build process across Linux, macOS, and Windows
+- **Reproducible builds**: Consistent environment setup across different machines
+
+> **💡 Prefer traditional virtual environments?**
+>
+> If you prefer using standard `venv`, `pyenv`, or `conda` instead of UV, see the [Virtual Environment Installation Guide](../2_installation/virtual_environment_guide.md) for alternative setup instructions.
+
+## Prerequisites
+
+### All Platforms
+
+1. **Install uv**: Follow the [official uv installation guide](https://docs.astral.sh/uv/getting-started/installation/)
+
+   ```bash
+   # Linux/macOS
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+
+   # Windows PowerShell
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
+
+2. **Verify uv installation**:
+
+   ```bash
+   uv --version
+   ```
+
+3. **Install CMake** (3.15.0 or higher):
+   - Download from [CMake official website](https://cmake.org/download/)
+   - Or install via package manager
+
+4. **Verify Build Environment**:
+
+   Before building, verify that the required compiler tools are installed:
+
+   **Linux/macOS**
+
+   ```bash
+   # Check CMake version (requires 3.15.0+)
+   cmake --version
+
+   # Check GCC version (requires 7.4.0+)
+   gcc --version
+   g++ --version
+   ```
+
+   **Windows**
+
+   ```powershell
+   # Check CMake version
+   cmake --version
+
+   # Check Visual Studio installation
+   # Option 1: Using vswhere (if installed with VS)
+   & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+
+   # Option 2: Check for cl.exe
+   Get-Command cl.exe -ErrorAction SilentlyContinue
+   ```
+
+   **CMake and Visual Studio Version Compatibility (Windows):**
+
+   | Visual Studio Version | Minimum CMake Version |
+   |----------------------|----------------------|
+   | Visual Studio 2019   | 3.15.0+              |
+   | Visual Studio 2022   | 3.20.0+              |
+   | Visual Studio 2026   | 4.2.0+               |
+
+   If any command fails, refer to the Platform-Specific Requirements section below.
+
+5. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/orbbec/pyorbbecsdk.git
+   cd pyorbbecsdk
+   git checkout v2-main
+   ```
+
+### Platform-Specific Requirements
+
+#### Linux
+
+- GCC 7.4.0 or higher
+- Python development headers
+
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install python3-dev build-essential
+
+# CentOS/RHEL/Fedora
+sudo yum install python3-devel gcc-c++
+```
+
+#### macOS
+
+- Xcode Command Line Tools
+- Clang/Clang++ compiler
+
+```bash
+# Install Xcode Command Line Tools
+xcode-select --install
+```
+
+#### Windows
+
+- [Visual Studio 2019 or 2022](https://visualstudio.microsoft.com/downloads/) with C++ build tools
+- Windows SDK
+
+## Build Scripts
+
+The project provides platform-specific UV build scripts:
+
+| Platform | Script |
+|----------|--------|
+| Linux | `scripts/build_whl/build-whl-uv.sh` |
+| macOS | `scripts/build_whl/build-whl-uv-macos.sh` |
+| Windows | `scripts/build_whl/build-whl-uv.ps1` |
+
+> **Note**: These scripts are available in the `feature/uv_cli` branch. To use them, switch to that branch or copy the scripts to your working directory.
+
+## Quick Start
+
+### Linux
+
+```bash
+# Make the script executable
+chmod +x scripts/build_whl/build-whl-uv.sh
+
+# Build for Python 3.10 (default)
+./scripts/build_whl/build-whl-uv.sh
+
+# Build for specific Python version
+./scripts/build_whl/build-whl-uv.sh 3.11
+
+# Build for multiple Python versions
+./scripts/build_whl/build-whl-uv.sh 3.9 3.10 3.11
+
+# Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14
+./scripts/build_whl/build-whl-uv.sh all
+```
+
+### macOS
+
+```bash
+# Make the script executable
+chmod +x scripts/build_whl/build-whl-uv-macos.sh
+
+# Build for Python 3.10 (default)
+./scripts/build_whl/build-whl-uv-macos.sh
+
+# Build for specific Python version
+./scripts/build_whl/build-whl-uv-macos.sh 3.11
+
+# Build for multiple Python versions
+./scripts/build_whl/build-whl-uv-macos.sh 3.9 3.10 3.11
+
+# Build the all-version batch (3.8-3.13); pass 3.14 explicitly for Python 3.14
+./scripts/build_whl/build-whl-uv-macos.sh all
+```
+
+### Windows
+
+```powershell
+# Build for Python 3.10 (default)
+.\scripts\build_whl\build-whl-uv.ps1
+
+# Note: The Windows script currently builds configured versions in the script
+# Edit $PythonVersions array in the script to change target versions
+```
+
+## Script Options
+
+All build scripts support the following command-line options:
+
+| Option | Description |
+|--------|-------------|
+| `--offline` | Enable offline mode (requires pre-cached dependencies) |
+| `--no-clean` | Skip cleaning build directories before building |
+| `--clean` | Clean build directories before building (default) |
+| `--clean-only` | Only clean build artifacts, don't build |
+| `-h, --help` | Show help message |
+
+### Examples
+
+```bash
+# Offline build for Python 3.10
+./scripts/build_whl/build-whl-uv.sh --offline 3.10
+
+# Clean and build all versions
+./scripts/build_whl/build-whl-uv.sh --clean all
+
+# Only clean build artifacts
+./scripts/build_whl/build-whl-uv.sh --clean-only
+
+# Build without cleaning (incremental build)
+./scripts/build_whl/build-whl-uv.sh --no-clean 3.11
+```
+
+## Offline Build
+
+Offline builds require matching OS/architecture, locally available Python interpreters, the native compiler/CMake toolchain and SDK libraries, and a populated uv cache. Copying the repository or virtual environments alone is not sufficient.
+
+### Prepare the cache online
+
+On a matching online machine, complete the actual build once for every required Python version and platform. This caches pybind11, the isolated wheel build dependencies, and the tools needed on Linux to repair wheels and adjust their platform tags (auditwheel and wheel). Do not use an editable install of the project to prepare a clean checkout: the package backend requires CMake output in `install/lib` first.
+
+```bash
+# Linux example; use the macOS or Windows script on those platforms.
+./scripts/build_whl/build-whl-uv.sh 3.10
+uv cache dir
+uv python dir
+```
+
+Transfer the project, the cache printed by `uv cache dir`, and any required uv-managed Python installations to the offline machine. Preserve cache contents; do not run cache pruning before transfer. Provide the compiler, CMake and system libraries separately. Virtual environments are not generally relocatable; recreate them on the target or use a locally prepared environment with valid interpreter paths. Repeat preparation for Python 3.14 explicitly if needed; `all` covers only 3.8 through 3.13.
+
+### Default offline build
+
+Set the cache and Python installation locations to the copied directories, then use the platform's offline flag:
+
+```bash
+# Linux; replace these paths with the transferred cache/interpreter directories.
+export UV_CACHE_DIR=/path/to/copied-uv-cache
+export UV_PYTHON_INSTALL_DIR=/path/to/copied-uv-python
+./scripts/build_whl/build-whl-uv.sh --offline 3.10
+# macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline 3.10
+```
+
+```powershell
+# Windows PowerShell
+$env:UV_CACHE_DIR = "C:\offline\uv-cache"
+$env:UV_PYTHON_INSTALL_DIR = "C:\offline\uv-python"
+.\scripts\build_whl\build-whl-uv.ps1 3.10 -Offline
+```
+
+The default mode deletes and recreates the per-version environment and installs only pinned pybind11 into it. Packaging dependencies are installed separately by `uv build` in an isolated build environment. The offline flag sets `UV_OFFLINE=1`; missing cached dependencies or interpreters cause failure rather than being supplied by a copied `venv*` directory.
+
+### Reuse an active environment
+
+To retain a locally prepared environment, activate it and add the script's `--no-sync` option (PowerShell: `-NoSync`). The active Python version must match the requested version, and pybind11 must already be installed in that environment. For offline packaging, the isolated build dependencies must still be available in the uv cache. For example:
+
+```bash
+source .venv/bin/activate
+./scripts/build_whl/build-whl-uv.sh --offline --no-sync 3.10
+# macOS: ./scripts/build_whl/build-whl-uv-macos.sh --offline --no-sync 3.10
+```
+
+This mode skips environment recreation and pinned pybind11 installation. It still performs CMake compilation and `uv build`, whose isolated build requirements must be cached. It is not a guarantee that an arbitrary copied environment can build offline.
+
+## Build Output
+
+After successful build, wheel packages are located in:
+
+```
+pyorbbecsdk/
+└── wheel/
+    ├── pyorbbecsdk2-2.0.XX-cp38-cp38-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp39-cp39-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp310-cp310-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp313-cp313-linux_x86_64.whl
+    ├── pyorbbecsdk2-2.0.XX-cp314-cp314-linux_x86_64.whl
+    └── ...
+```
+
+### Installing the Wheel
+
+Replace the example filename with your built wheel. For wrapper 2.1.4 and
+later, include `[examples]` to run the SDK examples; omit it for a core-only
+installation. Quote the entire argument so shell bracket expansion does not
+interfere.
+
+```bash
+# Install the wheel package
+pip install "wheel/pyorbbecsdk2-2.1.4-cp310-cp310-linux_x86_64.whl[examples]"
+
+# Verify installation
+pip show pyorbbecsdk2 | grep Version
+```
+
+### Generate Type Stubs (Optional but Recommended)
+
+From the repository root, activate the environment containing the newly built SDK. Stub generation inspects that installed package; rebuild/install the SDK first when bindings change. Follow the same package layout as `stubs/README.md`:
+
+```bash
+python -m pip install pybind11-stubgen
+python -m pybind11_stubgen pyorbbecsdk -o generated_stubs
+python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/pyorbbecsdk.pyi stubs/pyorbbecsdk.pyi
+python scripts/fix_pyi.py generated_stubs/pyorbbecsdk/__init__.pyi stubs/__init__.pyi
+```
+
+If the environment has no pip, first activate the intended virtual environment. Replace `.venv` with your actual environment directory:
+
+| Platform / shell | Activation command |
+|---|---|
+| Linux / macOS | `source .venv/bin/activate` |
+| Windows PowerShell | `.\.venv\Scripts\Activate.ps1` |
+| Windows Command Prompt | `.venv\Scripts\activate.bat` |
+
+Verify the active interpreter, then let uv install the tool into that activated environment:
+
+```bash
+python -c "import sys; print(sys.executable)"
+uv pip install pybind11-stubgen
+python -m pybind11_stubgen pyorbbecsdk -o generated_stubs
+```
+
+Use the same activated environment for the repair and copy commands above and below. The platform-specific interpreter paths are `.venv/bin/python` on Linux/macOS and `.venv\Scripts\python.exe` on Windows; do not use the Linux path on Windows. Both package and extension stubs must be repaired and copied together:
+
+```python
+from pathlib import Path
+import shutil
+import pyorbbecsdk
+
+package_dir = Path(pyorbbecsdk.__file__).resolve().parent
+for name in ("pyorbbecsdk.pyi", "__init__.pyi"):
+    shutil.copy2(Path("stubs") / name, package_dir / name)
+print(package_dir)
+```
+
+## Build Process Details
+
+The build scripts perform the following steps:
+
+1. **Parse Arguments**: Process command-line options and Python versions
+2. **Architecture Detection**: Detect system architecture (x86_64, arm64)
+3. **Environment Setup**: Configure library paths for the SDK
+4. **Cleanup** (optional): Remove previous build artifacts
+5. **Per-Version Build**:
+   - Resolve Python interpreter using UV
+   - Resolve pybind11 CMake directory
+   - Configure with CMake (using appropriate compiler)
+   - Build and install targets
+   - Copy runtime files (examples, config, stubs)
+   - Build wheel package using `uv build`
+   - Repair wheel with auditwheel (Linux only)
+6. **Final Cleanup**: Remove temporary build directories
+
+### Key Differences by Platform
+
+| Feature | Linux | macOS | Windows |
+|---------|-------|-------|---------|
+| Compiler | GCC/G++ | Clang/Clang++ | MSVC |
+| Library Path | `LD_LIBRARY_PATH` | `DYLD_LIBRARY_PATH` | PATH |
+| Architecture | x86_64, arm64 | arm64 | x64 |
+| Wheel Repair | auditwheel | None needed | None needed |
+| Deployment Target | - | macOS 11.0 (build target; tested on M2/macOS 13.2) | - |
+
+## Troubleshooting
+
+### Common Issues
+
+#### "uv: command not found"
+
+**Solution**: Ensure uv is installed and in your PATH:
+
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+#### "CMake configuration failed"
+
+**Solution**: Verify CMake version and Python development headers:
+
+```bash
+# Check CMake version
+cmake --version
+
+# Install Python development headers (Linux)
+sudo apt-get install python3-dev
+```
+
+#### "pybind11 not found" (Offline mode)
+
+**Solution**: Follow [Offline Build](#offline-build) and choose the preparation steps that match the build mode:
+
+- **Default mode:** The script deletes and recreates `venv<version>`, then installs pinned pybind11 from the uv cache. Installing pybind11 into `venv310` beforehand does not preserve it through this process or supply all missing cached dependencies. Prepare the complete cache, interpreters and toolchain as described above.
+- **Reuse an environment:** Activate a valid local environment with pybind11 already installed and a Python version matching the requested version, then pass `--offline --no-sync` (PowerShell: `-Offline -NoSync`). This skips environment recreation and pinned pybind11 installation; the isolated wheel build still requires cached build dependencies. Merely creating an environment without activating it and selecting this mode is insufficient.
+
+#### "Permission denied" on macOS
+
+**Solution**: Fix library permissions:
+
+```bash
+chmod +x scripts/build_whl/build-whl-uv-macos.sh
+```
+
+#### Build fails on Windows with "Visual Studio not found"
+
+**Solution**: Ensure Visual Studio 2019 or 2022 with C++ tools is installed, or specify the generator explicitly:
+
+```powershell
+# In the PowerShell script, modify the cmake command
+cmake -G "Visual Studio 17 2022" -A x64 ...
+```
+
+### Cleaning Build Artifacts
+
+If you encounter persistent build issues, perform a full clean:
+
+```bash
+# Using the script
+./scripts/build_whl/build-whl-uv.sh --clean-only
+
+# Manual cleanup
+rm -rf build build_* dist install wheel src/*.egg-info
+```
+
+## Advanced Usage
+
+### Customizing Python Versions
+
+Edit the build script to change default Python versions:
+
+```bash
+# In scripts/build_whl/build-whl-uv.sh, modify:
+PYTHON_VERSIONS=("3.10" "3.11")  # Your desired versions
+```
+
+### Parallel Builds
+
+The scripts automatically use all available CPU cores:
+
+- Linux: `make -j$(nproc)`
+- macOS: `make -j$(sysctl -n hw.ncpu)`
+- Windows: `cmake --build --parallel`
+
+### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `UV_LINK_MODE` | Set to `copy` for compatibility (default in scripts) |
+| `UV_OFFLINE` | Set to `1` to enable offline mode |
+| `MACOSX_DEPLOYMENT_TARGET` | Build deployment target (script sets 11.0; tested on M2/macOS 13.2) |
+
+## Comparison with Traditional Build
+
+| Feature | Traditional (pip/venv) | UV Build |
+|---------|------------------------|----------|
+| Python Installation | Manual | Automatic |
+| Dependency Resolution | pip | UV (faster) |
+| Virtual Environment | Manual | Automatic |
+| Offline Support | Limited | Full support |
+| Cross-Platform | Different commands | Unified scripts |
+| Build Time | Slower | Faster |
+
+## Next Steps
+
+After building the wheel:
+
+1. **Install the wheel**: `pip install wheel/*.whl`
+2. **Set up environment**: Run `scripts/env_setup/install_udev_rules.sh` (Linux)
+3. **Run examples**: See `examples/` directory for sample code
+4. **Refer to registration script**: See [registration_script.md](../2_installation/registration_script.md) for device setup
+
+## See Also
+
+- [Install the Package](../2_installation/install_the_package.md) - Installing pre-built wheels
+- [Build from Source](build_the_package.md) - Traditional CMake build method
+- [UV Documentation](https://docs.astral.sh/uv/)

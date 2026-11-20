@@ -104,8 +104,8 @@ config.enable_stream(depth_profile)
 pipeline.start(config)
 
 while True:
-    # 5.Wait for up to 100ms for a frameset in blocking mode.
-    frames = pipeline.wait_for_frames(100)
+    # 5.Wait for up to 1000ms for a frameset in blocking mode.
+    frames = pipeline.wait_for_frames(1000)
     if frames is None:
         continue
     depth_frame = frames.get_depth_frame()
@@ -218,8 +218,8 @@ config.enable_gyro_stream()
 pipeline.start(config);
 
 while True:
-    # 6.Wait for up to 100ms for a frameset in blocking mode.
-    frames = pipeline.wait_for_frames(100)
+    # 6.Wait for up to 1000ms for a frameset in blocking mode.
+    frames = pipeline.wait_for_frames(1000)
     if frames is None:
         continue
     accel_frame = frames.get_frame(OBFrameType.ACCEL_FRAME)
@@ -379,8 +379,8 @@ config.set_frame_aggregate_output_mode(OBFrameAggregateOutputMode.FULL_FRAME_REQ
 pipeline.start(config)
 
 while True:
-    # 9.Wait for up to 100ms for a frameset in blocking mode.
-    frames = pipeline.wait_for_frames(100)
+    # 9.Wait for up to 1000ms for a frameset in blocking mode.
+    frames = pipeline.wait_for_frames(1000)
     if frames is None:
         continue
 
@@ -454,7 +454,7 @@ def main():
 
     while True:
         # 7.Wait for frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
 
@@ -514,7 +514,7 @@ def main():
 
     while True:
         # 8.Wait for frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
 
@@ -574,7 +574,7 @@ def main():
 
     while True:
         # 8.Wait for frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
 
@@ -627,7 +627,7 @@ def main():
 
     while True:
         # 6.Wait for frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
 
@@ -688,7 +688,7 @@ def main():
 
     while True:
         # 9.Wait for frames
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
 
@@ -809,7 +809,7 @@ try:
     recorder.resume()
     print("Recording; press Ctrl+C to stop.")
     while True:
-        pipeline.wait_for_frames(100)
+        pipeline.wait_for_frames(1000)
 except KeyboardInterrupt:
     pass
 finally:
@@ -854,7 +854,7 @@ playback.set_playback_status_change_callback(on_status_change)
 pipeline.start(config)
 try:
     while not finished.is_set():
-        frames = pipeline.wait_for_frames(100)
+        frames = pipeline.wait_for_frames(1000)
         if frames is None:
             continue
         color_frame = frames.get_color_frame()
@@ -1153,7 +1153,7 @@ from pyorbbecsdk import *
 pipeline = Pipeline()
 pipeline.start()
 try:
-    frames = pipeline.wait_for_frames(100)
+    frames = pipeline.wait_for_frames(1000)
     if frames is None:
         raise RuntimeError("No frames received")
     depth_frame = frames.get_depth_frame()
@@ -1169,7 +1169,7 @@ finally:
 Obtain IMU StreamProfile from IMU frame
 
 ```python
-frames = pipeline.wait_for_frames(100)
+frames = pipeline.wait_for_frames(1000)
 
 # Get the accel stream profile
 accel_frame_raw = frames.get_frame(OBFrameType.ACCEL_FRAME)
@@ -1200,7 +1200,7 @@ depth_to_colorExtrinsic = depth_profile.get_extrinsic_to(color_profile)
 ## Obtain IMU Intrinsic Parameters
 
 ```python
-frames = pipeline.wait_for_frames(100)
+frames = pipeline.wait_for_frames(1000)
 
 # Get the accel stream profile
 accel_frame_raw = frames.get_frame(OBFrameType.ACCEL_FRAME)
@@ -1247,7 +1247,7 @@ else:
     device.set_hdr_config(config)
 
 hdr_filter = HDRMergeFilter()
-frames = pipeline.wait_for_frames(100)
+frames = pipeline.wait_for_frames(1000)
 merged_frame = hdr_filter.process(frames)
 ```
 
@@ -1639,7 +1639,7 @@ threshold_filter = ThresholdFilter()
 # set min and max depth,unit: mm
 threshold_filter.set_value_range(100,1000)
 # get depth frame
-frames = pipeline.wait_for_frames(100)
+frames = pipeline.wait_for_frames(1000)
 depth_frame = frames.get_depth_frame()
 # call threshold filter
 new_depth_frame = threshold_filter.process(depth_frame)

@@ -1643,8 +1643,8 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;f
 <p><strong>Problem:</strong> <code class="docutils literal notranslate"><span class="pre">frames</span></code> is always <code class="docutils literal notranslate"><span class="pre">None</span></code> or frames don’t contain data.</p>
 <p><strong>Solutions:</strong></p>
 <ol>
-<li><p><strong>Check timeout:</strong> Increase the timeout in <code class="docutils literal notranslate"><span class="pre">wait_for_frames()</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>  <span class="c1"># Wait up to 5 seconds</span>
+<li><p><strong>Check timeout:</strong> Set the timeout in <code class="docutils literal notranslate"><span class="pre">wait_for_frames()</span></code> to the recommended 1000 ms:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Wait up to 1000 ms</span>
 </pre></div>
 </div>
 </li>
@@ -2087,7 +2087,7 @@ python<span class="w"> </span>examples/applications/object_detection/object_dete
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 16:21:34.
+      <span class="lastupdated">Last updated on 2026-11-20 11:17:33.
       </span></p>
   </div>
 

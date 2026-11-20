@@ -1642,8 +1642,8 @@ python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;f
 <p>问题：<code class="docutils literal notranslate"><span class="pre">frames</span></code> 始终为 <code class="docutils literal notranslate"><span class="pre">None</span></code>，或帧中没有数据。</p>
 <p>解决方法：</p>
 <ol>
-<li><p>检查超时：增大 <code class="docutils literal notranslate"><span class="pre">wait_for_frames()</span></code> 的超时时间：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>  <span class="c1"># Wait up to 5 seconds</span>
+<li><p>检查超时：将 <code class="docutils literal notranslate"><span class="pre">wait_for_frames()</span></code> 的超时时间设为建议值 1000 毫秒：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Wait up to 1000 ms</span>
 </pre></div>
 </div>
 </li>
@@ -2085,7 +2085,7 @@ python<span class="w"> </span>examples/applications/object_detection/object_dete
 
   <div role="contentinfo">
     <p>&#169; 版权所有 2024, ORBBEC INC. www.orbbec.com.。
-      <span class="lastupdated">最后更新于 2026-11-19 16:21:41.
+      <span class="lastupdated">最后更新于 2026-11-20 11:17:40.
       </span></p>
   </div>
 

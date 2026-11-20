@@ -1497,8 +1497,8 @@ The handling of infrared and color streams follows a similar process.</p>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="c1"># 5.Wait for up to 100ms for a frameset in blocking mode.</span>
-    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># 5.Wait for up to 1000ms for a frameset in blocking mode.</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">continue</span>
     <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_depth_frame</span><span class="p">()</span>
@@ -1608,8 +1608,8 @@ The handling of infrared and color streams follows a similar process.</p>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
 
 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="c1"># 6.Wait for up to 100ms for a frameset in blocking mode.</span>
-    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># 6.Wait for up to 1000ms for a frameset in blocking mode.</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">continue</span>
     <span class="n">accel_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">OBFrameType</span><span class="o">.</span><span class="n">ACCEL_FRAME</span><span class="p">)</span>
@@ -1756,8 +1756,8 @@ Sample code is shown below:</p>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="c1"># 9.Wait for up to 100ms for a frameset in blocking mode.</span>
-    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># 9.Wait for up to 1000ms for a frameset in blocking mode.</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">continue</span>
 
@@ -1826,7 +1826,7 @@ Sample code is shown below:</p>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># 7.Wait for frames</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
 
@@ -1882,7 +1882,7 @@ Sample code is shown below:</p>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># 8.Wait for frames</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
 
@@ -1939,7 +1939,7 @@ Sample code is shown below:</p>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># 8.Wait for frames</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
 
@@ -1990,7 +1990,7 @@ Sample code is shown below:</p>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># 6.Wait for frames</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
 
@@ -2050,7 +2050,7 @@ Sample code is shown below:</p>
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># 9.Wait for frames</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
 
@@ -2164,7 +2164,7 @@ Sample code is shown below:</p>
     <span class="n">recorder</span><span class="o">.</span><span class="n">resume</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Recording; press Ctrl+C to stop.&quot;</span><span class="p">)</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
     <span class="k">pass</span>
 <span class="k">finally</span><span class="p">:</span>
@@ -2206,7 +2206,7 @@ Sample code is shown below:</p>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">finished</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
-        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">color_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_color_frame</span><span class="p">()</span>
@@ -2481,7 +2481,7 @@ and asynchronous update behavior. These methods are available in wrapper 2.1.4.<
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span>
 <span class="n">pipeline</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">frames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No frames received&quot;</span><span class="p">)</span>
     <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_depth_frame</span><span class="p">()</span>
@@ -2496,7 +2496,7 @@ and asynchronous update behavior. These methods are available in wrapper 2.1.4.<
 <section id="obtain-imu-streamprofile">
 <h2><span class="section-number">5.18.11. </span>Obtain IMU StreamProfile<a class="headerlink" href="#obtain-imu-streamprofile" title="Link to this heading"></a></h2>
 <p>Obtain IMU StreamProfile from IMU frame</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 
 <span class="c1"># Get the accel stream profile</span>
 <span class="n">accel_frame_raw</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">OBFrameType</span><span class="o">.</span><span class="n">ACCEL_FRAME</span><span class="p">)</span>
@@ -2526,7 +2526,7 @@ and asynchronous update behavior. These methods are available in wrapper 2.1.4.<
 </section>
 <section id="obtain-imu-intrinsic-parameters">
 <h2><span class="section-number">5.18.13. </span>Obtain IMU Intrinsic Parameters<a class="headerlink" href="#obtain-imu-intrinsic-parameters" title="Link to this heading"></a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 
 <span class="c1"># Get the accel stream profile</span>
 <span class="n">accel_frame_raw</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_frame</span><span class="p">(</span><span class="n">OBFrameType</span><span class="o">.</span><span class="n">ACCEL_FRAME</span><span class="p">)</span>
@@ -2570,7 +2570,7 @@ and asynchronous update behavior. These methods are available in wrapper 2.1.4.<
     <span class="n">device</span><span class="o">.</span><span class="n">set_hdr_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
 <span class="n">hdr_filter</span> <span class="o">=</span> <span class="n">HDRMergeFilter</span><span class="p">()</span>
-<span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="n">merged_frame</span> <span class="o">=</span> <span class="n">hdr_filter</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2919,7 +2919,7 @@ An empty version string means the device does not support versioned depth work m
 <span class="c1"># set min and max depth,unit: mm</span>
 <span class="n">threshold_filter</span><span class="o">.</span><span class="n">set_value_range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
 <span class="c1"># get depth frame</span>
-<span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">frames</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">wait_for_frames</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="n">depth_frame</span> <span class="o">=</span> <span class="n">frames</span><span class="o">.</span><span class="n">get_depth_frame</span><span class="p">()</span>
 <span class="c1"># call threshold filter</span>
 <span class="n">new_depth_frame</span> <span class="o">=</span> <span class="n">threshold_filter</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">depth_frame</span><span class="p">)</span>
@@ -3304,7 +3304,7 @@ We use the timestamps of the Primary and Secondary printed by Sample to determin
 
   <div role="contentinfo">
     <p>&#169; Copyright 2024, ORBBEC INC. www.orbbec.com..
-      <span class="lastupdated">Last updated on 2026-11-19 16:21:34.
+      <span class="lastupdated">Last updated on 2026-11-20 11:17:33.
       </span></p>
   </div>
 

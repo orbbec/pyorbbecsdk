@@ -244,9 +244,9 @@ python -c "from importlib.metadata import version; print(version('pyorbbecsdk2')
 
 **Solutions:**
 
-1. **Check timeout:** Increase the timeout in `wait_for_frames()`:
+1. **Check timeout:** Set the timeout in `wait_for_frames()` to the recommended 1000 ms:
    ```python
-   frames = pipeline.wait_for_frames(5000)  # Wait up to 5 seconds
+   frames = pipeline.wait_for_frames(1000)  # Wait up to 1000 ms
    ```
 
 2. **Verify streams are available:** Run the hello camera example to check supported streams:
